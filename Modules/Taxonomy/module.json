@@ -1,0 +1,13 @@
+{
+    "name": "Taxonomy",
+    "alias": "taxonomy",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Taxonomy\\Providers\\TaxonomyServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
