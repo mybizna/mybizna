@@ -58,33 +58,31 @@ class MigrateAutoCommand extends Command
 
         $modules_path = realpath(base_path()) . DIRECTORY_SEPARATOR . 'Modules';
 
-        array_push($paths, $modules_path);
+        array_push($paths, ['namespace' => $namespace  . 'Models', 'file' => $path]);
 
         $dir = new \DirectoryIterator($modules_path);
 
         foreach ($dir as $fileinfo) {
-            if (!$fileinfo->isDot()) {
+            if (!$fileinfo->isDot() && $fileinfo->isDir()) {
                 $module_name = $fileinfo->getFilename();
                 $module_path = $modules_path . DIRECTORY_SEPARATOR . $module_name . DIRECTORY_SEPARATOR . 'Entities';
-                var_dump($module_path);
-                array_push($module_path);
+                array_push($paths, ['namespace' => 'Modules\\'  . $module_name . '\\Entities', 'file' => $module_path]);
             }
         }
 
-        exit;
-
         foreach ($paths as $key => $path) {
 
-            foreach ((new Finder)->in($path) as $model) {
+            foreach ((new Finder)->in($path['file']) as $model) {
 
-                $model = $namespace . str_replace(
+                $real_path_arr = array_reverse(explode(DIRECTORY_SEPARATOR, $model->getRealPath()));
+
+                $model = $path['namespace'] . str_replace(
                     ['/', '.php'],
                     ['\\', ''],
-                    Str::after($model->getRealPath(), realpath(app_path()) . DIRECTORY_SEPARATOR)
+                    '\\' . $real_path_arr[0]
                 );
 
                 if (method_exists($model, 'migration')) {
-
                     $models->push([
                         'object' => $object = app($model),
                         'order' => $object->migrationOrder ?? 0,
@@ -92,7 +90,6 @@ class MigrateAutoCommand extends Command
                 }
             }
         }
-
 
 
         foreach ($models->sortBy('order') as $model) {

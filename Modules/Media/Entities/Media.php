@@ -2,6 +2,7 @@
 
 namespace Modules\Media\Entities;
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
