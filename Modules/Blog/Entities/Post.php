@@ -11,6 +11,8 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [];
+    protected $table = "blog_post";
+
     /**
      * List of fields for managing postings.
      *

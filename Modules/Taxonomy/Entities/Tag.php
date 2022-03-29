@@ -10,7 +10,8 @@ class Tag extends Model
     use HasFactory;
 
     protected $fillable = [];
-    
+    protected $table = "taxonomy_tag";
+
     protected static function newFactory()
     {
         return \Modules\Taxonomy\Database\factories\TagFactory::new();

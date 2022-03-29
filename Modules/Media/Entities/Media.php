@@ -11,6 +11,8 @@ class Media extends Model
     use HasFactory;
 
     protected $fillable = [];
+    protected $table = "media_media";
+
     /**
      * List of fields for managing postings.
      *
