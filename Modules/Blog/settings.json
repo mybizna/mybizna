@@ -1,0 +1,17 @@
+{
+    "settings": [{
+        "name": "Title",
+        "type": "text",
+        "placeholder": "Enter Title",
+        "value": "My Title"
+    }, {
+        "name": "Description",
+        "type": "textarea",
+        "placeholder": "Enter Description",
+        "value": "Your Awesome Description is very Good."
+    }],
+
+    "rights": [
+        "administrator": [{}]
+    ]
+}
