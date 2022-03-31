@@ -13,8 +13,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "legodion/lucid": "^1.0",
-        "nuwave/lighthouse": "^5.45",
+        "mybizna/lucid": "^1.0",
         "nwidart/laravel-modules": "^8.3"
     },
     "require-dev": {
