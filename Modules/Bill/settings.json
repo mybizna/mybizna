@@ -1,0 +1,55 @@
+{
+    "settings": {
+        "post": [{
+            "name": "title",
+            "type": "text",
+            "placeholder": "Enter Title",
+            "value": "My Title"
+        }, {
+            "name": "description",
+            "type": "textarea",
+            "placeholder": "Enter Description",
+            "value": "Your Awesome Description is very Good."
+        }]
+    },
+    "rights": {
+        "post": {
+            "administrator": {
+                "list": true,
+                "create": true,
+                "edit": true,
+                "delete": true
+            },
+            "manager": {
+                "list": true,
+                "create": true,
+                "edit": true,
+                "delete": true
+            },
+            "supervisor": {
+                "list": true,
+                "create": true,
+                "edit": true,
+                "delete": true
+            },
+            "staff": {
+                "list": true,
+                "create": true,
+                "edit": true,
+                "delete": false
+            },
+            "registered": {
+                "list": true,
+                "create": false,
+                "edit": false,
+                "delete": false
+            },
+            "guest": {
+                "list": true,
+                "create": false,
+                "edit": false,
+                "delete": false
+            }
+        }
+    }
+}

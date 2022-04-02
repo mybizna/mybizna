@@ -3,17 +3,25 @@
 namespace Modules\Taxonomy\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Schema\Blueprint;
 
 class Tag extends Model
 {
-    use HasFactory;
 
     protected $fillable = [];
     protected $table = "taxonomy_tag";
 
-    protected static function newFactory()
+    /**
+     * List of fields for managing postings.
+     *
+     * @param Blueprint $table
+     * @return void
+     */
+    public function migration(Blueprint $table)
     {
-        return \Modules\Taxonomy\Database\factories\TagFactory::new();
+        $table->id();
+        $table->string('name');
+        $table->timestamp('created_at')->nullable();
+        $table->timestamp('updated_at')->nullable();
     }
 }

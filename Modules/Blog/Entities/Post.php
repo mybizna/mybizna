@@ -2,13 +2,11 @@
 
 namespace Modules\Blog\Entities;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
 class Post extends Model
 {
-    use HasFactory;
 
     protected $fillable = [];
     protected $table = "blog_post";
@@ -28,13 +26,4 @@ class Post extends Model
     }
 
 
-    /**
-     * Factory function for intializing PostFactory.
-     *
-     * @return void
-     */
-    protected static function newFactory()
-    {
-        return \Modules\Blog\Database\factories\PostFactory::new();
-    }
 }
