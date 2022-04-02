@@ -5,7 +5,7 @@ namespace Modules\Account\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Post extends Model
+class ChartOfAccount extends Model
 {
 
     protected $fillable = [];

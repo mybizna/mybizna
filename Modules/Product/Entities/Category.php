@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Manafacture\Entities;
+namespace Modules\Product\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Manufacture extends Model
+class Category extends Model
 {
 
     protected $fillable = [];
-    protected $table = "manufacture";
+    protected $table = "product_category";
 
     /**
      * List of fields for managing postings.
@@ -24,4 +24,6 @@ class Manufacture extends Model
         $table->timestamp('created_at')->nullable();
         $table->timestamp('updated_at')->nullable();
     }
+
+
 }

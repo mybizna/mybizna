@@ -5,11 +5,11 @@ namespace Modules\Base\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Post extends Model
+class Country extends Model
 {
 
     protected $fillable = [];
-    protected $table = "blog_country";
+    protected $table = "base_country";
 
     /**
      * List of fields for managing postings.

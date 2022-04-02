@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Manafacture\Entities;
+namespace Modules\Payment\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Manufacture extends Model
+class PayBillDetail extends Model
 {
 
     protected $fillable = [];
-    protected $table = "manufacture";
+    protected $table = "payment_pay_bill_detail";
 
     /**
      * List of fields for managing postings.

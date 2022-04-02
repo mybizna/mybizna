@@ -5,9 +5,8 @@ namespace Modules\Product\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Post extends Model
+class Product extends Model
 {
-    use HasFactory;
 
     protected $fillable = [];
     protected $table = "product";

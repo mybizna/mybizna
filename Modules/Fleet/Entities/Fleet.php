@@ -5,7 +5,7 @@ namespace Modules\Fleet\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Post extends Model
+class Fleet extends Model
 {
 
     protected $fillable = [];

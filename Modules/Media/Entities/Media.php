@@ -9,7 +9,7 @@ class Media extends Model
 {
 
     protected $fillable = [];
-    protected $table = "media_media";
+    protected $table = "media";
 
     /**
      * List of fields for managing postings.

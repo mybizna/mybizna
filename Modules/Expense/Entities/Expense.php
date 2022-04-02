@@ -5,7 +5,7 @@ namespace Modules\Expense\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Post extends Model
+class Expense extends Model
 {
 
     protected $fillable = [];

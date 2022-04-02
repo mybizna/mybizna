@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Manafacture\Entities;
+namespace Modules\Product\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Manufacture extends Model
+class AccountDetail extends Model
 {
 
     protected $fillable = [];
-    protected $table = "manufacture";
+    protected $table = "purchase_account_detail";
 
     /**
      * List of fields for managing postings.

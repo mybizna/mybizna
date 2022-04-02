@@ -5,7 +5,7 @@ namespace Modules\Invoice\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Post extends Model
+class Invoice extends Model
 {
 
     protected $fillable = [];
