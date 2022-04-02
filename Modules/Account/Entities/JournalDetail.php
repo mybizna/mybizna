@@ -19,10 +19,15 @@ class JournalDetail extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->id();
-        $table->string('name');
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
-    }
 
+        $table->integer('id')->primary();
+        $table->integer('trn_no')->nullable();
+        $table->integer('ledger_id')->nullable();
+        $table->string('particulars')->nullable();
+        $table->decimal('debit', 20, 2)->default(0.00);
+        $table->decimal('credit', 20, 2)->default(0.00);
+        $table->string('created_by', 50)->nullable();
+        $table->string('updated_by', 50)->nullable();
+        $table->timestamps();
+    }
 }

@@ -19,10 +19,14 @@ class LedgerCategory extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->id();
-        $table->string('name');
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
+        $table->integer('id')->primary();
+        $table->string('name')->nullable();
+        $table->string('slug')->nullable();
+        $table->integer('chart_id')->nullable();
+        $table->integer('parent_id')->nullable();
+        $table->tinyInteger('system')->nullable();
+        $table->string('created_by', 50)->nullable();
+        $table->string('updated_by', 50)->nullable();
+        $table->timestamps();
     }
-
 }

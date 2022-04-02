@@ -19,10 +19,15 @@ class Journal extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->id();
-        $table->string('name');
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
+        $table->integer('id')->primary();
+        $table->date('trn_date')->nullable();
+        $table->string('ref')->nullable();
+        $table->integer('voucher_no')->nullable();
+        $table->decimal('voucher_amount', 20, 2)->default(0.00);
+        $table->string('particulars')->nullable();
+        $table->string('attachments')->nullable();
+        $table->string('created_by', 50)->nullable();
+        $table->string('updated_by', 50)->nullable();
+        $table->timestamps();
     }
-
 }

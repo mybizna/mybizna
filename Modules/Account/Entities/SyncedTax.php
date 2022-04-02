@@ -19,10 +19,13 @@ class SyncedTax extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->id();
-        $table->string('name');
+        $table->integer('id')->primary();
+        $table->bigInteger('system_id')->index('system_id');
+        $table->bigInteger('sync_id')->nullable()->index('sync_id');
+        $table->string('sync_slug', 100)->nullable()->index('sync_slug');
+        $table->string('sync_type', 100)->nullable()->index('sync_type');
+        $table->string('sync_source', 100)->nullable()->index('sync_source');
         $table->timestamp('created_at')->nullable();
         $table->timestamp('updated_at')->nullable();
     }
-
 }

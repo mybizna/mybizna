@@ -19,9 +19,19 @@ class Detail extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->id();
-        $table->string('name');
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
+        $table->integer('id')->primary();
+        $table->integer('trn_no')->nullable();
+        $table->integer('product_id')->nullable();
+        $table->integer('qty')->nullable();
+        $table->decimal('unit_price', 20, 2)->default(0.00);
+        $table->decimal('discount', 20, 2)->default(0.00);
+        $table->decimal('shipping', 20, 2)->default(0.00);
+        $table->decimal('tax', 20, 2)->default(0.00);
+        $table->integer('tax_cat_id')->nullable();
+        $table->decimal('item_total', 20, 2)->default(0.00);
+        $table->string('ecommerce_type')->nullable();
+        $table->string('created_by', 50)->nullable();
+        $table->string('updated_by', 50)->nullable();
+        $table->timestamps();
     }
 }

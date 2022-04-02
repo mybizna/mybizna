@@ -19,11 +19,16 @@ class Product extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->id();
-        $table->string('name');
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
+        $table->integer('id')->primary();
+        $table->string('name')->nullable();
+        $table->integer('product_type_id')->nullable();
+        $table->integer('category_id')->nullable();
+        $table->integer('tax_cat_id')->nullable();
+        $table->integer('vendor')->nullable();
+        $table->decimal('cost_price', 20, 2)->default(0.00);
+        $table->decimal('sale_price', 20, 2)->default(0.00);
+        $table->string('created_by', 50)->nullable();
+        $table->string('updated_by', 50)->nullable();
+        $table->timestamps();
     }
-
-
 }

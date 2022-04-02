@@ -5,11 +5,11 @@ namespace Modules\Product\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class DetailTax extends Model
+class ReturnDetail extends Model
 {
 
     protected $fillable = [];
-    protected $table = "purchase_detail_tax";
+    protected $table = "purchase_detail";
 
     /**
      * List of fields for managing postings.
@@ -19,10 +19,14 @@ class DetailTax extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->increments('id');
+        $table->unsignedInteger('id')->primary();
         $table->integer('invoice_details_id');
-        $table->integer('agency_id')->nullable();
-        $table->decimal('tax_rate', 20, 2);
+        $table->integer('trn_no');
+        $table->integer('product_id');
+        $table->integer('qty');
+        $table->decimal('price', 20, 2);
+        $table->decimal('discount', 20, 2)->default(0.00);
+        $table->decimal('tax', 20, 2)->default(0.00);
         $table->integer('created_by')->nullable();
         $table->integer('updated_by')->nullable();
         $table->timestamps();
