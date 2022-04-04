@@ -4,9 +4,7 @@
     "description": "",
     "keywords": [],
     "priority": 0,
-    "providers": [
-        "Modules\\Taxonomy\\Providers\\TaxonomyServiceProvider"
-    ],
+    "providers": [],
     "aliases": {},
     "files": [],
     "requires": []

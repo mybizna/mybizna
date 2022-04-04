@@ -14,37 +14,13 @@
     },
     "rights": {
         "post": {
-            "administrator": {
-                "list": true,
-                "create": true,
-                "edit": true,
-                "delete": true
-            },
-            "manager": {
-                "list": true,
-                "create": true,
-                "edit": true,
-                "delete": true
-            },
-            "supervisor": {
-                "list": true,
-                "create": true,
-                "edit": true,
-                "delete": true
-            },
-            "staff": {
-                "list": true,
-                "create": true,
-                "edit": true,
-                "delete": false
-            },
-            "registered": {
-                "list": true,
-                "create": false,
-                "edit": false,
-                "delete": false
-            },
-            "guest": {
+            "administrator":[true,true,true,true],
+            "manager": [true,true,true,true],
+            "supervisor": [true,true,true,true],
+            "staff": [true,true,true],
+            "registered": [true],
+            "guest": [true],
+            "guestref": {
                 "list": true,
                 "create": false,
                 "edit": false,

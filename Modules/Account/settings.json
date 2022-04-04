@@ -1,6 +1,6 @@
 {
     "settings": {
-        "post": [{
+        "account": [{
             "name": "title",
             "type": "text",
             "placeholder": "Enter Title",

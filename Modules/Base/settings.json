@@ -1,6 +1,6 @@
 {
     "settings": {
-        "post": [{
+        "base": [{
             "name": "title",
             "type": "text",
             "placeholder": "Enter Title",
@@ -13,38 +13,14 @@
         }]
     },
     "rights": {
-        "post": {
-            "administrator": {
-                "list": true,
-                "create": true,
-                "edit": true,
-                "delete": true
-            },
-            "manager": {
-                "list": true,
-                "create": true,
-                "edit": true,
-                "delete": true
-            },
-            "supervisor": {
-                "list": true,
-                "create": true,
-                "edit": true,
-                "delete": true
-            },
-            "staff": {
-                "list": true,
-                "create": true,
-                "edit": true,
-                "delete": false
-            },
-            "registered": {
-                "list": true,
-                "create": false,
-                "edit": false,
-                "delete": false
-            },
-            "guest": {
+        "base": {
+            "administrator":[true,true,true,true],
+            "manager": [true,true,true,true],
+            "supervisor": [true,true,true,true],
+            "staff": [true,true,true],
+            "registered": [true,true],
+            "guest": [true],
+            "guestref": {
                 "list": true,
                 "create": false,
                 "edit": false,
