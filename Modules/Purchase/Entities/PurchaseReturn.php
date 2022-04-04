@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Sale\Entities;
+namespace Modules\Purchase\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Sale extends Model
+class PurchaseReturn extends Model
 {
 
     protected $fillable = [];
-    protected $table = "sale";
+    protected $table = "purchase_detail";
 
     /**
      * List of fields for managing postings.
@@ -19,11 +19,11 @@ class Sale extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('invoice_id');
         $table->integer('voucher_no');
-        $table->integer('customer_id')->nullable();
-        $table->string('customer_name')->nullable();
+        $table->integer('vendor_id')->nullable();
+        $table->string('vendor_name')->nullable();
         $table->date('trn_date');
         $table->decimal('amount', 20, 2);
         $table->decimal('discount', 20, 2)->default(0.00);

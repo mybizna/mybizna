@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Mrp\Entities;
+namespace Modules\Hrm\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;

@@ -5,7 +5,7 @@ namespace Modules\Hrm\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Leave_Entitlement extends Model
+class LeaveEntitlement extends Model
 {
 
     protected $fillable = [];

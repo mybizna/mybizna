@@ -5,7 +5,7 @@ namespace Modules\Hrm\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Dependent extends Model
+class Designation extends Model
 {
 
     protected $fillable = [];

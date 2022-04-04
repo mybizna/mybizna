@@ -30,5 +30,6 @@ class AccountDetail extends Model
         $table->string('updated_by', 50)->nullable();
         $table->timestamps();
     }
+}
 
 

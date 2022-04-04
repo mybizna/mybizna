@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Product\Entities;
+namespace Modules\Purchase\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;

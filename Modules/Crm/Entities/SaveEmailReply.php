@@ -5,7 +5,7 @@ namespace Modules\Crm\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class SaveEmailRepy extends Model
+class SaveEmailReply extends Model
 {
 
     protected $fillable = [];

@@ -21,8 +21,8 @@ class Holiday extends Model
     {
         $table->unsignedBigInteger('id')->primary();
         $table->string('title', 200);
-        $table->timestamp('start')->default('current_timestamp()');
-        $table->timestamp('end')->default('0000-00-00 00:00:00');
+        $table->timestamp('start')->useCurrent();
+        $table->timestamp('end')->nullable()->default(null);;
         $table->text('description');
         $table->string('range_status', 5);
         $table->timestamps();
