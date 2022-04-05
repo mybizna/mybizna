@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use App\Classes\Modularize;
 
+use function Safe\file_get_contents;
+
 class ApiController extends Controller
 {
     // http://127.0.0.1:8000/api/account/journal/?s[name][str]=test&s[name][ope]==&s[keyword]=test
@@ -47,5 +49,25 @@ class ApiController extends Controller
     public function functionCall(Request $request, $module, $model, $function)
     {
         // logic to update a record record goes here
+    }
+
+    public function fetchVue(Request $request, $module, $side, $model, $name)
+    {
+
+        $DS = DIRECTORY_SEPARATOR;
+
+        $contents = '';
+
+        $vue_path = realpath(base_path()) . $DS . 'Modules' . $DS  . ucfirst($module) . $DS . 'views' . $DS . $side. $DS . $model  . $DS . $name . '.vue';
+
+        if (file_exists($vue_path)) {
+            $contents = file_get_contents($vue_path);
+        }
+
+        $response = Response::make($contents, 200);
+
+        $response->header('Content-Type', 'application/javascript');
+
+        return $response;
     }
 }

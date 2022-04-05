@@ -28,3 +28,6 @@ Route::post('{module}/{model}', $apicontroller . '@createRecord');
 Route::put('{module}/{model}/{id}', $apicontroller . '@updateRecord');
 Route::delete('{module}/{model}/{id}', $apicontroller . '@deleteRecord');
 Route::match(['get', 'post'], '{module}/{model}/{function}/',  $apicontroller . '@functionCall');
+
+
+Route::get('{module}/{side}/{model}/{name}.vue', $apicontroller . '@fetchVue');
