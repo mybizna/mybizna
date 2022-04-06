@@ -14,11 +14,11 @@
     },
     "rights": {
         "base": {
-            "administrator":[true,true,true,true],
-            "manager": [true,true,true,true],
-            "supervisor": [true,true,true,true],
-            "staff": [true,true,true],
-            "registered": [true,true],
+            "administrator": [true, true, true, true],
+            "manager": [true, true, true, true],
+            "supervisor": [true, true, true, true],
+            "staff": [true, true, true],
+            "registered": [true, true],
             "guest": [true],
             "guestref": {
                 "list": true,

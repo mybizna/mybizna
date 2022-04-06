@@ -1,10 +1,11 @@
 {
-    "name": "nwidart/media",
+    "name": "mybizna/product",
     "description": "",
     "authors": [
         {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
+            "name": "Dedan Irungu",
+"homepage": "https://mybizna.com",
+            "email": "info@mybizna.com"
         }
     ],
     "extra": {
@@ -17,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Media\\": ""
+            "Modules\\Product\\": ""
         }
     }
 }

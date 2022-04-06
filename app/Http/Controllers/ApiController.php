@@ -58,7 +58,7 @@ class ApiController extends Controller
 
         $contents = '';
 
-        $vue_path = realpath(base_path()) . $DS . 'Modules' . $DS  . ucfirst($module) . $DS . 'views' . $DS . $side. $DS . $model  . $DS . $name . '.vue';
+        $vue_path = realpath(base_path()) . $DS . 'Modules' . $DS  . ucfirst($module) . $DS . 'views' . $DS . $side . $DS . $model  . $DS . $name . '.vue';
 
         if (file_exists($vue_path)) {
             $contents = file_get_contents($vue_path);
@@ -69,5 +69,17 @@ class ApiController extends Controller
         $response->header('Content-Type', 'application/javascript');
 
         return $response;
+    }
+
+
+    public function fetchMenus(Request $request,)
+    {
+        $DS = DIRECTORY_SEPARATOR;
+
+        $contents = '';
+
+        $fetch_menus = realpath(base_path()) . $DS . 'Modules';
+
+        print_r($fetch_menus ); exit;
     }
 }

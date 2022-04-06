@@ -1,0 +1,7 @@
+account,administrator,1,1,1,1
+account,manager,1,1,1,1
+account,supervisor,1,1,1,1
+account,staff,1,1,1,0
+account,registered,1,1,0,0
+account,guest,1,0,0,0
+

@@ -1,10 +1,11 @@
 {
-    "name": "nwidart/taxonomy",
+    "name": "mybizna/taxonomy",
     "description": "",
     "authors": [
         {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
+            "name": "Dedan Irungu",
+"company": "https://mybizna.com",
+            "email": "info@mybizna.com"
         }
     ],
     "extra": {

@@ -31,3 +31,4 @@ Route::match(['get', 'post'], '{module}/{model}/{function}/',  $apicontroller . 
 
 
 Route::get('{module}/{side}/{model}/{name}.vue', $apicontroller . '@fetchVue');
+Route::get('fetch_menus', $apicontroller . '@fetchMenus');

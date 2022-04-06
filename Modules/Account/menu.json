@@ -1,0 +1,8 @@
+[
+    {
+        "name": "AccountAdminDashboard",
+        "title": "Dashboard",
+        "path": "admin/account/dashboard",
+        children:[]
+    }
+]

@@ -1,18 +1,17 @@
 {
-    "name": "nwidart/media",
+    "name": "mybizna/media",
     "description": "",
     "authors": [
         {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
+            "name": "Dedan Irungu",
+            "homepage": "https://mybizna.com",
+            "email": "info@mybizna.com"
         }
     ],
     "extra": {
         "laravel": {
             "providers": [],
-            "aliases": {
-
-            }
+            "aliases": {}
         }
     },
     "autoload": {
