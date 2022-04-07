@@ -10,6 +10,8 @@ use function Safe\file_get_contents;
 
 class ApiController extends Controller
 {
+
+
     // http://127.0.0.1:8000/api/account/journal/?s[name][str]=test&s[name][ope]==&s[keyword]=test
     public function getAllRecords(Request $request, $module, $model)
     {
@@ -72,14 +74,22 @@ class ApiController extends Controller
     }
 
 
-    public function fetchMenus(Request $request,)
+    public function fetchRoutes(Request $request)
     {
-        $DS = DIRECTORY_SEPARATOR;
+        $modularize = new Modularize();
 
-        $contents = '';
+        $result = $modularize->fetchRoutes();
 
-        $fetch_menus = realpath(base_path()) . $DS . 'Modules';
-
-        print_r($fetch_menus ); exit;
+        return Response::json($result);
     }
+
+    public function fetchMenus(Request $request)
+    {
+        $modularize = new Modularize();
+
+        $result = $modularize->fetchMenus();
+
+        return Response::json($result);
+    }
+
 }
