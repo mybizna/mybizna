@@ -1,8 +1,58 @@
 [
     {
-        "name": "AccountAdminDashboard",
-        "title": "Dashboard",
-        "path": "admin/account/dashboard",
-        children:[]
+        "path": "/",
+        "name": "accounting",
+        "title": "Accounting",
+        "parent": "root",
+        "icon": "fas fa-cogs",
+        "position": 1,
+        "children": [
+            {
+                "path": "dashboard",
+                "name": "dashboard",
+                "title": "Dashboard",
+                "parent": "accounting",
+                "icon": "fas fa-cogs",
+                "position": 1,
+                "children": []
+            },
+            {
+                "path": "users",
+                "name": "users",
+                "title": "Users",
+                "parent": "accounting",
+                "icon": "fas fa-cogs",
+                "position": 5,
+                "children": [
+                    {
+                        "path": "users/customers",
+                        "name": "users",
+                        "title": "Customers",
+                        "parent": "users",
+                        "icon": "fas fa-cogs",
+                        "position": 5,
+                        "children": []
+                    },
+                    {
+                        "path": "users/vendors",
+                        "name": "users",
+                        "title": "Vendors",
+                        "parent": "users",
+                        "icon": "fas fa-cogs",
+                        "position": 5,
+                        "children": []
+                    },
+                    {
+                        "path": "users/employees",
+                        "name": "users",
+                        "title": "Employees",
+                        "parent": "accounting",
+                        "icon": "fas fa-cogs",
+                        "position": 5,
+                        "children": []
+                    }
+                ]
+            }
+        ]
     }
 ]

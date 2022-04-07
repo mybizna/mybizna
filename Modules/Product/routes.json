@@ -1,0 +1,24 @@
+[
+    {
+        "path": "/products",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "product-service",
+                "name": "Products",
+                "component": "account/admin/product/list.vue",
+                "alias": "/products"
+            },
+            {
+                "path": "page/:page",
+                "name": "PaginateProducts",
+                "component": "account/admin/product/list.vue"
+            },
+            {
+                "path": "product-categories",
+                "name": "ProductCategory",
+                "component": "account/admin/category/list.vue"
+            }
+        ]
+    },
+]

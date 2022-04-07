@@ -1,0 +1,474 @@
+[
+    {
+        "path": "/",
+        "component": "account/admin/dashboard/dashboard.vue",
+        "children": [
+            {
+                "path": "/dashboard",
+                "name": "DashBoard",
+                "component": "account/admin/dashboard/dashboard.vue",
+                "alias": "/trn-loader"
+            }
+        ]
+    },
+ 
+    {
+        "path": "/transactions",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "",
+                "name": "Transactions",
+                "component": "sale/admin/sale/list.vue"
+            },
+            {
+                "path": "sales",
+                "component": "router_view",
+                "children": [
+                    {
+                        "path": "",
+                        "name": "Sales",
+                        "component": "sale/admin/sale/list.vue"
+                    },
+                    {
+                        "path": ":id",
+                        "name": "SalesSingle",
+                        "component": "sale/widgets/SalesSingle.vue"
+                    },
+                    {
+                        "path": "page/:page",
+                        "name": "PaginateSales",
+                        "component": "sale/admin/sale/list.vue"
+                    }
+                ]
+            },
+            {
+                "path": "expenses",
+                "component": "router_view",
+                "children": [
+                    {
+                        "path": "",
+                        "name": "Expenses",
+                        "component": "account/admin/expense/list.vue"
+                    },
+                    {
+                        "path": "page/:page",
+                        "name": "PaginateExpenses",
+                        "component": "account/admin/expense/list.vue"
+                    }
+                ]
+            },
+            {
+                "path": "journals",
+                "component": "router_view",
+                "children": [
+                    {
+                        "path": "",
+                        "name": "Journals",
+                        "component": "account/admin/journal/list.vue"
+                    },
+                    {
+                        "path": "new",
+                        "name": "JournalCreate",
+                        "component": "account/admin/journal/create.vue"
+                    },
+                    {
+                        "path": ":id",
+                        "name": "JournalSingle",
+                        "component": "account/widgets/JournalSingle.vue"
+                    },
+                    {
+                        "path": "page/:page",
+                        "name": "PaginateJournals",
+                        "component": "account/admin/journal/list.vue"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "path": "/settings",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "",
+                "name": "Settings",
+                "component": "account/admin/chartaccount/list.vue"
+            },
+            {
+                "path": "charts",
+                "component": "router_view",
+                "children": [
+                    {
+                        "path": "",
+                        "name": "ChartOfAccounts",
+                        "component": "account/admin/chartaccount/list.vue"
+                    },
+                    {
+                        "path": "new",
+                        "name": "AddChartAccounts",
+                        "component": "account/admin/chartaccount/create.vue"
+                    },
+                    {
+                        "path": ":id/edit",
+                        "name": "ChartAccountsEdit",
+                        "component": "account/admin/chartaccount/create.vue"
+                    }
+                ]
+            },
+            {
+                "path": "banks",
+                "component": "router_view",
+                "children": [
+                    {
+                        "path": "",
+                        "name": "BankAccounts",
+                        "component": "account/admin/bankaccount/list.vue"
+                    },
+                    {
+                        "path": "transfers",
+                        "component": "router_view",
+                        "children": [
+                            {
+                                "path": "",
+                                "name": "Transfers",
+                                "component": "account/admin/transfer/list.vue"
+                            },
+                            {
+                                "path": "new",
+                                "name": "NewTransfer",
+                                "component": "account/admin/transfer/create.vue"
+                            },
+                            {
+                                "path": ":id",
+                                "name": "SingleTransfer",
+                                "component": "account/widgets/SingleTransfer.vue"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "path": "taxes",
+                "component": "router_view",
+                "children": [
+                    {
+                        "path": "tax-records",
+                        "component": "router_view",
+                        "children": [
+                            {
+                                "path": "",
+                                "name": "TaxRecords",
+                                "component": "account/admin/tax/list.vue"
+                            },
+                            {
+                                "path": "page/:page",
+                                "name": "PaginateTaxRecords",
+                                "component": "account/admin/tax/list.vue"
+                            },
+                            {
+                                "path": ":id",
+                                "name": "PayTaxSingle",
+                                "component": "account/widgets/PayTaxSingle.vue"
+                            }
+                        ]
+                    },
+                    {
+                        "path": "tax-rates",
+                        "component": "router_view",
+                        "children": [
+                            {
+                                "path": "",
+                                "name": "TaxRates",
+                                "component": "account/admin/taxrate/list.vue",
+                                "alias": "tax-rates"
+                            },
+                            {
+                                "path": "new",
+                                "name": "NewTaxRate",
+                                "component": "account/admin/taxrate/create.vue"
+                            }
+                        ]
+                    },
+                    {
+                        "path": "rate-names",
+                        "name": "TaxZones",
+                        "component": "account/admin/taxzone/list.vue"
+                    },
+                    {
+                        "path": "agencies",
+                        "name": "TaxAgencies",
+                        "component": "account/admin/taxagency/list.vue"
+                    },
+                    {
+                        "path": "categories",
+                        "name": "TaxCategories",
+                        "component": "account/admin/taxcategory/list.vue"
+                    },
+                    {
+                        "path": "new-rate-name",
+                        "name": "NewTaxZone",
+                        "component": "account/widgets/NewTaxZone.vue"
+                    },
+                    {
+                        "path": "new-agency",
+                        "name": "NewTaxAgency",
+                        "component": "account/widgets/NewTaxAgency.vue"
+                    },
+                    {
+                        "path": "new-tax-cat",
+                        "name": "NewTaxCategory",
+                        "component": "account/widgets/NewTaxCategory.vue"
+                    },
+                    {
+                        "path": ":id",
+                        "name": "SingleTaxRate",
+                        "component": "account/admin/taxrate/detail.vue"
+                    },
+                    {
+                        "path": ":id/edit",
+                        "name": "EditSingleTaxRate",
+                        "component": "account/admin/taxrate/create.vue"
+                    },
+                    {
+                        "path": "page/:page",
+                        "name": "PaginateTaxRates",
+                        "component": "account/admin/taxrate/list.vue"
+                    },
+                    {
+                        "path": "rate-names/page/:page",
+                        "name": "PaginateTaxZones",
+                        "component": "account/admin/taxzone/list.vue"
+                    },
+                    {
+                        "path": "categories/page/:page",
+                        "name": "PaginateTaxCategories",
+                        "component": "account/admin/taxcategory/list.vue"
+                    },
+                    {
+                        "path": "agencies/page/:page",
+                        "name": "PaginateTaxAgencies",
+                        "component": "account/admin/taxagency/list.vue"
+                    }
+                ]
+            },
+            {
+                "path": "pay-tax",
+                "name": "RecordPayTax",
+                "component": "account/widgets/RecordPayTax.vue"
+            }
+        ]
+    },
+    {
+        "path": "/invoices",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "new",
+                "name": "InvoiceCreate",
+                "component": "invoice/admin/invoice/create.vue"
+            },
+            {
+                "path": ":id/edit",
+                "name": "InvoiceEdit",
+                "component": "invoice/admin/invoice/create.vue"
+            }
+        ]
+    },
+    {
+        "path": "/estimates",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "new",
+                "name": "EstimateCreate",
+                "component": "invoice/admin/invoice/create.vue"
+            },
+            {
+                "path": ":id/edit",
+                "name": "EstimateEdit",
+                "component": "invoice/admin/invoice/create.vue"
+            }
+        ]
+    },
+    {
+        "path": "/payments",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "new",
+                "name": "RecPaymentCreate",
+                "component": "payment/admin/payment/RecPaymentCreate.vue"
+            },
+            {
+                "path": ":id/edit",
+                "name": "RecPaymentEdit",
+                "component": "account/admin/rec-payment/RecPaymentCreate.vue"
+            }
+        ]
+    },
+    {
+        "path": "/bills",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "new",
+                "name": "BillCreate",
+                "component": "account/admin/bill/BillCreate.vue"
+            },
+            {
+                "path": ":id",
+                "name": "BillSingle",
+                "component": "account/admin/bill/BillSingle.vue"
+            },
+            {
+                "path": ":id/edit",
+                "name": "BillEdit",
+                "component": "account/admin/bill/BillCreate.vue"
+            }
+        ]
+    },
+    {
+        "path": "/pay-bills",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "new",
+                "name": "PayBillCreate",
+                "component": "account/admin/pay-bill/PayBillCreate.vue"
+            },
+            {
+                "path": ":id",
+                "name": "PayBillSingle",
+                "component": "account/admin/pay-bill/PayBillSingle.vue"
+            }
+        ]
+    },
+    {
+        "path": "/reports",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "",
+                "name": "ReportsOverview",
+                "component": "account/admin/reports/ReportsOverview.vue"
+            },
+            {
+                "path": "trial-balance",
+                "name": "TrialBalance",
+                "component": "account/admin/reports/TrialBalance.vue"
+            },
+            {
+                "path": "ledgers",
+                "component": "router_view",
+                "children": [
+                    {
+                        "path": "",
+                        "name": "LedgerReport",
+                        "component": "account/admin/reports/LedgerReport.vue"
+                    },
+                    {
+                        "path": ":id",
+                        "name": "LedgerSingle",
+                        "component": "account/admin/reports/LedgerReport.vue"
+                    }
+                ]
+            },
+            {
+                "path": "sales/tax",
+                "component": "router_view",
+                "children": [
+                    {
+                        "path": "",
+                        "name": "SalesTaxReportOverview",
+                        "component": "../reports/sales-tax/Overview.vue"
+                    },
+                    {
+                        "path": "agency-based",
+                        "name": "SalesTaxReportAgencyBased",
+                        "component": "../reports/sales-tax/AgencyBased.vue"
+                    },
+                    {
+                        "path": "category-based",
+                        "name": "SalesTaxReportCategoryBased",
+                        "component": "../reports/sales-tax/CategoryBased.vue"
+                    },
+                    {
+                        "path": "transaction-based",
+                        "name": "SalesTaxReportTransactionBased",
+                        "component": "../reports/sales-tax/TransactionBased.vue"
+                    },
+                    {
+                        "path": "customer-based",
+                        "name": "SalesTaxReportCustomerBased",
+                        "component": "../reports/sales-tax/CustomerBased.vue"
+                    }
+                ]
+            },
+            {
+                "path": "income-statement",
+                "name": "IncomeStatement",
+                "component": "account/admin/reports/IncomeStatement.vue"
+            },
+            {
+                "path": "balance-sheet",
+                "name": "BalanceSheet",
+                "component": "account/admin/reports/BalanceSheet.vue"
+            }
+        ]
+    },
+    {
+        "path": "/checks",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "new",
+                "name": "CheckCreate",
+                "component": "account/admin/check/CheckCreate.vue"
+            },
+            {
+                "path": ":id",
+                "name": "CheckSingle",
+                "component": "account/admin/check/CheckSingle.vue"
+            },
+            {
+                "path": ":id/edit",
+                "name": "CheckEdit",
+                "component": "account/admin/check/CheckCreate.vue"
+            }
+        ]
+    },
+    {
+        "path": "/trn-loader",
+        "component": "router_view",
+        "children": [
+            {
+                "path": ":id",
+                "name": "DynamicTrnLoader",
+                "component": "account/admin/transactions/DynamicTrnLoader.vue"
+            }
+        ]
+    },
+    {
+        "path": "/opening-balance",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "",
+                "name": "OpeningBalance",
+                "component": "account/admin/opening-balance/OpeningBalance.vue"
+            }
+        ]
+    },
+    {
+        "path": "/erp-ac-help",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "",
+                "name": "HelpContent",
+                "component": "account/admin/help/HelpContent.vue"
+            }
+        ]
+    }
+]

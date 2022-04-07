@@ -1,0 +1,23 @@
+[
+    {
+        "path": "/expenses",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "new",
+                "name": "ExpenseCreate",
+                "component": "expense/admin/expense/create.vue"
+            },
+            {
+                "path": ":id",
+                "name": "ExpenseSingle",
+                "component": "expense/admin/expense/single.vue"
+            },
+            {
+                "path": ":id/edit",
+                "name": "ExpenseEdit",
+                "component": "expense/admin/expense/create.vue"
+            }
+        ]
+    },
+]
