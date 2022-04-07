@@ -298,12 +298,12 @@
             {
                 "path": "new",
                 "name": "RecPaymentCreate",
-                "component": "payment/admin/payment/RecPaymentCreate.vue"
+                "component": "payment/admin/payment/create.vue"
             },
             {
                 "path": ":id/edit",
                 "name": "RecPaymentEdit",
-                "component": "account/admin/rec-payment/RecPaymentCreate.vue"
+                "component": "payment/admin/payment/create.vue"
             }
         ]
     },
@@ -314,17 +314,17 @@
             {
                 "path": "new",
                 "name": "BillCreate",
-                "component": "account/admin/bill/BillCreate.vue"
+                "component": "bill/admin/bill/create.vue"
             },
             {
                 "path": ":id",
                 "name": "BillSingle",
-                "component": "account/admin/bill/BillSingle.vue"
+                "component": "account/widgets/BillSingle.vue"
             },
             {
                 "path": ":id/edit",
                 "name": "BillEdit",
-                "component": "account/admin/bill/BillCreate.vue"
+                "component": "bill/admin/bill/create.vue"
             }
         ]
     },
@@ -335,12 +335,12 @@
             {
                 "path": "new",
                 "name": "PayBillCreate",
-                "component": "account/admin/pay-bill/PayBillCreate.vue"
+                "component": "payment/admin/paybill/create.vue"
             },
             {
                 "path": ":id",
                 "name": "PayBillSingle",
-                "component": "account/admin/pay-bill/PayBillSingle.vue"
+                "component": "payment/widgets/PayBillSingle.vue"
             }
         ]
     },
@@ -381,27 +381,27 @@
                     {
                         "path": "",
                         "name": "SalesTaxReportOverview",
-                        "component": "../reports/sales-tax/Overview.vue"
+                        "component": "sale/admin/reports/Overview.vue"
                     },
                     {
                         "path": "agency-based",
                         "name": "SalesTaxReportAgencyBased",
-                        "component": "../reports/sales-tax/AgencyBased.vue"
+                        "component": "sale/admin/reports/AgencyBased.vue"
                     },
                     {
                         "path": "category-based",
                         "name": "SalesTaxReportCategoryBased",
-                        "component": "../reports/sales-tax/CategoryBased.vue"
+                        "component": "sale/admin/reports/CategoryBased.vue"
                     },
                     {
                         "path": "transaction-based",
                         "name": "SalesTaxReportTransactionBased",
-                        "component": "../reports/sales-tax/TransactionBased.vue"
+                        "component": "sale/admin/reports/TransactionBased.vue"
                     },
                     {
                         "path": "customer-based",
                         "name": "SalesTaxReportCustomerBased",
-                        "component": "../reports/sales-tax/CustomerBased.vue"
+                        "component": "sale/admin/reports/CustomerBased.vue"
                     }
                 ]
             },
@@ -424,17 +424,17 @@
             {
                 "path": "new",
                 "name": "CheckCreate",
-                "component": "account/admin/check/CheckCreate.vue"
+                "component": "account/admin/check/create.vue"
             },
             {
                 "path": ":id",
                 "name": "CheckSingle",
-                "component": "account/admin/check/CheckSingle.vue"
+                "component": "account/widgets/CheckSingle.vue"
             },
             {
                 "path": ":id/edit",
                 "name": "CheckEdit",
-                "component": "account/admin/check/CheckCreate.vue"
+                "component": "account/admin/check/create.vue"
             }
         ]
     },
@@ -445,7 +445,7 @@
             {
                 "path": ":id",
                 "name": "DynamicTrnLoader",
-                "component": "account/admin/transactions/DynamicTrnLoader.vue"
+                "component": "account/widgets/DynamicTrnLoader.vue"
             }
         ]
     },
@@ -456,7 +456,7 @@
             {
                 "path": "",
                 "name": "OpeningBalance",
-                "component": "account/admin/opening-balance/OpeningBalance.vue"
+                "component": "account/admin/openingbalance/detail.vue"
             }
         ]
     },
@@ -467,7 +467,7 @@
             {
                 "path": "",
                 "name": "HelpContent",
-                "component": "account/admin/help/HelpContent.vue"
+                "component": "account/widgets/HelpContent.vue"
             }
         ]
     }
