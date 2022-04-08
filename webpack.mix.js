@@ -11,6 +11,10 @@ const mix = require('laravel-mix');
  |
  */
 
+mix.alias({
+    '@': __dirname + '/resources/js'
+});
+
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css');
