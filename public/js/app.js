@@ -3855,12 +3855,12 @@ Object(function webpackMissingModule() { var e = new Error("Cannot find module '
 Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-form-generator/dist/vfg.css'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 /* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! nprogress/nprogress.css */ "./node_modules/nprogress/nprogress.css");
 Object(function webpackMissingModule() { var e = new Error("Cannot find module './apps'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '@/store/modules'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-/* harmony import */ var _components_custom_fields_autocomplete_field_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/custom_fields/autocomplete-field.vue */ "./resources/js/components/custom_fields/autocomplete-field.vue");
-/* harmony import */ var _components_custom_fields_media_field_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/custom_fields/media-field.vue */ "./resources/js/components/custom_fields/media-field.vue");
-/* harmony import */ var _components_custom_fields_vuedatetime_field_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/components/custom_fields/vuedatetime-field.vue */ "./resources/js/components/custom_fields/vuedatetime-field.vue");
-/* harmony import */ var _components_custom_fields_vuedatetimepicker_field_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/components/custom_fields/vuedatetimepicker-field.vue */ "./resources/js/components/custom_fields/vuedatetimepicker-field.vue");
-/* harmony import */ var _components_custom_fields_recordpicker_field_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/custom_fields/recordpicker-field.vue */ "./resources/js/components/custom_fields/recordpicker-field.vue");
+/* harmony import */ var _store_modules__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/store/modules */ "./resources/js/store/modules.js");
+/* harmony import */ var _components_custom_fields_autocomplete_field_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/custom_fields/autocomplete-field.vue */ "./resources/js/components/custom_fields/autocomplete-field.vue");
+/* harmony import */ var _components_custom_fields_media_field_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/components/custom_fields/media-field.vue */ "./resources/js/components/custom_fields/media-field.vue");
+/* harmony import */ var _components_custom_fields_vuedatetime_field_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/components/custom_fields/vuedatetime-field.vue */ "./resources/js/components/custom_fields/vuedatetime-field.vue");
+/* harmony import */ var _components_custom_fields_vuedatetimepicker_field_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/custom_fields/vuedatetimepicker-field.vue */ "./resources/js/components/custom_fields/vuedatetimepicker-field.vue");
+/* harmony import */ var _components_custom_fields_recordpicker_field_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/custom_fields/recordpicker-field.vue */ "./resources/js/components/custom_fields/recordpicker-field.vue");
 /* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
@@ -3911,7 +3911,7 @@ vue__WEBPACK_IMPORTED_MODULE_6__["default"].prototype.$loader_template = window.
 
 
 var store = new Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuex'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())({
-  modules: Object(function webpackMissingModule() { var e = new Error("Cannot find module '@/store/modules'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()),
+  modules: _store_modules__WEBPACK_IMPORTED_MODULE_8__["default"],
   plugins: [Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vuex-persistedstate'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())({
     storage: {
       getItem: function getItem(key) {
@@ -3965,17 +3965,17 @@ axios__WEBPACK_IMPORTED_MODULE_2___default().interceptors.response.use(function 
 // Register my awesome field
 
 
-vue__WEBPACK_IMPORTED_MODULE_6__["default"].component("field-autocomplete", _components_custom_fields_autocomplete_field_vue__WEBPACK_IMPORTED_MODULE_8__["default"]); //import fieldeditor from "@/components/custom_fields/editor-field.vue";
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].component("field-autocomplete", _components_custom_fields_autocomplete_field_vue__WEBPACK_IMPORTED_MODULE_9__["default"]); //import fieldeditor from "@/components/custom_fields/editor-field.vue";
 //Vue.component("field-editor", fieldeditor);
 
 
-vue__WEBPACK_IMPORTED_MODULE_6__["default"].component("field-media", _components_custom_fields_media_field_vue__WEBPACK_IMPORTED_MODULE_9__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].component("field-media", _components_custom_fields_media_field_vue__WEBPACK_IMPORTED_MODULE_10__["default"]);
 
-vue__WEBPACK_IMPORTED_MODULE_6__["default"].component("field-vuedatetime", _components_custom_fields_vuedatetime_field_vue__WEBPACK_IMPORTED_MODULE_10__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].component("field-vuedatetime", _components_custom_fields_vuedatetime_field_vue__WEBPACK_IMPORTED_MODULE_11__["default"]);
 
-vue__WEBPACK_IMPORTED_MODULE_6__["default"].component("field-vuedatetimepicker", _components_custom_fields_vuedatetimepicker_field_vue__WEBPACK_IMPORTED_MODULE_11__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].component("field-vuedatetimepicker", _components_custom_fields_vuedatetimepicker_field_vue__WEBPACK_IMPORTED_MODULE_12__["default"]);
 
-vue__WEBPACK_IMPORTED_MODULE_6__["default"].component("field-recordpicker", _components_custom_fields_recordpicker_field_vue__WEBPACK_IMPORTED_MODULE_12__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].component("field-recordpicker", _components_custom_fields_recordpicker_field_vue__WEBPACK_IMPORTED_MODULE_13__["default"]);
 /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
 // Helpers
 // Global filters
@@ -4183,6 +4183,180 @@ __webpack_require__.r(__webpack_exports__);
     return __webpack_require__.e(/*! import() | general-components */ "general-components").then(__webpack_require__.bind(__webpack_require__, /*! @/components/pages/ForgotPassword.vue */ "./resources/js/components/pages/ForgotPassword.vue"));
   }
 }]);
+
+/***/ }),
+
+/***/ "./resources/js/store/auth.js":
+/*!************************************!*\
+  !*** ./resources/js/store/auth.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
+  state: {
+    affiliate: {},
+    userprofile: {},
+    token: null,
+    user: {}
+  },
+  mutations: {
+    affiliate: function affiliate(state, payload) {
+      state.affiliate = payload;
+    },
+    login: function login(state, payload) {
+      state.token = payload;
+    },
+    user: function user(state, payload) {
+      state.user = payload;
+    },
+    logout: function logout(state) {
+      state.token = null;
+      state.affiliate = {};
+      state.userprofile = {};
+      state.user = {};
+    }
+  },
+  actions: {
+    authenticate: function authenticate(_ref, _ref2) {
+      var commit = _ref.commit;
+      var username = _ref2.username,
+          password = _ref2.password;
+      var query_str = 'mutation{tokenAuth(username:"' + username + '",password:"' + password + '"){token,refreshExpiresIn}}';
+      console.log(query_str);
+      window.axios.post("/graphql?query=" + query_str).then(function (response) {
+        commit('login', response.data.data.tokenAuth);
+        window.axios.defaults.headers.common['Authorization'] = 'JWT ' + response.data.data.tokenAuth.token;
+      })["catch"](function (response) {
+        console.log(response);
+      });
+    },
+    getUser: function getUser(_ref3, _ref4) {
+      var commit = _ref3.commit;
+      var that = _ref4.that;
+      var query_str = '{me{id, firstName,lastName,email,username,dateJoined,isActive, profile{address, phone,gender,dateOfBirth,country{id, name, code},inviter{id, firstName,lastName,email,username,dateJoined}address, phone, town, location, blocked,image    }}}';
+      window.axios.get("/graphql?query=" + query_str).then(function (response) {
+        var me = response.data.data.me;
+
+        if (me.profile.image) {
+          me.profile.image = that.$base_url + me.profile.image;
+        } else {
+          me.profile.image = me.profile.gender == 'A_1' ? that.$male_default_avatar : that.$female_default_avatar;
+        }
+
+        commit('user', me);
+        console.log('login');
+        console.log(me);
+        that.$store.dispatch("auth/affiliate", {
+          user_id: me.id
+        });
+      })["catch"](function (response) {
+        if (response.status === 401) {
+          commit('logout');
+        }
+      });
+    },
+    affiliate: function affiliate(_ref5, _ref6) {
+      var commit = _ref5.commit;
+      var user_id = _ref6.user_id;
+      var query_str = 'query { userAffiliates(first:1) { edges {cursor node { id,pk,user{id, firstName, lastName, username, email,dateJoined},matrix{id, title},inviter{id, firstName, lastName, username, email},package{id, title},rank{id, name},status,summary,expiryDate,upgradeDate,lastUpgradeDate,createdAt,createdBy{id,firstName,lastName,email,username},updatedAt,updatedBy{id,firstName,lastName,email,username}, setting }}   pageInfo { hasNextPage, hasPreviousPage, startCursor,endCursor }  }     }';
+      console.log(query_str);
+      window.axios.post("/graphql?query=" + query_str).then(function (response) {
+        console.log(response);
+        var tmpitems = {};
+        var node_data = JSON.parse(JSON.stringify(response.data.data.userAffiliates.edges[0].node));
+
+        for (var prop in node_data) {
+          if (Object.prototype.hasOwnProperty.call(node_data, prop)) {
+            if (typeof node_data[prop] === 'string' && node_data[prop].charAt(0) === "{") {
+              try {
+                node_data[prop] = JSON.parse(node_data[prop]);
+              } catch (e) {// is not a valid JSON string
+              }
+            }
+          }
+        }
+
+        commit('affiliate', node_data);
+      })["catch"](function (response) {
+        console.log(response);
+      });
+    }
+  },
+  getters: {
+    loggedIn: function loggedIn(state) {
+      return state.token !== null;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules.js":
+/*!***************************************!*\
+  !*** ./resources/js/store/modules.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _store_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/store/auth */ "./resources/js/store/auth.js");
+/* harmony import */ var _store_system__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store/system */ "./resources/js/store/system.js");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  auth: _store_auth__WEBPACK_IMPORTED_MODULE_0__["default"],
+  system: _store_system__WEBPACK_IMPORTED_MODULE_1__["default"]
+});
+/*
+// State
+this.$store.state.auth.userdata
+// Mutation
+this.$store.commit('auth/login', { username: 'logged_user' })
+// Action
+this.$store.dispatch('auth/authenticate', { username: this.username, password: this.password })
+// Getter
+this.$store.getters['auth/loggedIn']
+*/
+
+/***/ }),
+
+/***/ "./resources/js/store/system.js":
+/*!**************************************!*\
+  !*** ./resources/js/store/system.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
+  state: {
+    sidebar_show: false,
+    layout: false
+  },
+  mutations: {
+    sidebar_show: function sidebar_show(state, payload) {
+      state.sidebar_show = payload;
+    },
+    layout: function layout(state, payload) {
+      state.layout = payload;
+    }
+  },
+  actions: {},
+  getters: {}
+});
 
 /***/ }),
 
