@@ -20,15 +20,11 @@
       title="Modal Variants"
       size="xl"
       hide-footer
-      ><affiliate-list
-        :is_recordpicker="is_recordpicker"
-        :recordPicker="recordPicker"
-    /></b-modal>
+      >RecordPicker</b-modal>
   </div>
 </template>
 
 <script>
-import AffiliateList from "@/apps/affiliate/pages/AffiliateList";
 
 import { abstractField } from "vue-form-generator";
 

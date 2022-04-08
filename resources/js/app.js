@@ -1,6 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue';
+import * as Vue from 'vue';
+
+
 import Vuex from 'vuex';
 import App from '@/components/App';
 import Axios from 'axios';
@@ -12,7 +14,7 @@ import VueFormGenerator from "vue-form-generator";
 import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
 import NProgress from 'nprogress';
-import * as Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 import VueCommonFilters from 'vue-common-filters';
 
@@ -35,7 +37,6 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin);
-Vue.use(VueRouter);
 Vue.use(VueFormGenerator);
 Vue.use(Vuex);
 Vue.use(VueMoment, {

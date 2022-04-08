@@ -32,52 +32,12 @@
         url="payment/payment"
       ></image-link>
     </div>
-
-    <div class="col-sm-12 col-md-4 text-center">
-      <buy-airtime />
-    </div>
-
-    <div class="col-md-8">
-      <funds />
-    </div>
-
-    <div class="col-md-4">
-      <badges />
-      <commission />
-      <payday />
-      <active-summary />
-    </div>
-
-    <div class="col-md-8">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="d-block"><profile-status /></div>
-        </div>
-        <div class="col-md-6">
-          <renewal />
-        </div>
-      </div>
-
-      <div class="card">
-        <downline-summary />
-      </div>
-    </div>
   </div>
-</template> 
+</template>
 
 <script>
 import menu from "@/components/router/menu.js";
 import ImageLink from "@/components/common/widgets/link/ImageLink";
-import BuyAirtime from "@/apps/airtime/components/BuyAirtime";
-import Funds from "@/apps/payment/components/Funds";
-
-import Badges from "@/apps/affiliate/components/Badges";
-import ActiveSummary from "@/apps/affiliate/components/ActiveSummary";
-import Commission from "@/apps/affiliate/components/Commission";
-import DownlineSummary from "@/apps/affiliate/components/DownlineSummary";
-import Payday from "@/apps/affiliate/components/Payday";
-import ProfileStatus from "@/apps/affiliate/components/ProfileStatus";
-import Renewal from "@/apps/affiliate/components/Renewal";
 
 import { pathParamHelper } from "@/components/helpers";
 import { fetchRecordHelper } from "@/components/helpers";
@@ -85,15 +45,6 @@ import { fetchRecordHelper } from "@/components/helpers";
 export default {
   components: {
     ImageLink,
-    BuyAirtime,
-    Funds,
-    Badges,
-    ActiveSummary,
-    Commission,
-    DownlineSummary,
-    Payday,
-    ProfileStatus,
-    Renewal,
   },
   created() {
     this.user = JSON.parse(localStorage.getItem("user"));
