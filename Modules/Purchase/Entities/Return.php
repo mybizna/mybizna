@@ -9,7 +9,7 @@ class PurchaseReturn extends Model
 {
 
     protected $fillable = [];
-    protected $table = "purchase_detail";
+    protected $table = "purchase_return";
 
     /**
      * List of fields for managing postings.

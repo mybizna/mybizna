@@ -4161,33 +4161,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var base_url = process.env.VUE_APP_BASE_URL;
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$base_url = base_url;
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$male_default_avatar = '/assets/images/avatar.png';
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$female_default_avatar = '/assets/images/avatar2.png';
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$base_url = base_url;
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$male_default_avatar = '/assets/images/avatar.png';
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$female_default_avatar = '/assets/images/avatar2.png';
 (axios__WEBPACK_IMPORTED_MODULE_1___default().defaults.baseURL) = base_url;
 var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 moment_timezone__WEBPACK_IMPORTED_MODULE_7___default().tz.setDefault(timezone);
-vue__WEBPACK_IMPORTED_MODULE_13__.config.productionTip = false; // Make BootstrapVue available throughout your project
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].config.productionTip = false; // Make BootstrapVue available throughout your project
 
-vue__WEBPACK_IMPORTED_MODULE_13__.use(BootstrapVue); // Optionally install the BootstrapVue icon components plugin
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].use(BootstrapVue); // Optionally install the BootstrapVue icon components plugin
 
-vue__WEBPACK_IMPORTED_MODULE_13__.use(IconsPlugin);
-vue__WEBPACK_IMPORTED_MODULE_13__.use(vue_router__WEBPACK_IMPORTED_MODULE_14__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_13__.use((vue_form_generator__WEBPACK_IMPORTED_MODULE_5___default()));
-vue__WEBPACK_IMPORTED_MODULE_13__.use(vuex__WEBPACK_IMPORTED_MODULE_15__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_13__.use((vue_moment__WEBPACK_IMPORTED_MODULE_6___default()), {
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].use(IconsPlugin);
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_14__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].use((vue_form_generator__WEBPACK_IMPORTED_MODULE_5___default()));
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_15__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].use((vue_moment__WEBPACK_IMPORTED_MODULE_6___default()), {
   moment: (moment_timezone__WEBPACK_IMPORTED_MODULE_7___default())
 });
 window.router = _components_router__WEBPACK_IMPORTED_MODULE_2__["default"];
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$appName = window.appName = 'My App';
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$is_frontend = window.is_frontend = false;
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$is_stockist = window.is_stockist = false;
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$is_backend = window.is_backend = true;
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$in_progress = window.in_progress = true;
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$loading = window.loading = {
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$appName = window.appName = 'My App';
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$is_frontend = window.is_frontend = false;
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$is_stockist = window.is_stockist = false;
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$is_backend = window.is_backend = true;
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$in_progress = window.in_progress = true;
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$loading = window.loading = {
   in_progress: true
 };
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$loader_template = window.loader_template = '<div class="block-screen"><b>Please wait...</b></div>';
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$loader_template = window.loader_template = '<div class="block-screen"><b>Please wait...</b></div>';
 
 
 var store = new vuex__WEBPACK_IMPORTED_MODULE_15__["default"].Store({
@@ -4195,17 +4195,17 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_15__["default"].Store({
   plugins: [(0,vuex_persistedstate__WEBPACK_IMPORTED_MODULE_3__["default"])({
     storage: {
       getItem: function getItem(key) {
-        return js_cookie__WEBPACK_IMPORTED_MODULE_9__.get(key);
+        return js_cookie__WEBPACK_IMPORTED_MODULE_9__["default"].get(key);
       },
       // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
       setItem: function setItem(key, value) {
-        return js_cookie__WEBPACK_IMPORTED_MODULE_9__.set(key, value, {
+        return js_cookie__WEBPACK_IMPORTED_MODULE_9__["default"].set(key, value, {
           expires: 3,
           secure: true
         });
       },
       removeItem: function removeItem(key) {
-        return js_cookie__WEBPACK_IMPORTED_MODULE_9__.remove(key);
+        return js_cookie__WEBPACK_IMPORTED_MODULE_9__["default"].remove(key);
       }
     }
   })]
@@ -4214,19 +4214,19 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_15__["default"].Store({
 (axios__WEBPACK_IMPORTED_MODULE_1___default().defaults.headers.post["Content-Type"]) = 'application/x-www-form-urlencoded'; // Add a request interceptor
 
 axios__WEBPACK_IMPORTED_MODULE_1___default().interceptors.request.use(function (config) {
-  vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$loading.in_progress = true; // Do something before request is sent
+  vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$loading.in_progress = true; // Do something before request is sent
 
   nprogress__WEBPACK_IMPORTED_MODULE_8___default().start();
   return config;
 }, function (error) {
-  vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$loading.in_progress = false; // Do something with request error
+  vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$loading.in_progress = false; // Do something with request error
 
   console.error(error);
   return Promise.reject(error);
 }); // Add a response interceptor
 
 axios__WEBPACK_IMPORTED_MODULE_1___default().interceptors.response.use(function (response) {
-  vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$loading.in_progress = false;
+  vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$loading.in_progress = false;
 
   if (Object.prototype.hasOwnProperty.call(response.data, 'errors') && response.data.errors[0].message == "Signature has expired") {
     store.commit('auth/logout');
@@ -4236,7 +4236,7 @@ axios__WEBPACK_IMPORTED_MODULE_1___default().interceptors.response.use(function 
   nprogress__WEBPACK_IMPORTED_MODULE_8___default().done();
   return response;
 }, function (error) {
-  vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$loading.in_progress = false; // Do something with response error
+  vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$loading.in_progress = false; // Do something with response error
 
   console.error(error);
   return Promise.reject(error);
@@ -4245,22 +4245,22 @@ axios__WEBPACK_IMPORTED_MODULE_1___default().interceptors.response.use(function 
 // Register my awesome field
 
 
-vue__WEBPACK_IMPORTED_MODULE_13__.component("field-autocomplete", _components_custom_fields_autocomplete_field_vue__WEBPACK_IMPORTED_MODULE_18__["default"]); //import fieldeditor from "@/components/custom_fields/editor-field.vue";
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].component("field-autocomplete", _components_custom_fields_autocomplete_field_vue__WEBPACK_IMPORTED_MODULE_18__["default"]); //import fieldeditor from "@/components/custom_fields/editor-field.vue";
 //Vue.component("field-editor", fieldeditor);
 
 
-vue__WEBPACK_IMPORTED_MODULE_13__.component("field-media", _components_custom_fields_media_field_vue__WEBPACK_IMPORTED_MODULE_19__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].component("field-media", _components_custom_fields_media_field_vue__WEBPACK_IMPORTED_MODULE_19__["default"]);
 
-vue__WEBPACK_IMPORTED_MODULE_13__.component("field-vuedatetime", _components_custom_fields_vuedatetime_field_vue__WEBPACK_IMPORTED_MODULE_20__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].component("field-vuedatetime", _components_custom_fields_vuedatetime_field_vue__WEBPACK_IMPORTED_MODULE_20__["default"]);
 
-vue__WEBPACK_IMPORTED_MODULE_13__.component("field-vuedatetimepicker", _components_custom_fields_vuedatetimepicker_field_vue__WEBPACK_IMPORTED_MODULE_21__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].component("field-vuedatetimepicker", _components_custom_fields_vuedatetimepicker_field_vue__WEBPACK_IMPORTED_MODULE_21__["default"]);
 
-vue__WEBPACK_IMPORTED_MODULE_13__.component("field-recordpicker", _components_custom_fields_recordpicker_field_vue__WEBPACK_IMPORTED_MODULE_22__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].component("field-recordpicker", _components_custom_fields_recordpicker_field_vue__WEBPACK_IMPORTED_MODULE_22__["default"]);
 /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
 // Helpers
 // Global filters
 
-vue__WEBPACK_IMPORTED_MODULE_13__.filter('toCurrency', function (value) {
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].filter('toCurrency', function (value) {
   if (typeof value !== "number") {
     return value;
   }
@@ -4293,13 +4293,13 @@ var config = {
     "filterConvertFormat": "DD MMMM YYYY"
   }
 };
-vue__WEBPACK_IMPORTED_MODULE_13__.use(vue_common_filters__WEBPACK_IMPORTED_MODULE_10__["default"], config);
-vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$http = vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$axios = window.axios = (axios__WEBPACK_IMPORTED_MODULE_1___default());
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].use(vue_common_filters__WEBPACK_IMPORTED_MODULE_10__["default"], config);
+vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$http = vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$axios = window.axios = (axios__WEBPACK_IMPORTED_MODULE_1___default());
 /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
 // router gards
 
 _components_router__WEBPACK_IMPORTED_MODULE_2__["default"].beforeEach(function (to, from, next) {
-  vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$loading.in_progress = true;
+  vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$loading.in_progress = true;
   nprogress__WEBPACK_IMPORTED_MODULE_8___default().start();
 
   if (to.meta.middlewareAuth) {
@@ -4332,10 +4332,10 @@ _components_router__WEBPACK_IMPORTED_MODULE_2__["default"].beforeEach(function (
 });
 _components_router__WEBPACK_IMPORTED_MODULE_2__["default"].afterEach(function (to, from) {
   // ...
-  vue__WEBPACK_IMPORTED_MODULE_13__.prototype.$loading.in_progress = false;
+  vue__WEBPACK_IMPORTED_MODULE_13__["default"].prototype.$loading.in_progress = false;
   nprogress__WEBPACK_IMPORTED_MODULE_8___default().done();
 });
-new vue__WEBPACK_IMPORTED_MODULE_13__({
+new vue__WEBPACK_IMPORTED_MODULE_13__["default"]({
   router: _components_router__WEBPACK_IMPORTED_MODULE_2__["default"],
   store: store,
   render: function render(h) {

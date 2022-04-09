@@ -9,7 +9,7 @@ class ReturnDetail extends Model
 {
 
     protected $fillable = [];
-    protected $table = "purchase_detail";
+    protected $table = "purchase_return_detail";
 
     /**
      * List of fields for managing postings.

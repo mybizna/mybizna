@@ -9,7 +9,7 @@ class SaleReturn extends Model
 {
 
     protected $fillable = [];
-    protected $table = "sale";
+    protected $table = "sale_return";
 
     /**
      * List of fields for managing postings.

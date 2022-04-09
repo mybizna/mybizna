@@ -1,7 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import * as Vue from 'vue';
-
+import Vue from 'vue';
 
 import Vuex from 'vuex';
 import App from '@/components/App';
@@ -14,10 +13,9 @@ import VueFormGenerator from "vue-form-generator";
 import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
 import NProgress from 'nprogress';
-import * as Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 import VueCommonFilters from 'vue-common-filters';
-
 
 import 'vue-form-generator/dist/vfg.css';
 import 'nprogress/nprogress.css';
