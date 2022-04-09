@@ -33,17 +33,17 @@ export default {
             password
         }) {
 
-            console.log(query_str);
 
             window.axios
-                .post('/api/login', {
-                    'email': username,
-                    'password': password
+                .post('/login', {
+                    email: username,
+                    password: password
                 })
         .then(
             response => {
-                commit('login', response.data.data.tokenAuth);
-                window.axios.defaults.headers.common['Authorization'] = 'JWT ' + response.data.data.tokenAuth.token;
+
+                commit('login', response.data);
+                window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
 
             })
         .catch(
@@ -67,22 +67,22 @@ export default {
 
                     console.log(response);
 
-                    var me = response.data.data.me;
+                    var user = response.data;
 
-                    if (me.profile.image) {
-                        me.profile.image = that.$base_url + me.profile.image;
+                    if (user.profile.image) {
+                        user.profile.image = that.$base_url + user.profile.image;
                     } else {
-                        me.profile.image = (me.profile.gender == 'A_1') ? that.$male_default_avatar : that.$female_default_avatar;
+                        user.profile.image = (user.profile.gender == 'A_1') ? that.$male_default_avatar : that.$female_default_avatar;
                     }
 
-                    commit('user', me);
+                    commit('user', user);
 
                     console.log('login');
-                    console.log(me);
+                    console.log(user);
 
-                    that.$store.dispatch("auth/affiliate", {
-                        user_id: me.id
-                    });
+                    /*that.$store.dispatch("auth/affiliate", {
+                        user_id: user.id
+                    });*/
 
                 })
             .catch(

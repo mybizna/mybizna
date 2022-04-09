@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-
 class AuthenticationController extends Controller
 {
+
     //this method adds new users
     public function register(Request $request)
     {
@@ -28,11 +30,12 @@ class AuthenticationController extends Controller
             ]
         );
 
-        return $this->success(
-            [
-                'token' => $user->createToken('tokens')->plainTextToken
-            ]
-        );
+        return Response::json([
+            'status' => true,
+            'user' => $user,
+            'token_type' => 'Bearer',
+            'token' => $user->createToken('tokens')->plainTextToken
+        ]);
     }
     //use this method to signin users
     public function login(Request $request)
@@ -45,14 +48,18 @@ class AuthenticationController extends Controller
         );
 
         if (!Auth::attempt($attr)) {
-            return $this->error('Credentials not match', 401);
+            return Response::json([
+                'status' => false,
+                'message' => 'Credentials not match'
+            ]);
         }
 
-        return $this->success(
-            [
-                'token' => auth()->user()->createToken('API Token')->plainTextToken
-            ]
-        );
+        return Response::json([
+            'status' => true,
+            'user' => auth()->user(),
+            'message' => 'Hi ' . auth()->user()->name . ', welcome to home',
+            'token' => auth()->user()->createToken('API Token')->plainTextToken
+        ]);
     }
 
     // this method signs out users by removing tokens
@@ -61,6 +68,7 @@ class AuthenticationController extends Controller
         auth()->user()->tokens()->delete();
 
         return [
+            'status' => true,
             'message' => 'Tokens Revoked'
         ];
     }
