@@ -5,7 +5,7 @@ namespace Modules\Purchase\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class PurchaseReturn extends Model
+class Return extends Model
 {
 
     protected $fillable = [];

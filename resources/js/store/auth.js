@@ -33,113 +33,112 @@ export default {
             password
         }) {
 
-            let query_str =
-                'mutation{tokenAuth(username:"' +
-                username +
-                '",password:"' +
-                password +
-                '"){token,refreshExpiresIn}}';
-
             console.log(query_str);
 
             window.axios
-                .post("/graphql?query=" + query_str)
-                .then(
-                    response => {
-                        commit('login', response.data.data.tokenAuth);
-                        window.axios.defaults.headers.common['Authorization'] = 'JWT ' + response.data.data.tokenAuth.token;
+                .post('/api/login', {
+                    'email': username,
+                    'password': password
+                })
+        .then(
+            response => {
+                commit('login', response.data.data.tokenAuth);
+                window.axios.defaults.headers.common['Authorization'] = 'JWT ' + response.data.data.tokenAuth.token;
 
-                    })
-                .catch(
-                    response => {
-                        console.log(response);
+            })
+        .catch(
+            response => {
+                console.log(response);
+            });
+
+    },
+    getUser({
+        commit
+    }, {
+        that
+    }) {
+
+        alert('getUser');
+
+
+        window.axios.get("/profile")
+            .then(
+                response => {
+
+                    console.log(response);
+
+                    var me = response.data.data.me;
+
+                    if (me.profile.image) {
+                        me.profile.image = that.$base_url + me.profile.image;
+                    } else {
+                        me.profile.image = (me.profile.gender == 'A_1') ? that.$male_default_avatar : that.$female_default_avatar;
+                    }
+
+                    commit('user', me);
+
+                    console.log('login');
+                    console.log(me);
+
+                    that.$store.dispatch("auth/affiliate", {
+                        user_id: me.id
                     });
 
-        },
-        getUser({
-            commit
-        }, {
-            that
-        }) {
+                })
+            .catch(
+                response => {
+                    if (response.status === 401) {
+                        commit('logout');
+                    }
+                });
 
-            let query_str = '{me{id, firstName,lastName,email,username,dateJoined,isActive, profile{address, phone,gender,dateOfBirth,country{id, name, code},inviter{id, firstName,lastName,email,username,dateJoined}address, phone, town, location, blocked,image    }}}';
+    },
+    affiliate({
+        commit
+    }, {
+        user_id,
+    }) {
 
-            window.axios.get("/graphql?query=" + query_str)
-                .then(
-                    response => {
+        let query_str = 'query { userAffiliates(first:1) { edges {cursor node { id,pk,user{id, firstName, lastName, username, email,dateJoined},matrix{id, title},inviter{id, firstName, lastName, username, email},package{id, title},rank{id, name},status,summary,expiryDate,upgradeDate,lastUpgradeDate,createdAt,createdBy{id,firstName,lastName,email,username},updatedAt,updatedBy{id,firstName,lastName,email,username}, setting }}   pageInfo { hasNextPage, hasPreviousPage, startCursor,endCursor }  }     }';
 
-                        var me = response.data.data.me;
+        console.log(query_str);
 
-                        if (me.profile.image) {
-                            me.profile.image = that.$base_url +  me.profile.image;
-                        } else {
-                            me.profile.image = (me.profile.gender == 'A_1') ? that.$male_default_avatar : that.$female_default_avatar;
-                        }
+        window.axios
+            .post("/graphql?query=" + query_str)
+            .then(
+                response => {
 
-                        commit('user', me);
+                    console.log(response);
 
-                        console.log('login');
-                        console.log(me);
+                    var tmpitems = {};
+                    var node_data = JSON.parse(JSON.stringify(response.data.data.userAffiliates.edges[0].node));
 
-                        that.$store.dispatch("auth/affiliate", {
-                            user_id: me.id
-                        });
 
-                    })
-                .catch(
-                    response => {
-                        if (response.status === 401) {
-                            commit('logout');
-                        }
-                    });
 
-        },
-        affiliate({
-            commit
-        }, {
-            user_id,
-        }) {
-
-            let query_str = 'query { userAffiliates(first:1) { edges {cursor node { id,pk,user{id, firstName, lastName, username, email,dateJoined},matrix{id, title},inviter{id, firstName, lastName, username, email},package{id, title},rank{id, name},status,summary,expiryDate,upgradeDate,lastUpgradeDate,createdAt,createdBy{id,firstName,lastName,email,username},updatedAt,updatedBy{id,firstName,lastName,email,username}, setting }}   pageInfo { hasNextPage, hasPreviousPage, startCursor,endCursor }  }     }';
-
-            console.log(query_str);
-
-            window.axios
-                .post("/graphql?query=" + query_str)
-                .then(
-                    response => {
-
-                        console.log(response);
-
-                        var tmpitems = {};
-                        var node_data = JSON.parse(JSON.stringify(response.data.data.userAffiliates.edges[0].node));
-
-                        
-
-                        for (var prop in node_data) {
-                            if (Object.prototype.hasOwnProperty.call(node_data, prop)) {
-                                if (typeof node_data[prop] === 'string' && node_data[prop].charAt(0) === "{") {
-                                    try {
-                                        node_data[prop] = JSON.parse(node_data[prop]);
-                                    } catch (e) {
-                                        // is not a valid JSON string
-                                    }
+                    for (var prop in node_data) {
+                        if (Object.prototype.hasOwnProperty.call(node_data, prop)) {
+                            if (typeof node_data[prop] === 'string' && node_data[prop].charAt(0) === "{") {
+                                try {
+                                    node_data[prop] = JSON.parse(node_data[prop]);
+                                } catch (e) {
+                                    // is not a valid JSON string
                                 }
                             }
                         }
+                    }
 
-                        commit('affiliate', node_data);
-                    })
-                .catch(
-                    response => {
-                        console.log(response);
-                    });
+                    commit('affiliate', node_data);
+                })
+            .catch(
+                response => {
+                    console.log(response);
+                });
 
-        },
     },
-    getters: {
-        loggedIn(state) {
-            return state.token !== null;
-        }
+},
+getters: {
+    loggedIn(state) {
+        return state.token !== null;
     }
+}
 }

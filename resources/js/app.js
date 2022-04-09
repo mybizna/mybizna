@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 
+import Vuetify from 'vuetify';
 import Vuex from 'vuex';
 import App from '@/components/App';
 import Axios from 'axios';
@@ -21,7 +22,8 @@ import 'vue-form-generator/dist/vfg.css';
 import 'nprogress/nprogress.css';
 
 
-let base_url = process.env.VUE_APP_BASE_URL;
+let base_url = window.base_url + '/api';
+
 Vue.prototype.$base_url = base_url;
 Vue.prototype.$male_default_avatar = '/assets/images/avatar.png';
 Vue.prototype.$female_default_avatar = '/assets/images/avatar2.png';
@@ -31,12 +33,9 @@ var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 moment.tz.setDefault(timezone);
 Vue.config.productionTip = false;
 
-// Make BootstrapVue available throughout your project
-Vue.use(BootstrapVue);
-// Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin);
 Vue.use(VueRouter);
 Vue.use(VueFormGenerator);
+Vue.use(Vuetify);
 Vue.use(Vuex);
 Vue.use(VueMoment, {
     moment,

@@ -59,6 +59,19 @@ export default [
   },
 
   {
+    path: '/autologin',
+    meta: {
+      public: true,
+    },
+    name: 'AutoLogin',
+    component: () => import(
+      /* webpackChunkName: "general-components" */
+      /* webpackMode: "lazy" */
+      `@/components/pages/AutoLogin.vue`
+    )
+  },
+
+  {
     path: '/register',
     meta: {
       public: true,

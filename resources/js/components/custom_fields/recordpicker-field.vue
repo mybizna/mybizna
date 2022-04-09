@@ -29,9 +29,9 @@
 import { abstractField } from "vue-form-generator";
 
 export default {
-  components: {
+  /*components: {
     AffiliateList,
-  },
+  },*/
   mixins: [abstractField],
   data: function () {
     return {

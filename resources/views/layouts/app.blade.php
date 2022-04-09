@@ -10,8 +10,14 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <script>
+        var base_url = '{{  url("/"); }}';
+    </script>
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/backend-dashboard.js') }}" defer></script>
+    <script src="{{ asset('js/general-components.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -80,25 +86,6 @@
         </nav>
 
         <main class="py-4">
-            <div id="app">
-                <h1>Hello App!</h1>
-                <p>
-                  <!-- use the router-link component for navigation. -->
-                  <!-- specify the link by passing the `to` prop. -->
-                  <!-- `<router-link>` will render an `<a>` tag with the correct `href` attribute -->
-                  <router-link to="/">Go to Home</router-link>
-                  <router-link to="/about">Go to About</router-link>
-                </p>
-                <!-- route outlet -->
-                <!-- component matched by the route will render here -->
-                <router-view></router-view>
-                <v-app>
-                    <v-main>
-                        <v-container>Hello world</v-container>
-                    </v-main>
-                </v-app>
-            </div>
-
             @yield('content')
         </main>
     </div>

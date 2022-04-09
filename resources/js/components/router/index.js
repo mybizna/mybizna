@@ -1,17 +1,14 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Router from 'vue-router';
 import paths from './paths';
 import 'nprogress/nprogress.css';
 
-
 Vue.use(Router);
 
-
-
-const router = new VueRouter({
+const router = new Router({
 
     base: '/',
-    mode: 'history',
+    mode: 'hash',
     meta: {
         breadcrumb: true,
         middlewareAuth: true

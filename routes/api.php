@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,6 @@ use App\Http\Controllers\ApiController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 $apicontroller = 'App\Http\Controllers\ApiController';
 
@@ -33,3 +30,21 @@ Route::match(['get', 'post'], '{module}/{model}/{function}/',  $apicontroller . 
 Route::get('{module}/{side}/{model}/{name}.vue', $apicontroller . '@fetchVue');
 Route::get('fetch_menus', $apicontroller . '@fetchMenus');
 Route::get('fetch_routes', $apicontroller . '@fetchRoutes');
+Route::get('current_user', $apicontroller . '@currentUser');
+
+
+//register new user
+Route::post('/register', [AuthenticationController::class, 'register']);
+
+//login user
+Route::post('/login', [AuthenticationController::class, 'login']);
+
+//using middleware
+Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    Route::get('/profile', function(Request $request) {
+        return auth()->user();
+    });
+
+    Route::post('/logout', [AuthenticationController::class, 'logout']);
+});

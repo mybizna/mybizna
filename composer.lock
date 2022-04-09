@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62ebf4f11290b2ed4515923be76be15b",
+    "content-hash": "ddf93910875ba52f49ac9e3171fe30b2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3123,16 +3123,16 @@
         },
         {
             "name": "mybizna/lucid",
-            "version": "1.0.13",
+            "version": "1.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mybizna/lucid.git",
-                "reference": "3e55de070fecc859842a560077f419087479d0cf"
+                "reference": "2dda0ce6e34eb55ae34e421bdf8804d2ecfaacc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mybizna/lucid/zipball/3e55de070fecc859842a560077f419087479d0cf",
-                "reference": "3e55de070fecc859842a560077f419087479d0cf",
+                "url": "https://api.github.com/repos/mybizna/lucid/zipball/2dda0ce6e34eb55ae34e421bdf8804d2ecfaacc0",
+                "reference": "2dda0ce6e34eb55ae34e421bdf8804d2ecfaacc0",
                 "shasum": ""
             },
             "require": {
@@ -3168,9 +3168,9 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/mybizna/lucid/tree/1.0.13"
+                "source": "https://github.com/mybizna/lucid/tree/1.0.14"
             },
-            "time": "2022-04-09T07:02:23+00:00"
+            "time": "2022-04-09T09:22:45+00:00"
         },
         {
             "name": "nesbot/carbon",

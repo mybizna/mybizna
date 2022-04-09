@@ -5,12 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use App\Classes\Modularize;
+use Illuminate\Support\Facades\Auth;
+
 
 use function Safe\file_get_contents;
 
 class ApiController extends Controller
 {
+    protected $user;
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //$this->middleware('auth');
+    }
 
     // http://127.0.0.1:8000/api/account/journal/?s[name][str]=test&s[name][ope]==&s[keyword]=test
     public function getAllRecords(Request $request, $module, $model)
@@ -92,4 +104,19 @@ class ApiController extends Controller
         return Response::json($result);
     }
 
+    public function currentUser(Request $request)
+    {
+
+        $this->user = Auth::user();
+
+        $user = $request->user();
+
+        print_r($request->user());
+        print_r(Auth::user());
+        print_r(auth()->user());
+
+        exit;
+
+        return Response::json($user);
+    }
 }
