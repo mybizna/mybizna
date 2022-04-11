@@ -10,7 +10,10 @@
     "watch-poll": "mix watch -- --watch-options-poll=1000"
   },
   "dependencies": {
+    "@mdi/js": "^6.6.96",
+    "@vue/composition-api": "^1.4.9",
     "axios": "^0.26.1",
+    "core-js": "^3.21.1",
     "js-cookie": "^3.0.1",
     "lodash.truncate": "^4.4.2",
     "luxon": "^2.3.1",
@@ -37,7 +40,7 @@
     "lodash": "^4.17.21",
     "postcss": "^8.1.14",
     "resolve-url-loader": "^3.1.2",
-    "sass": "^1.49.10",
+    "sass": "^1.50.0",
     "sass-loader": "^11.0.1",
     "vue-cli-plugin-vuetify": "^2.4.8",
     "vue-loader": "^15.9.8",
