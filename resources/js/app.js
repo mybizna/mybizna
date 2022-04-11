@@ -4,7 +4,7 @@ import '@/plugins/vue-composition-api';
 import '@/styles/styles.scss';
 
 import Vue from 'vue';
-import Vuetify from 'vuetify';
+import vuetify from './plugins/vuetify',
 import Vuex from 'vuex';
 import App from '@/components/App';
 import Axios from 'axios';
@@ -37,7 +37,6 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(VueFormGenerator);
-Vue.use(Vuetify);
 Vue.use(Vuex);
 Vue.use(VueMoment, {
     moment,
@@ -236,5 +235,6 @@ router.afterEach((to, from) => {
 new Vue({
     router,
     store,
+    vuetify,
     render: (h) => h(App),
 }).$mount("#app");

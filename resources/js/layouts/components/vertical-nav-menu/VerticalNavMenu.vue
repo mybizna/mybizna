@@ -173,9 +173,11 @@ export default {
   }
 }
 
+/*
 @include theme(app-navigation-menu) using ($material) {
   background-color: map-deep-get($material, 'background');
 }
+*/
 
 .app-navigation-menu {
   .v-list-item {

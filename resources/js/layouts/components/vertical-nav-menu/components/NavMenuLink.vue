@@ -53,7 +53,7 @@ export default {
 .vertical-nav-menu-link {
   &.v-list-item--active {
     box-shadow: 0 5px 10px -4px rgba(94, 86, 105, 0.42);
-    @include elevationTransition();
+    //  @include elevationTransition();
   }
 }
 </style>

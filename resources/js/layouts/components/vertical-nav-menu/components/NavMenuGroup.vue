@@ -53,11 +53,13 @@ export default {
     }
   }
 
-  @include theme(v-list-group__header) using ($material) {
-    &.v-list-item--active {
-      background-color: rgba(map-deep-get($material, 'text', 'primary'), map-deep-get($material, 'states', 'selected'));
-    }
-  }
+
+//  @include theme(v-list-group__header) using ($material) {
+//      &.v-list-item--active {
+//        background-color: rgba(map-deep-get($material, 'text', 'primary'), map-deep-get($material, 'states', 'selected'));
+//      }
+//    }
+
 
   .vertical-nav-menu-group {
     & > .v-list-group__header > .v-list-group__header__append-icon .v-icon {
