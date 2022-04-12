@@ -1,6 +1,6 @@
 <template>
     <v-app class="custom-class">
-        <v-app-bar app flat absolute color="transparent">
+        <v-app-bar app flat absolute color="transparent" height="50">
             <div class="boxed-container w-full">
                 <div class="d-flex align-center mx-6">
                     <!-- Left Content -->
@@ -14,7 +14,6 @@
                     <v-spacer></v-spacer>
 
                     <!-- Right Content -->
-                    <theme-switcher></theme-switcher>
                     <v-btn icon small class="ms-3">
                         <v-icon>
                             {{ icons.mdiBellOutline }}
@@ -25,8 +24,8 @@
             </div>
         </v-app-bar>
 
-        <div>
-            <b-navbar type="dark" variant="dark">
+        <div style="margin-top: 50px">
+            <b-navbar toggleable="sm" type="light" variant="light">
                 <b-navbar-nav>
                     <b-nav-item href="#">Home</b-nav-item>
 
@@ -47,7 +46,7 @@
         </div>
 
         <v-main>
-            <div class="app-content-container boxed-container pa-6">
+            <div class="app-content-container boxed-container">
                 <slot></slot>
             </div>
         </v-main>
@@ -116,13 +115,14 @@ export default {
 
 header,
 .v-app-bar {
-    height: 54px !important;
+    height: 50px !important;
 }
 
 header ::v-deep {
     .v-toolbar__content {
+        border-bottom: 1px solid #eee !important;
         background: white !important;
-        height: 54px !important;
+        box-shadow: 0px 2px 4px #eee;
     }
 }
 
@@ -133,6 +133,28 @@ header ::v-deep {
             .v-input__slot {
                 padding-left: 18px;
             }
+        }
+    }
+}
+
+.v-main {
+    padding: 15px 10px !important;
+}
+
+.navbar {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    background: white !important;
+    ul {
+    }
+}
+
+.navbar {
+    ul {
+        li {
+            padding-top: 7px !important;
+            padding-bottom: 7px !important;
+            border-right: 1px dotted #eee !important;
         }
     }
 }
