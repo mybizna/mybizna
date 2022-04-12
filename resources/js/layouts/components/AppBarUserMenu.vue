@@ -21,7 +21,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-img src="@/assets/images/avatars/1.png"></v-img>
+          <v-img src="assets/images/avatars/1.png"></v-img>
         </v-avatar>
       </v-badge>
     </template>

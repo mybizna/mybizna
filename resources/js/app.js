@@ -17,13 +17,18 @@ import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
 import NProgress from 'nprogress';
 import Cookies from "js-cookie";
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 
 import VueCommonFilters from 'vue-common-filters';
 
 import 'vue-form-generator/dist/vfg.css';
 import 'nprogress/nprogress.css';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+
 import "vuetify/dist/vuetify.min.css";
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 let base_url = window.base_url + '/api';
 
@@ -35,6 +40,11 @@ var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 moment.tz.setDefault(timezone);
 Vue.config.productionTip = false;
+
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue);
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin);
 
 Vue.use(VueRouter);
 Vue.use(VueFormGenerator);
