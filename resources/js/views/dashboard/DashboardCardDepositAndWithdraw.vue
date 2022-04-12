@@ -12,7 +12,7 @@
           <v-list>
             <v-list-item
               v-for="(data,index) in deposit"
-              :key="data.img"
+              :key="index"
               :class="`d-flex px-0 ${index > 0 ? 'mt-4':''}`"
             >
               <v-img
@@ -54,7 +54,7 @@
           <v-list>
             <v-list-item
               v-for="(data,index) in withdraw"
-              :key="data.img"
+              :key="index"
               :class="`d-flex px-0 ${index > 0 ? 'mt-4':''}`"
             >
               <v-img

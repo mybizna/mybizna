@@ -4,7 +4,7 @@ import '@/plugins/vue-composition-api';
 import '@/styles/styles.scss';
 
 import Vue from 'vue';
-import vuetify from './plugins/vuetify',
+import vuetify from '@/plugins/vuetify';
 import Vuex from 'vuex';
 import App from '@/components/App';
 import Axios from 'axios';
@@ -22,7 +22,8 @@ import VueCommonFilters from 'vue-common-filters';
 
 import 'vue-form-generator/dist/vfg.css';
 import 'nprogress/nprogress.css';
-
+import "vuetify/dist/vuetify.min.css";
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 let base_url = window.base_url + '/api';
 

@@ -40,7 +40,7 @@
     <v-card-text>
       <div
         v-for="(earning,index) in totalEarning"
-        :key="earning.avatar"
+        :key="index"
         :class="`d-flex align-start ${index >0 ? 'mt-8':''}`"
       >
         <v-avatar
@@ -51,7 +51,7 @@
         >
           <v-img
             contain
-            :src="earning.avatar"
+            :src="index"
             height="20"
           ></v-img>
         </v-avatar>

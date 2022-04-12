@@ -9,7 +9,7 @@
       >
         <v-card>
           <v-img
-            src="@/assets/images/pages/card-basic-influencer.png"
+            src="assets/images/pages/card-basic-influencer.png"
             height="250"
           />
           <v-card-title>
@@ -487,10 +487,6 @@ export default {
   position: absolute;
 }
 
-// membership pricing
-@include theme--child(memberpricing-bg) using ($material) {
-  background-color: rgba(map-deep-get($material, 'primary-shade'), map-deep-get($material, 'states', 'hover'));
-}
 
 .memberpricing-bg {
   position: relative;

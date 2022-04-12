@@ -9,7 +9,7 @@
             class="d-flex align-center"
           >
             <v-img
-              :src="require('@/assets/images/logos/logo.svg')"
+              src="/assets/images/logos/logo.svg"
               max-height="30px"
               max-width="30px"
               alt="logo"
@@ -120,7 +120,7 @@
     <img
       class="auth-mask-bg"
       height="173"
-      :src="require(`@/assets/images/misc/mask-${$vuetify.theme.dark ? 'dark':'light'}.png`)"
+      src="@/assets/images/misc/mask-light.png"
     >
 
     <!-- tree -->
