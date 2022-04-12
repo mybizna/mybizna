@@ -27,17 +27,17 @@
         <div style="margin-top: 50px">
             <b-navbar toggleable="sm" type="light" variant="light">
                 <b-navbar-nav>
-                    <b-nav-item href="#">Home</b-nav-item>
+                    <b-nav-item href="#">Accounting</b-nav-item>
 
                     <!-- Navbar dropdowns -->
-                    <b-nav-item-dropdown text="Lang" right>
+                    <b-nav-item-dropdown text="Invoice" right>
                         <b-dropdown-item href="#">EN</b-dropdown-item>
                         <b-dropdown-item href="#">ES</b-dropdown-item>
                         <b-dropdown-item href="#">RU</b-dropdown-item>
                         <b-dropdown-item href="#">FA</b-dropdown-item>
                     </b-nav-item-dropdown>
 
-                    <b-nav-item-dropdown text="User" right>
+                    <b-nav-item-dropdown text="Payments" right>
                         <b-dropdown-item href="#">Account</b-dropdown-item>
                         <b-dropdown-item href="#">Settings</b-dropdown-item>
                     </b-nav-item-dropdown>
