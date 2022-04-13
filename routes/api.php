@@ -28,6 +28,8 @@ Route::match(['get', 'post'], '{module}/{model}/{function}/',  $apicontroller . 
 
 
 Route::get('{module}/{side}/{model}/{name}.vue', $apicontroller . '@fetchVue');
+Route::get('{module}/widgets/{name}.vue', $apicontroller . '@fetchVueWidgets');
+
 Route::get('fetch_menus', $apicontroller . '@fetchMenus');
 Route::get('fetch_routes', $apicontroller . '@fetchRoutes');
 Route::get('current_user', $apicontroller . '@currentUser');

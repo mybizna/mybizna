@@ -94,18 +94,6 @@ class Modularize
         $modules_path = realpath(base_path()) . $DS . 'Modules';
 
         $routes = [
-            'web' => [
-                'path' => '/web',
-                'name' => 'web',
-                'component' => 'router_view',
-                'children' => []
-            ],
-            'admin' => [
-                'path' => '/admin',
-                'name' => 'admin',
-                'component' => 'router_view',
-                'children' => []
-            ]
         ];
 
         if (is_dir($modules_path)) {
@@ -130,7 +118,7 @@ class Modularize
             }
         }
 
-        $this->routes = array_merge($this->routes, [$routes['web']], [$routes['admin']]);
+        $this->routes = array_merge($this->routes, $routes);
 
         return ['routes' => $this->routes, 'layouts' => $this->layouts];
     }
@@ -142,11 +130,16 @@ class Modularize
 
         $module_path = realpath(base_path()) . $DS . 'Modules' . $DS . $module_name;
 
+        $m_folder_path =  $module_name;
+        $module_route = $this->addRouteToList('/' . $module_name, $m_folder_path, 'router_view');
+
         foreach (['admin', 'web'] as $folder) {
 
-            $module_route = $this->addRouteToList($module_name, $folder . '/' . $module_name,  $module_name);
-
             $vue_folders = $module_path . $DS  . 'views' . $DS . $folder;
+
+            $f_folder_path =  $m_folder_path . '/' . $folder;
+            $folder_route = $this->addRouteToList($folder, $f_folder_path, 'router_view');
+
 
             if (is_dir($vue_folders)) {
 
@@ -159,9 +152,9 @@ class Modularize
 
                         $vs_foldername = $fileinfo->getFilename();
                         $vs_folders = $vue_folders  . $DS . $vs_foldername;
-                        $vs_path = $folder . '/' . $module_name . '/' . $vs_foldername;
+                        $v_folder_path =  $f_folder_path . '/' . $vs_foldername;
 
-                        $vs_route = $this->addRouteToList($vs_foldername, $vs_path, $vs_path);
+                        $vs_route = $this->addRouteToList($vs_foldername, $v_folder_path, 'router_view');
 
                         if (is_dir($vs_folders)) {
 
@@ -173,10 +166,12 @@ class Modularize
                                 if (!$vs_fileinfo->isDot() && !$vs_fileinfo->isDir()) {
 
                                     $vs_filename = $vs_fileinfo->getFilename();
-                                    $vs_sx = str_replace('.vue', '', $vs_filename);
-                                    $vs_path = $folder . '/' . $module_name . '/' . $vs_foldername  . '/'  . $vs_sx;
+                                    $vs_sx_filename = str_replace('.vue', '', $vs_filename);
+                                    $vs_path = $module_name . '/' . $vs_foldername  . '/'  . $folder . '/' . $vs_sx_filename;
 
-                                    $vs_route['children'][] = $this->addRouteToList($vs_sx,  'admin/' . $vs_path, $vs_path . '.vue');
+                                    $t_folder_path =  $v_folder_path . '/' . $vs_sx_filename;
+
+                                    $vs_route['children'][] = $this->addRouteToList($vs_sx_filename, $t_folder_path, $vs_path . '.vue');
 
                                     if (!in_array($vs_filename, ['create.vue', 'edit.vue', 'modify.vue', 'new.vue', 'update.vue'])) {
                                         $this->layouts[$module_name][$folder][$vs_foldername][] = $vs_filename;
@@ -185,14 +180,23 @@ class Modularize
                             }
                         }
 
-                        $module_route['children'][] = $vs_route;
+                        if (!empty($vs_route['children'])) {
+                            $folder_route['children'][] = $vs_route;
+                        }
                     }
                 }
             }
 
-            $routes[$folder]['children'][] = $module_route;
+            if (!empty($folder_route['children'])) {
+                $module_route['children'][] = $folder_route;
+            }
         }
 
+
+
+        if (!empty($module_route['children'])) {
+            $routes[] = $module_route;
+        }
 
 
         return $routes;

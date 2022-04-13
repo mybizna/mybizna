@@ -86,6 +86,27 @@ class ApiController extends Controller
     }
 
 
+    public function fetchVueWidgets(Request $request, $module, $name)
+    {
+
+        $DS = DIRECTORY_SEPARATOR;
+
+        $contents = '';
+
+        $vue_path = realpath(base_path()) . $DS . 'Modules' . $DS  . ucfirst($module) . $DS . 'views' . $DS . 'widgets' . $DS . $name . '.vue';
+
+        if (file_exists($vue_path)) {
+            $contents = file_get_contents($vue_path);
+        }
+
+        $response = Response::make($contents, 200);
+
+        $response->header('Content-Type', 'application/javascript');
+
+        return $response;
+    }
+
+
     public function fetchRoutes(Request $request)
     {
         $modularize = new Modularize();
