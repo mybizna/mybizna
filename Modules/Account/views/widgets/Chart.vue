@@ -28,7 +28,6 @@ import HTTP from 'admin/http';
 import 'admin/components/chart/chart.min';
 
 export default {
-    name: 'Chart',
 
     data() {
         return {

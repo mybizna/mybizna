@@ -129,7 +129,6 @@ import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import ShowErrors from 'admin/components/base/ShowErrors.vue';
 
 export default {
-    name: 'JournalCreate',
 
     components: {
         MultiSelect,

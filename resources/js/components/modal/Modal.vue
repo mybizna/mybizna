@@ -1,18 +1,26 @@
 <template>
-    <div :class="['wperp-modal', 'wperp-modal-open', hasForm ? 'wperp-has-form' : ''] ">
+    <div
+        :class="[
+            'wperp-modal',
+            'wperp-modal-open',
+            hasForm ? 'wperp-has-form' : '',
+        ]"
+    >
         <div class="wperp-modal-dialog">
             <div class="wperp-modal-content">
                 <div class="wperp-modal-header">
                     <slot v-if="header" name="header">
                         <h3>{{ title }}</h3>
                     </slot>
-                    <span @click="$emit('close')" class="modal-close"><i class="flaticon-close"></i></span>
+                    <span @click="$emit('close')" class="modal-close"
+                        ><i class="flaticon-close"></i
+                    ></span>
                 </div>
                 <div class="wperp-modal-body">
-                    <slot name="body"/>
+                    <slot name="body" />
                 </div>
                 <div v-if="footer" class="wperp-modal-footer">
-                    <slot name="footer"/>
+                    <slot name="footer" />
                 </div>
             </div>
         </div>
@@ -22,40 +30,35 @@
 
 <script>
 export default {
-
-    name: 'Modal',
-
     props: {
         header: {
             type: Boolean,
             required: false,
-            default: false
+            default: false,
         },
 
         footer: {
             type: Boolean,
             required: false,
-            default: false
+            default: false,
         },
 
         title: {
             type: String,
             required: false,
-            default: ''
+            default: "",
         },
 
         hasForm: {
             type: Boolean,
             required: false,
-            default: false
-        }
-
-    }
+            default: false,
+        },
+    },
 };
 </script>
 
 <style lang="less">
-
 .modal-backdrop {
     position: fixed;
     top: 0;
@@ -64,12 +67,11 @@ export default {
     bottom: 0;
     min-height: 360px;
     background: #000;
-    opacity: .7;
+    opacity: 0.7;
     z-index: 99900;
 }
 
 .modal {
-
     * {
         box-sizing: border-box;
     }
@@ -80,9 +82,9 @@ export default {
         z-index: 100000;
         left: 50%;
         top: 50%;
-        -webkit-transform: translate(-50%,-50%);
-        -ms-transform: translate(-50%,-50%);
-        transform: translate(-50%,-50%);
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
         width: 600px;
         border: 1px solid #707070;
         border-radius: 3px;
@@ -101,7 +103,7 @@ export default {
             margin: 0;
             font-size: 18px;
             font-weight: 700;
-            line-height: 1.5em
+            line-height: 1.5em;
         }
 
         .modal-close-link {
@@ -116,14 +118,15 @@ export default {
             text-align: center;
             border: 0;
             background-color: transparent;
-            -webkit-transition: color .1s ease-in-out,background .1s ease-in-out;
-            transition: color .1s ease-in-out,background .1s ease-in-out;
+            -webkit-transition: color 0.1s ease-in-out,
+                background 0.1s ease-in-out;
+            transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
 
             &::before {
-                font: normal 22px/50px dashicons!important;
+                font: normal 22px/50px dashicons !important;
                 color: #666;
                 display: block;
-                content: '\f335';
+                content: "\f335";
                 font-weight: 300;
             }
 
@@ -175,5 +178,4 @@ export default {
         top: 300px !important;
     }
 }
-
 </style>

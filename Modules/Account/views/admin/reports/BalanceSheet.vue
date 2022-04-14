@@ -154,7 +154,6 @@ import Datepicker  from 'admin/components/base/Datepicker.vue';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 
 export default {
-    name: 'BalanceSheet',
 
     components: {
         MultiSelect,

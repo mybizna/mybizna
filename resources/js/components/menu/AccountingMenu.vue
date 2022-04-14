@@ -34,7 +34,6 @@
 
 <script>
 export default {
-    name: 'AccountingMenu',
 
     props: {},
     data() {

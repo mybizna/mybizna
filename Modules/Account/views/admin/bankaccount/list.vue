@@ -75,7 +75,6 @@ import Dropdown from 'admin/components/base/Dropdown.vue';
 import ComboBox from 'admin/components/select/ComboBox.vue';
 
 export default {
-    name: 'BankAccounts',
 
     components: {
         Dropdown,

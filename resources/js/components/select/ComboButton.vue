@@ -20,7 +20,6 @@
 
 <script>
 export default {
-    name: 'ComboButton',
 
     data() {
         return {

@@ -100,7 +100,6 @@ import Accounts from 'admin/components/dashboard/Accounts.vue';
 import Chart from 'admin/components/dashboard/Chart.vue';
 
 export default {
-    name: 'Dashboard',
 
     components: {
         Chart,

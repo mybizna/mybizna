@@ -26,7 +26,7 @@
 
                                         <div class="col-3">
                                             <h3>
-                                                <input type="checkbox" id="selecctall" @change.prevent="selectFields" /> 
+                                                <input type="checkbox" id="selecctall" @change.prevent="selectFields" />
                                                 {{ __('Select all', 'erp') }}
                                             </h3>
                                         </div>
@@ -40,7 +40,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row"></div>
 
                                     <div class="row">
@@ -71,7 +71,6 @@
 <script>
 
 export default {
-    name: 'ExportModal',
 
     data() {
         return {

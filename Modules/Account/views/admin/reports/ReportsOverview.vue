@@ -45,7 +45,6 @@
 
 <script>
 export default {
-    name: 'ReportsOverview',
 
     data() {
         return {

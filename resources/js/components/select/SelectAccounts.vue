@@ -11,7 +11,6 @@ import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
 export default {
 
-    name: 'SelectAccounts',
 
     components: {
         MultiSelect

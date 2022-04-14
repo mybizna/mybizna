@@ -175,7 +175,6 @@
     import ShowErrors from 'admin/components/base/ShowErrors.vue';
     import MultiSelect from 'admin/components/select/MultiSelect.vue';
     export default {
-        name: 'PurchaseCreate',
         components: {
             Datepicker,
             FileUpload,

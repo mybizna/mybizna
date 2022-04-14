@@ -159,7 +159,6 @@ import Dropdown from 'admin/components/base/Dropdown.vue';
 import TransParticulars from 'admin/components/transactions/TransParticulars.vue';
 
 export default {
-    name: 'ExpenseSingle',
 
     components: {
         SendMail,

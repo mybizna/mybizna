@@ -46,7 +46,6 @@ import SubmitButton from 'admin/components/base/SubmitButton.vue';
 import ShowErrors from 'admin/components/base/ShowErrors.vue';
 
 export default {
-    name: 'NewTaxCategory',
 
     components: {
         SubmitButton,

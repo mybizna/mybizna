@@ -52,7 +52,6 @@ import ExportModal from './ExportModal.vue';
 import ImportModal from './ImportModal.vue';
 
 export default {
-    name: 'Products',
 
     components: {
         ListTable,

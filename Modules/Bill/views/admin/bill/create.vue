@@ -153,7 +153,6 @@ import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import ComboButton from 'admin/components/select/ComboButton.vue';
 
 export default {
-    name: 'BillCreate',
 
     components: {
         Datepicker,

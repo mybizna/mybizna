@@ -89,7 +89,6 @@ import Datepicker from 'admin/components/base/Datepicker.vue';
 import SimpleSelect from 'admin/components/select/SimpleSelect.vue';
 
 export default {
-    name: 'TransactionsFilter',
 
     props: {
         status: {

@@ -70,7 +70,6 @@ import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import Datepicker  from 'admin/components/base/Datepicker.vue';
 
 export default {
-    name: 'TrialBalance',
 
     components: {
         Datepicker,

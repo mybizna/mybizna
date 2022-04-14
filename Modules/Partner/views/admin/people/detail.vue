@@ -44,7 +44,6 @@ import PieChart from 'admin/components/chart/PieChart.vue';
 import PeopleTransaction from 'admin/components/people/PeopleTransaction.vue';
 
 export default {
-    name: 'PeopleDetails',
     components: {
         UserBasicInfo,
         PieChart,

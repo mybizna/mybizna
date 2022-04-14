@@ -10,7 +10,6 @@
 
 <script>
 export default {
-    name: 'SimpleSelect',
     props: {
         selected: {
             type: Number,

@@ -151,7 +151,6 @@ import ComboButton from 'admin/components/select/ComboButton.vue';
 import ShowErrors from 'admin/components/base/ShowErrors.vue';
 
 export default {
-    name: 'CheckCreate',
 
     components: {
         Datepicker,

@@ -45,7 +45,6 @@ import NewTaxCategory  from 'admin/components/tax/NewTaxCategory.vue';
 import TaxShortcuts    from 'admin/components/tax/TaxShortcuts.vue';
 
 export default {
-    name: 'TaxCategories',
 
     components: {
         ListTable,

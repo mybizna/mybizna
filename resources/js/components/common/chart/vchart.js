@@ -6,7 +6,6 @@ Object.entries(colors).forEach((item) => {
 });
 
 export default {
-  name: 'v-chart',
 
   render (h) {
     const data = {
@@ -40,7 +39,7 @@ export default {
     clean () {
       window.removeEventListener('resize', this.chartInstance.resize);
       this.chartInstance.dispose();
-    }    
+    }
   },
   mounted () {
     this.init();

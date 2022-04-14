@@ -23,7 +23,6 @@ setupCalendar({
 });
 
 export default {
-    name: 'Datepicker',
 
     components: {
         Dropdown,

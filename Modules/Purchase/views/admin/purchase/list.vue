@@ -79,7 +79,6 @@ import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 /* global __ */
 export default {
-    name: 'PurchaseList',
 
     components: {
         ListTable

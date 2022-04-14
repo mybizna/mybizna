@@ -168,7 +168,6 @@ import CheckFields from 'admin/components/check/CheckFields.vue';
 import ShowErrors from 'admin/components/base/ShowErrors.vue';
 
 export default {
-    name: 'ExpenseCreate',
 
     components: {
         SelectAccounts,

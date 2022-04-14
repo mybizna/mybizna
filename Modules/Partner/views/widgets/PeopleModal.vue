@@ -157,7 +157,6 @@ import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
 /* global erp_acct_var */
 export default {
-    name: 'CustomerModal',
 
     components: {
         UploadImage,
@@ -261,7 +260,7 @@ export default {
                             } else {
                                 self.error_message.push(__('Email already exists as customer/vendor', 'erp'));
                                 self.emailExists = false;
-                                
+
                                 return false;
                             }
                         } else {
@@ -276,7 +275,7 @@ export default {
 
         addPeople(peopleFields) {
             this.$store.dispatch('spinner/setSpinner', true);
-    
+
             var type = '';
             var url = '';
 

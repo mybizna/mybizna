@@ -61,7 +61,6 @@ import HTTP from 'admin/http';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 
 export default {
-    name: 'Transfer',
     components: {
         MultiSelect,
         Datepicker

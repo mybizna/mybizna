@@ -33,7 +33,6 @@
 <script>
 
 export default {
-    name: 'HelpContent',
 
     data() {
         return {

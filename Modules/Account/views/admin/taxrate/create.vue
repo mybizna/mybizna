@@ -111,7 +111,6 @@ import NewTaxZone from 'admin/components/tax/NewTaxZone.vue';
 import ShowErrors from 'admin/components/base/ShowErrors.vue';
 
 export default {
-    name: 'NewTaxRate',
 
     components: {
         MultiSelect,

@@ -122,7 +122,6 @@
 import TransParticulars from 'admin/components/transactions/TransParticulars.vue';
 
 export default {
-    name: 'InvoiceSingleContent',
 
     props: {
         invoice: {
@@ -198,7 +197,7 @@ export default {
             }
         }
     }
-    
+
     .d-print-block {
         display: none;
     }

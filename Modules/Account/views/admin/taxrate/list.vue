@@ -55,7 +55,6 @@ import NewTaxAgency from 'admin/components/tax/NewTaxAgency.vue';
 import TaxShortcuts from 'admin/components/tax/TaxShortcuts.vue';
 
 export default {
-    name: 'TaxRates',
 
     components: {
         ListTable,

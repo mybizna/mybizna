@@ -5,7 +5,7 @@
                 <input v-model="search" type="search" class="wperp-form-field" :placeholder="__('Search Products', 'erp')">
                 <span v-if="search" @click="clearSearch">&#x2716;</span>
             </div>
-            
+
             <button type="submit" class="wperp-btn btn--primary search-btn">{{ __('Search', 'erp') }}</button>
         </form>
     </div>
@@ -13,7 +13,6 @@
 
 <script>
 export default {
-    name: 'ProductSearch',
 
     data() {
         return {
@@ -82,7 +81,7 @@ export default {
                 min-height: 30px;
             }
 
-             @media (max-width: 650px) {     
+             @media (max-width: 650px) {
                 width: 120px;
             }
         }

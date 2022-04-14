@@ -105,7 +105,6 @@
 import TransParticulars from 'admin/components/transactions/TransParticulars.vue';
 
 export default {
-    name: 'PaymentSingleContent',
 
     components: {
         TransParticulars

@@ -172,7 +172,6 @@ import HTTP from 'admin/http';
 import MultiSelect from '../select/MultiSelect.vue'
 
 export default {
-    name: 'ImportModal',
 
     components: {
         MultiSelect,

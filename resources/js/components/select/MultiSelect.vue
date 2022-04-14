@@ -25,7 +25,6 @@ import debounce from 'admin/components/select/debounce';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 
 export default {
-    name: 'MultiSelect',
 
     components: {
         Multiselect

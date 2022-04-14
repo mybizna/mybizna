@@ -15,10 +15,10 @@ const colorPalette = [];
 Object.entries(colors).forEach((item) => {
   if (item[1].base) {
     colorPalette.push(item[1].base);
-    
+
   }
 });
-// default 
+// default
 // const colorPalette = ['#d87c7c', '#919e8b', '#d7ab82', '#6e7074', '#61a0a8', '#efa18d', '#787464', '#cc7e63', '#724e58', '#4b565b'];
 // ECharts.registerTheme('material', {
 //   color: colorPalette,
@@ -47,7 +47,6 @@ Object.entries(colors).forEach((item) => {
   throttle('resize', 'optimizedResize');
 })();
 export default {
-  name: 'v-echart',
 
   render (h) {
     const data = {
@@ -67,9 +66,9 @@ export default {
       type: Boolean,
       default: true,
     },
-    // instace.setOption 
+    // instace.setOption
     pathOption: [Object, Array],
-    option: Object, 
+    option: Object,
     // general config
     textStyle: Object,
     title: Object,
@@ -79,7 +78,7 @@ export default {
     xAxis: [Object, Array],
     yAxis: [Object, Array],
     series: [Object, Array],
-    axisPointer: Object,        
+    axisPointer: Object,
     dataset: { type: [Object, Array], default () { return {} } }, // option.dataSet
     colors: Array, // echarts.option.color
     backgroundColor: [Object, String],
@@ -94,8 +93,8 @@ export default {
     chartInstance: null,
     clientWidth: null,
     allowedOptions: [
-      'textStyle', 'title', 'legend', 'xAxis', 
-      'yAxis', 'series', 'tooltip', 'axisPointer', 
+      'textStyle', 'title', 'legend', 'xAxis',
+      'yAxis', 'series', 'tooltip', 'axisPointer',
       'grid', 'dataset', 'colors', 'backgroundColor'
     ],
     _defaultOption: {
@@ -132,7 +131,7 @@ export default {
         },
         axisLabel: {
           show: false
-        }          
+        }
       },
       yAxis: {
         show: true,
@@ -146,7 +145,7 @@ export default {
         axisLabel: {
           show: false,
           // color: 'rgba(0, 0, 0 , .54)'
-        },        
+        },
         splitLine: {
           lineStyle: {
             type: 'dashed'
@@ -159,7 +158,7 @@ export default {
             color: 'rgba(0, 0, 0 , .54)',
             type: 'dashed'
           }
-        }        
+        }
       },
       series: [{
         type: 'line'
@@ -184,7 +183,7 @@ export default {
   methods: {
     init () {
       const { widthChangeDelay } = this;
-      // set 
+      // set
       if (this.pathOption) {
         this.pathOption.forEach((p) => {
           _object.set(this.$data._defaultOption, p[0], p[1]);
@@ -196,7 +195,7 @@ export default {
         setTimeout(_ => {
           this.chartInstance.resize();
         }, this.widthChangeDelay);
-      });      
+      });
     },
 
 
@@ -206,7 +205,7 @@ export default {
     clean () {
       window.removeEventListener('resize', this.chartInstance.resize);
       this.chartInstance.clear();
-    }    
+    }
   },
   mounted () {
     this.init();

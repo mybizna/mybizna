@@ -16,7 +16,6 @@ import PeopleModal from 'admin/components/people/PeopleModal.vue';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
 export default {
-    name: 'SelectPeople',
 
     components: {
         PeopleModal,

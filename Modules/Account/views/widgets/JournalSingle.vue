@@ -106,7 +106,6 @@ import HTTP from 'admin/http';
 import TransParticulars from 'admin/components/transactions/TransParticulars.vue';
 
 export default {
-    name: 'JournalSingle',
 
     components: {
         TransParticulars

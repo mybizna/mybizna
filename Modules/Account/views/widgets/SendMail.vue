@@ -58,7 +58,6 @@ import Modal from 'admin/components/modal/Modal.vue';
 import InputTag from 'vue-input-tag';
 
 export default {
-    name: 'SendMail',
 
     components: {
         Modal,

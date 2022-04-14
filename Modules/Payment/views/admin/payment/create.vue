@@ -158,7 +158,6 @@ import ShowErrors from 'admin/components/base/ShowErrors.vue';
 import ComboButton from 'admin/components/select/ComboButton.vue';
 
 export default {
-    name: 'RecPaymentCreate',
 
     components: {
         SelectAccounts,

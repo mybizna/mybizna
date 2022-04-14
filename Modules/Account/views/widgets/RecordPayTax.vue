@@ -86,7 +86,6 @@ import SelectAccounts from 'admin/components/select/SelectAccounts.vue';
 import ShowErrors from 'admin/components/base/ShowErrors.vue';
 
 export default {
-    name: 'RecordPayTax',
 
     components: {
         Datepicker,

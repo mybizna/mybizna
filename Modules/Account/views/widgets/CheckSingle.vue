@@ -129,7 +129,6 @@ import SendMail from 'admin/components/email/SendMail.vue';
 import Dropdown from 'admin/components/base/Dropdown.vue';
 
 export default {
-    name: 'CheckSingle',
 
     components: {
         SendMail,

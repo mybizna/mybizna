@@ -37,7 +37,6 @@ import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 
 export default {
-    name: 'JournalList',
 
     components: {
         ListTable

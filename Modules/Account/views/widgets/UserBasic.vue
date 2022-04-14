@@ -57,7 +57,6 @@
 import PeopleModal from 'admin/components/people/PeopleModal.vue';
 
 export default {
-    name: 'UserBasicInfo',
     components: {
         PeopleModal
     },

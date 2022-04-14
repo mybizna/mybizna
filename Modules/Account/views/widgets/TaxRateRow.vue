@@ -43,7 +43,6 @@ import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import SubmitButton from 'admin/components/base/SubmitButton.vue';
 
 export default {
-    name: 'TaxRateRow',
 
     components: {
         MultiSelect,

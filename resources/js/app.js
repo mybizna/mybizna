@@ -24,6 +24,8 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 
 import VueCommonFilters from 'vue-common-filters';
 
+import autorouter from '@/components/router/autorouter';
+
 import 'vue-form-generator/dist/vfg.css';
 import 'nprogress/nprogress.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
@@ -37,8 +39,8 @@ import "vuetify/dist/vuetify.min.css";
 let base_url = window.base_url + '/api';
 
 Vue.prototype.$base_url = base_url;
-Vue.prototype.$male_default_avatar = '/assets/images/avatar.png';
-Vue.prototype.$female_default_avatar = '/assets/images/avatar2.png';
+Vue.prototype.$male_default_avatar = 'images/avatar.png';
+Vue.prototype.$female_default_avatar = 'images/avatar2.png';
 Axios.defaults.baseURL = base_url;
 var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -201,6 +203,8 @@ Vue.use(VueCommonFilters, config);
 
 
 Vue.prototype.$http = Vue.prototype.$axios = window.axios = Axios;
+
+autorouter();
 
 /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
 // router gards

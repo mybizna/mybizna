@@ -91,7 +91,6 @@
     import { mapState } from 'vuex';
 
     export default {
-        name: 'SalesTaxReportCustomerBased',
 
         components: {
             ListTable,

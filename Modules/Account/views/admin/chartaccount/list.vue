@@ -96,7 +96,6 @@ import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 
 export default {
-    name: 'ChartAccounts',
 
     data() {
         return {

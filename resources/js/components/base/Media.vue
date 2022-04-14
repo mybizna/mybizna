@@ -11,7 +11,6 @@
 <script>
 /* global erp_acct_var, wp */
 export default {
-    name: 'UploadImage',
 
     inheritAttrs: false,
 

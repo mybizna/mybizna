@@ -71,7 +71,6 @@
     import Datepicker  from '../../base/Datepicker.vue';
 
     export default {
-        name: 'SalesTaxReportTransactionBased',
 
         components: {
             ListTable,

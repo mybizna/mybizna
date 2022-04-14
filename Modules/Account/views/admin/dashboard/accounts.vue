@@ -38,7 +38,6 @@
 import HTTP from 'admin/http';
 
 export default {
-    name: 'Accounts',
 
     data() {
         return {

@@ -58,7 +58,6 @@ import ImportModal from 'admin/components/people/ImportModal.vue';
 import ExportModal from 'admin/components/people/ExportModal.vue';
 
 export default {
-    name: 'People',
 
     components: {
         PeopleSearch,

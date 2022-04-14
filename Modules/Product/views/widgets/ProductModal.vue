@@ -169,7 +169,6 @@ import HTTP from 'admin/http';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
 export default {
-    name: 'ProductModal',
 
     components: {
         MultiSelect
@@ -400,7 +399,7 @@ export default {
 
         .modal-close {
                 line-height: 1.7;
-            
+
             .flaticon-close {
                 font-size: inherit;
             }

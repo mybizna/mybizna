@@ -139,7 +139,6 @@ import SelectAccounts from 'admin/components/select/SelectAccounts.vue';
 import ComboButton from 'admin/components/select/ComboButton.vue';
 
 export default {
-    name: 'PayPurchaseCreate',
 
     components: {
         MultiSelect,

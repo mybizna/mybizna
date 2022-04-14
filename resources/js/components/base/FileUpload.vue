@@ -21,7 +21,6 @@ const STATUS_SUCCESS = 2;
 const STATUS_FAILED  = 3;
 
 export default {
-    name: 'FileUpload',
 
     data() {
         return {

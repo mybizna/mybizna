@@ -175,7 +175,6 @@ import ShowErrors from 'admin/components/base/ShowErrors.vue';
 
 /* global erp_acct_var */
 export default {
-    name: 'InvoiceCreate',
 
     components: {
         MultiSelect,

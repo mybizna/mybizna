@@ -9,7 +9,6 @@
 
 <script>
 export default {
-    name: 'TransParticulars',
 
     props: {
         particulars: String

@@ -214,7 +214,6 @@ import Dropdown from 'admin/components/base/Dropdown.vue';
 
 export default {
 
-    name: 'ListTable',
 
     components: {
         BulkActionsTpl,

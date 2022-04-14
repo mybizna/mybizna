@@ -53,7 +53,6 @@ import SubmitButton from 'admin/components/base/SubmitButton.vue';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
 export default {
-    name: 'TaxRateLineEdit',
 
     components: {
         MultiSelect,

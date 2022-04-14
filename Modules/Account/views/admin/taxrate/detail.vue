@@ -46,7 +46,6 @@ import TaxRateLineAdd from 'admin/components/tax/TaxRateLineAdd.vue';
 import TaxRateLineEdit from 'admin/components/tax/TaxRateLineEdit.vue';
 
 export default {
-    name: 'SingleTaxRate',
 
     components: {
         ListTable,

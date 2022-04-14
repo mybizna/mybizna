@@ -49,7 +49,6 @@ import NewTaxZone from 'admin/components/tax/NewTaxZone.vue';
 import TaxShortcuts from 'admin/components/tax/TaxShortcuts.vue';
 
 export default {
-    name: 'TaxZones',
 
     components: {
         NewTaxZone,

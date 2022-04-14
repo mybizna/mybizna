@@ -55,7 +55,6 @@ import HTTP from 'admin/http';
 import Treeselect from '@riophae/vue-treeselect';
 
 export default {
-    name: 'CatAddModal',
 
     data() {
         return {

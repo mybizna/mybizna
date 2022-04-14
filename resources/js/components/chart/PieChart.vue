@@ -14,7 +14,6 @@
 import 'assets/js/plugins/chart.min';
 
 export default {
-    name: 'PieChart',
 
     props: ['id', 'title', 'labels', 'colors', 'data'],
 

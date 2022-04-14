@@ -4,7 +4,6 @@
 import HTTP from 'admin/http';
 
 export default {
-    name: 'DynamicTrnLoader',
 
     data() {
         return {

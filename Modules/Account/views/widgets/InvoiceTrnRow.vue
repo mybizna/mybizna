@@ -38,7 +38,6 @@ import { mapState } from 'vuex';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
 export default {
-    name: 'InvoiceTrnRow',
 
     props: {
         products: {

@@ -11,7 +11,6 @@
 
 <script>
 export default {
-    name: 'ShowErrors',
 
     props: {
         error_msgs: Array

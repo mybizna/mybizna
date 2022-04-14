@@ -36,7 +36,6 @@ import HTTP from 'admin/http';
 import PieChart from 'admin/components/chart/PieChart.vue';
 
 export default {
-    name: 'SalesStats',
 
     components: {
         PieChart

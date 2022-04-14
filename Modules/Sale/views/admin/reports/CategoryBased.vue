@@ -84,7 +84,6 @@
     import MultiSelect from '../../select/MultiSelect.vue';
 
     export default {
-        name: 'SalesTaxReportCategoryBased',
 
         components: {
             ListTable,

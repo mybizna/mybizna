@@ -22,7 +22,6 @@ import Popper from 'popper.js';
 
 export default {
 
-    name: 'Dropdown',
 
     props: {
         dropdownClasses: {

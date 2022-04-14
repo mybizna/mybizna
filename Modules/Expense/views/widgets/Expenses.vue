@@ -33,7 +33,6 @@ import TransactionsFilter from 'admin/components/transactions/TransactionsFilter
 import {mapState} from "vuex";
 
 export default {
-    name: 'Expenses',
 
     components: {
         ComboBox,

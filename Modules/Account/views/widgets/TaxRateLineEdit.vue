@@ -30,7 +30,6 @@ import HTTP from 'admin/http';
 import TaxRateRow from 'admin/components/tax/TaxRateRow.vue';
 
 export default {
-    name: 'TaxRateLineEdit',
 
     components: {
         TaxRateRow
