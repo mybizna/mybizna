@@ -157,7 +157,6 @@
 <script>
 import { mapState } from 'vuex';
 
-import HTTP from 'admin/http';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import FileUpload from 'admin/components/base/FileUpload.vue';
@@ -283,11 +282,11 @@ export default {
                 const expense_chart_id = 5;
 
                 const [request1, request2] = await Promise.all([
-                    HTTP.get(`/ledgers/${expense_chart_id}/accounts`),
-                    HTTP.get('/transactions/payment-methods')
+                    window.axios.get(`/ledgers/${expense_chart_id}/accounts`),
+                    window.axios.get('/transactions/payment-methods')
                 ]);
 
-                const request3 = await HTTP.get(`/expenses/${this.$route.params.id}`);
+                const request3 = await window.axios.get(`/expenses/${this.$route.params.id}`);
 
                 this.ledgers     = request1.data;
                 this.pay_methods = request2.data;
@@ -344,14 +343,14 @@ export default {
         getLedgers() {
             const expense_chart_id = 5;
 
-            HTTP.get(`/ledgers/${expense_chart_id}/accounts`).then(response => {
+            window.axios.get(`/ledgers/${expense_chart_id}/accounts`).then(response => {
                 this.ledgers = response.data;
             });
         },
 
         getPayMethods() {
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get('/transactions/payment-methods').then(response => {
+            window.axios.get('/transactions/payment-methods').then(response => {
                 this.pay_methods = response.data;
                 this.$store.dispatch('spinner/setSpinner', false);
             }).catch(error => {
@@ -372,7 +371,7 @@ export default {
                 return;
             }
 
-            HTTP.get(`/people/${user_id}`).then(response => {
+            window.axios.get(`/people/${user_id}`).then(response => {
                 const billing = response.data;
 
                 if (typeof billing === 'string') {
@@ -411,7 +410,7 @@ export default {
 
         updateExpense(requestData) {
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.put(`/expenses/${this.voucherNo}`, requestData).then(res => {
+            window.axios.put(`/expenses/${this.voucherNo}`, requestData).then(res => {
                 this.$store.dispatch('spinner/setSpinner', false);
 
                 var message = __('Expense Updated!', 'erp');
@@ -438,7 +437,7 @@ export default {
 
         createExpense(requestData) {
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.post('/expenses', requestData).then(res => {
+            window.axios.post('/expenses', requestData).then(res => {
                 this.$store.dispatch('spinner/setSpinner', false);
                 this.showAlert('success', __('Expense Created!', 'erp'));
                 this.$router.push({ name: 'Expenses' });
@@ -519,7 +518,7 @@ export default {
         changeAccounts() {
             this.accts_by_chart = [];
             if (this.basic_fields.trn_by.id === '2' || this.basic_fields.trn_by.id === '3') {
-                HTTP.get('/ledgers/bank-accounts').then((response) => {
+                window.axios.get('/ledgers/bank-accounts').then((response) => {
                     this.accts_by_chart = response.data;
                     this.accts_by_chart.forEach(element => {
                         if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {
@@ -528,7 +527,7 @@ export default {
                     });
                 });
             } else if (this.basic_fields.trn_by.id === '1') {
-                HTTP.get('/ledgers/cash-accounts').then((response) => {
+                window.axios.get('/ledgers/cash-accounts').then((response) => {
                     this.accts_by_chart = response.data;
                     this.accts_by_chart.forEach(element => {
                         if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {
@@ -539,7 +538,7 @@ export default {
                 /* global erp_reimbursement_var */
             } else if (this.basic_fields.trn_by.id === '4') {
                 if (erp_reimbursement_var.erp_reimbursement_module !== 'undefined' &&  erp_reimbursement_var.erp_reimbursement_module === '1') {
-                    HTTP.get('/people-transactions/balances').then((response) => {
+                    window.axios.get('/people-transactions/balances').then((response) => {
                         this.accts_by_chart = response.data;
                         this.accts_by_chart.forEach(element => {
                             if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {

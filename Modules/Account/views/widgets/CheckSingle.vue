@@ -124,7 +124,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import SendMail from 'admin/components/email/SendMail.vue';
 import Dropdown from 'admin/components/base/Dropdown.vue';
 
@@ -161,7 +160,7 @@ export default {
 
     methods: {
         getCompanyInfo() {
-            HTTP.get(`/company`).then(response => {
+            window.axios.get(`/company`).then(response => {
                 this.company = response.data;
             }).then(e => {}).then(() => {
                 this.isWorking = false;
@@ -171,7 +170,7 @@ export default {
         getCheck() {
             this.isWorking = true;
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get(`/expenses/checks/${this.$route.params.id}`).then(response => {
+            window.axios.get(`/expenses/checks/${this.$route.params.id}`).then(response => {
                 this.expense_data = response.data;
                 this.people_id = this.expense_data.people_id;
                 this.$store.dispatch('spinner/setSpinner', false);

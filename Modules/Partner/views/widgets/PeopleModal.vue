@@ -151,7 +151,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import UploadImage from 'admin/components/base/Media.vue';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
@@ -231,7 +230,7 @@ export default {
 
             if (this.peopleFields.email) {
                 if (!this.people) {
-                    HTTP.get('/people/check-email', {
+                    window.axios.get('/people/check-email', {
                         params: {
                             email: this.peopleFields.email
                         }
@@ -289,7 +288,7 @@ export default {
 
             var message = (type === 'post') ? 'Created' : 'Updated';
 
-            HTTP[type](url, peopleFields).then(response => {
+            window.axios[type](url, peopleFields).then(response => {
                 this.$root.$emit('peopleUpdate');
                 this.resetForm();
                 this.$store.dispatch('spinner/setSpinner', false);
@@ -328,7 +327,7 @@ export default {
         },
 
         getCountries(callBack) {
-            HTTP.get('customers/country').then(response => {
+            window.axios.get('customers/country').then(response => {
                 const country = response.data.country;
                 const states   = response.data.state;
                 for (const x in country) {
@@ -365,7 +364,7 @@ export default {
         checkEmailExistence() {
             if (this.peopleFields.email) {
                 if (!this.people) {
-                    HTTP.get('/people/check-email', {
+                    window.axios.get('/people/check-email', {
                         params: {
                             email: this.peopleFields.email
                         }
@@ -377,7 +376,7 @@ export default {
         },
 
         getCustomers() {
-            HTTP.get('/customers').then(response => {
+            window.axios.get('/customers').then(response => {
                 this.customers = response.data;
             });
         },

@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import SubmitButton from 'admin/components/base/SubmitButton.vue';
 import ShowErrors from 'admin/components/base/ShowErrors.vue';
 
@@ -90,7 +89,7 @@ export default {
         },
 
         getRateName() {
-            HTTP.get(`/tax-rate-names/${this.rate_name_id}`).then((response) => {
+            window.axios.get(`/tax-rate-names/${this.rate_name_id}`).then((response) => {
                 this.rate_name  = response.data.tax_rate_name;
                 this.is_default = (response.data.default === '1');
                 this.tax_number = response.data.tax_number;
@@ -123,7 +122,7 @@ export default {
                 msg = __('Tax Zone Created!', 'erp');
             }
 
-            HTTP[rest](url, {
+            window.axios[rest](url, {
                 tax_rate_name: this.rate_name,
                 tax_number   : this.tax_number,
                 default      : this.is_default

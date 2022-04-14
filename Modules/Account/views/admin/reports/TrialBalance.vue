@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import Datepicker  from 'admin/components/base/Datepicker.vue';
 
@@ -129,7 +128,7 @@ export default {
 
     methods: {
         closestFnYear() {
-            HTTP.get('/reports/closest-fn-year').then(response => {
+            window.axios.get('/reports/closest-fn-year').then(response => {
                 this.start_date = response.data.start_date;
                 this.end_date   = response.data.end_date;
 
@@ -164,7 +163,7 @@ export default {
         },
 
         getChartOfAccts() {
-            HTTP.get('/ledgers/accounts').then(response => {
+            window.axios.get('/ledgers/accounts').then(response => {
                 this.chrtAcct = response.data;
 
                 this.setDateAndGetTb();
@@ -177,7 +176,7 @@ export default {
         },
 
         fetchFnYears() {
-            HTTP.get('/opening-balances/names').then(response => {
+            window.axios.get('/opening-balances/names').then(response => {
                 // get only last 5
                 this.fyears = response.data.reverse().slice(0).slice(-5);
             });
@@ -189,7 +188,7 @@ export default {
             this.rows = [];
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.get('/reports/trial-balance', {
+            window.axios.get('/reports/trial-balance', {
                 params: {
                     start_date: this.start_date,
                     end_date  : this.end_date

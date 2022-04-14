@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 import NewTaxZone from 'admin/components/tax/NewTaxZone.vue';
 import TaxShortcuts from 'admin/components/tax/TaxShortcuts.vue';
@@ -125,7 +124,7 @@ export default {
             this.$store.dispatch('spinner/setSpinner', true);
 
             this.rows = [];
-            HTTP.get('/tax-rate-names', {
+            window.axios.get('/tax-rate-names', {
                 params: {
                     per_page: this.paginationData.perPage,
                     page: this.$route.params.page === undefined ? this.paginationData.currentPage : this.$route.params.page
@@ -162,7 +161,7 @@ export default {
             case 'trash':
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
-                    HTTP.delete('tax-rate-names' + '/' + row.id).then(response => {
+                    window.axios.delete('tax-rate-names' + '/' + row.id).then(response => {
                         this.$delete(this.rows, index);
                         this.$store.dispatch('spinner/setSpinner', false);
                         this.showAlert('success', __('Deleted !', 'erp'));
@@ -186,7 +185,7 @@ export default {
             if (action === 'trash') {
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
-                    HTTP.delete('tax-rate-names/delete/' + items.join(',')).then(response => {
+                    window.axios.delete('tax-rate-names/delete/' + items.join(',')).then(response => {
                         const toggleCheckbox = document.getElementsByClassName('column-cb')[0].childNodes[0];
 
                         if (toggleCheckbox.checked) {

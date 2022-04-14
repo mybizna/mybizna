@@ -128,7 +128,6 @@
 <script>
 import { mapState } from 'vuex';
 
-import HTTP from 'admin/http';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 import FileUpload from 'admin/components/base/FileUpload.vue';
 import SelectVendors from 'admin/components/people/SelectVendors.vue';
@@ -222,7 +221,7 @@ export default {
         getPayMethods() {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.get('/transactions/payment-methods').then(response => {
+            window.axios.get('/transactions/payment-methods').then(response => {
                 this.pay_methods = response.data;
 
                 this.$store.dispatch('spinner/setSpinner', false);
@@ -264,7 +263,7 @@ export default {
                 return;
             }
 
-            HTTP.get(`/purchases/due/${this.basic_fields.vendor.id}`).then(response => {
+            window.axios.get(`/purchases/due/${this.basic_fields.vendor.id}`).then(response => {
                 response.data.forEach(element => {
                     this.pay_purchases.push({
                         id        : element.id,
@@ -302,7 +301,7 @@ export default {
                 return;
             }
 
-            HTTP.get(`/people/${vendor_id}`).then(response => {
+            window.axios.get(`/people/${vendor_id}`).then(response => {
                 const billing = response.data;
 
                 let street_1    = billing.street_1 ? billing.street_1 + ',' : '';
@@ -364,7 +363,7 @@ export default {
                 bank_trn_charge = this.bank_data.trn_charge || 0;
             }
 
-            HTTP.post('/pay-purchases', {
+            window.axios.post('/pay-purchases', {
                 vendor_id       : this.basic_fields.vendor.id,
                 ref             : this.basic_fields.trn_ref,
                 trn_date        : this.basic_fields.payment_date,
@@ -397,7 +396,7 @@ export default {
         changeAccounts() {
             this.accts_by_chart = [];
             if (this.basic_fields.trn_by.id === '2' || this.basic_fields.trn_by.id === '3') {
-                HTTP.get('/ledgers/bank-accounts').then((response) => {
+                window.axios.get('/ledgers/bank-accounts').then((response) => {
                     this.accts_by_chart = response.data;
                     this.accts_by_chart.forEach(element => {
                         if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {
@@ -406,7 +405,7 @@ export default {
                     });
                 });
             } else if (this.basic_fields.trn_by.id === '1') {
-                HTTP.get('/ledgers/cash-accounts').then((response) => {
+                window.axios.get('/ledgers/cash-accounts').then((response) => {
                     this.accts_by_chart = response.data;
                     this.accts_by_chart.forEach(element => {
                         if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {
@@ -417,7 +416,7 @@ export default {
                 /* global erp_reimbursement_var */
             } else if (this.basic_fields.trn_by.id === '4') {
                 if (erp_reimbursement_var.erp_reimbursement_module !== 'undefined' &&  erp_reimbursement_var.erp_reimbursement_module === '1') {
-                    HTTP.get('/people-transactions/balances').then((response) => {
+                    window.axios.get('/people-transactions/balances').then((response) => {
                         this.accts_by_chart = response.data;
                         this.accts_by_chart.forEach(element => {
                             if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {

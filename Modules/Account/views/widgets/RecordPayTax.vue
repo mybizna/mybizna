@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import SubmitButton from 'admin/components/base/SubmitButton.vue';
@@ -134,7 +133,7 @@ export default {
 
     methods: {
         getPayMethods() {
-            HTTP.get('/transactions/payment-methods').then(response => {
+            window.axios.get('/transactions/payment-methods').then(response => {
                 this.pay_methods = response.data;
             });
         },
@@ -142,7 +141,7 @@ export default {
         changeAccounts() {
             this.accts_by_chart = [];
             if (this.trn_by.id === '2' || this.trn_by.id === '3') {
-                HTTP.get('/ledgers/bank-accounts').then((response) => {
+                window.axios.get('/ledgers/bank-accounts').then((response) => {
                     this.accts_by_chart = response.data;
                     this.accts_by_chart.forEach(element => {
                         if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {
@@ -151,7 +150,7 @@ export default {
                     });
                 });
             } else if (this.trn_by.id === '1') {
-                HTTP.get('/ledgers/cash-accounts').then((response) => {
+                window.axios.get('/ledgers/cash-accounts').then((response) => {
                     this.accts_by_chart = response.data;
                     this.accts_by_chart.forEach(element => {
                         if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {
@@ -161,7 +160,7 @@ export default {
                 });
                 /* global erp_reimbursement_var */
             } else if (erp_reimbursement_var.erp_reimbursement_module !== 'undefined' &&  erp_reimbursement_var.erp_reimbursement_module === '1') {
-                HTTP.get('/people-transactions/balances').then((response) => {
+                window.axios.get('/people-transactions/balances').then((response) => {
                     this.accts_by_chart = response.data;
                     this.accts_by_chart.forEach(element => {
                         if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {
@@ -174,7 +173,7 @@ export default {
         },
 
         getAgencies() {
-            HTTP.get('/tax-agencies').then(response => {
+            window.axios.get('/tax-agencies').then(response => {
                 this.agencies = response.data;
             });
         },
@@ -183,7 +182,7 @@ export default {
             if (!this.agency.id) return;
 
             // ? or... we could bring due along with agencies
-            HTTP.get(`/tax-agencies/due/${this.agency.id}`).then(response => {
+            window.axios.get(`/tax-agencies/due/${this.agency.id}`).then(response => {
                 this.dueAmount = parseFloat(response.data);
             });
         },
@@ -201,7 +200,7 @@ export default {
 
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.post('/taxes/pay-tax', {
+            window.axios.post('/taxes/pay-tax', {
                 agency_id   : this.agency.id,
                 trn_date    : this.trn_date,
                 trn_by      : this.trn_by.id,

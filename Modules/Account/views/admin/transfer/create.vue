@@ -57,7 +57,6 @@
 
 <script>
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
-import HTTP from 'admin/http';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 
 export default {
@@ -95,7 +94,7 @@ export default {
 
     methods: {
         fetchAccounts() {
-            HTTP.get('accounts').then((response) => {
+            window.axios.get('accounts').then((response) => {
                 this.accounts = response.data;
                 this.fa = response.data;
                 this.ta = response.data;
@@ -111,7 +110,7 @@ export default {
 
         submitTransfer() {
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.post('/accounts/transfer', {
+            window.axios.post('/accounts/transfer', {
                 date           : this.transferdate,
                 from_account_id: this.transferFrom.id,
                 to_account_id  : this.transferTo.id,

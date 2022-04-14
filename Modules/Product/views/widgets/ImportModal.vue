@@ -168,7 +168,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import MultiSelect from '../select/MultiSelect.vue'
 
 export default {
@@ -253,7 +252,7 @@ export default {
                 formData.append( `fields[${key}]`, this.mappedValues[key].id );
             })
 
-            HTTP.post(
+            window.axios.post(
                 'products/csv/validate',
                 formData,
                 {
@@ -264,7 +263,7 @@ export default {
             ).then(response => {
                 this.manageProgressStatus( __('Importing data', 'erp') );
 
-                HTTP.post(
+                window.axios.post(
                     'products/csv/import',
                     {
                         items  : response.data.data,
@@ -337,7 +336,7 @@ export default {
         },
 
         getVendors() {
-            HTTP.get('vendors').then(response => {
+            window.axios.get('vendors').then(response => {
                 if (response.data) {
                     for (const i in response.data) {
                         var vendor = response.data[i];
@@ -349,19 +348,19 @@ export default {
         },
 
         getCategories() {
-            HTTP.get('product-cats').then(response => {
+            window.axios.get('product-cats').then(response => {
                 this.productCategories = response.data;
             });
         },
 
         getTaxCategories() {
-            HTTP.get('tax-cats').then(response => {
+            window.axios.get('tax-cats').then(response => {
                 this.taxCategories = response.data;
             });
         },
 
         getProductTypes() {
-            HTTP.get('products/types').then(response => {
+            window.axios.get('products/types').then(response => {
                 this.productTypes = response.data;
             });
         },

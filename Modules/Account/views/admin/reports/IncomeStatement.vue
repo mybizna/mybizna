@@ -77,7 +77,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import Datepicker  from 'admin/components/base/Datepicker.vue';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 
@@ -153,7 +152,7 @@ export default {
             this.rows1 = [];
             this.rows2 = [];
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get('/reports/income-statement', {
+            window.axios.get('/reports/income-statement', {
                 params: {
                     start_date: this.start_date,
                     end_date  : this.end_date

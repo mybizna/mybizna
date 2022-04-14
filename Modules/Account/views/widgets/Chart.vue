@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import 'admin/components/chart/chart.min';
 
 export default {
@@ -213,7 +212,7 @@ export default {
         },
 
         fetchData() {
-            HTTP.get('/transactions/income-expense-overview').then(response => {
+            window.axios.get('/transactions/income-expense-overview').then(response => {
                 this.respData = response.data;
                 this.createChart();
                 this.showDropdown = true;

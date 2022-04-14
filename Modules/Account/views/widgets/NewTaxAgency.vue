@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import SubmitButton from 'admin/components/base/SubmitButton.vue';
 import ShowErrors from 'admin/components/base/ShowErrors.vue';
 
@@ -78,7 +77,7 @@ export default {
         },
 
         getAgency() {
-            HTTP.get(`/tax-agencies/${this.agency_id}`).then((response) => {
+            window.axios.get(`/tax-agencies/${this.agency_id}`).then((response) => {
                 this.agency = response.data.name;
             });
         },
@@ -109,7 +108,7 @@ export default {
 
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP[rest](url, {
+            window.axios[rest](url, {
                 agency_name: this.agency
             }).catch(error => {
                 this.$store.dispatch('spinner/setSpinner', false);

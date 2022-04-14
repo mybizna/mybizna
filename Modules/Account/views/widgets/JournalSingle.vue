@@ -102,7 +102,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import TransParticulars from 'admin/components/transactions/TransParticulars.vue';
 
 export default {
@@ -127,7 +126,7 @@ export default {
 
     methods: {
         getCompanyInfo() {
-            HTTP.get(`/company`).then(response => {
+            window.axios.get(`/company`).then(response => {
                 this.company = response.data;
             }).then(e => {}).then(() => {
                 this.isWorking = false;
@@ -138,7 +137,7 @@ export default {
             this.isWorking = true;
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.get(`/journals/${this.$route.params.id}`).then(response => {
+            window.axios.get(`/journals/${this.$route.params.id}`).then(response => {
                 this.journal = response.data;
                 this.$store.dispatch('spinner/setSpinner', false);
             }).catch(error => {

@@ -11,7 +11,6 @@
 <script>
 import { mapState } from 'vuex';
 
-import HTTP from 'admin/http';
 import PeopleModal from 'admin/components/people/PeopleModal.vue';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
@@ -90,7 +89,7 @@ export default {
 
     methods: {
         getPeople(query) {
-            HTTP.get('/people', {
+            window.axios.get('/people', {
                 params: {
                     type: [],
                     search: query

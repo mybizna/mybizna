@@ -164,7 +164,6 @@
 <script>
 import { mapState } from 'vuex';
 
-import HTTP from 'admin/http';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 import FileUpload from 'admin/components/base/FileUpload.vue';
 import ComboButton from 'admin/components/select/ComboButton.vue';
@@ -299,12 +298,12 @@ export default {
                  * load products and taxes, before invoice load
                  */
                 const [request1, request2] = await Promise.all([
-                    HTTP.get('/products', { params: {
+                    window.axios.get('/products', { params: {
                         number: -1
                     } }),
-                    HTTP.get('/taxes/summary')
+                    window.axios.get('/taxes/summary')
                 ]);
-                const request3 = await HTTP.get(`/invoices/${this.$route.params.id}`);
+                const request3 = await window.axios.get(`/invoices/${this.$route.params.id}`);
 
                 if (!request3.data.line_items.length) {
                     this.showAlert('error', __('Invoice does not exists!', 'erp'));
@@ -384,7 +383,7 @@ export default {
         getProducts() {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.get('/products', { params: {
+            window.axios.get('/products', { params: {
                 number: -1
             } }).then(response => {
                 this.products = response.data;
@@ -404,7 +403,7 @@ export default {
                 return;
             }
 
-            HTTP.get(`/people/${customer_id}`).then(response => {
+            window.axios.get(`/people/${customer_id}`).then(response => {
                 const billing = response.data;
 
                 let street_1    = billing.street_1 ? billing.street_1 + ',' : '';
@@ -431,7 +430,7 @@ export default {
         },
 
         getTaxRates() {
-            HTTP.get('/taxes/summary').then(response => {
+            window.axios.get('/taxes/summary').then(response => {
                 this.taxSummary = response.data;
 
                 this.taxRates = this.getUniqueTaxRates(this.taxSummary);
@@ -518,7 +517,7 @@ export default {
         updateInvoice(requestData) {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.put(`/invoices/${this.voucherNo}`, requestData).then(res => {
+            window.axios.put(`/invoices/${this.voucherNo}`, requestData).then(res => {
                 this.$store.dispatch('spinner/setSpinner', false);
 
                 let message = __('Invoice Updated!', 'erp');
@@ -543,7 +542,7 @@ export default {
         createInvoice(requestData) {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.post('/invoices', requestData).then(res => {
+            window.axios.post('/invoices', requestData).then(res => {
                 this.$store.dispatch('spinner/setSpinner', false);
                 this.showAlert('success', this.inv_title + ' Created!');
             }).catch(error => {

@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import SubmitButton from 'admin/components/base/SubmitButton.vue';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
@@ -82,7 +81,7 @@ export default {
         addTaxRate() {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.post(`/taxes/${this.$route.params.id}/line-add`, {
+            window.axios.post(`/taxes/${this.$route.params.id}/line-add`, {
                 tax_id: this.$route.params.id,
                 component_name: this.component_name,
                 agency_id: this.agency.id,
@@ -104,13 +103,13 @@ export default {
         },
 
         fetchData() {
-            HTTP.get('/tax-agencies').then((response) => {
+            window.axios.get('/tax-agencies').then((response) => {
                 this.agencies = response.data;
             }).catch(error => {
                 throw error;
             });
 
-            HTTP.get('/tax-cats').then((response) => {
+            window.axios.get('/tax-cats').then((response) => {
                 this.categories = response.data;
             }).catch(error => {
                 throw error;

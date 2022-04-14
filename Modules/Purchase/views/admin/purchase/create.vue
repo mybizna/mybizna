@@ -167,7 +167,6 @@
 
 <script>
     import { mapState } from 'vuex';
-    import HTTP from 'admin/http';
     import Datepicker from 'admin/components/base/Datepicker.vue';
     import FileUpload from 'admin/components/base/FileUpload.vue';
     import ComboButton from 'admin/components/select/ComboButton.vue';
@@ -352,7 +351,7 @@
                     this.editMode  = true;
                     this.voucherNo = this.$route.params.id;
                     const [request] = await Promise.all([
-                        HTTP.get(`/purchases/${this.$route.params.id}`)
+                        window.axios.get(`/purchases/${this.$route.params.id}`)
                     ]);
                     const canEdit = Boolean(Number(request.data.editable));
                     if (!canEdit) {
@@ -422,7 +421,7 @@
                     vendor_id = this.basic_fields.vendor.id;
                 }
                 this.$store.dispatch('spinner/setSpinner', true);
-                HTTP.get(`vendors/${vendor_id}/products`, {
+                window.axios.get(`vendors/${vendor_id}/products`, {
                     params: {
                         number: -1
                     }
@@ -444,7 +443,7 @@
                 });
             },
             getTaxRates(){
-                HTTP.get('/taxes/summary').then((response) => {
+                window.axios.get('/taxes/summary').then((response) => {
                     this.taxRates = response.data
                 })
             },
@@ -455,7 +454,7 @@
                     this.basic_fields.billing_address = '';
                     return;
                 }
-                HTTP.get(`/people/${vendor_id}`).then(response => {
+                window.axios.get(`/people/${vendor_id}`).then(response => {
                     const billing = response.data;
                     let street_1    = billing.street_1 ? billing.street_1 + ',' : '';
                     let street_2    = billing.street_2 ? billing.street_2 : '';
@@ -502,7 +501,7 @@
                 return lineItems;
             },
             updatePurchase(requestData) {
-                HTTP.put(`/purchases/${this.voucherNo}`, requestData).then(res => {
+                window.axios.put(`/purchases/${this.voucherNo}`, requestData).then(res => {
                     this.$store.dispatch('spinner/setSpinner', false);
                     let message = __( 'Purchase Updated!', 'erp' );
                     if (this.orderToPurchase()) {
@@ -521,7 +520,7 @@
                 });
             },
             createPurchase(requestData) {
-                HTTP.post('/purchases', requestData).then(res => {
+                window.axios.post('/purchases', requestData).then(res => {
                     this.$store.dispatch('spinner/setSpinner', false);
                     this.showAlert('success', this.page_title + ' Created!');
                 }).catch(error => {

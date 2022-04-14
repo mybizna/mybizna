@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import ListTable from '../list-table/ListTable.vue';
 import ProductModal from './ProductModal.vue';
 import ProductSearch from './Search.vue'
@@ -141,7 +140,7 @@ export default {
 
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.get('/products', {
+            window.axios.get('/products', {
                 params: {
                     per_page: this.paginationData.perPage,
                     page    : this.$route.params.page === undefined
@@ -170,7 +169,7 @@ export default {
                 if (confirm(__('Are you sure want to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
 
-                    HTTP.delete('products/' + row.id).then(response => {
+                    window.axios.delete('products/' + row.id).then(response => {
                         this.$delete(this.products, index);
                         this.getProducts();
 
@@ -188,7 +187,7 @@ export default {
                 if (confirm(__('Are you sure want to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
 
-                    HTTP.delete('products/delete/' + items).then(response => {
+                    window.axios.delete('products/delete/' + items).then(response => {
                         const toggleCheckbox = document.getElementsByClassName('column-cb')[0].childNodes[0];
 
                         if (toggleCheckbox.checked) {

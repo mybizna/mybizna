@@ -78,7 +78,6 @@
 </template>
 
 <script>
-    import HTTP        from 'admin/http';
     import ListTable   from '../../list-table/ListTable.vue';
     import Datepicker  from '../../base/Datepicker.vue';
     import MultiSelect from '../../select/MultiSelect.vue';
@@ -142,7 +141,7 @@
             fetchData() {
                 this.$store.dispatch('spinner/setSpinner', true);
 
-                HTTP.get('/tax-cats').then(res => {
+                window.axios.get('/tax-cats').then(res => {
                     this.taxCategories = res.data;
                 }).then(() => {
                     if ( this.taxCategories && this.taxCategories[0] !== undefined ) {
@@ -160,7 +159,7 @@
                 this.$store.dispatch('spinner/setSpinner', true);
                 this.rows = [];
 
-                HTTP.get('/reports/sales-tax', {
+                window.axios.get('/reports/sales-tax', {
                     params: {
                         category_id : this.taxCategory.id,
                         start_date  : this.startDate,

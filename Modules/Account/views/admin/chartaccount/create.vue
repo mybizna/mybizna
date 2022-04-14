@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import Treeselect from '@riophae/vue-treeselect';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 
@@ -149,10 +148,10 @@ export default {
                      * load accounts and categories, before ledger load
                      */
                 const [request1, request2] = await Promise.all([
-                    HTTP.get('/ledgers/accounts'),
-                    HTTP.get(`/ledgers/${this.$route.params.id}`)
+                    window.axios.get('/ledgers/accounts'),
+                    window.axios.get(`/ledgers/${this.$route.params.id}`)
                 ]);
-                //const request3 = await HTTP.get(`/ledgers/categories/${request2.data.chart_id}`);
+                //const request3 = await window.axios.get(`/ledgers/categories/${request2.data.chart_id}`);
 
                 this.chartAccounts = request1.data;
                 this.setDataForEdit(request2.data);
@@ -200,7 +199,7 @@ export default {
         fetchChartAccounts() {
             this.chartAccounts = [];
 
-            HTTP.get('/ledgers/accounts').then(response => {
+            window.axios.get('/ledgers/accounts').then(response => {
                 this.chartAccounts = response.data;
             });
         },
@@ -208,7 +207,7 @@ export default {
         fetchLedgerCategories() {
             if (!this.ledgFields.chart_id) return;
 
-            HTTP.get(`/ledgers/categories/${this.ledgFields.chart_id}`).then(response => {
+            window.axios.get(`/ledgers/categories/${this.ledgFields.chart_id}`).then(response => {
                 if (!response.data) return;
 
                 this.categories = this.buildTree(response.data);
@@ -224,7 +223,7 @@ export default {
 
         removeCategory(node) {
             if (confirm(__('Are you sure to remove this category?', 'erp'))) {
-                HTTP.delete(`/ledgers/categories/${node.id}`).then(response => {
+                window.axios.delete(`/ledgers/categories/${node.id}`).then(response => {
                     this.showAlert('error', __('Category Removed!', 'erp') );
 
                     this.fetchLedgerCategories();
@@ -235,7 +234,7 @@ export default {
         createLedger(requestData) {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.post('/ledgers', requestData).then(res => {
+            window.axios.post('/ledgers', requestData).then(res => {
                 this.$store.dispatch('spinner/setSpinner', false);
                 this.showAlert('success', __('Created !', 'erp'));
                 window.location.reload();
@@ -250,7 +249,7 @@ export default {
         updateteLedger(requestData) {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.put(`/ledgers/${this.ledgerID}`, requestData).then(res => {
+            window.axios.put(`/ledgers/${this.ledgerID}`, requestData).then(res => {
                 this.$store.dispatch('spinner/setSpinner', false);
                 this.showAlert('success', __('Updated !', 'erp'));
                 window.location.reload();

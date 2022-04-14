@@ -1,7 +1,6 @@
 <template></template>
 
 <script>
-import HTTP from 'admin/http';
 
 export default {
 
@@ -15,7 +14,7 @@ export default {
     mounted() {
         this.voucher_no = this.$route.params.id;
 
-        HTTP.get(`/transactions/voucher-type/${this.voucher_no}`).then((response) => {
+        window.axios.get(`/transactions/voucher-type/${this.voucher_no}`).then((response) => {
             this.voucher_type = response.data;
 
             if (this.voucher_type === 'invoice' || this.voucher_type === 'estimate' || this.voucher_type === 'payment' || this.voucher_type === 'return_payment') {

@@ -1,17 +1,10 @@
 [
     {
-        "path": "/",
+        "path": "/dashboard",
         "component": "account/admin/dashboard/dashboard.vue",
-        "children": [
-            {
-                "path": "/dashboard",
-                "name": "DashBoard",
-                "component": "account/admin/dashboard/dashboard.vue",
-                "alias": "/trn-loader"
-            }
-        ]
+        "name": "DashBoard",
+        "alias": "/trn-loader"
     },
- 
     {
         "path": "/transactions",
         "component": "router_view",

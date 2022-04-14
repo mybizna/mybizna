@@ -102,7 +102,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import SubmitButton from 'admin/components/base/SubmitButton.vue';
 import NewTaxAgency from 'admin/components/tax/NewTaxAgency.vue';
@@ -156,7 +155,7 @@ export default {
 
     methods: {
         fetchData() {
-            HTTP.get('/tax-rate-names').then((response) => {
+            window.axios.get('/tax-rate-names').then((response) => {
                 this.rate_names = [];
 
                 response.data.forEach(element => {
@@ -169,14 +168,14 @@ export default {
                 throw error;
             });
 
-            HTTP.get('/tax-agencies').then((response) => {
+            window.axios.get('/tax-agencies').then((response) => {
                 this.agencies = [];
                 this.agencies = response.data;
             }).catch((error) => {
                 throw error;
             });
 
-            HTTP.get('/tax-cats').then((response) => {
+            window.axios.get('/tax-cats').then((response) => {
                 this.categories = [];
                 this.categories = response.data;
             }).catch((error) => {
@@ -197,7 +196,7 @@ export default {
 
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.post('/taxes', {
+            window.axios.post('/taxes', {
                 tax_rate_name: this.tax_name.id,
                 is_compound: this.is_compound,
                 tax_components: this.formatLineItems()

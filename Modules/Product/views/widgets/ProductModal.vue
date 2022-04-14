@@ -165,7 +165,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
 export default {
@@ -229,7 +228,7 @@ export default {
         this.$root.$on('options-query', query => {
             if (query) {
 
-                HTTP.get('vendors', {
+                window.axios.get('vendors', {
                     params: {
                         search: query
                     }
@@ -279,7 +278,7 @@ export default {
                 data.vendor = this.ProductFields.vendor;
             }
 
-            HTTP[type](url, data).then(response => {
+            window.axios[type](url, data).then(response => {
                 this.$parent.$emit('close');
                 this.$parent.getProducts();
                 this.resetForm();
@@ -299,7 +298,7 @@ export default {
         },
 
         getVendors() {
-            HTTP.get('vendors').then(response => {
+            window.axios.get('vendors').then(response => {
                 if (response.data) {
                     for (const i in response.data) {
                         var vendor = response.data[i];
@@ -311,19 +310,19 @@ export default {
         },
 
         getCategories() {
-            HTTP.get('product-cats').then(response => {
+            window.axios.get('product-cats').then(response => {
                 this.categories = response.data;
             });
         },
 
         getTaxCategories() {
-            HTTP.get('tax-cats').then(response => {
+            window.axios.get('tax-cats').then(response => {
                 this.tax_cats = response.data;
             });
         },
 
         getProductTypes() {
-            HTTP.get('products/types').then(response => {
+            window.axios.get('products/types').then(response => {
                 this.productType = response.data;
             });
         },

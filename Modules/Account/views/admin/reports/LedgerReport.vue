@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import HTTP        from 'admin/http';
 import ListTable   from 'admin/components/list-table/ListTable.vue';
 import Datepicker  from 'admin/components/base/Datepicker.vue';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
@@ -139,7 +138,7 @@ export default {
 
     methods: {
         getLedgers() {
-            HTTP.get('/ledgers').then(res => {
+            window.axios.get('/ledgers').then(res => {
                 this.ledgers = res.data;
 
                 this.setDefault();
@@ -170,7 +169,7 @@ export default {
 
             this.rows = [];
 
-            HTTP.get('/reports/ledger-report', {
+            window.axios.get('/reports/ledger-report', {
                 params: {
                     ledger_id : this.selectedLedger.id,
                     start_date: this.start_date,

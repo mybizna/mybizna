@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 
 export default {
 
@@ -77,7 +76,7 @@ export default {
 
     methods: {
         fetchAccounts() {
-            HTTP.get('/accounts/cash-at-bank').then(response => {
+            window.axios.get('/accounts/cash-at-bank').then(response => {
                 this.accounts = response.data;
             });
         }

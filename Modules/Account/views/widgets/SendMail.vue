@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import Modal from 'admin/components/modal/Modal.vue';
 import InputTag from 'vue-input-tag';
 
@@ -81,7 +80,7 @@ export default {
     },
 
     created() {
-        HTTP.get(`people/${this.userid}`).then(response => {
+        window.axios.get(`people/${this.userid}`).then(response => {
             this.emails.push(response.data.email);
         });
     },
@@ -100,7 +99,7 @@ export default {
         },
 
         sendAsMail() {
-            HTTP.post(`/transactions/send-pdf/${this.$route.params.id}`, {
+            window.axios.post(`/transactions/send-pdf/${this.$route.params.id}`, {
                 trn_data: this.data,
                 type: this.type,
                 receiver: this.emails,

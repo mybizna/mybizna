@@ -50,7 +50,6 @@ i
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import PeopleSearch from 'admin/components/people/PeopleSearch.vue';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 import PeopleModal from 'admin/components/people/PeopleModal.vue';
@@ -159,7 +158,7 @@ export default {
     methods: {
         fetchItems() {
             this.rows = [];
-            HTTP.get(this.url, {
+            window.axios.get(this.url, {
                 params: {
                     per_page: this.paginationData.perPage,
                     page: this.$route.params.page === undefined ? this.paginationData.currentPage : this.$route.params.page,
@@ -183,7 +182,7 @@ export default {
             case 'trash':
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
-                    HTTP.delete(this.url + '/' + row.id).then(response => {
+                    window.axios.delete(this.url + '/' + row.id).then(response => {
                         if ( response.status !== 204 ) {
                             this.$store.dispatch('spinner/setSpinner', false);
                             this.showAlert('error', response.data.data[0].message);
@@ -217,7 +216,7 @@ export default {
             if (action === 'trash') {
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
-                    HTTP.delete(this.url + '/delete/' + items.join(',')).then(response => {
+                    window.axios.delete(this.url + '/delete/' + items.join(',')).then(response => {
                         if ( response.status !== 204 ) {
                             this.$store.dispatch('spinner/setSpinner', false);
                             this.showAlert('error', response.data.data[0].message);

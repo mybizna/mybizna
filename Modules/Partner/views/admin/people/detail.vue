@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import UserBasicInfo from 'admin/components/userinfo/UserBasic.vue';
 import PieChart from 'admin/components/chart/PieChart.vue';
 import PeopleTransaction from 'admin/components/people/PeopleTransaction.vue';
@@ -118,7 +117,7 @@ export default {
                 this.req_url = 'customers';
             }
 
-            HTTP.get(this.req_url + '/' + id, {
+            window.axios.get(this.req_url + '/' + id, {
                 params: {}
             }).then((response) => {
                 this.resData = response.data;
@@ -128,7 +127,7 @@ export default {
         getTransactions() {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.get(this.req_url + '/' + this.userId + '/transactions').then(res => {
+            window.axios.get(this.req_url + '/' + this.userId + '/transactions').then(res => {
                 this.transactions = res.data;
 
                 this.transactions.forEach(item => {
@@ -145,7 +144,7 @@ export default {
 
         filterTransaction(filters = {}) {
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get(this.url + '/' + this.userId + '/transactions/filter', {
+            window.axios.get(this.url + '/' + this.userId + '/transactions/filter', {
                 params: {
                     start_date: filters.start_date,
                     end_date: filters.end_date
@@ -169,7 +168,7 @@ export default {
         },
 
         getChartData(filters = {}) {
-            HTTP.get(`/transactions/people-chart/trn-amount/${this.userId}`, {
+            window.axios.get(`/transactions/people-chart/trn-amount/${this.userId}`, {
                 params: {
                     start_date: filters.start_date,
                     end_date: filters.end_date
@@ -182,7 +181,7 @@ export default {
                 );
             });
 
-            HTTP.get(`/transactions/people-chart/trn-status/${this.userId}`, {
+            window.axios.get(`/transactions/people-chart/trn-status/${this.userId}`, {
                 params: {
                     start_date: filters.start_date,
                     end_date: filters.end_date

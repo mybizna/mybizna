@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 
 export default {
@@ -115,7 +114,7 @@ export default {
         fetchItems() {
             this.rows = [];
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get('taxes/tax-records', {
+            window.axios.get('taxes/tax-records', {
                 params: {
                     per_page: this.paginationData.perPage,
                     page: this.$route.params.page === undefined ? this.paginationData.currentPage : this.$route.params.page
@@ -155,7 +154,7 @@ export default {
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
 
-                    HTTP.delete(this.url + '/' + row.id).then(response => {
+                    window.axios.delete(this.url + '/' + row.id).then(response => {
                         this.$delete(this.rows, index);
 
                         this.$store.dispatch('spinner/setSpinner', false);
@@ -182,7 +181,7 @@ export default {
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
 
-                    HTTP.delete('taxes/delete/' + items.join(',')).then(response => {
+                    window.axios.delete('taxes/delete/' + items.join(',')).then(response => {
                         const toggleCheckbox = document.getElementsByClassName('column-cb')[0].childNodes[0];
 
                         if (toggleCheckbox.checked) {

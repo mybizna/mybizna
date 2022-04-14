@@ -54,7 +54,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import InvoiceSingleContent from 'admin/components/transactions/sales/InvoiceSingleContent.vue';
 import PaymentSingleContent from 'admin/components/transactions/sales/PaymentSingleContent.vue';
 import SendMail from 'admin/components/email/SendMail.vue';
@@ -106,7 +105,7 @@ export default {
 
     methods: {
         getCompanyInfo() {
-            HTTP.get(`/company`).then(response => {
+            window.axios.get(`/company`).then(response => {
                 this.company = response.data;
             }).then(e => {}).then(() => {
                 this.isWorking = false;
@@ -114,7 +113,7 @@ export default {
         },
 
         getSalesType(id) {
-            HTTP.get(`/transactions/type/${id}`).then(response => {
+            window.axios.get(`/transactions/type/${id}`).then(response => {
                 this.loadData(response.data);
             }).then((e) => {}).then(() => {
                 this.isWorking = false;
@@ -142,7 +141,7 @@ export default {
         getInvoice() {
             this.isWorking = true;
 
-            HTTP.get(`/invoices/${this.$route.params.id}`).then(response => {
+            window.axios.get(`/invoices/${this.$route.params.id}`).then(response => {
                 this.invoice = response.data;
             }).then(() => {
                 this.print_data = this.invoice;
@@ -156,7 +155,7 @@ export default {
         getPayment() {
             this.isWorking = true;
 
-            HTTP.get(`/payments/${this.$route.params.id}`).then(response => {
+            window.axios.get(`/payments/${this.$route.params.id}`).then(response => {
                 this.payment = response.data;
             }).then(() => {
                 this.print_data = this.payment;

@@ -148,7 +148,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import Datepicker  from 'admin/components/base/Datepicker.vue';
 import ListTable from 'admin/components/list-table/ListTable.vue';
@@ -245,7 +244,7 @@ export default {
             this.rows = [];
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.get('/reports/balance-sheet', {
+            window.axios.get('/reports/balance-sheet', {
                 params: {
                     start_date: this.start_date,
                     end_date  : this.end_date
@@ -278,7 +277,7 @@ export default {
         },
 
         fetchFnYears() {
-            HTTP.get('/opening-balances/names').then(response => {
+            window.axios.get('/opening-balances/names').then(response => {
                 // get only last 5
                 this.fyears = response.data.reverse().slice(0).slice(-5);
                 this.getCurrentFnYear();
@@ -286,7 +285,7 @@ export default {
         },
 
         getCurrentFnYear() {
-            HTTP.get('/closing-balance/closest-fn-year').then(response => {
+            window.axios.get('/closing-balance/closest-fn-year').then(response => {
                 this.selectedYear = response.data;
                 this.start_date = response.data.start_date;
                 this.end_date   = response.data.end_date;
@@ -305,7 +304,7 @@ export default {
             }
 
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get('/closing-balance/next-fn-year', {
+            window.axios.get('/closing-balance/next-fn-year', {
                 params: {
                     date : this.end_date
                 }
@@ -326,7 +325,7 @@ export default {
         },
 
         closeBalancesheet(f_year_id) {
-            HTTP.post('/closing-balance', {
+            window.axios.post('/closing-balance', {
                 f_year_id : f_year_id,
                 start_date: this.start_date,
                 end_date  : this.end_date

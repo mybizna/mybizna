@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http.js';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 
@@ -111,7 +110,7 @@ export default {
     },
     methods: {
         getCategories() {
-            HTTP.get('product-cats').then((response) => {
+            window.axios.get('product-cats').then((response) => {
                 const categories = response.data;
                 for (const x in categories) {
                     const category = categories[x];
@@ -132,7 +131,7 @@ export default {
             } else if (action === 'trash') {
                 if (confirm(__('Are you sure want to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
-                    HTTP.delete('product-cats/' + row.id).then((response) => {
+                    window.axios.delete('product-cats/' + row.id).then((response) => {
                         this.$delete(this.categories, index);
 
                         this.$store.dispatch('spinner/setSpinner', false);
@@ -150,7 +149,7 @@ export default {
                 if (confirm(__('Are you sure want to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
 
-                    HTTP.delete('product-cats/delete/' + items).then(response => {
+                    window.axios.delete('product-cats/delete/' + items).then(response => {
                         const toggleCheckbox = document.getElementsByClassName('column-cb')[0].childNodes[0];
 
                         if (toggleCheckbox.checked) {
@@ -179,7 +178,7 @@ export default {
                 name  : this.categoryName,
                 parent: this.parentCategory
             };
-            HTTP.post('/product-cats', data).then((response) => {
+            window.axios.post('/product-cats', data).then((response) => {
                 this.categories.push(response.data);
                 this.categoryName   = '';
                 this.parentCategory = 0;
@@ -197,7 +196,7 @@ export default {
             var categoryId   = row.id;
 
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.put('/product-cats/' + categoryId, { name: categoryName }).then((response) => {
+            window.axios.put('/product-cats/' + categoryId, { name: categoryName }).then((response) => {
                 row.name = categoryName;
 
                 this.$store.dispatch('spinner/setSpinner', false);

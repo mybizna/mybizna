@@ -147,7 +147,6 @@
 <script>
 import { mapState } from 'vuex';
 
-import HTTP from 'admin/http';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 import FileUpload from 'admin/components/base/FileUpload.vue';
 import SelectCustomers from 'admin/components/people/SelectCustomers.vue';
@@ -268,8 +267,8 @@ export default {
                      * Duplicates of
                      *? this.getPayMethods()
                      */
-                const request1 = await HTTP.get('/transactions/payment-methods');
-                const request2 = await HTTP.get(`/invoices/${this.$route.params.id}`);
+                const request1 = await window.axios.get('/transactions/payment-methods');
+                const request2 = await window.axios.get(`/invoices/${this.$route.params.id}`);
 
                 if (!request2.data.line_items.length) {
                     this.showAlert('error', __('Invoice does not exists!', 'erp'));
@@ -293,7 +292,7 @@ export default {
         getPayMethods() {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.get('/transactions/payment-methods').then(response => {
+            window.axios.get('/transactions/payment-methods').then(response => {
                 this.pay_methods = response.data;
 
                 this.$store.dispatch('spinner/setSpinner', false);
@@ -318,7 +317,7 @@ export default {
                 return;
             }
 
-            HTTP.get(`/invoices/due/${customerId}`).then(response => {
+            window.axios.get(`/invoices/due/${customerId}`).then(response => {
                 response.data.forEach(element => {
                     this.invoices.push({
                         id        : element.id,
@@ -356,7 +355,7 @@ export default {
                 return;
             }
 
-            HTTP.get(`/people/${customer_id}`).then(response => {
+            window.axios.get(`/people/${customer_id}`).then(response => {
                 const billing = response.data;
 
                 let street_1    = billing.street_1 ? billing.street_1 + ',' : '';
@@ -420,7 +419,7 @@ export default {
             }
 
 
-            HTTP.post('/payments', {
+            window.axios.post('/payments', {
                 customer_id: this.basic_fields.customer.id,
                 ref        : this.basic_fields.trn_ref,
                 trn_date   : this.basic_fields.payment_date,
@@ -455,7 +454,7 @@ export default {
         changeAccounts() {
             this.accts_by_chart = [];
             if (this.basic_fields.trn_by.id === '2' || this.basic_fields.trn_by.id === '3') {
-                HTTP.get('/ledgers/bank-accounts').then((response) => {
+                window.axios.get('/ledgers/bank-accounts').then((response) => {
                     this.accts_by_chart = response.data;
                     this.accts_by_chart.forEach(element => {
                         if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {
@@ -464,7 +463,7 @@ export default {
                     });
                 });
             } else if (this.basic_fields.trn_by.id === '1') {
-                HTTP.get('/ledgers/cash-accounts').then((response) => {
+                window.axios.get('/ledgers/cash-accounts').then((response) => {
                     this.accts_by_chart = response.data;
                     this.accts_by_chart.forEach(element => {
                         if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {
@@ -475,7 +474,7 @@ export default {
                 /* global erp_reimbursement_var */
             } else if (this.basic_fields.trn_by.id === '4') {
                 if (erp_reimbursement_var.erp_reimbursement_module !== 'undefined' &&  erp_reimbursement_var.erp_reimbursement_module === '1') {
-                    HTTP.get('/people-transactions/balances').then((response) => {
+                    window.axios.get('/people-transactions/balances').then((response) => {
                         this.accts_by_chart = response.data;
                         this.accts_by_chart.forEach(element => {
                             if (!Object.prototype.hasOwnProperty.call(element, 'balance')) {

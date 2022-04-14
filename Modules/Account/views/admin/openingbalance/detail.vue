@@ -288,7 +288,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import SubmitButton from 'admin/components/base/SubmitButton.vue';
 import ShowErrors from 'admin/components/base/ShowErrors.vue';
@@ -390,7 +389,7 @@ export default {
         },
 
         getOpbAccountDetailsPayableReceivable(startDate) {
-            HTTP.get('/opening-balances/acc-payable-receivable', {
+            window.axios.get('/opening-balances/acc-payable-receivable', {
                 params: {
                     start_date: startDate
                 }
@@ -407,7 +406,7 @@ export default {
             this.fetchAgencies();
             this.fetchBanks();
             this.getPeople();
-            HTTP.get('/ledgers/accounts').then(response => {
+            window.axios.get('/ledgers/accounts').then(response => {
                 this.chartAccounts = response.data;
 
                 this.getSelectedOB(this.fin_year);
@@ -420,7 +419,7 @@ export default {
         },
 
         fetchLedgers() {
-            HTTP.get('/ledgers').then(response => {
+            window.axios.get('/ledgers').then(response => {
                 response.data.forEach((ledger) => {
                     ledger.ledger_id = ledger.id;
                     ledger.balance = this.transformBalance(ledger.balance);
@@ -431,7 +430,7 @@ export default {
         },
 
         fetchAgencies() {
-            HTTP.get('/tax-agencies').then((response) => {
+            window.axios.get('/tax-agencies').then((response) => {
                 this.agencies = response.data;
             }).catch(error => {
                 throw error;
@@ -439,7 +438,7 @@ export default {
         },
 
         fetchBanks() {
-            HTTP.get('/ledgers/7/accounts').then((response) => {
+            window.axios.get('/ledgers/7/accounts').then((response) => {
                 this.banks = response.data;
             }).catch(error => {
                 throw error;
@@ -552,7 +551,7 @@ export default {
 
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.post('/opening-balances', {
+            window.axios.post('/opening-balances', {
                 year: this.fin_year.id,
                 ledgers: this.ledgers,
                 acct_pay: this.acct_pay,
@@ -574,14 +573,14 @@ export default {
         },
 
         getYears() {
-            HTTP.get('/opening-balances/names').then(response => {
+            window.axios.get('/opening-balances/names').then(response => {
                 this.years = response.data;
                 this.fin_year = this.years.length ? this.years[0] : null;
             });
         },
 
         getPeople() {
-            HTTP.get('/people', {
+            window.axios.get('/people', {
                 params: {
                     type: []
                 }
@@ -595,13 +594,13 @@ export default {
 
             let count = 0;
 
-            HTTP.get(`/opening-balances/${year.id}/count`).then(response => {
+            window.axios.get(`/opening-balances/${year.id}/count`).then(response => {
                 count = parseInt(response.data);
             }).then(() => {
                 if (parseInt(count) === 0) {
                     this.fetchLedgers();
                 } else {
-                    HTTP.get(`/opening-balances/${year.id}`).then(response => {
+                    window.axios.get(`/opening-balances/${year.id}`).then(response => {
                         this.totalDebit = 0;
                         this.totalCredit = 0;
                         response.data.forEach((ledger) => {
@@ -634,7 +633,7 @@ export default {
         },
 
         fetchVirtualAccts(year) {
-            HTTP.get(`/opening-balances/virtual-accts/${year.id}`).then(response => {
+            window.axios.get(`/opening-balances/virtual-accts/${year.id}`).then(response => {
                 this.acct_pay = response.data.acct_payable;
                 this.acct_rec = response.data.acct_receivable;
                 this.tax_pay = response.data.tax_payable;

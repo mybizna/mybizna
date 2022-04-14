@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import PieChart from 'admin/components/chart/PieChart.vue';
 import PeopleTransaction from 'admin/components/people/PeopleTransaction.vue';
 
@@ -149,7 +148,7 @@ export default {
 
     methods: {
         fetchItem(id) {
-            HTTP.get('/employees/' + this.userId, {
+            window.axios.get('/employees/' + this.userId, {
                 params: { include: 'department,designation,reporting_to,avatar' }
             }).then((response) => {
                 this.user = response.data;
@@ -157,13 +156,13 @@ export default {
         },
 
         getTransactions() {
-            HTTP.get('/employees/' + this.userId + '/transactions').then(res => {
+            window.axios.get('/employees/' + this.userId + '/transactions').then(res => {
                 this.transactions = res.data;
             });
         },
 
         filterTransaction(filters = {}) {
-            HTTP.get('/employees/' + this.userId + '/transactions/filter', {
+            window.axios.get('/employees/' + this.userId + '/transactions/filter', {
                 params: {
                     start_date: filters.start_date,
                     end_date: filters.end_date
@@ -174,7 +173,7 @@ export default {
         },
 
         getChartData(filters = {}) {
-            HTTP.get(`/transactions/people-chart/trn-amount/${this.userId}`, {
+            window.axios.get(`/transactions/people-chart/trn-amount/${this.userId}`, {
                 params: {
                     start_date: filters.start_date,
                     end_date: filters.end_date
@@ -187,7 +186,7 @@ export default {
                 );
             });
 
-            HTTP.get(`/transactions/people-chart/trn-status/${this.userId}`, {
+            window.axios.get(`/transactions/people-chart/trn-status/${this.userId}`, {
                 params: {
                     start_date: filters.start_date,
                     end_date: filters.end_date

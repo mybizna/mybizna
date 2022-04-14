@@ -92,7 +92,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 
 export default {
@@ -148,7 +147,7 @@ export default {
         fetchChartAccounts() {
             this.chartAccounts = [];
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get('/ledgers/accounts').then(response => {
+            window.axios.get('/ledgers/accounts').then(response => {
                 this.chartAccounts = response.data;
 
                 this.$store.dispatch('spinner/setSpinner', false);
@@ -187,7 +186,7 @@ export default {
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
 
-                    HTTP.delete(`/ledgers/${row.id}`).then(response => {
+                    window.axios.delete(`/ledgers/${row.id}`).then(response => {
                         this.fetchChartAccounts();
 
                         this.$store.dispatch('spinner/setSpinner', false);

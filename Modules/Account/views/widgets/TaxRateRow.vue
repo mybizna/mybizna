@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import SubmitButton from 'admin/components/base/SubmitButton.vue';
 
@@ -92,7 +91,7 @@ export default {
 
         UpdateTaxRate() {
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.put(`/taxes/${this.component_line.tax_id}/line-edit`, {
+            window.axios.put(`/taxes/${this.component_line.tax_id}/line-edit`, {
                 db_id: this.component_line.db_id,
                 tax_id: this.component_line.tax_id,
                 row_id: parseInt(this.index),

@@ -144,7 +144,6 @@
 <script>
 import { mapState } from 'vuex';
 
-import HTTP from 'admin/http';
 import SelectPeople from 'admin/components/people/SelectPeople.vue';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 import FileUpload from 'admin/components/base/FileUpload.vue';
@@ -233,8 +232,8 @@ export default {
                 */
                 const expenseChartId = 5;
 
-                const request1 = await HTTP.get(`/ledgers/${expenseChartId}/accounts`);
-                const request2 = await HTTP.get(`/bills/${this.$route.params.id}`);
+                const request1 = await window.axios.get(`/ledgers/${expenseChartId}/accounts`);
+                const request2 = await window.axios.get(`/bills/${this.$route.params.id}`);
 
                 if (!request2.data.bill_details.length) {
                     this.showAlert('error', __('Bill does not exists!', 'erp'));
@@ -298,7 +297,7 @@ export default {
         getLedgers() {
             const expenseChartId = 5;
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get(`/ledgers/${expenseChartId}/accounts`).then(response => {
+            window.axios.get(`/ledgers/${expenseChartId}/accounts`).then(response => {
                 this.ledgers = response.data;
                 this.$store.dispatch('spinner/setSpinner', false);
             }).catch(error => {
@@ -315,7 +314,7 @@ export default {
                 return;
             }
 
-            HTTP.get(`/people/${peopleId}`).then(response => {
+            window.axios.get(`/people/${peopleId}`).then(response => {
                 const billing = response.data;
 
                 let street_1    = billing.street_1 ? billing.street_1 + ',' : '';
@@ -349,7 +348,7 @@ export default {
 
         updateBill(requestData) {
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.put(`/bills/${this.voucherNo}`, requestData).then(res => {
+            window.axios.put(`/bills/${this.voucherNo}`, requestData).then(res => {
                 this.$store.dispatch('spinner/setSpinner', false);
                 this.showAlert('success', __('Bill Updated!', 'erp'));
             }).catch(error => {
@@ -368,7 +367,7 @@ export default {
 
         createBill(requestData) {
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.post('/bills', requestData).then(res => {
+            window.axios.post('/bills', requestData).then(res => {
                 this.$store.dispatch('spinner/setSpinner', false);
                 this.showAlert('success', __('Bill Created!', 'erp'));
             }).catch(error => {

@@ -112,7 +112,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import SendMail from 'admin/components/email/SendMail.vue';
 import Dropdown from 'admin/components/base/Dropdown.vue';
 
@@ -147,7 +146,7 @@ export default {
 
     methods: {
         getCompanyInfo() {
-            HTTP.get(`/company`).then(response => {
+            window.axios.get(`/company`).then(response => {
                 this.company = response.data;
             }).then(e => {}).then(() => {
                 this.isWorking = false;
@@ -157,7 +156,7 @@ export default {
         getExpense() {
             this.isWorking = true;
 
-            HTTP.get(`/taxes/tax-records/${this.$route.params.id}`).then(response => {
+            window.axios.get(`/taxes/tax-records/${this.$route.params.id}`).then(response => {
                 this.tax_pay_data = response.data;
                 this.$store.dispatch('spinner/setSpinner', false);
             }).catch(error => {

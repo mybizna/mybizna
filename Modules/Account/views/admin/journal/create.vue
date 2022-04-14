@@ -121,7 +121,6 @@
     </div>
 </template>
 <script>
-import HTTP from 'admin/http';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 import FileUpload from 'admin/components/base/FileUpload.vue';
 import SubmitButton from 'admin/components/base/SubmitButton.vue';
@@ -172,7 +171,7 @@ export default {
         getLedgers() {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.get('ledgers').then((response) => {
+            window.axios.get('ledgers').then((response) => {
                 this.ledgers = response.data;
 
                 this.$store.dispatch('spinner/setSpinner', false);
@@ -204,7 +203,7 @@ export default {
 
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.post('/journals', {
+            window.axios.post('/journals', {
                 trn_date   : this.basic_fields.trn_date,
                 ref        : this.basic_fields.trn_ref,
                 line_items : this.formatLineItems(),
@@ -279,7 +278,7 @@ export default {
         },
 
         getNextJournalID() {
-            HTTP.get(`/journals/next/`).then((response) => {
+            window.axios.get(`/journals/next/`).then((response) => {
                 this.journal_id = response.data.id;
             });
         },

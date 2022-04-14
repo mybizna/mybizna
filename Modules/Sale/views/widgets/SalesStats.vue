@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import PieChart from 'admin/components/chart/PieChart.vue';
 
 export default {
@@ -78,7 +77,7 @@ export default {
 
     methods: {
         getSalesChartData(filters = {}) {
-            HTTP.get('/transactions/sales/chart-payment', {
+            window.axios.get('/transactions/sales/chart-payment', {
                 params: {
                     start_date: filters.start_date,
                     end_date: filters.end_date
@@ -92,7 +91,7 @@ export default {
                 );
             });
 
-            HTTP.get('/transactions/sales/chart-status', {
+            window.axios.get('/transactions/sales/chart-status', {
                 params: {
                     start_date: filters.start_date,
                     end_date: filters.end_date

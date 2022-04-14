@@ -84,7 +84,6 @@
 </template>
 
 <script>
-    import HTTP         from 'admin/http';
     import ListTable    from '../../list-table/ListTable.vue';
     import Datepicker   from '../../base/Datepicker.vue';
     import MultiSelect  from '../../select/MultiSelect.vue';
@@ -170,7 +169,7 @@
 
                 this.$store.dispatch('spinner/setSpinner', true);
 
-                HTTP.get('/reports/sales-tax', {
+                window.axios.get('/reports/sales-tax', {
                     params: {
                         customer_id : this.customer.id,
                         start_date  : this.startDate,

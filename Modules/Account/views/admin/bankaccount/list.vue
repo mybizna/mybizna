@@ -70,7 +70,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import Dropdown from 'admin/components/base/Dropdown.vue';
 import ComboBox from 'admin/components/select/ComboBox.vue';
 
@@ -101,7 +100,7 @@ export default {
         fetchAccounts() {
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP.get('/accounts/bank-accounts').then((response) => {
+            window.axios.get('/accounts/bank-accounts').then((response) => {
                 this.accounts = response.data;
                 this.$store.dispatch('spinner/setSpinner', false);
             }).catch(error => {

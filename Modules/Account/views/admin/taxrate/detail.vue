@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 import TaxRateLineAdd from 'admin/components/tax/TaxRateLineAdd.vue';
 import TaxRateLineEdit from 'admin/components/tax/TaxRateLineEdit.vue';
@@ -105,7 +104,7 @@ export default {
 
             this.tax_id = this.$route.params.id;
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get(`/taxes/${this.tax_id}`, {
+            window.axios.get(`/taxes/${this.tax_id}`, {
                 params: {
                     per_page: this.paginationData.perPage,
                     page: this.$route.params.page === undefined ? this.paginationData.currentPage : this.$route.params.page
@@ -140,7 +139,7 @@ export default {
             case 'trash':
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
-                    HTTP.delete('/taxes/' + this.tax_id + '/line-delete/' + row.db_id).then(response => {
+                    window.axios.delete('/taxes/' + this.tax_id + '/line-delete/' + row.db_id).then(response => {
                         this.$delete(this.rows, index);
                         this.$store.dispatch('spinner/setSpinner', false);
                         this.showAlert('success', __('Deleted !', 'erp'));

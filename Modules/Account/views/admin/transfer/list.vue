@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 
 export default {
@@ -65,7 +64,7 @@ export default {
 
     methods: {
         get_transfer_list() {
-            HTTP.get('/accounts/transfers/list').then(res => {
+            window.axios.get('/accounts/transfers/list').then(res => {
                 this.transfer_list = res.data;
                 this.$store.dispatch('spinner/setSpinner', false);
             }).catch(error => {

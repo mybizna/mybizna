@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import SubmitButton from 'admin/components/base/SubmitButton.vue';
 import ShowErrors from 'admin/components/base/ShowErrors.vue';
 
@@ -84,7 +83,7 @@ export default {
         },
 
         getCategory() {
-            HTTP.get(`/tax-cats/${this.cat_id}`).then((response) => {
+            window.axios.get(`/tax-cats/${this.cat_id}`).then((response) => {
                 this.category = response.data.name;
                 this.desc = response.data.description;
             });
@@ -116,7 +115,7 @@ export default {
 
             this.$store.dispatch('spinner/setSpinner', true);
 
-            HTTP[rest](url, {
+            window.axios[rest](url, {
                 name: this.category,
                 description: this.desc
             }).catch(error => {

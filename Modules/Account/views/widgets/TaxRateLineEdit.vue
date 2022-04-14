@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import TaxRateRow from 'admin/components/tax/TaxRateRow.vue';
 
 export default {
@@ -67,20 +66,20 @@ export default {
         fetchData() {
             const taxid = this.tax_id;
 
-            HTTP.get(`/taxes/${taxid}`).then((response) => {
+            window.axios.get(`/taxes/${taxid}`).then((response) => {
                 this.tax_rate = response.data;
             }).catch(error => {
                 throw error;
             });
 
-            HTTP.get('/tax-agencies').then((response) => {
+            window.axios.get('/tax-agencies').then((response) => {
                 this.agencies = [];
                 this.agencies = response.data;
             }).catch(error => {
                 throw error;
             });
 
-            HTTP.get('/tax-cats').then((response) => {
+            window.axios.get('/tax-cats').then((response) => {
                 this.categories = [];
                 this.categories = response.data;
             }).catch(error => {

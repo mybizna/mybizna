@@ -103,7 +103,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import SendMail from 'admin/components/email/SendMail.vue';
 import Dropdown from 'admin/components/base/Dropdown.vue';
 export default {
@@ -130,13 +129,13 @@ export default {
 
     methods: {
         getCompanyInfo() {
-            HTTP.get(`/company`).then(response => {
+            window.axios.get(`/company`).then(response => {
                 this.company = response.data;
             });
         },
 
         getVoucher() {
-            HTTP.get(`/accounts/transfers/${this.$route.params.id}`).then(response => {
+            window.axios.get(`/accounts/transfers/${this.$route.params.id}`).then(response => {
                 this.voucher = response.data;
                 this.print_data = this.voucher;
                 this.$store.dispatch('spinner/setSpinner', false);

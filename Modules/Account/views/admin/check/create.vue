@@ -142,7 +142,6 @@
 <script>
 import { mapState } from 'vuex';
 
-import HTTP from 'admin/http';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 import MultiSelect from 'admin/components/select/MultiSelect.vue';
 import FileUpload from 'admin/components/base/FileUpload.vue';
@@ -241,8 +240,8 @@ export default {
                  * Duplicates of
                  *? this.getLedgers()
                 */
-                const request1 = await HTTP.get('/ledgers');
-                const request2 = await HTTP.get(`/expenses/checks/${this.$route.params.id}`);
+                const request1 = await window.axios.get('/ledgers');
+                const request2 = await window.axios.get(`/expenses/checks/${this.$route.params.id}`);
 
                 if (!request2.data.bill_details.length) {
                     this.showAlert('error', __('Check does not exists!', 'erp'));
@@ -298,7 +297,7 @@ export default {
         getLedgers() {
             const expense_chart_id = 5;
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get(`/ledgers/${expense_chart_id}/accounts`).then(response => {
+            window.axios.get(`/ledgers/${expense_chart_id}/accounts`).then(response => {
                 this.ledgers = response.data;
 
                 this.$store.dispatch('spinner/setSpinner', false);
@@ -311,7 +310,7 @@ export default {
         getBanks() {
             const bank_chart_id = 7;
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get(`/ledgers/${bank_chart_id}/accounts`).then(response => {
+            window.axios.get(`/ledgers/${bank_chart_id}/accounts`).then(response => {
                 this.bank_accts = response.data;
 
                 this.$store.dispatch('spinner/setSpinner', false);
@@ -333,7 +332,7 @@ export default {
                 return;
             }
 
-            HTTP.get(`/people/${people_id}`).then(response => {
+            window.axios.get(`/people/${people_id}`).then(response => {
                 const billing = response.data;
 
                 let street_1    = billing.street_1 ? billing.street_1 + ',' : '';
@@ -367,7 +366,7 @@ export default {
 
         updateCheck(requestData) {
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.put(`/expenses/${this.voucherNo}`, requestData).then(res => {
+            window.axios.put(`/expenses/${this.voucherNo}`, requestData).then(res => {
                 this.$store.dispatch('spinner/setSpinner', false);
                 this.showAlert('success', __('Check Updated!', 'erp'));
             }).catch(error => {
@@ -387,7 +386,7 @@ export default {
 
         createCheck(requestData) {
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.post('/expenses', requestData).then(res => {
+            window.axios.post('/expenses', requestData).then(res => {
                 this.$store.dispatch('spinner/setSpinner', false);
                 this.showAlert('success', __('Check Created!', 'erp'));
             }).catch(error => {

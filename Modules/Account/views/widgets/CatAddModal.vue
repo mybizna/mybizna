@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import Treeselect from '@riophae/vue-treeselect';
 
 export default {
@@ -103,7 +102,7 @@ export default {
             if (this.catData.node) {
                 // Updating
                 this.$store.dispatch('spinner/setSpinner', true);
-                HTTP.put(`/ledgers/categories/${this.catData.node.id}`, {
+                window.axios.put(`/ledgers/categories/${this.catData.node.id}`, {
                     parent: this.parent,
                     name: this.category
                 }).then(response => {
@@ -124,7 +123,7 @@ export default {
                 });
             } else {
                 // Creating
-                HTTP.post('/ledgers/categories', {
+                window.axios.post('/ledgers/categories', {
                     parent: this.parent,
                     name: this.category
                 }).then(response => {

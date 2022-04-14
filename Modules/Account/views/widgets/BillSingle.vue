@@ -139,7 +139,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import SendMail from 'admin/components/email/SendMail.vue';
 import Dropdown from 'admin/components/base/Dropdown.vue';
 import TransParticulars from 'admin/components/transactions/TransParticulars.vue';
@@ -177,7 +176,7 @@ export default {
 
     methods: {
         getCompanyInfo() {
-            HTTP.get(`/company`).then(response => {
+            window.axios.get(`/company`).then(response => {
                 this.company = response.data;
             }).then(e => {}).then(() => {
                 this.isWorking = false;
@@ -187,7 +186,7 @@ export default {
         getBill() {
             this.isWorking = true;
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get(`/bills/${this.$route.params.id}`).then(response => {
+            window.axios.get(`/bills/${this.$route.params.id}`).then(response => {
                 this.bill = response.data;
                 this.people_id = this.bill.vendor_id;
                 this.pdf_link = this.bill.pdf_link;

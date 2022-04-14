@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 /* global __ */
 export default {
@@ -155,7 +154,7 @@ export default {
             this.rows = [];
 
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get('/transactions/sales', {
+            window.axios.get('/transactions/sales', {
                 params: {
                     per_page  : this.paginationData.perPage,
                     page      : this.$route.params.page === undefined ? this.paginationData.currentPage : this.$route.params.page,
@@ -258,7 +257,7 @@ export default {
             case 'trash':
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
-                    HTTP.delete('invoices/' + row.id).then(response => {
+                    window.axios.delete('invoices/' + row.id).then(response => {
                         this.$delete(this.rows, index);
 
                         this.$store.dispatch('spinner/setSpinner', false);
@@ -299,14 +298,14 @@ export default {
             case 'void':
                 if (confirm(__('Are you sure to void the transaction?', 'erp'))) {
                     if (row.type === 'invoice') {
-                        HTTP.post('invoices/' + row.id + '/void').then(response => {
+                        window.axios.post('invoices/' + row.id + '/void').then(response => {
                             this.showAlert('success', __('Transaction has been void!', 'erp'));
                         }).catch(error => {
                             throw error;
                         });
                     }
                     if (row.type === 'payment') {
-                        HTTP.post('payments/' + row.id + '/void').then(response => {
+                        window.axios.post('payments/' + row.id + '/void').then(response => {
                             this.showAlert('success', __('Transaction has been void!', 'erp'));
                         }).then(() => {
                             this.$router.push({ name: 'Sales' });

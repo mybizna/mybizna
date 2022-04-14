@@ -84,7 +84,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import Datepicker from 'admin/components/base/Datepicker.vue';
 import SimpleSelect from 'admin/components/select/SimpleSelect.vue';
 
@@ -137,7 +136,7 @@ export default {
     },
 
     created() {
-        HTTP.get('/transactions/statuses').then(response => {
+        window.axios.get('/transactions/statuses').then(response => {
             this.statuses = response.data;
         }).catch(error => {
             throw error;

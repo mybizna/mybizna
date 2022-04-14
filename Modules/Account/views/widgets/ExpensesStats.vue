@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import PieChart from 'admin/components/chart/PieChart.vue';
 
 export default {
@@ -79,7 +78,7 @@ export default {
 
     methods: {
         getExpenseChartData(filters = {}) {
-            HTTP.get('/transactions/expense/chart-expense', {
+            window.axios.get('/transactions/expense/chart-expense', {
                 params: {
                     start_date: filters.start_date,
                     end_date: filters.end_date
@@ -93,7 +92,7 @@ export default {
                 );
             });
 
-            HTTP.get('/transactions/expense/chart-status', {
+            window.axios.get('/transactions/expense/chart-status', {
                 params: {
                     start_date: filters.start_date,
                     end_date: filters.end_date

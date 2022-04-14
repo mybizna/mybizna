@@ -75,7 +75,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 /* global __ */
 export default {
@@ -160,7 +159,7 @@ export default {
             this.rows = [];
 
             this.$store.dispatch('spinner/setSpinner', true);
-            HTTP.get('/transactions/purchases', {
+            window.axios.get('/transactions/purchases', {
                 params: {
                     per_page  : this.paginationData.perPage,
                     page      : this.$route.params.page === undefined ? this.paginationData.currentPage: this.$route.params.page,
@@ -265,7 +264,7 @@ export default {
             switch (action) {
             case 'trash':
                 if (confirm( __('Are you sure to delete?', 'erp') )) {
-                    HTTP.delete('purchases/' + row.id).then(response => {
+                    window.axios.delete('purchases/' + row.id).then(response => {
                         this.$delete(this.rows, index);
                     });
                 }
@@ -300,14 +299,14 @@ export default {
             case 'void':
                 if ( confirm( __('Are you sure to void the transaction?', 'erp') ) ) {
                     if (row.type === 'purchase') {
-                        HTTP.post('purchases/' + row.id + '/void').then(response => {
+                        window.axios.post('purchases/' + row.id + '/void').then(response => {
                             this.showAlert('success', __( 'Transaction has been void!', 'erp' ) );
                         }).catch(error => {
                             throw error;
                         });
                     }
                     if (row.type === 'pay_purchase' || row.type === 'receive_pay_purchase') {
-                        HTTP.post('pay-purchases/' + row.id + '/void').then(response => {
+                        window.axios.post('pay-purchases/' + row.id + '/void').then(response => {
                             this.showAlert( 'success', __( 'Transaction has been void!', 'erp' ) );
                         }).then(() => {
                             this.$router.push({ name: 'Purchases' });

@@ -95,7 +95,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import Accounts from 'admin/components/dashboard/Accounts.vue';
 import Chart from 'admin/components/dashboard/Chart.vue';
 
@@ -149,14 +148,14 @@ export default {
     methods: {
         fetchReceivables() {
             this.to_receive = [];
-            HTTP.get('invoices/overview-receivable').then((res) => {
+            window.axios.get('invoices/overview-receivable').then((res) => {
                 this.to_receive = res.data;
             });
         },
 
         fetchPayables() {
             this.to_pay = [];
-            HTTP.get('bills/overview-payable').then((res) => {
+            window.axios.get('bills/overview-payable').then((res) => {
                 this.to_pay = res.data;
             });
         }

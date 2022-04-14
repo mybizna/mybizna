@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 import NewTaxZone from 'admin/components/tax/NewTaxZone.vue';
 import NewTaxCategory from 'admin/components/tax/NewTaxCategory.vue';
@@ -155,7 +154,7 @@ export default {
         fetchItems() {
             this.rows = [];
 
-            HTTP.get('/taxes', {
+            window.axios.get('/taxes', {
                 params: {
                     per_page: this.paginationData.perPage,
                     page: this.$route.params.page === undefined ? this.paginationData.currentPage : this.$route.params.page
@@ -195,7 +194,7 @@ export default {
             case 'trash':
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
-                    HTTP.delete('/taxes/' + row.id).then(response => {
+                    window.axios.delete('/taxes/' + row.id).then(response => {
                         this.$delete(this.rows, index);
                         this.$store.dispatch('spinner/setSpinner', false);
                         this.showAlert('success', __('Deleted !', 'erp'));
@@ -220,7 +219,7 @@ export default {
                 if (confirm(__('Are you sure to delete?', 'erp'))) {
                     this.$store.dispatch('spinner/setSpinner', true);
 
-                    HTTP.delete('taxes/delete/' + items.join(',')).then(response => {
+                    window.axios.delete('taxes/delete/' + items.join(',')).then(response => {
                         const toggleCheckbox = document.getElementsByClassName('column-cb')[0].childNodes[0];
 
                         if (toggleCheckbox.checked) {

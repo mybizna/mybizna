@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
 import ListTable from 'admin/components/list-table/ListTable.vue';
 
 export default {
@@ -82,7 +81,7 @@ export default {
     methods: {
         fetchItems() {
             this.rows = [];
-            HTTP.get('/journals', {
+            window.axios.get('/journals', {
                 params: {
                     per_page: this.paginationData.perPage,
                     page: this.$route.params.page === undefined ? this.paginationData.currentPage : this.$route.params.page
