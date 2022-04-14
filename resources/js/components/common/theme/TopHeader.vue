@@ -6,7 +6,7 @@
     <router-link :to="'/'" class="brand-logo">
       <img
         class="m-3 rounded"
-        src="@/assets/gif-logo.jpg"
+        src="image/logo.png"
       />
     </router-link>
 
