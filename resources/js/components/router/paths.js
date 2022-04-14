@@ -236,7 +236,6 @@ var paths = [
 
 ];
 
-let url = window.base_url + '/api';
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -303,7 +302,7 @@ const options = {
 }
 
 const fetchComponent = (comp_path) => {
-    return loadModule(url + '/' + comp_path, options)
+    return loadModule(window.base_url + '/assets/' + comp_path, options)
         .then(component => new window.vue(component).$mount('#app'));
 }
 
@@ -331,7 +330,10 @@ function path_updater(route) {
     return route;
 }
 
-fetch(url + '/fetch_routes')
+fetch(window.base_url + '/api/discover_modules')
+
+
+fetch(window.base_url + '/api/fetch_routes')
     .then(function (response) {
         return response.json();
     })
