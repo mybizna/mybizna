@@ -4,7 +4,10 @@ import '@/plugins/vue-composition-api';
 import '@/styles/styles.scss';
 
 import Vue from 'vue';
+window['vue'] = Vue;
+
 import vuetify from '@/plugins/vuetify';
+
 import Vuex from 'vuex';
 import App from '@/components/App';
 import Axios from 'axios';
@@ -29,6 +32,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import "vuetify/dist/vuetify.min.css";
+
 
 let base_url = window.base_url + '/api';
 

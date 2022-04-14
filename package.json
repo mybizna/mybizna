@@ -32,6 +32,7 @@
         "vue-moment": "^4.1.0",
         "vue-router": "^3.2.0",
         "vue2-datepicker": "^3.10.4",
+        "vue3-sfc-loader": "^0.8.4",
         "vuetify": "^2.4.0",
         "vuex": "^3.4.0",
         "vuex-persistedstate": "^4.1.0",

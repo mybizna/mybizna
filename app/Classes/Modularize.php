@@ -93,8 +93,7 @@ class Modularize
 
         $modules_path = realpath(base_path()) . $DS . 'Modules';
 
-        $routes = [
-        ];
+        $routes = [];
 
         if (is_dir($modules_path)) {
 
@@ -111,12 +110,13 @@ class Modularize
 
                     $routes_file = $modules_path . DIRECTORY_SEPARATOR . $module_name . DIRECTORY_SEPARATOR . 'routes.json';
                     if (file_exists($routes_file)) {
-                        $routes_arr = json_decode(file_get_contents($routes_file));
-                        $this->routes[] = $routes_arr;
+                        $routes_arr = json_decode(file_get_contents($routes_file), true);
+                        $this->routes = $routes_arr;
                     }
                 }
             }
         }
+
 
         $this->routes = array_merge($this->routes, $routes);
 
@@ -167,7 +167,7 @@ class Modularize
 
                                     $vs_filename = $vs_fileinfo->getFilename();
                                     $vs_sx_filename = str_replace('.vue', '', $vs_filename);
-                                    $vs_path = $module_name . '/' . $vs_foldername  . '/'  . $folder . '/' . $vs_sx_filename;
+                                    $vs_path = $module_name . '/' . $folder . '/' . $vs_foldername  . '/'  . $vs_sx_filename;
 
                                     $t_folder_path =  $v_folder_path . '/' . $vs_sx_filename;
 

@@ -16,6 +16,8 @@ use App\Http\Controllers\AuthenticationController;
 |
 */
 
+
+
 $apicontroller = 'App\Http\Controllers\ApiController';
 
 
@@ -26,9 +28,15 @@ Route::put('{module}/{model}/{id}', $apicontroller . '@updateRecord');
 Route::delete('{module}/{model}/{id}', $apicontroller . '@deleteRecord');
 Route::match(['get', 'post'], '{module}/{model}/{function}/',  $apicontroller . '@functionCall');
 
+Route::middleware('throttle:240,1')->group(
+    function () {
 
-Route::get('{module}/{side}/{model}/{name}.vue', $apicontroller . '@fetchVue');
-Route::get('{module}/widgets/{name}.vue', $apicontroller . '@fetchVueWidgets');
+        $apicontroller = 'App\Http\Controllers\ApiController';
+
+        Route::get('{module}/{side}/{model}/{name}.vue', $apicontroller . '@fetchVue');
+        Route::get('{module}/widgets/{name}.vue', $apicontroller . '@fetchVueWidgets');
+    }
+);
 
 Route::get('fetch_menus', $apicontroller . '@fetchMenus');
 Route::get('fetch_routes', $apicontroller . '@fetchRoutes');
@@ -44,7 +52,7 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 //using middleware
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    Route::get('/profile', function(Request $request) {
+    Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
 
