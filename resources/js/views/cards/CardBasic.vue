@@ -9,7 +9,7 @@
       >
         <v-card>
           <v-img
-            src="assets/images/pages/card-basic-influencer.png"
+            src="images/pages/card-basic-influencer.png"
             height="250"
           />
           <v-card-title>
@@ -29,7 +29,7 @@
         <v-card>
           <v-img
             class="white--text align-end"
-            src="@/assets/images/pages/card-basic-person.png"
+            src="images/pages/card-basic-person.png"
             height="250"
           />
           <v-card-text class="position-relative">
@@ -39,7 +39,7 @@
               color="white"
               class="avatar-center"
             >
-              <v-img src="@/assets/images/avatars/1.png"></v-img>
+              <v-img src="images/avatars/1.png"></v-img>
             </v-avatar>
             <!-- Title, Subtitle & Action Button -->
             <div class="d-flex justify-space-between flex-wrap pt-12">
@@ -62,7 +62,7 @@
               </span>
 
               <v-avatar size="40">
-                <v-img src="@/assets/images/avatars/2.png"></v-img>
+                <v-img src="images/avatars/2.png"></v-img>
               </v-avatar>
             </div>
           </v-card-text>
@@ -77,7 +77,7 @@
       >
         <v-card>
           <v-img
-            src="@/assets/images/pages/card-basic-person.png"
+            src="images/pages/card-basic-person.png"
             height="250"
           ></v-img>
           <v-card-title>
@@ -123,7 +123,7 @@
               <v-img
                 width="220"
                 height="100%"
-                src="@/assets/images/pages/card-basic-mobile.png"
+                src="images/pages/card-basic-mobile.png"
               ></v-img>
             </div>
             <v-divider :vertical="$vuetify.breakpoint.mdAndUp"></v-divider>
@@ -197,7 +197,7 @@
             </div>
             <div class="pa-4">
               <v-img
-                src="@/assets/images/pages/card-basic-clock.jpg"
+                src="images/pages/card-basic-clock.jpg"
                 :class="$vuetify.breakpoint.mdAndUp ? 'rounded-lg':'rounded-0'"
                 height="100%"
                 :max-width="$vuetify.breakpoint.mdAndUp ? '220':'100%'"
@@ -214,7 +214,7 @@
         class="align-self-start"
       >
         <v-card>
-          <v-img src="@/assets/images/pages/card-basic-brown-watch.jpg"></v-img>
+          <v-img src="images/pages/card-basic-brown-watch.jpg"></v-img>
           <v-card-title>Apple Watch</v-card-title>
           <v-card-text>
             <p class="text--primary text-base">

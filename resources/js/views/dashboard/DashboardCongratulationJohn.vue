@@ -29,7 +29,7 @@
           contain
           height="180"
           width="159"
-          src="@/assets/images/misc/triangle-light.png"
+          src="images/misc/triangle-light.png"
           class="greeting-card-bg"
         ></v-img>
         <v-img
@@ -37,7 +37,7 @@
           height="108"
           max-width="83"
           class="greeting-card-trophy"
-          src="@/assets/images/misc/trophy.png"
+          src="images/misc/trophy.png"
         ></v-img>
       </v-col>
     </v-row>

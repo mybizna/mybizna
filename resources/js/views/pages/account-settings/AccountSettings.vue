@@ -64,7 +64,7 @@ export default {
     // account settings data
     const accountSettingData = {
       account: {
-        avatarImg: require('@/assets/images/avatars/1.png'),
+        avatarImg: 'images/avatars/1.png',
         username: 'johnDoe',
         name: 'john Doe',
         email: 'johnDoe@example.com',

@@ -9,7 +9,7 @@
             class="d-flex align-center"
           >
             <v-img
-              src="/assets/images/logos/logo.svg"
+              src="images/logos/logo.svg"
               max-height="30px"
               max-width="30px"
               alt="logo"
@@ -123,7 +123,7 @@
     <img
       class="auth-mask-bg"
       height="190"
-      src="@/assets/images/misc/mask-light.png"
+      src="images/misc/mask-light.png"
     >
 
     <!-- tree -->
@@ -131,7 +131,7 @@
       class="auth-tree"
       width="247"
       height="185"
-      src="@/assets/images/misc/tree.png"
+      src="images/misc/tree.png"
     ></v-img>
 
     <!-- tree  -->
@@ -139,7 +139,7 @@
       class="auth-tree-3"
       width="377"
       height="289"
-      src="@/assets/images/misc/tree-3.png"
+      src="images/misc/tree-3.png"
     ></v-img>
   </div>
 </template>

@@ -21,7 +21,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-img src="assets/images/avatars/1.png"></v-img>
+          <v-img src="images/avatars/1.png"></v-img>
         </v-avatar>
       </v-badge>
     </template>
@@ -37,7 +37,7 @@
           dot
         >
           <v-avatar size="40px">
-            <v-img src="@/assets/images/avatars/1.png"></v-img>
+            <v-img src="images/avatars/1.png"></v-img>
           </v-avatar>
         </v-badge>
         <div

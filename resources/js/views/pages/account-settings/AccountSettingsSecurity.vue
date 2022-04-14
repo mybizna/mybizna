@@ -58,7 +58,7 @@
               <v-img
                 contain
                 max-width="170"
-                src="@/assets/images/3d-characters/pose-m-1.png"
+                src="images/3d-characters/pose-m-1.png"
                 class="security-character"
               ></v-img>
             </v-col>

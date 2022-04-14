@@ -29,7 +29,7 @@
         <v-card-actions class="justify-space-between">
           <div>
             <v-avatar size="34">
-              <v-img src="@/assets/images/avatars/1.png"></v-img>
+              <v-img src="images/avatars/1.png"></v-img>
             </v-avatar>
             <span class="white--text ms-2">{{ data.avatarName }}</span>
           </div>

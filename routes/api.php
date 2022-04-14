@@ -38,6 +38,7 @@ Route::middleware('throttle:240,1')->group(
     }
 );
 
+Route::get('discover_modules', $apicontroller . '@discoverModules');
 Route::get('fetch_menus', $apicontroller . '@fetchMenus');
 Route::get('fetch_routes', $apicontroller . '@fetchRoutes');
 Route::get('current_user', $apicontroller . '@currentUser');

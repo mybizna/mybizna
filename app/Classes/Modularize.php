@@ -3,6 +3,8 @@
 namespace App\Classes;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+
 
 class Modularize
 {
@@ -213,7 +215,38 @@ class Modularize
         ];
     }
 
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    //Discover Modules
+    public function discoverModules()
+    {
 
+        $DS = DIRECTORY_SEPARATOR;
+
+
+        $modules_path = realpath(base_path()) . $DS . 'Modules';
+
+        if (is_dir($modules_path)) {
+
+            $dir = new \DirectoryIterator($modules_path);
+
+            foreach ($dir as $fileinfo) {
+                if (!$fileinfo->isDot() && $fileinfo->isDir()) {
+
+                    $module_name = $fileinfo->getFilename();
+
+                    $module_folder = $modules_path . $DS . $module_name . $DS . 'views';
+                    $public_folder = realpath(base_path()) . $DS . 'public' . $DS . 'assets' . $DS . Str::lower($module_name);
+
+                    if (!File::exists($public_folder)) {
+                        //File::makeDirectory($public_folder);
+                        symlink($module_folder, $public_folder);
+                    }
+                }
+            }
+        }
+
+        return;
+    }
     //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     //Fetching Menu
     public function fetchMenus()
@@ -231,7 +264,7 @@ class Modularize
             foreach ($dir as $fileinfo) {
                 if (!$fileinfo->isDot() && $fileinfo->isDir()) {
                     $module_name = $fileinfo->getFilename();
-                    $menu_file = $modules_path . DIRECTORY_SEPARATOR . $module_name . DIRECTORY_SEPARATOR . 'menu.php';
+                    $menu_file = $modules_path .  $DS . $module_name .  $DS . 'menu.php';
                     if (file_exists($menu_file)) {
                         include_once $menu_file;
                     }

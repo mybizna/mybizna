@@ -8,7 +8,7 @@
               <div class="col-xl-12">
                 <div class="auth-form">
                   <div class="text-center mb-3">
-                    <img src="assets/images/logo.jpg" alt="" />
+                    <img src="images/logo.jpg" alt="" />
                   </div>
                   <h4 class="text-center mb-4">Auto Login to your account</h4>
                   <div class="new-account mt-5">

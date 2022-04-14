@@ -8,7 +8,7 @@
               <div class="col-xl-12">
                 <div class="auth-form">
                   <div class="text-center mb-3">
-                    <img src="assets/images/logo.jpg" alt="" />
+                    <img src="images/logo.jpg" alt="" />
                   </div>
                   <h4 class="text-center mb-4">Forgot Password</h4>
                   <div v-if="is_first">

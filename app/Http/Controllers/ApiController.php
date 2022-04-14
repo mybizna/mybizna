@@ -106,6 +106,15 @@ class ApiController extends Controller
         return $response;
     }
 
+    public function discoverModules(Request $request)
+    {
+        $modularize = new Modularize();
+
+        $result = $modularize->discoverModules();
+
+        return Response::json($result);
+    }
+
 
     public function fetchRoutes(Request $request)
     {
