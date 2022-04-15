@@ -68,7 +68,8 @@ const options = {
 }
 
 const fetchComponent = (comp_path) => {
-    return loadModule(window.base_url + '/assets/' + comp_path, options);
+    return  () => loadModule(window.base_url + '/assets/' + comp_path, options);
+    //return loadModule(window.base_url + '/assets/' + comp_path, options);
 }
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -106,10 +107,16 @@ export default function () {
         .then(function (response) {
             // handle success
             console.log(response);
+
+            var counter = 0;
+
             response.data.routes.forEach(route => {
+
+
                 var new_routes = path_updater(route);
 
-                window.router.push(new_routes);
+                window.router.addRoute(new_routes);
+
             });
         })
         .catch(function (error) {
