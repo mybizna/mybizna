@@ -68,7 +68,7 @@ const options = {
 }
 
 const fetchComponent = (comp_path) => {
-    return  () => loadModule(window.base_url + '/assets/' + comp_path, options);
+    return () => loadModule(window.base_url + '/assets/' + comp_path, options);
     //return loadModule(window.base_url + '/assets/' + comp_path, options);
 }
 
@@ -83,7 +83,11 @@ function path_updater(route) {
         };
     } else {
         console.log(route.component);
-        route.component = fetchComponent(route.component);
+
+        var comp_path = window.base_url + '/assets/' + route.component;
+
+        route.component = window.vue.component(route.name, () => loadModule(comp_path, options));
+        //route.component = window.vue.component(route.name, fetchComponent(route.component));
     }
 
     if (route.hasOwnProperty('children') && route.children.length > 0) {

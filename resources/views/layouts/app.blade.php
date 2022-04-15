@@ -12,6 +12,11 @@
 
     <script>
         var base_url = '{{  url("/"); }}';
+
+        function __(title, select){
+            return title;
+        }
+
     </script>
 
     <!-- Scripts -->

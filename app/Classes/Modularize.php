@@ -244,6 +244,13 @@ class Modularize
                 }
             }
         }
+        $comp_folder =realpath(base_path()) . $DS . 'resources'. $DS . 'js'. $DS . 'components';
+        $comp_public_folder = realpath(base_path()) . $DS . 'public' . $DS . 'assets' . $DS . 'components';
+
+
+        if (!File::exists($comp_public_folder)) {
+            symlink($comp_folder, $comp_public_folder);
+        }
 
         return;
     }

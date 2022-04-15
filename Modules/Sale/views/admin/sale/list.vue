@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import ListTable from 'admin/components/list-table/ListTable.vue';
+import ListTable from 'assets/components/list-table/ListTable.vue';
 /* global __ */
 export default {
 
@@ -107,6 +107,7 @@ export default {
     },
 
     created() {
+        alert('created');
         this.$store.dispatch('spinner/setSpinner', true);
 
         this.$root.$on('transactions-filter', filters => {

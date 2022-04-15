@@ -31,8 +31,8 @@
 
                     <!-- Navbar dropdowns -->
                     <b-nav-item-dropdown text="Invoice" right>
-                        <b-dropdown-item href="#">Invoice EN</b-dropdown-item>
-                        <b-dropdown-item href="#">Invoice ES</b-dropdown-item>
+                        <b-dropdown-item to="/transactions">Transactions</b-dropdown-item>
+                        <b-dropdown-item to="/transactions/sales">Sales</b-dropdown-item>
                         <b-dropdown-item href="#">Invoice RU</b-dropdown-item>
                         <b-dropdown-item href="#">Invoice FA</b-dropdown-item>
                     </b-nav-item-dropdown>
