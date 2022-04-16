@@ -85,8 +85,8 @@ function path_updater(route) {
         console.log(route.component);
 
         var comp_path = window.base_url + '/assets/' + route.component;
-
-        route.component = window.vue.component(route.name, () => loadModule(comp_path, options));
+        route.component = fetchComponent(route.component);
+        //route.component = window.vue.component(route.name, () => loadModule(comp_path, options));
         //route.component = window.vue.component(route.name, fetchComponent(route.component));
     }
 

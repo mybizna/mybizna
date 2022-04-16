@@ -6,8 +6,7 @@
 </template>
 
 <script>
-import HTTP from 'admin/http';
-import MultiSelect from 'admin/components/select/MultiSelect.vue';
+import MultiSelect from 'assets/components/select/MultiSelect.vue';
 
 export default {
 
@@ -86,7 +85,7 @@ export default {
 
     methods: {
         fetchAccounts() {
-            HTTP.get('/accounts').then(response => {
+            window.axios.get('/accounts').then(response => {
                 this.accounts = response.data;
             });
         },

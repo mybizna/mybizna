@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Dropdown from 'admin/components/base/Dropdown.vue';
+import Dropdown from 'assets/components/base/Dropdown.vue';
 
 import { setupCalendar, Calendar } from 'v-calendar';
 import 'v-calendar/lib/v-calendar.min.css';
