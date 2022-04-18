@@ -14,7 +14,7 @@ const mix = require('laravel-mix');
 
 /*mix.alias({
     '@': __dirname + '/resources/js'
-});*/
+});
 
 mix.webpackConfig({
     resolve: {
@@ -25,7 +25,7 @@ mix.webpackConfig({
         },
     },
 
-});
+});*/
 
 
 mix.js('resources/js/app.js', 'public/js')

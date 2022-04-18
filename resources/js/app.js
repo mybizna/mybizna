@@ -1,98 +1,44 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import '@/plugins/vue-composition-api';
-import '@/styles/styles.scss';
+import * as Vue from 'vue';
+import {
+    createApp,
+    defineAsyncComponent
+} from 'vue';
+import BootstrapVue3 from 'bootstrap-vue-3';
+import * as VueRouter from 'vue-router';
+import App from './App.vue';
+import vuetify from './plugins/vuetify';
+import {
+    loadFonts
+} from './plugins/webfontloader';
 
-import Vue from 'vue';
-window['vue'] = Vue;
+import {
+    createStore
+} from 'vuex';
 
-import vuetify from '@/plugins/vuetify';
-
-import Vuex from 'vuex';
-import App from '@/components/App';
-import Axios from 'axios';
-import router from '@/components/router';
-import createPersistedState from "vuex-persistedstate";
-import VueRouter from 'vue-router';
-import Truncate from 'lodash.truncate';
-import VueFormGenerator from "vue-form-generator";
-import VueMoment from 'vue-moment';
-import moment from 'moment-timezone';
-import NProgress from 'nprogress';
 import Cookies from "js-cookie";
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import createPersistedState from "vuex-persistedstate";
 
-import VueCommonFilters from 'vue-common-filters';
+import Axios from 'axios';
 
-import autorouter from '@/components/router/autorouter';
 
-import 'vue-form-generator/dist/vfg.css';
-import 'nprogress/nprogress.css';
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
+
 
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
-
-import "vuetify/dist/vuetify.min.css";
+import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
 
 
-let base_url = window.base_url + '/api';
+const app = createApp(App)
+    .use(vuetify)
+    .use(BootstrapVue3);
 
-Vue.prototype.$base_url = base_url;
-Vue.prototype.$male_default_avatar = 'images/avatar.png';
-Vue.prototype.$female_default_avatar = 'images/avatar2.png';
+    let base_url = window.base_url + '/api';
+
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxx  Axios Loader xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 Axios.defaults.baseURL = base_url;
-var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-moment.tz.setDefault(timezone);
-Vue.config.productionTip = false;
-
-// Make BootstrapVue available throughout your project
-Vue.use(BootstrapVue);
-// Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin);
-
-Vue.use(VueRouter);
-Vue.use(VueFormGenerator);
-Vue.use(Vuex);
-Vue.use(VueMoment, {
-    moment,
-});
-
-window.router = router;
-
-Vue.prototype.$appName = window.appName = 'My App';
-
-Vue.prototype.$is_frontend = window.is_frontend = false;
-Vue.prototype.$is_stockist = window.is_stockist = false;
-Vue.prototype.$is_backend = window.is_backend = true;
-
-Vue.prototype.$in_progress = window.in_progress = true;
-Vue.prototype.$loading = window.loading = {
-    in_progress: true
-};
-
-Vue.prototype.$loader_template = window.loader_template = '<div class="block-screen"><b>Please wait...</b></div>';
-
-import './apps';
-
-import modules from '@/store/modules';
-
-let store = new Vuex.Store({
-    modules: modules,
-    plugins: [createPersistedState({
-        storage: {
-            getItem: (key) => Cookies.get(key),
-            // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
-            setItem: (key, value) =>
-                Cookies.set(key, value, {
-                    expires: 3,
-                    secure: true
-                }),
-            removeItem: (key) => Cookies.remove(key),
-        },
-    })],
-});
 
 Axios.defaults.timeout = 10000;
 Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -136,124 +82,110 @@ Axios.interceptors.response.use(function (response) {
 });
 
 
-/*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
-// Register my awesome field
-import fieldautocomplete from "@/components/custom_fields/autocomplete-field.vue";
-Vue.component("field-autocomplete", fieldautocomplete);
-
-//import fieldeditor from "@/components/custom_fields/editor-field.vue";
-//Vue.component("field-editor", fieldeditor);
-
-import fieldmedia from "@/components/custom_fields/media-field.vue";
-Vue.component("field-media", fieldmedia);
-
-import fieldvuedatetime from "@/components/custom_fields/vuedatetime-field.vue";
-Vue.component("field-vuedatetime", fieldvuedatetime);
-
-import fieldvuedatetimepicker from "@/components/custom_fields/vuedatetimepicker-field.vue";
-Vue.component("field-vuedatetimepicker", fieldvuedatetimepicker);
-
-import fieldrecordpicker from "@/components/custom_fields/recordpicker-field.vue";
-Vue.component("field-recordpicker", fieldrecordpicker);
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxx  Vuex Store xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+import modules from '@/store/modules';
 
 
-/*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
-// Helpers
-// Global filters
+const store = createStore({
+    modules: modules,
+    plugins: [createPersistedState({
+        storage: {
+            getItem: (key) => Cookies.get(key),
+            // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
+            setItem: (key, value) =>
+                Cookies.set(key, value, {
+                    expires: 3,
+                    secure: true
+                }),
+            removeItem: (key) => Cookies.remove(key),
+        },
+    })],
+})
 
-Vue.filter('toCurrency', function (value) {
-    if (typeof value !== "number") {
-        return value;
-    }
-    var formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 4
-    });
-    return formatter.format(value);
-});
+app.use(store);
 
-let config = {
-    "currency": {
-        "symbol": "$",
-        "decimalDigits": 2,
-        "symbolOnLeft": true,
-        "spaceBetweenAmountAndSymbol": false
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxx  Components Loader  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+import {
+    loadModule
+} from 'vue3-sfc-loader';
+
+
+loadFonts();
+
+
+
+const options = {
+    moduleCache: {
+        vue: Vue
     },
+    async getFile(url) {
 
-    "text": {
-        "truncateClamp": "..."
+        const res = await fetch(url);
+        if (!res.ok)
+            throw Object.assign(new Error(res.statusText + ' ' + url), {
+                res
+            });
+        return {
+            getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text(),
+        }
     },
+    addStyle(textContent) {
 
-    "numbers": {
-        "decimalDigits": 2
+        const style = Object.assign(document.createElement('style'), {
+            textContent
+        });
+        const ref = document.head.getElementsByTagName('style')[0] || null;
+        document.head.insertBefore(style, ref);
     },
+}
 
-    "array": {
-        "implodeDelimiter": ", "
-    },
 
-    "dates": {
-        "defaultFormat": "YYYY-MM-DD HH:mm:ss",
-        "filterConvertFormat": "DD MMMM YYYY"
-    }
+const Home = {
+    template: '<div>Home</div>'
+};
+const About = {
+    template: '<div>About</div>'
 };
 
-Vue.use(VueCommonFilters, config);
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Ruotes  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
-Vue.prototype.$http = Vue.prototype.$axios = window.axios = Axios;
-
-autorouter();
-
-/*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
-// router gards
-router.beforeEach((to, from, next) => {
-
-    Vue.prototype.$loading.in_progress = true;
-
-    NProgress.start();
-
-    if (to.meta.middlewareAuth) {
-
-        if (!store.getters["auth/loggedIn"]) {
-            next({
-                path: '/login',
-                query: {
-                    redirect: to.fullPath
-                }
-            });
-
-            return;
-        }
+// 2. Define some routes
+// Each route should map to a component.
+// We'll talk about nested routes later.
+const routes = [{
+        path: '/',
+        component: Home
+    },
+    {
+        path: '/about',
+        component: About
+    },
+    {
+        path: '/h1',
+        component: defineAsyncComponent(() => loadModule('https://utupress.github.io/blocks/header1/index.vue', options))
     }
+]
 
-
-    if (to.matched.some(record => record.meta.middlewareAuth)) {
-        if (!store.getters["auth/loggedIn"]) {
-            next({
-                path: '/login',
-                query: {
-                    redirect: to.fullPath
-                }
-            });
-
-            return;
-        }
-    }
-
-    next();
+// 3. Create the router instance and pass the `routes` option
+// You can pass in additional options here, but let's
+// keep it simple for now.
+const router = VueRouter.createRouter({
+    // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+    history: VueRouter.createWebHashHistory(),
+    routes, // short for `routes: routes`
 });
 
-router.afterEach((to, from) => {
-    // ...
-    Vue.prototype.$loading.in_progress = false;
-    NProgress.done();
-});
+app.use(router);
 
-new Vue({
-    router,
-    store,
-    vuetify,
-    render: (h) => h(App),
-}).$mount("#app");
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Mount App  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+app.mount('#app');
