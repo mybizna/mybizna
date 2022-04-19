@@ -20,7 +20,7 @@
           @click="$refs.refInputEl.click()"
         >
           <v-icon class="d-sm-none">
-            {{ icons.mdiCloudUploadOutline }}
+              mdi-cloud-upload-outline
           </v-icon>
           <span class="d-none d-sm-block">Upload new photo</span>
         </v-btn>
@@ -130,7 +130,7 @@
             >
               <div class="d-flex align-start">
                 <v-icon color="warning">
-                  {{ icons.mdiAlertOutline }}
+                    mdi-alert-outline
                 </v-icon>
 
                 <div class="ms-3">

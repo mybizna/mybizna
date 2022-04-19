@@ -14,8 +14,6 @@ import {
 } from 'vuex';
 
 import VueFormGenerator from "vue-form-generator";
-import VueMoment from 'vue-moment';
-import moment from 'moment-timezone';
 
 import Cookies from "js-cookie";
 import createPersistedState from "vuex-persistedstate";
@@ -216,8 +214,5 @@ app.use(router);
 loadFonts();
 
 app.use(VueFormGenerator);
-app.use(VueMoment, {
-    moment,
-});
 
 app.mount('#app');

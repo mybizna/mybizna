@@ -60,7 +60,7 @@
               :type="isPasswordVisible ? 'text' : 'password'"
               label="Password"
               placeholder="············"
-              :append-icon="isPasswordVisible ? icons.mdiEyeOffOutline : icons.mdiEyeOutline"
+              append-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
               hide-details
               @click:append="isPasswordVisible = !isPasswordVisible"
             ></v-text-field>
@@ -111,7 +111,7 @@
             icon
             class="ms-1"
           >
-            <v-icon :color="$vuetify.theme.dark ? link.colorInDark:link.color">
+            <v-icon :color="link.color">
               {{ link.icon }}
             </v-icon>
           </v-btn>

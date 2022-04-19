@@ -40,7 +40,6 @@
 
       <v-divider
         class="my-sm-5 mx-5"
-        :vertical="$vuetify.breakpoint.smAndUp"
       ></v-divider>
 
       <div class="flex-grow-1">

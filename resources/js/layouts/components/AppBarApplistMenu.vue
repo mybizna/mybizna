@@ -7,23 +7,17 @@
         content-class="user-profile-menu-content"
     >
         <template v-slot:activator="{ on, attrs }">
-            <v-badge
-                color="success"
-                content="3"
-            >
+            <v-badge color="success" content="3">
                 <div v-bind="attrs" v-on="on">
-                    <v-icon size="22"> {{ icons.mdiCogOutline }} </v-icon> Apps
+                    <v-icon size="22">mdi-cog-outline </v-icon> Apps
                 </div>
             </v-badge>
         </template>
         <v-list>
-
             <!-- Profile -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22">
-                        {{ icons.mdiAccountOutline }}
-                    </v-icon>
+                    <v-icon size="22"> mdi-account-outline </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Profile</v-list-item-title>
@@ -33,9 +27,7 @@
             <!-- Email -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22">
-                        {{ icons.mdiEmailOutline }}
-                    </v-icon>
+                    <v-icon size="22"> mdi-email-outline </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Inbox</v-list-item-title>
@@ -45,9 +37,7 @@
             <!-- Chat -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22">
-                        {{ icons.mdiChatOutline }}
-                    </v-icon>
+                    <v-icon size="22"> mdi-chat-outline </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Chat</v-list-item-title>
@@ -63,9 +53,7 @@
             <!-- Settings -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22">
-                        {{ icons.mdiCogOutline }}
-                    </v-icon>
+                    <v-icon size="22"> mdi-cog-outline </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Settings</v-list-item-title>
@@ -75,9 +63,7 @@
             <!-- Pricing -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22">
-                        {{ icons.mdiCurrencyUsd }}
-                    </v-icon>
+                    <v-icon size="22"> mdi-currency-usd </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Pricing</v-list-item-title>
@@ -87,9 +73,7 @@
             <!-- FAQ -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22">
-                        {{ icons.mdiHelpCircleOutline }}
-                    </v-icon>
+                    <v-icon size="22"> mdi-help-circle-outline </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>FAQ</v-list-item-title>
@@ -101,9 +85,7 @@
             <!-- Logout -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22">
-                        {{ icons.mdiLogoutVariant }}
-                    </v-icon>
+                    <v-icon size="22"> mdi-logout-variant </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Logout</v-list-item-title>

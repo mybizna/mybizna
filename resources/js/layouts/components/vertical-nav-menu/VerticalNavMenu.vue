@@ -5,7 +5,6 @@
     floating
     width="260"
     class="app-navigation-menu"
-    :right="$vuetify.rtl"
     @input="val => $emit('update:is-drawer-open', val)"
   >
     <!-- Navigation Header -->
@@ -40,16 +39,16 @@
       <nav-menu-link
         title="Dashboard"
         :to="{ name: 'dashboard' }"
-        :icon="icons.mdiHomeOutline"
+        icon="mdi-home-outline"
       ></nav-menu-link>
       <nav-menu-link
         title="Account Settings"
         :to="{ name: 'pages-account-settings'}"
-        :icon="icons.mdiAccountCogOutline"
+        icon="mdi-account-cog-outline"
       ></nav-menu-link>
       <nav-menu-group
         title="Pages"
-        :icon="icons.mdiFileOutline"
+        icon="mdi-file-outline"
       >
         <nav-menu-link
           title="Login"
@@ -71,27 +70,27 @@
       <nav-menu-link
         title="Typography"
         :to="{ name: 'typography' }"
-        :icon="icons.mdiAlphaTBoxOutline"
+        icon="mdi-alpha-t-box-outline"
       ></nav-menu-link>
       <nav-menu-link
         title="Icons"
         :to="{ name: 'icons' }"
-        :icon="icons.mdiEyeOutline"
+        icon="mdi-eye-outline"
       ></nav-menu-link>
       <nav-menu-link
         title="Cards"
         :to="{ name: 'cards' }"
-        :icon="icons.mdiCreditCardOutline"
+        icon="mdi-credit-card-outline"
       ></nav-menu-link>
       <nav-menu-link
         title="Tables"
         :to="{ name: 'simple-table' }"
-        :icon="icons.mdiTable"
+        icon="mdi-table"
       ></nav-menu-link>
       <nav-menu-link
         title="Form Layouts"
         :to="{ name: 'form-layouts' }"
-        :icon="icons.mdiFormSelect"
+        icon="mdi-sorm-select"
       ></nav-menu-link>
     </v-list>
     <a

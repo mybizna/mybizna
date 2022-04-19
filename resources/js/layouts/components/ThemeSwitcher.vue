@@ -1,28 +1,25 @@
 <template>
-  <v-fade-transition mode="out-in">
-    <v-icon
-      :key="$vuetify.theme.dark"
-      @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-    >
-      {{ $vuetify.theme.dark ? icons.mdiWeatherSunny : icons.mdiWeatherNight }}
-    </v-icon>
-  </v-fade-transition>
+    <v-fade-transition mode="out-in">
+        <v-icon> mdi-weather-sunny </v-icon>
+    </v-fade-transition>
 </template>
 
 <script>
-import { mdiWeatherNight, mdiWeatherSunny } from '@mdi/js'
+import { mdiWeatherNight, mdiWeatherSunny } from "@mdi/js";
+
+import { ref } from "vue";
 
 export default {
-  setup() {
-    return {
-      icons: {
-        mdiWeatherNight,
-        mdiWeatherSunny,
-      },
-    }
-  },
-}
+    setup() {
+        const theme = ref("light");
+        return {
+            icons: {
+                mdiWeatherNight,
+                mdiWeatherSunny,
+            },
+        };
+    },
+};
 </script>
 
-<style>
-</style>
+<style></style>

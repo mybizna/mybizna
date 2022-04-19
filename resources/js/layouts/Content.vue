@@ -16,7 +16,7 @@
                     <!-- Right Content -->
                     <v-btn icon small class="ms-3">
                         <v-icon>
-                            {{ icons.mdiBellOutline }}
+                            mdi-bell-outline
                         </v-icon>
                     </v-btn>
                     <app-bar-user-menu></app-bar-user-menu>
