@@ -43,7 +43,6 @@
                               class="inviter-field form-control form-control-sm"
                               id="inputUsername"
                               placeholder="Username"
-                              value="gifadmin"
                               autocomplete="off"
                               v-model="inviter_username"
                             />
@@ -1695,12 +1694,12 @@ export default {
 
       var tmp_query_str =
           "?username=" +
-          this.username.toLowerCase();        
+          this.username.toLowerCase();
 
       if(field == 'email'){
         tmp_query_str =
           "?email=" +
-          this.email.toLowerCase();        
+          this.email.toLowerCase();
       }
 
       window.axios.get("/user/checkuser/" + tmp_query_str).then((res) => {

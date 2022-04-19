@@ -38,7 +38,7 @@
 
 <script>
 import { mdiAccountOutline, mdiLockOpenOutline, mdiInformationOutline } from '@mdi/js'
-import { ref } from '@vue/composition-api'
+import { ref } from 'vue'
 
 // demos
 import AccountSettingsAccount from './AccountSettingsAccount.vue'

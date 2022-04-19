@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { ref } from "@vue/composition-api";
+import { ref } from "vue";
 import { mdiMagnify, mdiBellOutline, mdiGithub } from "@mdi/js";
 import VerticalNavMenu from "./components/vertical-nav-menu/VerticalNavMenu.vue";
 import ThemeSwitcher from "./components/ThemeSwitcher.vue";

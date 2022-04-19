@@ -1,4 +1,4 @@
-import VueCompositionAPI from '@vue/composition-api'
+import VueCompositionAPI from 'vue'
 import Vue from 'vue'
 
 Vue.use(VueCompositionAPI)

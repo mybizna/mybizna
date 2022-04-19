@@ -1,11 +1,8 @@
-import * as Vue from 'vue';
 import {
-    createApp,
-    defineAsyncComponent
+    createApp
 } from 'vue';
 import BootstrapVue3 from 'bootstrap-vue-3';
-import * as VueRouter from 'vue-router';
-import App from './App.vue';
+import App from '@/components/App';
 import vuetify from './plugins/vuetify';
 import {
     loadFonts
@@ -15,23 +12,53 @@ import {
     createStore
 } from 'vuex';
 
+import VueFormGenerator from "vue-form-generator";
+import VueMoment from 'vue-moment';
+import moment from 'moment-timezone';
+
 import Cookies from "js-cookie";
 import createPersistedState from "vuex-persistedstate";
+import NProgress from 'nprogress';
 
 import Axios from 'axios';
 
-
-
+import 'vue-form-generator/dist/vfg.css';
+import 'nprogress/nprogress.css';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
 
+import "vuetify/dist/vuetify.min.css";
 
 const app = createApp(App)
     .use(vuetify)
     .use(BootstrapVue3);
 
-    let base_url = window.base_url + '/api';
+let base_url = window.base_url + '/api';
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxx  App Initializer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+app.config.globalProperties.$base_url = base_url;
+app.config.globalProperties.$male_default_avatar = 'images/avatar.png';
+app.config.globalProperties.$female_default_avatar = 'images/avatar2.png';
+
+app.config.globalProperties.$appName = window.appName = 'My App';
+
+app.config.globalProperties.$is_frontend = window.is_frontend = false;
+app.config.globalProperties.$is_stockist = window.is_stockist = false;
+app.config.globalProperties.$is_backend = window.is_backend = true;
+
+app.config.globalProperties.$in_progress = window.in_progress = true;
+app.config.globalProperties.$loading = window.loading = {
+    in_progress: true
+};
+
+app.config.globalProperties.$loader_template = window.loader_template = '<div class="block-screen"><b>Please wait...</b></div>';
+
+Axios.defaults.baseURL = base_url;
+
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxx  Axios Loader xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -46,14 +73,18 @@ Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 // Add a request interceptor
 Axios.interceptors.request.use(function (config) {
 
-    Vue.prototype.$loading.in_progress = true;
+    app.config.globalProperties.$loading = {
+        in_progress: true
+    }
 
     // Do something before request is sent
     NProgress.start();
     return config;
 }, function (error) {
 
-    Vue.prototype.$loading.in_progress = false;
+    app.config.globalProperties.$loading = {
+        in_progress: false
+    }
 
     // Do something with request error
     console.error(error);
@@ -63,7 +94,9 @@ Axios.interceptors.request.use(function (config) {
 // Add a response interceptor
 Axios.interceptors.response.use(function (response) {
 
-    Vue.prototype.$loading.in_progress = false;
+    app.config.globalProperties.$loading = {
+        in_progress: false
+    };
 
     if (Object.prototype.hasOwnProperty.call(response.data, 'errors') && response.data.errors[0].message == "Signature has expired") {
         store.commit('auth/logout');
@@ -74,12 +107,17 @@ Axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
 
-    Vue.prototype.$loading.in_progress = false;
+    app.config.globalProperties.$loading = {
+        in_progress: false
+    };
 
     // Do something with response error
     console.error(error);
     return Promise.reject(error);
 });
+
+app.config.globalProperties.$http = app.config.globalProperties.$axios = window.axios = Axios;
+
 
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -106,86 +144,29 @@ const store = createStore({
 
 app.use(store);
 
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//xxxxxxxxxxxxxxxxxxxxx  Components Loader  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-import {
-    loadModule
-} from 'vue3-sfc-loader';
-
-
-loadFonts();
-
-
-
-const options = {
-    moduleCache: {
-        vue: Vue
-    },
-    async getFile(url) {
-
-        const res = await fetch(url);
-        if (!res.ok)
-            throw Object.assign(new Error(res.statusText + ' ' + url), {
-                res
-            });
-        return {
-            getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text(),
-        }
-    },
-    addStyle(textContent) {
-
-        const style = Object.assign(document.createElement('style'), {
-            textContent
-        });
-        const ref = document.head.getElementsByTagName('style')[0] || null;
-        document.head.insertBefore(style, ref);
-    },
-}
-
-
-const Home = {
-    template: '<div>Home</div>'
-};
-const About = {
-    template: '<div>About</div>'
-};
+import './apps';
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Ruotes  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-// 2. Define some routes
-// Each route should map to a component.
-// We'll talk about nested routes later.
-const routes = [{
-        path: '/',
-        component: Home
-    },
-    {
-        path: '/about',
-        component: About
-    },
-    {
-        path: '/h1',
-        component: defineAsyncComponent(() => loadModule('https://utupress.github.io/blocks/header1/index.vue', options))
-    }
-]
+import initrouter from '@/components/router';
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
-const router = VueRouter.createRouter({
-    // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-    history: VueRouter.createWebHashHistory(),
-    routes, // short for `routes: routes`
-});
+let router = initrouter(app);
 
 app.use(router);
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Mount App  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+loadFonts();
+
+app.use(VueFormGenerator);
+app.use(VueMoment, {
+    moment,
+});
+
 
 app.mount('#app');

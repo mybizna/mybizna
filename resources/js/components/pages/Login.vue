@@ -17,7 +17,6 @@
                       <input
                         type="email"
                         class="form-control"
-                        value=""
                         v-model="model.username"
                       />
                     </div>
@@ -26,7 +25,6 @@
                       <input
                         type="password"
                         class="form-control"
-                        value=""
                         v-model="model.password"
                       />
                     </div>

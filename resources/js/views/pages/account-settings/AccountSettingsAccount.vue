@@ -173,7 +173,7 @@
 
 <script>
 import { mdiAlertOutline, mdiCloudUploadOutline } from '@mdi/js'
-import { ref } from '@vue/composition-api'
+import { ref } from 'vue'
 
 export default {
   props: {

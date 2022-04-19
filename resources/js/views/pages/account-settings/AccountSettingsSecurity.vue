@@ -124,7 +124,7 @@
 <script>
 // eslint-disable-next-line object-curly-newline
 import { mdiKeyOutline, mdiLockOpenOutline, mdiEyeOffOutline, mdiEyeOutline } from '@mdi/js'
-import { ref } from '@vue/composition-api'
+import { ref } from 'vue'
 
 export default {
   setup() {

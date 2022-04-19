@@ -12,10 +12,10 @@ const mix = require('laravel-mix');
  */
 
 
-/*mix.alias({
+mix.alias({
     '@': __dirname + '/resources/js'
 });
-
+/*
 mix.webpackConfig({
     resolve: {
         extensions: ['.js', '.vue', '.json'],

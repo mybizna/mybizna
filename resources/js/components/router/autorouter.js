@@ -1,12 +1,12 @@
 import {
     loadModule
-} from 'vue3-sfc-loader/dist/vue2-sfc-loader.js';
+} from 'vue3-sfc-loader';
 
-
+import * as Vue from 'vue';
 
 const options = {
     moduleCache: {
-        vue: window.vue
+        vue: Vue
     },
     async getFile(url) {
 
@@ -68,8 +68,10 @@ const options = {
 }
 
 const fetchComponent = (comp_path) => {
-    return () => loadModule(window.base_url + '/assets/' + comp_path, options);
-    //return loadModule(window.base_url + '/assets/' + comp_path, options);
+
+    let path_url = window.base_url + '/assets/' + comp_path;
+
+    return  Vue.defineAsyncComponent( () => loadModule(path_url, options) );
 }
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -84,10 +86,7 @@ function path_updater(route) {
     } else {
         console.log(route.component);
 
-        var comp_path = window.base_url + '/assets/' + route.component;
         route.component = fetchComponent(route.component);
-        //route.component = window.vue.component(route.name, () => loadModule(comp_path, options));
-        //route.component = window.vue.component(route.name, fetchComponent(route.component));
     }
 
     if (route.hasOwnProperty('children') && route.children.length > 0) {
@@ -101,7 +100,7 @@ function path_updater(route) {
     return route;
 }
 
-export default function () {
+export default function (router) {
 
     // Make a request for a user with a given ID
     window.axios.get(window.base_url + '/api/discover_modules');
@@ -112,14 +111,12 @@ export default function () {
             // handle success
             console.log(response);
 
-            var counter = 0;
-
             response.data.routes.forEach(route => {
 
 
                 var new_routes = path_updater(route);
 
-                window.router.addRoute(new_routes);
+                router.addRoute(new_routes);
 
             });
         })

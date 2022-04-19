@@ -1,7 +1,7 @@
 var paths = [
 
     {
-        path: '*',
+        path: '/:catchAll(.*)',
         meta: {
             public: true,
         },

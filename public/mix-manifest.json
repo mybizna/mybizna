@@ -1,5 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/webfontloader.js": "/js/webfontloader.js",
+    "/js/general-components.js": "/js/general-components.js",
     "/css/app.css": "/css/app.css"
 }

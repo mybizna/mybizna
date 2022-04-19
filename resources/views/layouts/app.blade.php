@@ -22,9 +22,9 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/webfontloader.js') }}" defer></script>
-    <!--
     <script src="{{ asset('js/backend-dashboard.js') }}" defer></script>
     <script src="{{ asset('js/general-components.js') }}" defer></script>
+    <!--
     -->
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
