@@ -1,6 +1,6 @@
-import router from '@/components/router'
+import router from '@/components/router';
 
-router.addRoutes([{
+router.addRoute([{
     path: '/',
     meta: {
         breadcrumb: true,

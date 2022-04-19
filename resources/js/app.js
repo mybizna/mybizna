@@ -2,6 +2,7 @@ import {
     createApp
 } from 'vue';
 import BootstrapVue3 from 'bootstrap-vue-3';
+import router from '@/components/router';
 import App from '@/components/App';
 import vuetify from './plugins/vuetify';
 import {
@@ -28,8 +29,11 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
+import "nprogress/nprogress.css";
 
-import "vuetify/dist/vuetify.min.css";
+import autorouter from "@/components/router/autorouter";
+import './apps';
+
 
 const app = createApp(App)
     .use(vuetify)
@@ -145,15 +149,63 @@ const store = createStore({
 app.use(store);
 
 
-import './apps';
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Ruotes  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-import initrouter from '@/components/router';
 
-let router = initrouter(app);
+
+
+router.beforeEach((to, from, next) => {
+
+    app.config.globalProperties.$loading = {
+        in_progress: true
+    };
+
+    NProgress.start();
+
+    if (to.meta.middlewareAuth) {
+        if (!store.getters["auth/loggedIn"]) {
+            next({
+                path: "/login",
+                query: {
+                    redirect: to.fullPath,
+                },
+            });
+
+            return;
+        }
+    }
+
+    if (to.matched.some((record) => record.meta.middlewareAuth)) {
+        if (!store.getters["auth/loggedIn"]) {
+            next({
+                path: "/login",
+                query: {
+                    redirect: to.fullPath,
+                },
+            });
+
+            return;
+        }
+    }
+
+    next();
+});
+
+router.afterEach((to, from) => {
+    // ...
+    app.config.globalProperties.$loading = {
+        in_progress: false
+    };
+
+    NProgress.done();
+});
+
+autorouter(router);
+
+app.config.globalProperties.$router = window.$router = router;
 
 app.use(router);
 
@@ -167,6 +219,5 @@ app.use(VueFormGenerator);
 app.use(VueMoment, {
     moment,
 });
-
 
 app.mount('#app');
