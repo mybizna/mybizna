@@ -15,7 +15,7 @@
         <v-text-field
           id="firstnameHorizontalIcons"
           v-model="firstname"
-          prepend-inner-icon="mdi-account-outline"
+          :prepend-inner-icon="mdiAccountOutline"
           outlined
           dense
           placeholder="First Name"
@@ -37,7 +37,7 @@
         <v-text-field
           id="emailHorizontalIcons"
           v-model="email"
-          prepend-inner-icon="mdi-email-outline"
+          :prepend-inner-icon="mdiEmailutline"
           outlined
           dense
           placeholder="Email"
@@ -61,7 +61,7 @@
           v-model="mobile"
           type="number"
           outlined
-          prepend-inner-icon="mdi-cellphone"
+          :prepend-inner-icon="mdiCellphone"
           dense
           placeholder="Number"
           hide-details
@@ -82,7 +82,7 @@
         <v-text-field
           id="passwordHorizontalIcons"
           v-model="password"
-          prepend-inner-icon="mdi-lock-outline"
+          :prepend-inner-icon="mdiLockOutline"
           type="password"
           outlined
           dense

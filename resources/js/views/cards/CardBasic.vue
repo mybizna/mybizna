@@ -82,8 +82,8 @@
                         >
                             <v-icon>{{
                                 isCardDetailsVisible
-                                    ? "mdi-chevron-up"
-                                    : "mdi-chevron-down"
+                                    ? mdiChevronUp
+                                    : mdiChevronDown
                             }}</v-icon>
                         </v-btn>
                     </v-card-actions>
@@ -132,11 +132,11 @@
                                 class="d-flex justify-space-between dense"
                             >
                                 <v-btn text color="primary" dark>
-                                    <v-icon>mdi-cart-plus</v-icon>
+                                    <v-icon>mdiCartPlus</v-icon>
                                     <span class="ms-2">Add to cart</span>
                                 </v-btn>
                                 <v-btn icon>
-                                    <v-icon>mdi-share-variant-outline</v-icon>
+                                    <v-icon>mdiShareCariantOutline</v-icon>
                                 </v-btn>
                             </v-card-actions>
                         </div>
@@ -234,13 +234,13 @@
                                 <div class="me-auto pe-4">
                                     <p class="d-flex align-center mb-6">
                                         <v-icon color="primary">
-                                            mdi-lock-open-outline
+                                            mdiLockOpenOutline
                                         </v-icon>
                                         <span class="ms-3">Full Access</span>
                                     </p>
                                     <p class="d-flex align-center mb-0">
                                         <v-icon color="primary">
-                                            mdi-account-outline
+                                            mdiAccountOutline
                                         </v-icon>
                                         <span class="ms-3">15 Members</span>
                                     </p>
@@ -251,7 +251,7 @@
                                 <div class="ms-auto ps-4">
                                     <p class="d-flex align-center mb-6">
                                         <v-icon color="primary">
-                                            mdi-star-outline
+                                            mdiStarOutline
                                         </v-icon>
                                         <span class="ms-3"
                                             >Access all Features</span
@@ -259,7 +259,7 @@
                                     </p>
                                     <p class="d-flex align-center mb-0">
                                         <v-icon color="primary">
-                                            mdi-trending-up
+                                            mdiTrendingUp
                                         </v-icon>
                                         <span class="ms-3"
                                             >Lifetime Free Update</span
@@ -356,7 +356,7 @@
                     >
                         <v-avatar color="primary" class="mt-10" icon size="50">
                             <v-icon size="2rem" color="white">
-                                mdi-help-circle-outline
+                                mdiHelpCircleOutline
                             </v-icun>
                         </v-avatar>
                         <h6 class="text-xl mt-4 font-weight-medium">Support</h6>

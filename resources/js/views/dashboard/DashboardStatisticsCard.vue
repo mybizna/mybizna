@@ -4,7 +4,7 @@
             <span class="font-weight-semibold">Statistics Card</span>
             <v-spacer></v-spacer>
             <v-btn icon small class="me-n3 mt-n2">
-                <v-icon> mdi-dots-vertical </v-icon>
+                <v-icon> mdiDotsVertical </v-icon>
             </v-btn>
         </v-card-title>
 

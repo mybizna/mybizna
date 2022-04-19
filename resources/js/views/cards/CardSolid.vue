@@ -31,11 +31,11 @@
 
                     <div class="white--text">
                         <v-icon class="me-1" color="white" size="1rem">
-                            mdi-heart
+                            mdiHeart
                         </v-icon>
                         <span class="text-sm me-4">{{ data.likes }}</span>
                         <v-icon class="me-1" color="white" size="1rem"
-                            >mdi-share-variant
+                            >mdiShareVariant
                         </v-icon>
                         <span class="text-sm">{{ data.share }}</span>
                     </div>

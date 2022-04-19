@@ -7,7 +7,7 @@
 
             <v-btn icon small class="mt-n2 me-n3">
                 <v-icon size="22">
-                    mdi-dots-vertical
+                    mdiDotsVertical
                 </v-icon>
             </v-btn>
         </v-card-title>

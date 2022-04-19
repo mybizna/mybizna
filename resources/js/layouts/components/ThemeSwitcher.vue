@@ -1,6 +1,6 @@
 <template>
     <v-fade-transition mode="out-in">
-        <v-icon> mdi-weather-sunny </v-icon>
+        <v-icon> mdiWeatherunny </v-icon>
     </v-fade-transition>
 </template>
 

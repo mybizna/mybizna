@@ -35,8 +35,8 @@
                                 "
                                 :append-icon="
                                     isNewPasswordVisible
-                                        ? 'mdi-eye-off-outline'
-                                        : 'mdi-eye-outline'
+                                        ? mdiEyeOffOutline
+                                        : mdiEyeOutline
                                 "
                                 label="New Password"
                                 outlined
@@ -54,8 +54,8 @@
                                 :type="isCPasswordVisible ? 'text' : 'password'"
                                 :append-icon="
                                     isCPasswordVisible
-                                        ? 'mdi-eye-off-outline'
-                                        : 'mdi-eye-outline'
+                                        ? mdiEyeOffOutline
+                                        : mdiEyeOutline
                                 "
                                 label="Confirm New Password"
                                 outlined
@@ -90,7 +90,7 @@
             <div class="pa-3">
                 <v-card-title class="flex-nowrap">
                     <v-icon class="text--primary me-3">
-                        mdi-key-outline
+                        mdiKeyOutline
                     </v-icon>
                     <span class="text-break">Two-factor authentication</span>
                 </v-card-title>
@@ -98,7 +98,7 @@
                 <v-card-text class="two-factor-auth text-center mx-auto">
                     <v-avatar color="primary" class="primary mb-4" rounded>
                         <v-icon size="25" color="white">
-                            mdi-lock-open-outline
+                            mdiLockOpenOutline
                         </v-icon>
                     </v-avatar>
                     <p class="text-base text--primary font-weight-semibold">

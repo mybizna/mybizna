@@ -39,16 +39,16 @@
       <nav-menu-link
         title="Dashboard"
         :to="{ name: 'dashboard' }"
-        icon="mdi-home-outline"
+        :icon="mdiHomeOutline"
       ></nav-menu-link>
       <nav-menu-link
         title="Account Settings"
         :to="{ name: 'pages-account-settings'}"
-        icon="mdi-account-cog-outline"
+        :icon="mdiAccountCogOutline"
       ></nav-menu-link>
       <nav-menu-group
         title="Pages"
-        icon="mdi-file-outline"
+        :icon="mdiFileOutline"
       >
         <nav-menu-link
           title="Login"
@@ -70,27 +70,27 @@
       <nav-menu-link
         title="Typography"
         :to="{ name: 'typography' }"
-        icon="mdi-alpha-t-box-outline"
+        :icon="mdiAlphaTBoxOutline"
       ></nav-menu-link>
       <nav-menu-link
         title="Icons"
         :to="{ name: 'icons' }"
-        icon="mdi-eye-outline"
+        :icon="mdiEyeutline"
       ></nav-menu-link>
       <nav-menu-link
         title="Cards"
         :to="{ name: 'cards' }"
-        icon="mdi-credit-card-outline"
+        :icon="mdiCreditCardOutline"
       ></nav-menu-link>
       <nav-menu-link
         title="Tables"
         :to="{ name: 'simple-table' }"
-        icon="mdi-table"
+        :icon="mdiTable"
       ></nav-menu-link>
       <nav-menu-link
         title="Form Layouts"
         :to="{ name: 'form-layouts' }"
-        icon="mdi-sorm-select"
+        :icon="mdiSormSelect"
       ></nav-menu-link>
     </v-list>
     <a

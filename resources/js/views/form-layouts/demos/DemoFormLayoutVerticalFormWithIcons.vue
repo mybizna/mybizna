@@ -2,7 +2,7 @@
   <v-form>
     <v-text-field
       v-model="firstname"
-      :prepend-inner-icon="mdi-account-outline"
+      :prepend-inner-icon="mdiAccountOutline"
       label="First Name"
       outlined
       dense
@@ -11,7 +11,7 @@
 
     <v-text-field
       v-model="email"
-      :prepend-inner-icon="mdi-email-outline"
+      :prepend-inner-icon="mdiEmailOutline"
       label="Email"
       type="email"
       outlined
@@ -21,7 +21,7 @@
 
     <v-text-field
       v-model="mobile"
-      prepend-inner-icon="mdi-cellphone"
+      :prepend-inner-icon="mdiCellphone"
       label="Mobile"
       outlined
       dense
@@ -31,7 +31,7 @@
 
     <v-text-field
       v-model="password"
-      prepend-inner-icon="mdi-lock-outline"
+      :prepend-inner-icon="mdiLockOutline"
       label="Password"
       outlined
       dense

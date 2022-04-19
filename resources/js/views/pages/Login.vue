@@ -48,8 +48,8 @@
                             placeholder="············"
                             :append-icon="
                                 isPasswordVisible
-                                    ? 'mdi-eye-off-outline'
-                                    : 'mdi-eye-outline'
+                                    ? mdiEyeOffOutline
+                                    : mdiEyeOutline
                             "
                             hide-details
                             @click:append="

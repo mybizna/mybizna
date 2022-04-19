@@ -22,6 +22,7 @@
         class="me-n3 mt-n1"
       >
         <v-icon>
+            mdiDotsVertical
           {{ mdiDotsVertical }}
         </v-icon>
       </v-btn>

@@ -5,7 +5,7 @@
             <v-spacer></v-spacer>
 
             <v-btn icon small class="me-n3 mt-n2">
-                <v-icon> mdi-dots-vertical </v-icon>
+                <v-icon> mdiDotsVertical </v-icon>
             </v-btn>
         </v-card-title>
 
@@ -15,7 +15,7 @@
 
                 <div class="d-flex align-center mb-n3">
                     <v-icon size="40" color="success">
-                        mdi-menu-up
+                        mdiMenuUp
                     </v-icon>
                     <span
                         class="text-base font-weight-medium success--text ms-n2"
