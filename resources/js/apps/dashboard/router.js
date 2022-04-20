@@ -16,10 +16,6 @@ router.addRoute([{
         middlewareAuth: true
     },
     name: 'manage.dashboard',
-    component: () => import(
-        /* webpackChunkName: "backend-dashboard" */
-        /* webpackMode: "lazy" */
-        `@/apps/dashboard/pages/Dashboard.vue`
-    )
+    component: () => import(`@/apps/dashboard/pages/Dashboard.vue`)
 
 }]);

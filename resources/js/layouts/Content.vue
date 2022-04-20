@@ -1,5 +1,34 @@
 <template>
     <v-app class="custom-class">
+        <v-card class="mx-auto" max-width="448">
+            <v-layout>
+                <v-app-bar color="primary" density="compact">
+                    <template v-slot:prepend>
+                        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+                    </template>
+
+                    <v-app-bar-title>Photos</v-app-bar-title>
+
+                    <template v-slot:append>
+                        <v-btn icon="mdi-dots-vertical"></v-btn>
+                    </template>
+                </v-app-bar>
+
+                <v-main>
+                    <v-container fluid>
+                        <v-row dense>
+                            <v-col v-for="n in 8" :key="n" cols="3">
+                                <v-sheet
+                                    color="grey-lighten-2"
+                                    height="96"
+                                ></v-sheet>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-main>
+            </v-layout>
+        </v-card>
+
         <v-app-bar app flat absolute color="transparent" height="50">
             <div class="boxed-container w-full">
                 <div class="d-flex align-center mx-6">
@@ -15,9 +44,7 @@
 
                     <!-- Right Content -->
                     <v-btn icon small class="ms-3">
-                        <v-icon>
-                            mdiBellOutline
-                        </v-icon>
+                        <v-icon> mdiBellOutline </v-icon>
                     </v-btn>
                     <app-bar-user-menu></app-bar-user-menu>
                 </div>
@@ -31,15 +58,23 @@
 
                     <!-- Navbar dropdowns -->
                     <b-nav-item-dropdown text="Invoice" right>
-                        <b-dropdown-item to="/transactions">Transactions</b-dropdown-item>
-                        <b-dropdown-item to="/transactions/sales">Sales</b-dropdown-item>
+                        <b-dropdown-item to="/transactions"
+                            >Transactions</b-dropdown-item
+                        >
+                        <b-dropdown-item to="/transactions/sales"
+                            >Sales</b-dropdown-item
+                        >
                         <b-dropdown-item href="#">Invoice RU</b-dropdown-item>
                         <b-dropdown-item href="#">Invoice FA</b-dropdown-item>
                     </b-nav-item-dropdown>
 
                     <b-nav-item-dropdown text="Payments" right>
-                        <b-dropdown-item href="#">Payments Account</b-dropdown-item>
-                        <b-dropdown-item href="#"> Payments Settings</b-dropdown-item>
+                        <b-dropdown-item href="#"
+                            >Payments Account</b-dropdown-item
+                        >
+                        <b-dropdown-item href="#">
+                            Payments Settings</b-dropdown-item
+                        >
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-navbar>
@@ -79,15 +114,11 @@
 <script>
 import { ref } from "vue";
 import { mdiMagnify, mdiBellOutline, mdiGithub } from "@mdi/js";
-import VerticalNavMenu from "./components/vertical-nav-menu/VerticalNavMenu.vue";
-import ThemeSwitcher from "./components/ThemeSwitcher.vue";
-import AppBarUserMenu from "./components/AppBarUserMenu.vue";
-import AppBarApplistMenu from "./components/AppBarApplistMenu.vue";
+import AppBarUserMenu from "@/layouts/components/AppBarUserMenu.vue";
+import AppBarApplistMenu from "@/layouts/components/AppBarApplistMenu.vue";
 
 export default {
     components: {
-        VerticalNavMenu,
-        ThemeSwitcher,
         AppBarUserMenu,
         AppBarApplistMenu,
     },

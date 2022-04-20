@@ -19,19 +19,20 @@
 
     </script>
 
+    <script defer="defer" src="/temp/js/app.js"></script>
+    <link href="/temp/css/app.css" rel="stylesheet">
     <!-- Scripts -->
+    <!--
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/webfontloader.js') }}" defer></script>
     <script src="{{ asset('js/backend-dashboard.js') }}" defer></script>
     <script src="{{ asset('js/general-components.js') }}" defer></script>
-    <!--
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     -->
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body>

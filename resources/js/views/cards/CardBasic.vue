@@ -357,7 +357,7 @@
                         <v-avatar color="primary" class="mt-10" icon size="50">
                             <v-icon size="2rem" color="white">
                                 mdiHelpCircleOutline
-                            </v-icun>
+                            </v-icon>
                         </v-avatar>
                         <h6 class="text-xl mt-4 font-weight-medium">Support</h6>
                     </v-card-text>

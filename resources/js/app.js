@@ -1,17 +1,11 @@
-import {
-    createApp
-} from 'vue';
+import {createApp} from 'vue';
 import BootstrapVue3 from 'bootstrap-vue-3';
 import router from '@/components/router';
 import App from '@/components/App';
 import vuetify from './plugins/vuetify';
-import {
-    loadFonts
-} from './plugins/webfontloader';
+import {loadFonts} from './plugins/webfontloader';
 
-import {
-    createStore
-} from 'vuex';
+import {createStore} from 'vuex';
 
 import VueFormGenerator from "vue-form-generator";
 
@@ -30,12 +24,14 @@ import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
 import "nprogress/nprogress.css";
 
 import autorouter from "@/components/router/autorouter";
-import './apps';
+
 
 
 const app = createApp(App)
     .use(vuetify)
     .use(BootstrapVue3);
+
+loadFonts();
 
 let base_url = window.base_url + '/api';
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -176,6 +172,7 @@ router.beforeEach((to, from, next) => {
         }
     }
 
+
     if (to.matched.some((record) => record.meta.middlewareAuth)) {
         if (!store.getters["auth/loggedIn"]) {
             next({
@@ -211,8 +208,10 @@ app.use(router);
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Mount App  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-loadFonts();
+
 
 app.use(VueFormGenerator);
-
 app.mount('#app');
+
+
+import './apps';
