@@ -7,6 +7,7 @@ module.exports = defineConfig({
     runtimeCompiler: true,
     filenameHashing: false,
     outputDir: __dirname + '/public/temp',
+    publicPath: "/temp/",
     css: {
         extract: false,
     },
@@ -21,7 +22,7 @@ module.exports = defineConfig({
             app: './resources/js/app.js'
         },
         optimization: {
-            splitChunks: false
+            splitChunks: false,
         }
     },
     pluginOptions: {
