@@ -19,8 +19,8 @@
 
     </script>
 
-    <script defer="defer" src="/temp/js/app.js"></script>
-    <link href="/temp/css/app.css" rel="stylesheet">
+    <script defer="defer" src="/js/app.js"></script>
+    <link href="/css/app.css" rel="stylesheet">
     <!-- Scripts -->
     <!--
     <script src="{{ asset('js/app.js') }}" defer></script>
