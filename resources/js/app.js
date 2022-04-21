@@ -1,5 +1,4 @@
 import {createApp} from 'vue';
-import BootstrapVue3 from 'bootstrap-vue-3';
 import router from '@/components/router';
 import App from '@/components/App';
 import vuetify from './plugins/vuetify';
@@ -15,6 +14,9 @@ import NProgress from 'nprogress';
 
 import Axios from 'axios';
 
+//import "bootstrap/dist/js/bootstrap.js";
+import 'bootstrap/dist/js/bootstrap.bundle.js';
+
 import 'vue-form-generator/dist/vfg.css';
 import 'nprogress/nprogress.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
@@ -28,8 +30,7 @@ import autorouter from "@/components/router/autorouter";
 
 
 const app = createApp(App)
-    .use(vuetify)
-    .use(BootstrapVue3);
+    .use(vuetify);
 
 loadFonts();
 

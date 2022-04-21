@@ -1,7 +1,14 @@
 <template>
-    <v-app class="custom-class">
-
-        <v-app-bar app flat absolute color="transparent" height="50">
+    <v-app class="mybizna-app">
+        <v-app-bar
+            app
+            flat
+            absolute
+            dark
+            color="#0D47A1"
+            height="44"
+            class="p-0"
+        >
             <div class="boxed-container w-100 p-0">
                 <div class="d-flex align-center mx-6">
                     <!-- Left Content -->
@@ -24,33 +31,110 @@
         </v-app-bar>
 
         <div style="margin-top: 50px">
-            <b-navbar toggleable="sm" type="light" variant="light">
-                <b-navbar-nav>
-                    <b-nav-item href="#">Accounting</b-nav-item>
-
-                    <!-- Navbar dropdowns -->
-                    <b-nav-item-dropdown text="Invoice" right>
-                        <b-dropdown-item to="/transactions"
-                            >Transactions</b-dropdown-item
-                        >
-                        <b-dropdown-item to="/transactions/sales"
-                            >Sales</b-dropdown-item
-                        >
-                        <b-dropdown-item href="#">Invoice RU</b-dropdown-item>
-                        <b-dropdown-item href="#">Invoice FA</b-dropdown-item>
-                    </b-nav-item-dropdown>
-
-                    <b-nav-item-dropdown text="Payments" right>
-                        <b-dropdown-item href="#"
-                            >Payments Account</b-dropdown-item
-                        >
-                        <b-dropdown-item href="#">
-                            Payments Settings</b-dropdown-item
-                        >
-                    </b-nav-item-dropdown>
-                </b-navbar-nav>
-            </b-navbar>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div
+                        class="collapse navbar-collapse"
+                        id="navbarSupportedContent"
+                    >
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item dropdown">
+                                <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="navbarDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    Payments
+                                </a>
+                                <ul
+                                    class="dropdown-menu"
+                                    aria-labelledby="navbarDropdown"
+                                >
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Action</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Another action</a
+                                        >
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Something else here</a
+                                        >
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="navbarDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    Transactions
+                                </a>
+                                <ul
+                                    class="dropdown-menu"
+                                    aria-labelledby="navbarDropdown"
+                                >
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Action</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Another action</a
+                                        >
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Something else here</a
+                                        >
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="d-flex">
+                            <input
+                                class="form-control me-2"
+                                type="search"
+                                placeholder="Search"
+                                aria-label="Search"
+                            />
+                            <button
+                                class="btn btn-outline-success"
+                                type="submit"
+                            >
+                                Search
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
         </div>
+
 
         <v-main>
             <div class="app-content-container boxed-container">
@@ -112,6 +196,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mybizna-app {
+    background: #f5f7fb;
+}
+
 .theme--light.v-application {
     background: #f4f5fa !important;
 }
@@ -121,13 +209,14 @@ header,
     height: 50px !important;
 }
 
+/*
 header ::v-deep {
     .v-toolbar__content {
         border-bottom: 1px solid #eee !important;
         background: white !important;
         box-shadow: 0px 2px 4px #eee;
     }
-}
+}*/
 
 .v-app-bar ::v-deep {
     .v-toolbar__content {
