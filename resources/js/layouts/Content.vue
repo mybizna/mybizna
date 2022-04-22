@@ -5,7 +5,7 @@
             flat
             absolute
             color="indigo darken-4"
-            height="44"
+            height="36px"
             class="p-0"
         >
             <div class="boxed-container w-100 p-0">
@@ -23,81 +23,12 @@
                     <v-spacer></v-spacer>
 
                     <app-bar-user-menu></app-bar-user-menu>
-                    <div class="text-center">
-                        <v-menu
-                            v-model="menu"
-                            :close-on-content-click="false"
-                            anchor="start"
-                        >
-                            <template v-slot:activator="{ props }">
-                                <v-btn color="indigo" v-bind="props">
-                                    Menu as Popover
-                                </v-btn>
-                            </template>
-
-                            <v-card min-width="300">
-                                <v-list>
-                                    <v-list-item
-                                        prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"
-                                        title="John Leider"
-                                        subtitle="Founder of Vuetify"
-                                    >
-                                        <template v-slot:append>
-                                            <v-btn
-                                                variant="text"
-                                                :class="fav ? 'text-red' : ''"
-                                                icon="mdi-heart"
-                                                @click="fav = !fav"
-                                            ></v-btn>
-                                        </template>
-                                    </v-list-item>
-                                </v-list>
-
-                                <v-divider></v-divider>
-
-                                <v-list>
-                                    <v-list-item>
-                                        <v-switch
-                                            v-model="message"
-                                            color="purple"
-                                            label="Enable messages"
-                                            hide-details
-                                        ></v-switch>
-                                    </v-list-item>
-
-                                    <v-list-item>
-                                        <v-switch
-                                            v-model="hints"
-                                            color="purple"
-                                            label="Enable hints"
-                                            hide-details
-                                        ></v-switch>
-                                    </v-list-item>
-                                </v-list>
-
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-
-                                    <v-btn text @click="menu = false">
-                                        Cancel
-                                    </v-btn>
-                                    <v-btn
-                                        color="primary"
-                                        text
-                                        @click="menu = false"
-                                    >
-                                        Save
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-menu>
-                    </div>
                 </div>
             </div>
         </v-app-bar>
 
-        <div style="margin-top: 50px">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div style="margin-top: 36px">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
                 <div class="container-fluid">
                     <button
                         class="navbar-toggler"
@@ -182,19 +113,46 @@
                                 </ul>
                             </li>
                         </ul>
+
                         <form class="d-flex">
-                            <input
-                                class="form-control me-2"
-                                type="search"
-                                placeholder="Search"
-                                aria-label="Search"
-                            />
-                            <button
-                                class="btn btn-outline-success"
-                                type="submit"
-                            >
-                                Search
-                            </button>
+                            <div class="input-group input-group-sm">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    aria-label="Text input with dropdown button"
+                                />
+                                <button
+                                    class="btn btn-outline-secondary dropdown-toggle"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <v-icon icon="fas fa-search"></v-icon> Search
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Action</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Another action</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Something else here</a
+                                        >
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            >Separated link</a
+                                        >
+                                    </li>
+                                </ul>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -258,7 +216,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .mybizna-app {
     background: #f5f7fb;
 }
@@ -267,9 +225,16 @@ export default {
     background: #f4f5fa !important;
 }
 
+.v-toolbar--density-default {
+    .v-toolbar__content {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
+
 header,
 .v-app-bar {
-    height: 50px !important;
+    height: 36px !important;
 }
 
 /*
@@ -281,7 +246,17 @@ header ::v-deep {
     }
 }*/
 
-.v-app-bar ::v-deep {
+.v-toolbar {
+    overflow: visible;
+    .dropdown-toggle:after {
+        content: none;
+    }
+}
+
+.v-app-bar {
+    .dropdown-toggle:after {
+        content: none;
+    }
     .v-toolbar__content {
         padding: 0;
         .app-bar-search {

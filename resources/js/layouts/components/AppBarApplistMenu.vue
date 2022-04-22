@@ -1,98 +1,73 @@
 <template>
-    <v-menu
-        offset-y
-        left
-        nudge-bottom="14"
-        min-width="230"
-        content-class="user-profile-menu-content"
-    >
-        <template v-slot:activator="{ on, attrs }">
-            <v-badge color="success" content="3">
-                <div v-bind="attrs" v-on="on">
-                    <v-icon size="22" icon="fas fa-plus">mdiCogOutline </v-icon> Apps
-                </div>
-            </v-badge>
-        </template>
-        <v-list>
-            <!-- Profile -->
-            <v-list-item link>
-                <v-list-item-icon class="me-2">
-                    <v-icon size="22" icon="fas fa-plus"> mdiAccountOutline </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title>Profile</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
+    <div class="text-center">
+        <v-menu
+            v-model="menu"
+            :close-on-content-click="false"
+            anchor="bottom"
+            right
+        >
+            <template v-slot:activator="{ props }">
+                <v-badge color="success" content="3" v-bind="props">
+                    <div class="text-white" v-bind="attrs" v-on="on">
+                        <v-icon size="22" icon="fas fa-plus"
+                            >mdiCogOutline
+                        </v-icon>
+                        Apps
+                    </div>
+                </v-badge>
+            </template>
 
-            <!-- Email -->
-            <v-list-item link>
-                <v-list-item-icon class="me-2">
-                    <v-icon size="22" icon="fas fa-plus"> mdiEmailOutline </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title>Inbox</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
+            <v-card min-width="300">
+                <v-list>
+                    <v-list-item
+                        prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"
+                        title="John Leider"
+                        subtitle="Founder of Vuetify"
+                    >
+                        <template v-slot:append>
+                            <v-btn
+                                variant="text"
+                                :class="fav ? 'text-red' : ''"
+                                icon="mdi-heart"
+                                @click="fav = !fav"
+                            ></v-btn>
+                        </template>
+                    </v-list-item>
+                </v-list>
 
-            <!-- Chat -->
-            <v-list-item link>
-                <v-list-item-icon class="me-2">
-                    <v-icon size="22" icon="fas fa-plus"> mdiChatOutline </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title>Chat</v-list-item-title>
-                </v-list-item-content>
+                <v-divider></v-divider>
 
-                <v-list-item-action>
-                    <v-badge inline color="error" content="2"> </v-badge>
-                </v-list-item-action>
-            </v-list-item>
+                <v-list>
+                    <v-list-item>
+                        <v-switch
+                            v-model="message"
+                            color="purple"
+                            label="Enable messages"
+                            hide-details
+                        ></v-switch>
+                    </v-list-item>
 
-            <v-divider class="my-2"></v-divider>
+                    <v-list-item>
+                        <v-switch
+                            v-model="hints"
+                            color="purple"
+                            label="Enable hints"
+                            hide-details
+                        ></v-switch>
+                    </v-list-item>
+                </v-list>
 
-            <!-- Settings -->
-            <v-list-item link>
-                <v-list-item-icon class="me-2">
-                    <v-icon size="22" icon="fas fa-plus"> mdiCogOutline </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title>Settings</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
 
-            <!-- Pricing -->
-            <v-list-item link>
-                <v-list-item-icon class="me-2">
-                    <v-icon size="22" icon="fas fa-plus"> mdiCurrencyUsd </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title>Pricing</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <!-- FAQ -->
-            <v-list-item link>
-                <v-list-item-icon class="me-2">
-                    <v-icon size="22" icon="fas fa-plus"> mdiHelpCircleOutline </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title>FAQ</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-divider class="my-2"></v-divider>
-
-            <!-- Logout -->
-            <v-list-item link>
-                <v-list-item-icon class="me-2">
-                    <v-icon size="22" icon="fas fa-plus"> mdiLogoutVariant </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title>Logout</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-        </v-list>
-    </v-menu>
+                    <v-btn text @click="menu = false"> Cancel </v-btn>
+                    <v-btn color="primary" text @click="menu = false">
+                        Save
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-menu>
+    </div>
 </template>
 
 <script>
@@ -122,6 +97,12 @@ export default {
             },
         };
     },
+    data: () => ({
+        fav: true,
+        menu: false,
+        message: false,
+        hints: true,
+    }),
 };
 </script>
 
