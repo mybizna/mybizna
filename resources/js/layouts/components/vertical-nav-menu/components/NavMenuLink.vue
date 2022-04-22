@@ -7,7 +7,7 @@
     <v-list-item-icon>
       <v-icon
         :class="{'alternate-icon-small': !icon}"
-        class="mx-auto"
+        class="mx-auto" icon="fas fa-plus"
       >
         {{ icon || alternateIcon }}
       </v-icon>

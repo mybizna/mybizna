@@ -9,10 +9,10 @@
     <v-spacer></v-spacer>
     <div class="page-header-right">
       <v-btn icon>
-        <v-icon class="text--secondary">refresh</v-icon>
+        <v-icon class="text--secondary" icon="fas fa-plus">refresh</v-icon>
       </v-btn>
     </div>
-  </v-layout>  
+  </v-layout>
 </template>
 
 <script>
@@ -46,7 +46,7 @@ export default {
         }
       });
       return breadcrumbs;
-    },    
+    },
   }
 };
 </script>

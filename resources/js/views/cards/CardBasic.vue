@@ -80,7 +80,7 @@
                                 isCardDetailsVisible = !isCardDetailsVisible
                             "
                         >
-                            <v-icon>{{
+                            <v-icon icon="fas fa-plus">{{
                                 isCardDetailsVisible
                                     ? mdiChevronUp
                                     : mdiChevronDown
@@ -132,11 +132,11 @@
                                 class="d-flex justify-space-between dense"
                             >
                                 <v-btn text color="primary" dark>
-                                    <v-icon>mdiCartPlus</v-icon>
+                                    <v-icon icon="fas fa-plus">mdiCartPlus</v-icon>
                                     <span class="ms-2">Add to cart</span>
                                 </v-btn>
                                 <v-btn icon>
-                                    <v-icon>mdiShareCariantOutline</v-icon>
+                                    <v-icon icon="fas fa-plus">mdiShareCariantOutline</v-icon>
                                 </v-btn>
                             </v-card-actions>
                         </div>
@@ -233,13 +233,13 @@
                             <v-card-actions class="d-flex justify-center">
                                 <div class="me-auto pe-4">
                                     <p class="d-flex align-center mb-6">
-                                        <v-icon color="primary">
+                                        <v-icon color="primary" icon="fas fa-plus">
                                             mdiLockOpenOutline
                                         </v-icon>
                                         <span class="ms-3">Full Access</span>
                                     </p>
                                     <p class="d-flex align-center mb-0">
-                                        <v-icon color="primary">
+                                        <v-icon color="primary" icon="fas fa-plus">
                                             mdiAccountOutline
                                         </v-icon>
                                         <span class="ms-3">15 Members</span>
@@ -250,7 +250,7 @@
 
                                 <div class="ms-auto ps-4">
                                     <p class="d-flex align-center mb-6">
-                                        <v-icon color="primary">
+                                        <v-icon color="primary" icon="fas fa-plus">
                                             mdiStarOutline
                                         </v-icon>
                                         <span class="ms-3"
@@ -258,7 +258,7 @@
                                         >
                                     </p>
                                     <p class="d-flex align-center mb-0">
-                                        <v-icon color="primary">
+                                        <v-icon color="primary" icon="fas fa-plus">
                                             mdiTrendingUp
                                         </v-icon>
                                         <span class="ms-3"
@@ -355,7 +355,7 @@
                         class="d-flex flex-column justify-center align-center"
                     >
                         <v-avatar color="primary" class="mt-10" icon size="50">
-                            <v-icon size="2rem" color="white">
+                            <v-icon size="2rem" color="white" icon="fas fa-plus">
                                 mdiHelpCircleOutline
                             </v-icon>
                         </v-avatar>

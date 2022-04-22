@@ -4,7 +4,7 @@
     class="vertical-nav-menu-group text--primary"
   >
     <template #prependIcon>
-      <v-icon :class="{'alternate-icon-small': !icon}">
+      <v-icon :class="{'alternate-icon-small': !icon}" icon="fas fa-plus">
         {{ icon }}
       </v-icon>
     </template>

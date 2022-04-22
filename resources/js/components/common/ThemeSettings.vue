@@ -1,9 +1,9 @@
 <template>
     <div id="themeSetting">
         <v-tabs color="cyan" dark slider-color="yellow">
-            <v-tab href="#tab-1"> <v-icon>list</v-icon>Links </v-tab>
+            <v-tab href="#tab-1"> <v-icon icon="fas fa-plus">list</v-icon>Links </v-tab>
 
-            <v-tab href="#tab-2"> <v-icon>build</v-icon>Theme </v-tab>
+            <v-tab href="#tab-2"> <v-icon icon="fas fa-plus">build</v-icon>Theme </v-tab>
 
             <v-tab-item value="tab-1">
                 <v-card flat>

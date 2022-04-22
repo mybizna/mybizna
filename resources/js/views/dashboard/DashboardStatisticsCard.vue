@@ -4,7 +4,7 @@
             <span class="font-weight-semibold">Statistics Card</span>
             <v-spacer></v-spacer>
             <v-btn icon small class="me-n3 mt-n2">
-                <v-icon> mdiDotsVertical </v-icon>
+                <v-icon icon="fas fa-plus"> mdiDotsVertical </v-icon>
             </v-btn>
         </v-card-title>
 
@@ -32,7 +32,7 @@
                         rounded
                         class="elevation-1"
                     >
-                        <v-icon dark color="white" size="30">
+                        <v-icon dark color="white" size="30" icon="fas fa-plus">
                             {{
                                 resolveStatisticsIconVariation(data.title).icon
                             }}

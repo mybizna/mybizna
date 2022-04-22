@@ -106,7 +106,7 @@
                         icon
                         class="ms-1"
                     >
-                        <v-icon :color="link.color">
+                        <v-icon :color="link.color" icon="fas fa-plus">
                             {{ link.icon }}
                         </v-icon>
                     </v-btn>

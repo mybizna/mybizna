@@ -9,7 +9,7 @@
         <v-icon
           size="24"
           color="white"
-          class="rounded-0"
+          class="rounded-0" icon="fas fa-plus"
         >
           {{ icon }}
         </v-icon>
@@ -21,7 +21,7 @@
         icon
         class="me-n3 mt-n1"
       >
-        <v-icon>
+        <v-icon icon="fas fa-plus">
             mdiDotsVertical
           {{ mdiDotsVertical }}
         </v-icon>

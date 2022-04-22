@@ -3,21 +3,21 @@
     <v-toolbar class="elevation-0 transparent media-toolbar">
       <v-btn-toggle>
         <v-btn flat>
-          <v-icon color="primary">cloud_upload</v-icon>
+          <v-icon color="primary" icon="fas fa-plus">cloud_upload</v-icon>
           &nbsp;Upload
         </v-btn>
         <v-btn flat>
-          <v-icon color="primary">folder</v-icon>
+          <v-icon color="primary" icon="fas fa-plus">folder</v-icon>
           &nbsp; Add Folder
         </v-btn>
       </v-btn-toggle>
       <v-spacer></v-spacer>
       <v-btn-toggle v-model="view">
         <v-btn flat value="list">
-          <v-icon color="primary">view_headline</v-icon>
+          <v-icon color="primary" icon="fas fa-plus">view_headline</v-icon>
         </v-btn>
         <v-btn flat value="grid">
-          <v-icon color="primary">view_list</v-icon>
+          <v-icon color="primary" icon="fas fa-plus">view_list</v-icon>
         </v-btn>
       </v-btn-toggle>
     </v-toolbar>
@@ -29,26 +29,26 @@
             <v-layout row wrap class="x-grid-lg">
               <v-flex
                 col-lg-4
-                
-                
+
+
                 class="pa-2"
                 v-for="(item,index) in folders"
                 :key="'folder'+ index"
               >
                 <v-card flat tile>
                   <v-card-media height="150px">
-                    <v-icon size="135" class="mx-auto" color="indigo">folder</v-icon>  
+                    <v-icon size="135" class="mx-auto" color="indigo" icon="fas fa-plus">folder</v-icon>
                   </v-card-media>
                   <v-divider></v-divider>
                   <v-card-title>
                     {{item.name}}
                   </v-card-title>
                 </v-card>
-              </v-flex>          
+              </v-flex>
               <v-flex
                 col-lg-4
-                
-                                
+
+
                 class="pa-2"
                 v-for="(item,index) in files"
                 :key="index"
@@ -60,7 +60,7 @@
                       width="150px"
                     >
                       <img :src="item.path" alt="" v-if="isImage(item)">
-                      <v-icon class="mx-auto" size="135" v-else>insert_drive_file</v-icon>  
+                      <v-icon class="mx-auto" size="135" icon="fas fa-plus" v-else>insert_drive_file</v-icon>
                     </v-card-media>
                     <v-divider></v-divider>
                     <v-card-title>
@@ -73,13 +73,13 @@
           </v-container>
           <v-layout column v-else>
             <v-list dense class="transparent">
-              <v-list-tile avatar @click="showDetail(item)" 
+              <v-list-tile avatar @click="showDetail(item)"
               v-for="(item,index) in files"
               :key="'list-file-'+index"
               >
                 <v-list-tile-avatar>
-                  <v-icon>{{ mimeIcons(item) }}</v-icon>  
-                </v-list-tile-avatar>            
+                  <v-icon icon="fas fa-plus">{{ mimeIcons(item) }}</v-icon>
+                </v-list-tile-avatar>
                 <v-list-tile-content>
                   <div class="container pl-0" >
                     <div class="layout row">
@@ -105,7 +105,7 @@ import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 export default {
   components: {
     VuePerfectScrollbar
-  },  
+  },
   props: {
     type: {
       type: String,
@@ -169,18 +169,18 @@ export default {
     computeFileImage (file) {
       return this.isImage(file) ? file.path : '/static/icon/file_empty.svg';
     }
-  },  
+  },
 };
 </script>
 <style scoped>
 /*.media
   &-cotent--wrap
 
-  &-menu 
+  &-menu
     min-width: 260px
     border-right: 1px solid #eee
     min-height: calc(100vh - 50px - 64px);
-  &-detail 
+  &-detail
     min-width:300px
     border-left:1px solid #eee
     */

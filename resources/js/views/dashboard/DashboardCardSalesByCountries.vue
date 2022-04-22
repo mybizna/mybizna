@@ -6,7 +6,7 @@
             <v-spacer></v-spacer>
 
             <v-btn icon small class="me-n3 mt-n2">
-                <v-icon> mdiDotsVertical </v-icon>
+                <v-icon icon="fas fa-plus"> mdiDotsVertical </v-icon>
             </v-btn>
         </v-card-title>
 

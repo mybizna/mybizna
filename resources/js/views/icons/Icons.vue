@@ -13,7 +13,7 @@
             v-on="on"
           >
             <v-card-text class="py-3 px-4">
-              <v-icon size="30">
+              <v-icon size="30" icon="fas fa-plus">
                 {{ item.icon }}
               </v-icon>
             </v-card-text>

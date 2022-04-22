@@ -1,28 +1,30 @@
 // Styles
 import 'vuetify/styles';
-
-import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/lib/styles/main.sass';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 
-import { aliases, fa } from 'vuetify/lib/iconsets/fa';
-import { mdi } from 'vuetify/lib/iconsets/mdi';
 // Vuetify
-import { createVuetify } from 'vuetify';
+import {
+    createVuetify
+} from 'vuetify';
+
+import {
+    aliases,
+    fa
+} from 'vuetify/lib/iconsets/fa';
 
 export default createVuetify(
     components,
-    directives,
-    {
+    directives, {
         icons: {
             defaultSet: 'fa',
             aliases,
             sets: {
                 fa,
-                mdi,
-            }
-        }
+            },
+        },
     }
 );

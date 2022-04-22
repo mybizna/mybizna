@@ -4,8 +4,7 @@
             app
             flat
             absolute
-            dark
-            color="#0D47A1"
+            color="indigo darken-4"
             height="44"
             class="p-0"
         >
@@ -17,15 +16,82 @@
 
                     <v-spacer></v-spacer>
 
-                    <v-toolbar-title> Accounting </v-toolbar-title>
+                    <v-app-bar-title class="text-center">
+                        Accounting
+                    </v-app-bar-title>
 
                     <v-spacer></v-spacer>
 
-                    <!-- Right Content -->
-                    <v-btn icon small class="ms-3">
-                        <v-icon> mdiBellOutline </v-icon>
-                    </v-btn>
                     <app-bar-user-menu></app-bar-user-menu>
+                    <div class="text-center">
+                        <v-menu
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            anchor="start"
+                        >
+                            <template v-slot:activator="{ props }">
+                                <v-btn color="indigo" v-bind="props">
+                                    Menu as Popover
+                                </v-btn>
+                            </template>
+
+                            <v-card min-width="300">
+                                <v-list>
+                                    <v-list-item
+                                        prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"
+                                        title="John Leider"
+                                        subtitle="Founder of Vuetify"
+                                    >
+                                        <template v-slot:append>
+                                            <v-btn
+                                                variant="text"
+                                                :class="fav ? 'text-red' : ''"
+                                                icon="mdi-heart"
+                                                @click="fav = !fav"
+                                            ></v-btn>
+                                        </template>
+                                    </v-list-item>
+                                </v-list>
+
+                                <v-divider></v-divider>
+
+                                <v-list>
+                                    <v-list-item>
+                                        <v-switch
+                                            v-model="message"
+                                            color="purple"
+                                            label="Enable messages"
+                                            hide-details
+                                        ></v-switch>
+                                    </v-list-item>
+
+                                    <v-list-item>
+                                        <v-switch
+                                            v-model="hints"
+                                            color="purple"
+                                            label="Enable hints"
+                                            hide-details
+                                        ></v-switch>
+                                    </v-list-item>
+                                </v-list>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+
+                                    <v-btn text @click="menu = false">
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn
+                                        color="primary"
+                                        text
+                                        @click="menu = false"
+                                    >
+                                        Save
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-menu>
+                    </div>
                 </div>
             </div>
         </v-app-bar>
@@ -135,7 +201,6 @@
             </nav>
         </div>
 
-
         <v-main>
             <div class="app-content-container boxed-container">
                 <slot></slot>
@@ -169,7 +234,6 @@
 
 <script>
 import { ref } from "vue";
-import { mdiMagnify, mdiBellOutline, mdiGithub } from "@mdi/js";
 import AppBarUserMenu from "@/layouts/components/AppBarUserMenu.vue";
 import AppBarApplistMenu from "@/layouts/components/AppBarApplistMenu.vue";
 
@@ -183,15 +247,14 @@ export default {
 
         return {
             isDrawerOpen,
-
-            // Icons
-            icons: {
-                mdiMagnify,
-                mdiBellOutline,
-                mdiGithub,
-            },
         };
     },
+    data: () => ({
+        fav: true,
+        menu: false,
+        message: false,
+        hints: true,
+    }),
 };
 </script>
 

@@ -21,7 +21,7 @@
 
     <script defer="defer" src="/live/js/app.js"></script>
     <link href="/live/css/app.css" rel="stylesheet">
-    <!-- Scripts -->
+
     <!--
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/webfontloader.js') }}" defer></script>
@@ -32,6 +32,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://use.fon/tawesome.comreleases/v5.0.13/css/all.css" rel="stylesheet">
 
 </head>
 

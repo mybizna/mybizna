@@ -9,7 +9,7 @@
         >
             <v-card :color="data.cardBg" dark>
                 <v-card-title>
-                    <v-icon size="1.5rem" color="white" class="me-2">
+                    <v-icon size="1.5rem" color="white" class="me-2" icon="fas fa-plus">
                         {{ data.icon }}
                     </v-icon>
                     <span class="white--text">{{ data.title }}</span>
@@ -30,11 +30,11 @@
                     </div>
 
                     <div class="white--text">
-                        <v-icon class="me-1" color="white" size="1rem">
+                        <v-icon class="me-1" color="white" size="1rem" icon="fas fa-plus">
                             mdiHeart
                         </v-icon>
                         <span class="text-sm me-4">{{ data.likes }}</span>
-                        <v-icon class="me-1" color="white" size="1rem"
+                        <v-icon class="me-1" color="white" size="1rem" icon="fas fa-plus"
                             >mdiShareVariant
                         </v-icon>
                         <span class="text-sm">{{ data.share }}</span>

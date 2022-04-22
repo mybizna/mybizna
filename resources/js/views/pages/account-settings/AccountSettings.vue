@@ -11,7 +11,7 @@
       >
         <v-icon
           size="20"
-          class="me-3"
+          class="me-3"  icon="fas fa-plus"
         >
           {{ tab.icon }}
         </v-icon>

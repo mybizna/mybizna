@@ -5,7 +5,7 @@
             <v-spacer></v-spacer>
 
             <v-btn icon small class="me-n3 mt-n2">
-                <v-icon> mdiDotsVertical </v-icon>
+                <v-icon icon="fas fa-plus"> mdiDotsVertical </v-icon>
             </v-btn>
         </v-card-title>
 
@@ -14,7 +14,7 @@
                 <h1 class="text-4xl font-weight-semibold">$24,895</h1>
 
                 <div class="d-flex align-center mb-n3">
-                    <v-icon size="40" color="success">
+                    <v-icon size="40" color="success" icon="fas fa-plus">
                         mdiMenuUp
                     </v-icon>
                     <span

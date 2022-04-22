@@ -8,45 +8,45 @@
             icon="fa fa-facebook"
             title="100+"
             sub-title="Likes"
-            color="indigo"      
+            color="indigo"
           >
-          </mini-statistic>  
+          </mini-statistic>
         </v-flex>
         <v-flex lg3 col-sm-6 >
           <mini-statistic
             icon="fa fa-google"
             title="150+"
             sub-title="Connections"
-            color="red"      
+            color="red"
           >
-          </mini-statistic>           
-        </v-flex>          
+          </mini-statistic>
+        </v-flex>
         <v-flex lg3 col-sm-6 >
           <mini-statistic
             icon="fa fa-twitter"
             title="200+"
             sub-title="Followers"
-            color="light-blue"      
+            color="light-blue"
           >
-          </mini-statistic>            
-        </v-flex>        
+          </mini-statistic>
+        </v-flex>
         <v-flex lg3 col-sm-6 >
           <mini-statistic
             icon="fa fa-instagram"
             title="50+"
             sub-title="Shots"
-            color="purple"      
+            color="purple"
           >
-          </mini-statistic>             
-        </v-flex>   
-        <!-- mini statistic  end -->   
+          </mini-statistic>
+        </v-flex>
+        <!-- mini statistic  end -->
         <v-flex lg8  >
           <v-widget title="Site Traffic" content-bg="white">
             <v-btn icon slot="widget-header-action">
-              <v-icon class="text--secondary">refresh</v-icon>
+              <v-icon class="text--secondary" icon="fas fa-plus">refresh</v-icon>
             </v-btn>
             <div slot="widget-content">
-                <e-chart 
+                <e-chart
                 :path-option="[
                   ['dataset.source', siteTrafficData],
                   ['color', [color.lightBlue.base, color.green.lighten1]],
@@ -66,14 +66,14 @@
                 height="400px"
                 width="100%"
                 >
-                </e-chart>     
+                </e-chart>
             </div>
-          </v-widget>  
+          </v-widget>
         </v-flex>
         <v-flex col-lg-4  >
           <v-widget title="Top Location" content-bg="white">
             <div slot="widget-content">
-                <e-chart 
+                <e-chart
                 :path-option="[
                   ['dataset.source', locationData],
                   ['legend.bottom', '0'],
@@ -81,21 +81,21 @@
                   ['xAxis.show', false],
                   ['yAxis.show', false],
                   ['series[0].type', 'pie'],
-                  ['series[0].avoidLabelOverlap', true],         
-                  ['series[0].radius', ['50%', '70%']],                      
+                  ['series[0].avoidLabelOverlap', true],
+                  ['series[0].radius', ['50%', '70%']],
                 ]"
                 height="400px"
                 width="100%"
                 >
-                </e-chart>     
+                </e-chart>
             </div>
-          </v-widget>  
+          </v-widget>
         </v-flex>
         <!-- social/weather card start -->
         <v-flex col-lg-4  >
           <profile-card>
           </profile-card>
-        </v-flex>        
+        </v-flex>
         <v-flex col-lg-4  >
           <box-chart
             card-color="indigo"
@@ -117,11 +117,11 @@
             gradient
             type="area"
           >
-          </box-chart>          
+          </box-chart>
         </v-flex>
         <!-- statistic section -->
         <v-flex col-lg-4  >
-          <linear-statistic 
+          <linear-statistic
             title="Sales"
             sub-title="Sales increase"
             icon="trending_up"
@@ -136,7 +136,7 @@
             color="pink"
             :value="30"
           >
-          </linear-statistic>          
+          </linear-statistic>
           <linear-statistic class="my-4"
             title="Revenue"
             sub-title="Revenue increase"
@@ -144,7 +144,7 @@
             color="primary"
             :value="50"
           >
-          </linear-statistic>          
+          </linear-statistic>
           <linear-statistic class="mt-4"
             title="Cost"
             sub-title="Cost reduce"
@@ -152,7 +152,7 @@
             color="orange"
             :value="25"
           >
-          </linear-statistic>          
+          </linear-statistic>
         </v-flex>
         <!-- Circle statistic -->
         <v-flex col-lg-4   v-for="(item,index) in trending" :key="'c-trending'+index">
@@ -164,8 +164,8 @@
             :color="item.linear.color"
             :value="item.linear.value"
           >
-          </circle-statistic>            
-        </v-flex>    
+          </circle-statistic>
+        </v-flex>
         <!-- acitivity/chat widget -->
         <v-flex col-lg-4  >
           <chat-window height="308px"></chat-window>
@@ -183,16 +183,16 @@
                     <div class="py-2 text--secondary" v-html="item.text"></div>
                   </div>
                 </li>
-              </ol>              
+              </ol>
             </div>
-          </v-widget>          
+          </v-widget>
         </v-flex>
         <v-flex lg7  >
           <plain-table></plain-table>
         </v-flex>
         <v-flex lg5  >
           <plain-table-order></plain-table-order>
-        </v-flex>               
+        </v-flex>
       </v-layout>
     </v-container>
   </div>
@@ -230,7 +230,7 @@ export default {
     CircleStatistic,
     LinearStatistic,
     PlainTable,
-    PlainTableOrder    
+    PlainTableOrder
   },
   data: () => ({
     color: Material,
@@ -278,7 +278,7 @@ export default {
           color: 'info'
         }
       }
-    ],    
+    ],
     trending: [
       {
         subheading: 'Email',
@@ -293,7 +293,7 @@ export default {
           value: 15,
           color: 'info'
         }
-      },        
+      },
       {
         subheading: 'Tasks',
         headline: '90%',
@@ -307,7 +307,7 @@ export default {
           value: 90,
           color: 'success'
         }
-      },        
+      },
       {
         subheading: 'Issues',
         headline: '100%',
@@ -321,8 +321,8 @@ export default {
           value: 100,
           color: 'error'
         }
-      },        
-    ]    
+      },
+    ]
   }),
   computed: {
     activity () {

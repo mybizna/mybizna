@@ -52,7 +52,7 @@
             <!-- Profile -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22"> mdiAccount0utline </v-icon>
+                    <v-icon size="22" icon="fas fa-plus"> mdiAccount0utline </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Profile</v-list-item-title>
@@ -62,7 +62,7 @@
             <!-- Email -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22"> mdiEmailOutline </v-icon>
+                    <v-icon size="22" icon="fas fa-plus"> mdiEmailOutline </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Inbox</v-list-item-title>
@@ -72,7 +72,7 @@
             <!-- Chat -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22"> mdiChatOutline </v-icon>
+                    <v-icon size="22" icon="fas fa-plus"> mdiChatOutline </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Chat</v-list-item-title>
@@ -88,7 +88,7 @@
             <!-- Settings -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22"> mdiCogOutline </v-icon>
+                    <v-icon size="22" icon="fas fa-plus"> mdiCogOutline </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Settings</v-list-item-title>
@@ -98,7 +98,7 @@
             <!-- Pricing -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22"> mdiCurrencyUsd </v-icon>
+                    <v-icon size="22" icon="fas fa-plus"> mdiCurrencyUsd </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Pricing</v-list-item-title>
@@ -108,7 +108,7 @@
             <!-- FAQ -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22"> mdiHelpCircleOutline </v-icon>
+                    <v-icon size="22" icon="fas fa-plus"> mdiHelpCircleOutline </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>FAQ</v-list-item-title>
@@ -120,7 +120,7 @@
             <!-- Logout -->
             <v-list-item link>
                 <v-list-item-icon class="me-2">
-                    <v-icon size="22"> mdiLogoutVariant </v-icon>
+                    <v-icon size="22" icon="fas fa-plus"> mdiLogoutVariant </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Logout</v-list-item-title>

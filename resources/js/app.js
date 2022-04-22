@@ -19,7 +19,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.js';
 
 import 'vue-form-generator/dist/vfg.css';
 import 'nprogress/nprogress.css';
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';

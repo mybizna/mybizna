@@ -89,7 +89,7 @@
 
             <div class="pa-3">
                 <v-card-title class="flex-nowrap">
-                    <v-icon class="text--primary me-3">
+                    <v-icon class="text--primary me-3" icon="fas fa-plus">
                         mdiKeyOutline
                     </v-icon>
                     <span class="text-break">Two-factor authentication</span>
@@ -97,7 +97,7 @@
 
                 <v-card-text class="two-factor-auth text-center mx-auto">
                     <v-avatar color="primary" class="primary mb-4" rounded>
-                        <v-icon size="25" color="white">
+                        <v-icon size="25" color="white" icon="fas fa-plus">
                             mdiLockOpenOutline
                         </v-icon>
                     </v-avatar>
