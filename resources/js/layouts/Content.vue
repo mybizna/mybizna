@@ -28,7 +28,7 @@
         </v-app-bar>
 
         <div style="margin-top: 36px">
-            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <nav class="navbar navbar-expand-md navbar-light bg-white">
                 <div class="container-fluid">
                     <button
                         class="navbar-toggler"
@@ -115,43 +115,88 @@
                         </ul>
 
                         <form class="d-flex">
-                            <div class="input-group input-group-sm">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    aria-label="Text input with dropdown button"
-                                />
-                                <button
-                                    class="btn btn-outline-secondary dropdown-toggle"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    <v-icon icon="fas fa-search"></v-icon> Search
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
+                            <div>
+                                <div class="input-group input-group-sm mt-1">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        aria-label="Text input with dropdown button"
+                                    />
+                                    <button
+                                        class="btn btn-outline-secondary dropdown-toggle"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        <v-icon
+                                            size="12"
+                                            icon="fas fa-search"
+                                        ></v-icon>
+                                        Search
+                                    </button>
+                                    <div
+                                        class="dropdown-menu dropdown-menu-end"
+                                    >
+                                        <div class="px-4 py-3">
+                                            <div class="form-group">
+                                                <label
+                                                    for="exampleDropdownFormEmail1"
+                                                    >Email address</label
+                                                >
+                                                <input
+                                                    type="email"
+                                                    class="form-control"
+                                                    id="exampleDropdownFormEmail1"
+                                                    placeholder="email@example.com"
+                                                />
+                                            </div>
+                                            <div class="form-group">
+                                                <label
+                                                    for="exampleDropdownFormPassword1"
+                                                    >Password</label
+                                                >
+                                                <input
+                                                    type="password"
+                                                    class="form-control"
+                                                    id="exampleDropdownFormPassword1"
+                                                    placeholder="Password"
+                                                />
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                    type="checkbox"
+                                                    class="form-check-input"
+                                                    id="dropdownCheck"
+                                                />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="dropdownCheck"
+                                                >
+                                                    Remember me
+                                                </label>
+                                            </div>
+                                            <button
+                                                type="submit"
+                                                class="btn btn-primary"
+                                            >
+                                                Sign in
+                                            </button>
+                                        </div>
+                                        <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#"
-                                            >Action</a
+                                            >New around here? Sign up</a
                                         >
-                                    </li>
-                                    <li>
                                         <a class="dropdown-item" href="#"
-                                            >Another action</a
+                                            >Forgot password?</a
                                         >
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Something else here</a
-                                        >
-                                    </li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Separated link</a
-                                        >
-                                    </li>
-                                </ul>
+                                    </div>
+                                </div>
+
+                                <a>
+                                    <small style="font-size: 12px">
+                                        Advanced:Empty
+                                    </small>
+                                </a>
                             </div>
                         </form>
                     </div>
