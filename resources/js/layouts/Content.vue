@@ -123,7 +123,7 @@
                                         aria-label="Text input with dropdown button"
                                     />
                                     <button
-                                        class="btn btn-outline-secondary dropdown-toggle"
+                                        class="btn btn-success dropdown-toggle"
                                         type="button"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false"
@@ -135,60 +135,149 @@
                                         Search
                                     </button>
                                     <div
-                                        class="dropdown-menu dropdown-menu-end"
+                                        class="dropdown-menu dropdown-menu-end p-2"
                                     >
-                                        <div class="px-4 py-3">
-                                            <div class="form-group">
-                                                <label
-                                                    for="exampleDropdownFormEmail1"
-                                                    >Email address</label
+                                        <div>
+                                            <div>
+                                                <span
+                                                    class="form-check form-check-inline p-0 mr-1"
                                                 >
+                                                    <input
+                                                        class="form-check-input ml-0"
+                                                        type="checkbox"
+                                                        id="inlineCheckbox1"
+                                                        value="option1"
+                                                    />
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="inlineCheckbox1"
+                                                    >
+                                                        <small
+                                                            style="
+                                                                font-size: 12px;
+                                                            "
+                                                            >Name</small
+                                                        >
+                                                    </label>
+                                                </span>
+                                                <span
+                                                    class="form-check form-check-inline p-0 mr-1"
+                                                >
+                                                    <input
+                                                        class="form-check-input ml-0"
+                                                        type="checkbox"
+                                                        id="inlineCheckbox2"
+                                                        value="option2"
+                                                    />
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="inlineCheckbox2"
+                                                    >
+                                                        <small
+                                                            style="
+                                                                font-size: 12px;
+                                                            "
+                                                        >
+                                                            Title
+                                                        </small>
+                                                    </label>
+                                                </span>
+                                                <span
+                                                    class="form-check form-check-inline p-0 mr-1"
+                                                >
+                                                    <input
+                                                        class="form-check-input ml-0"
+                                                        type="checkbox"
+                                                        id="inlineCheckbox2"
+                                                        value="option2"
+                                                    />
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="inlineCheckbox2"
+                                                    >
+                                                        <small
+                                                            style="
+                                                                font-size: 12px;
+                                                            "
+                                                        >
+                                                            Gender
+                                                        </small>
+                                                    </label>
+                                                </span>
+                                                <span
+                                                    class="form-check form-check-inline p-0 mr-1"
+                                                >
+                                                    <input
+                                                        class="form-check-input ml-0"
+                                                        type="checkbox"
+                                                        id="inlineCheckbox2"
+                                                        value="option2"
+                                                    />
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="inlineCheckbox2"
+                                                    >
+                                                        <small
+                                                            style="
+                                                                font-size: 12px;
+                                                            "
+                                                        >
+                                                            Gender
+                                                        </small>
+                                                    </label>
+                                                </span>
+                                            </div>
+                                            <b>Fields</b>
+                                            <div class="dropdown-divider"></div>
+                                            <div class="form-group">
+                                                <b>
+                                                    <small
+                                                        style="font-size: 12px"
+                                                    >
+                                                        Email address
+                                                    </small>
+                                                </b>
                                                 <input
                                                     type="email"
-                                                    class="form-control"
+                                                    class="form-control form-control-sm"
                                                     id="exampleDropdownFormEmail1"
                                                     placeholder="email@example.com"
                                                 />
                                             </div>
                                             <div class="form-group">
-                                                <label
-                                                    for="exampleDropdownFormPassword1"
-                                                    >Password</label
-                                                >
+                                                <b>
+                                                    <small
+                                                        style="font-size: 12px"
+                                                    >
+                                                        Password
+                                                    </small>
+                                                </b>
                                                 <input
                                                     type="password"
-                                                    class="form-control"
+                                                    class="form-control form-control-sm"
                                                     id="exampleDropdownFormPassword1"
                                                     placeholder="Password"
                                                 />
                                             </div>
-                                            <div class="form-check">
-                                                <input
-                                                    type="checkbox"
-                                                    class="form-check-input"
-                                                    id="dropdownCheck"
-                                                />
-                                                <label
-                                                    class="form-check-label"
-                                                    for="dropdownCheck"
-                                                >
-                                                    Remember me
-                                                </label>
-                                            </div>
-                                            <button
-                                                type="submit"
-                                                class="btn btn-primary"
+
+                                            <div
+                                                class="d-flex justify-content-between"
                                             >
-                                                Sign in
-                                            </button>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-primary btn-sm"
+                                                >
+                                                    Reset
+                                                </button>
+
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-success btn-sm"
+                                                >
+                                                    Search
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#"
-                                            >New around here? Sign up</a
-                                        >
-                                        <a class="dropdown-item" href="#"
-                                            >Forgot password?</a
-                                        >
                                     </div>
                                 </div>
 
@@ -253,6 +342,21 @@ export default {
         };
     },
     data: () => ({
+        ex4: [
+            "red",
+            "indigo",
+            "orange",
+            "primary",
+            "secondary",
+            "success",
+            "info",
+            "warning",
+            "error",
+            "red darken-3",
+            "indigo darken-3",
+            "orange darken-3",
+        ],
+
         fav: true,
         menu: false,
         message: false,
