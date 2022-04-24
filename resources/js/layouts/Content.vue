@@ -29,247 +29,146 @@
 
         <div style="margin-top: 36px">
             <nav class="navbar navbar-expand-md navbar-light bg-white">
-                <div class="container-fluid">
-                    <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div
-                        class="collapse navbar-collapse"
-                        id="navbarSupportedContent"
-                    >
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item dropdown">
-                                <a
-                                    class="nav-link dropdown-toggle"
-                                    href="#"
-                                    id="navbarDropdown"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    Payments
-                                </a>
-                                <ul
-                                    class="dropdown-menu"
-                                    aria-labelledby="navbarDropdown"
-                                >
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Action</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Another action</a
-                                        >
-                                    </li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Something else here</a
-                                        >
+                <div class="row">
+                    <div class="col-6 col-md-8">
+                        <div class="d-block d-md-none mt-1 mx-1">
+                            <button
+                                class="btn btn-outline-primary"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                <v-icon size="12" icon="fas fa-list"></v-icon>
+                                Menu List
+                            </button>
+                            <div
+                                class="dropdown-menu dropdown-menu-end mobile-dropdown p-2"
+                            >
+                                <ul class="list-group list-group-flush">
+                                    <li
+                                        v-for="(item, index) in menus"
+                                        :key="index"
+                                        class="list-group-item bg-light"
+                                    >
+                                        <a href="#">
+                                            {{ item.title }}
+                                        </a>
+                                        <ul class="list-group-item">
+                                            <li
+                                                v-for="(item, index) in menus"
+                                                :key="index"
+                                            >
+                                                <a
+                                                    class="dropdown-item"
+                                                    href="#"
+                                                    >{{ item.title }}</a
+                                                >
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a
-                                    class="nav-link dropdown-toggle"
-                                    href="#"
-                                    id="navbarDropdown"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
+                            </div>
+                        </div>
+                        <div
+                            id="navbarSupportedContent"
+                            class="d-none d-md-block"
+                        >
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li
+                                    v-for="(item, index) in menus"
+                                    :key="index"
+                                    class="nav-item dropdown"
                                 >
-                                    Transactions
-                                </a>
-                                <ul
-                                    class="dropdown-menu"
-                                    aria-labelledby="navbarDropdown"
-                                >
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Action</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Another action</a
-                                        >
-                                    </li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li>
-                                        <a class="dropdown-item" href="#"
-                                            >Something else here</a
-                                        >
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                        <form class="d-flex">
-                            <div>
-                                <div class="input-group input-group-sm mt-1">
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        aria-label="Text input with dropdown button"
-                                    />
-                                    <button
-                                        class="btn btn-success dropdown-toggle"
-                                        type="button"
+                                    <a
+                                        class="nav-link dropdown-toggle"
+                                        href="#"
+                                        id="navbarDropdown"
+                                        role="button"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false"
                                     >
-                                        <v-icon
-                                            size="12"
-                                            icon="fas fa-search"
-                                        ></v-icon>
-                                        Search
-                                    </button>
-                                    <div
-                                        class="dropdown-menu dropdown-menu-end p-2"
+                                        {{ item.title }}
+                                    </a>
+                                    <ul
+                                        class="dropdown-menu"
+                                        aria-labelledby="navbarDropdown"
                                     >
-                                        <div>
-                                            <div>
-                                                <span
-                                                    class="form-check form-check-inline p-0 mr-1"
-                                                >
-                                                    <input
-                                                        class="form-check-input ml-0"
-                                                        type="checkbox"
-                                                        id="inlineCheckbox1"
-                                                        value="option1"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="inlineCheckbox1"
-                                                    >
-                                                        <small
-                                                            style="
-                                                                font-size: 12px;
-                                                            "
-                                                            >Name</small
-                                                        >
-                                                    </label>
-                                                </span>
-                                                <span
-                                                    class="form-check form-check-inline p-0 mr-1"
-                                                >
-                                                    <input
-                                                        class="form-check-input ml-0"
-                                                        type="checkbox"
-                                                        id="inlineCheckbox2"
-                                                        value="option2"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="inlineCheckbox2"
-                                                    >
-                                                        <small
-                                                            style="
-                                                                font-size: 12px;
-                                                            "
-                                                        >
-                                                            Title
-                                                        </small>
-                                                    </label>
-                                                </span>
-                                                <span
-                                                    class="form-check form-check-inline p-0 mr-1"
-                                                >
-                                                    <input
-                                                        class="form-check-input ml-0"
-                                                        type="checkbox"
-                                                        id="inlineCheckbox2"
-                                                        value="option2"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="inlineCheckbox2"
-                                                    >
-                                                        <small
-                                                            style="
-                                                                font-size: 12px;
-                                                            "
-                                                        >
-                                                            Gender
-                                                        </small>
-                                                    </label>
-                                                </span>
-                                                <span
-                                                    class="form-check form-check-inline p-0 mr-1"
-                                                >
-                                                    <input
-                                                        class="form-check-input ml-0"
-                                                        type="checkbox"
-                                                        id="inlineCheckbox2"
-                                                        value="option2"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="inlineCheckbox2"
-                                                    >
-                                                        <small
-                                                            style="
-                                                                font-size: 12px;
-                                                            "
-                                                        >
-                                                            Gender
-                                                        </small>
-                                                    </label>
-                                                </span>
-                                            </div>
-                                            <b>Fields</b>
-                                            <div class="dropdown-divider"></div>
+                                        <li
+                                            v-for="(item, index) in menus"
+                                            :key="index"
+                                        >
+                                            <a class="dropdown-item" href="#">{{
+                                                item.title
+                                            }}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="d-none d-md-block mt-1 mx-1">
+                            <div class="input-group input-group-sm">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    aria-label="Text input with dropdown button"
+                                />
+                                <button
+                                    class="btn btn-outline-primary"
+                                    type="button"
+                                    aria-expanded="false"
+                                >
+                                    <v-icon
+                                        size="12"
+                                        icon="fas fa-search"
+                                    ></v-icon>
+                                    Search
+                                </button>
+                                <button
+                                    class="btn btn-outline-primary dropdown-toggle"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                ></button>
+                                <div
+                                    class="dropdown-menu dropdown-menu-end mobile-dropdown p-2"
+                                >
+                                    <b>Search</b>
+                                    <div class="row">
+                                        <div
+                                            v-for="(item, index) in searchform"
+                                            :key="index"
+                                            class="col-sm-6 col-md-4 col-lg-2"
+                                        >
                                             <div class="form-group">
                                                 <b>
                                                     <small
                                                         style="font-size: 12px"
                                                     >
-                                                        Email address
+                                                        {{ item.label }}
                                                     </small>
                                                 </b>
                                                 <input
-                                                    type="email"
+                                                    :id="item.name"
+                                                    :placeholder="
+                                                        item.placeholder
+                                                    "
+                                                    type="text"
                                                     class="form-control form-control-sm"
-                                                    id="exampleDropdownFormEmail1"
-                                                    placeholder="email@example.com"
                                                 />
                                             </div>
-                                            <div class="form-group">
-                                                <b>
-                                                    <small
-                                                        style="font-size: 12px"
-                                                    >
-                                                        Password
-                                                    </small>
-                                                </b>
-                                                <input
-                                                    type="password"
-                                                    class="form-control form-control-sm"
-                                                    id="exampleDropdownFormPassword1"
-                                                    placeholder="Password"
-                                                />
-                                            </div>
-
-                                            <div
-                                                class="d-flex justify-content-between"
-                                            >
+                                        </div>
+                                        <div class="col-sm-6 col-md-4 col-lg-2">
+                                            <b> &nbsp; </b>
+                                            <div class="text-center">
                                                 <button
                                                     type="submit"
                                                     class="btn btn-primary btn-sm"
                                                 >
                                                     Reset
                                                 </button>
-
+                                                &nbsp;&nbsp;
                                                 <button
                                                     type="submit"
                                                     class="btn btn-success btn-sm"
@@ -280,14 +179,73 @@
                                         </div>
                                     </div>
                                 </div>
-
+                            </div>
+                            <a>
+                                <small style="font-size: 12px">
+                                    Advanced:Empty
+                                </small>
+                            </a>
+                        </div>
+                        <div class="d-block d-md-none mt-1 mx-1 text-right">
+                            <button
+                                class="btn btn-outline-primary"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                <v-icon size="12" icon="fas fa-search"></v-icon>
+                                Search
+                            </button>
+                            <div
+                                class="dropdown-menu dropdown-menu-end mobile-dropdown p-2"
+                            >
+                                <b>Search</b>
+                                <div class="row">
+                                    <div
+                                        v-for="(item, index) in searchform"
+                                        :key="index"
+                                        class="col-sm-6 col-md-4 col-lg-2"
+                                    >
+                                        <div class="form-group">
+                                            <b>
+                                                <small style="font-size: 12px">
+                                                    {{ item.label }}
+                                                </small>
+                                            </b>
+                                            <input
+                                                :id="item.name"
+                                                :placeholder="item.placeholder"
+                                                type="text"
+                                                class="form-control form-control-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4 col-lg-2">
+                                        <b> &nbsp; </b>
+                                        <div class="text-center">
+                                            <button
+                                                type="submit"
+                                                class="btn btn-primary btn-sm"
+                                            >
+                                                Reset
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <button
+                                                type="submit"
+                                                class="btn btn-success btn-sm"
+                                            >
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <a>
                                     <small style="font-size: 12px">
                                         Advanced:Empty
                                     </small>
                                 </a>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -342,6 +300,61 @@ export default {
         };
     },
     data: () => ({
+        searchform: [
+            {
+                name: "title",
+                label: "Title",
+                value: "Title",
+                placeholder: "Title",
+            },
+            {
+                name: "name",
+                label: "Name",
+                value: "Name",
+                placeholder: "Title",
+            },
+            {
+                name: "gender",
+                label: "Gender",
+                value: "Gender",
+                placeholder: "Title",
+            },
+            {
+                name: "country",
+                label: "Country",
+                value: "Country",
+                placeholder: "Title",
+            },
+        ],
+        menus: [
+            {
+                title: "Payment",
+                children: [
+                    { title: "Action" },
+                    { title: "Action" },
+                    { title: "Action" },
+                    { title: "Action" },
+                ],
+            },
+            {
+                title: "Invoice",
+                children: [
+                    { title: "Action" },
+                    { title: "Action" },
+                    { title: "Action" },
+                    { title: "Action" },
+                ],
+            },
+            {
+                title: "Transaction",
+                children: [
+                    { title: "Action" },
+                    { title: "Action" },
+                    { title: "Action" },
+                    { title: "Action" },
+                ],
+            },
+        ],
         ex4: [
             "red",
             "indigo",
@@ -395,6 +408,11 @@ header ::v-deep {
     }
 }*/
 
+.list-group-flush {
+    overflow: scroll;
+    height: 100%;
+}
+
 .v-toolbar {
     overflow: visible;
     .dropdown-toggle:after {
@@ -421,16 +439,26 @@ header ::v-deep {
 }
 
 .navbar {
+    display: block !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     background: white !important;
-    ul {
+    @media (min-width: 160px) and (min-width: 768px) {
     }
-}
 
-.navbar {
+    .mobile-dropdown {
+        overflow: scroll;
+        height: 100%;
+    }
+    .dropdown-menu {
+        width: 98%;
+        position: fixed;
+        top: 70px !important;
+        margin: 5px;
+    }
+
     ul {
-        li {
+        li.nav-item {
             padding-top: 7px !important;
             padding-bottom: 7px !important;
             border-right: 1px dotted #eee !important;
