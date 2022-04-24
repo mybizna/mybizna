@@ -159,11 +159,10 @@
                             class="dropdown-menu dropdown-menu-end mobile-dropdown p-2"
                         >
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <b>Search</b>
                                 </div>
-                                <div class="col-6">
-                                    <b> &nbsp; </b>
+                                <div class="col-8">
                                     <div class="text-center">
                                         <button
                                             type="submit"
@@ -214,16 +213,21 @@
 </template>
 
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 export default {
     setup() {
+        const store = useStore();
 
-        if (this.$store.getters["system/hasMenu"]) {
-            this.$store.dispatch("system/getMenu");
+        if (store.getters["system/hasMenu"]) {
+            store.dispatch("system/getMenu");
         }
 
-        this.menus = this.$store.state.system.menu;
+        let menus = computed(function () {
+            return store.state.system.menu;
+        });
 
-        return {};
+        return { menus };
     },
     data: () => ({
         searchform: [
@@ -252,50 +256,6 @@ export default {
                 placeholder: "Title",
             },
         ],
-        menus: [
-            {
-                title: "Payment",
-                children: [
-                    { title: "Action", icon: "fas fa-search" },
-                    { title: "Action", icon: "fas fa-search" },
-                    { title: "Action", icon: "fas fa-search" },
-                    { title: "Action", icon: "fas fa-search" },
-                ],
-            },
-            {
-                title: "Invoice",
-                children: [
-                    { title: "Action", icon: "fas fa-search" },
-                    { title: "Action", icon: "fas fa-search" },
-                    { title: "Action", icon: "fas fa-search" },
-                    { title: "Action", icon: "fas fa-search" },
-                ],
-            },
-            {
-                title: "Transaction",
-                children: [
-                    { title: "Action", icon: "fas fa-search" },
-                    { title: "Action", icon: "fas fa-search" },
-                    { title: "Action", icon: "fas fa-search" },
-                    { title: "Action", icon: "fas fa-search" },
-                ],
-            },
-        ],
-        ex4: [
-            "red",
-            "indigo",
-            "orange",
-            "primary",
-            "secondary",
-            "success",
-            "info",
-            "warning",
-            "error",
-            "red darken-3",
-            "indigo darken-3",
-            "orange darken-3",
-        ],
-
         fav: true,
         menu: false,
         message: false,

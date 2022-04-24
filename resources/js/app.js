@@ -140,6 +140,8 @@ const store = createStore({
     })],
 })
 
+window.$store = store;
+
 app.use(store);
 
 
