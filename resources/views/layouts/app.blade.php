@@ -32,7 +32,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link href="https://use.fon/tawesome.comreleases/v5.0.13/css/all.css" rel="stylesheet">
+    <link href="https://use.fontawesome.comreleases/v5.0.13/css/all.css" rel="stylesheet">
 
 </head>
 
