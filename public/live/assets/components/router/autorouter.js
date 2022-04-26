@@ -4,6 +4,9 @@ import {
 
 import * as Vue from 'vue';
 
+import { RouterView } from 'vue-router';
+
+
 const options = {
     moduleCache: {
         vue: Vue
@@ -78,11 +81,7 @@ const fetchComponent = (comp_path) => {
 
 function path_updater(route) {
     if (route.component == 'router_view') {
-        route.component = {
-            render(c) {
-                return c('router-view');
-            }
-        };
+        route.component = RouterView;
     } else {
         console.log(route.component);
 
@@ -100,13 +99,13 @@ function path_updater(route) {
     return route;
 }
 
-export default function (router) {
+export default async function (router) {
 
     // Make a request for a user with a given ID
-    window.axios.get(window.base_url + '/api/discover_modules');
+    await  window.axios.get(window.base_url + '/api/discover_modules');
 
     // Make a request for a user with a given ID
-    window.axios.get(window.base_url + '/api/fetch_routes')
+    await  window.axios.get(window.base_url + '/api/fetch_routes')
         .then(function (response) {
             // handle success
             console.log(response);

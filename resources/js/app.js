@@ -1,10 +1,16 @@
-import {createApp} from 'vue';
+import {
+    createApp
+} from 'vue';
 import router from '@/components/router';
 import App from '@/components/App';
 import vuetify from './plugins/vuetify';
-import {loadFonts} from './plugins/webfontloader';
+import {
+    loadFonts
+} from './plugins/webfontloader';
 
-import {createStore} from 'vuex';
+import {
+    createStore
+} from 'vuex';
 
 import VueFormGenerator from "vue-form-generator";
 
@@ -56,6 +62,33 @@ app.config.globalProperties.$loading = window.loading = {
 app.config.globalProperties.$loader_template = window.loader_template = '<div class="block-screen"><b>Please wait...</b></div>';
 
 Axios.defaults.baseURL = base_url;
+
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxx  Filter xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+let filters = {
+    __(value, type) {
+        return value;
+    },
+    currencyUSD(value) {
+        return '$' + value;
+    },
+    toCurrency(value) {
+        if (typeof value !== "number") {
+            return value;
+        }
+        var formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 4
+        });
+        return formatter.format(value);
+    }
+};
+
+app.config.globalProperties.$filters = window.$filters = filters;
+app.config.globalProperties.$func = window.$func = filters;
 
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -138,7 +171,7 @@ const store = createStore({
             removeItem: (key) => Cookies.remove(key),
         },
     })],
-})
+});
 
 window.$store = store;
 
@@ -149,8 +182,6 @@ app.use(store);
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Ruotes  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-
 
 
 router.beforeEach((to, from, next) => {
@@ -200,20 +231,20 @@ router.afterEach((to, from) => {
     NProgress.done();
 });
 
-autorouter(router);
-
-app.config.globalProperties.$router = window.$router = router;
-
-app.use(router);
-
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Mount App  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
+(async () => {
 
-app.use(VueFormGenerator);
-app.mount('#app');
+    await autorouter(router);
 
+    app.config.globalProperties.$router = window.$router = router;
 
-import './apps';
+    app.use(router);
+
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Mount App  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    app.use(VueFormGenerator);
+    app.mount('#app');
+
+})();

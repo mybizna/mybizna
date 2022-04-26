@@ -10,6 +10,34 @@ var paths = [
         }
     },
     {
+        path: '/',
+        meta: {
+            breadcrumb: true,
+        },
+        name: 'Root',
+        component: () => import('@/views/dashboard/Dashboard.vue'),
+        redirect: {
+            name: 'manage.dashboard'
+        }
+    }, {
+        path: '/manage/dashboard',
+        meta: {
+            breadcrumb: true,
+            middlewareAuth: true
+        },
+        name: 'manage.dashboard',
+        component: () => import('@/views/dashboard/Dashboard.vue')
+
+    },
+    {
+        path: '/dashboard',
+        meta: {
+            public: true,
+        },
+        name: 'dashboard',
+        component: () => import('@/views/dashboard/Dashboard.vue'),
+    },
+    {
         path: '/404',
         meta: {
             public: true,
@@ -75,14 +103,7 @@ var paths = [
         name: 'ForgotPassword',
         component: () => import(`@/components/pages/ForgotPassword.vue`)
     },
-    {
-        path: '/dashboard',
-        meta: {
-            public: true,
-        },
-        name: 'dashboard',
-        component: () => import('@/views/dashboard/Dashboard.vue'),
-    },
+
     {
         path: '/typography',
         meta: {

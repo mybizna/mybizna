@@ -27,7 +27,7 @@ class Modularize
             'status'  => 0,
             'total'   => 0,
             'error'   => 1,
-            'data'    => [],
+            'records'    => [],
             'message' => 'No Records'
         ];
 
@@ -69,7 +69,7 @@ class Modularize
 
                 $result['error'] = 0;
                 $result['status'] = 1;
-                $result['data'] = $query->get();
+                $result['records'] = $query->get();
                 $result['message'] = 'Records Found Successfully.';
             }
         } else {

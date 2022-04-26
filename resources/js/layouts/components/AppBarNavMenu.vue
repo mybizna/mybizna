@@ -14,25 +14,30 @@
                             Menu List
                         </button>
                         <div
-                            class="dropdown-menu dropdown-menu-end mobile-dropdown p-2"
+                            class="dropdown-menu dropdown-menu-end mobile-dropdown search-dropdown p-2"
                         >
                             <ul class="list-group list-group-flush">
                                 <li
                                     v-for="(item, index) in menus"
                                     :key="index"
-                                    class="list-group-item"
+                                    class="list-group-item text-black"
                                 >
                                     <a href="#">
                                         {{ item.title }}
                                     </a>
-                                    <ul class="list-group bg-light">
+                                    <ul
+                                        v-if="item.list.length"
+                                        class="list-group bg-light"
+                                    >
                                         <li
-                                            v-for="(item, index) in menus"
+                                            v-for="(
+                                                subitem, index
+                                            ) in item.list"
                                             :key="index"
                                             class="list-group-item"
                                         >
-                                            <a class="dropdown-item" href="#">{{
-                                                item.title
+                                            <a class="dropdown-item text-black" href="#">{{
+                                                subitem.title
                                             }}</a>
                                         </li>
                                     </ul>
@@ -47,8 +52,8 @@
                                 :key="index"
                                 class="nav-item dropdown"
                             >
-                                <a
-                                    class="nav-link dropdown-toggle"
+                                <a v-if="item.list.length"
+                                    class="nav-link dropdown-toggle text-black"
                                     href="#"
                                     id="navbarDropdown"
                                     role="button"
@@ -57,16 +62,25 @@
                                 >
                                     {{ item.title }}
                                 </a>
+                                <a v-else
+                                    class="nav-link text-black"
+                                    href="#"
+                                    id="navbarDropdown`${index}`"
+                                    role="button"
+                                >
+                                    {{ item.title }}
+                                </a>
                                 <ul
+                                    v-if="item.list.length"
                                     class="dropdown-menu"
                                     aria-labelledby="navbarDropdown"
                                 >
                                     <li
-                                        v-for="(item, index) in menus"
+                                        v-for="(subitem, index) in item.list"
                                         :key="index"
                                     >
-                                        <a class="dropdown-item" href="#">{{
-                                            item.title
+                                        <a class="dropdown-item text-black" href="#">{{
+                                            subitem.title
                                         }}</a>
                                     </li>
                                 </ul>
@@ -96,7 +110,7 @@
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             ></button>
-                            <div class="dropdown-menu dropdown-menu-end p-2">
+                            <div class="dropdown-menu dropdown-menu-end search-dropdown p-2">
                                 <b>Search</b>
                                 <div class="row">
                                     <div
@@ -156,7 +170,7 @@
                             Search
                         </button>
                         <div
-                            class="dropdown-menu dropdown-menu-end mobile-dropdown p-2"
+                            class="dropdown-menu dropdown-menu-end mobile-dropdown search-dropdown p-2"
                         >
                             <div class="row">
                                 <div class="col-4">
@@ -219,13 +233,15 @@ export default {
     setup() {
         const store = useStore();
 
-        if (store.getters["system/hasMenu"]) {
+        if (!store.state.system.has_menu) {
             store.dispatch("system/getMenu");
         }
 
         let menus = computed(function () {
-            return store.state.system.menu;
+            return store.state.system.menu["account"];
         });
+
+        console.log(menus);
 
         return { menus };
     },
@@ -277,7 +293,8 @@ export default {
         overflow: scroll;
         height: 100%;
     }
-    .dropdown-menu {
+
+    .search-dropdown {
         width: 98%;
         position: fixed;
         top: 70px !important;

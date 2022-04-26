@@ -3,6 +3,7 @@ export default {
     state: {
         sidebar_show: false,
         layout: false,
+        has_menu: false,
         menu: [],
     },
     mutations: {
@@ -16,11 +17,17 @@ export default {
         menu(state, payload) {
             state.menu = payload;
         },
+        has_menu(state, payload) {
+            state.has_menu = payload;
+        },
     },
     actions: {
         getMenu({
             commit
         }) {
+
+            alert('fetch_menus');
+            console.log('fetch_menus');
 
             window.axios.get("/fetch_menus")
                 .then(
@@ -29,6 +36,7 @@ export default {
                         console.log(response);
 
                         commit('menu', response.data);
+                        commit('has_menu', true);
 
                     })
                 .catch(
@@ -41,10 +49,5 @@ export default {
         },
     },
     getters: {
-        getters: {
-            hasMenu(state) {
-                return (state.menu.length) ? true : false;
-            }
-        }
     }
 }

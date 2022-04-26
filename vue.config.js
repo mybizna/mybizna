@@ -12,6 +12,7 @@ module.exports = defineConfig({
         extract: false,
     },
     configureWebpack: {
+
         resolve: {
             alias: {
                 vue$: 'vue/dist/vue.esm-bundler.js',
