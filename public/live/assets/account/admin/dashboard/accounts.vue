@@ -1,7 +1,7 @@
 <template>
     <div :class="['bank-accounts-section', 'wperp-panel', 'wperp-panel-default', ( isEditSettingsEnabled ? 'open-edit':'' )]">
         <div class="wperp-panel-heading wperp-bg-white">
-            <h4>{{ __('Accounts', 'erp') }}</h4>
+            <h4>{{ this.$func.__('Accounts', 'erp') }}</h4>
         </div>
         <div class="wperp-panel-body pb-0">
             <ul v-if="accounts.length" class="wperp-list-unstyled list-table-content list-table-content--border">
@@ -26,7 +26,7 @@
         </div>
         <div class="wperp-panel-footer mt-50">
             <div class="bank-accounts-total">
-                <span class="title">{{ __('Total Balance', 'erp') }}</span>
+                <span class="title">{{ this.$func.__('Total Balance', 'erp') }}</span>
                 <span class="price">{{totalAmount}}</span>
             </div>
         </div>

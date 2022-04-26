@@ -5,10 +5,10 @@
         <div class="content-header-section separator">
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
-                    <h2 class="content-header__title">{{ __('Dashboard', 'erp') }}</h2>
+                    <h2 class="content-header__title">{{ this.$func.__('Dashboard', 'erp') }}</h2>
                     <a class="wperp-btn btn--primary" :href="tutorialUrl" id="btn-tutorial-start">
                         <span class="dashicons dashicons-controls-play"></span>
-                        {{ __(' Start Tutorial', 'erp') }}
+                        {{ this.$func.__(' Start Tutorial', 'erp') }}
                     </a>
                 </div>
             </div>
@@ -34,24 +34,24 @@
                         <!-- Start .invoice-own-section -->
                         <div class="invoice-own-section wperp-panel wperp-panel-default">
                             <div class="wperp-panel-heading wperp-bg-white">
-                                <h4>{{ __('Invoice payable to you', 'erp') }}</h4>
+                                <h4>{{ this.$func.__('Invoice payable to you', 'erp') }}</h4>
                             </div>
                             <div class="wperp-panel-body pb-0">
                                 <ul class="wperp-list-unstyled list-table-content" v-if="Object.values(to_receive).length">
                                     <li>
-                                        <span class="title">{{ __('1-30 days overdue', 'erp') }}</span>
+                                        <span class="title">{{ this.$func.__('1-30 days overdue', 'erp') }}</span>
                                         <span class="price">{{formatAmount(to_receive.amount.first)}}</span>
                                     </li>
                                     <li>
-                                        <span class="title">{{ __('31-60 days overdue', 'erp') }}</span>
+                                        <span class="title">{{ this.$func.__('31-60 days overdue', 'erp') }}</span>
                                         <span class="price">{{formatAmount(to_receive.amount.second)}}</span>
                                     </li>
                                     <li>
-                                        <span class="title">{{ __('61-90 days overdue', 'erp') }}</span>
+                                        <span class="title">{{ this.$func.__('61-90 days overdue', 'erp') }}</span>
                                         <span class="price">{{formatAmount(to_receive.amount.third)}}</span>
                                     </li>
                                     <li class="total">
-                                        <span class="title">{{ __('Total Balance', 'erp') }}</span>
+                                        <span class="title">{{ this.$func.__('Total Balance', 'erp') }}</span>
                                         <span class="price">{{total_receivable}}</span>
                                     </li>
                                 </ul>
@@ -63,24 +63,24 @@
                         <!-- Start .invoice-own-section -->
                         <div class="invoice-own-section wperp-panel wperp-panel-default">
                             <div class="wperp-panel-heading wperp-bg-white">
-                                <h4>{{ __('Bills you need to pay', 'erp') }}</h4>
+                                <h4>{{ this.$func.__('Bills you need to pay', 'erp') }}</h4>
                             </div>
                             <div class="wperp-panel-body pb-0">
                                 <ul class="wperp-list-unstyled list-table-content"  v-if="Object.values(to_pay).length">
                                     <li>
-                                        <span class="title">{{ __('1-30 days overdue', 'erp') }}</span>
+                                        <span class="title">{{ this.$func.__('1-30 days overdue', 'erp') }}</span>
                                         <span class="price">{{formatAmount(to_pay.amount.first)}}</span>
                                     </li>
                                     <li>
-                                        <span class="title">{{ __('31-60 days overdue', 'erp') }}</span>
+                                        <span class="title">{{ this.$func.__('31-60 days overdue', 'erp') }}</span>
                                         <span class="price">{{formatAmount(to_pay.amount.second)}}</span>
                                     </li>
                                     <li>
-                                        <span class="title">{{ __('61-90 days overdue', 'erp') }}</span>
+                                        <span class="title">{{ this.$func.__('61-90 days overdue', 'erp') }}</span>
                                         <span class="price">{{formatAmount(to_pay.amount.third)}}</span>
                                     </li>
                                     <li class="total">
-                                        <span class="title">{{ __('Total Balance', 'erp') }}</span>
+                                        <span class="title">{{ this.$func.__('Total Balance', 'erp') }}</span>
                                         <span class="price">{{total_payable}}</span>
                                     </li>
                                 </ul>
@@ -107,12 +107,12 @@ export default {
 
     data() {
         return {
-            title1        : __('Income & Expenses', 'erp'),
-            title2        : __('Bank Accounts', 'erp'),
-            title3        : __('Invoices owed to you', 'erp'),
-            title4        : __('Bills to pay', 'erp'),
+            title1        : this.$func.__('Income & Expenses', 'erp'),
+            title2        : this.$func.__('Bank Accounts', 'erp'),
+            title3        : this.$func.__('Invoices owed to you', 'erp'),
+            title4        : this.$func.__('Bills to pay', 'erp'),
             closable      : true,
-            msg           : __('Accounting', 'erp'),
+            msg           : this.$func.__('Accounting', 'erp'),
             to_receive    : [],
             to_pay        : [],
             tutorialUrl   : erp_acct_var.erp_acct_tut_url
@@ -134,13 +134,11 @@ export default {
             const total = amounts.reduce((amount, item) => {
                 return amount + parseFloat(item);
             }, 0);
-            this.$store.dispatch('spinner/setSpinner', false);
             return this.formatAmount(total);
         }
     },
 
     created() {
-        this.$store.dispatch('spinner/setSpinner', true);
         this.fetchReceivables();
         this.fetchPayables();
     },

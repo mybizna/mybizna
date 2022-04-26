@@ -90,7 +90,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style>
     .wperp-modal-dialog {
         max-width: 900px!important;
         margin: 50px auto;

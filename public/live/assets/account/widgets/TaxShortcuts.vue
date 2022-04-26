@@ -1,11 +1,11 @@
 <template>
     <div class="tax-section">
-        <div class="sectionHeader">{{ __('Tax Shortcuts', 'erp') }}</div>
+        <div class="sectionHeader">{{ this.$func.__('Tax Shortcuts', 'erp') }}</div>
         <ul>
-            <li><router-link :to="{ name: 'TaxZones' }">{{ __('View Tax Zones', 'erp') }}</router-link></li>
-            <li><router-link :to="{ name: 'TaxCategories' }">{{ __('View Tax Categories', 'erp') }}</router-link></li>
-            <li><router-link :to="{ name: 'TaxAgencies' }">{{ __('View Tax Agencies', 'erp') }}</router-link></li>
-            <li><a href="https://wperp.com/docs/accounting/tax/" target="_blank">{{ __('Tax Help', 'erp') }}</a></li>
+            <li><router-link :to="{ name: 'TaxZones' }">{{ this.$func.__('View Tax Zones', 'erp') }}</router-link></li>
+            <li><router-link :to="{ name: 'TaxCategories' }">{{ this.$func.__('View Tax Categories', 'erp') }}</router-link></li>
+            <li><router-link :to="{ name: 'TaxAgencies' }">{{ this.$func.__('View Tax Agencies', 'erp') }}</router-link></li>
+            <li><a href="https://wperp.com/docs/accounting/tax/" target="_blank">{{ this.$func.__('Tax Help', 'erp') }}</a></li>
         </ul>
     </div>
 </template>

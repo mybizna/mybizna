@@ -5,7 +5,7 @@
         <div class="content-header-section separator">
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
-                    <h2 class="content-header__title">{{ __('Sales Transactions', 'erp') }}</h2>
+                    <h2 class="content-header__title">{{ this.$func.__('Sales Transactions', 'erp') }}</h2>
                     <combo-box
                         :options="pages"
                         :hasUrl="true"
@@ -16,7 +16,7 @@
         <!-- End .header-section -->
 
         <sales-stats />
-        <transactions-filter :types="filterTypes" :people="{title: __('Customer', 'erp'), items: customers}"/>
+        <transactions-filter :types="filterTypes" :people="{title: this.$func.__('Customer', 'erp'), items: customers}"/>
         <sales-list />
     </div>
 </template>
@@ -40,16 +40,16 @@ export default {
     data() {
         return {
             pages: [
-                { namedRoute: 'InvoiceCreate', name: __('Create Invoice', 'erp') },
-                { namedRoute: 'RecPaymentCreate', name: __('Receive Payment', 'erp') },
-                { namedRoute: 'EstimateCreate', name: __('Create Estimate', 'erp') }
+                { namedRoute: 'InvoiceCreate', name: this.$func.__('Create Invoice', 'erp') },
+                { namedRoute: 'RecPaymentCreate', name: this.$func.__('Receive Payment', 'erp') },
+                { namedRoute: 'EstimateCreate', name: this.$func.__('Create Estimate', 'erp') }
             ],
 
             filterTypes:[
-                { id: 'invoice', name: __('Invoice', 'erp') },
-                { id: 'payment', name: __('Receive', 'erp') },
-                { id: 'return_payment', name: __('Payment', 'erp') },
-                { id: 'estimate', name: __('Estimate', 'erp') }
+                { id: 'invoice', name: this.$func.__('Invoice', 'erp') },
+                { id: 'payment', name: this.$func.__('Receive', 'erp') },
+                { id: 'return_payment', name: this.$func.__('Payment', 'erp') },
+                { id: 'estimate', name: this.$func.__('Estimate', 'erp') }
             ],
 
             pro_activated: false,
@@ -60,7 +60,7 @@ export default {
         setTimeout(()=>{
             this.pro_activated =  this.$store.state.erp_pro_activated ?  this.$store.state.erp_pro_activated : false
             if(this.pro_activated ){
-                this.pages.push({ namedRoute: 'SalesReturnList', name: __('Sales Return', 'erp') })
+                this.pages.push({ namedRoute: 'SalesReturnList', name: this.$func.__('Sales Return', 'erp') })
             }
         }, 200);
 

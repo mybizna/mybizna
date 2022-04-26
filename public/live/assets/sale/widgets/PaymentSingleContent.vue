@@ -17,10 +17,10 @@
             </div>
 
             <div class="invoice-body">
-                <h4>{{ __('Payment Details', 'erp') }}</h4>
+                <h4>{{ this.$func.__('Payment Details', 'erp') }}</h4>
                 <div class="wperp-row">
                     <div class="wperp-col-sm-6">
-                        <h5>{{ type === "payment" ? __('Payment From', 'erp') : __('Payment To', 'erp') }}:</h5>
+                        <h5>{{ type === "payment" ? this.$func.__('Payment From', 'erp') : this.$func.__('Payment To', 'erp') }}:</h5>
                         <div class="persons-info">
                             <strong>{{ payment.customer_name }}</strong><br>
                             <!-- {{ payment.billing_address }} -->
@@ -29,23 +29,23 @@
                     <div class="wperp-col-sm-6">
                         <table class="invoice-info">
                             <tr>
-                                <th>{{ __('Voucher No', 'erp') }}:</th>
+                                <th>{{ this.$func.__('Voucher No', 'erp') }}:</th>
                                 <td>#{{ payment.voucher_no }}</td>
                             </tr>
                             <tr>
-                                <th>{{ __('Transaction Date', 'erp') }}:</th>
+                                <th>{{ this.$func.__('Transaction Date', 'erp') }}:</th>
                                 <td>{{ formatDate( payment.trn_date ) }}</td>
                             </tr>
                             <tr>
-                                <th>{{ __('Created At', 'erp') }}:</th>
+                                <th>{{ this.$func.__('Created At', 'erp') }}:</th>
                                 <td>{{ formatDate( payment.created_at ) }}</td>
                             </tr>
                             <tr>
-                                <th>{{ __('Deposit To', 'erp') }}:</th>
+                                <th>{{ this.$func.__('Deposit To', 'erp') }}:</th>
                                 <td>{{ payment.account }}</td>
                             </tr>
                             <tr v-if="payment.transaction_charge">
-                                <th>{{ __('Transaction Charge', 'erp') }}:</th>
+                                <th>{{ this.$func.__('Transaction Charge', 'erp') }}:</th>
                                 <td>{{ moneyFormat( payment.transaction_charge )  }}</td>
                             </tr>
                         </table>
@@ -57,9 +57,9 @@
                 <table class="wperp-table wperp-form-table invoice-table">
                     <thead>
                         <tr>
-                            <th>{{ __('Sl.', 'erp') }}</th>
-                            <th>{{ __('Invoice ID', 'erp') }}</th>
-                            <th>{{ __('Amount', 'erp') }}</th>
+                            <th>{{ this.$func.__('Sl.', 'erp') }}</th>
+                            <th>{{ this.$func.__('Invoice ID', 'erp') }}</th>
+                            <th>{{ this.$func.__('Amount', 'erp') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,7 +73,7 @@
                         <tr>
                             <td colspan="7">
                                 <ul>
-                                    <li><span>{{ __('Total', 'erp') }}:</span> {{ type === "return_payment" ? formatAmount(-1 * payment.amount, true) : formatAmount(payment.amount, true) }}</li>
+                                    <li><span>{{ this.$func.__('Total', 'erp') }}:</span> {{ type === "return_payment" ? formatAmount(-1 * payment.amount, true) : formatAmount(payment.amount, true) }}</li>
                                 </ul>
                             </td>
                         </tr>
@@ -86,7 +86,7 @@
         <trans-particulars :particulars="payment.particulars" />
 
         <div class="invoice-attachments d-print-none">
-            <h4>{{ __('Attachments', 'erp') }}</h4>
+            <h4>{{ this.$func.__('Attachments', 'erp') }}</h4>
             <a class="attachment-item" :href="attachment"
                :key="index"
                v-for="(attachment, index) in payment.attachments" download>

@@ -24,7 +24,7 @@
                                         <div class="col-3">
                                             <h3>
                                                 <input type="checkbox" id="selecctall" @change.prevent="selectFields" />
-                                                {{ __('Select all', 'erp') }}
+                                                {{ this.$func.__('Select all', 'erp') }}
                                             </h3>
                                         </div>
                                     </div>
@@ -41,7 +41,7 @@
                                     <div class="row"></div>
 
                                     <div class="row">
-                                        <p class="description">{{ __( '**Only selected fields will be on the csv file.', 'erp' ) }}</p>
+                                        <p class="description">{{ this.$func.__( '**Only selected fields will be on the csv file.', 'erp' ) }}</p>
                                     </div>
                                 </div>
 
@@ -53,8 +53,8 @@
 
                             <div class="wperp-modal-footer pt-0">
                                 <div class="buttons-wrapper text-right">
-                                    <button class="wperp-btn btn--default modal-close" @click="$parent.$emit('modal-close')" type="reset">{{ __('Cancel', 'erp') }}</button>
-                                    <button class="wperp-btn btn--primary" type="submit">{{ __('Export', 'erp') }}</button>
+                                    <button class="wperp-btn btn--default modal-close" @click="$parent.$emit('modal-close')" type="reset">{{ this.$func.__('Cancel', 'erp') }}</button>
+                                    <button class="wperp-btn btn--primary" type="submit">{{ this.$func.__('Export', 'erp') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -95,8 +95,8 @@ export default {
         this.peopleFields = erp_acct_var.erp_fields ? erp_acct_var.erp_fields[this.peopleType].fields : [];
         this.nonce        = erp_acct_var.export_import_nonce;
         this.description  = 'customer' === this.peopleType
-                          ? __('Select customer fields to export', 'erp')
-                          : __('Select vendor fields to export', 'erp');
+                          ? this.$func.__('Select customer fields to export', 'erp')
+                          : this.$func.__('Select vendor fields to export', 'erp');
     },
 
     methods: {
@@ -115,8 +115,8 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-    .modal-close {
+<style>
+    .modal-close
         .flaticon-close {
             font-size: inherit;
         }

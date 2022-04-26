@@ -1,49 +1,74 @@
 <template>
     <div class="wperp-container invoice-create">
-
         <!-- Start .header-section -->
         <div class="content-header-section separator">
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
-                    <h2 v-if="estimateToInvoice()">{{ __('Convert into Invoice', 'erp') }}</h2>
-                    <h2 v-else class="content-header__title">{{ editMode ? __('Edit', 'erp') : __('New', 'erp') }} {{inv_title}}</h2>
+                    <h2 v-if="estimateToInvoice()">
+                        {{ this.$func.__("Convert into Invoice", "erp") }}
+                    </h2>
+                    <h2 v-else class="content-header__title">
+                        {{ editMode ? this.$func.__("Edit", "erp") : this.$func.__("New", "erp") }}
+                        {{ inv_title }}
+                    </h2>
                 </div>
             </div>
         </div>
         <!-- End .header-section -->
 
         <form action="" method="post" @submit.prevent="submitInvoiceForm">
+            <div
+                class="wperp-panel wperp-panel-default"
+                style="padding-bottom: 0"
+            >
+                <show-errors :error_msgs="form_errors"></show-errors>
 
-        <div class="wperp-panel wperp-panel-default" style="padding-bottom: 0;">
-
-            <show-errors :error_msgs="form_errors"></show-errors>
-
-            <div class="wperp-panel-body">
+                <div class="wperp-panel-body">
                     <div class="wperp-row">
                         <div class="wperp-col-sm-4">
-                            <select-customers v-model="basic_fields.customer"></select-customers>
+                            <select-customers
+                                v-model="basic_fields.customer"
+                            ></select-customers>
                         </div>
                         <div class="wperp-col-sm-4">
                             <div class="wperp-form-group">
-                                <label>{{ __('Transaction Date', 'erp') }}<span class="wperp-required-sign">*</span></label>
-                                <datepicker v-model="basic_fields.trn_date"></datepicker>
+                                <label
+                                    >{{ this.$func.__("Transaction Date", "erp")
+                                    }}<span class="wperp-required-sign"
+                                        >*</span
+                                    ></label
+                                >
+                                <datepicker
+                                    v-model="basic_fields.trn_date"
+                                ></datepicker>
                             </div>
                         </div>
                         <div class="wperp-col-sm-4">
                             <div class="wperp-form-group">
-                                <label>{{ __('Due Date', 'erp') }}<span class="wperp-required-sign">*</span></label>
-                                <datepicker v-model="basic_fields.due_date"></datepicker>
+                                <label
+                                    >{{ this.$func.__("Due Date", "erp")
+                                    }}<span class="wperp-required-sign"
+                                        >*</span
+                                    ></label
+                                >
+                                <datepicker
+                                    v-model="basic_fields.due_date"
+                                ></datepicker>
                             </div>
                         </div>
                         <div class="wperp-col-sm-6">
-                            <label>{{ __('Billing Address', 'erp') }}</label>
-                            <textarea v-model="basic_fields.billing_address" rows="4" class="wperp-form-field" :placeholder="__('Type here', 'erp')"></textarea>
+                            <label>{{ this.$func.__("Billing Address", "erp") }}</label>
+                            <textarea
+                                v-model="basic_fields.billing_address"
+                                rows="4"
+                                class="wperp-form-field"
+                                :placeholder="__('Type here', 'erp')"
+                            ></textarea>
                         </div>
                     </div>
-                <!-- </form> -->
-
+                    <!-- </form> -->
+                </div>
             </div>
-        </div>
 
             <div class="wperp-table-responsive">
                 <!-- Start Invoice Items Table -->
@@ -51,11 +76,30 @@
                     <table class="wperp-table wperp-form-table">
                         <thead>
                             <tr>
-                                <th scope="col" class="col--products">{{ __('Product/Service', 'erp') }}</th>
-                                <th scope="col" class="col--qty">{{ __('Qty', 'erp') }}</th>
-                                <th scope="col" class="col--unit-price">{{ __('Unit Price', 'erp') }}</th>
-                                <th scope="col" class="col--amount">{{ __('Amount', 'erp') }}</th>
-                                <th scope="col" class="col--tax">{{ __('Tax', 'erp') }} <span class="erp-help-tip .erp-tips" :title="__('Make sure you have created tax category, zone and rate. Also, make sure the tax category is added on the product.', 'erp')"></span></th>
+                                <th scope="col" class="col--products">
+                                    {{ this.$func.__("Product/Service", "erp") }}
+                                </th>
+                                <th scope="col" class="col--qty">
+                                    {{ this.$func.__("Qty", "erp") }}
+                                </th>
+                                <th scope="col" class="col--unit-price">
+                                    {{ this.$func.__("Unit Price", "erp") }}
+                                </th>
+                                <th scope="col" class="col--amount">
+                                    {{ this.$func.__("Amount", "erp") }}
+                                </th>
+                                <th scope="col" class="col--tax">
+                                    {{ this.$func.__("Tax", "erp") }}
+                                    <span
+                                        class="erp-help-tip .erp-tips"
+                                        :title="
+                                            this.$func.__(
+                                                'Make sure you have created tax category, zone and rate. Also, make sure the tax category is added on the product.',
+                                                'erp'
+                                            )
+                                        "
+                                    ></span>
+                                </th>
                                 <th scope="col" class="col--actions"></th>
                             </tr>
                         </thead>
@@ -69,56 +113,125 @@
                             ></invoice-trn-row>
 
                             <tr class="add-new-line">
-                                <td colspan="9" style="text-align: left;">
-                                    <button @click.prevent="addLine" class="wperp-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ __('Add Line', 'erp') }}</button>
+                                <td colspan="9" style="text-align: left">
+                                    <button
+                                        @click.prevent="addLine"
+                                        class="wperp-btn btn--primary add-line-trigger"
+                                    >
+                                        <i class="flaticon-add-plus-button"></i
+                                        >{{ this.$func.__("Add Line", "erp") }}
+                                    </button>
                                 </td>
                             </tr>
 
                             <tr class="discount-rate-row inline-edit-row">
-                                <td colspan="4" class="text-right with-multiselect">
+                                <td
+                                    colspan="4"
+                                    class="text-right with-multiselect"
+                                >
                                     <select v-model="discountType">
-                                        <option value="discount-percent">{{ __('Discount percent', 'erp') }}</option>
-                                        <option value="discount-value">{{ __('Discount value', 'erp') }}</option>
+                                        <option value="discount-percent">
+                                            {{ this.$func.__("Discount percent", "erp") }}
+                                        </option>
+                                        <option value="discount-value">
+                                            {{ this.$func.__("Discount value", "erp") }}
+                                        </option>
                                     </select>
                                 </td>
                                 <td>
                                     <div class="discountType-box">
-                                        <input type="text" class="wperp-form-field" v-model="discount" :placeholder="discountType">
-                                        <em v-show="'discount-percent' === discountType"> %</em>
+                                        <input
+                                            type="text"
+                                            class="wperp-form-field"
+                                            v-model="discount"
+                                            :placeholder="discountType"
+                                        />
+                                        <em
+                                            v-show="
+                                                'discount-percent' ===
+                                                discountType
+                                            "
+                                        >
+                                            %</em
+                                        >
                                     </div>
                                 </td>
                                 <td></td>
                             </tr>
 
                             <tr class="tax-rate-row inline-edit-row">
-                                <td colspan="4" class="text-right with-multiselect">
-                                    <multi-select v-model="taxRate"
+                                <td
+                                    colspan="4"
+                                    class="text-right with-multiselect"
+                                >
+                                    <multi-select
+                                        v-model="taxRate"
                                         :options="taxRates"
                                         class="tax-rates"
-                                        :placeholder="__('Select sales tax', 'erp')" />
+                                        :placeholder="
+                                            this.$func.__('Select sales tax', 'erp')
+                                        "
+                                    />
                                 </td>
-                                <td><input type="text" class="wperp-form-field" :value="moneyFormat(taxTotalAmount)" readonly></td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        class="wperp-form-field"
+                                        :value="moneyFormat(taxTotalAmount)"
+                                        readonly
+                                    />
+                                </td>
                                 <td></td>
                             </tr>
 
                             <tr class="total-amount-row inline-edit-row">
                                 <td colspan="4" class="text-right">
-                                    <span>{{ __('Total Amount', 'erp') }} =</span>
+                                    <span
+                                        >{{ this.$func.__("Total Amount", "erp") }} =</span
+                                    >
                                 </td>
-                                <td><input type="text" class="wperp-form-field" :value="moneyFormat(finalTotalAmount)" readonly></td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        class="wperp-form-field"
+                                        :value="moneyFormat(finalTotalAmount)"
+                                        readonly
+                                    />
+                                </td>
                                 <td></td>
                             </tr>
                             <tr class="wperp-form-group inline-edit-row">
-                                <td colspan="9" style="text-align: left;">
-                                    <label>{{ __('Particulars', 'erp') }}</label>
-                                    <textarea v-model="particulars" rows="4" maxlength="250" class="wperp-form-field display-flex" :placeholder="__('Particulars', 'erp')"></textarea>
+                                <td colspan="9" style="text-align: left">
+                                    <label>{{
+                                        this.$func.__("Particulars", "erp")
+                                    }}</label>
+                                    <textarea
+                                        v-model="particulars"
+                                        rows="4"
+                                        maxlength="250"
+                                        class="wperp-form-field display-flex"
+                                        :placeholder="__('Particulars', 'erp')"
+                                    ></textarea>
                                 </td>
                             </tr>
                             <tr class="inline-edit-row">
                                 <td>
-                                    <div class="attachment-item" :key="index" v-for="(file, index) in attachments">
-                                        <img :src="erp_acct_assets + '/images/file-thumb.png'">
-                                        <span class="remove-file" @click="removeFile(index)">&#10007;</span>
+                                    <div
+                                        class="attachment-item"
+                                        :key="index"
+                                        v-for="(file, index) in attachments"
+                                    >
+                                        <img
+                                            :src="
+                                                erp_acct_assets +
+                                                '/images/file-thumb.png'
+                                            "
+                                        />
+                                        <span
+                                            class="remove-file"
+                                            @click="removeFile(index)"
+                                            >&#10007;</span
+                                        >
 
                                         <div class="attachment-meta">
                                             <h3>{{ getFileName(file) }}</h3>
@@ -127,10 +240,15 @@
                                 </td>
                             </tr>
                             <tr class="add-attachment-row inline-edit-row">
-                                <td colspan="9" style="text-align: left;">
+                                <td colspan="9" style="text-align: left">
                                     <div class="attachment-container">
-                                        <label class="col--attachement">{{ __('Attachment', 'erp') }}</label>
-                                        <file-upload v-model="attachments" url="/invoices/attachments"/>
+                                        <label class="col--attachement">{{
+                                            this.$func.__("Attachment", "erp")
+                                        }}</label>
+                                        <file-upload
+                                            v-model="attachments"
+                                            url="/invoices/attachments"
+                                        />
                                     </div>
                                 </td>
                             </tr>
@@ -138,23 +256,47 @@
                                 v-for="(component, compKey) in extraFields"
                                 :key="'key-' + compKey"
                                 :is="component"
-                                :tran-type="inv_title" />
+                                :tran-type="inv_title"
+                            />
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td v-if="estimateToInvoice()" colspan="9" style="text-align: right;">
-                                    <combo-button :options="[{ id: 'update', text: __('Save Conversion', 'erp') }]" />
+                                <td
+                                    v-if="estimateToInvoice()"
+                                    colspan="9"
+                                    style="text-align: right"
+                                >
+                                    <combo-button
+                                        :options="[
+                                            {
+                                                id: 'update',
+                                                text: this.$func.__(
+                                                    'Save Conversion',
+                                                    'erp'
+                                                ),
+                                            },
+                                        ]"
+                                    />
                                 </td>
-                                <td v-else colspan="9" style="text-align: right;">
-                                    <combo-button v-if="editMode" :options="updateButtons" />
-                                    <combo-button v-else :options="createButtons" />
+                                <td
+                                    v-else
+                                    colspan="9"
+                                    style="text-align: right"
+                                >
+                                    <combo-button
+                                        v-if="editMode"
+                                        :options="updateButtons"
+                                    />
+                                    <combo-button
+                                        v-else
+                                        :options="createButtons"
+                                    />
                                 </td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             </div>
-
         </form>
 
         <!-- End .wperp-crm-table -->
@@ -162,19 +304,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
-import Datepicker from 'admin/components/base/Datepicker.vue';
-import FileUpload from 'admin/components/base/FileUpload.vue';
-import ComboButton from 'admin/components/select/ComboButton.vue';
-import InvoiceTrnRow from 'admin/components/invoice/InvoiceTrnRow.vue';
-import SelectCustomers from 'admin/components/people/SelectCustomers.vue';
-import MultiSelect from 'admin/components/select/MultiSelect.vue';
-import ShowErrors from 'admin/components/base/ShowErrors.vue';
+import Datepicker from "admin/components/base/Datepicker.vue";
+import FileUpload from "admin/components/base/FileUpload.vue";
+import ComboButton from "admin/components/select/ComboButton.vue";
+import InvoiceTrnRow from "admin/components/invoice/InvoiceTrnRow.vue";
+import SelectCustomers from "admin/components/people/SelectCustomers.vue";
+import MultiSelect from "admin/components/select/MultiSelect.vue";
+import ShowErrors from "admin/components/base/ShowErrors.vue";
 
 /* global erp_acct_var */
 export default {
-
     components: {
         MultiSelect,
         Datepicker,
@@ -182,63 +323,66 @@ export default {
         ComboButton,
         InvoiceTrnRow,
         SelectCustomers,
-        ShowErrors
+        ShowErrors,
     },
 
     data() {
         return {
             basic_fields: {
-                customer       : '',
-                trn_date       : '',
-                due_date       : '',
-                billing_address: ''
+                customer: "",
+                trn_date: "",
+                due_date: "",
+                billing_address: "",
             },
 
             createButtons: [
-                { id: 'save', text: __('Save', 'erp') },
-                // {id: 'send_create', text: __('Create and Send', 'erp')},
-                { id: 'new_create', text: __('Save and New', 'erp') },
-                { id: 'draft', text: __('Save as Draft', 'erp') }
+                { id: "save", text: this.$func.__("Save", "erp") },
+                // {id: 'send_create', text: this.$func.__('Create and Send', 'erp')},
+                { id: "new_create", text: this.$func.__("Save and New", "erp") },
+                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
             updateButtons: [
-                { id: 'update', text: __('Update', 'erp') },
-                // {id: 'send_update', text: __('Update and Send', 'erp')},
-                { id: 'new_update', text: __('Update and New', 'erp') },
-                { id: 'draft', text: __('Save as Draft', 'erp') }
+                { id: "update", text: this.$func.__("Update", "erp") },
+                // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
+                { id: "new_update", text: this.$func.__("Update and New", "erp") },
+                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
-            extraFields     : window.acct.hooks.applyFilters('acctInvoiceExtraFields', []),
-            editMode        : false,
-            voucherNo       : 0,
-            discountType    : 'discount-percent',
-            discount        : 0,
-            status          : null,
-            taxRate         : null,
-            taxSummary      : null,
-            products        : [],
-            particulars     : '',
-            attachments     : [],
+            extraFields: window.acct.hooks.applyFilters(
+                "acctInvoiceExtraFields",
+                []
+            ),
+            editMode: false,
+            voucherNo: 0,
+            discountType: "discount-percent",
+            discount: 0,
+            status: null,
+            taxRate: null,
+            taxSummary: null,
+            products: [],
+            particulars: "",
+            attachments: [],
             transactionLines: [],
-            taxRates        : [],
-            taxTotalAmount  : 0,
+            taxRates: [],
+            taxTotalAmount: 0,
             finalTotalAmount: 0,
-            inv_title       : '',
-            inv_type        : {},
-            erp_acct_assets : erp_acct_var.acct_assets,
-            form_errors     : []
+            inv_title: "",
+            inv_type: {},
+            erp_acct_assets: erp_acct_var.acct_assets,
+            form_errors: [],
         };
     },
 
     watch: {
-        'basic_fields.customer'() {
+        "basic_fields.customer"() {
             if (!this.editMode) {
                 this.getCustomerAddress();
             }
         },
 
         taxRate(newVal) {
-            this.$store.dispatch('sales/setTaxRateID', newVal.id);
+            this.$store.dispatch("sales/setTaxRateID", newVal.id);
         },
 
         discount() {
@@ -251,31 +395,33 @@ export default {
 
         invoiceTotalAmount() {
             this.discountChanged();
-        }
+        },
     },
 
     computed: {
-        ...mapState({ invoiceTotalAmount: state => state.sales.invoiceTotalAmount }),
-        ...mapState({ actionType: state => state.combo.btnID })
+        ...mapState({
+            invoiceTotalAmount: (state) => state.sales.invoiceTotalAmount,
+        }),
+        ...mapState({ actionType: (state) => state.combo.btnID }),
     },
 
     created() {
-        if (this.$route.name === 'EstimateCreate') {
-            this.inv_title = 'Estimate';
-            this.inv_type  = { id: 1, name: 'Estimate' };
+        if (this.$route.name === "EstimateCreate") {
+            this.inv_title = "Estimate";
+            this.inv_type = { id: 1, name: "Estimate" };
         } else {
-            this.inv_title = 'Invoice';
-            this.inv_type  = { id: 0, name: 'Invoice' };
+            this.inv_title = "Invoice";
+            this.inv_type = { id: 0, name: "Invoice" };
         }
 
         this.prepareDataLoad();
 
-        this.$root.$on('remove-row', index => {
+        this.$root.$on("remove-row", (index) => {
             this.$delete(this.transactionLines, index);
             this.updateFinalAmount();
         });
 
-        this.$root.$on('total-updated', amount => {
+        this.$root.$on("total-updated", (amount) => {
             this.updateFinalAmount();
         });
     },
@@ -298,32 +444,39 @@ export default {
                  * load products and taxes, before invoice load
                  */
                 const [request1, request2] = await Promise.all([
-                    window.axios.get('/products', { params: {
-                        number: -1
-                    } }),
-                    window.axios.get('/taxes/summary')
+                    window.axios.get("/products", {
+                        params: {
+                            number: -1,
+                        },
+                    }),
+                    window.axios.get("/taxes/summary"),
                 ]);
-                const request3 = await window.axios.get(`/invoices/${this.$route.params.id}`);
+                const request3 = await window.axios.get(
+                    `/invoices/${this.$route.params.id}`
+                );
 
                 if (!request3.data.line_items.length) {
-                    this.showAlert('error', __('Invoice does not exists!', 'erp'));
+                    this.showAlert(
+                        "error",
+                        this.$func.__("Invoice does not exists!", "erp")
+                    );
                     return;
                 }
 
                 const canEdit = Boolean(Number(request3.data.editable));
 
                 if (!canEdit) {
-                    this.showAlert('error', 'Can\'t edit');
+                    this.showAlert("error", "Can't edit");
                     return;
                 }
 
-                this.products   = request1.data;
+                this.products = request1.data;
                 this.taxSummary = request2.data;
-                this.taxRates   = this.getUniqueTaxRates(request2.data);
+                this.taxRates = this.getUniqueTaxRates(request2.data);
                 this.setDataForEdit(request3.data);
 
                 // initialize combo button id with `update`
-                this.$store.dispatch('combo/setBtnID', 'update');
+                this.$store.dispatch("combo/setBtnID", "update");
             } else {
                 /**
                  * ----------------------------------------------
@@ -338,39 +491,46 @@ export default {
                 this.transactionLines.push({}, {}, {});
 
                 // initialize combo button id with `save`
-                this.$store.dispatch('combo/setBtnID', 'save');
+                this.$store.dispatch("combo/setBtnID", "save");
             }
         },
 
         setDataForEdit(invoice) {
-            this.basic_fields.customer        = { id: parseInt(invoice.customer_id), name: invoice.customer_name };
+            this.basic_fields.customer = {
+                id: parseInt(invoice.customer_id),
+                name: invoice.customer_name,
+            };
             this.basic_fields.billing_address = invoice.billing_address;
-            this.basic_fields.trn_date        = invoice.trn_date;
-            this.basic_fields.due_date        = invoice.due_date;
-            this.status                       = invoice.status;
-            this.transactionLines             = invoice.line_items;
-            this.taxTotalAmount               = invoice.tax;
-            this.finalTotalAmount             = invoice.debit;
-            this.particulars                  = invoice.particulars;
-            this.attachments                  = invoice.attachments;
-            this.discountType                 = invoice.discount_type;
+            this.basic_fields.trn_date = invoice.trn_date;
+            this.basic_fields.due_date = invoice.due_date;
+            this.status = invoice.status;
+            this.transactionLines = invoice.line_items;
+            this.taxTotalAmount = invoice.tax;
+            this.finalTotalAmount = invoice.debit;
+            this.particulars = invoice.particulars;
+            this.attachments = invoice.attachments;
+            this.discountType = invoice.discount_type;
 
-            if (invoice.discount_type === 'discount-percent') {
-                this.discount = (parseFloat(invoice.discount) * 100) / parseFloat(invoice.amount);
+            if (invoice.discount_type === "discount-percent") {
+                this.discount =
+                    (parseFloat(invoice.discount) * 100) /
+                    parseFloat(invoice.amount);
             } else {
                 this.discount = invoice.discount;
             }
 
             this.taxRate = {
                 id: parseInt(invoice.tax_rate_id),
-                name: this.getTaxRateNameByID(invoice.tax_rate_id)
+                name: this.getTaxRateNameByID(invoice.tax_rate_id),
             };
 
-            if (invoice.estimate === '1') {
-                this.inv_title = 'Estimate';
-                this.inv_type = { id: 1, name: 'Estimate' };
-                this.finalTotalAmount = parseFloat(invoice.amount) +
-                    parseFloat(invoice.tax) - parseFloat(this.discount);
+            if (invoice.estimate === "1") {
+                this.inv_title = "Estimate";
+                this.inv_type = { id: 1, name: "Estimate" };
+                this.finalTotalAmount =
+                    parseFloat(invoice.amount) +
+                    parseFloat(invoice.tax) -
+                    parseFloat(this.discount);
             }
         },
 
@@ -381,37 +541,41 @@ export default {
         },
 
         getProducts() {
-            this.$store.dispatch('spinner/setSpinner', true);
 
-            window.axios.get('/products', { params: {
-                number: -1
-            } }).then(response => {
-                this.products = response.data;
+            window.axios
+                .get("/products", {
+                    params: {
+                        number: -1,
+                    },
+                })
+                .then((response) => {
+                    this.products = response.data;
 
-                this.$store.dispatch('spinner/setSpinner', false);
-            }).catch(error => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                throw error;
-            });
+                })
+                .catch((error) => {
+                    throw error;
+                });
         },
 
         getCustomerAddress() {
             const customer_id = this.basic_fields.customer.id;
 
             if (!customer_id) {
-                this.basic_fields.billing_address = '';
+                this.basic_fields.billing_address = "";
                 return;
             }
 
-            window.axios.get(`/people/${customer_id}`).then(response => {
+            window.axios.get(`/people/${customer_id}`).then((response) => {
                 const billing = response.data;
 
-                let street_1    = billing.street_1 ? billing.street_1 + ',' : '';
-                let street_2    = billing.street_2 ? billing.street_2 : '';
-                let city        = billing.city ? billing.city : '';
-                let state       = billing.state ? billing.state + ',' : '';
-                let postal_code = billing.postal_code ? billing.postal_code : '';
-                let country     = billing.country ? billing.country : '';
+                let street_1 = billing.street_1 ? billing.street_1 + "," : "";
+                let street_2 = billing.street_2 ? billing.street_2 : "";
+                let city = billing.city ? billing.city : "";
+                let state = billing.state ? billing.state + "," : "";
+                let postal_code = billing.postal_code
+                    ? billing.postal_code
+                    : "";
+                let country = billing.country ? billing.country : "";
 
                 const address = `${street_1} ${street_2} \n${city} \n${state} ${postal_code} \n${country}`;
 
@@ -422,15 +586,15 @@ export default {
         discountChanged() {
             let discount = this.discount;
 
-            if (this.discountType === 'discount-percent') {
+            if (this.discountType === "discount-percent") {
                 discount = (this.invoiceTotalAmount * discount) / 100;
             }
 
-            this.$store.dispatch('sales/setDiscount', discount);
+            this.$store.dispatch("sales/setDiscount", discount);
         },
 
         getTaxRates() {
-            window.axios.get('/taxes/summary').then(response => {
+            window.axios.get("/taxes/summary").then((response) => {
                 this.taxSummary = response.data;
 
                 this.taxRates = this.getUniqueTaxRates(this.taxSummary);
@@ -439,7 +603,7 @@ export default {
 
         getTaxRateNameByID(id) {
             // Array.find()
-            const taxRate = this.taxRates.find(rate => {
+            const taxRate = this.taxRates.find((rate) => {
                 return rate.id === parseInt(id);
             });
 
@@ -451,20 +615,27 @@ export default {
         },
 
         getUniqueTaxRates(taxes) {
-            return Array.from(new Set(taxes.map(tax => tax.tax_rate_id))).map(tax_rate_id => {
-                const tax = taxes.find(tax => tax.tax_rate_id === tax_rate_id);
+            return Array.from(new Set(taxes.map((tax) => tax.tax_rate_id))).map(
+                (tax_rate_id) => {
+                    const tax = taxes.find(
+                        (tax) => tax.tax_rate_id === tax_rate_id
+                    );
 
-                if (tax.default) {
-                    // set default tax rate name for invoice
-                    this.taxRate = { id: tax_rate_id, name: tax.tax_rate_name };
-                    this.$store.dispatch('sales/setTaxRateID', tax_rate_id);
+                    if (tax.default) {
+                        // set default tax rate name for invoice
+                        this.taxRate = {
+                            id: tax_rate_id,
+                            name: tax.tax_rate_name,
+                        };
+                        this.$store.dispatch("sales/setTaxRateID", tax_rate_id);
+                    }
+
+                    return {
+                        id: tax_rate_id,
+                        name: tax.tax_rate_name,
+                    };
                 }
-
-                return {
-                    id: tax_rate_id,
-                    name: tax.tax_rate_name
-                };
-            });
+            );
         },
 
         addLine() {
@@ -472,41 +643,44 @@ export default {
         },
 
         updateFinalAmount() {
-            let taxAmount     = 0;
+            let taxAmount = 0;
             let totalDiscount = 0;
-            let totalAmount   = 0;
+            let totalAmount = 0;
 
-            this.transactionLines.forEach(element => {
+            this.transactionLines.forEach((element) => {
                 if (element.qty) {
-                    taxAmount     += parseFloat(element.taxAmount);
-                    totalDiscount += isNaN(element.discount) ? 0.00 : parseFloat(element.discount);
-                    totalAmount   += parseFloat(element.amount);
+                    taxAmount += parseFloat(element.taxAmount);
+                    totalDiscount += isNaN(element.discount)
+                        ? 0.0
+                        : parseFloat(element.discount);
+                    totalAmount += parseFloat(element.amount);
                 }
             });
 
-            this.$store.dispatch('sales/setInvoiceTotalAmount', totalAmount);
+            this.$store.dispatch("sales/setInvoiceTotalAmount", totalAmount);
 
-            const finalAmount = (totalAmount - totalDiscount) + taxAmount;
+            const finalAmount = totalAmount - totalDiscount + taxAmount;
 
-            this.taxTotalAmount   = taxAmount.toFixed(2);
+            this.taxTotalAmount = taxAmount.toFixed(2);
             this.finalTotalAmount = finalAmount.toFixed(2);
         },
 
         formatLineItems() {
             var lineItems = [];
 
-            this.transactionLines.forEach(line => {
+            this.transactionLines.forEach((line) => {
                 if (line.qty) {
                     lineItems.push({
-                        product_id       : line.selectedProduct.id,
-                        product_type_name: line.selectedProduct.product_type_name,
-                        tax_cat_id       : line.taxCatID,
-                        qty              : line.qty,
-                        unit_price       : line.unitPrice,
-                        tax              : line.taxAmount,
-                        tax_rate         : line.taxRate,
-                        discount         : line.discount,
-                        item_total       : line.amount
+                        product_id: line.selectedProduct.id,
+                        product_type_name:
+                            line.selectedProduct.product_type_name,
+                        tax_cat_id: line.taxCatID,
+                        qty: line.qty,
+                        unit_price: line.unitPrice,
+                        tax: line.taxAmount,
+                        tax_rate: line.taxRate,
+                        discount: line.discount,
+                        item_total: line.amount,
                     });
                 }
             });
@@ -515,46 +689,54 @@ export default {
         },
 
         updateInvoice(requestData) {
-            this.$store.dispatch('spinner/setSpinner', true);
 
-            window.axios.put(`/invoices/${this.voucherNo}`, requestData).then(res => {
-                this.$store.dispatch('spinner/setSpinner', false);
+            window.axios
+                .put(`/invoices/${this.voucherNo}`, requestData)
+                .then((res) => {
 
-                let message = __('Invoice Updated!', 'erp');
+                    let message = this.$func.__("Invoice Updated!", "erp");
 
-                if (this.estimateToInvoice()) {
-                    message = __('Conversion Successful!', 'erp');
-                }
+                    if (this.estimateToInvoice()) {
+                        message = this.$func.__("Conversion Successful!", "erp");
+                    }
 
-                this.showAlert('success', message);
-            }).catch(error => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                throw error;
-            }).then(() => {
-                if (this.actionType === 'update' || this.actionType === 'draft') {
-                    this.$router.push({ name: 'Sales' });
-                } else if (this.actionType === 'new_update') {
-                    this.resetFields();
-                }
-            });
+                    this.showAlert("success", message);
+                })
+                .catch((error) => {
+                    throw error;
+                })
+                .then(() => {
+                    if (
+                        this.actionType === "update" ||
+                        this.actionType === "draft"
+                    ) {
+                        this.$router.push({ name: "Sales" });
+                    } else if (this.actionType === "new_update") {
+                        this.resetFields();
+                    }
+                });
         },
 
         createInvoice(requestData) {
-            this.$store.dispatch('spinner/setSpinner', true);
 
-            window.axios.post('/invoices', requestData).then(res => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                this.showAlert('success', this.inv_title + ' Created!');
-            }).catch(error => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                throw error;
-            }).then(() => {
-                if (this.actionType === 'save' || this.actionType === 'draft') {
-                    this.$router.push({ name: 'Sales' });
-                } else if (this.actionType === 'new_create') {
-                    this.resetFields();
-                }
-            });
+            window.axios
+                .post("/invoices", requestData)
+                .then((res) => {
+                    this.showAlert("success", this.inv_title + " Created!");
+                })
+                .catch((error) => {
+                    throw error;
+                })
+                .then(() => {
+                    if (
+                        this.actionType === "save" ||
+                        this.actionType === "draft"
+                    ) {
+                        this.$router.push({ name: "Sales" });
+                    } else if (this.actionType === "new_create") {
+                        this.resetFields();
+                    }
+                });
         },
 
         submitInvoiceForm() {
@@ -563,33 +745,33 @@ export default {
             if (this.form_errors.length) {
                 window.scrollTo({
                     top: 10,
-                    behavior: 'smooth'
+                    behavior: "smooth",
                 });
                 return;
             }
 
             this.isWorking = true;
 
-            if (this.actionType === 'draft') {
+            if (this.actionType === "draft") {
                 this.status = 1;
             } else {
                 this.status = 2;
             }
 
-            const requestData = window.acct.hooks.applyFilters('requestData', {
-                customer_id    : this.basic_fields.customer.id,
-                date           : this.basic_fields.trn_date,
-                due_date       : this.basic_fields.due_date,
+            const requestData = window.acct.hooks.applyFilters("requestData", {
+                customer_id: this.basic_fields.customer.id,
+                date: this.basic_fields.trn_date,
+                due_date: this.basic_fields.due_date,
                 billing_address: this.basic_fields.billing_address,
-                discount_type  : this.discountType,
-                tax_rate_id    : this.taxRate !== null ? this.taxRate.id : null,
-                line_items     : this.formatLineItems(),
-                attachments    : this.attachments,
-                particulars    : this.particulars,
-                type           : 'invoice',
-                status         : parseInt(this.status),
-                estimate       : this.inv_type.id,
-                convert        : this.$route.query.convert
+                discount_type: this.discountType,
+                tax_rate_id: this.taxRate !== null ? this.taxRate.id : null,
+                line_items: this.formatLineItems(),
+                attachments: this.attachments,
+                particulars: this.particulars,
+                type: "invoice",
+                status: parseInt(this.status),
+                estimate: this.inv_type.id,
+                convert: this.$route.query.convert,
             });
 
             if (this.editMode) {
@@ -606,184 +788,181 @@ export default {
         resetFields() {
             // why can't we use `form.reset()` ?
 
-            this.basic_fields.customer        = { id: null, name: null };
-            this.basic_fields.trn_date        = erp_acct_var.current_date;
-            this.basic_fields.due_date        = erp_acct_var.current_date;
-            this.basic_fields.billing_address = '';
-            this.particulars                  = '';
-            this.attachments                  = [];
-            this.transactionLines             = [];
-            this.discountType                 = 'discount-percent';
-            this.discount                     = 0;
-            this.taxTotalAmount               = 0;
-            this.finalTotalAmount             = 0;
-            this.isWorking                    = false;
+            this.basic_fields.customer = { id: null, name: null };
+            this.basic_fields.trn_date = erp_acct_var.current_date;
+            this.basic_fields.due_date = erp_acct_var.current_date;
+            this.basic_fields.billing_address = "";
+            this.particulars = "";
+            this.attachments = [];
+            this.transactionLines = [];
+            this.discountType = "discount-percent";
+            this.discount = 0;
+            this.taxTotalAmount = 0;
+            this.finalTotalAmount = 0;
+            this.isWorking = false;
 
             this.transactionLines.push({}, {}, {});
 
-            this.$store.dispatch('combo/setBtnID', 'save');
+            this.$store.dispatch("combo/setBtnID", "save");
         },
 
         validateForm() {
             this.form_errors = [];
 
-            if (!Object.prototype.hasOwnProperty.call(this.basic_fields.customer, 'id')) {
-                this.form_errors.push(__('Customer Name is required.', 'erp'));
+            if (
+                !Object.prototype.hasOwnProperty.call(
+                    this.basic_fields.customer,
+                    "id"
+                )
+            ) {
+                this.form_errors.push(__("Customer Name is required.", "erp"));
             }
 
             if (!this.basic_fields.trn_date) {
-                this.form_errors.push(__('Transaction Date is required.', 'erp'));
+                this.form_errors.push(
+                    this.$func.__("Transaction Date is required.", "erp")
+                );
             }
 
             if (!this.basic_fields.due_date) {
-                this.form_errors.push(__('Due Date is required.', 'erp'));
+                this.form_errors.push(__("Due Date is required.", "erp"));
             }
 
             if (!parseFloat(this.finalTotalAmount)) {
-                this.form_errors.push(__('Total amount can\'t be zero.', 'erp'));
+                this.form_errors.push(__("Total amount can't be zero.", "erp"));
             }
 
-            if (this.noFulfillLines(this.transactionLines, 'selectedProduct')) {
-                this.form_errors.push(__('Please select a product.', 'erp'));
+            if (this.noFulfillLines(this.transactionLines, "selectedProduct")) {
+                this.form_errors.push(__("Please select a product.", "erp"));
             }
-        }
-    }
-
+        },
+    },
 };
 </script>
 
-<style lang="less">
-    tr.padded {
-        height: 50px;
+<style>
+tr.padded {
+    height: 50px;
+}
+
+.discount-rate-row select {
+    width: 235px;
+    height: 34px;
+}
+
+.discount-rate-row input {
+    width: 130px !important;
+}
+
+.discount-rate-row .discountType-box {
+    display: flex;
+    align-items: center;
+}
+
+.tax-rate-row .tax-rates {
+    width: 235px;
+    float: right;
+}
+
+.attachment-item {
+    box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.3);
+    padding: 3px;
+    position: relative;
+    height: 58px;
+    margin: 10px 0;
+}
+.attachment-item .remove-file {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 13px;
+    color: #fff;
+    cursor: pointer;
+    background: #f44336;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+}
+
+.attachment-item img {
+    float: left;
+}
+
+.attachment-meta h3 {
+    margin-left: 50px;
+    text-align: left;
+    line-height: 2;
+}
+
+.invoice-create .dropdown {
+    width: 100%;
+}
+
+.invoice-create .col--products {
+    width: 400px;
+}
+
+.invoice-create .col--qty {
+    width: 80px;
+}
+
+.invoice-create .col--unit-price {
+    width: 120px;
+}
+
+.invoice-create .col--amount {
+    width: 200px;
+}
+
+.invoice-create .col--tax {
+    text-align: center;
+    width: 100px;
+}
+
+.invoice-create .product-select .with-multiselect .multiselect__select,
+.invoice-create .with-multiselect .multiselect__tags {
+    min-height: 33px !important;
+    margin-top: 4px;
+}
+
+.invoice-create .with-multiselect .multiselect__placeholder {
+    margin-top: 3px;
+}
+
+.invoice-create .invoice-create .erp-help-tip {
+    color: #2f4f4f;
+    font-size: 1.2em;
+}
+
+@media (max-width: 782px) {
+    .invoice-create .col--qty input {
+        padding: 5px !important;
     }
 
-    .discount-rate-row {
-        select {
-            width: 235px;
-            height: 34px;
-        }
-
-        input {
-            width: 130px !important;
-        }
-
-        .discountType-box {
-            display: flex;
-            align-items: center;
-        }
+    .invoice-create .col--uni_price,
+    .invoice-create .col--amount,
+    .invoice-create .col--tax,
+    .invoice-create .col--actions {
+        display: table-cell !important;
+        width: 10%;
+    }
+    .invoice-create .col--uni_price input,
+    .invoice-create .col--amount input,
+    .invoice-create .col--tax input,
+    .invoice-create .col--actions input {
+        padding: 5px !important;
     }
 
-    .tax-rate-row {
-        .tax-rates {
-            width: 235px;
-            float: right;
-        }
+    .invoice-create
+        tr:not(.inline-edit-row):not(.no-items)
+        td:not(.column-primary)::before {
+        display: none !important;
     }
 
-    .attachment-item {
-        box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.3);
-        padding: 3px;
-        position: relative;
-        height: 58px;
-        margin: 10px 0;
-
-        .remove-file {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            font-size: 13px;
-            color: #fff;
-            cursor: pointer;
-            background: #f44336;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            text-align: center;
-        }
-
-        img {
-            float: left;
-        }
+    .invoice-create td {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
     }
-
-    .attachment-meta {
-        h3 {
-            margin-left: 50px;
-            text-align: left;
-            line-height: 2;
-        }
-    }
-
-    .invoice-create {
-        .dropdown {
-            width: 100%;
-        }
-
-        .col--products {
-            width: 400px;
-        }
-
-        .col--qty {
-            width: 80px;
-        }
-
-        .col--unit-price {
-            width: 120px;
-        }
-
-        .col--amount {
-            width: 200px;
-        }
-
-        .col--tax {
-            text-align: center;
-            width: 100px;
-        }
-
-        .product-select {
-            .with-multiselect .multiselect__select,
-            .with-multiselect .multiselect__tags {
-                min-height: 33px !important;
-                margin-top: 4px;
-            }
-
-            .with-multiselect .multiselect__placeholder {
-                margin-top: 3px;
-            }
-        }
-
-        .invoice-create .erp-help-tip {
-            color    : #2f4f4f;
-            font-size: 1.2em;
-        }
-
-        @media (max-width: 782px) {
-            .col--qty {
-                input {
-                    padding: 5px !important;
-                }
-            }
-
-            .col--uni_price,
-            .col--amount,
-            .col--tax,
-            .col--actions {
-                display: table-cell !important;
-                width: 10%;
-
-                input {
-                    padding: 5px !important;
-                }
-            }
-
-            tr:not(.inline-edit-row):not(.no-items) td:not(.column-primary)::before {
-                display: none !important;
-            }
-
-            td {
-                padding-left: 5px !important;
-                padding-right: 5px !important;
-            }
-        }
-    }
+}
 </style>

@@ -1,11 +1,11 @@
 <template>
     <div class="wperp-form-group invoice-customers with-multiselect">
         <people-modal title="Add new vendor" type="vendor" v-if="showModal"></people-modal>
-        <label>{{ __('Vendor', 'erp') }}<span class="wperp-required-sign">*</span></label>
+        <label>{{ this.$func.__('Vendor', 'erp') }}<span class="wperp-required-sign">*</span></label>
         <multi-select v-model="selected" :options="options" />
 
         <a href="#" class="add-new-customer" @click="showModal = true">
-            <i class="flaticon-add-plus-button"></i>{{ __('Add new', 'erp') }}
+            <i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add new', 'erp') }}
         </a>
     </div>
 </template>
@@ -95,25 +95,6 @@ export default {
 };
 </script>
 
-<style lang="less">
-    // .invoice-customers.with-multiselect {
-    //     .multiselect__input,
-    //     .multiselect__single {
-    //         min-height: 30px;
-    //         line-height: 30px;
-    //         margin-bottom: 0;
-    //     }
+<style>
 
-    //     .multiselect__tags {
-    //         padding: 8px 0;
-    //     }
-
-    //     .multiselect__placeholder {
-    //         margin: 4px 0 0 7px !important;
-    //     }
-
-    //     .multiselect__select {
-    //         height: 41px;
-    //     }
-    // }
 </style>

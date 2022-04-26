@@ -19,6 +19,8 @@ import createPersistedState from "vuex-persistedstate";
 import NProgress from 'nprogress';
 
 import Axios from 'axios';
+import VueSweetalert2 from 'vue-sweetalert2';
+import { plugin, defaultConfig } from '@formkit/vue'
 
 //import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/js/bootstrap.bundle.js';
@@ -29,13 +31,17 @@ import 'nprogress/nprogress.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
 import "nprogress/nprogress.css";
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 import autorouter from "@/components/router/autorouter";
+import filters from "@/utils/filters";
 
 
 
 const app = createApp(App)
-    .use(vuetify);
+    .use(vuetify)
+    .use(VueSweetalert2)
+    .use(plugin, defaultConfig);
 
 loadFonts();
 
@@ -66,26 +72,6 @@ Axios.defaults.baseURL = base_url;
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxx  Filter xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-let filters = {
-    __(value, type) {
-        return value;
-    },
-    currencyUSD(value) {
-        return '$' + value;
-    },
-    toCurrency(value) {
-        if (typeof value !== "number") {
-            return value;
-        }
-        var formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 4
-        });
-        return formatter.format(value);
-    }
-};
 
 app.config.globalProperties.$filters = window.$filters = filters;
 app.config.globalProperties.$func = window.$func = filters;

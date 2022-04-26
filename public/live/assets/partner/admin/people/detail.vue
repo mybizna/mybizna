@@ -25,7 +25,7 @@
                         </div>
                         <div class="wperp-col-sm-4">
                             <div class="wperp-chart-block">
-                                <h3>{{ __('Outstanding', 'erp') }}</h3>
+                                <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
                                 <div class="wperp-total"><h2>{{ moneyFormat( outstanding ) }}</h2></div>
                             </div>
                         </div>
@@ -125,7 +125,6 @@ export default {
         },
 
         getTransactions() {
-            this.$store.dispatch('spinner/setSpinner', true);
 
             window.axios.get(this.req_url + '/' + this.userId + '/transactions').then(res => {
                 this.transactions = res.data;
@@ -135,15 +134,12 @@ export default {
                     item.created_at = this.formatDate(item.created_at);
                 });
 
-                this.$store.dispatch('spinner/setSpinner', false);
             }).catch(error => {
-                this.$store.dispatch('spinner/setSpinner', false);
                 throw error;
             });
         },
 
         filterTransaction(filters = {}) {
-            this.$store.dispatch('spinner/setSpinner', true);
             window.axios.get(this.url + '/' + this.userId + '/transactions/filter', {
                 params: {
                     start_date: filters.start_date,
@@ -151,9 +147,7 @@ export default {
                 }
             }).then(res => {
                 this.transactions = res.data;
-                this.$store.dispatch('spinner/setSpinner', false);
             }).catch(error => {
-                this.$store.dispatch('spinner/setSpinner', false);
                 throw error;
             });
         },
@@ -198,6 +192,6 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style >
 
 </style>

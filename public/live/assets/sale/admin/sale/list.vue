@@ -10,13 +10,118 @@
                     ><i class="flaticon-close"></i
                 ></a>
             </div>
+
+            <list-table
+                :loading="listLoading"
+                tableClass="wperp-table table-striped table-dark widefat table2 transactions-table"
+                action-column="actions"
+                :columns="columns"
+                :rows="rows"
+                :total-items="paginationData.totalItems"
+                :total-pages="paginationData.totalPages"
+                :per-page="paginationData.perPage"
+                :current-page="paginationData.currentPage"
+                :actions="[]"
+                @pagination="goToPage"
+                @action:click="onActionClick"
+            >
+                <template slot="trn_no" slot-scope="data">
+                    <strong>
+                        <router-link
+                            :to="{
+                                name: 'SalesSingle',
+                                params: {
+                                    id: data.row.id,
+                                    type: data.row.type,
+                                },
+                            }"
+                        >
+                            #{{ data.row.id }}
+                        </router-link>
+                    </strong>
+                </template>
+                <template slot="type" slot-scope="data">
+                    {{ getTrnType(data.row) }}
+                </template>
+                <template slot="ref" slot-scope="data">
+                    {{ data.row.ref ? data.row.ref : "-" }}
+                </template>
+                <template slot="customer_name" slot-scope="data">
+                    {{ data.row.inv_cus_name ? data.row.inv_cus_name : "-" }}
+                </template>
+                <template slot="trn_date" slot-scope="data">
+                    {{
+                        data.row.invoice_trn_date
+                            ? formatDate(data.row.invoice_trn_date)
+                            : "-"
+                    }}
+                </template>
+                <template slot="due_date" slot-scope="data">
+                    {{
+                        isPayment(data.row)
+                            ? "-"
+                            : data.row.due_date
+                            ? formatDate(data.row.due_date)
+                            : "-"
+                    }}
+                </template>
+                <template slot="due" slot-scope="data">
+                    <span
+                        :class="
+                            parseFloat(data.row.due) < 0
+                                ? 'cr-balance'
+                                : 'dr-balance'
+                        "
+                        >{{
+                            isPayment(data.row)
+                                ? "-"
+                                : data.row.due
+                                ? formatAmount(data.row.due, true)
+                                : "-"
+                        }}</span
+                    >
+                </template>
+                <template slot="amount" slot-scope="data">
+                    {{
+                        isPayment(data.row)
+                            ? formatAmount(data.row.payment_amount)
+                            : formatAmount(data.row.sales_amount)
+                    }}
+                </template>
+                <template slot="status" slot-scope="data">
+                    {{ data.row.status }}
+                </template>
+
+                <!-- custom row actions -->
+                <template slot="action-list" slot-scope="data">
+                    <li
+                        v-for="(action, index) in data.row.actions"
+                        :key="action.key"
+                        :class="action.key"
+                    >
+                        <a
+                            href="#"
+                            @click.prevent="
+                                onActionClick(action.key, data.row, index)
+                            "
+                        >
+                            <i :class="action.iconClass"></i>{{ action.label }}
+                        </a>
+                    </li>
+                </template>
+            </list-table>
         </div>
     </div>
 </template>
 
 <script>
-/* global this.$func.__ */
+import ListTable from "assets/components/list-table/ListTable.vue";
+/* global __ */
 export default {
+    components: {
+        ListTable,
+    },
+
     data() {
         return {
             columns: {
@@ -48,11 +153,11 @@ export default {
     created() {
         alert("created");
 
-         /*this.$root.$on("transactions-filter", (filters) => {
-             this.$router.push({
+        this.$root.$on("transactions-filter", (filters) => {
+            /*  this.$router.push({
                 path : '/transactions/sales',
                 query: { start: filters.start_date, end: filters.end_date, status: filters.status, type: filters.type }
-            });
+            });*/
 
             if (this.paginationData.currentPage !== 1) {
                 this.paginationData.currentPage = 1;
@@ -61,7 +166,7 @@ export default {
 
             this.fetchItems(filters);
             this.fetched = true;
-        });*/
+        });
 
         const filters = {};
         // Get start & end date from url on page load
@@ -95,7 +200,7 @@ export default {
             this.rows = [];
 
             window.axios
-                .get("admin/transactions/sales", {
+                .get("/transactions/sales", {
                     params: {
                         per_page: this.paginationData.perPage,
                         page:
@@ -110,8 +215,7 @@ export default {
                     },
                 })
                 .then((response) => {
-                    console.log(response);
-                    this.rows = response.data.records.map((item) => {
+                    this.rows = response.data.map((item) => {
                         if (item.estimate === "1" || item.status_code === "1") {
                             item["actions"] = [
                                 { key: "edit", label: this.$func.__("Edit", "erp") },
@@ -258,11 +362,9 @@ export default {
                     );
 
                     this.listLoading = false;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
                     this.listLoading = false;
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -270,27 +372,18 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
-                        this.$store.dispatch("spinner/setSpinner", true);
+                    if (confirm(__("Are you sure to delete?", "erp"))) {
                         window.axios
                             .delete("invoices/" + row.id)
                             .then((response) => {
                                 this.$delete(this.rows, index);
 
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 this.showAlert(
                                     "success",
                                     this.$func.__("Deleted !", "erp")
                                 );
                             })
                             .catch((error) => {
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 throw error;
                             });
                     }
@@ -421,7 +514,9 @@ export default {
 </script>
 
 <style>
-.transactions-table .tablenav .column-cb .check-column {
+.transactions-table .tablenav,
+.transactions-table .column-cb,
+.transactions-table .check-column {
     display: none;
 }
 

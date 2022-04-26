@@ -1,15 +1,15 @@
 <template>
     <div class="wperp-col-sm-12">
         <div class="check-fields">
-            <label>{{ __('Bank Name', 'erp') }}</label>
+            <label>{{ this.$func.__('Bank Name', 'erp') }}</label>
             <input type="text" class="wperp-form-field" @input="updateCheckData" v-model="check_fields.bank_name"/>
         </div>
         <div class="check-fields">
-            <label>{{ __('Check Name', 'erp') }}</label>
+            <label>{{ this.$func.__('Check Name', 'erp') }}</label>
             <input type="text" class="wperp-form-field" @input="updateCheckData" v-model="check_fields.payer_name"/>
         </div>
         <div class="check-fields">
-            <label>{{ __('Check No', 'erp') }}</label>
+            <label>{{ this.$func.__('Check No', 'erp') }}</label>
             <input type="text" class="wperp-form-field" @input="updateCheckData" v-model="check_fields.check_no"/>
         </div>
     </div>
