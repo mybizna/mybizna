@@ -1,6 +1,6 @@
 <template>
     <div class="ledger-report">
-        <h2>{{ __("Ledger Report", "erp") }}</h2>
+        <h2>{{ this.$func.__("Ledger Report", "erp") }}</h2>
 
         <form
             action=""
@@ -20,7 +20,7 @@
                     class="wperp-btn btn--primary add-line-trigger"
                     type="submit"
                 >
-                    {{ __("Filter", "erp") }}
+                    {{ this.$func.__("Filter", "erp") }}
                 </button>
 
                 <a
@@ -29,28 +29,28 @@
                     @click.prevent="printPopup"
                 >
                     <i class="flaticon-printer-1"></i>
-                    &nbsp; {{ __("Print", "erp") }}
+                    &nbsp; {{ this.$func.__("Print", "erp") }}
                 </a>
             </div>
         </form>
 
         <ul class="report-header" v-if="null !== selectedLedger">
             <li>
-                <strong>{{ __("Account No", "erp") }}:</strong>
+                <strong>{{ this.$func.__("Account No", "erp") }}:</strong>
                 <em>{{ selectedLedger.code }}</em>
             </li>
             <li>
-                <strong>{{ __("Account Name", "erp") }}:</strong>
+                <strong>{{ this.$func.__("Account Name", "erp") }}:</strong>
                 <em>{{ selectedLedger.name }}</em>
             </li>
             <li>
-                <strong>{{ __("Currency", "erp") }}:</strong>
+                <strong>{{ this.$func.__("Currency", "erp") }}:</strong>
                 <em>{{ symbol }}</em>
             </li>
             <li>
                 <strong
                     >{{
-                        __("For the period of ( Transaction date )", "erp")
+                        this.$func.__("For the period of ( Transaction date )", "erp")
                     }}:</strong
                 >
                 <em>{{ formatDate(start_date) }}</em> to
@@ -88,7 +88,7 @@
             <template slot="tfoot">
                 <tr class="tfoot">
                     <td colspan="3"></td>
-                    <td data-left-align>{{ __("Total", "erp") }} =</td>
+                    <td data-left-align>{{ this.$func.__("Total", "erp") }} =</td>
                     <td data-colname="Debit">{{ moneyFormat(totalDebit) }}</td>
                     <td data-colname="Credit">
                         {{ moneyFormat(totalCredit) }}
@@ -120,13 +120,13 @@ export default {
             ledgers: [],
             openingBalance: 0,
             columns: {
-                trn_date: { label: __("Trns Date", "erp"), isColPrimary: true },
-                created_at: { label: __("Created At", "erp") },
-                trn_no: { label: __("Trns No", "erp") },
-                particulars: { label: __("Particulars", "erp") },
-                debit: { label: __("Debit", "erp") },
-                credit: { label: __("Credit", "erp") },
-                balance: { label: __("Balance", "erp") },
+                trn_date: { label: this.$func.__("Trns Date", "erp"), isColPrimary: true },
+                created_at: { label: this.$func.__("Created At", "erp") },
+                trn_no: { label: this.$func.__("Trns No", "erp") },
+                particulars: { label: this.$func.__("Particulars", "erp") },
+                debit: { label: this.$func.__("Debit", "erp") },
+                credit: { label: this.$func.__("Credit", "erp") },
+                balance: { label: this.$func.__("Balance", "erp") },
             },
             rows: [],
             totalDebit: 0,
@@ -204,7 +204,6 @@ export default {
         getLedgerReport() {
             if (this.selectedLedger === null) return;
 
-            this.$store.dispatch("spinner/setSpinner", true);
 
             this.rows = [];
 
@@ -229,10 +228,8 @@ export default {
                             : parseInt("" + Math.random() * 100000);
                     });
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((_) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                 });
         },
 

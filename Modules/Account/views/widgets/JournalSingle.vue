@@ -2,7 +2,7 @@
     <div class="wperp-modal-dialog journal-single">
         <div class="wperp-modal-content">
             <div class="wperp-modal-header">
-                <h2>{{ __("Journal", "erp") }}</h2>
+                <h2>{{ this.$func.__("Journal", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
@@ -10,7 +10,7 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ __("Print", "erp") }}
+                        &nbsp; {{ this.$func.__("Print", "erp") }}
                     </a>
                 </div>
             </div>
@@ -38,21 +38,21 @@
                     </div>
 
                     <div class="invoice-body">
-                        <h4>{{ __("Journal", "erp") }}</h4>
+                        <h4>{{ this.$func.__("Journal", "erp") }}</h4>
                         <div class="wperp-row" v-if="null != journal">
                             <div class="wperp-col-sm-12 pull-right">
                                 <table class="invoice-info">
                                     <tr>
-                                        <th>{{ __("Journal No", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Journal No", "erp") }}:</th>
                                         <td>#{{ journal.id }}</td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Journal Ref", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Journal Ref", "erp") }}:</th>
                                         <td>{{ journal.ref }}</td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Journal Date", "erp") }}:
+                                            {{ this.$func.__("Journal Date", "erp") }}:
                                         </th>
                                         <td>
                                             {{ formatDate(journal.trn_date) }}
@@ -69,10 +69,10 @@
                         >
                             <thead>
                                 <tr class="inline-edit-row">
-                                    <th>{{ __("Account", "erp") }}</th>
-                                    <th>{{ __("Particulars", "erp") }}</th>
-                                    <th>{{ __("Debit", "erp") }}</th>
-                                    <th>{{ __("Credit", "erp") }}</th>
+                                    <th>{{ this.$func.__("Account", "erp") }}</th>
+                                    <th>{{ this.$func.__("Particulars", "erp") }}</th>
+                                    <th>{{ this.$func.__("Debit", "erp") }}</th>
+                                    <th>{{ this.$func.__("Credit", "erp") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,7 +94,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Balance", "erp")
+                                                        this.$func.__("Balance", "erp")
                                                     }}:</span
                                                 >
                                                 {{ moneyFormat(journal.total) }}
@@ -110,7 +110,7 @@
                 <trans-particulars :particulars="journal.particulars" />
 
                 <div class="invoice-attachments d-print-none">
-                    <h4>{{ __("Attachments", "erp") }}</h4>
+                    <h4>{{ this.$func.__("Attachments", "erp") }}</h4>
                     <a
                         class="attachment-item"
                         :href="attachment"
@@ -176,16 +176,13 @@ export default {
 
         getJournal() {
             this.isWorking = true;
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .get(`/journals/${this.$route.params.id}`)
                 .then((response) => {
                     this.journal = response.data;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then((e) => {})

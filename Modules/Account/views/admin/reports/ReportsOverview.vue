@@ -1,10 +1,10 @@
 <template>
     <ul class="reports-overview">
         <li>
-            <h3>{{ __("Trial Balance", "erp") }}</h3>
+            <h3>{{ this.$func.__("Trial Balance", "erp") }}</h3>
             <p>
                 {{
-                    __(
+                    this.$func.__(
                         "Trial balance is the bookkeeping or accounting report that lists the balances in each of general ledger accounts",
                         "erp"
                     )
@@ -14,15 +14,15 @@
             <router-link
                 class="wperp-btn btn--primary"
                 :to="{ name: 'TrialBalance' }"
-                >{{ __("View Report", "erp") }}</router-link
+                >{{ this.$func.__("View Report", "erp") }}</router-link
             >
         </li>
 
         <li>
-            <h3>{{ __("Ledger Report", "erp") }}</h3>
+            <h3>{{ this.$func.__("Ledger Report", "erp") }}</h3>
             <p>
                 {{
-                    __(
+                    this.$func.__(
                         "The ledger report contains the classified and detailed information of all the individual accounts including the debit and credit aspects.",
                         "erp"
                     )
@@ -32,15 +32,15 @@
             <router-link
                 class="wperp-btn btn--primary"
                 :to="{ name: 'LedgerSingle', params: { id: 7 } }"
-                >{{ __("View Report", "erp") }}</router-link
+                >{{ this.$func.__("View Report", "erp") }}</router-link
             >
         </li>
 
         <li>
-            <h3>{{ __("Income Statement", "erp") }}</h3>
+            <h3>{{ this.$func.__("Income Statement", "erp") }}</h3>
             <p>
                 {{
-                    __(
+                    this.$func.__(
                         "A summary of a management's performance reflected as the profitability of an organization during the time interval",
                         "erp"
                     )
@@ -55,10 +55,10 @@
         </li>
 
         <li>
-            <h3>{{ __("Sales Tax", "erp") }}</h3>
+            <h3>{{ this.$func.__("Sales Tax", "erp") }}</h3>
             <p>
                 {{
-                    __(
+                    this.$func.__(
                         "It generates report based on the sales tax charged or paid for the current financial cycle/year",
                         "erp"
                     )
@@ -68,15 +68,15 @@
             <router-link
                 class="wperp-btn btn--primary"
                 :to="{ name: 'SalesTaxReportOverview' }"
-                >{{ __("View Report", "erp") }}</router-link
+                >{{ this.$func.__("View Report", "erp") }}</router-link
             >
         </li>
 
         <li>
-            <h3>{{ __("Balance Sheet", "erp") }}</h3>
+            <h3>{{ this.$func.__("Balance Sheet", "erp") }}</h3>
             <p>
                 {{
-                    __(
+                    this.$func.__(
                         'This report gives you an immediate status of your accounts at a specified date. You can call it a "Snapshot" view of the current position (day) of the financial year',
                         "erp"
                     )
@@ -86,7 +86,7 @@
             <router-link
                 class="wperp-btn btn--primary"
                 :to="{ name: 'BalanceSheet' }"
-                >{{ __("View Report", "erp") }}</router-link
+                >{{ this.$func.__("View Report", "erp") }}</router-link
             >
         </li>
 

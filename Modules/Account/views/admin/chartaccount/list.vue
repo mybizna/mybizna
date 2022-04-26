@@ -4,18 +4,18 @@
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col-6">
                     <h2 class="content-header__title">
-                        {{ __("Chart of Accounts", "erp") }}
+                        {{ this.$func.__("Chart of Accounts", "erp") }}
                         <router-link
                             class="wperp-btn btn--primary"
                             :to="{ name: 'AddChartAccounts' }"
                             id="erp-add-chart-of-account"
                         >
-                            {{ __("Add New", "erp") }}
+                            {{ this.$func.__("Add New", "erp") }}
                         </router-link>
                     </h2>
                 </div>
                 <div class="wperp-col-6">
-                    <h4>{{ __("Search Ledger", "erp") }}</h4>
+                    <h4>{{ this.$func.__("Search Ledger", "erp") }}</h4>
                     <input
                         type="text"
                         class="wperp-form-field"
@@ -68,7 +68,7 @@
                     slot-scope="data"
                     v-if="data.row.system != null"
                 >
-                    <strong class="sys-acc">{{ __("System", "erp") }}</strong>
+                    <strong class="sys-acc">{{ this.$func.__("System", "erp") }}</strong>
                 </template>
             </list-table>
         </ul>
@@ -79,7 +79,7 @@
                     <span
                         class="erp-help-tip .erp-tips"
                         :title="
-                            __(
+                            this.$func.__(
                                 'System account could not be edited or deleted anyway as those are defined by the accounting terms.',
                                 'erp'
                             )
@@ -130,7 +130,7 @@
                         v-if="data.row.system != null"
                     >
                         <strong class="sys-acc">{{
-                            __("System", "erp")
+                            this.$func.__("System", "erp")
                         }}</strong>
                     </template>
                 </list-table>
@@ -146,14 +146,14 @@ export default {
     data() {
         return {
             columns: {
-                code: { label: __("Code", "erp"), isColPrimary: true },
-                ledger_name: { label: __("Name", "erp") },
-                balance: { label: __("Balance", "erp") },
-                trn_count: { label: __("Count", "erp") },
-                actions: { label: __("Actions", "erp") },
+                code: { label: this.$func.__("Code", "erp"), isColPrimary: true },
+                ledger_name: { label: this.$func.__("Name", "erp") },
+                balance: { label: this.$func.__("Balance", "erp") },
+                trn_count: { label: this.$func.__("Count", "erp") },
+                actions: { label: this.$func.__("Actions", "erp") },
             },
             actions: [
-                { key: "edit", label: __("Edit", "erp") },
+                { key: "edit", label: this.$func.__("Edit", "erp") },
                 // { key: 'trash', label: 'Delete' }
             ],
 
@@ -200,16 +200,13 @@ export default {
 
         fetchChartAccounts() {
             this.chartAccounts = [];
-            this.$store.dispatch("spinner/setSpinner", true);
             window.axios
                 .get("/ledgers/accounts")
                 .then((response) => {
                     this.chartAccounts = response.data;
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -241,23 +238,14 @@ export default {
             switch (action) {
                 case "trash":
                     if (confirm(__("Are you sure to delete?", "erp"))) {
-                        this.$store.dispatch("spinner/setSpinner", true);
 
                         window.axios
                             .delete(`/ledgers/${row.id}`)
                             .then((response) => {
                                 this.fetchChartAccounts();
 
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                             })
                             .catch((error) => {
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 throw error;
                             });
                     }

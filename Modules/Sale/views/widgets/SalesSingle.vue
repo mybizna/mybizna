@@ -10,7 +10,7 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ __("Print", "erp") }}
+                        &nbsp; {{ this.$func.__("Print", "erp") }}
                     </a>
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
 
@@ -18,21 +18,21 @@
                         <template slot="button">
                             <a href="#" class="wperp-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
-                                &nbsp; {{ __("More Action", "erp") }}
+                                &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
                         </template>
                         <template slot="dropdown">
                             <ul role="menu">
                                 <li>
                                     <a :href="pdf_link">{{
-                                        __("Export as PDF", "erp")
+                                        this.$func.__("Export as PDF", "erp")
                                     }}</a>
                                 </li>
                                 <li>
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ __("Send Mail", "erp") }}</a
+                                        >{{ this.$func.__("Send Mail", "erp") }}</a
                                     >
                                 </li>
                             </ul>
@@ -46,7 +46,7 @@
                             v-clipboard="copyLink"
                             @success="handleSuccess"
                             @error="handleError"
-                            >{{ __("Copy Link", "erp") }}</a
+                            >{{ this.$func.__("Copy Link", "erp") }}</a
                         >
                     </template>
                 </div>
@@ -161,9 +161,9 @@ export default {
 
         getInvoiceType() {
             if (this.invoice !== null && this.invoice.estimate === "1") {
-                return __("Estimate", "erp");
+                return this.$func.__("Estimate", "erp");
             } else {
-                return __("Invoice", "erp");
+                return this.$func.__("Invoice", "erp");
             }
         },
 
@@ -202,9 +202,9 @@ export default {
 
         trnType(type) {
             if (type === "payment") {
-                return __("Receive", "erp");
+                return this.$func.__("Receive", "erp");
             } else if (type === "return_payment") {
-                return __("Payment", "erp");
+                return this.$func.__("Payment", "erp");
             }
 
             return this.getInvoiceType();

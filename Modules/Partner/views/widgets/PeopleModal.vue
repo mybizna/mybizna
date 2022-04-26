@@ -12,7 +12,7 @@
                         <div class="wperp-modal-header">
                             <h3 v-if="!people">{{ title }}</h3>
                             <h3 v-else>
-                                {{ __("Update", "erp") }} {{ title }}
+                                {{ this.$func.__("Update", "erp") }} {{ title }}
                             </h3>
                             <span class="modal-close">
                                 <i
@@ -58,7 +58,7 @@
                                         class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12"
                                     >
                                         <label for="first_name"
-                                            >{{ __("First Name", "erp") }}
+                                            >{{ this.$func.__("First Name", "erp") }}
                                             <span class="wperp-required-sign"
                                                 >*</span
                                             ></label
@@ -69,7 +69,7 @@
                                             id="first_name"
                                             class="wperp-form-field"
                                             :placeholder="
-                                                __('First Name', 'erp')
+                                                this.$func.__('First Name', 'erp')
                                             "
                                             required
                                         />
@@ -78,7 +78,7 @@
                                         class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12"
                                     >
                                         <label for="last_name"
-                                            >{{ __("Last Name", "erp") }}
+                                            >{{ this.$func.__("Last Name", "erp") }}
                                             <span class="wperp-required-sign"
                                                 >*</span
                                             ></label
@@ -89,7 +89,7 @@
                                             id="last_name"
                                             class="wperp-form-field"
                                             :placeholder="
-                                                __('Last Name', 'erp')
+                                                this.$func.__('Last Name', 'erp')
                                             "
                                             required
                                         />
@@ -98,7 +98,7 @@
                                         class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12"
                                     >
                                         <label for="email"
-                                            >{{ __("Email", "erp") }}
+                                            >{{ this.$func.__("Email", "erp") }}
                                             <span class="wperp-required-sign"
                                                 >*</span
                                             ></label
@@ -117,7 +117,7 @@
                                         class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
                                     >
                                         <label for="phone">{{
-                                            __("Phone", "erp")
+                                            this.$func.__("Phone", "erp")
                                         }}</label>
                                         <input
                                             type="tel"
@@ -131,7 +131,7 @@
                                         class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
                                     >
                                         <label for="company">{{
-                                            __("Company", "erp")
+                                            this.$func.__("Company", "erp")
                                         }}</label>
                                         <input
                                             type="text"
@@ -139,7 +139,7 @@
                                             id="company"
                                             class="wperp-form-field"
                                             :placeholder="
-                                                __('ABC Corporation', 'erp')
+                                                this.$func.__('ABC Corporation', 'erp')
                                             "
                                         />
                                     </div>
@@ -161,7 +161,7 @@
                                             class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12"
                                         >
                                             <label for="mobile">{{
-                                                __("Mobile", "erp")
+                                                this.$func.__("Mobile", "erp")
                                             }}</label>
                                             <input
                                                 type="tel"
@@ -174,7 +174,7 @@
                                             class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
                                         >
                                             <label for="website">{{
-                                                __("Website", "erp")
+                                                this.$func.__("Website", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -188,7 +188,7 @@
                                             class="wperp-col-xs-12 wperp-form-group"
                                         >
                                             <label for="note">{{
-                                                __("Note", "erp")
+                                                this.$func.__("Note", "erp")
                                             }}</label>
                                             <textarea
                                                 v-model="peopleFields.notes"
@@ -197,7 +197,7 @@
                                                 rows="4"
                                                 class="wperp-form-field"
                                                 :placeholder="
-                                                    __('Type here', 'erp')
+                                                    this.$func.__('Type here', 'erp')
                                                 "
                                             ></textarea>
                                         </div>
@@ -205,7 +205,7 @@
                                             class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
                                         >
                                             <label for="fax">{{
-                                                __("Fax", "erp")
+                                                this.$func.__("Fax", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -213,7 +213,7 @@
                                                 id="fax"
                                                 class="wperp-form-field"
                                                 :placeholder="
-                                                    __('Type here', 'erp')
+                                                    this.$func.__('Type here', 'erp')
                                                 "
                                             />
                                         </div>
@@ -221,7 +221,7 @@
                                             class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
                                         >
                                             <label for="street1">{{
-                                                __("Street 1", "erp")
+                                                this.$func.__("Street 1", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -229,7 +229,7 @@
                                                 id="street1"
                                                 class="wperp-form-field"
                                                 :placeholder="
-                                                    __('Street 1', 'erp')
+                                                    this.$func.__('Street 1', 'erp')
                                                 "
                                             />
                                         </div>
@@ -237,7 +237,7 @@
                                             class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
                                         >
                                             <label for="street2">{{
-                                                __("Street 2", "erp")
+                                                this.$func.__("Street 2", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -245,7 +245,7 @@
                                                 id="street2"
                                                 class="wperp-form-field"
                                                 :placeholder="
-                                                    __('Street 2', 'erp')
+                                                    this.$func.__('Street 2', 'erp')
                                                 "
                                             />
                                         </div>
@@ -253,7 +253,7 @@
                                             class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
                                         >
                                             <label for="city">{{
-                                                __("City", "erp")
+                                                this.$func.__("City", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -261,7 +261,7 @@
                                                 id="city"
                                                 class="wperp-form-field"
                                                 :placeholder="
-                                                    __('City/Town', 'erp')
+                                                    this.$func.__('City/Town', 'erp')
                                                 "
                                             />
                                         </div>
@@ -269,7 +269,7 @@
                                             class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
                                         >
                                             <label>{{
-                                                __("Country", "erp")
+                                                this.$func.__("Country", "erp")
                                             }}</label>
                                             <div class="with-multiselect">
                                                 <multi-select
@@ -290,7 +290,7 @@
                                             class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
                                         >
                                             <label>{{
-                                                __("Province/State", "erp")
+                                                this.$func.__("Province/State", "erp")
                                             }}</label>
                                             <div class="with-multiselect">
                                                 <multi-select
@@ -304,7 +304,7 @@
                                             class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
                                         >
                                             <label for="post_code">{{
-                                                __("Post Code", "erp")
+                                                this.$func.__("Post Code", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -314,7 +314,7 @@
                                                 id="post_code"
                                                 class="wperp-form-field"
                                                 :placeholder="
-                                                    __('Post Code', 'erp')
+                                                    this.$func.__('Post Code', 'erp')
                                                 "
                                             />
                                         </div>
@@ -344,7 +344,7 @@
                                         />
                                         <span class="form-check-sign"></span>
                                         <span class="field-label">{{
-                                            __("Show More", "erp")
+                                            this.$func.__("Show More", "erp")
                                         }}</span>
                                     </label>
                                 </div>
@@ -358,21 +358,21 @@
                                         @click="$parent.$emit('modal-close')"
                                         type="reset"
                                     >
-                                        {{ __("Cancel", "erp") }}
+                                        {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
                                         v-if="!people"
                                         class="wperp-btn btn--primary"
                                         type="submit"
                                     >
-                                        {{ __("Add New", "erp") }}
+                                        {{ this.$func.__("Add New", "erp") }}
                                     </button>
                                     <button
                                         v-else
                                         class="wperp-btn btn--primary"
                                         type="submit"
                                     >
-                                        {{ __("Update", "erp") }}
+                                        {{ this.$func.__("Update", "erp") }}
                                     </button>
                                 </div>
                             </div>
@@ -492,18 +492,18 @@ export default {
                                     swal(
                                         {
                                             title: "",
-                                            text: __(
+                                            text: this.$func.__(
                                                 "This email already exists in CRM! Do you want to import and update the contact?",
                                                 "erp"
                                             ),
                                             type: "info",
                                             showCancelButton: true,
-                                            cancelButtonText: __(
+                                            cancelButtonText: this.$func.__(
                                                 "Cancel",
                                                 "erp"
                                             ),
                                             cancelButtonColor: "#bababa",
-                                            confirmButtonText: __(
+                                            confirmButtonText: this.$func.__(
                                                 "Import & Update",
                                                 "erp"
                                             ),
@@ -519,7 +519,7 @@ export default {
                                     );
                                 } else {
                                     self.error_message.push(
-                                        __(
+                                        this.$func.__(
                                             "Email already exists as customer/vendor",
                                             "erp"
                                         )
@@ -539,7 +539,6 @@ export default {
         },
 
         addPeople(peopleFields) {
-            this.$store.dispatch("spinner/setSpinner", true);
 
             var type = "";
             var url = "";
@@ -557,7 +556,6 @@ export default {
             window.axios[type](url, peopleFields).then((response) => {
                 this.$root.$emit("peopleUpdate");
                 this.resetForm();
-                this.$store.dispatch("spinner/setSpinner", false);
                 this.showAlert("success", message);
             });
         },

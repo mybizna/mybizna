@@ -4,7 +4,7 @@
         <div class="table-container">
             <div class="bulk-action">
                 <a href="#"
-                    ><i class="flaticon-trash"></i>{{ __("Trash", "erp") }}</a
+                    ><i class="flaticon-trash"></i>{{ this.$func.__("Trash", "erp") }}</a
                 >
                 <a href="#" class="dismiss-bulk-action"
                     ><i class="flaticon-close"></i
@@ -135,15 +135,15 @@ export default {
     data() {
         return {
             columns: {
-                trn_no: { label: __("Voucher No.", "erp"), isColPrimary: true },
-                type: { label: __("Type", "erp") },
-                ref: { label: __("Ref", "erp") },
-                customer_name: { label: __("Customer", "erp") },
-                trn_date: { label: __("Trn Date", "erp") },
-                due_date: { label: __("Due Date", "erp") },
-                due: { label: __("Balance", "erp") },
-                amount: { label: __("Total", "erp") },
-                status: { label: __("Status", "erp") },
+                trn_no: { label: this.$func.__("Voucher No.", "erp"), isColPrimary: true },
+                type: { label: this.$func.__("Type", "erp") },
+                ref: { label: this.$func.__("Ref", "erp") },
+                customer_name: { label: this.$func.__("Customer", "erp") },
+                trn_date: { label: this.$func.__("Trn Date", "erp") },
+                due_date: { label: this.$func.__("Due Date", "erp") },
+                due: { label: this.$func.__("Balance", "erp") },
+                amount: { label: this.$func.__("Total", "erp") },
+                status: { label: this.$func.__("Status", "erp") },
                 actions: { label: "" },
             },
             listLoading: false,
@@ -163,7 +163,6 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("spinner/setSpinner", true);
         this.$root.$on("transactions-filter", (filters) => {
             /*  this.$router.push({
                 path : '/transactions/purchases',
@@ -212,7 +211,6 @@ export default {
         fetchItems(filters = {}) {
             this.rows = [];
 
-            this.$store.dispatch("spinner/setSpinner", true);
             window.axios
                 .get("/transactions/purchases", {
                     params: {
@@ -235,17 +233,17 @@ export default {
                             item.status_code === "1"
                         ) {
                             item["actions"] = [
-                                { key: "edit", label: __("Edit", "erp") },
+                                { key: "edit", label: this.$func.__("Edit", "erp") },
                                 {
                                     key: "to_purchase",
-                                    label: __("Make Purchase", "erp"),
+                                    label: this.$func.__("Make Purchase", "erp"),
                                 },
                             ];
                         } else if (item.status_code === "8") {
                             item["actions"] = [
                                 {
                                     key: "#",
-                                    label: __("No actions found", "erp"),
+                                    label: this.$func.__("No actions found", "erp"),
                                 },
                             ];
                         } else if (item.type === "purchase") {
@@ -256,7 +254,7 @@ export default {
                                     item["actions"] = [
                                         {
                                             key: "#",
-                                            label: __(
+                                            label: this.$func.__(
                                                 "No actions found",
                                                 "erp"
                                             ),
@@ -270,15 +268,15 @@ export default {
                                     item["actions"] = [
                                         {
                                             key: "payment",
-                                            label: __("Payment", "erp"),
+                                            label: this.$func.__("Payment", "erp"),
                                         },
                                         {
                                             key: "edit",
-                                            label: __("Edit", "erp"),
+                                            label: this.$func.__("Edit", "erp"),
                                         },
                                         {
                                             key: "void",
-                                            label: __("Void", "erp"),
+                                            label: this.$func.__("Void", "erp"),
                                         },
                                     ];
 
@@ -288,21 +286,21 @@ export default {
                                     ) {
                                         item.actions.splice(1, 0, {
                                             key: "return",
-                                            label: __("Return", "erp"),
+                                            label: this.$func.__("Return", "erp"),
                                         });
                                     }
                                 } else if (item.status_code === "10") {
                                     item["actions"] = [
                                         {
                                             key: "payment",
-                                            label: __("Payment", "erp"),
+                                            label: this.$func.__("Payment", "erp"),
                                         },
                                     ];
 
                                     if (this.proActivated) {
                                         item.actions.splice(1, 0, {
                                             key: "return",
-                                            label: __("Return", "erp"),
+                                            label: this.$func.__("Return", "erp"),
                                         });
                                     }
                                 } else if (item.status_code === "9") {
@@ -310,14 +308,14 @@ export default {
                                         item["actions"] = [
                                             {
                                                 key: "payment",
-                                                label: __("Payment", "erp"),
+                                                label: this.$func.__("Payment", "erp"),
                                             },
                                         ];
                                     } else {
                                         item["actions"] = [
                                             {
                                                 key: "#",
-                                                label: __(
+                                                label: this.$func.__(
                                                     "No actions found",
                                                     "erp"
                                                 ),
@@ -328,7 +326,7 @@ export default {
                                     item["actions"] = [
                                         {
                                             key: "void",
-                                            label: __("Void", "erp"),
+                                            label: this.$func.__("Void", "erp"),
                                         },
                                     ];
 
@@ -338,7 +336,7 @@ export default {
                                     ) {
                                         item.actions.splice(1, 0, {
                                             key: "return",
-                                            label: __("Return", "erp"),
+                                            label: this.$func.__("Return", "erp"),
                                         });
                                     }
                                 }
@@ -347,14 +345,14 @@ export default {
                                     item["actions"] = [
                                         {
                                             key: "return",
-                                            label: __("Return", "erp"),
+                                            label: this.$func.__("Return", "erp"),
                                         },
                                     ];
                                 } else {
                                     item["actions"] = [
                                         {
                                             key: "#",
-                                            label: __(
+                                            label: this.$func.__(
                                                 "No actions found",
                                                 "erp"
                                             ),
@@ -366,7 +364,7 @@ export default {
                             item["actions"] = [
                                 {
                                     key: "#",
-                                    label: __("No actions found", "erp"),
+                                    label: this.$func.__("No actions found", "erp"),
                                 },
                             ];
                         }
@@ -384,11 +382,9 @@ export default {
                     );
 
                     this.listLoading = false;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
                     this.listLoading = false;
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -437,7 +433,7 @@ export default {
                 case "void":
                     if (
                         confirm(
-                            __("Are you sure to void the transaction?", "erp")
+                            this.$func.__("Are you sure to void the transaction?", "erp")
                         )
                     ) {
                         if (row.type === "purchase") {
@@ -446,7 +442,7 @@ export default {
                                 .then((response) => {
                                     this.showAlert(
                                         "success",
-                                        __("Transaction has been void!", "erp")
+                                        this.$func.__("Transaction has been void!", "erp")
                                     );
                                 })
                                 .catch((error) => {
@@ -462,7 +458,7 @@ export default {
                                 .then((response) => {
                                     this.showAlert(
                                         "success",
-                                        __("Transaction has been void!", "erp")
+                                        this.$func.__("Transaction has been void!", "erp")
                                     );
                                 })
                                 .then(() => {
@@ -511,14 +507,14 @@ export default {
         getTrnType(row) {
             if (row.type === "purchase") {
                 if (row.purchase_order === "1") {
-                    return __("Purchase Order", "erp");
+                    return this.$func.__("Purchase Order", "erp");
                 }
 
-                return __("Purchase", "erp");
+                return this.$func.__("Purchase", "erp");
             } else if (row.type === "pay_purchase") {
-                return __("Payment", "erp");
+                return this.$func.__("Payment", "erp");
             } else {
-                return __("Receive", "erp");
+                return this.$func.__("Receive", "erp");
             }
         },
     },

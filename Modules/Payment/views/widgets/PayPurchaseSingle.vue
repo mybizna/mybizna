@@ -10,28 +10,28 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ __("Print", "erp") }}
+                        &nbsp; {{ this.$func.__("Print", "erp") }}
                     </a>
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
                     <dropdown>
                         <template slot="button">
                             <a href="#" class="wperp-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
-                                &nbsp; {{ __("More Action", "erp") }}
+                                &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
                         </template>
                         <template slot="dropdown">
                             <ul role="menu">
                                 <li>
                                     <a :href="pdf_link">{{
-                                        __("Export as PDF", "erp")
+                                        this.$func.__("Export as PDF", "erp")
                                     }}</a>
                                 </li>
                                 <li>
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ __("Send Mail", "erp") }}</a
+                                        >{{ this.$func.__("Send Mail", "erp") }}</a
                                     >
                                 </li>
                             </ul>
@@ -71,14 +71,14 @@
                     </div>
 
                     <div class="invoice-body">
-                        <h4>{{ __("Payment Details", "erp") }}</h4>
+                        <h4>{{ this.$func.__("Payment Details", "erp") }}</h4>
                         <div class="wperp-row" v-if="null != payPurchase">
                             <div class="wperp-col-sm-6">
                                 <h5>
                                     {{
                                         type === "pay_purchase"
-                                            ? __("Payment To", "erp")
-                                            : __("Payment From", "erp")
+                                            ? this.$func.__("Payment To", "erp")
+                                            : this.$func.__("Payment From", "erp")
                                     }}:
                                 </h5>
                                 <div class="persons-info">
@@ -92,12 +92,12 @@
                             <div class="wperp-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
-                                        <th>{{ __("Voucher No", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Voucher No", "erp") }}:</th>
                                         <td>#{{ payPurchase.voucher_no }}</td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Reference No", "erp") }}:
+                                            {{ this.$func.__("Reference No", "erp") }}:
                                         </th>
                                         <td>
                                             <span v-if="payPurchase.ref">
@@ -107,7 +107,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Transaction Date", "erp") }}:
+                                            {{ this.$func.__("Transaction Date", "erp") }}:
                                         </th>
                                         <td>
                                             {{
@@ -116,7 +116,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Created At", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Created At", "erp") }}:</th>
                                         <td>
                                             {{
                                                 formatDate(
@@ -127,7 +127,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Transaction From", "erp") }}:
+                                            {{ this.$func.__("Transaction From", "erp") }}:
                                         </th>
                                         <td>{{ payPurchase.trn_by }}</td>
                                     </tr>
@@ -140,7 +140,7 @@
                                     >
                                         <th>
                                             {{
-                                                __("Transaction Charge", "erp")
+                                                this.$func.__("Transaction Charge", "erp")
                                             }}:
                                         </th>
                                         <td>
@@ -158,10 +158,10 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>{{ __("Sl.", "erp") }}</th>
-                                    <th>{{ __("Purchase No", "erp") }}</th>
-                                    <th>{{ __("Vendor", "erp") }}</th>
-                                    <th>{{ __("Amount", "erp") }}</th>
+                                    <th>{{ this.$func.__("Sl.", "erp") }}</th>
+                                    <th>{{ this.$func.__("Purchase No", "erp") }}</th>
+                                    <th>{{ this.$func.__("Vendor", "erp") }}</th>
+                                    <th>{{ this.$func.__("Amount", "erp") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -197,7 +197,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Total", "erp")
+                                                        this.$func.__("Total", "erp")
                                                     }}:</span
                                                 >
                                                 {{
@@ -225,7 +225,7 @@
                 <trans-particulars :particulars="payPurchase.particulars" />
 
                 <div class="invoice-attachments d-print-none">
-                    <h4>{{ __("Attachments", "erp") }}</h4>
+                    <h4>{{ this.$func.__("Attachments", "erp") }}</h4>
                     <a
                         class="attachment-item"
                         :href="attachment"
@@ -305,7 +305,6 @@ export default {
 
         getPurchase() {
             this.isWorking = true;
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .get(`/pay-purchases/${this.$route.params.id}`)
@@ -313,10 +312,8 @@ export default {
                     this.payPurchase = response.data;
                     this.people_id = this.payPurchase.vendor_id;
                     this.pdf_link = this.payPurchase.pdf_link;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then((e) => {})
@@ -328,10 +325,10 @@ export default {
 
         trnType() {
             if (this.type === "receive_pay_purchase") {
-                return __("Receive", "erp");
+                return this.$func.__("Receive", "erp");
             }
 
-            return __("Payment", "erp");
+            return this.$func.__("Payment", "erp");
         },
 
         printPopup() {

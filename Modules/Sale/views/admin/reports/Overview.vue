@@ -1,22 +1,22 @@
 <template>
     <div class="sales-tax-reports">
         <h2 class="title-container">
-            <span>{{ __("Sales Tax Reports", "erp") }}</span>
+            <span>{{ this.$func.__("Sales Tax Reports", "erp") }}</span>
 
             <router-link
                 class="wperp-btn btn--primary"
                 :to="{ name: 'ReportsOverview' }"
             >
-                {{ __("Back", "erp") }}
+                {{ this.$func.__("Back", "erp") }}
             </router-link>
         </h2>
 
         <ul class="reports-overview">
             <li>
-                <h3>{{ __("Agency Based", "erp") }}</h3>
+                <h3>{{ this.$func.__("Agency Based", "erp") }}</h3>
                 <p>
                     {{
-                        __(
+                        this.$func.__(
                             "It generates sales tax report based on agencies",
                             "erp"
                         )
@@ -27,15 +27,15 @@
                     class="wperp-btn btn--primary"
                     :to="{ name: 'SalesTaxReportAgencyBased' }"
                 >
-                    {{ __("View Report", "erp") }}
+                    {{ this.$func.__("View Report", "erp") }}
                 </router-link>
             </li>
 
             <li>
-                <h3>{{ __("Transaction Based", "erp") }}</h3>
+                <h3>{{ this.$func.__("Transaction Based", "erp") }}</h3>
                 <p>
                     {{
-                        __(
+                        this.$func.__(
                             "It generates sales tax report based on transactions",
                             "erp"
                         )
@@ -46,15 +46,15 @@
                     class="wperp-btn btn--primary"
                     :to="{ name: 'SalesTaxReportTransactionBased' }"
                 >
-                    {{ __("View Report", "erp") }}
+                    {{ this.$func.__("View Report", "erp") }}
                 </router-link>
             </li>
 
             <li>
-                <h3>{{ __("Customer Based", "erp") }}</h3>
+                <h3>{{ this.$func.__("Customer Based", "erp") }}</h3>
                 <p>
                     {{
-                        __(
+                        this.$func.__(
                             "It generates sales tax report based on customers",
                             "erp"
                         )
@@ -65,15 +65,15 @@
                     class="wperp-btn btn--primary"
                     :to="{ name: 'SalesTaxReportCustomerBased' }"
                 >
-                    {{ __("View Report", "erp") }}
+                    {{ this.$func.__("View Report", "erp") }}
                 </router-link>
             </li>
 
             <li>
-                <h3>{{ __("Category Based", "erp") }}</h3>
+                <h3>{{ this.$func.__("Category Based", "erp") }}</h3>
                 <p>
                     {{
-                        __(
+                        this.$func.__(
                             "It generates sales tax report based on categories",
                             "erp"
                         )
@@ -84,7 +84,7 @@
                     class="wperp-btn btn--primary"
                     :to="{ name: 'SalesTaxReportCategoryBased' }"
                 >
-                    {{ __("View Report", "erp") }}
+                    {{ this.$func.__("View Report", "erp") }}
                 </router-link>
             </li>
         </ul>

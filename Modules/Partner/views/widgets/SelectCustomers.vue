@@ -6,13 +6,13 @@
             type="customer"
         ></people-modal>
         <label
-            >{{ __("Customer", "erp")
+            >{{ this.$func.__("Customer", "erp")
             }}<span class="wperp-required-sign">*</span></label
         >
         <multi-select v-model="selected" :options="options" />
 
         <a href="#" class="add-new-customer" @click="showModal = true">
-            <i class="flaticon-add-plus-button"></i>{{ __("Add new", "erp") }}
+            <i class="flaticon-add-plus-button"></i>{{ this.$func.__("Add new", "erp") }}
         </a>
     </div>
 </template>

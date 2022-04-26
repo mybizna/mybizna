@@ -6,10 +6,10 @@
                     <h2 class="content-header__title">
                         {{
                             editMode
-                                ? __("Update", "erp")
-                                : __("Create New", "erp")
+                                ? this.$func.__("Update", "erp")
+                                : this.$func.__("Create New", "erp")
                         }}
-                        {{ __("Account", "erp") }}
+                        {{ this.$func.__("Account", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -22,7 +22,7 @@
 
             <div class="form-row">
                 <label for=""
-                    >{{ __("Select chart of accounts", "erp") }}
+                    >{{ this.$func.__("Select chart of accounts", "erp") }}
                     <span class="wperp-required-sign">*</span></label
                 >
                 <treeselect
@@ -57,7 +57,7 @@
 
             <div class="form-row">
                 <label for=""
-                    >{{ __("Account Name", "erp") }}
+                    >{{ this.$func.__("Account Name", "erp") }}
                     <span class="wperp-required-sign">*</span></label
                 >
 
@@ -70,7 +70,7 @@
             </div>
 
             <div class="form-row">
-                <label for="">{{ __("Code (optional)", "erp") }}</label>
+                <label for="">{{ this.$func.__("Code (optional)", "erp") }}</label>
 
                 <input
                     type="number"
@@ -80,7 +80,7 @@
             </div>
 
             <button class="wperp-btn btn--primary" type="submit">
-                {{ editMode ? __("Update", "erp") : __("Save", "erp") }}
+                {{ editMode ? this.$func.__("Update", "erp") : this.$func.__("Save", "erp") }}
             </button>
         </form>
 
@@ -107,7 +107,7 @@ export default {
             },
 
             catData: {
-                title: __("Add New", "erp"),
+                title: this.$func.__("Add New", "erp"),
                 node: null,
             },
 
@@ -142,7 +142,7 @@ export default {
         //     this.catData.title = 'Add New';
         //     this.catData.node = null;
 
-        //     this.showAlert('success', __('Successful !', 'erp'));
+        //     this.showAlert('success', this.$func.__('Successful !', 'erp'));
 
         //     this.fetchLedgerCategories();
         // });
@@ -246,7 +246,7 @@ export default {
                 window.axios
                     .delete(`/ledgers/categories/${node.id}`)
                     .then((response) => {
-                        this.showAlert("error", __("Category Removed!", "erp"));
+                        this.showAlert("error", this.$func.__("Category Removed!", "erp"));
 
                         this.fetchLedgerCategories();
                     });
@@ -254,17 +254,14 @@ export default {
         },
 
         createLedger(requestData) {
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .post("/ledgers", requestData)
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
-                    this.showAlert("success", __("Created !", "erp"));
+                    this.showAlert("success", this.$func.__("Created !", "erp"));
                     window.location.reload();
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then(() => {
@@ -273,17 +270,14 @@ export default {
         },
 
         updateteLedger(requestData) {
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .put(`/ledgers/${this.ledgerID}`, requestData)
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
-                    this.showAlert("success", __("Updated !", "erp"));
+                    this.showAlert("success", this.$func.__("Updated !", "erp"));
                     window.location.reload();
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then(() => {
@@ -313,7 +307,6 @@ export default {
         },
 
         saveAccount() {
-            this.$store.dispatch("spinner/setSpinner", true);
 
             this.error = false;
             this.isChartAdding = true;
@@ -326,8 +319,7 @@ export default {
             };
 
             if (this.isDuplicateLedger(requestData)) {
-                this.showAlert("error", __("Duplicate Account!", "erp"));
-                this.$store.dispatch("spinner/setSpinner", false);
+                this.showAlert("error", this.$func.__("Duplicate Account!", "erp"));
                 return;
             }
 
@@ -345,7 +337,6 @@ export default {
             this.ledgFields.code = "";
             this.isChartAdding = false;
 
-            this.$store.dispatch("spinner/setSpinner", false);
         },
     },
 };

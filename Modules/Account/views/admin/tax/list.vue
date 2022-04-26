@@ -4,13 +4,13 @@
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
                     <h2 class="content-header__title">
-                        {{ __("Tax Payments", "erp") }}
+                        {{ this.$func.__("Tax Payments", "erp") }}
                     </h2>
                     <a
                         class="wperp-btn btn--primary"
                         @click.prevent="addTaxPayment"
                     >
-                        <span>{{ __("New Tax Payment", "erp") }}</span>
+                        <span>{{ this.$func.__("New Tax Payment", "erp") }}</span>
                     </a>
                 </div>
             </div>
@@ -68,14 +68,14 @@ export default {
             modalParams: null,
             columns: {
                 voucher_no: {
-                    label: __("Voucher No", "erp"),
+                    label: this.$func.__("Voucher No", "erp"),
                     isColPrimary: true,
                 },
-                agency_id: { label: __("Agency", "erp") },
-                trn_date: { label: __("Date", "erp") },
-                // 'tax_period': {label: __('Tax Period', 'erp')},
-                amount: { label: __("Amount", "erp") },
-                actions: { label: __("Actions", "erp") },
+                agency_id: { label: this.$func.__("Agency", "erp") },
+                trn_date: { label: this.$func.__("Date", "erp") },
+                // 'tax_period': {label: this.$func.__('Tax Period', 'erp')},
+                amount: { label: this.$func.__("Amount", "erp") },
+                actions: { label: this.$func.__("Actions", "erp") },
             },
             rows: [],
             paginationData: {
@@ -88,13 +88,13 @@ export default {
                         : parseInt(this.$route.params.page),
             },
             actions: [
-                // { key: 'edit', label: __('Edit', 'erp'), iconClass: 'flaticon-edit' },
-                { key: "#", label: __("No action found", "erp") },
+                // { key: 'edit', label: this.$func.__('Edit', 'erp'), iconClass: 'flaticon-edit' },
+                { key: "#", label: this.$func.__("No action found", "erp") },
             ],
             bulkActions: [
                 {
                     key: "trash",
-                    label: __("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
@@ -127,7 +127,6 @@ export default {
         },
         fetchItems() {
             this.rows = [];
-            this.$store.dispatch("spinner/setSpinner", true);
             window.axios
                 .get("taxes/tax-records", {
                     params: {
@@ -146,10 +145,8 @@ export default {
                     this.paginationData.totalPages = parseInt(
                         response.headers["x-wp-totalpages"]
                     );
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -174,27 +171,18 @@ export default {
             switch (action) {
                 case "trash":
                     if (confirm(__("Are you sure to delete?", "erp"))) {
-                        this.$store.dispatch("spinner/setSpinner", true);
 
                         window.axios
                             .delete(this.url + "/" + row.id)
                             .then((response) => {
                                 this.$delete(this.rows, index);
 
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 this.showAlert(
                                     "success",
-                                    __("Deleted !", "erp")
+                                    this.$func.__("Deleted !", "erp")
                                 );
                             })
                             .catch((error) => {
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 throw error;
                             });
                     }
@@ -213,7 +201,6 @@ export default {
         onBulkAction(action, items) {
             if (action === "trash") {
                 if (confirm(__("Are you sure to delete?", "erp"))) {
-                    this.$store.dispatch("spinner/setSpinner", true);
 
                     window.axios
                         .delete("taxes/delete/" + items.join(","))
@@ -228,11 +215,9 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.$store.dispatch("spinner/setSpinner", false);
-                            this.showAlert("success", __("Deleted !", "erp"));
+                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
                         })
                         .catch((error) => {
-                            this.$store.dispatch("spinner/setSpinner", false);
                             throw error;
                         });
                 }

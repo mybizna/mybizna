@@ -21,7 +21,7 @@
                     </div>
                     <div class="wperp-col-sm-4">
                         <div class="wperp-chart-block">
-                            <h3>{{ __('Outstanding', 'erp') }}</h3>
+                            <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
                             <div class="wperp-total"><h2>{{ formatAmount(chartPayment.outstanding) }}</h2></div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@ export default {
             },
             chartPayment: {
                 colors: ['#40c4ff', '#e91e63'],
-                labels: [ __('Received', 'erp'), __('Outstanding', 'erp') ],
+                labels: [ this.$func.__('Received', 'erp'), this.$func.__('Outstanding', 'erp') ],
                 values: [],
                 outstanding: 0
             }

@@ -11,7 +11,7 @@
                         class="wperp-btn btn--primary"
                         @click.prevent="addNewLine = true"
                     >
-                        <span>{{ __("Add New Line", "erp") }}</span>
+                        <span>{{ this.$func.__("Add New Line", "erp") }}</span>
                     </a>
                 </div>
             </div>
@@ -76,13 +76,13 @@ export default {
             is_update: false,
             columns: {
                 component_name: {
-                    label: __("Component", "erp"),
+                    label: this.$func.__("Component", "erp"),
                     isColPrimary: true,
                 },
-                agency_name: { label: __("Agency", "erp") },
-                tax_cat_name: { label: __("Tax Category", "erp") },
-                tax_rate: { label: __("Tax Rate", "erp") },
-                actions: { label: __("Actions", "erp") },
+                agency_name: { label: this.$func.__("Agency", "erp") },
+                tax_cat_name: { label: this.$func.__("Tax Category", "erp") },
+                tax_rate: { label: this.$func.__("Tax Rate", "erp") },
+                actions: { label: this.$func.__("Actions", "erp") },
             },
             rows: [],
             paginationData: {
@@ -97,12 +97,12 @@ export default {
             actions: [
                 {
                     key: "edit",
-                    label: __("Edit", "erp"),
+                    label: this.$func.__("Edit", "erp"),
                     iconClass: "flaticon-edit",
                 },
                 {
                     key: "trash",
-                    label: __("Delete", "erp"),
+                    label: this.$func.__("Delete", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
@@ -122,7 +122,6 @@ export default {
             this.rows = [];
 
             this.tax_id = this.$route.params.id;
-            this.$store.dispatch("spinner/setSpinner", true);
             window.axios
                 .get(`/taxes/${this.tax_id}`, {
                     params: {
@@ -143,10 +142,8 @@ export default {
                         response.headers["x-wp-totalpages"]
                     );
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -167,7 +164,6 @@ export default {
             switch (action) {
                 case "trash":
                     if (confirm(__("Are you sure to delete?", "erp"))) {
-                        this.$store.dispatch("spinner/setSpinner", true);
                         window.axios
                             .delete(
                                 "/taxes/" +
@@ -177,13 +173,9 @@ export default {
                             )
                             .then((response) => {
                                 this.$delete(this.rows, index);
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 this.showAlert(
                                     "success",
-                                    __("Deleted !", "erp")
+                                    this.$func.__("Deleted !", "erp")
                                 );
                             });
                     }

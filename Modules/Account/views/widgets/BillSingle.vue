@@ -10,28 +10,28 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ __("Print", "erp") }}
+                        &nbsp; {{ this.$func.__("Print", "erp") }}
                     </a>
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
                     <dropdown>
                         <template slot="button">
                             <a href="#" class="wperp-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
-                                &nbsp; {{ __("More Action", "erp") }}
+                                &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
                         </template>
                         <template slot="dropdown">
                             <ul role="menu">
                                 <li>
                                     <a :href="pdf_link">{{
-                                        __("Export as PDF", "erp")
+                                        this.$func.__("Export as PDF", "erp")
                                     }}</a>
                                 </li>
                                 <li>
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ __("Send Mail", "erp") }}</a
+                                        >{{ this.$func.__("Send Mail", "erp") }}</a
                                     >
                                 </li>
                             </ul>
@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="invoice-body">
-                        <h4>{{ __("Bill", "erp") }}</h4>
+                        <h4>{{ this.$func.__("Bill", "erp") }}</h4>
                         <div class="wperp-row" v-if="null != bill">
                             <div class="wperp-col-sm-6">
                                 <div class="persons-info">
@@ -83,12 +83,12 @@
                             <div class="wperp-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
-                                        <th>{{ __("Voucher No", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Voucher No", "erp") }}:</th>
                                         <td>#{{ bill.voucher_no }}</td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Reference No", "erp") }}:
+                                            {{ this.$func.__("Reference No", "erp") }}:
                                         </th>
                                         <td>
                                             <span v-if="bill.ref">
@@ -98,22 +98,22 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Transaction Date", "erp") }}:
+                                            {{ this.$func.__("Transaction Date", "erp") }}:
                                         </th>
                                         <td>{{ formatDate(bill.trn_date) }}</td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Due Date", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Due Date", "erp") }}:</th>
                                         <td>{{ formatDate(bill.due_date) }}</td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Created At", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Created At", "erp") }}:</th>
                                         <td>
                                             {{ formatDate(bill.created_at) }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Amount Due", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Amount Due", "erp") }}:</th>
                                         <td>{{ moneyFormat(bill.due) }}</td>
                                     </tr>
                                 </table>
@@ -127,10 +127,10 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>{{ __("Sl", "erp") }}</th>
-                                    <th>{{ __("Account", "erp") }}</th>
-                                    <th>{{ __("Particulars", "erp") }}</th>
-                                    <th>{{ __("Amount", "erp") }}</th>
+                                    <th>{{ this.$func.__("Sl", "erp") }}</th>
+                                    <th>{{ this.$func.__("Account", "erp") }}</th>
+                                    <th>{{ this.$func.__("Particulars", "erp") }}</th>
+                                    <th>{{ this.$func.__("Amount", "erp") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,7 +152,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Subtotal", "erp")
+                                                        this.$func.__("Subtotal", "erp")
                                                     }}:</span
                                                 >
                                                 {{ moneyFormat(bill.amount) }}
@@ -160,7 +160,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Total", "erp")
+                                                        this.$func.__("Total", "erp")
                                                     }}:</span
                                                 >
                                                 {{ moneyFormat(bill.amount) }}
@@ -176,7 +176,7 @@
                 <trans-particulars :particulars="bill.particulars" />
 
                 <div class="invoice-attachments d-print-none">
-                    <h4>{{ __("Attachments", "erp") }}</h4>
+                    <h4>{{ this.$func.__("Attachments", "erp") }}</h4>
                     <a
                         class="attachment-item"
                         :href="attachment"
@@ -255,17 +255,14 @@ export default {
 
         getBill() {
             this.isWorking = true;
-            this.$store.dispatch("spinner/setSpinner", true);
             window.axios
                 .get(`/bills/${this.$route.params.id}`)
                 .then((response) => {
                     this.bill = response.data;
                     this.people_id = this.bill.vendor_id;
                     this.pdf_link = this.bill.pdf_link;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then((e) => {})

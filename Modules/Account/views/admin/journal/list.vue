@@ -3,13 +3,13 @@
         <journal-modal :entry_id="journal_id" v-if="journalModal" />
 
         <h2 class="add-new-journal">
-            <span>{{ __("Journals", "erp") }}</span>
+            <span>{{ this.$func.__("Journals", "erp") }}</span>
             <a
                 href="#"
                 class="erp-journal-new"
                 @click.prevent="$router.push({ name: 'JournalCreate' })"
             >
-                {{ __("New Journal Entry", "erp") }}
+                {{ this.$func.__("New Journal Entry", "erp") }}
             </a>
         </h2>
 
@@ -53,10 +53,10 @@ export default {
         return {
             journalModal: false,
             columns: {
-                l_id: { label: __("Voucher No.", "erp") },
-                l_date: { label: __("Date", "erp") },
-                l_particulars: { label: __("Particulars", "erp") },
-                amount: { label: __("Amount", "erp") },
+                l_id: { label: this.$func.__("Voucher No.", "erp") },
+                l_date: { label: this.$func.__("Date", "erp") },
+                l_particulars: { label: this.$func.__("Particulars", "erp") },
+                amount: { label: this.$func.__("Amount", "erp") },
             },
             rows: [],
             paginationData: {
@@ -72,7 +72,6 @@ export default {
         };
     },
     created() {
-        this.$store.dispatch("spinner/setSpinner", true);
         this.fetchItems();
     },
 
@@ -111,10 +110,8 @@ export default {
                         response.headers["x-wp-totalpages"]
                     );
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },

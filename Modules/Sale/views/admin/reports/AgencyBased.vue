@@ -1,13 +1,13 @@
 <template>
     <div class="sales-tax-report">
         <h2 class="title-container">
-            <span>{{ __("Sales Tax Report (Agency Based)", "erp") }}</span>
+            <span>{{ this.$func.__("Sales Tax Report (Agency Based)", "erp") }}</span>
 
             <router-link
                 class="wperp-btn btn--primary"
                 :to="{ name: 'SalesTaxReportOverview' }"
             >
-                {{ __("Back", "erp") }}
+                {{ this.$func.__("Back", "erp") }}
             </router-link>
         </h2>
 
@@ -29,7 +29,7 @@
                     class="wperp-btn btn--primary add-line-trigger"
                     type="submit"
                 >
-                    {{ __("Filter", "erp") }}
+                    {{ this.$func.__("Filter", "erp") }}
                 </button>
             </div>
 
@@ -39,25 +39,25 @@
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i>
-                &nbsp; {{ __("Print", "erp") }}
+                &nbsp; {{ this.$func.__("Print", "erp") }}
             </a>
         </form>
 
         <ul class="report-header" v-if="null !== selectedAgency">
             <li>
-                <strong>{{ __("Agency Name", "erp") }}:</strong>
+                <strong>{{ this.$func.__("Agency Name", "erp") }}:</strong>
                 <em> {{ selectedAgency.name }}</em>
             </li>
 
             <li>
-                <strong>{{ __("Currency", "erp") }}:</strong>
+                <strong>{{ this.$func.__("Currency", "erp") }}:</strong>
                 <em> {{ symbol }}</em>
             </li>
 
             <li v-if="startDate && endDate">
                 <strong
                     >{{
-                        __("For the period of (Transaction date)", "erp")
+                        this.$func.__("For the period of (Transaction date)", "erp")
                     }}:</strong
                 >
                 <em> {{ formatDate(startDate) }}</em> to
@@ -103,7 +103,7 @@
             <template slot="tfoot">
                 <tr class="tfoot">
                     <td colspan="3"></td>
-                    <td data-left-align>{{ __("Total", "erp") }} =</td>
+                    <td data-left-align>{{ this.$func.__("Total", "erp") }} =</td>
                     <td data-colname="Debit">{{ moneyFormat(totalDebit) }}</td>
                     <td data-colname="Credit">
                         {{ moneyFormat(totalCredit) }}
@@ -142,23 +142,23 @@ export default {
             symbol: erp_acct_var.symbol,
             columns: {
                 trn_no: {
-                    label: __("Voucher No", "erp"),
+                    label: this.$func.__("Voucher No", "erp"),
                     isColPrimary: true,
                 },
                 trn_date: {
-                    label: __("Transaction Date", "erp"),
+                    label: this.$func.__("Transaction Date", "erp"),
                 },
                 particulars: {
-                    label: __("Particulars", "erp"),
+                    label: this.$func.__("Particulars", "erp"),
                 },
                 debit: {
-                    label: __("Debit", "erp"),
+                    label: this.$func.__("Debit", "erp"),
                 },
                 credit: {
-                    label: __("Credit", "erp"),
+                    label: this.$func.__("Credit", "erp"),
                 },
                 balance: {
-                    label: __("Balance", "erp"),
+                    label: this.$func.__("Balance", "erp"),
                 },
             },
         };
@@ -185,7 +185,6 @@ export default {
 
     methods: {
         fetchData() {
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .get("/tax-agencies")
@@ -201,11 +200,7 @@ export default {
         },
 
         getReport() {
-            if (!this.selectedAgency) {
-                return this.$store.dispatch("spinner/setSpinner", false);
-            }
 
-            this.$store.dispatch("spinner/setSpinner", true);
             this.rows = [];
 
             window.axios
@@ -226,10 +221,8 @@ export default {
                         item.created_at = this.formatDate(item.created_at);
                     });
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((_) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                 });
         },
 

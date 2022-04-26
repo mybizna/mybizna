@@ -2,7 +2,7 @@
     <div class="wperp-modal-dialog expense-single">
         <div class="wperp-modal-content">
             <div class="wperp-modal-header">
-                <h2>{{ __("Check", "erp") }}</h2>
+                <h2>{{ this.$func.__("Check", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
@@ -10,14 +10,14 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ __("Print", "erp") }}
+                        &nbsp; {{ this.$func.__("Print", "erp") }}
                     </a>
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
                     <dropdown>
                         <template slot="button">
                             <a href="#" class="wperp-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
-                                &nbsp; {{ __("More Action", "erp") }}
+                                &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
                         </template>
                         <template slot="dropdown">
@@ -26,7 +26,7 @@
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ __("Send Mail", "erp") }}</a
+                                        >{{ this.$func.__("Send Mail", "erp") }}</a
                                     >
                                 </li>
                             </ul>
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="invoice-body">
-                        <h4>{{ __("Check", "erp") }}</h4>
+                        <h4>{{ this.$func.__("Check", "erp") }}</h4>
                         <div class="wperp-row" v-if="null != expense_data">
                             <div class="wperp-col-sm-6">
                                 <div class="persons-info">
@@ -80,19 +80,19 @@
                             <div class="wperp-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
-                                        <th>{{ __("Check No", "erp") }}</th>
+                                        <th>{{ this.$func.__("Check No", "erp") }}</th>
                                         <td>#{{ expense_data.check_no }}</td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Transaction Date", "erp") }}:
+                                            {{ this.$func.__("Transaction Date", "erp") }}:
                                         </th>
                                         <td>
                                             {{ formatDate(expense_data.date) }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Created At", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Created At", "erp") }}:</th>
                                         <td>
                                             {{
                                                 formatDate(
@@ -115,10 +115,10 @@
                         >
                             <thead>
                                 <tr class="inline-edit-row">
-                                    <th>{{ __("Sl", "erp") }}</th>
-                                    <th>{{ __("Account", "erp") }}</th>
-                                    <th>{{ __("Particulars", "erp") }}</th>
-                                    <th>{{ __("Amount", "erp") }}</th>
+                                    <th>{{ this.$func.__("Sl", "erp") }}</th>
+                                    <th>{{ this.$func.__("Account", "erp") }}</th>
+                                    <th>{{ this.$func.__("Particulars", "erp") }}</th>
+                                    <th>{{ this.$func.__("Amount", "erp") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -142,7 +142,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Subtotal", "erp")
+                                                        this.$func.__("Subtotal", "erp")
                                                     }}:</span
                                                 >
                                                 {{
@@ -154,7 +154,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Total", "erp")
+                                                        this.$func.__("Total", "erp")
                                                     }}:</span
                                                 >
                                                 {{
@@ -172,7 +172,7 @@
                 </div>
 
                 <div class="invoice-attachments d-print-none">
-                    <h4>{{ __("Attachments", "erp") }}</h4>
+                    <h4>{{ this.$func.__("Attachments", "erp") }}</h4>
                     <a
                         class="attachment-item"
                         :href="attachment"
@@ -225,7 +225,6 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("spinner/setSpinner", true);
 
         this.$root.$on("close", () => {
             this.showModal = false;
@@ -250,16 +249,13 @@ export default {
 
         getCheck() {
             this.isWorking = true;
-            this.$store.dispatch("spinner/setSpinner", true);
             window.axios
                 .get(`/expenses/checks/${this.$route.params.id}`)
                 .then((response) => {
                     this.expense_data = response.data;
                     this.people_id = this.expense_data.people_id;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then((e) => {})

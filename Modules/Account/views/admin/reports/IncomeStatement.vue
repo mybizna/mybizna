@@ -1,7 +1,7 @@
 <template>
     <div class="income-statement">
         <h2 class="content-header__title">
-            {{ __("Income Statement", "erp") }}
+            {{ this.$func.__("Income Statement", "erp") }}
         </h2>
 
         <form @submit.prevent="fetchItems" class="query-options no-print">
@@ -12,7 +12,7 @@
                     class="wperp-btn btn--primary add-line-trigger"
                     type="submit"
                 >
-                    {{ __("Filter", "erp") }}
+                    {{ this.$func.__("Filter", "erp") }}
                 </button>
             </div>
 
@@ -22,14 +22,14 @@
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i>
-                &nbsp; {{ __("Print", "erp") }}
+                &nbsp; {{ this.$func.__("Print", "erp") }}
             </a>
         </form>
 
         <p>
             <strong
                 >{{
-                    __("For the period of ( Transaction date )", "erp")
+                    this.$func.__("For the period of ( Transaction date )", "erp")
                 }}:</strong
             >
             <em>{{ start_date }}</em> to <em>{{ end_date }}</em>
@@ -47,7 +47,7 @@
             </template>
             <template slot="tfoot">
                 <tr class="t-foot">
-                    <td>{{ __("Total Income", "erp") }}</td>
+                    <td>{{ this.$func.__("Total Income", "erp") }}</td>
                     <td>{{ transformBalance(Math.abs(income)) }}</td>
                 </tr>
             </template>
@@ -65,7 +65,7 @@
             </template>
             <template slot="tfoot">
                 <tr class="t-foot">
-                    <td>{{ __("Total Expense", "erp") }}</td>
+                    <td>{{ this.$func.__("Total Expense", "erp") }}</td>
                     <td>{{ transformBalance(Math.abs(expense)) }}</td>
                 </tr>
             </template>
@@ -78,7 +78,7 @@
                 <tbody class="wperp-col-sm-12">
                     <tr>
                         <td>
-                            <strong>{{ __("Profit", "erp") }}</strong>
+                            <strong>{{ this.$func.__("Profit", "erp") }}</strong>
                         </td>
                         <td>{{ moneyFormat(Math.abs(profit)) }}</td>
                         <td class="no-print"></td>
@@ -89,7 +89,7 @@
                 <tbody class="wperp-col-sm-12">
                     <tr>
                         <td>
-                            <strong>{{ __("Loss", "erp") }}</strong>
+                            <strong>{{ this.$func.__("Loss", "erp") }}</strong>
                         </td>
                         <td>{{ moneyFormat(Math.abs(loss)) }}</td>
                         <td class="no-print"></td>
@@ -117,20 +117,20 @@ export default {
             bulkActions: [
                 {
                     key: "trash",
-                    label: __("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     img:
                         erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
                 },
             ],
             columns1: {
-                name: { label: __("Account Name", "erp") },
-                amount: { label: __("Amount", "erp") },
+                name: { label: this.$func.__("Account Name", "erp") },
+                amount: { label: this.$func.__("Amount", "erp") },
             },
 
             columns2: {
-                name: { label: __("Account Name", "erp") },
-                amount: { label: __("Amount", "erp") },
+                name: { label: this.$func.__("Account Name", "erp") },
+                amount: { label: this.$func.__("Amount", "erp") },
             },
             rows1: [],
             rows2: [],
@@ -178,7 +178,6 @@ export default {
 
             this.rows1 = [];
             this.rows2 = [];
-            this.$store.dispatch("spinner/setSpinner", true);
             window.axios
                 .get("/reports/income-statement", {
                     params: {
@@ -194,10 +193,8 @@ export default {
                     this.profit = response.data.profit;
                     this.loss = response.data.loss;
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },

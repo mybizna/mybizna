@@ -4,7 +4,7 @@
             <div id="col-left">
                 <div class="col-wrap">
                     <div class="form-wrap">
-                        <h2>{{ __("Add new category", "erp") }}</h2>
+                        <h2>{{ this.$func.__("Add new category", "erp") }}</h2>
                         <form id="erp-acct-product-category">
                             <div
                                 :class="[
@@ -12,7 +12,9 @@
                                     { 'form-invalid': error },
                                 ]"
                             >
-                                <label>{{ __("Category Name", "erp") }}</label>
+                                <label>{{
+                                    this.$func.__("Category Name", "erp")
+                                }}</label>
                                 <input
                                     type="text"
                                     class="wperp-form-field"
@@ -21,7 +23,7 @@
                             </div>
                             <div class="form-field">
                                 <label>{{
-                                    __("Parent Category", "erp")
+                                    this.$func.__("Parent Category", "erp")
                                 }}</label>
                                 <div class="with-multiselect">
                                     <multi-select
@@ -81,13 +83,13 @@
                                     class="wperp-btn btn--primary"
                                     @click="updateCategory(data.row)"
                                 >
-                                    {{ __("Update", "erp") }}
+                                    {{ this.$func.__("Update", "erp") }}
                                 </button>
                                 <button
                                     class="wperp-btn btn--default"
                                     @click.prevent="data.row.isEdit = false"
                                 >
-                                    {{ __("Cancel", "erp") }}
+                                    {{ this.$func.__("Cancel", "erp") }}
                                 </button>
                             </div>
                         </template>
@@ -118,21 +120,21 @@ export default {
             showModal: false,
             columns: {
                 name: {
-                    label: __("Category Name", "erp"),
+                    label: this.$func.__("Category Name", "erp"),
                     isColPrimary: true,
                 },
                 actions: {
-                    label: __("Actions", "erp"),
+                    label: this.$func.__("Actions", "erp"),
                 },
             },
             actions: [
-                { key: "edit", label: __("Edit", "erp") },
-                { key: "trash", label: __("Delete", "erp") },
+                { key: "edit", label: this.$func.__("Edit", "erp") },
+                { key: "trash", label: this.$func.__("Delete", "erp") },
             ],
             bulkActions: [
                 {
                     key: "trash",
-                    label: __("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     img:
                         erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
@@ -142,7 +144,6 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("spinner/setSpinner", true);
         this.getCategories();
         this.$on("close", function () {
             this.showModal = false;
@@ -163,10 +164,8 @@ export default {
                         };
                         this.categories.push(object);
                     }
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -177,17 +176,17 @@ export default {
                 this.category = row;
             } else if (action === "trash") {
                 if (confirm(__("Are you sure want to delete?", "erp"))) {
-                    this.$store.dispatch("spinner/setSpinner", true);
                     window.axios
                         .delete("product-cats/" + row.id)
                         .then((response) => {
                             this.$delete(this.categories, index);
 
-                            this.$store.dispatch("spinner/setSpinner", false);
-                            this.showAlert("success", __("Deleted !", "erp"));
+                            this.showAlert(
+                                "success",
+                                this.$func.__("Deleted !", "erp")
+                            );
                         })
                         .catch((error) => {
-                            this.$store.dispatch("spinner/setSpinner", false);
                             throw error;
                         });
                 }
@@ -197,7 +196,6 @@ export default {
         onBulkAction(action, items) {
             if (action === "trash") {
                 if (confirm(__("Are you sure want to delete?", "erp"))) {
-                    this.$store.dispatch("spinner/setSpinner", true);
 
                     window.axios
                         .delete("product-cats/delete/" + items)
@@ -212,10 +210,8 @@ export default {
                             this.categories = this.categories.filter((item) => {
                                 return items.indexOf(item.id) === -1;
                             });
-                            this.$store.dispatch("spinner/setSpinner", false);
                         })
                         .catch((error) => {
-                            this.$store.dispatch("spinner/setSpinner", false);
                             throw error;
                         });
                 }
@@ -228,7 +224,6 @@ export default {
                 return;
             }
 
-            this.$store.dispatch("spinner/setSpinner", true);
             var data = {
                 name: this.categoryName,
                 parent: this.parentCategory,
@@ -240,14 +235,12 @@ export default {
                     this.categoryName = "";
                     this.parentCategory = 0;
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                     this.showAlert(
                         "success",
-                        __("Product category added!", "erp")
+                        this.$func.__("Product category added!", "erp")
                     );
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -256,21 +249,18 @@ export default {
             var categoryName = document.getElementById("cat-" + row.id).value;
             var categoryId = row.id;
 
-            this.$store.dispatch("spinner/setSpinner", true);
             window.axios
                 .put("/product-cats/" + categoryId, { name: categoryName })
                 .then((response) => {
                     row.name = categoryName;
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                     this.showAlert(
                         "success",
-                        __("Product category updated!", "erp")
+                        this.$func.__("Product category updated!", "erp")
                     );
                 })
                 .catch((error) => {
                     row.isEdit = false;
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },

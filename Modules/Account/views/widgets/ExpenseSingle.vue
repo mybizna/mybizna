@@ -2,7 +2,7 @@
     <div class="wperp-modal-dialog expense-single">
         <div class="wperp-modal-content">
             <div class="wperp-modal-header">
-                <h2>{{ __("Expense", "erp") }}</h2>
+                <h2>{{ this.$func.__("Expense", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
@@ -10,28 +10,28 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ __("Print", "erp") }}
+                        &nbsp; {{ this.$func.__("Print", "erp") }}
                     </a>
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
                     <dropdown>
                         <template slot="button">
                             <a href="#" class="wperp-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
-                                &nbsp; {{ __("More Action", "erp") }}
+                                &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
                         </template>
                         <template slot="dropdown">
                             <ul role="menu">
                                 <li>
                                     <a :href="pdf_link">{{
-                                        __("Export as PDF", "erp")
+                                        this.$func.__("Export as PDF", "erp")
                                     }}</a>
                                 </li>
                                 <li>
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ __("Send Mail", "erp") }}</a
+                                        >{{ this.$func.__("Send Mail", "erp") }}</a
                                     >
                                 </li>
                             </ul>
@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="invoice-body">
-                        <h4>{{ __("Expense", "erp") }}</h4>
+                        <h4>{{ this.$func.__("Expense", "erp") }}</h4>
                         <div class="wperp-row" v-if="null != expense_data">
                             <div class="wperp-col-sm-6">
                                 <div class="persons-info">
@@ -85,12 +85,12 @@
                             <div class="wperp-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
-                                        <th>{{ __("Voucher No", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Voucher No", "erp") }}:</th>
                                         <td>#{{ expense_data.voucher_no }}</td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Reference No", "erp") }}:
+                                            {{ this.$func.__("Reference No", "erp") }}:
                                         </th>
                                         <td>
                                             <span v-if="expense_data.ref">
@@ -100,14 +100,14 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Transaction Date", "erp") }}:
+                                            {{ this.$func.__("Transaction Date", "erp") }}:
                                         </th>
                                         <td>
                                             {{ formatDate(expense_data.date) }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Created At", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Created At", "erp") }}:</th>
                                         <td>
                                             {{
                                                 formatDate(
@@ -125,7 +125,7 @@
                                     >
                                         <th>
                                             {{
-                                                __("Transaction Charge", "erp")
+                                                this.$func.__("Transaction Charge", "erp")
                                             }}:
                                         </th>
                                         <td>
@@ -141,7 +141,7 @@
                             <div class="wperp-col-sm-12">
                                 <table>
                                     <tr>
-                                        <th>{{ __("Check No", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Check No", "erp") }}:</th>
                                         <td>
                                             #{{
                                                 expense_data.check_data.check_no
@@ -149,13 +149,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Bank Name", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Bank Name", "erp") }}:</th>
                                         <td>
                                             {{ expense_data.check_data.bank }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Pay To", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Pay To", "erp") }}:</th>
                                         <td>
                                             {{ expense_data.check_data.pay_to }}
                                         </td>
@@ -174,10 +174,10 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>{{ __("Sl", "erp") }}</th>
-                                    <th>{{ __("Account", "erp") }}</th>
-                                    <th>{{ __("Particulars", "erp") }}</th>
-                                    <th>{{ __("Amount", "erp") }}</th>
+                                    <th>{{ this.$func.__("Sl", "erp") }}</th>
+                                    <th>{{ this.$func.__("Account", "erp") }}</th>
+                                    <th>{{ this.$func.__("Particulars", "erp") }}</th>
+                                    <th>{{ this.$func.__("Amount", "erp") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -201,7 +201,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Subtotal", "erp")
+                                                        this.$func.__("Subtotal", "erp")
                                                     }}:</span
                                                 >
                                                 {{
@@ -213,7 +213,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Total", "erp")
+                                                        this.$func.__("Total", "erp")
                                                     }}:</span
                                                 >
                                                 {{
@@ -233,7 +233,7 @@
                 <trans-particulars :particulars="expense_data.particulars" />
 
                 <div class="invoice-attachments d-print-none">
-                    <h4>{{ __("Attachments", "erp") }}</h4>
+                    <h4>{{ this.$func.__("Attachments", "erp") }}</h4>
                     <a
                         class="attachment-item"
                         :href="attachment"
@@ -289,7 +289,6 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("spinner/setSpinner", true);
         this.getCompanyInfo();
         this.getExpense();
 
@@ -320,10 +319,8 @@ export default {
                     this.expense_data = response.data;
                     this.people_id = this.expense_data.people_id;
                     this.pdf_link = this.expense_data.pdf_link;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then((e) => {})

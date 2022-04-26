@@ -4,7 +4,7 @@
             <div class="wperp-modal-content">
                 <!-- modal body title -->
                 <div class="wperp-modal-header">
-                    <h3>{{ __('Add New Line', 'erp') }}</h3>
+                    <h3>{{ this.$func.__('Add New Line', 'erp') }}</h3>
                     <span class="modal-close" @click.prevent="closeModal"><i class="flaticon-close"></i></span>
                 </div>
 
@@ -12,23 +12,23 @@
                     <div class="wperp-panel-body">
                         <div class="wperp-row">
                             <div class="wperp-col-sm-3 wperp-col-xs-12">
-                                <label>{{ __('Component', 'erp') }}</label>
+                                <label>{{ this.$func.__('Component', 'erp') }}</label>
                                 <input type="text" class="wperp-form-field" v-model="component_name" />
                             </div>
                             <div class="wperp-col-sm-3 wperp-col-xs-12 with-multiselect">
-                                <label>{{ __('Agency', 'erp') }}</label>
+                                <label>{{ this.$func.__('Agency', 'erp') }}</label>
                                 <multi-select
                                     v-model="agency"
                                     :options="agencies"/>
                             </div>
                             <div class="wperp-col-sm-3 wperp-col-xs-12 with-multiselect">
-                                <label>{{ __('Tax Category', 'erp') }}</label>
+                                <label>{{ this.$func.__('Tax Category', 'erp') }}</label>
                                     <multi-select
                                     v-model="category"
                                     :options="categories" />
                             </div>
                             <div class="wperp-col-sm-3 wperp-col-xs-12">
-                                <label>{{ __('Tax Rate', 'erp') }}</label>
+                                <label>{{ this.$func.__('Tax Rate', 'erp') }}</label>
                                 <input type="text" class="wperp-form-field" v-model="tax_rate"/>
                             </div>
 
@@ -79,7 +79,6 @@ export default {
         },
 
         addTaxRate() {
-            this.$store.dispatch('spinner/setSpinner', true);
 
             window.axios.post(`/taxes/${this.$route.params.id}/line-add`, {
                 tax_id: this.$route.params.id,
@@ -88,10 +87,8 @@ export default {
                 tax_cat_id: this.category.id,
                 tax_rate: this.tax_rate
             }).then(res => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                this.showAlert('success', __('Tax Rate Updated!', 'erp'));
+                this.showAlert('success', this.$func.__('Tax Rate Updated!', 'erp'));
             }).catch(error => {
-                this.$store.dispatch('spinner/setSpinner', false);
                 throw error;
             }).then(() => {
                 this.resetData();

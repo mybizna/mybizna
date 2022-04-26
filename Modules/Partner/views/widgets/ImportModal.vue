@@ -51,7 +51,7 @@
                                             <th>
                                                 <label for="csv_file"
                                                     >{{
-                                                        __("CSV File", "erp")
+                                                        this.$func.__("CSV File", "erp")
                                                     }}
                                                     <span class="required"
                                                         >*</span
@@ -71,7 +71,7 @@
 
                                                 <p class="description">
                                                     {{
-                                                        __(
+                                                        this.$func.__(
                                                             "Upload a csv file.",
                                                             "erp"
                                                         )
@@ -79,7 +79,7 @@
                                                     <span
                                                         class="erp-help-tip .erp-tips"
                                                         :title="
-                                                            __(
+                                                            this.$func.__(
                                                                 'Make sure CSV meets the sample CSV format exactly.',
                                                                 'erp'
                                                             )
@@ -99,7 +99,7 @@
                                                         "
                                                     >
                                                         {{
-                                                            __(
+                                                            this.$func.__(
                                                                 "Download Sample CSV",
                                                                 "erp"
                                                             )
@@ -142,13 +142,13 @@
                                         @click="$parent.$emit('modal-close')"
                                         type="reset"
                                     >
-                                        {{ __("Cancel", "erp") }}
+                                        {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
                                         class="wperp-btn btn--primary"
                                         type="submit"
                                     >
-                                        {{ __("Import", "erp") }}
+                                        {{ this.$func.__("Import", "erp") }}
                                     </button>
                                 </div>
                             </div>
@@ -217,19 +217,13 @@ export default {
                 contentType: false,
                 success: function (response) {
                     self.$root.$emit("imported-people");
-                    self.$store.dispatch("spinner/setSpinner", false);
                     self.showAlert("success", response);
                 },
                 error: function (error) {
                     self.showError = true;
                     self.errors = error;
 
-                    jQuery("#import_form > div").animate(
-                        {
-                            scrollTop: 0,
-                        },
-                        "fast"
-                    );
+                   
                 },
             });
         },

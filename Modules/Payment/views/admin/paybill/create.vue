@@ -5,7 +5,7 @@
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
                     <h2 class="content-header__title">
-                        {{ __("New Bill Payment", "erp") }}
+                        {{ this.$func.__("New Bill Payment", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -31,7 +31,9 @@
                         </div>
                         <div class="wperp-col-sm-4">
                             <div class="wperp-form-group">
-                                <label>{{ __("Reference NO", "erp") }}</label>
+                                <label>{{
+                                    this.$func.__("Reference NO", "erp")
+                                }}</label>
                                 <input
                                     type="text"
                                     class="wperp-form-field"
@@ -42,7 +44,7 @@
                         <div class="wperp-col-sm-4">
                             <div class="wperp-form-group">
                                 <label
-                                    >{{ __("Payment Date", "erp")
+                                    >{{ this.$func.__("Payment Date", "erp")
                                     }}<span class="wperp-required-sign"
                                         >*</span
                                     ></label
@@ -53,21 +55,27 @@
                             </div>
                         </div>
                         <div class="wperp-col-sm-4 with-multiselect">
-                            <label>{{ __("Payment Method", "erp") }}</label>
+                            <label>{{
+                                this.$func.__("Payment Method", "erp")
+                            }}</label>
                             <multi-select
                                 v-model="basic_fields.trn_by"
                                 :options="pay_methods"
                             ></multi-select>
                         </div>
                         <div class="wperp-col-sm-4">
-                            <label>{{ __("Transaction From", "erp") }}</label>
+                            <label>{{
+                                this.$func.__("Transaction From", "erp")
+                            }}</label>
                             <select-accounts
                                 v-model="basic_fields.deposit_to"
                                 :override_accts="accts_by_chart"
                             ></select-accounts>
                         </div>
                         <div class="wperp-col-sm-4">
-                            <label>{{ __("Billing Address", "erp") }}</label>
+                            <label>{{
+                                this.$func.__("Billing Address", "erp")
+                            }}</label>
                             <textarea
                                 v-model.trim="basic_fields.billing_address"
                                 rows="3"
@@ -91,12 +99,20 @@
                         <thead>
                             <tr class="inline-edit-row">
                                 <th scope="col" class="col--id">
-                                    {{ __("Bill No", "erp") }}
+                                    {{ this.$func.__("Bill No", "erp") }}
                                 </th>
-                                <th scope="col">{{ __("Due Date", "erp") }}</th>
-                                <th scope="col">{{ __("Total", "erp") }}</th>
-                                <th scope="col">{{ __("Due", "erp") }}</th>
-                                <th scope="col">{{ __("Amount", "erp") }}</th>
+                                <th scope="col">
+                                    {{ this.$func.__("Due Date", "erp") }}
+                                </th>
+                                <th scope="col">
+                                    {{ this.$func.__("Total", "erp") }}
+                                </th>
+                                <th scope="col">
+                                    {{ this.$func.__("Due", "erp") }}
+                                </th>
+                                <th scope="col">
+                                    {{ this.$func.__("Amount", "erp") }}
+                                </th>
                                 <th scope="col" class="col--actions"></th>
                             </tr>
                         </thead>
@@ -143,7 +159,10 @@
                                 <td
                                     class="delete-row"
                                     :data-colname="
-                                        __('Remove Above Selection', 'erp')
+                                        this.$func.__(
+                                            'Remove Above Selection',
+                                            'erp'
+                                        )
                                     "
                                 >
                                     <a @click.prevent="removeRow(key)" href="#"
@@ -154,7 +173,7 @@
 
                             <tr class="total-amount-row inline-edit-row">
                                 <td class="text-right pr-0" colspan="4">
-                                    {{ __("Total Amount", "erp") }}
+                                    {{ this.$func.__("Total Amount", "erp") }}
                                 </td>
                                 <td
                                     class="text-right"
@@ -173,14 +192,19 @@
                         </tbody>
                         <tr class="wperp-form-group inline-edit-row">
                             <td colspan="9" style="text-align: left">
-                                <label>{{ __("Particulars", "erp") }}</label>
+                                <label>{{
+                                    this.$func.__("Particulars", "erp")
+                                }}</label>
                                 <textarea
                                     v-model="particulars"
                                     rows="4"
                                     maxlength="250"
                                     class="wperp-form-field display-flex"
                                     :placeholder="
-                                        __('Internal Information', 'erp')
+                                        this.$func.__(
+                                            'Internal Information',
+                                            'erp'
+                                        )
                                     "
                                 ></textarea>
                             </td>
@@ -189,7 +213,7 @@
                             <td colspan="9" style="text-align: left">
                                 <div class="attachment-container">
                                     <label class="col--attachement">{{
-                                        __("Attachment", "erp")
+                                        this.$func.__("Attachment", "erp")
                                     }}</label>
                                     <file-upload
                                         v-model="attachments"
@@ -255,9 +279,12 @@ export default {
             },
 
             createButtons: [
-                { id: "save", text: __("Save", "erp") },
-                { id: "new_create", text: __("Save and New", "erp") },
-                { id: "draft", text: __("Save as Draft", "erp") },
+                { id: "save", text: this.$func.__("Save", "erp") },
+                {
+                    id: "new_create",
+                    text: this.$func.__("Save and New", "erp"),
+                },
+                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
             form_errors: [],
@@ -299,17 +326,12 @@ export default {
 
     methods: {
         getPayMethods() {
-            this.$store.dispatch("spinner/setSpinner", true);
-
             window.axios
                 .get("/transactions/payment-methods")
                 .then((response) => {
                     this.pay_methods = response.data;
-
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -403,7 +425,6 @@ export default {
             this.pay_bills.forEach((element, index) => {
                 element["amount"] = parseFloat(this.totalAmounts[index]);
             });
-            this.$store.dispatch("spinner/setSpinner", true);
 
             let trn_status = null;
             if (this.actionType === "draft") {
@@ -436,8 +457,10 @@ export default {
                     bank: this.check_data.bank_name,
                 })
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
-                    this.showAlert("success", __("Pay-Bill Created!", "erp"));
+                    this.showAlert(
+                        "success",
+                        this.$func.__("Pay-Bill Created!", "erp")
+                    );
 
                     if (
                         this.actionType === "save" ||
@@ -449,8 +472,10 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
-                    this.showAlert("error", __("Something went wrong!", "erp"));
+                    this.showAlert(
+                        "error",
+                        this.$func.__("Something went wrong!", "erp")
+                    );
                     throw error;
                 })
                 .then(() => {
@@ -533,7 +558,7 @@ export default {
 
             if (!this.basic_fields.payment_date) {
                 this.form_errors.push(
-                    __("Transaction Date is required.", "erp")
+                    this.$func.__("Transaction Date is required.", "erp")
                 );
             }
 
@@ -544,7 +569,7 @@ export default {
                 )
             ) {
                 this.form_errors.push(
-                    __("Transaction Account is required.", "erp")
+                    this.$func.__("Transaction Account is required.", "erp")
                 );
             }
 
@@ -562,7 +587,10 @@ export default {
                 parseFloat(this.finalTotalAmount)
             ) {
                 this.form_errors.push(
-                    __("Not enough balance in selected account.", "erp")
+                    this.$func.__(
+                        "Not enough balance in selected account.",
+                        "erp"
+                    )
                 );
             }
 

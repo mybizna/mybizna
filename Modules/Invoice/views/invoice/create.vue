@@ -5,10 +5,10 @@
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
                     <h2 v-if="estimateToInvoice()">
-                        {{ __("Convert into Invoice", "erp") }}
+                        {{ this.$func.__("Convert into Invoice", "erp") }}
                     </h2>
                     <h2 v-else class="content-header__title">
-                        {{ editMode ? __("Edit", "erp") : __("New", "erp") }}
+                        {{ editMode ? this.$func.__("Edit", "erp") : this.$func.__("New", "erp") }}
                         {{ inv_title }}
                     </h2>
                 </div>
@@ -33,7 +33,7 @@
                         <div class="wperp-col-sm-4">
                             <div class="wperp-form-group">
                                 <label
-                                    >{{ __("Transaction Date", "erp")
+                                    >{{ this.$func.__("Transaction Date", "erp")
                                     }}<span class="wperp-required-sign"
                                         >*</span
                                     ></label
@@ -46,7 +46,7 @@
                         <div class="wperp-col-sm-4">
                             <div class="wperp-form-group">
                                 <label
-                                    >{{ __("Due Date", "erp")
+                                    >{{ this.$func.__("Due Date", "erp")
                                     }}<span class="wperp-required-sign"
                                         >*</span
                                     ></label
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="wperp-col-sm-6">
-                            <label>{{ __("Billing Address", "erp") }}</label>
+                            <label>{{ this.$func.__("Billing Address", "erp") }}</label>
                             <textarea
                                 v-model="basic_fields.billing_address"
                                 rows="4"
@@ -77,23 +77,23 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="col--products">
-                                    {{ __("Product/Service", "erp") }}
+                                    {{ this.$func.__("Product/Service", "erp") }}
                                 </th>
                                 <th scope="col" class="col--qty">
-                                    {{ __("Qty", "erp") }}
+                                    {{ this.$func.__("Qty", "erp") }}
                                 </th>
                                 <th scope="col" class="col--unit-price">
-                                    {{ __("Unit Price", "erp") }}
+                                    {{ this.$func.__("Unit Price", "erp") }}
                                 </th>
                                 <th scope="col" class="col--amount">
-                                    {{ __("Amount", "erp") }}
+                                    {{ this.$func.__("Amount", "erp") }}
                                 </th>
                                 <th scope="col" class="col--tax">
-                                    {{ __("Tax", "erp") }}
+                                    {{ this.$func.__("Tax", "erp") }}
                                     <span
                                         class="erp-help-tip .erp-tips"
                                         :title="
-                                            __(
+                                            this.$func.__(
                                                 'Make sure you have created tax category, zone and rate. Also, make sure the tax category is added on the product.',
                                                 'erp'
                                             )
@@ -119,7 +119,7 @@
                                         class="wperp-btn btn--primary add-line-trigger"
                                     >
                                         <i class="flaticon-add-plus-button"></i
-                                        >{{ __("Add Line", "erp") }}
+                                        >{{ this.$func.__("Add Line", "erp") }}
                                     </button>
                                 </td>
                             </tr>
@@ -131,10 +131,10 @@
                                 >
                                     <select v-model="discountType">
                                         <option value="discount-percent">
-                                            {{ __("Discount percent", "erp") }}
+                                            {{ this.$func.__("Discount percent", "erp") }}
                                         </option>
                                         <option value="discount-value">
-                                            {{ __("Discount value", "erp") }}
+                                            {{ this.$func.__("Discount value", "erp") }}
                                         </option>
                                     </select>
                                 </td>
@@ -169,7 +169,7 @@
                                         :options="taxRates"
                                         class="tax-rates"
                                         :placeholder="
-                                            __('Select sales tax', 'erp')
+                                            this.$func.__('Select sales tax', 'erp')
                                         "
                                     />
                                 </td>
@@ -187,7 +187,7 @@
                             <tr class="total-amount-row inline-edit-row">
                                 <td colspan="4" class="text-right">
                                     <span
-                                        >{{ __("Total Amount", "erp") }} =</span
+                                        >{{ this.$func.__("Total Amount", "erp") }} =</span
                                     >
                                 </td>
                                 <td>
@@ -203,7 +203,7 @@
                             <tr class="wperp-form-group inline-edit-row">
                                 <td colspan="9" style="text-align: left">
                                     <label>{{
-                                        __("Particulars", "erp")
+                                        this.$func.__("Particulars", "erp")
                                     }}</label>
                                     <textarea
                                         v-model="particulars"
@@ -243,7 +243,7 @@
                                 <td colspan="9" style="text-align: left">
                                     <div class="attachment-container">
                                         <label class="col--attachement">{{
-                                            __("Attachment", "erp")
+                                            this.$func.__("Attachment", "erp")
                                         }}</label>
                                         <file-upload
                                             v-model="attachments"
@@ -270,7 +270,7 @@
                                         :options="[
                                             {
                                                 id: 'update',
-                                                text: __(
+                                                text: this.$func.__(
                                                     'Save Conversion',
                                                     'erp'
                                                 ),
@@ -336,17 +336,17 @@ export default {
             },
 
             createButtons: [
-                { id: "save", text: __("Save", "erp") },
-                // {id: 'send_create', text: __('Create and Send', 'erp')},
-                { id: "new_create", text: __("Save and New", "erp") },
-                { id: "draft", text: __("Save as Draft", "erp") },
+                { id: "save", text: this.$func.__("Save", "erp") },
+                // {id: 'send_create', text: this.$func.__('Create and Send', 'erp')},
+                { id: "new_create", text: this.$func.__("Save and New", "erp") },
+                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
             updateButtons: [
-                { id: "update", text: __("Update", "erp") },
-                // {id: 'send_update', text: __('Update and Send', 'erp')},
-                { id: "new_update", text: __("Update and New", "erp") },
-                { id: "draft", text: __("Save as Draft", "erp") },
+                { id: "update", text: this.$func.__("Update", "erp") },
+                // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
+                { id: "new_update", text: this.$func.__("Update and New", "erp") },
+                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
             extraFields: window.acct.hooks.applyFilters(
@@ -458,7 +458,7 @@ export default {
                 if (!request3.data.line_items.length) {
                     this.showAlert(
                         "error",
-                        __("Invoice does not exists!", "erp")
+                        this.$func.__("Invoice does not exists!", "erp")
                     );
                     return;
                 }
@@ -541,7 +541,6 @@ export default {
         },
 
         getProducts() {
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .get("/products", {
@@ -552,10 +551,8 @@ export default {
                 .then((response) => {
                     this.products = response.data;
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -692,23 +689,20 @@ export default {
         },
 
         updateInvoice(requestData) {
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .put(`/invoices/${this.voucherNo}`, requestData)
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
 
-                    let message = __("Invoice Updated!", "erp");
+                    let message = this.$func.__("Invoice Updated!", "erp");
 
                     if (this.estimateToInvoice()) {
-                        message = __("Conversion Successful!", "erp");
+                        message = this.$func.__("Conversion Successful!", "erp");
                     }
 
                     this.showAlert("success", message);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then(() => {
@@ -724,16 +718,13 @@ export default {
         },
 
         createInvoice(requestData) {
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .post("/invoices", requestData)
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     this.showAlert("success", this.inv_title + " Created!");
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then(() => {
@@ -829,7 +820,7 @@ export default {
 
             if (!this.basic_fields.trn_date) {
                 this.form_errors.push(
-                    __("Transaction Date is required.", "erp")
+                    this.$func.__("Transaction Date is required.", "erp")
                 );
             }
 

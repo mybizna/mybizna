@@ -5,12 +5,12 @@
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
                     <h2 class="content-header__title">
-                        {{ __("Transfer Money", "erp") }}
+                        {{ this.$func.__("Transfer Money", "erp") }}
                     </h2>
                     <router-link
                         class="wperp-btn btn--primary"
                         :to="{ name: 'NewTransfer' }"
-                        >{{ __("Add new", "erp") }}</router-link
+                        >{{ this.$func.__("Add new", "erp") }}</router-link
                     >
                 </div>
             </div>
@@ -59,16 +59,15 @@ export default {
             money_transfer: false,
             transfer_list: [],
             columns: {
-                voucher: { label: __("Voucher No", "erp"), isColPrimary: true },
-                ac_from: { label: __("Account From", "erp") },
-                amount: { label: __("Amount", "erp") },
-                ac_to: { label: __("Account To", "erp") },
+                voucher: { label: this.$func.__("Voucher No", "erp"), isColPrimary: true },
+                ac_from: { label: this.$func.__("Account From", "erp") },
+                amount: { label: this.$func.__("Amount", "erp") },
+                ac_to: { label: this.$func.__("Account To", "erp") },
             },
         };
     },
 
     created() {
-        this.$store.dispatch("spinner/setSpinner", true);
         this.get_transfer_list();
     },
 
@@ -78,10 +77,8 @@ export default {
                 .get("/accounts/transfers/list")
                 .then((res) => {
                     this.transfer_list = res.data;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },

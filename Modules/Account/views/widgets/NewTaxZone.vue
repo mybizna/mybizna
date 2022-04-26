@@ -9,8 +9,12 @@
                 <!-- modal body title -->
                 <div class="wperp-modal-header">
                     <h3>
-                        {{ is_update ? __("Edit", "erp") : __("Add", "erp") }}
-                        {{ __("Tax Zone", "erp") }}
+                        {{
+                            is_update
+                                ? this.$func.__("Edit", "erp")
+                                : this.$func.__("Add", "erp")
+                        }}
+                        {{ this.$func.__("Tax Zone", "erp") }}
                     </h3>
                     <span class="modal-close" @click.prevent="closeModal"
                         ><i class="flaticon-close"></i
@@ -27,7 +31,7 @@
                     <div class="wperp-modal-body">
                         <div class="wperp-form-group">
                             <label
-                                >{{ __("Tax Zone Name", "erp") }}
+                                >{{ this.$func.__("Tax Zone Name", "erp") }}
                                 <span class="wperp-required-sign"
                                     >*</span
                                 ></label
@@ -41,7 +45,9 @@
                         </div>
 
                         <div class="wperp-form-group">
-                            <label>{{ __("Tax Number", "erp") }}</label>
+                            <label>{{
+                                this.$func.__("Tax Number", "erp")
+                            }}</label>
                             <input
                                 type="text"
                                 v-model="tax_number"
@@ -59,7 +65,10 @@
                                 <span class="form-check-sign"></span>
                                 <span class="field-label"
                                     >{{
-                                        __("Is this tax default", "erp")
+                                        this.$func.__(
+                                            "Is this tax default",
+                                            "erp"
+                                        )
                                     }}?</span
                                 >
                             </label>
@@ -151,18 +160,16 @@ export default {
                 return;
             }
 
-            this.$store.dispatch("spinner/setSpinner", true);
-
             var rest, url, msg;
 
             if (this.is_update) {
                 rest = "put";
                 url = `/tax-rate-names/${this.rate_name_id}`;
-                msg = __("Tax Zone Updated!", "erp");
+                msg = this.$func.__("Tax Zone Updated!", "erp");
             } else {
                 rest = "post";
                 url = `/tax-rate-names`;
-                msg = __("Tax Zone Created!", "erp");
+                msg = this.$func.__("Tax Zone Created!", "erp");
             }
 
             window.axios[rest](url, {
@@ -171,11 +178,9 @@ export default {
                 default: this.is_default,
             })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     this.showAlert("success", msg);
                 })
                 .then(() => {

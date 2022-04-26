@@ -5,7 +5,7 @@
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
                     <h2 class="content-header__title">
-                        {{ __("New Journal", "erp") }}
+                        {{ this.$func.__("New Journal", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -21,7 +21,11 @@
                         <div class="wperp-col-sm-4">
                             <div class="wperp-form-group">
                                 <label
-                                    >{{ __("Transaction Date", "erp")
+                                    >{{
+                                        this.$func.__(
+                                            "Transaction Date",
+                                            "erp"
+                                        )
                                     }}<span class="wperp-required-sign"
                                         >*</span
                                     ></label
@@ -33,7 +37,9 @@
                         </div>
                         <div class="wperp-col-sm-4">
                             <div class="wperp-form-group">
-                                <label>{{ __("Ref.", "erp") }}</label>
+                                <label>{{
+                                    this.$func.__("Ref.", "erp")
+                                }}</label>
                                 <input
                                     type="text"
                                     class="wperp-form-field"
@@ -42,7 +48,9 @@
                             </div>
                         </div>
                         <div class="wperp-col-sm-4">
-                            <label>{{ __("Particulars", "erp") }}</label>
+                            <label>{{
+                                this.$func.__("Particulars", "erp")
+                            }}</label>
                             <textarea
                                 v-model="journal_parti"
                                 rows="1"
@@ -63,13 +71,21 @@
                     >
                         <thead>
                             <tr>
-                                <th scope="col">{{ __("SL No.", "erp") }}</th>
-                                <th scope="col">{{ __("Account", "erp") }}</th>
                                 <th scope="col">
-                                    {{ __("Particulars", "erp") }}
+                                    {{ this.$func.__("SL No.", "erp") }}
                                 </th>
-                                <th scope="col">{{ __("Debit", "erp") }}</th>
-                                <th scope="col">{{ __("Credit", "erp") }}</th>
+                                <th scope="col">
+                                    {{ this.$func.__("Account", "erp") }}
+                                </th>
+                                <th scope="col">
+                                    {{ this.$func.__("Particulars", "erp") }}
+                                </th>
+                                <th scope="col">
+                                    {{ this.$func.__("Debit", "erp") }}
+                                </th>
+                                <th scope="col">
+                                    {{ this.$func.__("Credit", "erp") }}
+                                </th>
                                 <th scope="col" class="col--actions"></th>
                             </tr>
                         </thead>
@@ -141,7 +157,7 @@
                                 <td
                                     class="col--actions delete-row"
                                     :data-colname="
-                                        __('Remove Selection', 'erp')
+                                        this.$func.__('Remove Selection', 'erp')
                                     "
                                 >
                                     <a
@@ -158,7 +174,7 @@
                                         class="wperp-btn btn--primary add-line-trigger"
                                     >
                                         <i class="flaticon-add-plus-button"></i
-                                        >{{ __("Add Line", "erp") }}
+                                        >{{ this.$func.__("Add Line", "erp") }}
                                     </button>
                                 </td>
                             </tr>
@@ -167,7 +183,9 @@
                                     colspan="3"
                                     class="pl-10 text-right col--total-amount"
                                 >
-                                    <span>{{ __("Total Amount", "erp") }}</span>
+                                    <span>{{
+                                        this.$func.__("Total Amount", "erp")
+                                    }}</span>
                                 </td>
                                 <td :data-colname="__('Debit', 'erp')">
                                     <input
@@ -200,7 +218,7 @@
                             <td colspan="9" style="text-align: left">
                                 <div class="attachment-container">
                                     <label class="col--attachement">{{
-                                        __("Attachment", "erp")
+                                        this.$func.__("Attachment", "erp")
                                     }}</label>
                                     <file-upload
                                         v-model="attachments"
@@ -273,17 +291,12 @@ export default {
 
     methods: {
         getLedgers() {
-            this.$store.dispatch("spinner/setSpinner", true);
-
             window.axios
                 .get("ledgers")
                 .then((response) => {
                     this.ledgers = response.data;
-
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -308,8 +321,6 @@ export default {
                 return;
             }
 
-            this.$store.dispatch("spinner/setSpinner", true);
-
             window.axios
                 .post("/journals", {
                     trn_date: this.basic_fields.trn_date,
@@ -320,14 +331,12 @@ export default {
                     particulars: this.journal_parti,
                 })
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     this.showAlert(
                         "success",
-                        __("Journal Entry Added!", "erp")
+                        this.$func.__("Journal Entry Added!", "erp")
                     );
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then(() => {
@@ -347,7 +356,7 @@ export default {
 
             if (!this.basic_fields.trn_date) {
                 this.form_errors.push(
-                    __("Transaction Date is required.", "erp")
+                    this.$func.__("Transaction Date is required.", "erp")
                 );
             }
 
@@ -357,7 +366,7 @@ export default {
 
             if (Math.abs(this.debit_total - this.credit_total)) {
                 this.form_errors.push(
-                    __("Debit and Credit must be Equal.", "erp")
+                    this.$func.__("Debit and Credit must be Equal.", "erp")
                 );
             }
         },

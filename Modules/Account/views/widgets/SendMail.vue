@@ -10,7 +10,7 @@
             <div class="wperp-form-group wperp-row">
                 <div class="wperp-col-sm-3 wperp-col-xs-12 send-mail-to">
                     <label
-                        >{{ __("To", "erp") }}
+                        >{{ this.$func.__("To", "erp") }}
                         <span class="wperp-required-sign">*</span></label
                     >
                 </div>
@@ -22,7 +22,7 @@
             </div>
             <div class="wperp-form-group wperp-row">
                 <div class="wperp-col-sm-3 wperp-col-xs-12">
-                    <label>{{ __("Subject", "erp") }}</label>
+                    <label>{{ this.$func.__("Subject", "erp") }}</label>
                 </div>
                 <div class="wperp-col-sm-9 wperp-col-xs-12">
                     <input
@@ -35,7 +35,7 @@
             </div>
             <div class="wperp-form-group wperp-row">
                 <div class="wperp-col-sm-3 wperp-col-xs-12">
-                    <label>{{ __("Message", "erp") }}</label>
+                    <label>{{ this.$func.__("Message", "erp") }}</label>
                 </div>
                 <div class="wperp-col-sm-9 wperp-col-xs-12">
                     <textarea
@@ -49,7 +49,7 @@
             <div class="wperp-row">
                 <div class="wperp-col-sm-3 wperp-col-xs-12">
                     <label
-                        >{{ __("Attachment", "erp") }}
+                        >{{ this.$func.__("Attachment", "erp") }}
                         <span class="wperp-required-sign">*</span></label
                     >
                 </div>
@@ -63,7 +63,7 @@
                             />
                             <span class="form-check-sign"></span>
                             <span class="field-label">{{
-                                __("Attach as PDF", "erp")
+                                this.$func.__("Attach as PDF", "erp")
                             }}</span>
                         </label>
                     </div>
@@ -73,14 +73,14 @@
         <template slot="footer">
             <div class="buttons-wrapper text-right">
                 <button class="wperp-btn btn--default" @click="closeModal">
-                    {{ __("Cancel", "erp") }}
+                    {{ this.$func.__("Cancel", "erp") }}
                 </button>
                 <button
                     class="wperp-btn btn--primary"
                     type="submit"
                     @click.prevent="sendAsMail"
                 >
-                    {{ __("Send", "erp") }}
+                    {{ this.$func.__("Send", "erp") }}
                 </button>
             </div>
         </template>
@@ -145,11 +145,9 @@ export default {
                     attachment: this.attachment,
                 })
                 .then(() => {
-                    this.showAlert("success", __("Mail Sent!", "erp"));
-                    this.$store.dispatch("spinner/setSpinner", false);
+                    this.showAlert("success", this.$func.__("Mail Sent!", "erp"));
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },

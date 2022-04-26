@@ -5,10 +5,10 @@
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
                     <h2 v-if="orderToPurchase()">
-                        {{ __("Convert into Purchase", "erp") }}
+                        {{ this.$func.__("Convert into Purchase", "erp") }}
                     </h2>
                     <h2 v-else class="content-header__title">
-                        {{ editMode ? __("Edit", "erp") : __("New", "erp") }}
+                        {{ editMode ? this.$func.__("Edit", "erp") : this.$func.__("New", "erp") }}
                         {{ page_title }}
                     </h2>
                 </div>
@@ -33,7 +33,7 @@
                         <div class="wperp-col-sm-4">
                             <div class="wperp-form-group">
                                 <label
-                                    >{{ __("Transaction Date", "erp")
+                                    >{{ this.$func.__("Transaction Date", "erp")
                                     }}<span class="wperp-required-sign"
                                         >*</span
                                     ></label
@@ -46,7 +46,7 @@
                         <div class="wperp-col-sm-4">
                             <div class="wperp-form-group">
                                 <label
-                                    >{{ __("Due Date", "erp")
+                                    >{{ this.$func.__("Due Date", "erp")
                                     }}<span class="wperp-required-sign"
                                         >*</span
                                     ></label
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="wperp-col-sm-6">
-                            <label>{{ __("Reference No", "erp") }}</label>
+                            <label>{{ this.$func.__("Reference No", "erp") }}</label>
                             <input
                                 type="text"
                                 v-model="basic_fields.ref"
@@ -66,7 +66,7 @@
                             />
                         </div>
                         <div class="wperp-col-sm-6">
-                            <label>{{ __("Billing Address", "erp") }}</label>
+                            <label>{{ this.$func.__("Billing Address", "erp") }}</label>
                             <textarea
                                 v-model="basic_fields.billing_address"
                                 rows="4"
@@ -85,14 +85,14 @@
                         <thead>
                             <tr class="inline-edit-row">
                                 <td scope="col" class="col--product">
-                                    {{ __("Product/Service", "erp") }}
+                                    {{ this.$func.__("Product/Service", "erp") }}
                                 </td>
-                                <th scope="col">{{ __("Qty", "erp") }}</th>
+                                <th scope="col">{{ this.$func.__("Qty", "erp") }}</th>
                                 <th scope="col">
-                                    {{ __("Unit Price", "erp") }}
+                                    {{ this.$func.__("Unit Price", "erp") }}
                                 </th>
-                                <th scope="col">{{ __("Amount", "erp") }}</th>
-                                <th scope="col">{{ __("VAT", "erp") }}</th>
+                                <th scope="col">{{ this.$func.__("Amount", "erp") }}</th>
+                                <th scope="col">{{ this.$func.__("VAT", "erp") }}</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -179,7 +179,7 @@
                                         class="wperp-btn btn--primary add-line-trigger"
                                     >
                                         <i class="flaticon-add-plus-button"></i
-                                        >{{ __("Add Line", "erp") }}
+                                        >{{ this.$func.__("Add Line", "erp") }}
                                     </button>
                                 </td>
                             </tr>
@@ -194,7 +194,7 @@
                                         :options="taxZones"
                                         class="tax-rates"
                                         :placeholder="
-                                            __(
+                                            this.$func.__(
                                                 'Select Purchase Vat Zone',
                                                 'erp'
                                             )
@@ -215,7 +215,7 @@
                             <tr class="total-amount-row inline-edit-row">
                                 <td colspan="3" class="text-right">
                                     <span
-                                        >{{ __("Total Amount", "erp") }} =
+                                        >{{ this.$func.__("Total Amount", "erp") }} =
                                     </span>
                                 </td>
                                 <td>
@@ -232,7 +232,7 @@
                             <tr class="wperp-form-group inline-edit-row">
                                 <td colspan="9" style="text-align: left">
                                     <label>{{
-                                        __("Particulars", "erp")
+                                        this.$func.__("Particulars", "erp")
                                     }}</label>
                                     <textarea
                                         v-model="particulars"
@@ -272,7 +272,7 @@
                                 <td colspan="9" style="text-align: left">
                                     <div class="attachment-container">
                                         <label class="col--attachement">{{
-                                            __("Attachment", "erp")
+                                            this.$func.__("Attachment", "erp")
                                         }}</label>
                                         <file-upload
                                             v-model="attachments"
@@ -293,7 +293,7 @@
                                         :options="[
                                             {
                                                 id: 'update',
-                                                text: __(
+                                                text: this.$func.__(
                                                     'Save Conversion',
                                                     'erp'
                                                 ),
@@ -352,16 +352,16 @@ export default {
                 billing_address: "",
             },
             createButtons: [
-                { id: "save", text: __("Save", "erp") },
-                // {id: 'send_create', text: __('Create and Send', 'erp')},
-                { id: "new_create", text: __("Save and New", "erp") },
-                { id: "draft", text: __("Save as Draft", "erp") },
+                { id: "save", text: this.$func.__("Save", "erp") },
+                // {id: 'send_create', text: this.$func.__('Create and Send', 'erp')},
+                { id: "new_create", text: this.$func.__("Save and New", "erp") },
+                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
             updateButtons: [
-                { id: "update", text: __("Update", "erp") },
-                // {id: 'send_update', text: __('Update and Send', 'erp')},
-                { id: "new_update", text: __("Update and New", "erp") },
-                { id: "draft", text: __("Save as Draft", "erp") },
+                { id: "update", text: this.$func.__("Update", "erp") },
+                // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
+                { id: "new_update", text: this.$func.__("Update and New", "erp") },
+                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
             form_errors: [],
             editMode: false,
@@ -463,10 +463,10 @@ export default {
     },
     created() {
         if (this.$route.name === "PurchaseOrderCreate") {
-            this.page_title = __("Purchase Order", "erp");
+            this.page_title = this.$func.__("Purchase Order", "erp");
             this.purchase_order = 1;
         } else {
-            this.page_title = __("Purchase", "erp");
+            this.page_title = this.$func.__("Purchase", "erp");
             if (this.$route.query.convert) {
                 this.purchase_order = 1;
             } else {
@@ -590,7 +590,6 @@ export default {
             if (!vendor_id) {
                 vendor_id = this.basic_fields.vendor.id;
             }
-            this.$store.dispatch("spinner/setSpinner", true);
             window.axios
                 .get(`vendors/${vendor_id}/products`, {
                     params: {
@@ -608,10 +607,8 @@ export default {
                         });
                     });
                     this.getTaxRates();
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -682,15 +679,13 @@ export default {
             window.axios
                 .put(`/purchases/${this.voucherNo}`, requestData)
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
-                    let message = __("Purchase Updated!", "erp");
+                    let message = this.$func.__("Purchase Updated!", "erp");
                     if (this.orderToPurchase()) {
-                        message = __("Conversion Successful!", "erp");
+                        message = this.$func.__("Conversion Successful!", "erp");
                     }
                     this.showAlert("success", message);
                 })
                 .then(() => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     this.isWorking = false;
                     this.reset = true;
                     if (
@@ -707,11 +702,9 @@ export default {
             window.axios
                 .post("/purchases", requestData)
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     this.showAlert("success", this.page_title + " Created!");
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then(() => {
@@ -735,7 +728,6 @@ export default {
                 return;
             }
             this.isWorking = true;
-            this.$store.dispatch("spinner/setSpinner", true);
             let trn_status = null;
             if (this.actionType === "draft") {
                 trn_status = 1;
@@ -776,7 +768,7 @@ export default {
             }
             if (!this.basic_fields.trn_date) {
                 this.form_errors.push(
-                    __("Transaction Date is required.", "erp")
+                    this.$func.__("Transaction Date is required.", "erp")
                 );
             }
             if (!this.basic_fields.due_date) {

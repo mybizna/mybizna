@@ -2,7 +2,7 @@
     <div class="wperp-modal-dialog purchase-single">
         <div class="wperp-modal-content">
             <div class="wperp-modal-header">
-                <h4>{{ __("Purchase", "erp") }}</h4>
+                <h4>{{ this.$func.__("Purchase", "erp") }}</h4>
                 <div class="d-print-none">
                     <a
                         href="#"
@@ -10,28 +10,28 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ __("Print", "erp") }}
+                        &nbsp; {{ this.$func.__("Print", "erp") }}
                     </a>
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
                     <dropdown>
                         <template slot="button">
                             <a href="#" class="wperp-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
-                                &nbsp; {{ __("More Action", "erp") }}
+                                &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
                         </template>
                         <template slot="dropdown">
                             <ul role="menu">
                                 <li>
                                     <a :href="pdf_link">{{
-                                        __("Export as PDF", "erp")
+                                        this.$func.__("Export as PDF", "erp")
                                     }}</a>
                                 </li>
                                 <li>
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ __("Send Mail", "erp") }}</a
+                                        >{{ this.$func.__("Send Mail", "erp") }}</a
                                     >
                                 </li>
                             </ul>
@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="invoice-body">
-                        <h4>{{ __("Purchase", "erp") }}</h4>
+                        <h4>{{ this.$func.__("Purchase", "erp") }}</h4>
                         <div class="wperp-row" v-if="null != purchase">
                             <div class="wperp-col-sm-6">
                                 <div class="persons-info">
@@ -83,12 +83,12 @@
                             <div class="wperp-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
-                                        <th>{{ __("Voucher No", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Voucher No", "erp") }}:</th>
                                         <td>#{{ purchase.voucher_no }}</td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Reference No", "erp") }}:
+                                            {{ this.$func.__("Reference No", "erp") }}:
                                         </th>
                                         <td>
                                             <span v-if="purchase.ref">
@@ -98,18 +98,18 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Transaction Date", "erp") }}:
+                                            {{ this.$func.__("Transaction Date", "erp") }}:
                                         </th>
                                         <td>{{ formatDate(purchase.date) }}</td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Due Date", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Due Date", "erp") }}:</th>
                                         <td>
                                             {{ formatDate(purchase.due_date) }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __("Created At", "erp") }}:</th>
+                                        <th>{{ this.$func.__("Created At", "erp") }}:</th>
                                         <td>
                                             {{
                                                 formatDate(purchase.created_at)
@@ -127,11 +127,11 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>{{ __("Sl.", "erp") }}</th>
-                                    <th>{{ __("Item name", "erp") }}</th>
-                                    <th>{{ __("Qty", "erp") }}</th>
-                                    <th>{{ __("Unit Price", "erp") }}</th>
-                                    <th>{{ __("Amount", "erp") }}</th>
+                                    <th>{{ this.$func.__("Sl.", "erp") }}</th>
+                                    <th>{{ this.$func.__("Item name", "erp") }}</th>
+                                    <th>{{ this.$func.__("Qty", "erp") }}</th>
+                                    <th>{{ this.$func.__("Unit Price", "erp") }}</th>
+                                    <th>{{ this.$func.__("Amount", "erp") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -154,7 +154,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Subtotal", "erp")
+                                                        this.$func.__("Subtotal", "erp")
                                                     }}:</span
                                                 >
                                                 {{ moneyFormat(total.basic) }}
@@ -162,7 +162,7 @@
                                             <li v-if="total.tax">
                                                 <span
                                                     >{{
-                                                        __("VAT", "erp")
+                                                        this.$func.__("VAT", "erp")
                                                     }}:</span
                                                 >
                                                 {{ moneyFormat(total.tax) }}
@@ -170,7 +170,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Total", "erp")
+                                                        this.$func.__("Total", "erp")
                                                     }}:</span
                                                 >
                                                 {{ moneyFormat(total.final) }}
@@ -186,7 +186,7 @@
                 <trans-particulars :particulars="purchase.particulars" />
 
                 <div class="invoice-attachments d-print-none">
-                    <h4>{{ __("Attachments", "erp") }}</h4>
+                    <h4>{{ this.$func.__("Attachments", "erp") }}</h4>
                     <a
                         class="attachment-item"
                         :href="attachment"
@@ -275,7 +275,6 @@ export default {
 
         getPurchase() {
             this.isWorking = true;
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .get(`/purchases/${this.$route.params.id}`)
@@ -283,7 +282,6 @@ export default {
                     this.purchase = response.data;
                     this.people_id = this.purchase.vendor_id;
                     this.pdf_link = this.purchase.pdf_link;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .then((e) => {})
                 .then(() => {
@@ -291,7 +289,6 @@ export default {
                     this.isWorking = false;
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },

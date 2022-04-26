@@ -10,7 +10,7 @@
         >
             <div class="wperp-modal-content">
                 <div class="wperp-modal-header">
-                    <h4>{{ `${catData.title} __('Category', 'erp')` }}</h4>
+                    <h4>{{ `${catData.title} this.$func.__('Category', 'erp')` }}</h4>
                 </div>
                 <div class="wperp-modal-body">
                     <form
@@ -24,7 +24,7 @@
 
                         <div class="form-row">
                             <label for="">{{
-                                __("Parent Category (optional)", "erp")
+                                this.$func.__("Parent Category (optional)", "erp")
                             }}</label>
                             <treeselect
                                 v-model="parent"
@@ -32,14 +32,14 @@
                                 :disable-branch-nodes="true"
                                 :show-count="true"
                                 :placeholder="
-                                    __('Please select a category', 'erp')
+                                    this.$func.__('Please select a category', 'erp')
                                 "
                             />
                         </div>
 
                         <div class="form-row">
                             <label for="">{{
-                                __("Name of Category", "erp")
+                                this.$func.__("Name of Category", "erp")
                             }}</label>
 
                             <input type="text" v-model="category" required />
@@ -51,7 +51,7 @@
                                     class="wperp-btn btn--default modal-close"
                                     @click.prevent="outside"
                                 >
-                                    {{ __("Cancel", "erp") }}
+                                    {{ this.$func.__("Cancel", "erp") }}
                                 </button>
                                 <button
                                     class="wperp-btn btn--primary"
@@ -60,15 +60,15 @@
                                     <template v-if="catData.node">
                                         {{
                                             isCatSaving
-                                                ? __("Updating...", "erp")
-                                                : __("Update", "erp")
+                                                ? this.$func.__("Updating...", "erp")
+                                                : this.$func.__("Update", "erp")
                                         }}
                                     </template>
                                     <template v-else>
                                         {{
                                             isCatSaving
-                                                ? __("Saving...", "erp")
-                                                : __("Save", "erp")
+                                                ? this.$func.__("Saving...", "erp")
+                                                : this.$func.__("Save", "erp")
                                         }}
                                     </template>
                                 </button>
@@ -131,7 +131,6 @@ export default {
             // Optimize later
             if (this.catData.node) {
                 // Updating
-                this.$store.dispatch("spinner/setSpinner", true);
                 window.axios
                     .put(`/ledgers/categories/${this.catData.node.id}`, {
                         parent: this.parent,
@@ -142,10 +141,8 @@ export default {
                         this.category = "";
 
                         this.$root.$emit("category-created");
-                        this.$store.dispatch("spinner/setSpinner", false);
                     })
                     .catch((err) => {
-                        this.$store.dispatch("spinner/setSpinner", false);
 
                         this.category = "";
                         this.isCatSaving = false;

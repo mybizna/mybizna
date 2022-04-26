@@ -9,7 +9,7 @@
                 <div class="wperp-modal-dialog">
                     <div class="wperp-modal-content">
                         <div class="wperp-modal-header">
-                            <h3>{{ __("Export Products", "erp") }}</h3>
+                            <h3>{{ this.$func.__("Export Products", "erp") }}</h3>
                             <span class="modal-close">
                                 <i
                                     class="flaticon-close"
@@ -31,7 +31,7 @@
                                             <label for="fields">
                                                 <h3>
                                                     {{
-                                                        __(
+                                                        this.$func.__(
                                                             "Select product fields to export",
                                                             "erp"
                                                         )
@@ -52,7 +52,7 @@
                                                         selectFields
                                                     "
                                                 />
-                                                {{ __("Select all", "erp") }}
+                                                {{ this.$func.__("Select all", "erp") }}
                                             </h3>
                                         </div>
                                     </div>
@@ -82,7 +82,7 @@
                                     <div class="row">
                                         <p class="description">
                                             {{
-                                                __(
+                                                this.$func.__(
                                                     "**Only selected fields will be on the csv file.",
                                                     "erp"
                                                 )
@@ -115,13 +115,13 @@
                                         @click="$parent.$emit('close')"
                                         type="reset"
                                     >
-                                        {{ __("Cancel", "erp") }}
+                                        {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
                                         class="wperp-btn btn--primary"
                                         type="submit"
                                     >
-                                        {{ __("Export", "erp") }}
+                                        {{ this.$func.__("Export", "erp") }}
                                     </button>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@
     <div class="wperp-modal-dialog sales-single">
         <div class="wperp-modal-content">
             <div class="wperp-modal-header">
-                <h2>{{ __("Transfer Money", "erp") }}</h2>
+                <h2>{{ this.$func.__("Transfer Money", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
@@ -10,7 +10,7 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ __("Print", "erp") }}
+                        &nbsp; {{ this.$func.__("Print", "erp") }}
                     </a>
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
 
@@ -18,7 +18,7 @@
                         <template slot="button">
                             <a href="#" class="wperp-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
-                                &nbsp; {{ __("More Action", "erp") }}
+                                &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
                         </template>
                         <template slot="dropdown">
@@ -27,7 +27,7 @@
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ __("Send Mail", "erp") }}</a
+                                        >{{ this.$func.__("Send Mail", "erp") }}</a
                                     >
                                 </li>
                             </ul>
@@ -60,10 +60,10 @@
                     </div>
 
                     <div class="invoice-body">
-                        <h4>{{ __("Transfer Money", "erp") }}</h4>
+                        <h4>{{ this.$func.__("Transfer Money", "erp") }}</h4>
                         <div class="wperp-row" v-if="voucher.created_by">
                             <div class="wperp-col-sm-6">
-                                <h5>{{ __("Created By", "erp") }}:</h5>
+                                <h5>{{ this.$func.__("Created By", "erp") }}:</h5>
                                 <div class="persons-info">
                                     <strong>{{
                                         voucher.created_by.display_name
@@ -76,7 +76,7 @@
                                 <table class="invoice-info">
                                     <tr>
                                         <th>
-                                            {{ __("Transaction Date", "erp") }}:
+                                            {{ this.$func.__("Transaction Date", "erp") }}:
                                         </th>
                                         <td>
                                             {{ formatDate(voucher.trn_date) }}
@@ -93,10 +93,10 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>{{ __("Voucher No", "erp") }}</th>
-                                    <th>{{ __("Account From", "erp") }}</th>
-                                    <th>{{ __("Amount", "erp") }}</th>
-                                    <th>{{ __("Account To", "erp") }}</th>
+                                    <th>{{ this.$func.__("Voucher No", "erp") }}</th>
+                                    <th>{{ this.$func.__("Account From", "erp") }}</th>
+                                    <th>{{ this.$func.__("Amount", "erp") }}</th>
+                                    <th>{{ this.$func.__("Account To", "erp") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -113,7 +113,7 @@
                                         class="wperp-invoice-amounts"
                                         colspan="7"
                                     >
-                                        <h2>{{ __("Particulars", "erp") }}</h2>
+                                        <h2>{{ this.$func.__("Particulars", "erp") }}</h2>
                                         <p v-if="voucher.particulars">
                                             {{ voucher.particulars }}
                                         </p>
@@ -152,7 +152,6 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("spinner/setSpinner", true);
         this.getCompanyInfo();
         this.getVoucher();
     },
@@ -170,10 +169,8 @@ export default {
                 .then((response) => {
                     this.voucher = response.data;
                     this.print_data = this.voucher;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },

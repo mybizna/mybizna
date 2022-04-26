@@ -4,13 +4,13 @@
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
                     <h2 class="content-header__title">
-                        {{ __("Tax Categories", "erp") }}
+                        {{ this.$func.__("Tax Categories", "erp") }}
                     </h2>
                     <a
                         class="wperp-btn btn--primary"
                         @click.prevent="showModal = true"
                     >
-                        <span>{{ __("Add Tax Category", "erp") }}</span>
+                        <span>{{ this.$func.__("Add Tax Category", "erp") }}</span>
                     </a>
                 </div>
             </div>
@@ -67,11 +67,11 @@ export default {
             modalParams: null,
             columns: {
                 tax_cat_name: {
-                    label: __("Category Name", "erp"),
+                    label: this.$func.__("Category Name", "erp"),
                     isColPrimary: true,
                 },
-                tax_cat_desc: { label: __("Description", "erp") },
-                actions: { label: __("Actions", "erp") },
+                tax_cat_desc: { label: this.$func.__("Description", "erp") },
+                actions: { label: this.$func.__("Actions", "erp") },
             },
             rows: [],
             paginationData: {
@@ -86,19 +86,19 @@ export default {
             actions: [
                 {
                     key: "edit",
-                    label: __("Edit", "erp"),
+                    label: this.$func.__("Edit", "erp"),
                     iconClass: "flaticon-edit",
                 },
                 {
                     key: "trash",
-                    label: __("Delete", "erp"),
+                    label: this.$func.__("Delete", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
             bulkActions: [
                 {
                     key: "trash",
-                    label: __("Trash", "erp"),
+                    label: this.$func.__("Trash", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
@@ -141,7 +141,6 @@ export default {
     methods: {
         fetchItems() {
             this.rows = [];
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .get("tax-cats", {
@@ -161,10 +160,8 @@ export default {
                     this.paginationData.totalPages = parseInt(
                         response.headers["x-wp-totalpages"]
                     );
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -196,25 +193,16 @@ export default {
             switch (action) {
                 case "trash":
                     if (confirm(__("Are you sure to delete?", "erp"))) {
-                        this.$store.dispatch("spinner/setSpinner", true);
                         window.axios
                             .delete("tax-cats" + "/" + row.id)
                             .then((response) => {
                                 this.$delete(this.rows, index);
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 this.showAlert(
                                     "success",
-                                    __("Deleted !", "erp")
+                                    this.$func.__("Deleted !", "erp")
                                 );
                             })
                             .catch((error) => {
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 throw error;
                             });
                     }
@@ -235,7 +223,6 @@ export default {
         onBulkAction(action, items) {
             if (action === "trash") {
                 if (confirm(__("Are you sure to delete?", "erp"))) {
-                    this.$store.dispatch("spinner/setSpinner", true);
 
                     window.axios
                         .delete("tax-cats/delete/" + items.join(","))
@@ -250,11 +237,9 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.$store.dispatch("spinner/setSpinner", false);
-                            this.showAlert("success", __("Deleted !", "erp"));
+                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
                         })
                         .catch((error) => {
-                            this.$store.dispatch("spinner/setSpinner", false);
                             throw error;
                         });
                 }

@@ -9,8 +9,8 @@
                 <!-- modal body title -->
                 <div class="wperp-modal-header">
                     <h3>
-                        {{ is_update ? __("Edit", "erp") : __("Add", "erp") }}
-                        {{ __("Tax Category", "erp") }}
+                        {{ is_update ? this.$func.__("Edit", "erp") : this.$func.__("Add", "erp") }}
+                        {{ this.$func.__("Tax Category", "erp") }}
                     </h3>
                     <span class="modal-close" @click.prevent="closeModal"
                         ><i class="flaticon-close"></i
@@ -28,7 +28,7 @@
                     <div class="wperp-modal-body">
                         <div class="wperp-form-group">
                             <label
-                                >{{ __("Tax Category Name", "erp") }}
+                                >{{ this.$func.__("Tax Category Name", "erp") }}
                                 <span class="wperp-required-sign"
                                     >*</span
                                 ></label
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="wperp-form-group mb-0">
-                            <label>{{ __("Description", "erp") }}</label>
+                            <label>{{ this.$func.__("Description", "erp") }}</label>
                             <textarea
                                 v-model="desc"
                                 rows="4"
@@ -139,25 +139,22 @@ export default {
             if (this.is_update) {
                 rest = "put";
                 url = `/tax-cats/${this.cat_id}`;
-                msg = __("Tax Category Updated!", "erp");
+                msg = this.$func.__("Tax Category Updated!", "erp");
             } else {
                 rest = "post";
                 url = `/tax-cats`;
-                msg = __("Tax Category Created!", "erp");
+                msg = this.$func.__("Tax Category Created!", "erp");
             }
 
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios[rest](url, {
                 name: this.category,
                 description: this.desc,
             })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     this.showAlert("success", msg);
                 })
                 .then(() => {
@@ -173,7 +170,7 @@ export default {
 
             if (!this.category) {
                 this.form_errors.push(
-                    __("Tax Category Name is required.", "erp")
+                    this.$func.__("Tax Category Name is required.", "erp")
                 );
             }
         },

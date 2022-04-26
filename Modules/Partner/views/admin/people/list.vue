@@ -7,16 +7,16 @@
                     href=""
                     id="erp-customer-new"
                     @click.prevent="showModal = true"
-                    >{{ __("Add New", "erp") }} {{ buttonTitle }}</a
+                    >{{ this.$func.__("Add New", "erp") }} {{ buttonTitle }}</a
                 >
             </h2>
 
             <div class="erp-btn-group">
                 <button @click.prevent="showImportModal = true">
-                    {{ __("Import", "erp") }}
+                    {{ this.$func.__("Import", "erp") }}
                 </button>
                 <button @click.prevent="showExportModal = true">
-                    {{ __("Export", "erp") }}
+                    {{ this.$func.__("Export", "erp") }}
                 </button>
             </div>
 
@@ -103,16 +103,16 @@ export default {
             bulkActions: [
                 {
                     key: "trash",
-                    label: __("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
             columns: {
-                customer: { label: __("Name", "erp"), isColPrimary: true },
-                company: { label: __("Company", "erp") },
-                email: { label: __("Email", "erp") },
-                phone: { label: __("Phone", "erp") },
-                actions: { label: __("Actions", "erp") },
+                customer: { label: this.$func.__("Name", "erp"), isColPrimary: true },
+                company: { label: this.$func.__("Company", "erp") },
+                email: { label: this.$func.__("Email", "erp") },
+                phone: { label: this.$func.__("Phone", "erp") },
+                actions: { label: this.$func.__("Actions", "erp") },
             },
             rows: [],
             paginationData: {
@@ -127,12 +127,12 @@ export default {
             actions: [
                 {
                     key: "edit",
-                    label: __("Edit", "erp"),
+                    label: this.$func.__("Edit", "erp"),
                     iconClass: "flaticon-edit",
                 },
                 {
                     key: "trash",
-                    label: __("Delete", "erp"),
+                    label: this.$func.__("Delete", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
@@ -151,7 +151,6 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("spinner/setSpinner", true);
 
         this.$on("modal-close", () => {
             this.showModal = false;
@@ -172,20 +171,20 @@ export default {
 
         this.buttonTitle =
             this.$route.name.toLowerCase() === "customers"
-                ? __("Customer", "erp")
-                : __("Vendor", "erp");
+                ? this.$func.__("Customer", "erp")
+                : this.$func.__("Vendor", "erp");
         this.importTitle =
             this.$route.name.toLowerCase() === "customers"
-                ? __("Import Customers", "erp")
-                : __("Import Vendors", "erp");
+                ? this.$func.__("Import Customers", "erp")
+                : this.$func.__("Import Vendors", "erp");
         this.exportTitle =
             this.$route.name.toLowerCase() === "customers"
-                ? __("Export Customers", "erp")
-                : __("Export Vendors", "erp");
+                ? this.$func.__("Export Customers", "erp")
+                : this.$func.__("Export Vendors", "erp");
         this.pageTitle =
             this.$route.name.toLowerCase() === "customers"
-                ? __("Customers", "erp")
-                : __("Vendors", "erp");
+                ? this.$func.__("Customers", "erp")
+                : this.$func.__("Vendors", "erp");
         this.url = this.$route.name.toLowerCase();
         this.singleUrl =
             this.url === "customers" ? "CustomerDetails" : "VendorDetails";
@@ -205,7 +204,6 @@ export default {
 
     watch: {
         search(newVal, oldVal) {
-            this.$store.dispatch("spinner/setSpinner", true);
             this.fetchItems();
         },
     },
@@ -232,10 +230,8 @@ export default {
                     this.paginationData.totalPages = parseInt(
                         response.headers["x-wp-totalpages"]
                     );
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -244,15 +240,10 @@ export default {
             switch (action) {
                 case "trash":
                     if (confirm(__("Are you sure to delete?", "erp"))) {
-                        this.$store.dispatch("spinner/setSpinner", true);
                         window.axios
                             .delete(this.url + "/" + row.id)
                             .then((response) => {
                                 if (response.status !== 204) {
-                                    this.$store.dispatch(
-                                        "spinner/setSpinner",
-                                        false
-                                    );
                                     this.showAlert(
                                         "error",
                                         response.data.data[0].message
@@ -262,19 +253,11 @@ export default {
                                 }
 
                                 this.$delete(this.rows, index);
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 this.showAlert("success", "Deleted !");
 
                                 this.fetchItems();
                             })
                             .catch((error) => {
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 throw error;
                             });
                     }
@@ -293,15 +276,10 @@ export default {
         onBulkAction(action, items) {
             if (action === "trash") {
                 if (confirm(__("Are you sure to delete?", "erp"))) {
-                    this.$store.dispatch("spinner/setSpinner", true);
                     window.axios
                         .delete(this.url + "/delete/" + items.join(","))
                         .then((response) => {
                             if (response.status !== 204) {
-                                this.$store.dispatch(
-                                    "spinner/setSpinner",
-                                    false
-                                );
                                 this.showAlert(
                                     "error",
                                     response.data.data[0].message
@@ -320,11 +298,9 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.$store.dispatch("spinner/setSpinner", false);
-                            this.showAlert("success", __("Deleted !", "erp"));
+                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
                         })
                         .catch((error) => {
-                            this.$store.dispatch("spinner/setSpinner", false);
                             throw error;
                         });
                 }

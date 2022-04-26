@@ -5,7 +5,7 @@
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
                     <h2 class="content-header__title">
-                        {{ __("Add New Tax Rate", "erp") }}
+                        {{ this.$func.__("Add New Tax Rate", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                     <div class="wperp-row wperp-gutter-20">
                         <div class="wperp-form-group wperp-col-sm-6">
                             <label
-                                >{{ __("Tax Zone Name", "erp")
+                                >{{ this.$func.__("Tax Zone Name", "erp")
                                 }}<span class="wperp-required-sign"
                                     >*</span
                                 ></label
@@ -46,7 +46,7 @@
                                     <span class="form-check-sign"></span>
                                     <span class="field-label"
                                         >{{
-                                            __("Is this tax compound", "erp")
+                                            this.$func.__("Is this tax compound", "erp")
                                         }}?</span
                                     >
                                 </label>
@@ -61,16 +61,16 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="column-primary">
-                                        {{ __("Component Name", "erp") }}
+                                        {{ this.$func.__("Component Name", "erp") }}
                                     </th>
                                     <th scope="col">
-                                        {{ __("Agency", "erp") }}
+                                        {{ this.$func.__("Agency", "erp") }}
                                     </th>
                                     <th scope="col">
-                                        {{ __("Tax Category", "erp") }}
+                                        {{ this.$func.__("Tax Category", "erp") }}
                                     </th>
                                     <th scope="col">
-                                        {{ __("Tax Rate", "erp") }}
+                                        {{ this.$func.__("Tax Rate", "erp") }}
                                     </th>
                                     <th scope="col" class="col--actions"></th>
                                 </tr>
@@ -96,7 +96,7 @@
                                             href="#"
                                             @click.prevent=""
                                             class="vis-hide after-select-dropdown"
-                                            >{{ __("component", "erp") }}</a
+                                            >{{ this.$func.__("component", "erp") }}</a
                                         >
 
                                         <button
@@ -123,14 +123,14 @@
                                             role="button"
                                             class="after-select-dropdown"
                                             >{{
-                                                __("Add Tax Agency", "erp")
+                                                this.$func.__("Add Tax Agency", "erp")
                                             }}</a
                                         >
                                     </td>
                                     <td
                                         class="col--tax-category with-multiselect"
                                         :data-colname="
-                                            __('Tax Category', 'erp')
+                                            this.$func.__('Tax Category', 'erp')
                                         "
                                     >
                                         <multi-select
@@ -143,7 +143,7 @@
                                             role="button"
                                             class="after-select-dropdown"
                                             >{{
-                                                __("Add Tax Category", "erp")
+                                                this.$func.__("Add Tax Category", "erp")
                                             }}</a
                                         >
                                     </td>
@@ -160,13 +160,13 @@
                                             href="#"
                                             @click.prevent=""
                                             class="vis-hide after-select-dropdown"
-                                            >{{ __("tax rate", "erp") }}</a
+                                            >{{ this.$func.__("tax rate", "erp") }}</a
                                         >
                                     </td>
                                     <td
                                         class="col--actions delete-row"
                                         :data-colname="
-                                            __('Remove Above Selection', 'erp')
+                                            this.$func.__('Remove Above Selection', 'erp')
                                         "
                                     >
                                         <a
@@ -186,7 +186,7 @@
                                             <i
                                                 class="flaticon-add-plus-button"
                                             ></i
-                                            >{{ __("Add Component", "erp") }}
+                                            >{{ this.$func.__("Add Component", "erp") }}
                                         </button>
                                     </td>
                                 </tr>
@@ -323,7 +323,6 @@ export default {
                 return;
             }
 
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .post("/taxes", {
@@ -332,12 +331,10 @@ export default {
                     tax_components: this.formatLineItems(),
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
-                    this.showAlert("success", __("Tax Rate Created!", "erp"));
+                    this.showAlert("success", this.$func.__("Tax Rate Created!", "erp"));
                 })
                 .then(() => {
                     this.$router.push({ name: "TaxRates" });

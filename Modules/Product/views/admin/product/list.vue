@@ -2,21 +2,21 @@
     <div class="wperp-products">
         <div class="products-header">
             <h2 class="add-new-product">
-                <span>{{ __("Products", "erp") }}</span>
+                <span>{{ this.$func.__("Products", "erp") }}</span>
                 <a
                     href=""
                     id="erp-product-new"
                     @click.prevent="showModal = true"
-                    >{{ __("Add New", "erp") }}</a
+                    >{{ this.$func.__("Add New", "erp") }}</a
                 >
             </h2>
 
             <div class="erp-btn-group">
                 <button @click.prevent="showImportModal = true">
-                    {{ __("Import", "erp") }}
+                    {{ this.$func.__("Import", "erp") }}
                 </button>
                 <button @click.prevent="showExportModal = true">
-                    {{ __("Export", "erp") }}
+                    {{ this.$func.__("Export", "erp") }}
                 </button>
             </div>
 
@@ -44,8 +44,8 @@
             :current-page="paginationData.currentPage"
             @pagination="goToPage"
             :actions="[
-                { key: 'edit', label: __('Edit', 'erp') },
-                { key: 'trash', label: __('Delete', 'erp') },
+                { key: 'edit', label: this.$func.__('Edit', 'erp') },
+                { key: 'trash', label: this.$func.__('Delete', 'erp') },
             ]"
         >
         </list-table>
@@ -76,35 +76,35 @@ export default {
             showModal: false,
             columns: {
                 name: {
-                    label: __("Product Name", "erp"),
+                    label: this.$func.__("Product Name", "erp"),
                     isColPrimary: true,
                 },
                 sale_price: {
-                    label: __("Sale Price", "erp"),
+                    label: this.$func.__("Sale Price", "erp"),
                 },
                 cost_price: {
-                    label: __("Cost Price", "erp"),
+                    label: this.$func.__("Cost Price", "erp"),
                 },
                 cat_name: {
-                    label: __("Product Category", "erp"),
+                    label: this.$func.__("Product Category", "erp"),
                 },
                 tax_cat_name: {
-                    label: __("Tax Category", "erp"),
+                    label: this.$func.__("Tax Category", "erp"),
                 },
                 product_type_name: {
-                    label: __("Product Type", "erp"),
+                    label: this.$func.__("Product Type", "erp"),
                 },
                 vendor_name: {
-                    label: __("Vendor", "erp"),
+                    label: this.$func.__("Vendor", "erp"),
                 },
                 actions: {
-                    label: __("Actions", "erp"),
+                    label: this.$func.__("Actions", "erp"),
                 },
             },
             bulkActions: [
                 {
                     key: "trash",
-                    label: __("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     img:
                         erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
@@ -125,7 +125,6 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("spinner/setSpinner", true);
         this.getProducts();
 
         this.$on("close", function () {
@@ -151,7 +150,6 @@ export default {
         getProducts() {
             this.products = [];
 
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .get("/products", {
@@ -174,10 +172,8 @@ export default {
                         response.headers["x-wp-totalpages"]
                     );
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -188,7 +184,6 @@ export default {
                 this.product = row;
             } else if (action === "trash") {
                 if (confirm(__("Are you sure want to delete?", "erp"))) {
-                    this.$store.dispatch("spinner/setSpinner", true);
 
                     window.axios
                         .delete("products/" + row.id)
@@ -196,10 +191,8 @@ export default {
                             this.$delete(this.products, index);
                             this.getProducts();
 
-                            this.$store.dispatch("spinner/setSpinner", false);
                         })
                         .catch((error) => {
-                            this.$store.dispatch("spinner/setSpinner", false);
                             throw error;
                         });
                 }
@@ -209,7 +202,6 @@ export default {
         onBulkAction(action, items) {
             if (action === "trash") {
                 if (confirm(__("Are you sure want to delete?", "erp"))) {
-                    this.$store.dispatch("spinner/setSpinner", true);
 
                     window.axios
                         .delete("products/delete/" + items)
@@ -223,10 +215,8 @@ export default {
                             }
                             this.getProducts();
 
-                            this.$store.dispatch("spinner/setSpinner", false);
                         })
                         .catch((error) => {
-                            this.$store.dispatch("spinner/setSpinner", false);
                             throw error;
                         });
                 }

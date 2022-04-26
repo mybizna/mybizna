@@ -2,7 +2,7 @@
     <div class="wperp-modal-dialog expense-single">
         <div class="wperp-modal-content">
             <div class="wperp-modal-header">
-                <h2>{{ __("Tax Payment", "erp") }}</h2>
+                <h2>{{ this.$func.__("Tax Payment", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
@@ -10,14 +10,14 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ __("Print", "erp") }}
+                        &nbsp; {{ this.$func.__("Print", "erp") }}
                     </a>
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
                     <dropdown>
                         <template slot="button">
                             <a href="#" class="wperp-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
-                                &nbsp; {{ __("More Action", "erp") }}
+                                &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
                         </template>
                         <template slot="dropdown">
@@ -26,7 +26,7 @@
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ __("Send Mail", "erp") }}</a
+                                        >{{ this.$func.__("Send Mail", "erp") }}</a
                                     >
                                 </li>
                             </ul>
@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="invoice-body">
-                        <h4>{{ __("Tax Payment to", "erp") }}</h4>
+                        <h4>{{ this.$func.__("Tax Payment to", "erp") }}</h4>
                         <div class="wperp-row" v-if="null != tax_pay_data">
                             <div class="wperp-col-sm-6">
                                 <div class="persons-info">
@@ -72,12 +72,12 @@
                             <div class="wperp-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
-                                        <th>{{ __("Voucher No", "erp") }}</th>
+                                        <th>{{ this.$func.__("Voucher No", "erp") }}</th>
                                         <td>#{{ tax_pay_data.voucher_no }}</td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ __("Payment Date", "erp") }}:
+                                            {{ this.$func.__("Payment Date", "erp") }}:
                                         </th>
                                         <td>
                                             {{
@@ -101,10 +101,10 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>{{ __("Voucher No", "erp") }}</th>
-                                    <th>{{ __("Account", "erp") }}</th>
-                                    <th>{{ __("Voucher Type", "erp") }}</th>
-                                    <th>{{ __("Amount", "erp") }}</th>
+                                    <th>{{ this.$func.__("Voucher No", "erp") }}</th>
+                                    <th>{{ this.$func.__("Account", "erp") }}</th>
+                                    <th>{{ this.$func.__("Voucher Type", "erp") }}</th>
+                                    <th>{{ this.$func.__("Amount", "erp") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,7 +124,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        __("Total", "erp")
+                                                        this.$func.__("Total", "erp")
                                                     }}:</span
                                                 >
                                                 {{
@@ -142,7 +142,7 @@
                                         class="wperp-invoice-amounts"
                                         colspan="7"
                                     >
-                                        <h2>{{ __("Particulars", "erp") }}</h2>
+                                        <h2>{{ this.$func.__("Particulars", "erp") }}</h2>
                                         <p v-if="tax_pay_data.particulars">
                                             {{ tax_pay_data.particulars }}
                                         </p>
@@ -180,7 +180,6 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("spinner/setSpinner", true);
         this.getCompanyInfo();
         this.getExpense();
 
@@ -209,10 +208,8 @@ export default {
                 .get(`/taxes/tax-records/${this.$route.params.id}`)
                 .then((response) => {
                     this.tax_pay_data = response.data;
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then((e) => {})

@@ -5,7 +5,7 @@
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
                     <h2 class="content-header__title">
-                        {{ __("Opening Balances", "erp") }}
+                        {{ this.$func.__("Opening Balances", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <div
                     class="wperp-col-sm-6 with-multiselect opening-fyear-select"
                 >
-                    <label>{{ __("Financial Year", "erp") }}</label>
+                    <label>{{ this.$func.__("Financial Year", "erp") }}</label>
                     <multi-select v-model="fin_year" :options="years" />
                 </div>
 
@@ -30,7 +30,7 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ __("Print", "erp") }}
+                        &nbsp; {{ this.$func.__("Print", "erp") }}
                     </a>
                 </div>
             </div>
@@ -40,14 +40,14 @@
                     <li>
                         <strong
                             >{{
-                                __(
+                                this.$func.__(
                                     "For the period of ( Opening Balance date )",
                                     "erp"
                                 )
                             }}:</strong
                         >
                         <em>{{ fin_year.start_date }}</em>
-                        {{ __("to", "erp") }} <em>{{ fin_year.end_date }}</em>
+                        {{ this.$func.__("to", "erp") }} <em>{{ fin_year.end_date }}</em>
                     </li>
                 </ul>
             </div>
@@ -57,16 +57,16 @@
                 <div class="erp-accordion-expand"
                      @click="open5=!open5"
                      :class="open5?'active':'before-border'">
-                    <span class="wp-erp-ob-title">{{ __('Accounts Receivable', 'erp') }}</span>
+                    <span class="wp-erp-ob-title">{{ this.$func.__('Accounts Receivable', 'erp') }}</span>
                 </div>
                 <table class="wperp-table wperp-form-table erp-accordion-expand-body" v-show="open5">
                     <thead>
                     <tr>
-                        <th>{{ __('People', 'erp') }}</th>
-                        <th>{{ __('Debit', 'erp') }}
+                        <th>{{ this.$func.__('People', 'erp') }}</th>
+                        <th>{{ this.$func.__('Debit', 'erp') }}
                             <span v-if="accPayRec && '0' != accPayRec.invoice_acc">({{ accPayRec.invoice_acc }})</span>
                         </th>
-                        <th>{{ __('Credit', 'erp') }}</th>
+                        <th>{{ this.$func.__('Credit', 'erp') }}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -82,10 +82,10 @@
                     </tr>
                     <tr class="add-new-line">
                         <td v-if="undefined === acct_rec" style="float: left;">
-                            {{ __( 'No People Found!', 'erp' ) }}
+                            {{ this.$func.__( 'No People Found!', 'erp' ) }}
                         </td>
                         <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="acct_rec.push({})" class="wperp-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ __('Add People', 'erp') }}</button>
+                            <button @click.prevent="acct_rec.push({})" class="wperp-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
                         </td>
                     </tr>
                     </tbody>
@@ -97,14 +97,14 @@
                 <div class="erp-accordion-expand"
                      @click="open6=!open6"
                      :class="open6?'active':'before-border'">
-                    <span class="wp-erp-ob-title">{{ __('Accounts Payable', 'erp') }}</span>
+                    <span class="wp-erp-ob-title">{{ this.$func.__('Accounts Payable', 'erp') }}</span>
                 </div>
                 <table class="wperp-table wperp-form-table erp-accordion-expand-body" v-show="open6">
                     <thead>
                     <tr>
-                        <th>{{ __('People', 'erp') }}</th>
-                        <th>{{ __('Debit', 'erp') }}</th>
-                        <th>{{ __('Credit', 'erp') }}
+                        <th>{{ this.$func.__('People', 'erp') }}</th>
+                        <th>{{ this.$func.__('Debit', 'erp') }}</th>
+                        <th>{{ this.$func.__('Credit', 'erp') }}
                             <span v-if="accPayRec && '0' != accPayRec.bill_purchase_acc">({{accPayRec.bill_purchase_acc }})</span>
                         </th>
                         <th></th>
@@ -122,10 +122,10 @@
                     </tr>
                     <tr class="add-new-line">
                         <td v-if="undefined === acct_pay" style="float: left;">
-                            {{ __( 'No People Found!', 'erp' ) }}
+                            {{ this.$func.__( 'No People Found!', 'erp' ) }}
                         </td>
                         <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="acct_pay.push({})" class="wperp-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ __('Add People', 'erp') }}</button>
+                            <button @click.prevent="acct_pay.push({})" class="wperp-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
                         </td>
                     </tr>
                     </tbody>
@@ -140,7 +140,7 @@
                     :class="open7 ? 'active' : 'before-border'"
                 >
                     <span class="wp-erp-ob-title">{{
-                        __("Tax Payable", "erp")
+                        this.$func.__("Tax Payable", "erp")
                     }}</span>
                 </div>
                 <table
@@ -149,9 +149,9 @@
                 >
                     <thead>
                         <tr>
-                            <th>{{ __("Agency", "erp") }}</th>
-                            <th>{{ __("Debit", "erp") }}</th>
-                            <th>{{ __("Credit", "erp") }}</th>
+                            <th>{{ this.$func.__("Agency", "erp") }}</th>
+                            <th>{{ this.$func.__("Debit", "erp") }}</th>
+                            <th>{{ this.$func.__("Credit", "erp") }}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -202,7 +202,7 @@
                                     class="wperp-btn btn--primary add-line-trigger"
                                 >
                                     <i class="flaticon-add-plus-button"></i
-                                    >{{ __("Add Agency", "erp") }}
+                                    >{{ this.$func.__("Add Agency", "erp") }}
                                 </button>
                             </td>
                         </tr>
@@ -228,9 +228,9 @@
                 >
                     <thead>
                         <tr>
-                            <th>{{ __("Account", "erp") }}</th>
-                            <th>{{ __("Debit", "erp") }}</th>
-                            <th>{{ __("Credit", "erp") }}</th>
+                            <th>{{ this.$func.__("Account", "erp") }}</th>
+                            <th>{{ this.$func.__("Debit", "erp") }}</th>
+                            <th>{{ this.$func.__("Credit", "erp") }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -277,9 +277,9 @@
                 >
                     <thead>
                         <tr>
-                            <th>{{ __("Account", "erp") }}</th>
-                            <th>{{ __("Debit", "erp") }}</th>
-                            <th>{{ __("Credit", "erp") }}</th>
+                            <th>{{ this.$func.__("Account", "erp") }}</th>
+                            <th>{{ this.$func.__("Debit", "erp") }}</th>
+                            <th>{{ this.$func.__("Credit", "erp") }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -326,9 +326,9 @@
                 >
                     <thead>
                         <tr>
-                            <th>{{ __("Account", "erp") }}</th>
-                            <th>{{ __("Debit", "erp") }}</th>
-                            <th>{{ __("Credit", "erp") }}</th>
+                            <th>{{ this.$func.__("Account", "erp") }}</th>
+                            <th>{{ this.$func.__("Debit", "erp") }}</th>
+                            <th>{{ this.$func.__("Credit", "erp") }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -374,9 +374,9 @@
                 >
                     <thead>
                         <tr>
-                            <th>{{ __("Account", "erp") }}</th>
-                            <th>{{ __("Debit", "erp") }}</th>
-                            <th>{{ __("Credit", "erp") }}</th>
+                            <th>{{ this.$func.__("Account", "erp") }}</th>
+                            <th>{{ this.$func.__("Debit", "erp") }}</th>
+                            <th>{{ this.$func.__("Credit", "erp") }}</th>
                             <!--    <th></th>-->
                         </tr>
                     </thead>
@@ -410,10 +410,10 @@
                                 v-if="undefined === ledgers[7]"
                                 style="float: left"
                             >
-                                {{ __("No Bank Account Found!", "erp") }}
+                                {{ this.$func.__("No Bank Account Found!", "erp") }}
                             </td>
                             <!--   <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="ledgers[7].push({})" class="wperp-btn btn&#45;&#45;primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ __('Add Bank', 'erp') }}</button>
+                            <button @click.prevent="ledgers[7].push({})" class="wperp-btn btn&#45;&#45;primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add Bank', 'erp') }}</button>
                         </td>-->
                         </tr>
                     </tbody>
@@ -427,7 +427,7 @@
                             class="pl-10 text-right col--total-amount"
                             style="width: 60%"
                         >
-                            <span>{{ __("Total Amount", "erp") }}</span>
+                            <span>{{ this.$func.__("Total Amount", "erp") }}</span>
                         </td>
                         <td :data-colname="__('Total Debit', 'erp')">
                             <input
@@ -448,7 +448,7 @@
                     </tr>
                     <tr class="wperp-form-group">
                         <td colspan="9" style="text-align: left">
-                            <label>{{ __("Description", "erp") }}</label>
+                            <label>{{ this.$func.__("Description", "erp") }}</label>
                             <textarea
                                 v-model="description"
                                 rows="4"
@@ -584,7 +584,6 @@ export default {
 
         fetchData() {
             this.chartAccounts = [];
-            this.$store.dispatch("spinner/setSpinner", true);
             this.getYears();
             this.fetchLedgers();
             this.fetchAgencies();
@@ -597,10 +596,8 @@ export default {
 
                     this.getSelectedOB(this.fin_year);
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -725,7 +722,7 @@ export default {
                     !Object.prototype.hasOwnProperty.call(element, "people")
                 ) {
                     this.form_errors.push(
-                        __(
+                        this.$func.__(
                             "People is not selected in Accounts Receivable.",
                             "erp"
                         )
@@ -739,7 +736,7 @@ export default {
                     !Object.prototype.hasOwnProperty.call(element, "people")
                 ) {
                     this.form_errors.push(
-                        __("People is not selected in Accounts Payable.", "erp")
+                        this.$func.__("People is not selected in Accounts Payable.", "erp")
                     );
                 }
             });
@@ -750,7 +747,7 @@ export default {
                     !Object.prototype.hasOwnProperty.call(element, "agency")
                 ) {
                     this.form_errors.push(
-                        __("Agency is not selected in Tax Payable.", "erp")
+                        this.$func.__("Agency is not selected in Tax Payable.", "erp")
                     );
                 }
             });
@@ -761,7 +758,7 @@ export default {
 
             if (this.isWorking) {
                 this.form_errors.push(
-                    __("Debit and Credit must be Equal.", "erp")
+                    this.$func.__("Debit and Credit must be Equal.", "erp")
                 );
             }
         },
@@ -777,8 +774,6 @@ export default {
                 return;
             }
 
-            this.$store.dispatch("spinner/setSpinner", true);
-
             window.axios
                 .post("/opening-balances", {
                     year: this.fin_year.id,
@@ -791,14 +786,12 @@ export default {
                     description: this.description,
                 })
                 .then((res) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     this.showAlert(
                         "success",
-                        __("Opening Balance Created!", "erp")
+                        this.$func.__("Opening Balance Created!", "erp")
                     );
                 })
                 .catch((error) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 })
                 .then(() => {
@@ -908,7 +901,6 @@ export default {
                     this.tax_pay.forEach((ledger) => {
                         this.totalCredit += parseFloat(ledger.credit);
                     });
-                    this.$store.dispatch("spinner/setSpinner", false);
                 });
         },
 

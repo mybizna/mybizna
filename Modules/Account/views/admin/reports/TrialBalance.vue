@@ -1,6 +1,6 @@
 <template>
     <div class="trial-balance">
-        <h2>{{ __("Trial Balance", "erp") }}</h2>
+        <h2>{{ this.$func.__("Trial Balance", "erp") }}</h2>
 
         <div class="with-multiselect fyear-select">
             <multi-select
@@ -20,7 +20,7 @@
                 class="wperp-btn btn--primary add-line-trigger"
                 type="submit"
             >
-                {{ __("View", "erp") }}
+                {{ this.$func.__("View", "erp") }}
             </button>
 
             <a
@@ -29,26 +29,26 @@
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i> &nbsp;
-                {{ __("Print", "erp") }}
+                {{ this.$func.__("Print", "erp") }}
             </a>
         </form>
 
         <p>
             <strong
                 >{{
-                    __("For the period of ( Transaction date )", "erp")
+                    this.$func.__("For the period of ( Transaction date )", "erp")
                 }}:</strong
             >
-            <em>{{ start_date }}</em> {{ __("to", "erp") }}
+            <em>{{ start_date }}</em> {{ this.$func.__("to", "erp") }}
             <em>{{ end_date }}</em>
         </p>
 
         <table class="wperp-table table-striped table-dark widefat">
             <thead>
                 <tr>
-                    <th>{{ __("Account Name", "erp") }}</th>
-                    <th>{{ __("Debit Total", "erp") }}</th>
-                    <th>{{ __("Credit Total", "erp") }}</th>
+                    <th>{{ this.$func.__("Account Name", "erp") }}</th>
+                    <th>{{ this.$func.__("Debit Total", "erp") }}</th>
+                    <th>{{ this.$func.__("Credit Total", "erp") }}</th>
                 </tr>
             </thead>
             <tbody :key="key" v-for="(chart, key) in chrtAcct">
@@ -96,7 +96,7 @@
             </tbody>
             <tfoot>
                 <tr class="t-foot inline-edit-row">
-                    <td>{{ __("Total", "erp") }}</td>
+                    <td>{{ this.$func.__("Total", "erp") }}</td>
                     <td>{{ moneyFormat(totalDebit) }}</td>
                     <td>{{ moneyFormat(Math.abs(totalCredit)) }}</td>
                 </tr>
@@ -120,16 +120,16 @@ export default {
             bulkActions: [
                 {
                     key: "trash",
-                    label: __("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     img:
                         erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
                 },
             ],
             columns: {
-                name: { label: __("Account Name", "erp") },
-                debit: { label: __("Debit Total", "erp") },
-                credit: { label: __("Credit Total", "erp") },
+                name: { label: this.$func.__("Account Name", "erp") },
+                debit: { label: this.$func.__("Debit Total", "erp") },
+                credit: { label: this.$func.__("Credit Total", "erp") },
             },
             rows: [],
             fyears: [],
@@ -230,7 +230,6 @@ export default {
             this.updateDate();
 
             this.rows = [];
-            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios
                 .get("/reports/trial-balance", {
@@ -244,10 +243,8 @@ export default {
                     this.totalDebit = response.data.total_debit;
                     this.totalCredit = response.data.total_credit;
 
-                    this.$store.dispatch("spinner/setSpinner", false);
                 })
                 .catch((e) => {
-                    this.$store.dispatch("spinner/setSpinner", false);
                 });
         },
 

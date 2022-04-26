@@ -12,7 +12,7 @@
             </div>
 
             <button type="submit" class="wperp-btn btn--primary search-btn">
-                {{ __("Search", "erp") }}
+                {{ this.$func.__("Search", "erp") }}
             </button>
         </form>
     </div>

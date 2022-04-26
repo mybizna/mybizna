@@ -1,11 +1,11 @@
 <template>
     <div>
         <h2 class="view-doc">
-            <span>{{ __("Accounting Help", "erp") }}</span>
+            <span>{{ this.$func.__("Accounting Help", "erp") }}</span>
             <a
                 href="https://wperp.com/docs/accounting/getting-started/"
                 class="wperp-btn"
-                >{{ __("View all documentation", "erp") }}</a
+                >{{ this.$func.__("View all documentation", "erp") }}</a
             >
         </h2>
 
