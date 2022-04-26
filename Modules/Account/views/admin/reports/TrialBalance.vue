@@ -1,9 +1,13 @@
 <template>
     <div class="trial-balance">
-        <h2>{{ __('Trial Balance', 'erp') }}</h2>
+        <h2>{{ __("Trial Balance", "erp") }}</h2>
 
         <div class="with-multiselect fyear-select">
-            <multi-select v-model="selectedYear" @input="onYearSelected" :options="fyears" />
+            <multi-select
+                v-model="selectedYear"
+                @input="onYearSelected"
+                :options="fyears"
+            />
         </div>
 
         <form @submit.prevent="getTrialBalance" class="query-options no-print">
@@ -12,104 +16,142 @@
                 <datepicker v-model="end_date"></datepicker>
             </div>
 
-            <button class="wperp-btn btn--primary add-line-trigger" type="submit">{{ __('View', 'erp') }}</button>
+            <button
+                class="wperp-btn btn--primary add-line-trigger"
+                type="submit"
+            >
+                {{ __("View", "erp") }}
+            </button>
 
-            <a href="#" class="wperp-btn btn--default print-btn" @click.prevent="printPopup">
-                <i class="flaticon-printer-1"></i> &nbsp; {{ __('Print', 'erp') }}
+            <a
+                href="#"
+                class="wperp-btn btn--default print-btn"
+                @click.prevent="printPopup"
+            >
+                <i class="flaticon-printer-1"></i> &nbsp;
+                {{ __("Print", "erp") }}
             </a>
         </form>
 
         <p>
-            <strong>{{ __('For the period of ( Transaction date )', 'erp') }}:</strong>
-            <em>{{ start_date }}</em> {{ __('to', 'erp') }} <em>{{ end_date }}</em>
+            <strong
+                >{{
+                    __("For the period of ( Transaction date )", "erp")
+                }}:</strong
+            >
+            <em>{{ start_date }}</em> {{ __("to", "erp") }}
+            <em>{{ end_date }}</em>
         </p>
 
         <table class="wperp-table table-striped table-dark widefat">
             <thead>
                 <tr>
-                    <th>{{ __('Account Name', 'erp') }}</th>
-                    <th>{{ __('Debit Total', 'erp') }}</th>
-                    <th>{{ __('Credit Total', 'erp') }}</th>
+                    <th>{{ __("Account Name", "erp") }}</th>
+                    <th>{{ __("Debit Total", "erp") }}</th>
+                    <th>{{ __("Credit Total", "erp") }}</th>
                 </tr>
             </thead>
             <tbody :key="key" v-for="(chart, key) in chrtAcct">
-                <tr v-if="rows[chart.id] && debugMode"><h1>{{ chart.label }}</h1></tr>
+                <tr v-if="rows[chart.id] && debugMode">
+                    <h1>{{ chart.label }}</h1>
+                </tr>
 
-                <tr :key="index" v-for="(row, index) in rows[chart.id]" class="inline-edit-row">
+                <tr
+                    :key="index"
+                    v-for="(row, index) in rows[chart.id]"
+                    class="inline-edit-row"
+                >
                     <td>
                         <details v-if="row.additional" open>
                             <summary>{{ row.name }}</summary>
-                            <p :key="additional.id" v-for="additional in row.additional">
+                            <p
+                                :key="additional.id"
+                                v-for="additional in row.additional"
+                            >
                                 <strong>{{ additional.name }}</strong>
-                                <em>{{ moneyFormat( Math.abs(additional.balance) ) }}</em>
+                                <em>{{
+                                    moneyFormat(Math.abs(additional.balance))
+                                }}</em>
                             </p>
                         </details>
 
                         <span v-else>{{ row.name }}</span>
                     </td>
 
-                    <td>{{ Math.sign(row.balance) === 1 ? moneyFormat( row.balance ) : '' }}</td>
-                    <td>{{ Math.sign(row.balance) === -1 ? moneyFormat( Math.abs(row.balance) ) : '' }}</td>
+                    <td>
+                        {{
+                            Math.sign(row.balance) === 1
+                                ? moneyFormat(row.balance)
+                                : ""
+                        }}
+                    </td>
+                    <td>
+                        {{
+                            Math.sign(row.balance) === -1
+                                ? moneyFormat(Math.abs(row.balance))
+                                : ""
+                        }}
+                    </td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr class="t-foot inline-edit-row">
-                    <td>{{ __('Total', 'erp') }}</td>
-                    <td>{{ moneyFormat( totalDebit ) }}</td>
-                    <td>{{ moneyFormat( Math.abs(totalCredit) ) }}</td>
+                    <td>{{ __("Total", "erp") }}</td>
+                    <td>{{ moneyFormat(totalDebit) }}</td>
+                    <td>{{ moneyFormat(Math.abs(totalCredit)) }}</td>
                 </tr>
             </tfoot>
         </table>
-
     </div>
 </template>
 
 <script>
-import MultiSelect from 'admin/components/select/MultiSelect.vue';
-import Datepicker  from 'admin/components/base/Datepicker.vue';
+import MultiSelect from "admin/components/select/MultiSelect.vue";
+import Datepicker from "admin/components/base/Datepicker.vue";
 
 export default {
-
     components: {
         Datepicker,
-        MultiSelect
+        MultiSelect,
     },
 
     data() {
         return {
             bulkActions: [
                 {
-                    key  : 'trash',
-                    label: __('Move to Trash', 'erp'),
-                    img  : erp_acct_var.erp_assets + '/images/trash.png' /* global erp_acct_var */
-                }
+                    key: "trash",
+                    label: __("Move to Trash", "erp"),
+                    img:
+                        erp_acct_var.erp_assets +
+                        "/images/trash.png" /* global erp_acct_var */,
+                },
             ],
             columns: {
-                name  : { label: __('Account Name', 'erp') },
-                debit : { label: __('Debit Total', 'erp') },
-                credit: { label: __('Credit Total', 'erp') }
+                name: { label: __("Account Name", "erp") },
+                debit: { label: __("Debit Total", "erp") },
+                credit: { label: __("Credit Total", "erp") },
             },
-            rows        : [],
-            fyears      : [],
-            totalDebit  : 0,
-            totalCredit : 0,
-            chrtAcct    : null,
-            start_date  : null,
-            end_date    : null,
-            selectedYear: null
+            rows: [],
+            fyears: [],
+            totalDebit: 0,
+            totalCredit: 0,
+            chrtAcct: null,
+            start_date: null,
+            end_date: null,
+            selectedYear: null,
         };
     },
 
     computed: {
         debugMode() {
-            return erp_acct_var.erp_debug_mode === '1';
-        }
+            return erp_acct_var.erp_debug_mode === "1";
+        },
     },
 
     created() {
         this.fetchFnYears();
         // ? why is nextTick here ...? I don't know.
-        this.$nextTick(function() {
+        this.$nextTick(function () {
             // with leading zero, and JS month are zero index based
             // const dateObj = new Date();
 
@@ -117,7 +159,7 @@ export default {
 
             if (this.$route.query.start) {
                 this.start_date = this.$route.query.start;
-                this.end_date   = this.$route.query.end;
+                this.end_date = this.$route.query.end;
             } else {
                 this.closestFnYear();
             }
@@ -128,34 +170,36 @@ export default {
 
     methods: {
         closestFnYear() {
-            window.axios.get('/reports/closest-fn-year').then(response => {
+            window.axios.get("/reports/closest-fn-year").then((response) => {
                 this.start_date = response.data.start_date;
-                this.end_date   = response.data.end_date;
+                this.end_date = response.data.end_date;
 
                 this.getTrialBalance();
                 this.setFnYear(response.data);
             });
         },
 
-        setFnYear(closestYear){
+        setFnYear(closestYear) {
+            let year = this.fyears.filter((item) => {
+                return item.id === closestYear.id;
+            });
 
-            let year =  this.fyears.filter( item=>{
-                return item.id === closestYear.id
-            })
-
-            this.selectedYear = year.length ? year[0] : null ;
+            this.selectedYear = year.length ? year[0] : null;
         },
         onYearSelected() {
             this.start_date = this.selectedYear.start_date;
-            this.end_date   = this.selectedYear.end_date;
+            this.end_date = this.selectedYear.end_date;
 
-            this.selectedYear = { id: parseInt(this.selectedYear.id), name: this.selectedYear.name };
+            this.selectedYear = {
+                id: parseInt(this.selectedYear.id),
+                name: this.selectedYear.name,
+            };
 
             this.getTrialBalance();
         },
 
         updateDate() {
-           /* this.$router.push({ path: this.$route.path,
+            /* this.$router.push({ path: this.$route.path,
                 query: {
                     start: this.start_date,
                     end  : this.end_date
@@ -163,7 +207,7 @@ export default {
         },
 
         getChartOfAccts() {
-            window.axios.get('/ledgers/accounts').then(response => {
+            window.axios.get("/ledgers/accounts").then((response) => {
                 this.chrtAcct = response.data;
 
                 this.setDateAndGetTb();
@@ -171,12 +215,12 @@ export default {
         },
 
         setDateAndGetTb() {
-           // this.updateDate();
+            // this.updateDate();
             this.getTrialBalance();
         },
 
         fetchFnYears() {
-            window.axios.get('/opening-balances/names').then(response => {
+            window.axios.get("/opening-balances/names").then((response) => {
                 // get only last 5
                 this.fyears = response.data.reverse().slice(0).slice(-5);
             });
@@ -186,176 +230,158 @@ export default {
             this.updateDate();
 
             this.rows = [];
-            this.$store.dispatch('spinner/setSpinner', true);
+            this.$store.dispatch("spinner/setSpinner", true);
 
-            window.axios.get('/reports/trial-balance', {
-                params: {
-                    start_date: this.start_date,
-                    end_date  : this.end_date
-                }
-            }).then(response => {
-                this.rows        = response.data.rows;
-                this.totalDebit  = response.data.total_debit;
-                this.totalCredit = response.data.total_credit;
+            window.axios
+                .get("/reports/trial-balance", {
+                    params: {
+                        start_date: this.start_date,
+                        end_date: this.end_date,
+                    },
+                })
+                .then((response) => {
+                    this.rows = response.data.rows;
+                    this.totalDebit = response.data.total_debit;
+                    this.totalCredit = response.data.total_credit;
 
-                this.$store.dispatch('spinner/setSpinner', false);
-            }).catch(e => {
-                this.$store.dispatch('spinner/setSpinner', false);
-            });
+                    this.$store.dispatch("spinner/setSpinner", false);
+                })
+                .catch((e) => {
+                    this.$store.dispatch("spinner/setSpinner", false);
+                });
         },
 
         printPopup() {
             window.print();
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="less">
-    .trial-balance {
-        h2 {
-            padding-top: 15px;
-        }
+<style>
+.trial-balance h2 {
+    padding-top: 15px;
+}
 
-        tr {
-            h1 {
-                padding-left: 10px;
-                font-size: 15px;
-                font-weight: bold;
-            }
-        }
+.trial-balance tr h1 {
+    padding-left: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
 
-        .col--check {
-            display: none;
-        }
+.trial-balance .col--check {
+    display: none;
+}
 
-        .tablenav {
-            &.top,
-            &.bottom {
-                display: none
-            }
-        }
+.trial-balance .tablenav .top,
+.trial-balance .tablenav .bottom {
+    display: none;
+}
 
-        tbody tr td:last-child {
-            text-align: initial !important;
-        }
+.trial-balance tbody tr td:last-child {
+    text-align: initial !important;
+}
 
-        .t-foot {
-            td {
-                color: #2196f3;
-                font-weight: bold;
-            }
-        }
+.trial-balance .t-foot td {
+    color: #2196f3;
+    font-weight: bold;
+}
 
-        .query-options {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 500px;
-            padding: 20px 0;
-        }
+.trial-balance .query-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 500px;
+    padding: 20px 0;
+}
 
-        .fyear-select {
-            width: 320px;
-            margin-bottom: 0;
-            margin-top: 10px;
-        }
+.trial-balance .fyear-select {
+    width: 320px;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
 
-        details {
-            summary {
-                margin-bottom: 15px;
+.trial-balance details summary {
+    margin-bottom: 15px;
+}
+.trial-balance details summary:focus {
+    outline: 0;
+}
 
-                &:focus {
-                    outline: 0;
-                }
-            }
+.trial-balance details p {
+    display: flex;
+    justify-content: space-between;
+    max-width: 300px;
+    padding: 3px;
+}
 
-            p {
-                display: flex;
-                justify-content: space-between;
-                max-width: 300px;
-                padding: 3px;
-            }
-        }
-
-        @media screen {
-            .inline-edit-row {
-                td {
-                    padding: 18px 10px;
-                }
-
-                td:first-child {
-                    padding-left: 20px;
-                }
-            }
-
-            @media ( max-width: 782px ) {
-                .inline-edit-row {
-                    td:first-child {
-                        border-right: 1px solid #eeeeee;
-                    }
-
-                    td:last-child {
-                        border-left: 1px solid #eeeeee;
-                    }
-                }
-            }
-        }
+@media screen {
+    .trial-balance .inline-edit-row td {
+        padding: 18px 10px;
     }
 
-    @media print {
-        .erp-nav-container {
-            display: none;
-        }
-
-        .no-print, .no-print * {
-            display: none !important;
-        }
-
-        .trial-balance {
-            p {
-                margin-bottom: 0;
-
-                em {
-                    font-weight: bold;
-                }
-            }
-
-            .wperp-table {
-                margin-top: 20px;
-
-                td,
-                th {
-                    padding: 3px 20px;
-                }
-
-                thead tr th {
-                    font-weight: bold;
-
-                    &:not(:first-child) {
-                        text-align: right;
-                    }
-                }
-
-                tbody tr td {
-                    &:not(:first-child) {
-                        text-align: right !important;
-                    }
-                }
-
-                tfoot td:not(:first-child) {
-                    text-align: right !important;
-                }
-            }
-
-            details {
-                margin: 0;
-                padding: 0;
-
-                summary {
-                    margin-bottom: 2px;
-                }
-            }
-        }
+    .trial-balance .inline-edit-row td:first-child {
+        padding-left: 20px;
     }
+}
+
+@media (max-width: 782px) {
+    .trial-balance .inline-edit-row td:first-child {
+        border-right: 1px solid #eeeeee;
+    }
+
+    .trial-balance .inline-edit-row td:last-child {
+        border-left: 1px solid #eeeeee;
+    }
+}
+
+@media print {
+    .erp-nav-container {
+        display: none;
+    }
+
+    .no-print,
+    .no-print * {
+        display: none !important;
+    }
+
+    .trial-balance p {
+        margin-bottom: 0;
+    }
+    .trial-balance p em {
+        font-weight: bold;
+    }
+
+    .trial-balance .wperp-table {
+        margin-top: 20px;
+    }
+    .trial-balance .wperp-table td,
+    .trial-balance .wperp-table th {
+        padding: 3px 20px;
+    }
+
+    .trial-balance .wperp-table thead tr th {
+        font-weight: bold;
+    }
+
+    .trial-balance .wperp-table thead tr th:not(:first-child) {
+        text-align: right;
+    }
+
+    .trial-balance .wperp-table tbody tr td:not(:first-child) {
+        text-align: right !important;
+    }
+}
+
+.trial-balance .wperp-table tfoot td:not(:first-child) {
+    text-align: right !important;
+}
+
+.trial-balance details {
+    margin: 0;
+    padding: 0;
+}
+.trial-balance details summary {
+    margin-bottom: 2px;
+}
 </style>

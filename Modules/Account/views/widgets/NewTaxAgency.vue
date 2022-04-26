@@ -1,66 +1,93 @@
 <template>
-    <div id="wperp-tax-agency-modal" class="wperp-modal has-form wperp-modal-open" role="dialog">
+    <div
+        id="wperp-tax-agency-modal"
+        class="wperp-modal has-form wperp-modal-open"
+        role="dialog"
+    >
         <div class="wperp-modal-dialog">
             <div class="wperp-modal-content">
                 <!-- modal body title -->
                 <div class="wperp-modal-header">
-                    <h3>{{ is_update ? __('Edit', 'erp') : __('Add', 'erp') }} {{ __('Tax Agency', 'erp') }}</h3>
-                    <span class="modal-close" @click.prevent="closeModal"><i class="flaticon-close"></i></span>
+                    <h3>
+                        {{ is_update ? __("Edit", "erp") : __("Add", "erp") }}
+                        {{ __("Tax Agency", "erp") }}
+                    </h3>
+                    <span class="modal-close" @click.prevent="closeModal"
+                        ><i class="flaticon-close"></i
+                    ></span>
                 </div>
 
                 <show-errors :error_msgs="form_errors" />
                 <!-- end modal body title -->
-                <form action="" method="post" class="modal-form edit-customer-modal" @submit.prevent="taxAgencyFormSubmit">
+                <form
+                    action=""
+                    method="post"
+                    class="modal-form edit-customer-modal"
+                    @submit.prevent="taxAgencyFormSubmit"
+                >
                     <div class="wperp-modal-body">
-
                         <div class="wperp-form-group">
-                            <label>{{ __('Tax Agency Name', 'erp') }}<span class="wperp-required-sign">*</span></label>
+                            <label
+                                >{{ __("Tax Agency Name", "erp")
+                                }}<span class="wperp-required-sign"
+                                    >*</span
+                                ></label
+                            >
                             <!--<multi-select v-model="agency" :options="agencies" />-->
-                            <input type="text" v-model="agency" class="wperp-form-field">
+                            <input
+                                type="text"
+                                v-model="agency"
+                                class="wperp-form-field"
+                            />
                         </div>
-
                     </div>
 
                     <div class="wperp-modal-footer pt-0">
                         <!-- buttons -->
                         <div class="buttons-wrapper text-right">
-                            <submit-button v-if="is_update" :text="__( 'Update', 'erp' )" :working="isWorking"></submit-button>
-                            <submit-button v-else :text="__( 'Save', 'erp' )" :working="isWorking"></submit-button>
+                            <submit-button
+                                v-if="is_update"
+                                :text="__('Update', 'erp')"
+                                :working="isWorking"
+                            ></submit-button>
+                            <submit-button
+                                v-else
+                                :text="__('Save', 'erp')"
+                                :working="isWorking"
+                            ></submit-button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
-import SubmitButton from 'admin/components/base/SubmitButton.vue';
-import ShowErrors from 'admin/components/base/ShowErrors.vue';
+import SubmitButton from "admin/components/base/SubmitButton.vue";
+import ShowErrors from "admin/components/base/ShowErrors.vue";
 
 export default {
-
     components: {
         SubmitButton,
-        ShowErrors
+        ShowErrors,
     },
 
     props: {
         agency_id: {
-            type: [Number, String]
+            type: [Number, String],
         },
         is_update: {
-            type: Boolean
-        }
+            type: Boolean,
+        },
     },
 
     data() {
         return {
-            agencies   : [],
-            agency     : null,
-            isWorking  : false,
-            form_errors: []
+            agencies: [],
+            agency: null,
+            isWorking: false,
+            form_errors: [],
         };
     },
 
@@ -71,15 +98,17 @@ export default {
     },
 
     methods: {
-        closeModal: function() {
-            this.$emit('close');
-            this.$root.$emit('modal_closed');
+        closeModal: function () {
+            this.$emit("close");
+            this.$root.$emit("modal_closed");
         },
 
         getAgency() {
-            window.axios.get(`/tax-agencies/${this.agency_id}`).then((response) => {
-                this.agency = response.data.name;
-            });
+            window.axios
+                .get(`/tax-agencies/${this.agency_id}`)
+                .then((response) => {
+                    this.agency = response.data.name;
+                });
         },
 
         taxAgencyFormSubmit() {
@@ -88,7 +117,7 @@ export default {
             if (this.form_errors.length) {
                 window.scrollTo({
                     top: 10,
-                    behavior: 'smooth'
+                    behavior: "smooth",
                 });
 
                 return;
@@ -97,52 +126,52 @@ export default {
             var rest, url, msg;
 
             if (this.is_update) {
-                rest = 'put';
+                rest = "put";
                 url = `/tax-agencies/${this.agency_id}`;
-                msg = __('Tax Agency Updated!', 'erp');
+                msg = __("Tax Agency Updated!", "erp");
             } else {
-                rest = 'post';
+                rest = "post";
                 url = `/tax-agencies`;
-                msg = __('Tax Agency Created!', 'erp');
+                msg = __("Tax Agency Created!", "erp");
             }
 
-            this.$store.dispatch('spinner/setSpinner', true);
+            this.$store.dispatch("spinner/setSpinner", true);
 
             window.axios[rest](url, {
-                agency_name: this.agency
-            }).catch(error => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                throw error;
-            }).then(res => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                this.showAlert('success', msg);
-            }).then(() => {
-                this.resetData();
-                this.isWorking = false;
-                this.$emit('close');
-                this.$root.$emit('refetch_tax_data');
-            });
+                agency_name: this.agency,
+            })
+                .catch((error) => {
+                    this.$store.dispatch("spinner/setSpinner", false);
+                    throw error;
+                })
+                .then((res) => {
+                    this.$store.dispatch("spinner/setSpinner", false);
+                    this.showAlert("success", msg);
+                })
+                .then(() => {
+                    this.resetData();
+                    this.isWorking = false;
+                    this.$emit("close");
+                    this.$root.$emit("refetch_tax_data");
+                });
         },
 
         validateForm() {
             this.form_errors = [];
 
             if (!this.agency) {
-                this.form_errors.push(__('Agency Name is required.', 'erp'));
+                this.form_errors.push(__("Agency Name is required.", "erp"));
             }
         },
 
         resetData() {
             Object.assign(this.$data, this.$options.data.call(this));
-        }
-
-    }
+        },
+    },
 };
 </script>
-<style lang="less" scoped>
-    .modal-close {
-        .flaticon-close {
-            font-size: inherit;
-        }
-    }
+<style>
+.modal-close .flaticon-close {
+    font-size: inherit;
+}
 </style>

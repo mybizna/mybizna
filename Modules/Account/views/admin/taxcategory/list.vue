@@ -3,15 +3,25 @@
         <div class="content-header-section separator">
             <div class="wperp-row wperp-between-xs">
                 <div class="wperp-col">
-                    <h2 class="content-header__title">{{ __('Tax Categories', 'erp') }}</h2>
-                    <a class="wperp-btn btn--primary" @click.prevent="showModal = true">
-                        <span>{{ __('Add Tax Category', 'erp') }}</span>
+                    <h2 class="content-header__title">
+                        {{ __("Tax Categories", "erp") }}
+                    </h2>
+                    <a
+                        class="wperp-btn btn--primary"
+                        @click.prevent="showModal = true"
+                    >
+                        <span>{{ __("Add Tax Category", "erp") }}</span>
                     </a>
                 </div>
             </div>
         </div>
 
-        <new-tax-category v-if="showModal" :cat_id="cat_id" :is_update="is_update" @close="showModal = false"></new-tax-category>
+        <new-tax-category
+            v-if="showModal"
+            :cat_id="cat_id"
+            :is_update="is_update"
+            @close="showModal = false"
+        ></new-tax-category>
 
         <div class="wperp-row">
             <div class="table-container wperp-col-sm-8">
@@ -28,7 +38,8 @@
                     :actions="actions"
                     :bulk-actions="bulkActions"
                     @action:click="onActionClick"
-                    @bulk:click="onBulkAction">
+                    @bulk:click="onBulkAction"
+                >
                 </list-table>
             </div>
             <div class="wperp-col-sm-4">
@@ -39,16 +50,15 @@
 </template>
 
 <script>
-import ListTable       from 'admin/components/list-table/ListTable.vue';
-import NewTaxCategory  from 'admin/components/tax/NewTaxCategory.vue';
-import TaxShortcuts    from 'admin/components/tax/TaxShortcuts.vue';
+import ListTable from "admin/components/list-table/ListTable.vue";
+import NewTaxCategory from "admin/components/tax/NewTaxCategory.vue";
+import TaxShortcuts from "admin/components/tax/TaxShortcuts.vue";
 
 export default {
-
     components: {
         ListTable,
         NewTaxCategory,
-        TaxShortcuts
+        TaxShortcuts,
     },
 
     data() {
@@ -56,46 +66,60 @@ export default {
             showModal: false,
             modalParams: null,
             columns: {
-                tax_cat_name: { label: __('Category Name', 'erp'), isColPrimary: true },
-                tax_cat_desc: { label: __('Description', 'erp') },
-                actions     : { label: __('Actions', 'erp') }
+                tax_cat_name: {
+                    label: __("Category Name", "erp"),
+                    isColPrimary: true,
+                },
+                tax_cat_desc: { label: __("Description", "erp") },
+                actions: { label: __("Actions", "erp") },
             },
             rows: [],
             paginationData: {
-                totalItems : 0,
-                totalPages : 0,
-                perPage    : 20,
-                currentPage: this.$route.params.page === undefined ? 1 : parseInt(this.$route.params.page)
+                totalItems: 0,
+                totalPages: 0,
+                perPage: 20,
+                currentPage:
+                    this.$route.params.page === undefined
+                        ? 1
+                        : parseInt(this.$route.params.page),
             },
-            actions : [
-                { key: 'edit', label: __('Edit', 'erp'), iconClass: 'flaticon-edit' },
-                { key: 'trash', label: __('Delete', 'erp'), iconClass: 'flaticon-trash' }
+            actions: [
+                {
+                    key: "edit",
+                    label: __("Edit", "erp"),
+                    iconClass: "flaticon-edit",
+                },
+                {
+                    key: "trash",
+                    label: __("Delete", "erp"),
+                    iconClass: "flaticon-trash",
+                },
             ],
             bulkActions: [
                 {
-                    key: 'trash',
-                    label: __('Trash', 'erp'),
-                    iconClass: 'flaticon-trash'
-                }
+                    key: "trash",
+                    label: __("Trash", "erp"),
+                    iconClass: "flaticon-trash",
+                },
             ],
-            tax_cats              : [{}],
-            buttonTitle           : '',
-            pageTitle             : '',
-            url                   : '',
-            singleUrl             : '',
+            tax_cats: [{}],
+            buttonTitle: "",
+            pageTitle: "",
+            url: "",
+            singleUrl: "",
             isActiveOptionDropdown: false,
-            cat_id                : null,
-            is_update             : false
+            cat_id: null,
+            is_update: false,
         };
     },
 
     created() {
-        this.$root.$on('refetch_tax_data', () => {
+        this.$root.$on("refetch_tax_data", () => {
             this.fetchItems();
             this.is_update = false;
         });
 
-        this.$root.$on('modal_closed', () => {
+        this.$root.$on("modal_closed", () => {
             this.is_update = false;
         });
 
@@ -105,33 +129,42 @@ export default {
     computed: {
         row_data() {
             const items = this.rows;
-            items.map(item => {
-                item.tax_cat_id   = item.id;
+            items.map((item) => {
+                item.tax_cat_id = item.id;
                 item.tax_cat_name = item.name;
                 item.tax_cat_desc = item.description;
             });
             return items;
-        }
+        },
     },
 
     methods: {
         fetchItems() {
             this.rows = [];
-            this.$store.dispatch('spinner/setSpinner', true);
+            this.$store.dispatch("spinner/setSpinner", true);
 
-            window.axios.get('tax-cats', {
-                params: {
-                    per_page: this.paginationData.perPage,
-                    page: this.$route.params.page === undefined ? this.paginationData.currentPage : this.$route.params.page
-                }
-            }).then((response) => {
-                this.rows = response.data;
-                this.paginationData.totalItems = parseInt(response.headers['x-wp-total']);
-                this.paginationData.totalPages = parseInt(response.headers['x-wp-totalpages']);
-                this.$store.dispatch('spinner/setSpinner', false);
-            })
+            window.axios
+                .get("tax-cats", {
+                    params: {
+                        per_page: this.paginationData.perPage,
+                        page:
+                            this.$route.params.page === undefined
+                                ? this.paginationData.currentPage
+                                : this.$route.params.page,
+                    },
+                })
+                .then((response) => {
+                    this.rows = response.data;
+                    this.paginationData.totalItems = parseInt(
+                        response.headers["x-wp-total"]
+                    );
+                    this.paginationData.totalPages = parseInt(
+                        response.headers["x-wp-totalpages"]
+                    );
+                    this.$store.dispatch("spinner/setSpinner", false);
+                })
                 .catch((error) => {
-                    this.$store.dispatch('spinner/setSpinner', false);
+                    this.$store.dispatch("spinner/setSpinner", false);
                     throw error;
                 });
         },
@@ -140,12 +173,12 @@ export default {
             const queries = Object.assign({}, this.$route.query);
             this.paginationData.currentPage = page;
             this.$router.push({
-                name  : 'PaginateTaxCategories',
+                name: "PaginateTaxCategories",
                 params: { page: page },
-                query : queries
+                query: queries,
             });
 
-            this.$root.$on('refetch_tax_data', () => {
+            this.$root.$on("refetch_tax_data", () => {
                 this.fetchItems();
             });
 
@@ -153,86 +186,104 @@ export default {
         },
 
         singleTaxCategory(tax_id) {
-            this.$router.push({ name: 'SingleTaxCategory', params: { id: tax_id } });
+            this.$router.push({
+                name: "SingleTaxCategory",
+                params: { id: tax_id },
+            });
         },
 
         onActionClick(action, row, index) {
             switch (action) {
-            case 'trash':
-                if (confirm(__('Are you sure to delete?', 'erp'))) {
-                    this.$store.dispatch('spinner/setSpinner', true);
-                    window.axios.delete('tax-cats' + '/' + row.id).then(response => {
-                        this.$delete(this.rows, index);
-                        this.$store.dispatch('spinner/setSpinner', false);
-                        this.showAlert('success', __('Deleted !', 'erp'));
-                    }).catch(error => {
-                        this.$store.dispatch('spinner/setSpinner', false);
-                        throw error;
-                    });
-                }
-                break;
+                case "trash":
+                    if (confirm(__("Are you sure to delete?", "erp"))) {
+                        this.$store.dispatch("spinner/setSpinner", true);
+                        window.axios
+                            .delete("tax-cats" + "/" + row.id)
+                            .then((response) => {
+                                this.$delete(this.rows, index);
+                                this.$store.dispatch(
+                                    "spinner/setSpinner",
+                                    false
+                                );
+                                this.showAlert(
+                                    "success",
+                                    __("Deleted !", "erp")
+                                );
+                            })
+                            .catch((error) => {
+                                this.$store.dispatch(
+                                    "spinner/setSpinner",
+                                    false
+                                );
+                                throw error;
+                            });
+                    }
+                    break;
 
-            case 'edit':
-                this.showModal = true;
-                this.cat_id    = row.id;
-                this.is_update = true;
-                this.fetchItems();
-                break;
+                case "edit":
+                    this.showModal = true;
+                    this.cat_id = row.id;
+                    this.is_update = true;
+                    this.fetchItems();
+                    break;
 
-            default :
-                break;
+                default:
+                    break;
             }
         },
 
         onBulkAction(action, items) {
-            if (action === 'trash') {
-                if (confirm(__('Are you sure to delete?', 'erp'))) {
-                    this.$store.dispatch('spinner/setSpinner', true);
+            if (action === "trash") {
+                if (confirm(__("Are you sure to delete?", "erp"))) {
+                    this.$store.dispatch("spinner/setSpinner", true);
 
-                    window.axios.delete('tax-cats/delete/' + items.join(',')).then(response => {
-                        const toggleCheckbox = document.getElementsByClassName('column-cb')[0].childNodes[0];
+                    window.axios
+                        .delete("tax-cats/delete/" + items.join(","))
+                        .then((response) => {
+                            const toggleCheckbox =
+                                document.getElementsByClassName("column-cb")[0]
+                                    .childNodes[0];
 
-                        if (toggleCheckbox.checked) {
-                            // simulate click event to remove checked state
-                            toggleCheckbox.click();
-                        }
+                            if (toggleCheckbox.checked) {
+                                // simulate click event to remove checked state
+                                toggleCheckbox.click();
+                            }
 
-                        this.fetchItems();
-                        this.$store.dispatch('spinner/setSpinner', false);
-                        this.showAlert('success', __('Deleted !', 'erp'));
-                    }).catch(error => {
-                        this.$store.dispatch('spinner/setSpinner', false);
-                        throw error;
-                    });
+                            this.fetchItems();
+                            this.$store.dispatch("spinner/setSpinner", false);
+                            this.showAlert("success", __("Deleted !", "erp"));
+                        })
+                        .catch((error) => {
+                            this.$store.dispatch("spinner/setSpinner", false);
+                            throw error;
+                        });
                 }
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="less">
-    .app-tax-categories {
-        .table-container {
-            width: 600px;
-        }
+<style>
+.app-tax-categories .table-container {
+    width: 600px;
+}
 
-        .check-column {
-            padding: 20px !important;
-        }
+.app-tax-categories .check-column {
+    padding: 20px !important;
+}
 
-        @media (min-width: 783px) {
-            .actions {
-                text-align: right;
-            }
-
-            .col--actions {
-                float: left !important;
-            }
-
-            .row-actions {
-                text-align: right !important;
-            }
-        }
+@media (min-width: 783px) {
+    .app-tax-categories .actions {
+        text-align: right;
     }
+
+    .app-tax-categories .col--actions {
+        float: left !important;
+    }
+
+    .app-tax-categories .row-actions {
+        text-align: right !important;
+    }
+}
 </style>

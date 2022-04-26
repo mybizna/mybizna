@@ -1,36 +1,53 @@
 <template>
     <div class="income-statement">
-        <h2 class="content-header__title">{{ __('Income Statement', 'erp') }}</h2>
+        <h2 class="content-header__title">
+            {{ __("Income Statement", "erp") }}
+        </h2>
 
         <form @submit.prevent="fetchItems" class="query-options no-print">
-
             <div class="wperp-date-group">
                 <datepicker v-model="start_date"></datepicker>
                 <datepicker v-model="end_date"></datepicker>
-                <button class="wperp-btn btn--primary add-line-trigger" type="submit">{{ __('Filter', 'erp') }}</button>
+                <button
+                    class="wperp-btn btn--primary add-line-trigger"
+                    type="submit"
+                >
+                    {{ __("Filter", "erp") }}
+                </button>
             </div>
 
-            <a href="#" class="wperp-btn btn--default print-btn" @click.prevent="printPopup">
+            <a
+                href="#"
+                class="wperp-btn btn--default print-btn"
+                @click.prevent="printPopup"
+            >
                 <i class="flaticon-printer-1"></i>
-                &nbsp; {{ __('Print', 'erp') }}
+                &nbsp; {{ __("Print", "erp") }}
             </a>
-
         </form>
 
-        <p><strong>{{ __('For the period of ( Transaction date )', 'erp') }}:</strong> <em>{{ start_date }}</em> to <em>{{ end_date }}</em></p>
+        <p>
+            <strong
+                >{{
+                    __("For the period of ( Transaction date )", "erp")
+                }}:</strong
+            >
+            <em>{{ start_date }}</em> to <em>{{ end_date }}</em>
+        </p>
 
         <list-table
             tableClass="wperp-table table-striped table-dark widefat income-statement income-balance-report"
             :columns="columns1"
             :rows="rows1"
             :showItemNumbers="false"
-            :showCb="false">
+            :showCb="false"
+        >
             <template slot="amount" slot-scope="data">
                 {{ transformBalance(Math.abs(data.row.balance)) }}
             </template>
             <template slot="tfoot">
                 <tr class="t-foot">
-                    <td>{{ __('Total Income', 'erp') }}</td>
+                    <td>{{ __("Total Income", "erp") }}</td>
                     <td>{{ transformBalance(Math.abs(income)) }}</td>
                 </tr>
             </template>
@@ -41,32 +58,39 @@
             :columns="columns2"
             :rows="rows2"
             :showItemNumbers="false"
-            :showCb="false">
+            :showCb="false"
+        >
             <template slot="amount" slot-scope="data">
                 {{ transformBalance(Math.abs(data.row.balance)) }}
             </template>
             <template slot="tfoot">
                 <tr class="t-foot">
-                    <td>{{ __('Total Expense', 'erp') }}</td>
+                    <td>{{ __("Total Expense", "erp") }}</td>
                     <td>{{ transformBalance(Math.abs(expense)) }}</td>
                 </tr>
             </template>
         </list-table>
 
-        <table class="wperp-table table-striped table-dark widefat income-statement-balance income-balance-report">
-            <template v-if="profit>=0">
+        <table
+            class="wperp-table table-striped table-dark widefat income-statement-balance income-balance-report"
+        >
+            <template v-if="profit >= 0">
                 <tbody class="wperp-col-sm-12">
-                <tr>
-                    <td><strong>{{ __('Profit', 'erp') }}</strong></td>
-                    <td>{{ moneyFormat( Math.abs(profit) ) }}</td>
-                    <td class="no-print"></td>
-                </tr>
+                    <tr>
+                        <td>
+                            <strong>{{ __("Profit", "erp") }}</strong>
+                        </td>
+                        <td>{{ moneyFormat(Math.abs(profit)) }}</td>
+                        <td class="no-print"></td>
+                    </tr>
                 </tbody>
             </template>
             <template v-else>
                 <tbody class="wperp-col-sm-12">
                     <tr>
-                        <td><strong>{{ __('Loss', 'erp') }}</strong></td>
+                        <td>
+                            <strong>{{ __("Loss", "erp") }}</strong>
+                        </td>
                         <td>{{ moneyFormat(Math.abs(loss)) }}</td>
                         <td class="no-print"></td>
                     </tr>
@@ -77,61 +101,62 @@
 </template>
 
 <script>
-import Datepicker  from 'admin/components/base/Datepicker.vue';
-import ListTable from 'admin/components/list-table/ListTable.vue';
+import Datepicker from "admin/components/base/Datepicker.vue";
+import ListTable from "admin/components/list-table/ListTable.vue";
 
 export default {
-
     components: {
         ListTable,
-        Datepicker
+        Datepicker,
     },
 
     data() {
         return {
-            start_date    : null,
-            end_date      : null,
+            start_date: null,
+            end_date: null,
             bulkActions: [
                 {
-                    key: 'trash',
-                    label: __('Move to Trash', 'erp'),
-                    img: erp_acct_var.erp_assets + '/images/trash.png' /* global erp_acct_var */
-                }
+                    key: "trash",
+                    label: __("Move to Trash", "erp"),
+                    img:
+                        erp_acct_var.erp_assets +
+                        "/images/trash.png" /* global erp_acct_var */,
+                },
             ],
             columns1: {
-                name  : { label: __('Account Name', 'erp') },
-                amount : { label: __('Amount', 'erp') }
+                name: { label: __("Account Name", "erp") },
+                amount: { label: __("Amount", "erp") },
             },
 
             columns2: {
-                name  : { label: __('Account Name', 'erp') },
-                amount : { label: __('Amount', 'erp') }
+                name: { label: __("Account Name", "erp") },
+                amount: { label: __("Amount", "erp") },
             },
             rows1: [],
             rows2: [],
             income: 0,
             expense: 0,
             profit: 0,
-            loss: 0
+            loss: 0,
         };
     },
 
     created() {
-        this.$nextTick(function() {
+        this.$nextTick(function () {
             const dateObj = new Date();
 
             // with leading zero, and JS month are zero index based
-            const month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
+            const month = ("0" + (dateObj.getMonth() + 1)).slice(-2);
 
             if (this.$route.query.start) {
                 this.start_date = this.$route.query.start;
-                this.end_date   = this.$route.query.end;
+                this.end_date = this.$route.query.end;
             } else {
                 this.start_date = `${dateObj.getFullYear()}-${month}-01`;
-                this.end_date   = erp_acct_var.current_date;
+                this.end_date = erp_acct_var.current_date;
             }
 
-           // this.updateDate();
+            // this.updateDate();
 
             this.fetchItems();
         });
@@ -139,11 +164,13 @@ export default {
 
     methods: {
         updateDate() {
-            this.$router.push({ path: this.$route.path,
+            this.$router.push({
+                path: this.$route.path,
                 query: {
                     start: this.start_date,
-                    end  : this.end_date
-                } });
+                    end: this.end_date,
+                },
+            });
         },
 
         fetchItems() {
@@ -151,29 +178,32 @@ export default {
 
             this.rows1 = [];
             this.rows2 = [];
-            this.$store.dispatch('spinner/setSpinner', true);
-            window.axios.get('/reports/income-statement', {
-                params: {
-                    start_date: this.start_date,
-                    end_date  : this.end_date
-                }
-            }).then(response => {
-                this.rows1   = response.data.rows1;
-                this.rows2   = response.data.rows2;
-                this.income  = response.data.income;
-                this.expense = response.data.expense;
-                this.profit  = response.data.profit;
-                this.loss    = response.data.loss;
+            this.$store.dispatch("spinner/setSpinner", true);
+            window.axios
+                .get("/reports/income-statement", {
+                    params: {
+                        start_date: this.start_date,
+                        end_date: this.end_date,
+                    },
+                })
+                .then((response) => {
+                    this.rows1 = response.data.rows1;
+                    this.rows2 = response.data.rows2;
+                    this.income = response.data.income;
+                    this.expense = response.data.expense;
+                    this.profit = response.data.profit;
+                    this.loss = response.data.loss;
 
-                this.$store.dispatch('spinner/setSpinner', false);
-            }).catch(error => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                throw error;
-            });
+                    this.$store.dispatch("spinner/setSpinner", false);
+                })
+                .catch((error) => {
+                    this.$store.dispatch("spinner/setSpinner", false);
+                    throw error;
+                });
         },
 
         transformBalance(val) {
-            if (val === null && typeof val === 'object') {
+            if (val === null && typeof val === "object") {
                 val = 0;
             }
 
@@ -186,113 +216,96 @@ export default {
 
         printPopup() {
             window.print();
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="less">
-    .content-header__title {
-        padding-top: 5px !important;
+<style>
+.content-header__title {
+    padding-top: 5px !important;
+}
+.income-statement tbody tr td:last-child {
+    text-align: left !important;
+}
+
+.income-balance-report tbody tr td:first-child {
+    width: 70% !important;
+}
+
+.income-balance-report thead tr th:first-child {
+    width: 70% !important;
+}
+
+.income-statement .tablenav.top,
+.income-statement .tablenav.bottom {
+    display: none;
+}
+
+.income-statement .print-btn {
+    float: right;
+}
+
+.income-statement .query-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 0;
+}
+
+@media screen and (max-width: 782px) {
+    .income-statement thead th.column.amount {
+        display: none !important;
     }
-    .income-statement tbody tr td:last-child {
-        text-align: left !important;
+
+    .income-statement tbody tr {
+        border-top: 1px solid black;
     }
+}
 
-    .income-balance-report {
-        tbody tr td:first-child {
-            width: 70% !important;
-        }
+.income-statement .t-foot td {
+    color: #2196f3;
+    font-weight: bold;
+}
+.income-statement-balance tr td {
+    background-color: #f2f2f2;
+    color: #2196f3;
+    font-weight: bold;
+}
 
-        thead tr th:first-child {
-            width: 70% !important;
-        }
+@media print {
+    .income-statement p {
+        margin-bottom: 20px;
     }
-
-    .income-statement {
-        .tablenav.top,
-        .tablenav.bottom {
-            display: none;
-        }
-
-        .print-btn {
-            float: right;
-        }
-
-        .query-options {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 20px 0;
-        }
-
-        @media screen {
-            @media ( max-width: 782px ) {
-                thead th.column.amount {
-                    display: none !important;
-                }
-
-                tbody {
-                    tr + tr {
-                        border-top: 1px solid black;
-                    }
-                }
-            }
-        }
-    }
-    .income-statement .t-foot td {
-        color: #2196f3;
+    .income-statement p em {
         font-weight: bold;
     }
-    .income-statement-balance tr td {
-        background-color: #f2f2f2;
-        color: #2196f3;
-        font-weight: bold;
-    }
+}
 
-    @media print {
-        .income-statement {
-            p {
-                margin-bottom: 20px;
+.erp-nav-container {
+    display: none;
+}
 
-                em {
-                    font-weight: bold;
-                }
-            }
-        }
+.no-print,
+.no-print * {
+    display: none !important;
+}
+.wperp-table.income-balance-report td,
+.wperp-table.income-balance-report th {
+    padding: 3px 20px;
+}
+.wperp-table.income-balance-report thead tr th {
+    font-weight: bold;
+}
+.wperp-table.income-balance-report thead tr th:not(:first-child) {
+    text-align: right;
+}
 
-        .erp-nav-container {
-            display: none;
-        }
-
-        .no-print, .no-print * {
-            display: none !important;
-        }
-
-        .wperp-table.income-balance-report {
-            td,
-            th {
-                padding: 3px 20px;
-            }
-
-            thead tr th {
-                font-weight: bold;
-
-                &:not(:first-child) {
-                    text-align: right;
-                }
-            }
-
-            tbody tr td {
-                &:not(:first-child) {
-                    text-align: right !important;
-                }
-            }
-
-            tfoot td:not(:first-child) {
-                text-align: right !important;
-            }
-        }
-    }
+.wperp-table.income-balance-report tbody tr td:not(:first-child) {
+    text-align: right !important;
+}
+.wperp-table.income-balance-report tfoot td:not(:first-child) {
+    text-align: right !important;
+}
 </style>

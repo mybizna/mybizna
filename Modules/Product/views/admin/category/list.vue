@@ -4,25 +4,41 @@
             <div id="col-left">
                 <div class="col-wrap">
                     <div class="form-wrap">
-                        <h2>{{ __('Add new category', 'erp') }}</h2>
+                        <h2>{{ __("Add new category", "erp") }}</h2>
                         <form id="erp-acct-product-category">
-                            <div :class="['form-field term-name-wrap', { 'form-invalid': error }]">
-                                <label>{{ __('Category Name', 'erp') }}</label>
-                                <input type="text" class="wperp-form-field" v-model="categoryName">
+                            <div
+                                :class="[
+                                    'form-field term-name-wrap',
+                                    { 'form-invalid': error },
+                                ]"
+                            >
+                                <label>{{ __("Category Name", "erp") }}</label>
+                                <input
+                                    type="text"
+                                    class="wperp-form-field"
+                                    v-model="categoryName"
+                                />
                             </div>
                             <div class="form-field">
-                                <label>{{ __('Parent Category', 'erp') }}</label>
+                                <label>{{
+                                    __("Parent Category", "erp")
+                                }}</label>
                                 <div class="with-multiselect">
                                     <multi-select
                                         v-model="parentCategory"
                                         :options="categories"
-                                        :multiple="false"/>
+                                        :multiple="false"
+                                    />
                                     <!-- <i class="flaticon-arrow-down-sign-to-navigate"></i> -->
                                 </div>
                             </div>
                             <div class="buttons-wrapper">
-                                <input type="submit" :value="__('Save', 'erp')" class="wperp-btn btn--primary text-left"
-                                       @click.prevent="createCategory"/>
+                                <input
+                                    type="submit"
+                                    :value="__('Save', 'erp')"
+                                    class="wperp-btn btn--primary text-left"
+                                    @click.prevent="createCategory"
+                                />
                             </div>
                         </form>
                     </div>
@@ -30,25 +46,48 @@
             </div>
             <div id="col-right" style="margin-top: 12px">
                 <div class="col-wrap">
-                    <list-table class="wperp-table table-striped table-dark widefat table2 category-list"
-                                action-column="actions"
-                                :columns="columns"
-                                :rows="categories"
-                                :actions="actions"
-                                :bulk-actions="bulkActions"
-                                :showCb="false"
-                                @action:click="onActionClick"
-                                @bulk:click="onBulkAction">
+                    <list-table
+                        class="wperp-table table-striped table-dark widefat table2 category-list"
+                        action-column="actions"
+                        :columns="columns"
+                        :rows="categories"
+                        :actions="actions"
+                        :bulk-actions="bulkActions"
+                        :showCb="false"
+                        @action:click="onActionClick"
+                        @bulk:click="onBulkAction"
+                    >
                         >
-                        <template slot="name" slot-scope="data" v-if="data.row.isEdit">
-                            <input type="text" class="wperp-form-field" :value="data.row.name" :id="'cat-'+data.row.id">
-                           <!-- <multi-select
+                        <template
+                            slot="name"
+                            slot-scope="data"
+                            v-if="data.row.isEdit"
+                        >
+                            <input
+                                type="text"
+                                class="wperp-form-field"
+                                :value="data.row.name"
+                                :id="'cat-' + data.row.id"
+                            />
+                            <!-- <multi-select
                                 v-model="data.row.parent"
                                 :options="categories"
                                 :multiple="false"/>-->
-                            <div class="buttons-wrapper text-right" style="margin-top: 10px">
-                                <button class="wperp-btn btn--primary" @click="updateCategory(data.row)">{{ __('Update', 'erp') }}</button>
-                                <button class="wperp-btn btn--default" @click.prevent="data.row.isEdit = false">{{ __('Cancel', 'erp') }}
+                            <div
+                                class="buttons-wrapper text-right"
+                                style="margin-top: 10px"
+                            >
+                                <button
+                                    class="wperp-btn btn--primary"
+                                    @click="updateCategory(data.row)"
+                                >
+                                    {{ __("Update", "erp") }}
+                                </button>
+                                <button
+                                    class="wperp-btn btn--default"
+                                    @click.prevent="data.row.isEdit = false"
+                                >
+                                    {{ __("Cancel", "erp") }}
                                 </button>
                             </div>
                         </template>
@@ -60,203 +99,226 @@
 </template>
 
 <script>
-import ListTable from 'admin/components/list-table/ListTable.vue';
-import MultiSelect from 'admin/components/select/MultiSelect.vue';
+import ListTable from "admin/components/list-table/ListTable.vue";
+import MultiSelect from "admin/components/select/MultiSelect.vue";
 
 export default {
-
     components: {
         ListTable,
-        MultiSelect
+        MultiSelect,
     },
 
     data() {
         return {
-            categories    : [],
-            categoryName  : '',
+            categories: [],
+            categoryName: "",
             parentCategory: 0,
-            category      : null,
-            error         : false,
-            showModal     : false,
-            columns       : {
-                name   : {
-                    label: __('Category Name', 'erp'),
-                    isColPrimary: true
+            category: null,
+            error: false,
+            showModal: false,
+            columns: {
+                name: {
+                    label: __("Category Name", "erp"),
+                    isColPrimary: true,
                 },
                 actions: {
-                    label: __('Actions', 'erp')
-                }
+                    label: __("Actions", "erp"),
+                },
             },
-            actions       : [
-                { key: 'edit', label: __('Edit', 'erp') },
-                { key: 'trash', label: __('Delete', 'erp') }
+            actions: [
+                { key: "edit", label: __("Edit", "erp") },
+                { key: "trash", label: __("Delete", "erp") },
             ],
-            bulkActions   : [
+            bulkActions: [
                 {
-                    key  : 'trash',
-                    label: __('Move to Trash', 'erp'),
-                    img  : erp_acct_var.erp_assets + '/images/trash.png' /* global erp_acct_var */
-                }
-            ]
+                    key: "trash",
+                    label: __("Move to Trash", "erp"),
+                    img:
+                        erp_acct_var.erp_assets +
+                        "/images/trash.png" /* global erp_acct_var */,
+                },
+            ],
         };
     },
 
     created() {
-        this.$store.dispatch('spinner/setSpinner', true);
+        this.$store.dispatch("spinner/setSpinner", true);
         this.getCategories();
-        this.$on('close', function() {
+        this.$on("close", function () {
             this.showModal = false;
         });
     },
     methods: {
         getCategories() {
-            window.axios.get('product-cats').then((response) => {
-                const categories = response.data;
-                for (const x in categories) {
-                    const category = categories[x];
-                    const object   = { id: category.id, name: category.name, isEdit: false };
-                    this.categories.push(object);
-                }
-                this.$store.dispatch('spinner/setSpinner', false);
-            }).catch((error) => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                throw error;
-            });
+            window.axios
+                .get("product-cats")
+                .then((response) => {
+                    const categories = response.data;
+                    for (const x in categories) {
+                        const category = categories[x];
+                        const object = {
+                            id: category.id,
+                            name: category.name,
+                            isEdit: false,
+                        };
+                        this.categories.push(object);
+                    }
+                    this.$store.dispatch("spinner/setSpinner", false);
+                })
+                .catch((error) => {
+                    this.$store.dispatch("spinner/setSpinner", false);
+                    throw error;
+                });
         },
 
         onActionClick(action, row, index) {
-            if (action === 'edit') {
-                row.isEdit    = true;
+            if (action === "edit") {
+                row.isEdit = true;
                 this.category = row;
-            } else if (action === 'trash') {
-                if (confirm(__('Are you sure want to delete?', 'erp'))) {
-                    this.$store.dispatch('spinner/setSpinner', true);
-                    window.axios.delete('product-cats/' + row.id).then((response) => {
-                        this.$delete(this.categories, index);
+            } else if (action === "trash") {
+                if (confirm(__("Are you sure want to delete?", "erp"))) {
+                    this.$store.dispatch("spinner/setSpinner", true);
+                    window.axios
+                        .delete("product-cats/" + row.id)
+                        .then((response) => {
+                            this.$delete(this.categories, index);
 
-                        this.$store.dispatch('spinner/setSpinner', false);
-                        this.showAlert('success', __('Deleted !', 'erp'));
-                    }).catch(error => {
-                        this.$store.dispatch('spinner/setSpinner', false);
-                        throw error;
-                    });
+                            this.$store.dispatch("spinner/setSpinner", false);
+                            this.showAlert("success", __("Deleted !", "erp"));
+                        })
+                        .catch((error) => {
+                            this.$store.dispatch("spinner/setSpinner", false);
+                            throw error;
+                        });
                 }
             }
         },
 
         onBulkAction(action, items) {
-            if (action === 'trash') {
-                if (confirm(__('Are you sure want to delete?', 'erp'))) {
-                    this.$store.dispatch('spinner/setSpinner', true);
+            if (action === "trash") {
+                if (confirm(__("Are you sure want to delete?", "erp"))) {
+                    this.$store.dispatch("spinner/setSpinner", true);
 
-                    window.axios.delete('product-cats/delete/' + items).then(response => {
-                        const toggleCheckbox = document.getElementsByClassName('column-cb')[0].childNodes[0];
+                    window.axios
+                        .delete("product-cats/delete/" + items)
+                        .then((response) => {
+                            const toggleCheckbox =
+                                document.getElementsByClassName("column-cb")[0]
+                                    .childNodes[0];
 
-                        if (toggleCheckbox.checked) {
-                            toggleCheckbox.click();
-                        }
-                        this.categories = this.categories.filter(item => {
-                            return items.indexOf(item.id) === -1;
+                            if (toggleCheckbox.checked) {
+                                toggleCheckbox.click();
+                            }
+                            this.categories = this.categories.filter((item) => {
+                                return items.indexOf(item.id) === -1;
+                            });
+                            this.$store.dispatch("spinner/setSpinner", false);
+                        })
+                        .catch((error) => {
+                            this.$store.dispatch("spinner/setSpinner", false);
+                            throw error;
                         });
-                        this.$store.dispatch('spinner/setSpinner', false);
-                    }).catch(error => {
-                        this.$store.dispatch('spinner/setSpinner', false);
-                        throw error;
-                    });
                 }
             }
         },
 
         createCategory() {
-            if (this.categoryName === '') {
+            if (this.categoryName === "") {
                 this.error = true;
                 return;
             }
 
-            this.$store.dispatch('spinner/setSpinner', true);
+            this.$store.dispatch("spinner/setSpinner", true);
             var data = {
-                name  : this.categoryName,
-                parent: this.parentCategory
+                name: this.categoryName,
+                parent: this.parentCategory,
             };
-            window.axios.post('/product-cats', data).then((response) => {
-                this.categories.push(response.data);
-                this.categoryName   = '';
-                this.parentCategory = 0;
+            window.axios
+                .post("/product-cats", data)
+                .then((response) => {
+                    this.categories.push(response.data);
+                    this.categoryName = "";
+                    this.parentCategory = 0;
 
-                this.$store.dispatch('spinner/setSpinner', false);
-                this.showAlert('success', __('Product category added!', 'erp'));
-            }).catch((error) => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                throw error;
-            });
+                    this.$store.dispatch("spinner/setSpinner", false);
+                    this.showAlert(
+                        "success",
+                        __("Product category added!", "erp")
+                    );
+                })
+                .catch((error) => {
+                    this.$store.dispatch("spinner/setSpinner", false);
+                    throw error;
+                });
         },
 
         updateCategory(row) {
-            var categoryName = document.getElementById('cat-' + row.id).value;
-            var categoryId   = row.id;
+            var categoryName = document.getElementById("cat-" + row.id).value;
+            var categoryId = row.id;
 
-            this.$store.dispatch('spinner/setSpinner', true);
-            window.axios.put('/product-cats/' + categoryId, { name: categoryName }).then((response) => {
-                row.name = categoryName;
+            this.$store.dispatch("spinner/setSpinner", true);
+            window.axios
+                .put("/product-cats/" + categoryId, { name: categoryName })
+                .then((response) => {
+                    row.name = categoryName;
 
-                this.$store.dispatch('spinner/setSpinner', false);
-                this.showAlert('success', __('Product category updated!', 'erp'));
-            }).catch(error => {
-                row.isEdit = false;
-                this.$store.dispatch('spinner/setSpinner', false);
-                throw error;
-            });
-        }
-
-    }
+                    this.$store.dispatch("spinner/setSpinner", false);
+                    this.showAlert(
+                        "success",
+                        __("Product category updated!", "erp")
+                    );
+                })
+                .catch((error) => {
+                    row.isEdit = false;
+                    this.$store.dispatch("spinner/setSpinner", false);
+                    throw error;
+                });
+        },
+    },
 };
 </script>
 
-<style lang="less">
-    .categories {
-        .category-list {
-            background-color: transparent;
+<style>
+.categories .category-list {
+    background-color: transparent;
+}
+.categories .category-list th ul,
+.categories .category-list th li {
+    margin: 0;
+}
 
-            th ul,
-            th li {
-                margin: 0;
-            }
+.categories .category-list th li {
+    display: flex;
+    align-items: center;
+}
+.categories .category-list th li img {
+    width: 20px;
+    padding-right: 5px;
+}
+.categories .category-list .name {
+    width: 80% !important;
+}
 
-            th li {
-                display: flex;
-                align-items: center;
+.categories .category-list .check-column {
+    padding: 20px !important;
+}
 
-                img {
-                    width: 20px;
-                    padding-right: 5px;
-                }
-            }
-
-            .name {
-                width: 80% !important;
-            }
-
-            .check-column {
-                padding: 20px !important;
-            }
-
-
-            @media (min-width: 783px) {
-                .col--actions {
-                    float: left !important;
-                }
-                .row-actions {
-                    text-align: left !important;
-                }
-            }
-        }
-
-        .buttons-wrapper .wperp-btn {
-            margin-left: 0 !important;
-        }
-
-        .with-multiselect {
-            width: 60%;
-        }
+@media (min-width: 783px) {
+    .categories .category-list th ul .row-actions,
+    .categories .category-list th li .col--actions {
+        float: left !important;
     }
+    .categories .category-list th ul .row-actions,
+    .categories .category-list th li.row-actions {
+        text-align: left !important;
+    }
+}
+
+.categories .category-list .buttons-wrapper .wperp-btn {
+    margin-left: 0 !important;
+}
+
+.categories .category-list .with-multiselect {
+    width: 60%;
+}
 </style>

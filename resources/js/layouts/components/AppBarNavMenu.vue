@@ -22,7 +22,7 @@
                                     :key="index"
                                     class="list-group-item text-black"
                                 >
-                                    <a href="#">
+                                    <a :href="'#' + item.path">
                                         {{ item.title }}
                                     </a>
                                     <ul
@@ -36,9 +36,11 @@
                                             :key="index"
                                             class="list-group-item"
                                         >
-                                            <a class="dropdown-item text-black" href="#">{{
-                                                subitem.title
-                                            }}</a>
+                                            <a
+                                                class="dropdown-item text-black"
+                                                :href="'#' + subitem.path"
+                                                >{{ subitem.title }}</a
+                                            >
                                         </li>
                                     </ul>
                                 </li>
@@ -52,7 +54,8 @@
                                 :key="index"
                                 class="nav-item dropdown"
                             >
-                                <a v-if="item.list.length"
+                                <a
+                                    v-if="item.list.length"
                                     class="nav-link dropdown-toggle text-black"
                                     href="#"
                                     id="navbarDropdown"
@@ -62,9 +65,10 @@
                                 >
                                     {{ item.title }}
                                 </a>
-                                <a v-else
+                                <a
+                                    v-else
                                     class="nav-link text-black"
-                                    href="#"
+                                    :href="'#' + item.path"
                                     id="navbarDropdown`${index}`"
                                     role="button"
                                 >
@@ -79,9 +83,11 @@
                                         v-for="(subitem, index) in item.list"
                                         :key="index"
                                     >
-                                        <a class="dropdown-item text-black" href="#">{{
-                                            subitem.title
-                                        }}</a>
+                                        <a
+                                            class="dropdown-item text-black"
+                                            :href="'#' + subitem.path"
+                                            >{{ subitem.title }}</a
+                                        >
                                     </li>
                                 </ul>
                             </li>
@@ -110,7 +116,9 @@
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             ></button>
-                            <div class="dropdown-menu dropdown-menu-end search-dropdown p-2">
+                            <div
+                                class="dropdown-menu dropdown-menu-end search-dropdown p-2"
+                            >
                                 <b>Search</b>
                                 <div class="row">
                                     <div

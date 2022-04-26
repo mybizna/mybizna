@@ -115,8 +115,8 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-    .modal-close {
+<style>
+    .modal-close
         .flaticon-close {
             font-size: inherit;
         }

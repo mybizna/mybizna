@@ -144,7 +144,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style>
     .people-trns-table tbody tr td:last-child {
         text-align: left !important;
     }

@@ -282,7 +282,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style>
     .wperp-panel-heading.wperp-bg-white {
         padding: 10px;
     }

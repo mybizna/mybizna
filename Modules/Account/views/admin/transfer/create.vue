@@ -157,7 +157,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style>
     .wperp-modal {
         z-index: 999 !important;
     }

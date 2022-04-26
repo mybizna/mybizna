@@ -5,65 +5,128 @@
                 <div class="wperp-modal-dialog">
                     <div class="wperp-modal-content">
                         <div class="wperp-modal-header">
-                            <h3 v-if="!product">{{ __('Add', 'erp') }} {{ title }}</h3>
-                            <h3 v-else>{{ __('Update', 'erp') }} {{ title }}</h3>
+                            <h3 v-if="!product">
+                                {{ __("Add", "erp") }} {{ title }}
+                            </h3>
+                            <h3 v-else>
+                                {{ __("Update", "erp") }} {{ title }}
+                            </h3>
                             <span class="modal-close">
-                                <i class="flaticon-close" @click.prevent="$parent.$emit('close')"></i>
+                                <i
+                                    class="flaticon-close"
+                                    @click.prevent="$parent.$emit('close')"
+                                ></i>
                             </span>
                         </div>
                         <div class="wperp-modal-body">
                             <ul class="errors" v-if="error_msg.length">
-                                <li v-for="(error, index) in error_msg" :key="index">* {{ error }}</li>
+                                <li
+                                    v-for="(error, index) in error_msg"
+                                    :key="index"
+                                >
+                                    * {{ error }}
+                                </li>
                             </ul>
                             <!-- modal body title -->
                             <!-- add new product form -->
-                            <form action="" method="post" @submit.prevent="saveProduct"
-                                  class="add-product-form wperp-form-horizontal">
+                            <form
+                                action=""
+                                method="post"
+                                @submit.prevent="saveProduct"
+                                class="add-product-form wperp-form-horizontal"
+                            >
                                 <!-- product name field -->
 
                                 <div class="wperp-row">
                                     <div class="wperp-col-sm-3 wperp-col-xs-12">
-                                        <label>{{ __('Product Name', 'erp') }} <span class="wperp-required-sign">*</span></label>
+                                        <label
+                                            >{{ __("Product Name", "erp") }}
+                                            <span class="wperp-required-sign"
+                                                >*</span
+                                            ></label
+                                        >
                                     </div>
                                     <div class="wperp-col-sm-9 wperp-col-xs-12">
-                                        <input type="text" class="wperp-form-field"
-                                               :placeholder="__('Enter Product Name Here', 'erp')"
-                                               v-model="ProductFields.name" required>
+                                        <input
+                                            type="text"
+                                            class="wperp-form-field"
+                                            :placeholder="
+                                                __(
+                                                    'Enter Product Name Here',
+                                                    'erp'
+                                                )
+                                            "
+                                            v-model="ProductFields.name"
+                                            required
+                                        />
                                     </div>
                                 </div>
 
                                 <!-- product/service details panel -->
-                                <div class="wperp-panel wperp-panel-default panel-product-details">
+                                <div
+                                    class="wperp-panel wperp-panel-default panel-product-details"
+                                >
                                     <div class="wperp-panel-heading">
-                                        <span class="panel-badge panel-badge-primary"></span>
-                                        <span>{{ __('Product/Service Details', 'erp') }}</span>
+                                        <span
+                                            class="panel-badge panel-badge-primary"
+                                        ></span>
+                                        <span>{{
+                                            __("Product/Service Details", "erp")
+                                        }}</span>
                                     </div>
                                     <div class="wperp-panel-body">
                                         <div class="wperp-row">
-                                            <div class="wperp-col-sm-3 wperp-col-xs-12">
-                                                <label>{{ __('Product Type', 'erp') }} <span class="wperp-required-sign">*</span></label>
+                                            <div
+                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                            >
+                                                <label
+                                                    >{{
+                                                        __(
+                                                            "Product Type",
+                                                            "erp"
+                                                        )
+                                                    }}
+                                                    <span
+                                                        class="wperp-required-sign"
+                                                        >*</span
+                                                    ></label
+                                                >
                                             </div>
-                                            <div class="wperp-col-sm-9 wperp-col-xs-12">
+                                            <div
+                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                            >
                                                 <div class="with-multiselect">
                                                     <multi-select
-                                                        v-model="ProductFields.type"
+                                                        v-model="
+                                                            ProductFields.type
+                                                        "
                                                         :options="productType"
                                                         :disabled="false"
-                                                        :multiple="false"/>
+                                                        :multiple="false"
+                                                    />
                                                     <!-- <i class="flaticon-arrow-down-sign-to-navigate"></i> -->
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wperp-row">
-                                            <div class="wperp-col-sm-3 wperp-col-xs-12">
-                                                <label>{{ __('Category', 'erp') }}</label>
+                                            <div
+                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                            >
+                                                <label>{{
+                                                    __("Category", "erp")
+                                                }}</label>
                                             </div>
-                                            <div class="wperp-col-sm-9 wperp-col-xs-12">
+                                            <div
+                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                            >
                                                 <div class="with-multiselect">
                                                     <multi-select
-                                                        v-model="ProductFields.categories"
+                                                        v-model="
+                                                            ProductFields.categories
+                                                        "
                                                         :options="categories"
-                                                        :multiple="false"/>
+                                                        :multiple="false"
+                                                    />
                                                     <!-- <i class="flaticon-arrow-down-sign-to-navigate"></i> -->
                                                 </div>
                                             </div>
@@ -72,75 +135,171 @@
                                 </div>
 
                                 <!-- product/service details panel -->
-                                <div class="wperp-panel wperp-panel-default panel-product-info">
+                                <div
+                                    class="wperp-panel wperp-panel-default panel-product-info"
+                                >
                                     <div class="wperp-panel-heading">
-                                        <span class="panel-badge panel-badge-info"></span>
-                                        <span>{{ __('Product Information', 'erp') }}</span>
+                                        <span
+                                            class="panel-badge panel-badge-info"
+                                        ></span>
+                                        <span>{{
+                                            __("Product Information", "erp")
+                                        }}</span>
                                     </div>
                                     <div class="wperp-panel-body">
                                         <div class="wperp-row">
-                                            <div class="wperp-col-sm-3 wperp-col-xs-12">
-                                                <label for="cost-price">{{ __('Cost Price', 'erp') }}</label>
+                                            <div
+                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                            >
+                                                <label for="cost-price">{{
+                                                    __("Cost Price", "erp")
+                                                }}</label>
                                             </div>
-                                            <div class="wperp-col-sm-9 wperp-col-xs-12">
-                                                <input type="text" name="cost-price" id="cost-price" value="0"
-                                                       class="dk-form-field" v-model="ProductFields.costPrice">
+                                            <div
+                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                            >
+                                                <input
+                                                    type="text"
+                                                    name="cost-price"
+                                                    id="cost-price"
+                                                    value="0"
+                                                    class="dk-form-field"
+                                                    v-model="
+                                                        ProductFields.costPrice
+                                                    "
+                                                />
                                             </div>
                                         </div>
                                         <div class="wperp-row">
-                                            <div class="wperp-col-sm-3 wperp-col-xs-12">
-                                                <label for="sale-price">{{ __('Sale Price', 'erp') }} <span class="wperp-required-sign">*</span></label>
+                                            <div
+                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                            >
+                                                <label for="sale-price"
+                                                    >{{
+                                                        __("Sale Price", "erp")
+                                                    }}
+                                                    <span
+                                                        class="wperp-required-sign"
+                                                        >*</span
+                                                    ></label
+                                                >
                                             </div>
-                                            <div class="wperp-col-sm-9 wperp-col-xs-12">
-                                                <input type="text" name="sale-price" id="sale-price" value="0"
-                                                       class="dk-form-field" v-model="ProductFields.salePrice" required>
+                                            <div
+                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                            >
+                                                <input
+                                                    type="text"
+                                                    name="sale-price"
+                                                    id="sale-price"
+                                                    value="0"
+                                                    class="dk-form-field"
+                                                    v-model="
+                                                        ProductFields.salePrice
+                                                    "
+                                                    required
+                                                />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Miscellaneous panel -->
-                                <div class="wperp-panel wperp-panel-default panel-miscellaneous">
+                                <div
+                                    class="wperp-panel wperp-panel-default panel-miscellaneous"
+                                >
                                     <div class="wperp-panel-heading">
-                                        <span class="panel-badge panel-badge-secondary"></span>
-                                        <span>{{ __('Miscellaneous', 'erp') }}</span>
+                                        <span
+                                            class="panel-badge panel-badge-secondary"
+                                        ></span>
+                                        <span>{{
+                                            __("Miscellaneous", "erp")
+                                        }}</span>
                                     </div>
                                     <div class="wperp-panel-body">
                                         <div class="wperp-row">
-                                            <div class="wperp-col-sm-3 wperp-col-xs-12 product-owner">
+                                            <div
+                                                class="wperp-col-sm-3 wperp-col-xs-12 product-owner"
+                                            >
                                                 <label>
-                                                    {{ __('Owner', 'erp') }}
-                                                    <span v-show="selfOwner" class="wperp-required-sign">*</span>
+                                                    {{ __("Owner", "erp") }}
+                                                    <span
+                                                        v-show="selfOwner"
+                                                        class="wperp-required-sign"
+                                                        >*</span
+                                                    >
                                                 </label>
                                             </div>
-                                            <div class="wperp-col-sm-9 wperp-col-xs-12">
-                                                <input type="checkbox" v-model="selfOwner" value="self" :required="selfOwner"> {{ __('self', 'erp') }}
+                                            <div
+                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    v-model="selfOwner"
+                                                    value="self"
+                                                    :required="selfOwner"
+                                                />
+                                                {{ __("self", "erp") }}
                                             </div>
 
-                                            <div class="wperp-col-sm-3 wperp-col-xs-12" v-show="!selfOwner">
+                                            <div
+                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                                v-show="!selfOwner"
+                                            >
                                                 <label>
-                                                    {{ __('Vendor', 'erp') }}
-                                                    <span class="wperp-required-sign">*</span>
+                                                    {{ __("Vendor", "erp") }}
+                                                    <span
+                                                        class="wperp-required-sign"
+                                                        >*</span
+                                                    >
                                                 </label>
                                             </div>
-                                            <div class="wperp-col-sm-9 wperp-col-xs-12" v-show="!selfOwner">
+                                            <div
+                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                                v-show="!selfOwner"
+                                            >
                                                 <div class="with-multiselect">
                                                     <multi-select
-                                                        v-model="ProductFields.vendor"
+                                                        v-model="
+                                                            ProductFields.vendor
+                                                        "
                                                         :options="vendors"
-                                                        :multiple="false"/>
+                                                        :multiple="false"
+                                                    />
                                                     <!-- <i class="flaticon-arrow-down-sign-to-navigate"></i> -->
                                                 </div>
                                             </div>
-                                            <div class="wperp-col-sm-3 wperp-col-xs-12">
-                                                <label>{{ __('Tax Category', 'erp') }}  <span class="erp-help-tip .erp-tips" :title="__('Selecting tax category is important if you want to have tax on that product while selling.', 'erp')"></span></label>
+                                            <div
+                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                            >
+                                                <label
+                                                    >{{
+                                                        __(
+                                                            "Tax Category",
+                                                            "erp"
+                                                        )
+                                                    }}
+                                                    <span
+                                                        class="erp-help-tip .erp-tips"
+                                                        :title="
+                                                            __(
+                                                                'Selecting tax category is important if you want to have tax on that product while selling.',
+                                                                'erp'
+                                                            )
+                                                        "
+                                                    ></span
+                                                ></label>
                                             </div>
-                                            <div class="wperp-col-sm-9 wperp-col-xs-12">
+                                            <div
+                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                            >
                                                 <div class="with-multiselect">
                                                     <multi-select
-                                                        v-model="ProductFields.tax_cat_id"
+                                                        v-model="
+                                                            ProductFields.tax_cat_id
+                                                        "
                                                         :options="tax_cats"
-                                                        :multiple="false"/>
+                                                        :multiple="false"
+                                                    />
                                                     <!-- <i class="flaticon-arrow-down-sign-to-navigate"></i> -->
                                                 </div>
                                             </div>
@@ -149,11 +308,24 @@
                                 </div>
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
-                                    <button class="wperp-btn btn--default" @click.prevent="$parent.$emit('close')">
-                                        {{ __('Cancel', 'erp') }}
+                                    <button
+                                        class="wperp-btn btn--default"
+                                        @click.prevent="$parent.$emit('close')"
+                                    >
+                                        {{ __("Cancel", "erp") }}
                                     </button>
-                                    <button v-if="!product" class="wperp-btn btn--primary">{{ __('Save', 'erp') }}</button>
-                                    <button v-else class="wperp-btn btn--primary">{{ __('Update', 'erp') }}</button>
+                                    <button
+                                        v-if="!product"
+                                        class="wperp-btn btn--primary"
+                                    >
+                                        {{ __("Save", "erp") }}
+                                    </button>
+                                    <button
+                                        v-else
+                                        class="wperp-btn btn--primary"
+                                    >
+                                        {{ __("Update", "erp") }}
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -165,58 +337,69 @@
 </template>
 
 <script>
-import MultiSelect from 'admin/components/select/MultiSelect.vue';
+import MultiSelect from "admin/components/select/MultiSelect.vue";
 
 export default {
-
     components: {
-        MultiSelect
+        MultiSelect,
     },
 
     props: {
         product: {
-            type   : Object,
-            default: () => []
-        }
+            type: Object,
+            default: () => [],
+        },
     },
 
     data() {
         return {
-            error_msg    : [],
+            error_msg: [],
             ProductFields: {
-                id        : null,
-                name      : '',
-                type      : 0,
+                id: null,
+                name: "",
+                type: 0,
                 categories: 0,
-                costPrice : 0,
-                salePrice : 0,
-                vendor    : 0,
-                tax_cat_id: 0
+                costPrice: 0,
+                salePrice: 0,
+                vendor: 0,
+                tax_cat_id: 0,
             },
-            vendors    : [],
-            categories : [],
-            tax_cats   : [],
+            vendors: [],
+            categories: [],
+            tax_cats: [],
             productType: [],
-            title      : __( 'Product', 'erp' ),
-            isDisabled : false,
-            selfOwner  : false
+            title: __("Product", "erp"),
+            isDisabled: false,
+            selfOwner: false,
         };
     },
 
     created() {
         if (this.product) {
-            const product                 = this.product;
-            this.ProductFields.name       = product.name;
-            this.ProductFields.id         = product.id;
-            this.ProductFields.type       = { id: product.product_type_id, name: product.product_type_name };
-            this.ProductFields.categories = { id: product.category_id, name: product.cat_name };
-            this.ProductFields.tax_cat_id = { id: product.tax_cat_id, name: product.tax_cat_name };
-            this.ProductFields.salePrice  = product.sale_price;
-            this.ProductFields.costPrice  = product.cost_price;
-            this.isDisabled               = true;
+            const product = this.product;
+            this.ProductFields.name = product.name;
+            this.ProductFields.id = product.id;
+            this.ProductFields.type = {
+                id: product.product_type_id,
+                name: product.product_type_name,
+            };
+            this.ProductFields.categories = {
+                id: product.category_id,
+                name: product.cat_name,
+            };
+            this.ProductFields.tax_cat_id = {
+                id: product.tax_cat_id,
+                name: product.tax_cat_name,
+            };
+            this.ProductFields.salePrice = product.sale_price;
+            this.ProductFields.costPrice = product.cost_price;
+            this.isDisabled = true;
 
-            if ( product.vendor ) {
-                this.ProductFields.vendor = { id: product.vendor, name: product.vendor_name };
+            if (product.vendor) {
+                this.ProductFields.vendor = {
+                    id: product.vendor,
+                    name: product.vendor_name,
+                };
             } else {
                 this.selfOwner = true;
                 this.ProductFields.vendor = null;
@@ -225,23 +408,30 @@ export default {
 
         this.loaded();
 
-        this.$root.$on('options-query', query => {
+        this.$root.$on("options-query", (query) => {
             if (query) {
-
-                window.axios.get('vendors', {
-                    params: {
-                        search: query
-                    }
-                } ).then(response => {
-                    if (response.data) {
-                        this.vendors = [];
-                        for (const i in response.data) {
-                            var vendor = response.data[i];
-                            var object = { id: vendor.id, name: vendor.first_name + ' ' + vendor.last_name };
-                            this.vendors.push(object);
+                window.axios
+                    .get("vendors", {
+                        params: {
+                            search: query,
+                        },
+                    })
+                    .then((response) => {
+                        if (response.data) {
+                            this.vendors = [];
+                            for (const i in response.data) {
+                                var vendor = response.data[i];
+                                var object = {
+                                    id: vendor.id,
+                                    name:
+                                        vendor.first_name +
+                                        " " +
+                                        vendor.last_name,
+                                };
+                                this.vendors.push(object);
+                            }
                         }
-                    }
-                });
+                    });
             }
         });
     },
@@ -252,42 +442,49 @@ export default {
                 return false;
             }
 
-            this.$store.dispatch('spinner/setSpinner', true);
+            this.$store.dispatch("spinner/setSpinner", true);
 
             var type, url;
 
             if (!this.product) {
-                type = 'post';
-                url  = 'products';
+                type = "post";
+                url = "products";
             } else {
-                type = 'put';
-                url  = 'products/' + this.ProductFields.id;
+                type = "put";
+                url = "products/" + this.ProductFields.id;
             }
 
             var data = {
-                name           : this.ProductFields.name,
+                name: this.ProductFields.name,
                 product_type_id: this.ProductFields.type,
-                category_id    : this.ProductFields.categories,
-                tax_cat_id     : this.ProductFields.tax_cat_id,
-                vendor         : null,
-                cost_price     : this.ProductFields.costPrice,
-                sale_price     : this.ProductFields.salePrice
+                category_id: this.ProductFields.categories,
+                tax_cat_id: this.ProductFields.tax_cat_id,
+                vendor: null,
+                cost_price: this.ProductFields.costPrice,
+                sale_price: this.ProductFields.salePrice,
             };
 
-            if (! this.selfOwner) {
+            if (!this.selfOwner) {
                 data.vendor = this.ProductFields.vendor;
             }
 
-            window.axios[type](url, data).then(response => {
-                this.$parent.$emit('close');
-                this.$parent.getProducts();
-                this.resetForm();
-                this.$store.dispatch('spinner/setSpinner', false);
-                this.showAlert('success', type === 'put' ? __('Product Updated!', 'erp') : __('Product Created!', 'erp'));
-            }).catch(error => {
-                this.$store.dispatch('spinner/setSpinner', false);
-                this.showAlert('warning',  error.response.data.message);
-            });
+            window.axios[type](url, data)
+                .then((response) => {
+                    this.$parent.$emit("close");
+                    this.$parent.getProducts();
+                    this.resetForm();
+                    this.$store.dispatch("spinner/setSpinner", false);
+                    this.showAlert(
+                        "success",
+                        type === "put"
+                            ? __("Product Updated!", "erp")
+                            : __("Product Created!", "erp")
+                    );
+                })
+                .catch((error) => {
+                    this.$store.dispatch("spinner/setSpinner", false);
+                    this.showAlert("warning", error.response.data.message);
+                });
         },
 
         loaded() {
@@ -298,11 +495,14 @@ export default {
         },
 
         getVendors() {
-            window.axios.get('vendors').then(response => {
+            window.axios.get("vendors").then((response) => {
                 if (response.data) {
                     for (const i in response.data) {
                         var vendor = response.data[i];
-                        var object = { id: vendor.id, name: vendor.first_name + ' ' + vendor.last_name };
+                        var object = {
+                            id: vendor.id,
+                            name: vendor.first_name + " " + vendor.last_name,
+                        };
                         this.vendors.push(object);
                     }
                 }
@@ -310,31 +510,31 @@ export default {
         },
 
         getCategories() {
-            window.axios.get('product-cats').then(response => {
+            window.axios.get("product-cats").then((response) => {
                 this.categories = response.data;
             });
         },
 
         getTaxCategories() {
-            window.axios.get('tax-cats').then(response => {
+            window.axios.get("tax-cats").then((response) => {
                 this.tax_cats = response.data;
             });
         },
 
         getProductTypes() {
-            window.axios.get('products/types').then(response => {
+            window.axios.get("products/types").then((response) => {
                 this.productType = response.data;
             });
         },
 
         resetForm() {
-            this.ProductFields.id         = null;
-            this.ProductFields.name       = '';
-            this.ProductFields.type       = [];
+            this.ProductFields.id = null;
+            this.ProductFields.name = "";
+            this.ProductFields.type = [];
             this.ProductFields.categories = [];
-            this.ProductFields.vendor     = [];
-            this.ProductFields.costPrice  = '';
-            this.ProductFields.salePrice  = '';
+            this.ProductFields.vendor = [];
+            this.ProductFields.costPrice = "";
+            this.ProductFields.salePrice = "";
         },
 
         checkOwner() {
@@ -342,7 +542,7 @@ export default {
                 return true;
             }
 
-            if ( ! this.ProductFields.vendor ) {
+            if (!this.ProductFields.vendor) {
                 return false;
             }
 
@@ -353,65 +553,63 @@ export default {
             this.error_msg = [];
 
             if (
-                this.ProductFields.name
-                && this.ProductFields.type
-                && this.checkOwner()
-                && this.ProductFields.salePrice
+                this.ProductFields.name &&
+                this.ProductFields.type &&
+                this.checkOwner() &&
+                this.ProductFields.salePrice
             ) {
                 return true;
             }
 
             if (!this.ProductFields.name) {
-                this.error_msg.push(__('Product name is required', 'erp'));
+                this.error_msg.push(__("Product name is required", "erp"));
             }
 
             if (!this.ProductFields.type) {
-                this.error_msg.push(__('Product type is required', 'erp'));
+                this.error_msg.push(__("Product type is required", "erp"));
             }
 
             if (this.ProductFields.salePrice <= 0) {
-                this.error_msg.push(__('Product sale price should be greater than 0', 'erp'));
+                this.error_msg.push(
+                    __("Product sale price should be greater than 0", "erp")
+                );
             }
 
             if (!this.selfOwner && !this.ProductFields.vendor) {
-                this.error_msg.push(__('Vendor is required', 'erp'));
+                this.error_msg.push(__("Vendor is required", "erp"));
             }
 
             return false;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="less">
-    #wperp-product-modal {
-        .wperp-modal-header {
-            padding: 30px 20px 20px !important;
-        }
+<style>
+#wperp-product-modal .wperp-modal-header {
+    padding: 30px 20px 20px !important;
+}
 
-        .product-owner {
-            margin-bottom: 10px;
-            label {
-                margin-top: 0;
-            }
-        }
+#wperp-product-modal .product-owner {
+    margin-bottom: 10px;
+}
+#wperp-product-modal .product-owner label {
+    margin-top: 0;
+}
 
-        .modal-close {
-                line-height: 1.7;
+#wperp-product-modal .modal-close {
+    line-height: 1.7;
+}
+#wperp-product-modal .modal-close .flaticon-close {
+    font-size: inherit;
+}
 
-            .flaticon-close {
-                font-size: inherit;
-            }
-        }
-
-        .errors {
-            margin: 0;
-            color: #f44336;
-
-            li {
-                background: #f3f3f3;
-                padding: 2px 10px;
-            }
-        }
-    }
+#wperp-product-modal .errors {
+    margin: 0;
+    color: #f44336;
+}
+#wperp-product-modal .errors li {
+    background: #f3f3f3;
+    padding: 2px 10px;
+}
 </style>

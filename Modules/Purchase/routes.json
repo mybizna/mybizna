@@ -12,13 +12,7 @@
                 "path": "page/:page",
                 "name": "PaginatePurchases",
                 "component": "purchase/widgets/Purchases.vue"
-            }
-        ]
-    },
-    {
-        "path": "/purchases",
-        "component": "router_view",
-        "children": [
+            },
             {
                 "path": "new",
                 "name": "PurchaseCreate",

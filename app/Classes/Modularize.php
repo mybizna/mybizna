@@ -113,7 +113,10 @@ class Modularize
                     $routes_file = $modules_path . DIRECTORY_SEPARATOR . $module_name . DIRECTORY_SEPARATOR . 'routes.json';
                     if (file_exists($routes_file)) {
                         $routes_arr = json_decode(file_get_contents($routes_file), true);
-                        $this->routes = $routes_arr;
+                        if (!empty($routes_arr)) {
+                            $routes = array_merge($routes, $routes_arr);
+                        }
+                        //$this->routes = $routes_arr;
                     }
                 }
             }
@@ -244,7 +247,7 @@ class Modularize
                 }
             }
         }
-        $comp_folder =realpath(base_path()) . $DS . 'resources'. $DS . 'js'. $DS . 'components';
+        $comp_folder = realpath(base_path()) . $DS . 'resources' . $DS . 'js' . $DS . 'components';
         $comp_public_folder = realpath(base_path()) . $DS . 'public' . $DS . 'assets' . $DS . 'components';
 
 

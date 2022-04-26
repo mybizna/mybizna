@@ -1,6 +1,5 @@
 <?php
 
-
 //$this->add_menu("module", "key", "title","path", "icon", "position");
 $this->add_menu("account", "dashboard", "Dashboard", "/dashboard", "fas fa-cogs", 1);
 $this->add_menu("account", "users", "Users", "/users", "fas fa-cogs", 5);

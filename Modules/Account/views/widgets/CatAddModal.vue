@@ -1,48 +1,79 @@
 <template>
-    <div class="wperp-modal wperp-modal-open wperp-invoice-modal wperp-custom-scroll" role="dialog">
-        <div class="wperp-modal-dialog" v-click-outside="outside" @click="inside">
+    <div
+        class="wperp-modal wperp-modal-open wperp-invoice-modal wperp-custom-scroll"
+        role="dialog"
+    >
+        <div
+            class="wperp-modal-dialog"
+            v-click-outside="outside"
+            @click="inside"
+        >
             <div class="wperp-modal-content">
                 <div class="wperp-modal-header">
                     <h4>{{ `${catData.title} __('Category', 'erp')` }}</h4>
                 </div>
                 <div class="wperp-modal-body">
-                    <form action="" class="ledger-cat-form" @submit.prevent="saveCategory">
-
+                    <form
+                        action=""
+                        class="ledger-cat-form"
+                        @submit.prevent="saveCategory"
+                    >
                         <div class="form-row" v-if="error">
                             <p class="error-message">{{ error }}</p>
                         </div>
 
                         <div class="form-row">
-                            <label for="">{{ __('Parent Category (optional)', 'erp') }}</label>
-                            <treeselect v-model="parent"
+                            <label for="">{{
+                                __("Parent Category (optional)", "erp")
+                            }}</label>
+                            <treeselect
+                                v-model="parent"
                                 :options="categories"
                                 :disable-branch-nodes="true"
                                 :show-count="true"
-                                :placeholder="__('Please select a category', 'erp')" />
+                                :placeholder="
+                                    __('Please select a category', 'erp')
+                                "
+                            />
                         </div>
 
                         <div class="form-row">
-                            <label for="">{{ __('Name of Category', 'erp') }}</label>
+                            <label for="">{{
+                                __("Name of Category", "erp")
+                            }}</label>
 
-                            <input type="text" v-model="category" required>
+                            <input type="text" v-model="category" required />
                         </div>
 
                         <div class="wperp-modal-footer pt-0">
                             <div class="buttons-wrapper text-right">
-                                <button class="wperp-btn btn--default modal-close" @click.prevent="outside">
-                                    {{ __('Cancel', 'erp') }}
+                                <button
+                                    class="wperp-btn btn--default modal-close"
+                                    @click.prevent="outside"
+                                >
+                                    {{ __("Cancel", "erp") }}
                                 </button>
-                                <button class="wperp-btn btn--primary" type="submit">
+                                <button
+                                    class="wperp-btn btn--primary"
+                                    type="submit"
+                                >
                                     <template v-if="catData.node">
-                                        {{ isCatSaving ? __('Updating...', 'erp') : __('Update', 'erp') }}
+                                        {{
+                                            isCatSaving
+                                                ? __("Updating...", "erp")
+                                                : __("Update", "erp")
+                                        }}
                                     </template>
                                     <template v-else>
-                                        {{ isCatSaving ? __('Saving...', 'erp') : __('Save', 'erp') }}
+                                        {{
+                                            isCatSaving
+                                                ? __("Saving...", "erp")
+                                                : __("Save", "erp")
+                                        }}
                                     </template>
                                 </button>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -51,31 +82,30 @@
 </template>
 
 <script>
-import Treeselect from '@riophae/vue-treeselect';
+import Treeselect from "@riophae/vue-treeselect";
 
 export default {
-
     data() {
         return {
             error: false,
             parent: null,
-            category: '',
-            isCatSaving: false
+            category: "",
+            isCatSaving: false,
         };
     },
 
     props: {
         categories: {
-            type: Array
+            type: Array,
         },
 
         catData: {
-            type: Object
-        }
+            type: Object,
+        },
     },
 
     components: {
-        Treeselect
+        Treeselect,
     },
 
     created() {
@@ -91,7 +121,7 @@ export default {
         inside() {},
 
         outside() {
-            this.$root.$emit('cat-modal-close');
+            this.$root.$emit("cat-modal-close");
         },
 
         saveCategory() {
@@ -101,62 +131,68 @@ export default {
             // Optimize later
             if (this.catData.node) {
                 // Updating
-                this.$store.dispatch('spinner/setSpinner', true);
-                window.axios.put(`/ledgers/categories/${this.catData.node.id}`, {
-                    parent: this.parent,
-                    name: this.category
-                }).then(response => {
-                    this.parent = null;
-                    this.category = '';
+                this.$store.dispatch("spinner/setSpinner", true);
+                window.axios
+                    .put(`/ledgers/categories/${this.catData.node.id}`, {
+                        parent: this.parent,
+                        name: this.category,
+                    })
+                    .then((response) => {
+                        this.parent = null;
+                        this.category = "";
 
-                    this.$root.$emit('category-created');
-                    this.$store.dispatch('spinner/setSpinner', false);
-                }).catch((err) => {
-                    this.$store.dispatch('spinner/setSpinner', false);
+                        this.$root.$emit("category-created");
+                        this.$store.dispatch("spinner/setSpinner", false);
+                    })
+                    .catch((err) => {
+                        this.$store.dispatch("spinner/setSpinner", false);
 
-                    this.category = '';
-                    this.isCatSaving = false;
-                    // Error message
-                    this.error = err.response.data.message;
-                }).then(() => {
-                    this.isCatSaving = false;
-                });
+                        this.category = "";
+                        this.isCatSaving = false;
+                        // Error message
+                        this.error = err.response.data.message;
+                    })
+                    .then(() => {
+                        this.isCatSaving = false;
+                    });
             } else {
                 // Creating
-                window.axios.post('/ledgers/categories', {
-                    parent: this.parent,
-                    name: this.category
-                }).then(response => {
-                    this.parent = null;
-                    this.category = '';
+                window.axios
+                    .post("/ledgers/categories", {
+                        parent: this.parent,
+                        name: this.category,
+                    })
+                    .then((response) => {
+                        this.parent = null;
+                        this.category = "";
 
-                    this.$root.$emit('category-created');
-                }).catch((err) => {
-                    this.category = '';
-                    this.isCatSaving = false;
-                    // Error message
-                    this.error = err.response.data.message;
-                }).then(() => {
-                    this.isCatSaving = false;
-                });
+                        this.$root.$emit("category-created");
+                    })
+                    .catch((err) => {
+                        this.category = "";
+                        this.isCatSaving = false;
+                        // Error message
+                        this.error = err.response.data.message;
+                    })
+                    .then(() => {
+                        this.isCatSaving = false;
+                    });
             }
-        }
-    }
-
+        },
+    },
 };
 </script>
 
-<style lang="less" scoped>
-    .ledger-cat-form {
-        padding-top: 20px;
-        min-height: 300px;
+<style>
+.ledger-cat-form {
+    padding-top: 20px;
+    min-height: 300px;
+}
+.ledger-cat-form .form-row {
+    padding-bottom: 20px;
+}
 
-        .form-row {
-            padding-bottom: 20px;
-        }
-
-        .buttons-wrapper {
-            padding-top: 20px;
-        }
-    }
+.ledger-cat-form .buttons-wrapper {
+    padding-top: 20px;
+}
 </style>
