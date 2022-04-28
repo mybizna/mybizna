@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import Modal from "admin/components/modal/Modal.vue";
+import Modal from "assets/components/modal/Modal.vue";
 import InputTag from "vue-input-tag";
 
 export default {

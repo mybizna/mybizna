@@ -223,12 +223,12 @@
 </template>
 
 <script>
-import MultiSelect from "admin/components/select/MultiSelect.vue";
-import SubmitButton from "admin/components/base/SubmitButton.vue";
-import NewTaxAgency from "admin/components/tax/NewTaxAgency.vue";
-import NewTaxCategory from "admin/components/tax/NewTaxCategory.vue";
-import NewTaxZone from "admin/components/tax/NewTaxZone.vue";
-import ShowErrors from "admin/components/base/ShowErrors.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
+import SubmitButton from "assets/components/base/SubmitButton.vue";
+import NewTaxAgency from "assets/components/tax/NewTaxAgency.vue";
+import NewTaxCategory from "assets/components/tax/NewTaxCategory.vue";
+import NewTaxZone from "assets/components/tax/NewTaxZone.vue";
+import ShowErrors from "assets/components/base/ShowErrors.vue";
 
 export default {
     components: {

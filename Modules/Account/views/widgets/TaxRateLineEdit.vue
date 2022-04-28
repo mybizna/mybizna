@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import TaxRateRow from 'admin/components/tax/TaxRateRow.vue';
+import TaxRateRow from 'assets/components/tax/TaxRateRow.vue';
 
 export default {
 

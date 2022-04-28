@@ -136,8 +136,8 @@
 </template>
 
 <script>
-import Dropdown from "admin/components/base/Dropdown.vue";
-import ComboBox from "admin/components/select/ComboBox.vue";
+import Dropdown from "assets/components/base/Dropdown.vue";
+import ComboBox from "assets/components/select/ComboBox.vue";
 
 export default {
     components: {

@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import MultiSelect from 'admin/components/select/MultiSelect.vue';
-import SubmitButton from 'admin/components/base/SubmitButton.vue';
+import MultiSelect from 'assets/components/select/MultiSelect.vue';
+import SubmitButton from 'assets/components/base/SubmitButton.vue';
 
 export default {
 

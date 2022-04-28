@@ -205,9 +205,9 @@
 </template>
 
 <script>
-import SendMail from "admin/components/email/SendMail.vue";
-import Dropdown from "admin/components/base/Dropdown.vue";
-import TransParticulars from "admin/components/transactions/TransParticulars.vue";
+import SendMail from "assets/components/email/SendMail.vue";
+import Dropdown from "assets/components/base/Dropdown.vue";
+import TransParticulars from "assets/components/transactions/TransParticulars.vue";
 
 export default {
     components: {

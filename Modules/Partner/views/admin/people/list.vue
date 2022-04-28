@@ -82,11 +82,11 @@
 </template>
 
 <script>
-import PeopleSearch from "admin/components/people/PeopleSearch.vue";
-import ListTable from "admin/components/list-table/ListTable.vue";
-import PeopleModal from "admin/components/people/PeopleModal.vue";
-import ImportModal from "admin/components/people/ImportModal.vue";
-import ExportModal from "admin/components/people/ExportModal.vue";
+import PeopleSearch from "assets/partner/widgets/PeopleSearch.vue";
+import ListTable from "assets/components/list-table/ListTable.vue";
+import PeopleModal from "assets/partner/widgets/PeopleModal.vue";
+import ImportModal from "assets/partner/widgets/PeopleModal.vue";
+import ExportModal from "assets/partner/widgets/PeopleModal.vue";
 
 export default {
     components: {

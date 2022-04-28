@@ -202,8 +202,8 @@
 </template>
 
 <script>
-import SendMail from "admin/components/email/SendMail.vue";
-import Dropdown from "admin/components/base/Dropdown.vue";
+import SendMail from "assets/components/email/SendMail.vue";
+import Dropdown from "assets/components/base/Dropdown.vue";
 
 export default {
     components: {

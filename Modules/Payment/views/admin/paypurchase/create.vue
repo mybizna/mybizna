@@ -246,14 +246,14 @@
 <script>
 import { mapState } from "vuex";
 
-import Datepicker from "admin/components/base/Datepicker.vue";
-import FileUpload from "admin/components/base/FileUpload.vue";
-import SelectVendors from "admin/components/people/SelectVendors.vue";
-import MultiSelect from "admin/components/select/MultiSelect.vue";
-import CheckFields from "admin/components/check/CheckFields.vue";
-import ShowErrors from "admin/components/base/ShowErrors.vue";
-import SelectAccounts from "admin/components/select/SelectAccounts.vue";
-import ComboButton from "admin/components/select/ComboButton.vue";
+import Datepicker from "assets/components/base/Datepicker.vue";
+import FileUpload from "assets/components/base/FileUpload.vue";
+import SelectVendors from "assets/components/people/SelectVendors.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
+import CheckFields from "assets/components/check/CheckFields.vue";
+import ShowErrors from "assets/components/base/ShowErrors.vue";
+import SelectAccounts from "assets/componentss/select/SelectAccounts.vue";
+import ComboButton from "assets/components/select/ComboButton.vue";
 
 export default {
     components: {

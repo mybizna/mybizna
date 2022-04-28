@@ -62,7 +62,7 @@
 <script>
 import { mapState } from "vuex";
 
-import MultiSelect from "admin/components/select/MultiSelect.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
 
 export default {
     props: {

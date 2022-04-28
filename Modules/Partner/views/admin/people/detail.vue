@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import UserBasicInfo from 'admin/components/userinfo/UserBasic.vue';
-import PieChart from 'admin/components/chart/PieChart.vue';
-import PeopleTransaction from 'admin/components/people/PeopleTransaction.vue';
+import UserBasicInfo from 'assets/components/userinfo/UserBasic.vue';
+import PieChart from 'assets/components/chart/PieChart.vue';
+import PeopleTransaction from 'assets/components/people/PeopleTransaction.vue';
 
 export default {
     components: {

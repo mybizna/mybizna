@@ -84,8 +84,8 @@
 </template>
 
 <script>
-import Datepicker from 'admin/components/base/Datepicker.vue';
-import SimpleSelect from 'admin/components/select/SimpleSelect.vue';
+import Datepicker from 'assets/components/base/Datepicker.vue';
+import SimpleSelect from 'assets/components/select/SimpleSelect.vue';
 
 export default {
 

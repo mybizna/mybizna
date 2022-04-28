@@ -75,8 +75,8 @@
 </template>
 
 <script>
-import SubmitButton from "admin/components/base/SubmitButton.vue";
-import ShowErrors from "admin/components/base/ShowErrors.vue";
+import SubmitButton from "assets/components/base/SubmitButton.vue";
+import ShowErrors from "assets/components/base/ShowErrors.vue";
 
 export default {
     components: {

@@ -50,9 +50,9 @@
 </template>
 
 <script>
-import ListTable from "admin/components/list-table/ListTable.vue";
-import NewTaxCategory from "admin/components/tax/NewTaxCategory.vue";
-import TaxShortcuts from "admin/components/tax/TaxShortcuts.vue";
+import ListTable from "assets/components/list-table/ListTable.vue";
+import NewTaxCategory from "assets/components/tax/NewTaxCategory.vue";
+import TaxShortcuts from "assets/components/tax/TaxShortcuts.vue";
 
 export default {
     components: {

@@ -47,9 +47,9 @@
 </template>
 
 <script>
-import ListTable from "admin/components/list-table/ListTable.vue";
-import TaxRateLineAdd from "admin/components/tax/TaxRateLineAdd.vue";
-import TaxRateLineEdit from "admin/components/tax/TaxRateLineEdit.vue";
+import ListTable from "assets/components/list-table/ListTable.vue";
+import TaxRateLineAdd from "assets/components/tax/TaxRateLineAdd.vue";
+import TaxRateLineEdit from "assets/components/tax/TaxRateLineEdit.vue";
 
 export default {
     components: {

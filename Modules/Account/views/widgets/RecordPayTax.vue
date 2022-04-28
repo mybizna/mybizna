@@ -131,11 +131,11 @@
 </template>
 
 <script>
-import Datepicker from "admin/components/base/Datepicker.vue";
-import MultiSelect from "admin/components/select/MultiSelect.vue";
-import SubmitButton from "admin/components/base/SubmitButton.vue";
-import SelectAccounts from "admin/components/select/SelectAccounts.vue";
-import ShowErrors from "admin/components/base/ShowErrors.vue";
+import Datepicker from "assets/components/base/Datepicker.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
+import SubmitButton from "assets/components/base/SubmitButton.vue";
+import SelectAccounts from "assets/components/select/SelectAccounts.vue";
+import ShowErrors from "assets/components/base/ShowErrors.vue";
 
 export default {
     components: {

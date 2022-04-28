@@ -19,8 +19,8 @@
 <script>
 import { mapState } from "vuex";
 
-import PeopleModal from "admin/components/people/PeopleModal.vue";
-import MultiSelect from "admin/components/select/MultiSelect.vue";
+import PeopleModal from "assets/partner/widgets/PeopleModal.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
 
 export default {
     components: {

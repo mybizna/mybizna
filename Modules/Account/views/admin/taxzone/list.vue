@@ -53,9 +53,9 @@
 </template>
 
 <script>
-import ListTable from "admin/components/list-table/ListTable.vue";
-import NewTaxZone from "admin/components/tax/NewTaxZone.vue";
-import TaxShortcuts from "admin/components/tax/TaxShortcuts.vue";
+import ListTable from "assets/components/list-table/ListTable.vue";
+import NewTaxZone from "assets/components/tax/NewTaxZone.vue";
+import TaxShortcuts from "assets/components/tax/TaxShortcuts.vue";
 
 export default {
     components: {

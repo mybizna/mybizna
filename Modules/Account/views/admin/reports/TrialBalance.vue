@@ -106,8 +106,8 @@
 </template>
 
 <script>
-import MultiSelect from "admin/components/select/MultiSelect.vue";
-import Datepicker from "admin/components/base/Datepicker.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
+import Datepicker from "assets/components/base/Datepicker.vue";
 
 export default {
     components: {

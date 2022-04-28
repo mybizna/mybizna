@@ -95,8 +95,8 @@
 </template>
 
 <script>
-import Accounts from 'admin/components/dashboard/Accounts.vue';
-import Chart from 'admin/components/dashboard/Chart.vue';
+import Accounts from 'assets/components/dashboard/Accounts.vue';
+import Chart from 'assets/components/dashboard/Chart.vue';
 
 export default {
 

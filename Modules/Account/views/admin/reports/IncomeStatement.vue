@@ -101,8 +101,8 @@
 </template>
 
 <script>
-import Datepicker from "admin/components/base/Datepicker.vue";
-import ListTable from "admin/components/list-table/ListTable.vue";
+import Datepicker from "assets/components/base/Datepicker.vue";
+import ListTable from "assets/components/list-table/ListTable.vue";
 
 export default {
     components: {

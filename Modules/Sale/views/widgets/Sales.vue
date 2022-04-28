@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import ComboBox from 'admin/components/select/ComboBox.vue';
-import SalesStats from 'admin/components/transactions/sales/SalesStats.vue';
-import SalesList from 'admin/components/transactions/sales/SalesList.vue';
-import TransactionsFilter from 'admin/components/transactions/TransactionsFilter.vue';
+import ComboBox from 'assets/components/select/ComboBox.vue';
+import SalesStats from 'assets/components/transactions/sales/SalesStats.vue';
+import SalesList from 'assets/components/transactions/sales/SalesList.vue';
+import TransactionsFilter from 'assets/components/transactions/TransactionsFilter.vue';
 import {mapState} from "vuex";
 
 export default {

@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import PeopleModal from "admin/components/people/PeopleModal.vue";
+import PeopleModal from "assets/partner/widgets/PeopleModal.vue";
 
 export default {
     components: {

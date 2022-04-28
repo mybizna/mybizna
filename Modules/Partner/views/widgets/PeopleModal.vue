@@ -385,8 +385,8 @@
 </template>
 
 <script>
-import UploadImage from "admin/components/base/Media.vue";
-import MultiSelect from "admin/components/select/MultiSelect.vue";
+import UploadImage from "assets/components/base/Media.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
 
 /* global erp_acct_var */
 export default {

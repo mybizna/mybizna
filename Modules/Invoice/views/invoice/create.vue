@@ -306,13 +306,13 @@
 <script>
 import { mapState } from "vuex";
 
-import Datepicker from "admin/components/base/Datepicker.vue";
-import FileUpload from "admin/components/base/FileUpload.vue";
-import ComboButton from "admin/components/select/ComboButton.vue";
-import InvoiceTrnRow from "admin/components/invoice/InvoiceTrnRow.vue";
-import SelectCustomers from "admin/components/people/SelectCustomers.vue";
-import MultiSelect from "admin/components/select/MultiSelect.vue";
-import ShowErrors from "admin/components/base/ShowErrors.vue";
+import Datepicker from "assets/components/base/Datepicker.vue";
+import FileUpload from "assets/components/base/FileUpload.vue";
+import ComboButton from "assets/components/select/ComboButton.vue";
+import InvoiceTrnRow from "assets/components/invoice/InvoiceTrnRow.vue";
+import SelectCustomers from "assets/components/people/SelectCustomers.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
+import ShowErrors from "assets/components/base/ShowErrors.vue";
 
 /* global erp_acct_var */
 export default {

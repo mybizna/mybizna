@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import TransParticulars from 'admin/components/transactions/TransParticulars.vue';
+import TransParticulars from 'assets/components/transactions/TransParticulars.vue';
 
 export default {
 

@@ -337,7 +337,7 @@
 </template>
 
 <script>
-import MultiSelect from "admin/components/select/MultiSelect.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
 
 export default {
     components: {

@@ -82,8 +82,8 @@
 </template>
 
 <script>
-import PieChart from 'admin/components/chart/PieChart.vue';
-import PeopleTransaction from 'admin/components/people/PeopleTransaction.vue';
+import PieChart from 'assets/components/chart/PieChart.vue';
+import PeopleTransaction from 'assets/components/people/PeopleTransaction.vue';
 
 export default {
     components: {

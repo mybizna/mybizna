@@ -140,7 +140,7 @@
 </template>
 
 <script>
-import ListTable from "admin/components/list-table/ListTable.vue";
+import ListTable from "assets/components/list-table/ListTable.vue";
 
 export default {
     data() {

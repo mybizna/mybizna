@@ -327,12 +327,12 @@
 
 <script>
 import { mapState } from "vuex";
-import Datepicker from "admin/components/base/Datepicker.vue";
-import FileUpload from "admin/components/base/FileUpload.vue";
-import ComboButton from "admin/components/select/ComboButton.vue";
-import SelectVendors from "admin/components/people/SelectVendors.vue";
-import ShowErrors from "admin/components/base/ShowErrors.vue";
-import MultiSelect from "admin/components/select/MultiSelect.vue";
+import Datepicker from "assets/components/base/Datepicker.vue";
+import FileUpload from "assets/components/base/FileUpload.vue";
+import ComboButton from "assets/components/select/ComboButton.vue";
+import SelectVendors from "assets/components/people/SelectVendors.vue";
+import ShowErrors from "assets/components/base/ShowErrors.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
 export default {
     components: {
         Datepicker,

@@ -26,10 +26,10 @@
 import 'assets/js/plugins/chart.min';
 import 'assets/js/status_chart';
 
-import ComboBox from 'admin/components/select/ComboBox.vue';
-import ExpensesStats from 'admin/components/transactions/expenses/ExpensesStats.vue';
-import ExpensesList from 'admin/components/transactions/expenses/ExpensesList.vue';
-import TransactionsFilter from 'admin/components/transactions/TransactionsFilter.vue';
+import ComboBox from 'assets/components/select/ComboBox.vue';
+import ExpensesStats from 'assets/components/transactions/expenses/ExpensesStats.vue';
+import ExpensesList from 'assets/components/transactions/expenses/ExpensesList.vue';
+import TransactionsFilter from 'assets/components/transactions/TransactionsFilter.vue';
 import {mapState} from "vuex";
 
 export default {
