@@ -1,11 +1,11 @@
 <template>
     <div>
         <h2 class="view-doc">
-            <span>{{ this.$func.__("Accounting Help", "erp") }}</span>
+            <span>{{ window.$func.__("Accounting Help", "erp") }}</span>
             <a
                 href="https://mybizna.com/docs/accounting/getting-started/"
                 class="mybizna-btn"
-                >{{ this.$func.__("View all documentation", "erp") }}</a
+                >{{ window.$func.__("View all documentation", "erp") }}</a
             >
         </h2>
 
@@ -51,32 +51,32 @@ export default {
         return {
             docs: [
                 {
-                    title: this.$func.__("General", "erp"),
+                    title: window.$func.__("General", "erp"),
                     ques: [
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How to set Financial Years?",
                                 "erp"
                             ),
                             url: "https://mybizna.com/docs/accounting/getting-started/setting-financial-year/",
                         },
                         {
-                            label: this.$func.__("What is Opening Balance?", "erp"),
+                            label: window.$func.__("What is Opening Balance?", "erp"),
                             url: "https://mybizna.com/docs/accounting/getting-started/opening-balance/",
                         },
                         {
-                            label: this.$func.__("How to Set Currency?", "erp"),
+                            label: window.$func.__("How to Set Currency?", "erp"),
                             url: "https://mybizna.com/docs/erp-core/global-settings/",
                         },
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "What are the basic transaction types?",
                                 "erp"
                             ),
                             url: "https://mybizna.com/docs/accounting/sales-transactions/basic-of-transaction-types/",
                         },
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How to create a Journal Entry?",
                                 "erp"
                             ),
@@ -86,38 +86,38 @@ export default {
                 },
 
                 {
-                    title: this.$func.__("Users", "erp"),
+                    title: window.$func.__("Users", "erp"),
                     ques: [
                         {
-                            label: this.$func.__("How to create customer?", "erp"),
+                            label: window.$func.__("How to create customer?", "erp"),
                             url: "https://mybizna.com/docs/accounting/users/creating-a-customer/",
                         },
                         {
-                            label: this.$func.__("How to create vendors?", "erp"),
+                            label: window.$func.__("How to create vendors?", "erp"),
                             url: "https://mybizna.com/docs/accounting/users/creating-a-vendor/",
                         },
                     ],
                 },
 
                 {
-                    title: this.$func.__("Sales Transactions", "erp"),
+                    title: window.$func.__("Sales Transactions", "erp"),
                     ques: [
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How to create an invoice?",
                                 "erp"
                             ),
                             url: "https://mybizna.com/docs/accounting/sales-transactions/creating-your-first-invoice/",
                         },
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How to receive payment from invoices?",
                                 "erp"
                             ),
                             url: "https://mybizna.com/docs/accounting/sales-transactions/adding-invoice-payments/",
                         },
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How can I delete an invoice?",
                                 "erp"
                             ),
@@ -127,28 +127,28 @@ export default {
                 },
 
                 {
-                    title: this.$func.__("Expense Transactions", "erp"),
+                    title: window.$func.__("Expense Transactions", "erp"),
                     ques: [
                         {
-                            label: this.$func.__("How to create a bill?", "erp"),
+                            label: window.$func.__("How to create a bill?", "erp"),
                             url: "https://mybizna.com/docs/accounting/expense-transactions/creating-bill-new/",
                         },
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How to create payments for bills?",
                                 "erp"
                             ),
                             url: "https://mybizna.com/docs/accounting/expense-transactions/creating-bill-new/",
                         },
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How to create an expense?",
                                 "erp"
                             ),
                             url: "https://mybizna.com/docs/accounting/expense-transactions/creating-expense-new/",
                         },
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How to create a check payment?",
                                 "erp"
                             ),
@@ -158,17 +158,17 @@ export default {
                 },
 
                 {
-                    title: this.$func.__("Purchase Transactions", "erp"),
+                    title: window.$func.__("Purchase Transactions", "erp"),
                     ques: [
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How to create purchase quotation?",
                                 "erp"
                             ),
                             url: "https://mybizna.com/docs/accounting/purchase-transactions-2/create-purchase/",
                         },
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How to create payments for purchase quotations?",
                                 "erp"
                             ),
@@ -178,17 +178,17 @@ export default {
                 },
 
                 {
-                    title: this.$func.__("Bank Accounts", "erp"),
+                    title: window.$func.__("Bank Accounts", "erp"),
                     ques: [
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "Can I create a bank account in Accounting?",
                                 "erp"
                             ),
                             url: "https://mybizna.com/docs/accounting/chart-of-accounts/creating-a-new-chart/",
                         },
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How can I receive, spend transfer between bank accounts?",
                                 "erp"
                             ),
@@ -198,10 +198,10 @@ export default {
                 },
 
                 {
-                    title: this.$func.__("Products", "erp"),
+                    title: window.$func.__("Products", "erp"),
                     ques: [
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "Can I create products / services / product categoty?",
                                 "erp"
                             ),
@@ -211,28 +211,28 @@ export default {
                 },
 
                 {
-                    title: this.$func.__("Tax", "erp"),
+                    title: window.$func.__("Tax", "erp"),
                     ques: [
                         {
-                            label: this.$func.__("What is Tax Zone?", "erp"),
+                            label: window.$func.__("What is Tax Zone?", "erp"),
                             url: "https://mybizna.com/docs/accounting/tax/",
                         },
                         {
-                            label: this.$func.__("What is Tax Category?", "erp"),
+                            label: window.$func.__("What is Tax Category?", "erp"),
                             url: "https://mybizna.com/docs/accounting/tax/",
                         },
                         {
-                            label: this.$func.__("What is Tax Agency?", "erp"),
+                            label: window.$func.__("What is Tax Agency?", "erp"),
                             url: "https://mybizna.com/docs/accounting/tax/",
                         },
                     ],
                 },
 
                 {
-                    title: this.$func.__("Reports", "erp"),
+                    title: window.$func.__("Reports", "erp"),
                     ques: [
                         {
-                            label: this.$func.__(
+                            label: window.$func.__(
                                 "How to produce different types of reports in Accounting?",
                                 "erp"
                             ),

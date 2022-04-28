@@ -2,7 +2,7 @@
     <div :class="{ 'table-loading': loading }">
         <div v-if="loading" class="table-loader-wrap">
             <div class="table-loader-center">
-                <div class="table-loader">{{ this.$func.__("Loading", "erp") }}</div>
+                <div class="table-loader">{{ window.$func.__("Loading", "erp") }}</div>
             </div>
         </div>
 
@@ -13,7 +13,7 @@
 
             <div class="tablenav-pages">
                 <span v-if="showItemNumbers" class="displaying-num"
-                    >{{ itemsTotal }} {{ this.$func.__("items", "erp") }}</span
+                    >{{ itemsTotal }} {{ window.$func.__("items", "erp") }}</span
                 >
 
                 <span v-if="hasPagination" class="pagination-links">
@@ -235,7 +235,7 @@
                                 @click.prevent="toggleRow(row)"
                             >
                                 <span class="screen-reader-text">{{
-                                    this.$func.__("Show more details", "erp")
+                                    window.$func.__("Show more details", "erp")
                                 }}</span>
                             </button>
 
@@ -301,7 +301,7 @@
         <div class="tablenav bottom">
             <div class="tablenav-pages">
                 <span v-if="showItemNumbers" class="displaying-num"
-                    >{{ itemsTotal }} {{ this.$func.__("items", "erp") }}</span
+                    >{{ itemsTotal }} {{ window.$func.__("items", "erp") }}</span
                 >
 
                 <span v-if="hasPagination" class="pagination-links">
@@ -426,7 +426,7 @@ export default {
         },
         notFound: {
             type: String,
-            default: this.$func.__("No items found.", "erp"),
+            default: window.$func.__("No items found.", "erp"),
         },
         totalItems: {
             type: Number,

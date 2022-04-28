@@ -4,7 +4,7 @@
         <div class="table-container">
             <div class="bulk-action">
                 <a href="#"
-                    ><i class="flaticon-trash"></i>{{ this.$func.__("Trash", "erp") }}</a
+                    ><i class="flaticon-trash"></i>{{ window.$func.__("Trash", "erp") }}</a
                 >
                 <a href="#" class="dismiss-bulk-action"
                     ><i class="flaticon-close"></i
@@ -67,15 +67,15 @@ export default {
     data() {
         return {
             columns: {
-                trn_no: { label: this.$func.__("Voucher No.", "erp"), isColPrimary: true },
-                type: { label: this.$func.__("Type", "erp") },
-                ref: { label: this.$func.__("Ref", "erp") },
-                vendor_name: { label: this.$func.__("People", "erp") },
-                trn_date: { label: this.$func.__("Trn Date", "erp") },
-                due_date: { label: this.$func.__("Due Date", "erp") },
-                due: { label: this.$func.__("Due", "erp") },
-                amount: { label: this.$func.__("Total", "erp") },
-                status: { label: this.$func.__("Status", "erp") },
+                trn_no: { label: window.$func.__("Voucher No.", "erp"), isColPrimary: true },
+                type: { label: window.$func.__("Type", "erp") },
+                ref: { label: window.$func.__("Ref", "erp") },
+                vendor_name: { label: window.$func.__("People", "erp") },
+                trn_date: { label: window.$func.__("Trn Date", "erp") },
+                due_date: { label: window.$func.__("Due Date", "erp") },
+                due: { label: window.$func.__("Due", "erp") },
+                amount: { label: window.$func.__("Total", "erp") },
+                status: { label: window.$func.__("Status", "erp") },
                 actions: { label: "" },
             },
             rows: [],
@@ -213,7 +213,7 @@ export default {
                 case "void":
                     if (
                         confirm(
-                            this.$func.__("Are you sure to void the transaction?", "erp")
+                            window.$func.__("Are you sure to void the transaction?", "erp")
                         )
                     ) {
                         if (
@@ -225,7 +225,7 @@ export default {
                                 .then((response) => {
                                     this.showAlert(
                                         "success",
-                                        this.$func.__("Transaction has been void!", "erp")
+                                        window.$func.__("Transaction has been void!", "erp")
                                     );
                                 })
                                 .catch((error) => {
@@ -238,7 +238,7 @@ export default {
                                 .then((response) => {
                                     this.showAlert(
                                         "success",
-                                        this.$func.__("Transaction has been void!", "erp")
+                                        window.$func.__("Transaction has been void!", "erp")
                                     );
                                 })
                                 .catch((error) => {
@@ -251,7 +251,7 @@ export default {
                                 .then((response) => {
                                     this.showAlert(
                                         "success",
-                                        this.$func.__("Transaction has been void!", "erp")
+                                        window.$func.__("Transaction has been void!", "erp")
                                     );
                                 })
                                 .then(() => {
@@ -302,7 +302,7 @@ export default {
                         temp = {
                             id: item.id,
                             trn_no: item.id,
-                            type: this.$func.__("Pay Bill", "erp"),
+                            type: window.$func.__("Pay Bill", "erp"),
                             trn_type: "pay_bill",
                             ref: item.ref ? item.ref : "-",
                             vendor_name: item.pay_bill_vendor_name,
@@ -316,7 +316,7 @@ export default {
                                 params: { id: item.id },
                             },
                             actions: [
-                                { key: "void", label: this.$func.__("Void", "erp") },
+                                { key: "void", label: window.$func.__("Void", "erp") },
                             ],
                         };
                         break;
@@ -325,7 +325,7 @@ export default {
                         temp = {
                             id: item.id,
                             trn_no: item.id,
-                            type: this.$func.__("Bill", "erp"),
+                            type: window.$func.__("Bill", "erp"),
                             trn_type: "bill",
                             ref: item.ref ? item.ref : "-",
                             vendor_id: item.vendor_id,
@@ -342,10 +342,10 @@ export default {
                             actions: [
                                 {
                                     key: "payment",
-                                    label: this.$func.__("Make Payment", "erp"),
+                                    label: window.$func.__("Make Payment", "erp"),
                                 },
-                                { key: "edit", label: this.$func.__("Edit", "erp") },
-                                { key: "void", label: this.$func.__("Void", "erp") },
+                                { key: "edit", label: window.$func.__("Edit", "erp") },
+                                { key: "void", label: window.$func.__("Void", "erp") },
                             ],
                         };
                         break;
@@ -354,7 +354,7 @@ export default {
                         temp = {
                             id: item.id,
                             trn_no: item.id,
-                            type: this.$func.__("Expense", "erp"),
+                            type: window.$func.__("Expense", "erp"),
                             trn_type: "expense",
                             ref: item.exp_ref ? item.exp_ref : "-",
                             vendor_name: item.expense_people_name,
@@ -368,7 +368,7 @@ export default {
                                 params: { id: item.id },
                             },
                             actions: [
-                                { key: "void", label: this.$func.__("Void", "erp") },
+                                { key: "void", label: window.$func.__("Void", "erp") },
                             ],
                         };
                         break;
@@ -377,7 +377,7 @@ export default {
                         temp = {
                             id: item.id,
                             trn_no: item.id,
-                            type: this.$func.__("Check", "erp"),
+                            type: window.$func.__("Check", "erp"),
                             trn_type: "check",
                             ref: item.ref ? item.ref : "-",
                             vendor_name: item.expense_people_name,
@@ -391,7 +391,7 @@ export default {
                                 params: { id: item.id },
                             },
                             actions: [
-                                { key: "void", label: this.$func.__("Void", "erp") },
+                                { key: "void", label: window.$func.__("Void", "erp") },
                             ],
                         };
                         break;
@@ -406,17 +406,17 @@ export default {
                     item.status_code === "5"
                 ) {
                     temp["actions"] = [
-                        { key: "payment", label: this.$func.__("Make Payment", "erp") },
-                        { key: "edit", label: this.$func.__("Edit", "erp") },
-                        { key: "void", label: this.$func.__("Void", "erp") },
+                        { key: "payment", label: window.$func.__("Make Payment", "erp") },
+                        { key: "edit", label: window.$func.__("Edit", "erp") },
+                        { key: "void", label: window.$func.__("Void", "erp") },
                     ];
                 } else if (item.status_code === "1") {
                     temp["actions"] = [
-                        { key: "to_expense", label: this.$func.__("Make Expense", "erp") },
+                        { key: "to_expense", label: window.$func.__("Make Expense", "erp") },
                     ];
                 } else {
                     temp["actions"] = [
-                        { key: "#", label: this.$func.__("No actions found", "erp") },
+                        { key: "#", label: window.$func.__("No actions found", "erp") },
                     ];
                 }
 

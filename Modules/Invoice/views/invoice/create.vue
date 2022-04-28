@@ -5,10 +5,10 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 v-if="estimateToInvoice()">
-                        {{ this.$func.__("Convert into Invoice", "erp") }}
+                        {{ window.$func.__("Convert into Invoice", "erp") }}
                     </h2>
                     <h2 v-else class="content-header__title">
-                        {{ editMode ? this.$func.__("Edit", "erp") : this.$func.__("New", "erp") }}
+                        {{ editMode ? window.$func.__("Edit", "erp") : window.$func.__("New", "erp") }}
                         {{ inv_title }}
                     </h2>
                 </div>
@@ -33,7 +33,7 @@
                         <div class="mybizna-col-sm-4">
                             <div class="mybizna-form-group">
                                 <label
-                                    >{{ this.$func.__("Transaction Date", "erp")
+                                    >{{ window.$func.__("Transaction Date", "erp")
                                     }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
@@ -46,7 +46,7 @@
                         <div class="mybizna-col-sm-4">
                             <div class="mybizna-form-group">
                                 <label
-                                    >{{ this.$func.__("Due Date", "erp")
+                                    >{{ window.$func.__("Due Date", "erp")
                                     }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="mybizna-col-sm-6">
-                            <label>{{ this.$func.__("Billing Address", "erp") }}</label>
+                            <label>{{ window.$func.__("Billing Address", "erp") }}</label>
                             <textarea
                                 v-model="basic_fields.billing_address"
                                 rows="4"
@@ -77,23 +77,23 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="col--products">
-                                    {{ this.$func.__("Product/Service", "erp") }}
+                                    {{ window.$func.__("Product/Service", "erp") }}
                                 </th>
                                 <th scope="col" class="col--qty">
-                                    {{ this.$func.__("Qty", "erp") }}
+                                    {{ window.$func.__("Qty", "erp") }}
                                 </th>
                                 <th scope="col" class="col--unit-price">
-                                    {{ this.$func.__("Unit Price", "erp") }}
+                                    {{ window.$func.__("Unit Price", "erp") }}
                                 </th>
                                 <th scope="col" class="col--amount">
-                                    {{ this.$func.__("Amount", "erp") }}
+                                    {{ window.$func.__("Amount", "erp") }}
                                 </th>
                                 <th scope="col" class="col--tax">
-                                    {{ this.$func.__("Tax", "erp") }}
+                                    {{ window.$func.__("Tax", "erp") }}
                                     <span
                                         class="erp-help-tip .erp-tips"
                                         :title="
-                                            this.$func.__(
+                                            window.$func.__(
                                                 'Make sure you have created tax category, zone and rate. Also, make sure the tax category is added on the product.',
                                                 'erp'
                                             )
@@ -119,7 +119,7 @@
                                         class="mybizna-btn btn--primary add-line-trigger"
                                     >
                                         <i class="flaticon-add-plus-button"></i
-                                        >{{ this.$func.__("Add Line", "erp") }}
+                                        >{{ window.$func.__("Add Line", "erp") }}
                                     </button>
                                 </td>
                             </tr>
@@ -131,10 +131,10 @@
                                 >
                                     <select v-model="discountType">
                                         <option value="discount-percent">
-                                            {{ this.$func.__("Discount percent", "erp") }}
+                                            {{ window.$func.__("Discount percent", "erp") }}
                                         </option>
                                         <option value="discount-value">
-                                            {{ this.$func.__("Discount value", "erp") }}
+                                            {{ window.$func.__("Discount value", "erp") }}
                                         </option>
                                     </select>
                                 </td>
@@ -169,7 +169,7 @@
                                         :options="taxRates"
                                         class="tax-rates"
                                         :placeholder="
-                                            this.$func.__('Select sales tax', 'erp')
+                                            window.$func.__('Select sales tax', 'erp')
                                         "
                                     />
                                 </td>
@@ -187,7 +187,7 @@
                             <tr class="total-amount-row inline-edit-row">
                                 <td colspan="4" class="text-right">
                                     <span
-                                        >{{ this.$func.__("Total Amount", "erp") }} =</span
+                                        >{{ window.$func.__("Total Amount", "erp") }} =</span
                                     >
                                 </td>
                                 <td>
@@ -203,7 +203,7 @@
                             <tr class="mybizna-form-group inline-edit-row">
                                 <td colspan="9" style="text-align: left">
                                     <label>{{
-                                        this.$func.__("Particulars", "erp")
+                                        window.$func.__("Particulars", "erp")
                                     }}</label>
                                     <textarea
                                         v-model="particulars"
@@ -243,7 +243,7 @@
                                 <td colspan="9" style="text-align: left">
                                     <div class="attachment-container">
                                         <label class="col--attachement">{{
-                                            this.$func.__("Attachment", "erp")
+                                            window.$func.__("Attachment", "erp")
                                         }}</label>
                                         <file-upload
                                             v-model="attachments"
@@ -270,7 +270,7 @@
                                         :options="[
                                             {
                                                 id: 'update',
-                                                text: this.$func.__(
+                                                text: window.$func.__(
                                                     'Save Conversion',
                                                     'erp'
                                                 ),
@@ -336,17 +336,17 @@ export default {
             },
 
             createButtons: [
-                { id: "save", text: this.$func.__("Save", "erp") },
-                // {id: 'send_create', text: this.$func.__('Create and Send', 'erp')},
-                { id: "new_create", text: this.$func.__("Save and New", "erp") },
-                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
+                { id: "save", text: window.$func.__("Save", "erp") },
+                // {id: 'send_create', text: window.$func.__('Create and Send', 'erp')},
+                { id: "new_create", text: window.$func.__("Save and New", "erp") },
+                { id: "draft", text: window.$func.__("Save as Draft", "erp") },
             ],
 
             updateButtons: [
-                { id: "update", text: this.$func.__("Update", "erp") },
-                // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
-                { id: "new_update", text: this.$func.__("Update and New", "erp") },
-                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
+                { id: "update", text: window.$func.__("Update", "erp") },
+                // {id: 'send_update', text: window.$func.__('Update and Send', 'erp')},
+                { id: "new_update", text: window.$func.__("Update and New", "erp") },
+                { id: "draft", text: window.$func.__("Save as Draft", "erp") },
             ],
 
             extraFields: window.acct.hooks.applyFilters(
@@ -458,7 +458,7 @@ export default {
                 if (!request3.data.line_items.length) {
                     this.showAlert(
                         "error",
-                        this.$func.__("Invoice does not exists!", "erp")
+                        window.$func.__("Invoice does not exists!", "erp")
                     );
                     return;
                 }
@@ -694,10 +694,10 @@ export default {
                 .put(`/invoices/${this.voucherNo}`, requestData)
                 .then((res) => {
 
-                    let message = this.$func.__("Invoice Updated!", "erp");
+                    let message = window.$func.__("Invoice Updated!", "erp");
 
                     if (this.estimateToInvoice()) {
-                        message = this.$func.__("Conversion Successful!", "erp");
+                        message = window.$func.__("Conversion Successful!", "erp");
                     }
 
                     this.showAlert("success", message);
@@ -820,7 +820,7 @@ export default {
 
             if (!this.basic_fields.trn_date) {
                 this.form_errors.push(
-                    this.$func.__("Transaction Date is required.", "erp")
+                    window.$func.__("Transaction Date is required.", "erp")
                 );
             }
 

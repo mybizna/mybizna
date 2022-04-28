@@ -11,7 +11,7 @@
                         class="mybizna-btn btn--primary"
                         @click.prevent="addNewLine = true"
                     >
-                        <span>{{ this.$func.__("Add New Line", "erp") }}</span>
+                        <span>{{ window.$func.__("Add New Line", "erp") }}</span>
                     </a>
                 </div>
             </div>
@@ -76,13 +76,13 @@ export default {
             is_update: false,
             columns: {
                 component_name: {
-                    label: this.$func.__("Component", "erp"),
+                    label: window.$func.__("Component", "erp"),
                     isColPrimary: true,
                 },
-                agency_name: { label: this.$func.__("Agency", "erp") },
-                tax_cat_name: { label: this.$func.__("Tax Category", "erp") },
-                tax_rate: { label: this.$func.__("Tax Rate", "erp") },
-                actions: { label: this.$func.__("Actions", "erp") },
+                agency_name: { label: window.$func.__("Agency", "erp") },
+                tax_cat_name: { label: window.$func.__("Tax Category", "erp") },
+                tax_rate: { label: window.$func.__("Tax Rate", "erp") },
+                actions: { label: window.$func.__("Actions", "erp") },
             },
             rows: [],
             paginationData: {
@@ -97,12 +97,12 @@ export default {
             actions: [
                 {
                     key: "edit",
-                    label: this.$func.__("Edit", "erp"),
+                    label: window.$func.__("Edit", "erp"),
                     iconClass: "flaticon-edit",
                 },
                 {
                     key: "trash",
-                    label: this.$func.__("Delete", "erp"),
+                    label: window.$func.__("Delete", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
@@ -175,7 +175,7 @@ export default {
                                 this.$delete(this.rows, index);
                                 this.showAlert(
                                     "success",
-                                    this.$func.__("Deleted !", "erp")
+                                    window.$func.__("Deleted !", "erp")
                                 );
                             });
                     }

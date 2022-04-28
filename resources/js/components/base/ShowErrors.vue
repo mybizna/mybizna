@@ -1,7 +1,7 @@
 <template>
     <div v-if="error_msgs.length" class="notify bg-red bigger">
         <div class="message">
-            <p><strong>{{ this.$func.__('Please complete these fields', 'erp') }}:</strong></p>
+            <p><strong>{{ window.$func.__('Please complete these fields', 'erp') }}:</strong></p>
             <ul :key="idx" v-for="(error, idx) in error_msgs">
                 <li>* {{ error }}</li>
             </ul>

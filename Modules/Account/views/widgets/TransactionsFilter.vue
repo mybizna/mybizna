@@ -2,26 +2,26 @@
     <div class="content-header-section separator mybizna-has-border-top">
         <div class="mybizna-row mybizna-between-xs">
             <div class="mybizna-col">
-                <h2 class="content-header__title">{{ this.$func.__('Transactions', 'erp') }}</h2>
+                <h2 class="content-header__title">{{ window.$func.__('Transactions', 'erp') }}</h2>
             </div>
             <div class="mybizna-col" ref="filterArea">
                 <form class="mybizna-form form--inline" action="" @submit.prevent="filterList">
                     <div :class="['mybizna-has-dropdown', {'dropdown-opened': showFilters}]">
                         <a class="mybizna-btn btn--default dropdown-trigger filter-button" @click.prevent="toggleFilter">
-                            <span><i class="flaticon-search-segment"></i>{{ this.$func.__('Filters', 'erp') }}</span>
+                            <span><i class="flaticon-search-segment"></i>{{ window.$func.__('Filters', 'erp') }}</span>
                             <i class="flaticon-arrow-down-sign-to-navigate"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right mybizna-filter-container">
                             <div class="mybizna-panel mybizna-panel-default mybizna-filter-panel">
-                                <h3>{{ this.$func.__('Filter', 'erp') }}</h3>
+                                <h3>{{ window.$func.__('Filter', 'erp') }}</h3>
                                 <div class="mybizna-panel-body">
-                                    <h3>{{ this.$func.__('Date', 'erp') }}</h3>
+                                    <h3>{{ window.$func.__('Date', 'erp') }}</h3>
                                     <div class="form-fields">
                                         <div class="start-date has-addons">
                                             <datepicker v-model="filters.start_date"></datepicker>
                                             <span class="flaticon-calendar"></span>
                                         </div>
-                                        <span class="label-to">{{ this.$func.__('To', 'erp') }}</span>
+                                        <span class="label-to">{{ window.$func.__('To', 'erp') }}</span>
                                         <div class="end-date has-addons">
                                             <datepicker v-model="filters.end_date"></datepicker>
                                             <span class="flaticon-calendar"></span>
@@ -30,7 +30,7 @@
                                     <br>
                                     <div class="form-fields">
                                         <div class="form-field-wrapper" v-if="status">
-                                            <h3>{{ this.$func.__('Status', 'erp') }}</h3>
+                                            <h3>{{ window.$func.__('Status', 'erp') }}</h3>
                                             <div class="form-fields">
                                                 <simple-select
                                                     v-model="filters.status"
@@ -40,7 +40,7 @@
                                             </div>
                                         </div>
                                         <div  class="form-field-wrapper" v-if="types.length">
-                                        <h3>{{ this.$func.__('Type', 'erp') }}</h3>
+                                        <h3>{{ window.$func.__('Type', 'erp') }}</h3>
                                             <div class="form-fields">
                                                 <simple-select
                                                     v-model="filters.type"
@@ -53,7 +53,7 @@
 
                                 <div class="people" v-if="people.items.length">
                                     <br>
-                                    <h3>{{ this.$func.__(people.title, 'erp') }}</h3>
+                                    <h3>{{ window.$func.__(people.title, 'erp') }}</h3>
                                     <div class="form-fields">
                                         <simple-select
                                             v-model="filters.people_id"

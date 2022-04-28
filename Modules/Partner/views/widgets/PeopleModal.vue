@@ -12,7 +12,7 @@
                         <div class="mybizna-modal-header">
                             <h3 v-if="!people">{{ title }}</h3>
                             <h3 v-else>
-                                {{ this.$func.__("Update", "erp") }} {{ title }}
+                                {{ window.$func.__("Update", "erp") }} {{ title }}
                             </h3>
                             <span class="modal-close">
                                 <i
@@ -58,7 +58,7 @@
                                         class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                     >
                                         <label for="first_name"
-                                            >{{ this.$func.__("First Name", "erp") }}
+                                            >{{ window.$func.__("First Name", "erp") }}
                                             <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
@@ -69,7 +69,7 @@
                                             id="first_name"
                                             class="mybizna-form-field"
                                             :placeholder="
-                                                this.$func.__('First Name', 'erp')
+                                                window.$func.__('First Name', 'erp')
                                             "
                                             required
                                         />
@@ -78,7 +78,7 @@
                                         class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                     >
                                         <label for="last_name"
-                                            >{{ this.$func.__("Last Name", "erp") }}
+                                            >{{ window.$func.__("Last Name", "erp") }}
                                             <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
@@ -89,7 +89,7 @@
                                             id="last_name"
                                             class="mybizna-form-field"
                                             :placeholder="
-                                                this.$func.__('Last Name', 'erp')
+                                                window.$func.__('Last Name', 'erp')
                                             "
                                             required
                                         />
@@ -98,7 +98,7 @@
                                         class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                     >
                                         <label for="email"
-                                            >{{ this.$func.__("Email", "erp") }}
+                                            >{{ window.$func.__("Email", "erp") }}
                                             <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
@@ -117,7 +117,7 @@
                                         class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                     >
                                         <label for="phone">{{
-                                            this.$func.__("Phone", "erp")
+                                            window.$func.__("Phone", "erp")
                                         }}</label>
                                         <input
                                             type="tel"
@@ -131,7 +131,7 @@
                                         class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                     >
                                         <label for="company">{{
-                                            this.$func.__("Company", "erp")
+                                            window.$func.__("Company", "erp")
                                         }}</label>
                                         <input
                                             type="text"
@@ -139,7 +139,7 @@
                                             id="company"
                                             class="mybizna-form-field"
                                             :placeholder="
-                                                this.$func.__('ABC Corporation', 'erp')
+                                                window.$func.__('ABC Corporation', 'erp')
                                             "
                                         />
                                     </div>
@@ -161,7 +161,7 @@
                                             class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                         >
                                             <label for="mobile">{{
-                                                this.$func.__("Mobile", "erp")
+                                                window.$func.__("Mobile", "erp")
                                             }}</label>
                                             <input
                                                 type="tel"
@@ -174,7 +174,7 @@
                                             class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="website">{{
-                                                this.$func.__("Website", "erp")
+                                                window.$func.__("Website", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -188,7 +188,7 @@
                                             class="mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="note">{{
-                                                this.$func.__("Note", "erp")
+                                                window.$func.__("Note", "erp")
                                             }}</label>
                                             <textarea
                                                 v-model="peopleFields.notes"
@@ -197,7 +197,7 @@
                                                 rows="4"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('Type here', 'erp')
+                                                    window.$func.__('Type here', 'erp')
                                                 "
                                             ></textarea>
                                         </div>
@@ -205,7 +205,7 @@
                                             class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="fax">{{
-                                                this.$func.__("Fax", "erp")
+                                                window.$func.__("Fax", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -213,7 +213,7 @@
                                                 id="fax"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('Type here', 'erp')
+                                                    window.$func.__('Type here', 'erp')
                                                 "
                                             />
                                         </div>
@@ -221,7 +221,7 @@
                                             class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="street1">{{
-                                                this.$func.__("Street 1", "erp")
+                                                window.$func.__("Street 1", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -229,7 +229,7 @@
                                                 id="street1"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('Street 1', 'erp')
+                                                    window.$func.__('Street 1', 'erp')
                                                 "
                                             />
                                         </div>
@@ -237,7 +237,7 @@
                                             class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="street2">{{
-                                                this.$func.__("Street 2", "erp")
+                                                window.$func.__("Street 2", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -245,7 +245,7 @@
                                                 id="street2"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('Street 2', 'erp')
+                                                    window.$func.__('Street 2', 'erp')
                                                 "
                                             />
                                         </div>
@@ -253,7 +253,7 @@
                                             class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="city">{{
-                                                this.$func.__("City", "erp")
+                                                window.$func.__("City", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -261,7 +261,7 @@
                                                 id="city"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('City/Town', 'erp')
+                                                    window.$func.__('City/Town', 'erp')
                                                 "
                                             />
                                         </div>
@@ -269,7 +269,7 @@
                                             class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label>{{
-                                                this.$func.__("Country", "erp")
+                                                window.$func.__("Country", "erp")
                                             }}</label>
                                             <div class="with-multiselect">
                                                 <multi-select
@@ -290,7 +290,7 @@
                                             class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label>{{
-                                                this.$func.__("Province/State", "erp")
+                                                window.$func.__("Province/State", "erp")
                                             }}</label>
                                             <div class="with-multiselect">
                                                 <multi-select
@@ -304,7 +304,7 @@
                                             class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="post_code">{{
-                                                this.$func.__("Post Code", "erp")
+                                                window.$func.__("Post Code", "erp")
                                             }}</label>
                                             <input
                                                 type="text"
@@ -314,7 +314,7 @@
                                                 id="post_code"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('Post Code', 'erp')
+                                                    window.$func.__('Post Code', 'erp')
                                                 "
                                             />
                                         </div>
@@ -344,7 +344,7 @@
                                         />
                                         <span class="form-check-sign"></span>
                                         <span class="field-label">{{
-                                            this.$func.__("Show More", "erp")
+                                            window.$func.__("Show More", "erp")
                                         }}</span>
                                     </label>
                                 </div>
@@ -358,21 +358,21 @@
                                         @click="$parent.$emit('modal-close')"
                                         type="reset"
                                     >
-                                        {{ this.$func.__("Cancel", "erp") }}
+                                        {{ window.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
                                         v-if="!people"
                                         class="mybizna-btn btn--primary"
                                         type="submit"
                                     >
-                                        {{ this.$func.__("Add New", "erp") }}
+                                        {{ window.$func.__("Add New", "erp") }}
                                     </button>
                                     <button
                                         v-else
                                         class="mybizna-btn btn--primary"
                                         type="submit"
                                     >
-                                        {{ this.$func.__("Update", "erp") }}
+                                        {{ window.$func.__("Update", "erp") }}
                                     </button>
                                 </div>
                             </div>
@@ -492,18 +492,18 @@ export default {
                                     swal(
                                         {
                                             title: "",
-                                            text: this.$func.__(
+                                            text: window.$func.__(
                                                 "This email already exists in CRM! Do you want to import and update the contact?",
                                                 "erp"
                                             ),
                                             type: "info",
                                             showCancelButton: true,
-                                            cancelButtonText: this.$func.__(
+                                            cancelButtonText: window.$func.__(
                                                 "Cancel",
                                                 "erp"
                                             ),
                                             cancelButtonColor: "#bababa",
-                                            confirmButtonText: this.$func.__(
+                                            confirmButtonText: window.$func.__(
                                                 "Import & Update",
                                                 "erp"
                                             ),
@@ -519,7 +519,7 @@ export default {
                                     );
                                 } else {
                                     self.error_message.push(
-                                        this.$func.__(
+                                        window.$func.__(
                                             "Email already exists as customer/vendor",
                                             "erp"
                                         )

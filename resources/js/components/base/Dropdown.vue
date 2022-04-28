@@ -8,7 +8,7 @@
                 aria-haspopup="true"
                 aria-expanded="false"
             >
-                {{ this.$func.__("Dropdown", "erp") }}
+                {{ window.$func.__("Dropdown", "erp") }}
             </button>
         </slot>
         <div

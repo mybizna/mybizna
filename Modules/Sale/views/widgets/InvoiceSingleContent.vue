@@ -26,7 +26,7 @@
                 <h4>{{ getInvoiceType() }}</h4>
                 <div class="mybizna-row">
                     <div class="mybizna-col-sm-6">
-                        <h5>{{ this.$func.__("Bill to", "erp") }}:</h5>
+                        <h5>{{ window.$func.__("Bill to", "erp") }}:</h5>
                         <div class="persons-info">
                             <strong>{{ invoice.customer_name }}</strong
                             ><br />
@@ -36,27 +36,27 @@
                     <div class="mybizna-col-sm-6">
                         <table class="invoice-info">
                             <tr v-if="invoice.sales_voucher_id">
-                                <th>{{ this.$func.__("Sales Voucher No", "erp") }}:</th>
+                                <th>{{ window.$func.__("Sales Voucher No", "erp") }}:</th>
                                 <td>#{{ invoice.sales_voucher_id }}</td>
                             </tr>
                             <tr>
-                                <th>{{ this.$func.__("Voucher No", "erp") }}:</th>
+                                <th>{{ window.$func.__("Voucher No", "erp") }}:</th>
                                 <td>#{{ invoice.voucher_no }}</td>
                             </tr>
                             <tr>
-                                <th>{{ this.$func.__("Transaction Date", "erp") }}:</th>
+                                <th>{{ window.$func.__("Transaction Date", "erp") }}:</th>
                                 <td>{{ formatDate(invoice.trn_date) }}</td>
                             </tr>
                             <tr v-if="invoice.due_date">
-                                <th>{{ this.$func.__("Due Date", "erp") }}:</th>
+                                <th>{{ window.$func.__("Due Date", "erp") }}:</th>
                                 <td>{{ formatDate(invoice.due_date) }}</td>
                             </tr>
                             <tr>
-                                <th>{{ this.$func.__("Created At", "erp") }}:</th>
+                                <th>{{ window.$func.__("Created At", "erp") }}:</th>
                                 <td>{{ formatDate(invoice.created_at) }}</td>
                             </tr>
                             <tr v-if="invoice.total_due">
-                                <th>{{ this.$func.__("Amount Due", "erp") }}:</th>
+                                <th>{{ window.$func.__("Amount Due", "erp") }}:</th>
                                 <td>{{ moneyFormat(invoice.total_due) }}</td>
                             </tr>
                         </table>
@@ -68,11 +68,11 @@
                 <table class="mybizna-table mybizna-form-table invoice-table">
                     <thead>
                         <tr>
-                            <th>{{ this.$func.__("Sl", "erp") }}.</th>
-                            <th>{{ this.$func.__("Product", "erp") }}</th>
-                            <th>{{ this.$func.__("Qty", "erp") }}</th>
-                            <th>{{ this.$func.__("Unit Price", "erp") }}</th>
-                            <th>{{ this.$func.__("Amount", "erp") }}</th>
+                            <th>{{ window.$func.__("Sl", "erp") }}.</th>
+                            <th>{{ window.$func.__("Product", "erp") }}</th>
+                            <th>{{ window.$func.__("Qty", "erp") }}</th>
+                            <th>{{ window.$func.__("Unit Price", "erp") }}</th>
+                            <th>{{ window.$func.__("Amount", "erp") }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,18 +102,18 @@
                                 <ul>
                                     <li>
                                         <span
-                                            >{{ this.$func.__("Subtotal", "erp") }}:</span
+                                            >{{ window.$func.__("Subtotal", "erp") }}:</span
                                         >
                                         {{ moneyFormat(invoice.amount) }}
                                     </li>
                                     <li>
                                         <span
-                                            >{{ this.$func.__("Discount", "erp") }}:</span
+                                            >{{ window.$func.__("Discount", "erp") }}:</span
                                         >
                                         (-) {{ moneyFormat(invoice.discount) }}
                                     </li>
                                     <li>
-                                        <span>{{ this.$func.__("Tax", "erp") }}:</span> (+)
+                                        <span>{{ window.$func.__("Tax", "erp") }}:</span> (+)
                                         {{ moneyFormat(invoice.tax) }}
                                     </li>
                                     <li
@@ -123,7 +123,7 @@
                                         "
                                     >
                                         <span
-                                            >{{ this.$func.__("Shipping", "erp") }}:</span
+                                            >{{ window.$func.__("Shipping", "erp") }}:</span
                                         >
                                         (+) {{ moneyFormat(invoice.shipping) }}
                                     </li>
@@ -136,14 +136,14 @@
                                     >
                                         <span
                                             >{{
-                                                this.$func.__("Shipping Tax", "erp")
+                                                window.$func.__("Shipping Tax", "erp")
                                             }}:</span
                                         >
                                         (+)
                                         {{ moneyFormat(invoice.shipping_tax) }}
                                     </li>
                                     <li>
-                                        <span>{{ this.$func.__("Total", "erp") }}:</span>
+                                        <span>{{ window.$func.__("Total", "erp") }}:</span>
                                         {{ moneyFormat(total) }}
                                     </li>
                                 </ul>
@@ -160,7 +160,7 @@
             class="invoice-attachments"
             v-if="invoice.attachments && invoice.attachments.length"
         >
-            <h4>{{ this.$func.__("Attachments", "erp") }}</h4>
+            <h4>{{ window.$func.__("Attachments", "erp") }}</h4>
             <a
                 class="attachment-item d-print-none"
                 :href="attachment"
@@ -244,11 +244,11 @@ export default {
     methods: {
         getInvoiceType() {
             if (this.invoice !== null && this.invoice.estimate === "1") {
-                return this.$func.__("Estimate", "erp");
+                return window.$func.__("Estimate", "erp");
             } else if (this.invoice.sales_voucher_id) {
-                return this.$func.__("Sales Return Invoice", "erp");
+                return window.$func.__("Sales Return Invoice", "erp");
             } else {
-                return this.$func.__("Invoice", "erp");
+                return window.$func.__("Invoice", "erp");
             }
         },
     },

@@ -1,12 +1,12 @@
 <template>
     <div class="app-employees">
         <h2 class="add-new-people">
-            <span>{{ this.$func.__("Employees", "erp") }}</span>
+            <span>{{ window.$func.__("Employees", "erp") }}</span>
 
             <span
                 class="erp-help-tip .erp-tips"
                 :title="
-                    this.$func.__(
+                    window.$func.__(
                         'The Employee list is coming from HR. You can not create an employee here. To create a new employee, go to HR > People > Employees.',
                         'erp'
                     )
@@ -57,18 +57,18 @@ export default {
             bulkActions: [
                 {
                     key: "trash",
-                    label: this.$func.__("Move to Trash", "erp"),
+                    label: window.$func.__("Move to Trash", "erp"),
                     img:
                         erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
                 },
             ],
             columns: {
-                employee: { label: this.$func.__("Name", "erp"), isColPrimary: true },
-                designation: { label: this.$func.__("Designation", "erp") },
-                department: { label: this.$func.__("Department", "erp") },
-                email: { label: this.$func.__("Email", "erp") },
-                phone: { label: this.$func.__("Phone", "erp") },
+                employee: { label: window.$func.__("Name", "erp"), isColPrimary: true },
+                designation: { label: window.$func.__("Designation", "erp") },
+                department: { label: window.$func.__("Department", "erp") },
+                email: { label: window.$func.__("Email", "erp") },
+                phone: { label: window.$func.__("Phone", "erp") },
             },
             rows: [],
             paginationData: {

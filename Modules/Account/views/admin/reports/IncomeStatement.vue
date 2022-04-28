@@ -1,7 +1,7 @@
 <template>
     <div class="income-statement">
         <h2 class="content-header__title">
-            {{ this.$func.__("Income Statement", "erp") }}
+            {{ window.$func.__("Income Statement", "erp") }}
         </h2>
 
         <form @submit.prevent="fetchItems" class="query-options no-print">
@@ -12,7 +12,7 @@
                     class="mybizna-btn btn--primary add-line-trigger"
                     type="submit"
                 >
-                    {{ this.$func.__("Filter", "erp") }}
+                    {{ window.$func.__("Filter", "erp") }}
                 </button>
             </div>
 
@@ -22,14 +22,14 @@
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i>
-                &nbsp; {{ this.$func.__("Print", "erp") }}
+                &nbsp; {{ window.$func.__("Print", "erp") }}
             </a>
         </form>
 
         <p>
             <strong
                 >{{
-                    this.$func.__("For the period of ( Transaction date )", "erp")
+                    window.$func.__("For the period of ( Transaction date )", "erp")
                 }}:</strong
             >
             <em>{{ start_date }}</em> to <em>{{ end_date }}</em>
@@ -47,7 +47,7 @@
             </template>
             <template slot="tfoot">
                 <tr class="t-foot">
-                    <td>{{ this.$func.__("Total Income", "erp") }}</td>
+                    <td>{{ window.$func.__("Total Income", "erp") }}</td>
                     <td>{{ transformBalance(Math.abs(income)) }}</td>
                 </tr>
             </template>
@@ -65,7 +65,7 @@
             </template>
             <template slot="tfoot">
                 <tr class="t-foot">
-                    <td>{{ this.$func.__("Total Expense", "erp") }}</td>
+                    <td>{{ window.$func.__("Total Expense", "erp") }}</td>
                     <td>{{ transformBalance(Math.abs(expense)) }}</td>
                 </tr>
             </template>
@@ -78,7 +78,7 @@
                 <tbody class="mybizna-col-sm-12">
                     <tr>
                         <td>
-                            <strong>{{ this.$func.__("Profit", "erp") }}</strong>
+                            <strong>{{ window.$func.__("Profit", "erp") }}</strong>
                         </td>
                         <td>{{ moneyFormat(Math.abs(profit)) }}</td>
                         <td class="no-print"></td>
@@ -89,7 +89,7 @@
                 <tbody class="mybizna-col-sm-12">
                     <tr>
                         <td>
-                            <strong>{{ this.$func.__("Loss", "erp") }}</strong>
+                            <strong>{{ window.$func.__("Loss", "erp") }}</strong>
                         </td>
                         <td>{{ moneyFormat(Math.abs(loss)) }}</td>
                         <td class="no-print"></td>
@@ -117,20 +117,20 @@ export default {
             bulkActions: [
                 {
                     key: "trash",
-                    label: this.$func.__("Move to Trash", "erp"),
+                    label: window.$func.__("Move to Trash", "erp"),
                     img:
                         erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
                 },
             ],
             columns1: {
-                name: { label: this.$func.__("Account Name", "erp") },
-                amount: { label: this.$func.__("Amount", "erp") },
+                name: { label: window.$func.__("Account Name", "erp") },
+                amount: { label: window.$func.__("Amount", "erp") },
             },
 
             columns2: {
-                name: { label: this.$func.__("Account Name", "erp") },
-                amount: { label: this.$func.__("Amount", "erp") },
+                name: { label: window.$func.__("Account Name", "erp") },
+                amount: { label: window.$func.__("Amount", "erp") },
             },
             rows1: [],
             rows2: [],

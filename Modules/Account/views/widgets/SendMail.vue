@@ -10,7 +10,7 @@
             <div class="mybizna-form-group mybizna-row">
                 <div class="mybizna-col-sm-3 mybizna-col-xs-12 send-mail-to">
                     <label
-                        >{{ this.$func.__("To", "erp") }}
+                        >{{ window.$func.__("To", "erp") }}
                         <span class="mybizna-required-sign">*</span></label
                     >
                 </div>
@@ -22,7 +22,7 @@
             </div>
             <div class="mybizna-form-group mybizna-row">
                 <div class="mybizna-col-sm-3 mybizna-col-xs-12">
-                    <label>{{ this.$func.__("Subject", "erp") }}</label>
+                    <label>{{ window.$func.__("Subject", "erp") }}</label>
                 </div>
                 <div class="mybizna-col-sm-9 mybizna-col-xs-12">
                     <input
@@ -35,7 +35,7 @@
             </div>
             <div class="mybizna-form-group mybizna-row">
                 <div class="mybizna-col-sm-3 mybizna-col-xs-12">
-                    <label>{{ this.$func.__("Message", "erp") }}</label>
+                    <label>{{ window.$func.__("Message", "erp") }}</label>
                 </div>
                 <div class="mybizna-col-sm-9 mybizna-col-xs-12">
                     <textarea
@@ -49,7 +49,7 @@
             <div class="mybizna-row">
                 <div class="mybizna-col-sm-3 mybizna-col-xs-12">
                     <label
-                        >{{ this.$func.__("Attachment", "erp") }}
+                        >{{ window.$func.__("Attachment", "erp") }}
                         <span class="mybizna-required-sign">*</span></label
                     >
                 </div>
@@ -63,7 +63,7 @@
                             />
                             <span class="form-check-sign"></span>
                             <span class="field-label">{{
-                                this.$func.__("Attach as PDF", "erp")
+                                window.$func.__("Attach as PDF", "erp")
                             }}</span>
                         </label>
                     </div>
@@ -73,14 +73,14 @@
         <template slot="footer">
             <div class="buttons-wrapper text-right">
                 <button class="mybizna-btn btn--default" @click="closeModal">
-                    {{ this.$func.__("Cancel", "erp") }}
+                    {{ window.$func.__("Cancel", "erp") }}
                 </button>
                 <button
                     class="mybizna-btn btn--primary"
                     type="submit"
                     @click.prevent="sendAsMail"
                 >
-                    {{ this.$func.__("Send", "erp") }}
+                    {{ window.$func.__("Send", "erp") }}
                 </button>
             </div>
         </template>
@@ -145,7 +145,7 @@ export default {
                     attachment: this.attachment,
                 })
                 .then(() => {
-                    this.showAlert("success", this.$func.__("Mail Sent!", "erp"));
+                    this.showAlert("success", window.$func.__("Mail Sent!", "erp"));
                 })
                 .catch((error) => {
                     throw error;

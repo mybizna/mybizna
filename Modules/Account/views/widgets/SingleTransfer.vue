@@ -2,7 +2,7 @@
     <div class="mybizna-modal-dialog sales-single">
         <div class="mybizna-modal-content">
             <div class="mybizna-modal-header">
-                <h2>{{ this.$func.__("Transfer Money", "erp") }}</h2>
+                <h2>{{ window.$func.__("Transfer Money", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
@@ -10,7 +10,7 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ this.$func.__("Print", "erp") }}
+                        &nbsp; {{ window.$func.__("Print", "erp") }}
                     </a>
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
 
@@ -18,7 +18,7 @@
                         <template slot="button">
                             <a href="#" class="mybizna-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
-                                &nbsp; {{ this.$func.__("More Action", "erp") }}
+                                &nbsp; {{ window.$func.__("More Action", "erp") }}
                             </a>
                         </template>
                         <template slot="dropdown">
@@ -27,7 +27,7 @@
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ this.$func.__("Send Mail", "erp") }}</a
+                                        >{{ window.$func.__("Send Mail", "erp") }}</a
                                     >
                                 </li>
                             </ul>
@@ -60,10 +60,10 @@
                     </div>
 
                     <div class="invoice-body">
-                        <h4>{{ this.$func.__("Transfer Money", "erp") }}</h4>
+                        <h4>{{ window.$func.__("Transfer Money", "erp") }}</h4>
                         <div class="mybizna-row" v-if="voucher.created_by">
                             <div class="mybizna-col-sm-6">
-                                <h5>{{ this.$func.__("Created By", "erp") }}:</h5>
+                                <h5>{{ window.$func.__("Created By", "erp") }}:</h5>
                                 <div class="persons-info">
                                     <strong>{{
                                         voucher.created_by.display_name
@@ -76,7 +76,7 @@
                                 <table class="invoice-info">
                                     <tr>
                                         <th>
-                                            {{ this.$func.__("Transaction Date", "erp") }}:
+                                            {{ window.$func.__("Transaction Date", "erp") }}:
                                         </th>
                                         <td>
                                             {{ formatDate(voucher.trn_date) }}
@@ -93,10 +93,10 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>{{ this.$func.__("Voucher No", "erp") }}</th>
-                                    <th>{{ this.$func.__("Account From", "erp") }}</th>
-                                    <th>{{ this.$func.__("Amount", "erp") }}</th>
-                                    <th>{{ this.$func.__("Account To", "erp") }}</th>
+                                    <th>{{ window.$func.__("Voucher No", "erp") }}</th>
+                                    <th>{{ window.$func.__("Account From", "erp") }}</th>
+                                    <th>{{ window.$func.__("Amount", "erp") }}</th>
+                                    <th>{{ window.$func.__("Account To", "erp") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -113,7 +113,7 @@
                                         class="mybizna-invoice-amounts"
                                         colspan="7"
                                     >
-                                        <h2>{{ this.$func.__("Particulars", "erp") }}</h2>
+                                        <h2>{{ window.$func.__("Particulars", "erp") }}</h2>
                                         <p v-if="voucher.particulars">
                                             {{ voucher.particulars }}
                                         </p>

@@ -6,10 +6,10 @@
                     <h2 class="content-header__title">
                         {{
                             editMode
-                                ? this.$func.__("Update", "erp")
-                                : this.$func.__("Create New", "erp")
+                                ? window.$func.__("Update", "erp")
+                                : window.$func.__("Create New", "erp")
                         }}
-                        {{ this.$func.__("Account", "erp") }}
+                        {{ window.$func.__("Account", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -22,7 +22,7 @@
 
             <div class="form-row">
                 <label for=""
-                    >{{ this.$func.__("Select chart of accounts", "erp") }}
+                    >{{ window.$func.__("Select chart of accounts", "erp") }}
                     <span class="mybizna-required-sign">*</span></label
                 >
                 <treeselect
@@ -57,7 +57,7 @@
 
             <div class="form-row">
                 <label for=""
-                    >{{ this.$func.__("Account Name", "erp") }}
+                    >{{ window.$func.__("Account Name", "erp") }}
                     <span class="mybizna-required-sign">*</span></label
                 >
 
@@ -70,7 +70,7 @@
             </div>
 
             <div class="form-row">
-                <label for="">{{ this.$func.__("Code (optional)", "erp") }}</label>
+                <label for="">{{ window.$func.__("Code (optional)", "erp") }}</label>
 
                 <input
                     type="number"
@@ -80,7 +80,7 @@
             </div>
 
             <button class="mybizna-btn btn--primary" type="submit">
-                {{ editMode ? this.$func.__("Update", "erp") : this.$func.__("Save", "erp") }}
+                {{ editMode ? window.$func.__("Update", "erp") : window.$func.__("Save", "erp") }}
             </button>
         </form>
 
@@ -107,7 +107,7 @@ export default {
             },
 
             catData: {
-                title: this.$func.__("Add New", "erp"),
+                title: window.$func.__("Add New", "erp"),
                 node: null,
             },
 
@@ -142,7 +142,7 @@ export default {
         //     this.catData.title = 'Add New';
         //     this.catData.node = null;
 
-        //     this.showAlert('success', this.$func.__('Successful !', 'erp'));
+        //     this.showAlert('success', window.$func.__('Successful !', 'erp'));
 
         //     this.fetchLedgerCategories();
         // });
@@ -246,7 +246,7 @@ export default {
                 window.axios
                     .delete(`/ledgers/categories/${node.id}`)
                     .then((response) => {
-                        this.showAlert("error", this.$func.__("Category Removed!", "erp"));
+                        this.showAlert("error", window.$func.__("Category Removed!", "erp"));
 
                         this.fetchLedgerCategories();
                     });
@@ -258,7 +258,7 @@ export default {
             window.axios
                 .post("/ledgers", requestData)
                 .then((res) => {
-                    this.showAlert("success", this.$func.__("Created !", "erp"));
+                    this.showAlert("success", window.$func.__("Created !", "erp"));
                     window.location.reload();
                 })
                 .catch((error) => {
@@ -274,7 +274,7 @@ export default {
             window.axios
                 .put(`/ledgers/${this.ledgerID}`, requestData)
                 .then((res) => {
-                    this.showAlert("success", this.$func.__("Updated !", "erp"));
+                    this.showAlert("success", window.$func.__("Updated !", "erp"));
                     window.location.reload();
                 })
                 .catch((error) => {
@@ -319,7 +319,7 @@ export default {
             };
 
             if (this.isDuplicateLedger(requestData)) {
-                this.showAlert("error", this.$func.__("Duplicate Account!", "erp"));
+                this.showAlert("error", window.$func.__("Duplicate Account!", "erp"));
                 return;
             }
 

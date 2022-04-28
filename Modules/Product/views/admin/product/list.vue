@@ -2,21 +2,21 @@
     <div class="mybizna-products">
         <div class="products-header">
             <h2 class="add-new-product">
-                <span>{{ this.$func.__("Products", "erp") }}</span>
+                <span>{{ window.$func.__("Products", "erp") }}</span>
                 <a
                     href=""
                     id="erp-product-new"
                     @click.prevent="showModal = true"
-                    >{{ this.$func.__("Add New", "erp") }}</a
+                    >{{ window.$func.__("Add New", "erp") }}</a
                 >
             </h2>
 
             <div class="erp-btn-group">
                 <button @click.prevent="showImportModal = true">
-                    {{ this.$func.__("Import", "erp") }}
+                    {{ window.$func.__("Import", "erp") }}
                 </button>
                 <button @click.prevent="showExportModal = true">
-                    {{ this.$func.__("Export", "erp") }}
+                    {{ window.$func.__("Export", "erp") }}
                 </button>
             </div>
 
@@ -44,8 +44,8 @@
             :current-page="paginationData.currentPage"
             @pagination="goToPage"
             :actions="[
-                { key: 'edit', label: this.$func.__('Edit', 'erp') },
-                { key: 'trash', label: this.$func.__('Delete', 'erp') },
+                { key: 'edit', label: window.$func.__('Edit', 'erp') },
+                { key: 'trash', label: window.$func.__('Delete', 'erp') },
             ]"
         >
         </list-table>
@@ -76,35 +76,35 @@ export default {
             showModal: false,
             columns: {
                 name: {
-                    label: this.$func.__("Product Name", "erp"),
+                    label: window.$func.__("Product Name", "erp"),
                     isColPrimary: true,
                 },
                 sale_price: {
-                    label: this.$func.__("Sale Price", "erp"),
+                    label: window.$func.__("Sale Price", "erp"),
                 },
                 cost_price: {
-                    label: this.$func.__("Cost Price", "erp"),
+                    label: window.$func.__("Cost Price", "erp"),
                 },
                 cat_name: {
-                    label: this.$func.__("Product Category", "erp"),
+                    label: window.$func.__("Product Category", "erp"),
                 },
                 tax_cat_name: {
-                    label: this.$func.__("Tax Category", "erp"),
+                    label: window.$func.__("Tax Category", "erp"),
                 },
                 product_type_name: {
-                    label: this.$func.__("Product Type", "erp"),
+                    label: window.$func.__("Product Type", "erp"),
                 },
                 vendor_name: {
-                    label: this.$func.__("Vendor", "erp"),
+                    label: window.$func.__("Vendor", "erp"),
                 },
                 actions: {
-                    label: this.$func.__("Actions", "erp"),
+                    label: window.$func.__("Actions", "erp"),
                 },
             },
             bulkActions: [
                 {
                     key: "trash",
-                    label: this.$func.__("Move to Trash", "erp"),
+                    label: window.$func.__("Move to Trash", "erp"),
                     img:
                         erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,

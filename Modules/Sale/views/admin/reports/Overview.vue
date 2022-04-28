@@ -1,22 +1,22 @@
 <template>
     <div class="sales-tax-reports">
         <h2 class="title-container">
-            <span>{{ this.$func.__("Sales Tax Reports", "erp") }}</span>
+            <span>{{ window.$func.__("Sales Tax Reports", "erp") }}</span>
 
             <router-link
                 class="mybizna-btn btn--primary"
                 :to="{ name: 'ReportsOverview' }"
             >
-                {{ this.$func.__("Back", "erp") }}
+                {{ window.$func.__("Back", "erp") }}
             </router-link>
         </h2>
 
         <ul class="reports-overview">
             <li>
-                <h3>{{ this.$func.__("Agency Based", "erp") }}</h3>
+                <h3>{{ window.$func.__("Agency Based", "erp") }}</h3>
                 <p>
                     {{
-                        this.$func.__(
+                        window.$func.__(
                             "It generates sales tax report based on agencies",
                             "erp"
                         )
@@ -27,15 +27,15 @@
                     class="mybizna-btn btn--primary"
                     :to="{ name: 'SalesTaxReportAgencyBased' }"
                 >
-                    {{ this.$func.__("View Report", "erp") }}
+                    {{ window.$func.__("View Report", "erp") }}
                 </router-link>
             </li>
 
             <li>
-                <h3>{{ this.$func.__("Transaction Based", "erp") }}</h3>
+                <h3>{{ window.$func.__("Transaction Based", "erp") }}</h3>
                 <p>
                     {{
-                        this.$func.__(
+                        window.$func.__(
                             "It generates sales tax report based on transactions",
                             "erp"
                         )
@@ -46,15 +46,15 @@
                     class="mybizna-btn btn--primary"
                     :to="{ name: 'SalesTaxReportTransactionBased' }"
                 >
-                    {{ this.$func.__("View Report", "erp") }}
+                    {{ window.$func.__("View Report", "erp") }}
                 </router-link>
             </li>
 
             <li>
-                <h3>{{ this.$func.__("Customer Based", "erp") }}</h3>
+                <h3>{{ window.$func.__("Customer Based", "erp") }}</h3>
                 <p>
                     {{
-                        this.$func.__(
+                        window.$func.__(
                             "It generates sales tax report based on customers",
                             "erp"
                         )
@@ -65,15 +65,15 @@
                     class="mybizna-btn btn--primary"
                     :to="{ name: 'SalesTaxReportCustomerBased' }"
                 >
-                    {{ this.$func.__("View Report", "erp") }}
+                    {{ window.$func.__("View Report", "erp") }}
                 </router-link>
             </li>
 
             <li>
-                <h3>{{ this.$func.__("Category Based", "erp") }}</h3>
+                <h3>{{ window.$func.__("Category Based", "erp") }}</h3>
                 <p>
                     {{
-                        this.$func.__(
+                        window.$func.__(
                             "It generates sales tax report based on categories",
                             "erp"
                         )
@@ -84,7 +84,7 @@
                     class="mybizna-btn btn--primary"
                     :to="{ name: 'SalesTaxReportCategoryBased' }"
                 >
-                    {{ this.$func.__("View Report", "erp") }}
+                    {{ window.$func.__("View Report", "erp") }}
                 </router-link>
             </li>
         </ul>

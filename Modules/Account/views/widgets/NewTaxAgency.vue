@@ -11,10 +11,10 @@
                     <h3>
                         {{
                             is_update
-                                ? this.$func.__("Edit", "erp")
-                                : this.$func.__("Add", "erp")
+                                ? window.$func.__("Edit", "erp")
+                                : window.$func.__("Add", "erp")
                         }}
-                        {{ this.$func.__("Tax Agency", "erp") }}
+                        {{ window.$func.__("Tax Agency", "erp") }}
                     </h3>
                     <span class="modal-close" @click.prevent="closeModal"
                         ><i class="flaticon-close"></i
@@ -32,7 +32,7 @@
                     <div class="mybizna-modal-body">
                         <div class="mybizna-form-group">
                             <label
-                                >{{ this.$func.__("Tax Agency Name", "erp")
+                                >{{ window.$func.__("Tax Agency Name", "erp")
                                 }}<span class="mybizna-required-sign"
                                     >*</span
                                 ></label
@@ -132,11 +132,11 @@ export default {
             if (this.is_update) {
                 rest = "put";
                 url = `/tax-agencies/${this.agency_id}`;
-                msg = this.$func.__("Tax Agency Updated!", "erp");
+                msg = window.$func.__("Tax Agency Updated!", "erp");
             } else {
                 rest = "post";
                 url = `/tax-agencies`;
-                msg = this.$func.__("Tax Agency Created!", "erp");
+                msg = window.$func.__("Tax Agency Created!", "erp");
             }
 
             window.axios[rest](url, {

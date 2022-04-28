@@ -9,8 +9,8 @@
                 <!-- modal body title -->
                 <div class="mybizna-modal-header">
                     <h3>
-                        {{ is_update ? this.$func.__("Edit", "erp") : this.$func.__("Add", "erp") }}
-                        {{ this.$func.__("Tax Category", "erp") }}
+                        {{ is_update ? window.$func.__("Edit", "erp") : window.$func.__("Add", "erp") }}
+                        {{ window.$func.__("Tax Category", "erp") }}
                     </h3>
                     <span class="modal-close" @click.prevent="closeModal"
                         ><i class="flaticon-close"></i
@@ -28,7 +28,7 @@
                     <div class="mybizna-modal-body">
                         <div class="mybizna-form-group">
                             <label
-                                >{{ this.$func.__("Tax Category Name", "erp") }}
+                                >{{ window.$func.__("Tax Category Name", "erp") }}
                                 <span class="mybizna-required-sign"
                                     >*</span
                                 ></label
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="mybizna-form-group mb-0">
-                            <label>{{ this.$func.__("Description", "erp") }}</label>
+                            <label>{{ window.$func.__("Description", "erp") }}</label>
                             <textarea
                                 v-model="desc"
                                 rows="4"
@@ -139,11 +139,11 @@ export default {
             if (this.is_update) {
                 rest = "put";
                 url = `/tax-cats/${this.cat_id}`;
-                msg = this.$func.__("Tax Category Updated!", "erp");
+                msg = window.$func.__("Tax Category Updated!", "erp");
             } else {
                 rest = "post";
                 url = `/tax-cats`;
-                msg = this.$func.__("Tax Category Created!", "erp");
+                msg = window.$func.__("Tax Category Created!", "erp");
             }
 
 
@@ -170,7 +170,7 @@ export default {
 
             if (!this.category) {
                 this.form_errors.push(
-                    this.$func.__("Tax Category Name is required.", "erp")
+                    window.$func.__("Tax Category Name is required.", "erp")
                 );
             }
         },

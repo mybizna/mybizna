@@ -5,7 +5,7 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">
-                        {{ this.$func.__("New Journal", "erp") }}
+                        {{ window.$func.__("New Journal", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                             <div class="mybizna-form-group">
                                 <label
                                     >{{
-                                        this.$func.__(
+                                        window.$func.__(
                                             "Transaction Date",
                                             "erp"
                                         )
@@ -38,7 +38,7 @@
                         <div class="mybizna-col-sm-4">
                             <div class="mybizna-form-group">
                                 <label>{{
-                                    this.$func.__("Ref.", "erp")
+                                    window.$func.__("Ref.", "erp")
                                 }}</label>
                                 <input
                                     type="text"
@@ -49,7 +49,7 @@
                         </div>
                         <div class="mybizna-col-sm-4">
                             <label>{{
-                                this.$func.__("Particulars", "erp")
+                                window.$func.__("Particulars", "erp")
                             }}</label>
                             <textarea
                                 v-model="journal_parti"
@@ -72,19 +72,19 @@
                         <thead>
                             <tr>
                                 <th scope="col">
-                                    {{ this.$func.__("SL No.", "erp") }}
+                                    {{ window.$func.__("SL No.", "erp") }}
                                 </th>
                                 <th scope="col">
-                                    {{ this.$func.__("Account", "erp") }}
+                                    {{ window.$func.__("Account", "erp") }}
                                 </th>
                                 <th scope="col">
-                                    {{ this.$func.__("Particulars", "erp") }}
+                                    {{ window.$func.__("Particulars", "erp") }}
                                 </th>
                                 <th scope="col">
-                                    {{ this.$func.__("Debit", "erp") }}
+                                    {{ window.$func.__("Debit", "erp") }}
                                 </th>
                                 <th scope="col">
-                                    {{ this.$func.__("Credit", "erp") }}
+                                    {{ window.$func.__("Credit", "erp") }}
                                 </th>
                                 <th scope="col" class="col--actions"></th>
                             </tr>
@@ -157,7 +157,7 @@
                                 <td
                                     class="col--actions delete-row"
                                     :data-colname="
-                                        this.$func.__('Remove Selection', 'erp')
+                                        window.$func.__('Remove Selection', 'erp')
                                     "
                                 >
                                     <a
@@ -174,7 +174,7 @@
                                         class="mybizna-btn btn--primary add-line-trigger"
                                     >
                                         <i class="flaticon-add-plus-button"></i
-                                        >{{ this.$func.__("Add Line", "erp") }}
+                                        >{{ window.$func.__("Add Line", "erp") }}
                                     </button>
                                 </td>
                             </tr>
@@ -184,7 +184,7 @@
                                     class="pl-10 text-right col--total-amount"
                                 >
                                     <span>{{
-                                        this.$func.__("Total Amount", "erp")
+                                        window.$func.__("Total Amount", "erp")
                                     }}</span>
                                 </td>
                                 <td :data-colname="__('Debit', 'erp')">
@@ -218,7 +218,7 @@
                             <td colspan="9" style="text-align: left">
                                 <div class="attachment-container">
                                     <label class="col--attachement">{{
-                                        this.$func.__("Attachment", "erp")
+                                        window.$func.__("Attachment", "erp")
                                     }}</label>
                                     <file-upload
                                         v-model="attachments"
@@ -333,7 +333,7 @@ export default {
                 .then((res) => {
                     this.showAlert(
                         "success",
-                        this.$func.__("Journal Entry Added!", "erp")
+                        window.$func.__("Journal Entry Added!", "erp")
                     );
                 })
                 .catch((error) => {
@@ -356,7 +356,7 @@ export default {
 
             if (!this.basic_fields.trn_date) {
                 this.form_errors.push(
-                    this.$func.__("Transaction Date is required.", "erp")
+                    window.$func.__("Transaction Date is required.", "erp")
                 );
             }
 
@@ -366,7 +366,7 @@ export default {
 
             if (Math.abs(this.debit_total - this.credit_total)) {
                 this.form_errors.push(
-                    this.$func.__("Debit and Credit must be Equal.", "erp")
+                    window.$func.__("Debit and Credit must be Equal.", "erp")
                 );
             }
         },

@@ -22,23 +22,23 @@
                 <div class="mybizna-col-lg-9 mybizna-col-md-8 mybizna-col-sm-8 mybizna-col-xs-12">
                     <ul class="customer-meta">
                         <li>
-                            <strong>{{ this.$func.__('Phone', 'erp') }}:</strong>
+                            <strong>{{ window.$func.__('Phone', 'erp') }}:</strong>
                             <span>{{ user.phone }}</span>
                         </li>
                         <li>
-                            <strong>{{ this.$func.__('Mobile', 'erp') }}:</strong>
+                            <strong>{{ window.$func.__('Mobile', 'erp') }}:</strong>
                             <span>{{ user.mobile }}</span>
                         </li>
                         <li>
-                            <strong style="margin-right: 10px">{{ this.$func.__('Department', 'erp') }}:</strong>
+                            <strong style="margin-right: 10px">{{ window.$func.__('Department', 'erp') }}:</strong>
                             <span v-if="user.department">{{ user.department }}</span>
                         </li>
                         <li>
-                            <strong style="margin-right: 10px">{{ this.$func.__('Designation', 'erp') }}:</strong>
+                            <strong style="margin-right: 10px">{{ window.$func.__('Designation', 'erp') }}:</strong>
                             <span v-if="user.designation">{{ user.designation }}</span>
                         </li>
                         <li>
-                            <strong>{{ this.$func.__('Address', 'erp') }}:</strong>
+                            <strong>{{ window.$func.__('Address', 'erp') }}:</strong>
                             <span >{{ user.address }} </span>
                         </li>
                     </ul>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="mybizna-col-sm-4">
                             <div class="mybizna-chart-block">
-                                <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
+                                <h3>{{ window.$func.__('Outstanding', 'erp') }}</h3>
                                 <div class="mybizna-total"><h2>{{ moneyFormat( outstanding ) }}</h2></div>
                             </div>
                         </div>

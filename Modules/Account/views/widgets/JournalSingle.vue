@@ -2,7 +2,7 @@
     <div class="mybizna-modal-dialog journal-single">
         <div class="mybizna-modal-content">
             <div class="mybizna-modal-header">
-                <h2>{{ this.$func.__("Journal", "erp") }}</h2>
+                <h2>{{ window.$func.__("Journal", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
@@ -10,7 +10,7 @@
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
-                        &nbsp; {{ this.$func.__("Print", "erp") }}
+                        &nbsp; {{ window.$func.__("Print", "erp") }}
                     </a>
                 </div>
             </div>
@@ -38,21 +38,21 @@
                     </div>
 
                     <div class="invoice-body">
-                        <h4>{{ this.$func.__("Journal", "erp") }}</h4>
+                        <h4>{{ window.$func.__("Journal", "erp") }}</h4>
                         <div class="mybizna-row" v-if="null != journal">
                             <div class="mybizna-col-sm-12 pull-right">
                                 <table class="invoice-info">
                                     <tr>
-                                        <th>{{ this.$func.__("Journal No", "erp") }}:</th>
+                                        <th>{{ window.$func.__("Journal No", "erp") }}:</th>
                                         <td>#{{ journal.id }}</td>
                                     </tr>
                                     <tr>
-                                        <th>{{ this.$func.__("Journal Ref", "erp") }}:</th>
+                                        <th>{{ window.$func.__("Journal Ref", "erp") }}:</th>
                                         <td>{{ journal.ref }}</td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ this.$func.__("Journal Date", "erp") }}:
+                                            {{ window.$func.__("Journal Date", "erp") }}:
                                         </th>
                                         <td>
                                             {{ formatDate(journal.trn_date) }}
@@ -69,10 +69,10 @@
                         >
                             <thead>
                                 <tr class="inline-edit-row">
-                                    <th>{{ this.$func.__("Account", "erp") }}</th>
-                                    <th>{{ this.$func.__("Particulars", "erp") }}</th>
-                                    <th>{{ this.$func.__("Debit", "erp") }}</th>
-                                    <th>{{ this.$func.__("Credit", "erp") }}</th>
+                                    <th>{{ window.$func.__("Account", "erp") }}</th>
+                                    <th>{{ window.$func.__("Particulars", "erp") }}</th>
+                                    <th>{{ window.$func.__("Debit", "erp") }}</th>
+                                    <th>{{ window.$func.__("Credit", "erp") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,7 +94,7 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        this.$func.__("Balance", "erp")
+                                                        window.$func.__("Balance", "erp")
                                                     }}:</span
                                                 >
                                                 {{ moneyFormat(journal.total) }}
@@ -110,7 +110,7 @@
                 <trans-particulars :particulars="journal.particulars" />
 
                 <div class="invoice-attachments d-print-none">
-                    <h4>{{ this.$func.__("Attachments", "erp") }}</h4>
+                    <h4>{{ window.$func.__("Attachments", "erp") }}</h4>
                     <a
                         class="attachment-item"
                         :href="attachment"

@@ -13,7 +13,7 @@ export default {
     props: {
         text: {
             type: String,
-            default: this.$func.__("Submit", "erp"),
+            default: window.$func.__("Submit", "erp"),
         },
 
         working: {

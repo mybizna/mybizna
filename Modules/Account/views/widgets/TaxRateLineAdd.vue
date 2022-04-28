@@ -4,7 +4,7 @@
             <div class="mybizna-modal-content">
                 <!-- modal body title -->
                 <div class="mybizna-modal-header">
-                    <h3>{{ this.$func.__('Add New Line', 'erp') }}</h3>
+                    <h3>{{ window.$func.__('Add New Line', 'erp') }}</h3>
                     <span class="modal-close" @click.prevent="closeModal"><i class="flaticon-close"></i></span>
                 </div>
 
@@ -12,23 +12,23 @@
                     <div class="mybizna-panel-body">
                         <div class="mybizna-row">
                             <div class="mybizna-col-sm-3 mybizna-col-xs-12">
-                                <label>{{ this.$func.__('Component', 'erp') }}</label>
+                                <label>{{ window.$func.__('Component', 'erp') }}</label>
                                 <input type="text" class="mybizna-form-field" v-model="component_name" />
                             </div>
                             <div class="mybizna-col-sm-3 mybizna-col-xs-12 with-multiselect">
-                                <label>{{ this.$func.__('Agency', 'erp') }}</label>
+                                <label>{{ window.$func.__('Agency', 'erp') }}</label>
                                 <multi-select
                                     v-model="agency"
                                     :options="agencies"/>
                             </div>
                             <div class="mybizna-col-sm-3 mybizna-col-xs-12 with-multiselect">
-                                <label>{{ this.$func.__('Tax Category', 'erp') }}</label>
+                                <label>{{ window.$func.__('Tax Category', 'erp') }}</label>
                                     <multi-select
                                     v-model="category"
                                     :options="categories" />
                             </div>
                             <div class="mybizna-col-sm-3 mybizna-col-xs-12">
-                                <label>{{ this.$func.__('Tax Rate', 'erp') }}</label>
+                                <label>{{ window.$func.__('Tax Rate', 'erp') }}</label>
                                 <input type="text" class="mybizna-form-field" v-model="tax_rate"/>
                             </div>
 
@@ -87,7 +87,7 @@ export default {
                 tax_cat_id: this.category.id,
                 tax_rate: this.tax_rate
             }).then(res => {
-                this.showAlert('success', this.$func.__('Tax Rate Updated!', 'erp'));
+                this.showAlert('success', window.$func.__('Tax Rate Updated!', 'erp'));
             }).catch(error => {
                 throw error;
             }).then(() => {

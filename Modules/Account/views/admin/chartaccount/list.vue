@@ -4,18 +4,18 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col-6">
                     <h2 class="content-header__title">
-                        {{ this.$func.__("Chart of Accounts", "erp") }}
+                        {{ window.$func.__("Chart of Accounts", "erp") }}
                         <router-link
                             class="mybizna-btn btn--primary"
                             :to="{ name: 'AddChartAccounts' }"
                             id="erp-add-chart-of-account"
                         >
-                            {{ this.$func.__("Add New", "erp") }}
+                            {{ window.$func.__("Add New", "erp") }}
                         </router-link>
                     </h2>
                 </div>
                 <div class="mybizna-col-6">
-                    <h4>{{ this.$func.__("Search Ledger", "erp") }}</h4>
+                    <h4>{{ window.$func.__("Search Ledger", "erp") }}</h4>
                     <input
                         type="text"
                         class="mybizna-form-field"
@@ -68,7 +68,7 @@
                     slot-scope="data"
                     v-if="data.row.system != null"
                 >
-                    <strong class="sys-acc">{{ this.$func.__("System", "erp") }}</strong>
+                    <strong class="sys-acc">{{ window.$func.__("System", "erp") }}</strong>
                 </template>
             </list-table>
         </ul>
@@ -79,7 +79,7 @@
                     <span
                         class="erp-help-tip .erp-tips"
                         :title="
-                            this.$func.__(
+                            window.$func.__(
                                 'System account could not be edited or deleted anyway as those are defined by the accounting terms.',
                                 'erp'
                             )
@@ -130,7 +130,7 @@
                         v-if="data.row.system != null"
                     >
                         <strong class="sys-acc">{{
-                            this.$func.__("System", "erp")
+                            window.$func.__("System", "erp")
                         }}</strong>
                     </template>
                 </list-table>
@@ -146,14 +146,14 @@ export default {
     data() {
         return {
             columns: {
-                code: { label: this.$func.__("Code", "erp"), isColPrimary: true },
-                ledger_name: { label: this.$func.__("Name", "erp") },
-                balance: { label: this.$func.__("Balance", "erp") },
-                trn_count: { label: this.$func.__("Count", "erp") },
-                actions: { label: this.$func.__("Actions", "erp") },
+                code: { label: window.$func.__("Code", "erp"), isColPrimary: true },
+                ledger_name: { label: window.$func.__("Name", "erp") },
+                balance: { label: window.$func.__("Balance", "erp") },
+                trn_count: { label: window.$func.__("Count", "erp") },
+                actions: { label: window.$func.__("Actions", "erp") },
             },
             actions: [
-                { key: "edit", label: this.$func.__("Edit", "erp") },
+                { key: "edit", label: window.$func.__("Edit", "erp") },
                 // { key: 'trash', label: 'Delete' }
             ],
 

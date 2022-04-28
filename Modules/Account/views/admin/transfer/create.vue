@@ -4,7 +4,7 @@
         <div class="content-header-section separator">
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
-                    <h2 class="content-header__title">{{ this.$func.__('Transfer Money', 'erp') }}</h2>
+                    <h2 class="content-header__title">{{ window.$func.__('Transfer Money', 'erp') }}</h2>
                 </div>
             </div>
         </div>
@@ -16,37 +16,37 @@
                         <!-- add new product form -->
                         <div class="mybizna-row mybizna-gutter-20">
                             <div class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12">
-                                <label for="transfer_funds_from">{{ this.$func.__('Transfer Funds From', 'erp') }}</label>
+                                <label for="transfer_funds_from">{{ window.$func.__('Transfer Funds From', 'erp') }}</label>
                                 <div class="mybizna-custom-select with-multiselect">
                                     <multi-select id="transfer_funds_from" name="from" v-model="transferFrom" :multiple="false" :options="fa" :placeholder="__('Select Account', 'erp')"></multi-select>
                                 </div>
-                                <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(transferFrom.balance)}}</span>
+                                <span class="balance mt-10 display-inline-block">{{ window.$func.__('Balance', 'erp') }}: {{transformBalance(transferFrom.balance)}}</span>
                             </div>
                             <div class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12">
-                                <label for="transfer_funds_to">{{ this.$func.__('Transfer Funds To', 'erp') }}</label>
+                                <label for="transfer_funds_to">{{ window.$func.__('Transfer Funds To', 'erp') }}</label>
 
                                 <div class="mybizna-custom-select with-multiselect">
                                     <multi-select id="transfer_funds_to" name="to" v-model="transferTo" :multiple="false" :options="ta" :placeholder="__('Select Account', 'erp')"></multi-select>
                                 </div>
-                                <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(transferTo.balance)}}</span>
+                                <span class="balance mt-10 display-inline-block">{{ window.$func.__('Balance', 'erp') }}: {{transformBalance(transferTo.balance)}}</span>
                             </div>
                             <div class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12">
-                                <label for="transfer_amount">{{ this.$func.__('Transfer Amount', 'erp') }} <span class="mybizna-required-sign">*</span></label>
+                                <label for="transfer_amount">{{ window.$func.__('Transfer Amount', 'erp') }} <span class="mybizna-required-sign">*</span></label>
                                 <input required min="0" step="0.01" type="number" name="transfer_amount" id="transfer_amount" class="mybizna-form-field" placeholder="$100.00" v-model="amount">
                             </div>
                             <div class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12">
-                                <label for="transfer_date">{{ this.$func.__('Transfer Date', 'erp') }}</label>
+                                <label for="transfer_date">{{ window.$func.__('Transfer Date', 'erp') }}</label>
                                 <datepicker id="transfer_date" class="mybizna-form-field" name="transfer_date" v-model="transferdate"></datepicker>
                             </div>
                             <div class="mybizna-col-xs-12 mybizna-form-group">
-                                <label for="particulars">{{ this.$func.__('Particulars', 'erp') }}</label>
+                                <label for="particulars">{{ window.$func.__('Particulars', 'erp') }}</label>
                                 <textarea name="particulars" id="particulars" rows="3" maxlength="250" class="mybizna-form-field" :placeholder="__('Type Here', 'erp')" v-model="particulars"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="mybizna-modal-footer pt-0">
-                        <button class="mybizna-btn btn--primary" type="submit">{{ this.$func.__('Transfer Money', 'erp') }}</button>
+                        <button class="mybizna-btn btn--primary" type="submit">{{ window.$func.__('Transfer Money', 'erp') }}</button>
                     </div>
                 </form>
             </div>
@@ -116,7 +116,7 @@ export default {
                 amount         : this.amount,
                 particulars    : this.particulars
             }).then(res => {
-                this.showAlert('success', this.$func.__('Transfer Successful!', 'erp'));
+                this.showAlert('success', window.$func.__('Transfer Successful!', 'erp'));
                 this.fetchAccounts();
                 this.resetData();
                 this.$router.push('/settings/banks/transfers');

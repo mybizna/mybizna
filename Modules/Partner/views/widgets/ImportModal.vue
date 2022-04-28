@@ -51,7 +51,7 @@
                                             <th>
                                                 <label for="csv_file"
                                                     >{{
-                                                        this.$func.__("CSV File", "erp")
+                                                        window.$func.__("CSV File", "erp")
                                                     }}
                                                     <span class="required"
                                                         >*</span
@@ -71,7 +71,7 @@
 
                                                 <p class="description">
                                                     {{
-                                                        this.$func.__(
+                                                        window.$func.__(
                                                             "Upload a csv file.",
                                                             "erp"
                                                         )
@@ -79,7 +79,7 @@
                                                     <span
                                                         class="erp-help-tip .erp-tips"
                                                         :title="
-                                                            this.$func.__(
+                                                            window.$func.__(
                                                                 'Make sure CSV meets the sample CSV format exactly.',
                                                                 'erp'
                                                             )
@@ -99,7 +99,7 @@
                                                         "
                                                     >
                                                         {{
-                                                            this.$func.__(
+                                                            window.$func.__(
                                                                 "Download Sample CSV",
                                                                 "erp"
                                                             )
@@ -142,13 +142,13 @@
                                         @click="$parent.$emit('modal-close')"
                                         type="reset"
                                     >
-                                        {{ this.$func.__("Cancel", "erp") }}
+                                        {{ window.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
                                         class="mybizna-btn btn--primary"
                                         type="submit"
                                     >
-                                        {{ this.$func.__("Import", "erp") }}
+                                        {{ window.$func.__("Import", "erp") }}
                                     </button>
                                 </div>
                             </div>

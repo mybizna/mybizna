@@ -11,10 +11,10 @@
                     <h3>
                         {{
                             is_update
-                                ? this.$func.__("Edit", "erp")
-                                : this.$func.__("Add", "erp")
+                                ? window.$func.__("Edit", "erp")
+                                : window.$func.__("Add", "erp")
                         }}
-                        {{ this.$func.__("Tax Zone", "erp") }}
+                        {{ window.$func.__("Tax Zone", "erp") }}
                     </h3>
                     <span class="modal-close" @click.prevent="closeModal"
                         ><i class="flaticon-close"></i
@@ -31,7 +31,7 @@
                     <div class="mybizna-modal-body">
                         <div class="mybizna-form-group">
                             <label
-                                >{{ this.$func.__("Tax Zone Name", "erp") }}
+                                >{{ window.$func.__("Tax Zone Name", "erp") }}
                                 <span class="mybizna-required-sign"
                                     >*</span
                                 ></label
@@ -46,7 +46,7 @@
 
                         <div class="mybizna-form-group">
                             <label>{{
-                                this.$func.__("Tax Number", "erp")
+                                window.$func.__("Tax Number", "erp")
                             }}</label>
                             <input
                                 type="text"
@@ -65,7 +65,7 @@
                                 <span class="form-check-sign"></span>
                                 <span class="field-label"
                                     >{{
-                                        this.$func.__(
+                                        window.$func.__(
                                             "Is this tax default",
                                             "erp"
                                         )
@@ -165,11 +165,11 @@ export default {
             if (this.is_update) {
                 rest = "put";
                 url = `/tax-rate-names/${this.rate_name_id}`;
-                msg = this.$func.__("Tax Zone Updated!", "erp");
+                msg = window.$func.__("Tax Zone Updated!", "erp");
             } else {
                 rest = "post";
                 url = `/tax-rate-names`;
-                msg = this.$func.__("Tax Zone Created!", "erp");
+                msg = window.$func.__("Tax Zone Created!", "erp");
             }
 
             window.axios[rest](url, {
