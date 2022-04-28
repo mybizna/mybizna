@@ -1,0 +1,125 @@
+<template>
+    <div class="mybizna-form-group expense-people with-multiselect">
+        <people-modal
+            v-if="showModal"
+            title="Add new people"
+            type="all"
+        ></people-modal>
+        <label>{{ label }}<span class="mybizna-required-sign">*</span></label>
+        <multi-select
+            :disabled="isDisabled"
+            v-model="selected"
+            :options="options"
+        />
+
+        <!--<a href="#" class="add-new-people" @click="showModal = true"><i class="flaticon-add-plus-button"></i>Add new</a>-->
+    </div>
+</template>
+
+<script>
+import { mapState } from "vuex";
+
+import PeopleModal from "assets/partner/widgets/PeopleModal.vue";
+import MultiSelect from "assets/components/select/MultiSelect.vue";
+
+export default {
+    components: {
+        PeopleModal,
+        MultiSelect,
+    },
+
+    props: {
+        value: {
+            type: [String, Object, Array],
+            default: "",
+        },
+
+        reset: {
+            type: Boolean,
+            default: false,
+        },
+
+        label: {
+            type: String,
+            default: "Pay to",
+        },
+
+        isDisabled: {
+            type: Boolean,
+            default: false,
+        },
+    },
+
+    data() {
+        return {
+            selected: null,
+            showModal: false,
+        };
+    },
+
+    watch: {
+        value(newVal) {
+            this.selected = newVal;
+        },
+
+        selected() {
+            this.$emit("input", this.selected);
+        },
+
+        reset() {
+            this.selected = [];
+        },
+    },
+
+    computed: mapState({
+        options: (state) => state.expense.people,
+    }),
+
+    created() {
+        this.$store.dispatch("expense/fetchPeople");
+
+        this.$root.$on("options-query", (query) => {
+            if (query) {
+                this.getPeople(query);
+            }
+        });
+
+        this.$on("modal-close", () => {
+            this.showModal = false;
+            this.people = null;
+        });
+
+        this.$root.$on("peopleUpdate", () => {
+            this.showModal = false;
+        });
+    },
+
+    methods: {
+        getPeople(query) {
+            window.axios
+                .get("/people", {
+                    params: {
+                        type: [],
+                        search: query,
+                    },
+                })
+                .then((response) => {
+                    this.$store.dispatch("expense/fillPeople", response.data);
+                });
+        },
+    },
+};
+</script>
+
+<style>
+.expense-people.with-multiselect .multiselect__input,
+.expense-people.with-multiselect .multiselect__single {
+    min-height: 30px;
+    line-height: 30px;
+    margin-bottom: 0;
+}
+
+.expense-people.with-multiselect .multiselect__placeholder {
+    margin: 4px 0 0 7px !important;
+}
+</style>
