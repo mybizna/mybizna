@@ -1,10 +1,10 @@
 <template>
-    <div class="wperp-container">
+    <div class="mybizna-container">
 
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">{{ this.$func.__('Expenses Transactions', 'erp') }}</h2>
                     <combo-box :options="pages" :hasUrl="true" :placeholder="__('New Transaction', 'erp')" />
                 </div>
@@ -18,7 +18,7 @@
 
         <expenses-list />
 
-        <!-- End .wperp-crm-table -->
+        <!-- End .mybizna-crm-table -->
     </div>
 </template>
 

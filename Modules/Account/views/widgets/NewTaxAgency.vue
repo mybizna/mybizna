@@ -1,13 +1,13 @@
 <template>
     <div
-        id="wperp-tax-agency-modal"
-        class="wperp-modal has-form wperp-modal-open"
+        id="mybizna-tax-agency-modal"
+        class="mybizna-modal has-form mybizna-modal-open"
         role="dialog"
     >
-        <div class="wperp-modal-dialog">
-            <div class="wperp-modal-content">
+        <div class="mybizna-modal-dialog">
+            <div class="mybizna-modal-content">
                 <!-- modal body title -->
-                <div class="wperp-modal-header">
+                <div class="mybizna-modal-header">
                     <h3>
                         {{
                             is_update
@@ -29,11 +29,11 @@
                     class="modal-form edit-customer-modal"
                     @submit.prevent="taxAgencyFormSubmit"
                 >
-                    <div class="wperp-modal-body">
-                        <div class="wperp-form-group">
+                    <div class="mybizna-modal-body">
+                        <div class="mybizna-form-group">
                             <label
                                 >{{ this.$func.__("Tax Agency Name", "erp")
-                                }}<span class="wperp-required-sign"
+                                }}<span class="mybizna-required-sign"
                                     >*</span
                                 ></label
                             >
@@ -41,12 +41,12 @@
                             <input
                                 type="text"
                                 v-model="agency"
-                                class="wperp-form-field"
+                                class="mybizna-form-field"
                             />
                         </div>
                     </div>
 
-                    <div class="wperp-modal-footer pt-0">
+                    <div class="mybizna-modal-footer pt-0">
                         <!-- buttons -->
                         <div class="buttons-wrapper text-right">
                             <submit-button

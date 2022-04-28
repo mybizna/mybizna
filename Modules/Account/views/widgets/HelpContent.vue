@@ -3,8 +3,8 @@
         <h2 class="view-doc">
             <span>{{ this.$func.__("Accounting Help", "erp") }}</span>
             <a
-                href="https://wperp.com/docs/accounting/getting-started/"
-                class="wperp-btn"
+                href="https://mybizna.com/docs/accounting/getting-started/"
+                class="mybizna-btn"
                 >{{ this.$func.__("View all documentation", "erp") }}</a
             >
         </h2>
@@ -58,29 +58,29 @@ export default {
                                 "How to set Financial Years?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/getting-started/setting-financial-year/",
+                            url: "https://mybizna.com/docs/accounting/getting-started/setting-financial-year/",
                         },
                         {
                             label: this.$func.__("What is Opening Balance?", "erp"),
-                            url: "https://wperp.com/docs/accounting/getting-started/opening-balance/",
+                            url: "https://mybizna.com/docs/accounting/getting-started/opening-balance/",
                         },
                         {
                             label: this.$func.__("How to Set Currency?", "erp"),
-                            url: "https://wperp.com/docs/erp-core/global-settings/",
+                            url: "https://mybizna.com/docs/erp-core/global-settings/",
                         },
                         {
                             label: this.$func.__(
                                 "What are the basic transaction types?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/sales-transactions/basic-of-transaction-types/",
+                            url: "https://mybizna.com/docs/accounting/sales-transactions/basic-of-transaction-types/",
                         },
                         {
                             label: this.$func.__(
                                 "How to create a Journal Entry?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/journal-entry/",
+                            url: "https://mybizna.com/docs/accounting/journal-entry/",
                         },
                     ],
                 },
@@ -90,11 +90,11 @@ export default {
                     ques: [
                         {
                             label: this.$func.__("How to create customer?", "erp"),
-                            url: "https://wperp.com/docs/accounting/users/creating-a-customer/",
+                            url: "https://mybizna.com/docs/accounting/users/creating-a-customer/",
                         },
                         {
                             label: this.$func.__("How to create vendors?", "erp"),
-                            url: "https://wperp.com/docs/accounting/users/creating-a-vendor/",
+                            url: "https://mybizna.com/docs/accounting/users/creating-a-vendor/",
                         },
                     ],
                 },
@@ -107,21 +107,21 @@ export default {
                                 "How to create an invoice?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/sales-transactions/creating-your-first-invoice/",
+                            url: "https://mybizna.com/docs/accounting/sales-transactions/creating-your-first-invoice/",
                         },
                         {
                             label: this.$func.__(
                                 "How to receive payment from invoices?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/sales-transactions/adding-invoice-payments/",
+                            url: "https://mybizna.com/docs/accounting/sales-transactions/adding-invoice-payments/",
                         },
                         {
                             label: this.$func.__(
                                 "How can I delete an invoice?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/sales-transactions/creating-your-first-invoice/",
+                            url: "https://mybizna.com/docs/accounting/sales-transactions/creating-your-first-invoice/",
                         },
                     ],
                 },
@@ -131,28 +131,28 @@ export default {
                     ques: [
                         {
                             label: this.$func.__("How to create a bill?", "erp"),
-                            url: "https://wperp.com/docs/accounting/expense-transactions/creating-bill-new/",
+                            url: "https://mybizna.com/docs/accounting/expense-transactions/creating-bill-new/",
                         },
                         {
                             label: this.$func.__(
                                 "How to create payments for bills?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/expense-transactions/creating-bill-new/",
+                            url: "https://mybizna.com/docs/accounting/expense-transactions/creating-bill-new/",
                         },
                         {
                             label: this.$func.__(
                                 "How to create an expense?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/expense-transactions/creating-expense-new/",
+                            url: "https://mybizna.com/docs/accounting/expense-transactions/creating-expense-new/",
                         },
                         {
                             label: this.$func.__(
                                 "How to create a check payment?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/expense-transactions/creating-inventory-check-new/",
+                            url: "https://mybizna.com/docs/accounting/expense-transactions/creating-inventory-check-new/",
                         },
                     ],
                 },
@@ -165,14 +165,14 @@ export default {
                                 "How to create purchase quotation?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/purchase-transactions-2/create-purchase/",
+                            url: "https://mybizna.com/docs/accounting/purchase-transactions-2/create-purchase/",
                         },
                         {
                             label: this.$func.__(
                                 "How to create payments for purchase quotations?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/purchase-transactions-2/pay-purchase/",
+                            url: "https://mybizna.com/docs/accounting/purchase-transactions-2/pay-purchase/",
                         },
                     ],
                 },
@@ -185,14 +185,14 @@ export default {
                                 "Can I create a bank account in Accounting?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/chart-of-accounts/creating-a-new-chart/",
+                            url: "https://mybizna.com/docs/accounting/chart-of-accounts/creating-a-new-chart/",
                         },
                         {
                             label: this.$func.__(
                                 "How can I receive, spend transfer between bank accounts?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/bank-accounts/transferring-between-accounts/",
+                            url: "https://mybizna.com/docs/accounting/bank-accounts/transferring-between-accounts/",
                         },
                     ],
                 },
@@ -205,7 +205,7 @@ export default {
                                 "Can I create products / services / product categoty?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/adding-products/",
+                            url: "https://mybizna.com/docs/accounting/adding-products/",
                         },
                     ],
                 },
@@ -215,15 +215,15 @@ export default {
                     ques: [
                         {
                             label: this.$func.__("What is Tax Zone?", "erp"),
-                            url: "https://wperp.com/docs/accounting/tax/",
+                            url: "https://mybizna.com/docs/accounting/tax/",
                         },
                         {
                             label: this.$func.__("What is Tax Category?", "erp"),
-                            url: "https://wperp.com/docs/accounting/tax/",
+                            url: "https://mybizna.com/docs/accounting/tax/",
                         },
                         {
                             label: this.$func.__("What is Tax Agency?", "erp"),
-                            url: "https://wperp.com/docs/accounting/tax/",
+                            url: "https://mybizna.com/docs/accounting/tax/",
                         },
                     ],
                 },
@@ -236,7 +236,7 @@ export default {
                                 "How to produce different types of reports in Accounting?",
                                 "erp"
                             ),
-                            url: "https://wperp.com/docs/accounting/reporting/",
+                            url: "https://mybizna.com/docs/accounting/reporting/",
                         },
                     ],
                 },

@@ -6,11 +6,11 @@
 
         <div class="blnce-sheet-top">
             <form @submit.prevent="fetchItems" class="query-options no-print">
-                <div v-if="!closingBtnVisibility" class="wperp-date-group">
+                <div v-if="!closingBtnVisibility" class="mybizna-date-group">
                     <datepicker v-model="start_date"></datepicker>
                     <datepicker v-model="end_date"></datepicker>
                     <button
-                        class="wperp-btn btn--primary add-line-trigger"
+                        class="mybizna-btn btn--primary add-line-trigger"
                         type="submit"
                     >
                         {{ this.$func.__("Filter", "erp") }}
@@ -50,7 +50,7 @@
                     @click.prevent="checkClosingPossibility"
                     :class="[
                         { visible: closingBtnVisibility },
-                        'wperp-btn btn--primary close-now-btn',
+                        'mybizna-btn btn--primary close-now-btn',
                     ]"
                     href="#"
                     >{{ this.$func.__("Close Now", "erp") }}</a
@@ -58,7 +58,7 @@
 
                 <a
                     href="#"
-                    class="wperp-btn btn--default print-btn"
+                    class="mybizna-btn btn--default print-btn"
                     @click.prevent="printPopup"
                 >
                     <i class="flaticon-printer-1"></i>
@@ -77,11 +77,11 @@
             <em>{{ end_date }}</em>
         </p>
 
-        <div class="wperp-panel-body">
+        <div class="mybizna-panel-body">
             <div>
-                <div class="wperp-col-sm-12">
+                <div class="mybizna-col-sm-12">
                     <list-table
-                        tableClass="wperp-table table-striped table-dark widefat balance-sheet-asset report-table"
+                        tableClass="mybizna-table table-striped table-dark widefat balance-sheet-asset report-table"
                         :columns="columns1"
                         :rows="rows1"
                         :showItemNumbers="false"
@@ -117,9 +117,9 @@
                     </list-table>
                 </div>
 
-                <div class="wperp-col-sm-12">
+                <div class="mybizna-col-sm-12">
                     <list-table
-                        tableClass="wperp-table table-striped table-dark widefat balance-sheet-liability report-table"
+                        tableClass="mybizna-table table-striped table-dark widefat balance-sheet-liability report-table"
                         :columns="columns2"
                         :rows="rows2"
                         :showItemNumbers="false"
@@ -154,9 +154,9 @@
                     </list-table>
                 </div>
 
-                <div class="wperp-col-sm-12">
+                <div class="mybizna-col-sm-12">
                     <list-table
-                        tableClass="wperp-table table-striped table-dark widefat balance-sheet-equity report-table"
+                        tableClass="mybizna-table table-striped table-dark widefat balance-sheet-equity report-table"
                         :columns="columns3"
                         :rows="rows3"
                         :showItemNumbers="false"
@@ -183,7 +183,7 @@
                 </div>
 
                 <table
-                    class="wperp-table table-striped table-dark widefat liability-equity-balance report-table"
+                    class="mybizna-table table-striped table-dark widefat liability-equity-balance report-table"
                 >
                     <tbody>
                         <tr>
@@ -548,7 +548,7 @@ export default {
 .no-print * {
     display: none !important;
 }
-.balance-sheet .wperp-row .wperp-col-sm-12 {
+.balance-sheet .mybizna-row .mybizna-col-sm-12 {
     width: 100%;
 }
 
@@ -559,23 +559,23 @@ export default {
 .balance-sheet p em {
     font-weight: bold;
 }
-.balance-sheet .wperp-table td,
-.balance-sheet .wperp-table th {
+.balance-sheet .mybizna-table td,
+.balance-sheet .mybizna-table th {
     padding: 3px 20px;
 }
 
-.balance-sheet .wperp-table thead tr th {
+.balance-sheet .mybizna-table thead tr th {
     font-weight: bold;
 }
 
-.balance-sheet .wperp-table thead tr th:not(:first-child) {
+.balance-sheet .mybizna-table thead tr th:not(:first-child) {
     text-align: right;
 }
 
-.balance-sheet .wperp-table tbody tr td :not(:first-child) {
+.balance-sheet .mybizna-table tbody tr td :not(:first-child) {
     text-align: right !important;
 }
-.balance-sheet .wperp-table tfoot td:not(:first-child) {
+.balance-sheet .mybizna-table tfoot td:not(:first-child) {
     text-align: right !important;
 }
 </style>

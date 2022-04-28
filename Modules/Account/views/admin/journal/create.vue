@@ -1,9 +1,9 @@
 <template>
-    <div class="wperp-container journal-create">
+    <div class="mybizna-container journal-create">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("New Journal", "erp") }}
                     </h2>
@@ -13,20 +13,20 @@
         <!-- End .header-section -->
 
         <form action="" method="post" @submit.prevent="SubmitForJournalCreate">
-            <div class="wperp-panel wperp-panel-default pb-0">
-                <div class="wperp-panel-body">
+            <div class="mybizna-panel mybizna-panel-default pb-0">
+                <div class="mybizna-panel-body">
                     <show-errors :error_msgs="form_errors"></show-errors>
 
-                    <div class="wperp-row">
-                        <div class="wperp-col-sm-4">
-                            <div class="wperp-form-group">
+                    <div class="mybizna-row">
+                        <div class="mybizna-col-sm-4">
+                            <div class="mybizna-form-group">
                                 <label
                                     >{{
                                         this.$func.__(
                                             "Transaction Date",
                                             "erp"
                                         )
-                                    }}<span class="wperp-required-sign"
+                                    }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
                                 >
@@ -35,19 +35,19 @@
                                 ></datepicker>
                             </div>
                         </div>
-                        <div class="wperp-col-sm-4">
-                            <div class="wperp-form-group">
+                        <div class="mybizna-col-sm-4">
+                            <div class="mybizna-form-group">
                                 <label>{{
                                     this.$func.__("Ref.", "erp")
                                 }}</label>
                                 <input
                                     type="text"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     v-model="basic_fields.trn_ref"
                                 />
                             </div>
                         </div>
-                        <div class="wperp-col-sm-4">
+                        <div class="mybizna-col-sm-4">
                             <label>{{
                                 this.$func.__("Particulars", "erp")
                             }}</label>
@@ -55,7 +55,7 @@
                                 v-model="journal_parti"
                                 rows="1"
                                 maxlength="250"
-                                class="wperp-form-field display-flex"
+                                class="mybizna-form-field display-flex"
                                 :placeholder="__('Internal Information', 'erp')"
                             ></textarea>
                         </div>
@@ -63,11 +63,11 @@
                 </div>
             </div>
 
-            <div class="wperp-table-responsive">
-                <!-- Start .wperp-crm-table -->
+            <div class="mybizna-table-responsive">
+                <!-- Start .mybizna-crm-table -->
                 <div class="table-container">
                     <table
-                        class="wperp-table wperp-form-table new-journal-form"
+                        class="mybizna-table mybizna-form-table new-journal-form"
                     >
                         <thead>
                             <tr>
@@ -103,7 +103,7 @@
                                     :data-colname="__('Account', 'erp')"
                                 >
                                     <div
-                                        class="wperp-custom-select with-multiselect"
+                                        class="mybizna-custom-select with-multiselect"
                                     >
                                         <multi-select
                                             v-model="account_ids[key]"
@@ -119,7 +119,7 @@
                                         type="text"
                                         v-model="particulars[key]"
                                         maxlength="250"
-                                        class="wperp-form-field"
+                                        class="mybizna-form-field"
                                     />
                                 </td>
                                 <td
@@ -130,7 +130,7 @@
                                         type="text"
                                         @keyup="calculateAmount(key)"
                                         v-model="debitLine[key]"
-                                        class="wperp-form-field text-right"
+                                        class="mybizna-form-field text-right"
                                         :required="
                                             (Number(creditLine[key]) || 0) === 0
                                                 ? true
@@ -146,7 +146,7 @@
                                         type="text"
                                         @keyup="calculateAmount(key)"
                                         v-model="creditLine[key]"
-                                        class="wperp-form-field text-right"
+                                        class="mybizna-form-field text-right"
                                         :required="
                                             (Number(debitLine[key]) || 0) === 0
                                                 ? true
@@ -171,7 +171,7 @@
                                 <td colspan="9" style="text-align: left">
                                     <button
                                         @click.prevent="addLine"
-                                        class="wperp-btn btn--primary add-line-trigger"
+                                        class="mybizna-btn btn--primary add-line-trigger"
                                     >
                                         <i class="flaticon-add-plus-button"></i
                                         >{{ this.$func.__("Add Line", "erp") }}
@@ -190,7 +190,7 @@
                                 <td :data-colname="__('Debit', 'erp')">
                                     <input
                                         type="text"
-                                        class="wperp-form-field text-right"
+                                        class="mybizna-form-field text-right"
                                         :value="
                                             isNaN(totalDebit())
                                                 ? debit_total
@@ -202,7 +202,7 @@
                                 <td :data-colname="__('Credit', 'erp')">
                                     <input
                                         type="text"
-                                        class="wperp-form-field text-right"
+                                        class="mybizna-form-field text-right"
                                         :value="
                                             isNaN(totalCredit())
                                                 ? credit_total
@@ -240,7 +240,7 @@
                 </div>
             </div>
         </form>
-        <!-- End .wperp-crm-table -->
+        <!-- End .mybizna-crm-table -->
     </div>
 </template>
 <script>

@@ -1,20 +1,20 @@
 <template>
-    <div class="content-header-section separator wperp-has-border-top">
-        <div class="wperp-row wperp-between-xs">
-            <div class="wperp-col">
+    <div class="content-header-section separator mybizna-has-border-top">
+        <div class="mybizna-row mybizna-between-xs">
+            <div class="mybizna-col">
                 <h2 class="content-header__title">{{ this.$func.__('Transactions', 'erp') }}</h2>
             </div>
-            <div class="wperp-col" ref="filterArea">
-                <form class="wperp-form form--inline" action="" @submit.prevent="filterList">
-                    <div :class="['wperp-has-dropdown', {'dropdown-opened': showFilters}]">
-                        <a class="wperp-btn btn--default dropdown-trigger filter-button" @click.prevent="toggleFilter">
+            <div class="mybizna-col" ref="filterArea">
+                <form class="mybizna-form form--inline" action="" @submit.prevent="filterList">
+                    <div :class="['mybizna-has-dropdown', {'dropdown-opened': showFilters}]">
+                        <a class="mybizna-btn btn--default dropdown-trigger filter-button" @click.prevent="toggleFilter">
                             <span><i class="flaticon-search-segment"></i>{{ this.$func.__('Filters', 'erp') }}</span>
                             <i class="flaticon-arrow-down-sign-to-navigate"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right wperp-filter-container">
-                            <div class="wperp-panel wperp-panel-default wperp-filter-panel">
+                        <div class="dropdown-menu dropdown-menu-right mybizna-filter-container">
+                            <div class="mybizna-panel mybizna-panel-default mybizna-filter-panel">
                                 <h3>{{ this.$func.__('Filter', 'erp') }}</h3>
-                                <div class="wperp-panel-body">
+                                <div class="mybizna-panel-body">
                                     <h3>{{ this.$func.__('Date', 'erp') }}</h3>
                                     <div class="form-fields">
                                         <div class="start-date has-addons">
@@ -63,18 +63,18 @@
                                     </div>
                                 </div>
                                 </div>
-                                <div class="wperp-panel-footer">
-                                    <input type="button" :value="__( 'Cancel', 'erp' )" class="wperp-btn btn--cancel"
+                                <div class="mybizna-panel-footer">
+                                    <input type="button" :value="__( 'Cancel', 'erp' )" class="mybizna-btn btn--cancel"
                                            @click="toggleFilter">
-                                    <input type="reset" :value="__( 'Reset', 'erp' )" class="wperp-btn btn--reset"
+                                    <input type="reset" :value="__( 'Reset', 'erp' )" class="mybizna-btn btn--reset"
                                            @click="resetFilter">
-                                    <input type="submit" :value="__( 'Submit', 'erp' )" class="wperp-btn btn--primary">
+                                    <input type="submit" :value="__( 'Submit', 'erp' )" class="mybizna-btn btn--primary">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="wperp-import-wrapper display-inline-block">
-                        <a class="wperp-btn btn--default" href="#" title="Import"><span class="flaticon-import"></span></a>
+                    <div class="mybizna-import-wrapper display-inline-block">
+                        <a class="mybizna-btn btn--default" href="#" title="Import"><span class="flaticon-import"></span></a>
                     </div>
                 </form>
 

@@ -1,13 +1,13 @@
 <template>
     <div class="app-tax-agencies">
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Tax Agencies", "erp") }}
                     </h2>
                     <a
-                        class="wperp-btn btn--primary"
+                        class="mybizna-btn btn--primary"
                         @click.prevent="showModal = true"
                     >
                         <span>{{ this.$func.__("Add Tax Agency", "erp") }}</span>
@@ -23,10 +23,10 @@
             @close="showModal = false"
         ></new-tax-agency>
 
-        <div class="wperp-row">
-            <div class="table-container wperp-col-sm-8">
+        <div class="mybizna-row">
+            <div class="table-container mybizna-col-sm-8">
                 <list-table
-                    tableClass="wp-ListTable widefat fixed tax-rate-list wperp-table table-striped table-dark tax-agencies-list"
+                    tableClass="wp-ListTable widefat fixed tax-rate-list mybizna-table table-striped table-dark tax-agencies-list"
                     action-column="actions"
                     :columns="columns"
                     :rows="row_data"
@@ -42,7 +42,7 @@
                 >
                 </list-table>
             </div>
-            <div class="wperp-col-sm-4">
+            <div class="mybizna-col-sm-4">
                 <tax-shortcuts></tax-shortcuts>
             </div>
         </div>

@@ -1,8 +1,8 @@
 <template>
     <div class="app-customers">
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Accounts", "erp") }}
                     </h2>
@@ -25,13 +25,13 @@
         </div>
 
         <div
-            class="wperp-transactions-section wperp-section"
+            class="mybizna-transactions-section mybizna-section"
             v-if="accounts.length"
         >
-            <!-- wperp-accounts-table class is required class for only this component -->
+            <!-- mybizna-accounts-table class is required class for only this component -->
             <div class="table-container">
                 <table
-                    class="wperp-table table-striped table-dark widefat table2 wperp-accounts-table"
+                    class="mybizna-table table-striped table-dark widefat table2 mybizna-accounts-table"
                 >
                     <tbody>
                         <!-- keep this empty row if possible -->
@@ -209,15 +209,15 @@ export default {
 </script>
 
 <style>
-.wperp-accounts-table {
+.mybizna-accounts-table {
     border: 0;
 }
-.wperp-accounts-table .col--actions {
+.mybizna-accounts-table .col--actions {
     vertical-align: top;
     line-height: 20px;
     padding-right: 17px;
 }
-.wperp-accounts-table td {
+.mybizna-accounts-table td {
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -257,7 +257,7 @@ export default {
     border-right: 1px solid #d8d8d8;
 }
 @media (max-width: 782px) {
-    .wperp-table tbody tr:not(.inline-edit-row):not(.no-items) td {
+    .mybizna-table tbody tr:not(.inline-edit-row):not(.no-items) td {
         padding-left: 10px;
     }
 }

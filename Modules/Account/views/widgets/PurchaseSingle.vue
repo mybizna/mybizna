@@ -1,12 +1,12 @@
 <template>
-    <div class="wperp-modal-dialog purchase-single">
-        <div class="wperp-modal-content">
-            <div class="wperp-modal-header">
+    <div class="mybizna-modal-dialog purchase-single">
+        <div class="mybizna-modal-content">
+            <div class="mybizna-modal-header">
                 <h4>{{ this.$func.__("Purchase", "erp") }}</h4>
                 <div class="d-print-none">
                     <a
                         href="#"
-                        class="wperp-btn btn--default print-btn"
+                        class="mybizna-btn btn--default print-btn"
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
@@ -15,7 +15,7 @@
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
                     <dropdown>
                         <template slot="button">
-                            <a href="#" class="wperp-btn btn--default">
+                            <a href="#" class="mybizna-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
                                 &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
@@ -47,8 +47,8 @@
                 :type="type"
             />
 
-            <div class="wperp-modal-body">
-                <div class="wperp-invoice-panel">
+            <div class="mybizna-modal-body">
+                <div class="mybizna-invoice-panel">
                     <div class="invoice-header" v-if="null != company">
                         <div class="invoice-logo">
                             <img
@@ -72,15 +72,15 @@
 
                     <div class="invoice-body">
                         <h4>{{ this.$func.__("Purchase", "erp") }}</h4>
-                        <div class="wperp-row" v-if="null != purchase">
-                            <div class="wperp-col-sm-6">
+                        <div class="mybizna-row" v-if="null != purchase">
+                            <div class="mybizna-col-sm-6">
                                 <div class="persons-info">
                                     <strong>{{ purchase.vendor_name }}</strong
                                     ><br />
                                     {{ purchase.billing_address }}
                                 </div>
                             </div>
-                            <div class="wperp-col-sm-6">
+                            <div class="mybizna-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
                                         <th>{{ this.$func.__("Voucher No", "erp") }}:</th>
@@ -121,9 +121,9 @@
                         </div>
                     </div>
 
-                    <div class="wperp-invoice-table" v-if="null != purchase">
+                    <div class="mybizna-invoice-table" v-if="null != purchase">
                         <table
-                            class="wperp-table wperp-form-table invoice-table"
+                            class="mybizna-table mybizna-form-table invoice-table"
                         >
                             <thead>
                                 <tr>
@@ -305,14 +305,14 @@ export default {
     max-width: 960px;
     margin: 0 auto;
 }
-.purchase-single .wperp-modal-footer {
+.purchase-single .mybizna-modal-footer {
     border-top: 1px solid #e2e2e2;
 }
-.purchase-single .wperp-modal-header {
+.purchase-single .mybizna-modal-header {
     border-bottom: 1px solid #e2e2e2;
 }
-.purchase-single .wperp-form-field,
-.purchase-single input:not(.wperp-btn) {
+.purchase-single .mybizna-form-field,
+.purchase-single input:not(.mybizna-btn) {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }

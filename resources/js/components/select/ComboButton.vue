@@ -1,9 +1,9 @@
 <template>
     <div
-        class="wperp-select-container select-primary combo-btns"
+        class="mybizna-select-container select-primary combo-btns"
         v-click-outside="outside"
     >
-        <div class="wperp-selected-option">
+        <div class="mybizna-selected-option">
             <div class="left-part" @click="optionSelected(options[0])">
                 <button type="submit" class="btn-fake">
                     {{ options[0].text }}
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <ul class="wperp-options" v-show="showMenu">
+        <ul class="mybizna-options" v-show="showMenu">
             <li
                 :key="index"
                 @click="optionSelected(option)"
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style>
-.combo-btns .wperp-selected-option {
+.combo-btns .mybizna-selected-option {
     padding: 0 !important;
 }
 
@@ -110,7 +110,7 @@ export default {
     border-bottom-right-radius: 3px;
 }
 
-.combo-btns .wperp-options .btn-fake {
+.combo-btns .mybizna-options .btn-fake {
     padding: 5px 20px;
     display: block;
     clear: both;
@@ -121,7 +121,7 @@ export default {
     text-decoration: none;
     width: 100%;
 }
-.combo-btns .wperp-options:hover {
+.combo-btns .mybizna-options:hover {
     background: #ececec;
     color: #1a9ed4;
 }

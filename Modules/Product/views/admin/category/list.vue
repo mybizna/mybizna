@@ -17,7 +17,7 @@
                                 }}</label>
                                 <input
                                     type="text"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     v-model="categoryName"
                                 />
                             </div>
@@ -38,7 +38,7 @@
                                 <input
                                     type="submit"
                                     :value="__('Save', 'erp')"
-                                    class="wperp-btn btn--primary text-left"
+                                    class="mybizna-btn btn--primary text-left"
                                     @click.prevent="createCategory"
                                 />
                             </div>
@@ -49,7 +49,7 @@
             <div id="col-right" style="margin-top: 12px">
                 <div class="col-wrap">
                     <list-table
-                        class="wperp-table table-striped table-dark widefat table2 category-list"
+                        class="mybizna-table table-striped table-dark widefat table2 category-list"
                         action-column="actions"
                         :columns="columns"
                         :rows="categories"
@@ -67,7 +67,7 @@
                         >
                             <input
                                 type="text"
-                                class="wperp-form-field"
+                                class="mybizna-form-field"
                                 :value="data.row.name"
                                 :id="'cat-' + data.row.id"
                             />
@@ -80,13 +80,13 @@
                                 style="margin-top: 10px"
                             >
                                 <button
-                                    class="wperp-btn btn--primary"
+                                    class="mybizna-btn btn--primary"
                                     @click="updateCategory(data.row)"
                                 >
                                     {{ this.$func.__("Update", "erp") }}
                                 </button>
                                 <button
-                                    class="wperp-btn btn--default"
+                                    class="mybizna-btn btn--default"
                                     @click.prevent="data.row.isEdit = false"
                                 >
                                     {{ this.$func.__("Cancel", "erp") }}
@@ -304,7 +304,7 @@ export default {
     }
 }
 
-.categories .category-list .buttons-wrapper .wperp-btn {
+.categories .category-list .buttons-wrapper .mybizna-btn {
     margin-left: 0 !important;
 }
 

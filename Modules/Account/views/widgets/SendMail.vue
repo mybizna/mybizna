@@ -7,11 +7,11 @@
         :header="true"
     >
         <template slot="body">
-            <div class="wperp-form-group wperp-row">
-                <div class="wperp-col-sm-3 wperp-col-xs-12 send-mail-to">
+            <div class="mybizna-form-group mybizna-row">
+                <div class="mybizna-col-sm-3 mybizna-col-xs-12 send-mail-to">
                     <label
                         >{{ this.$func.__("To", "erp") }}
-                        <span class="wperp-required-sign">*</span></label
+                        <span class="mybizna-required-sign">*</span></label
                     >
                 </div>
                 <input-tag
@@ -20,40 +20,40 @@
                     validate="email"
                 />
             </div>
-            <div class="wperp-form-group wperp-row">
-                <div class="wperp-col-sm-3 wperp-col-xs-12">
+            <div class="mybizna-form-group mybizna-row">
+                <div class="mybizna-col-sm-3 mybizna-col-xs-12">
                     <label>{{ this.$func.__("Subject", "erp") }}</label>
                 </div>
-                <div class="wperp-col-sm-9 wperp-col-xs-12">
+                <div class="mybizna-col-sm-9 mybizna-col-xs-12">
                     <input
                         type="text"
                         v-model="subject"
-                        class="wperp-form-field"
+                        class="mybizna-form-field"
                         :placeholder="__('Enter Subject Here', 'erp')"
                     />
                 </div>
             </div>
-            <div class="wperp-form-group wperp-row">
-                <div class="wperp-col-sm-3 wperp-col-xs-12">
+            <div class="mybizna-form-group mybizna-row">
+                <div class="mybizna-col-sm-3 mybizna-col-xs-12">
                     <label>{{ this.$func.__("Message", "erp") }}</label>
                 </div>
-                <div class="wperp-col-sm-9 wperp-col-xs-12">
+                <div class="mybizna-col-sm-9 mybizna-col-xs-12">
                     <textarea
                         v-model="message"
-                        class="wperp-form-field"
+                        class="mybizna-form-field"
                         :placeholder="__('Enter Your Message Here', 'erp')"
                         rows="4"
                     ></textarea>
                 </div>
             </div>
-            <div class="wperp-row">
-                <div class="wperp-col-sm-3 wperp-col-xs-12">
+            <div class="mybizna-row">
+                <div class="mybizna-col-sm-3 mybizna-col-xs-12">
                     <label
                         >{{ this.$func.__("Attachment", "erp") }}
-                        <span class="wperp-required-sign">*</span></label
+                        <span class="mybizna-required-sign">*</span></label
                     >
                 </div>
-                <div class="wperp-col-sm-9 wperp-col-xs-12">
+                <div class="mybizna-col-sm-9 mybizna-col-xs-12">
                     <div class="form-check">
                         <label class="form-check-label mb-0">
                             <input
@@ -72,11 +72,11 @@
         </template>
         <template slot="footer">
             <div class="buttons-wrapper text-right">
-                <button class="wperp-btn btn--default" @click="closeModal">
+                <button class="mybizna-btn btn--default" @click="closeModal">
                     {{ this.$func.__("Cancel", "erp") }}
                 </button>
                 <button
-                    class="wperp-btn btn--primary"
+                    class="mybizna-btn btn--primary"
                     type="submit"
                     @click.prevent="sendAsMail"
                 >
@@ -156,7 +156,7 @@ export default {
 </script>
 
 <style>
-.wperp-row .vue-input-tag-wrapper .input-tag {
+.mybizna-row .vue-input-tag-wrapper .input-tag {
     background-color: rgba(67, 160, 71, 0.8);
     border: 1px solid #689f38;
     color: #fff;
@@ -170,17 +170,17 @@ export default {
     border-radius: 3px;
 }
 
-.wperp-row .vue-input-tag-wrapper .new-tag {
+.mybizna-row .vue-input-tag-wrapper .new-tag {
     height: 34px;
     padding-top: 0 !important;
     box-shadow: none;
 }
 
-.wperp-row .vue-input-tag-wrapper .input-tag span {
+.mybizna-row .vue-input-tag-wrapper .input-tag span {
     padding: 0 6px;
 }
 
-.wperp-row .vue-input-tag-wrapper .input-tag .remove {
+.mybizna-row .vue-input-tag-wrapper .input-tag .remove {
     color: rgba(105, 240, 174, 1);
 }
 .send-mail-to {

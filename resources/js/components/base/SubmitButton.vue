@@ -1,7 +1,7 @@
 <template>
     <button
         type="submit"
-        class="wperp-btn btn--primary acct-button"
+        class="mybizna-btn btn--primary acct-button"
         :class="{ working: working }"
     >
         {{ text }}

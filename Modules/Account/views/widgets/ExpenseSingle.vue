@@ -1,12 +1,12 @@
 <template>
-    <div class="wperp-modal-dialog expense-single">
-        <div class="wperp-modal-content">
-            <div class="wperp-modal-header">
+    <div class="mybizna-modal-dialog expense-single">
+        <div class="mybizna-modal-content">
+            <div class="mybizna-modal-header">
                 <h2>{{ this.$func.__("Expense", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
-                        class="wperp-btn btn--default print-btn"
+                        class="mybizna-btn btn--default print-btn"
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
@@ -15,7 +15,7 @@
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
                     <dropdown>
                         <template slot="button">
-                            <a href="#" class="wperp-btn btn--default">
+                            <a href="#" class="mybizna-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
                                 &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
@@ -47,8 +47,8 @@
                 :type="type"
             />
 
-            <div class="wperp-modal-body">
-                <div class="wperp-invoice-panel">
+            <div class="mybizna-modal-body">
+                <div class="mybizna-invoice-panel">
                     <div class="invoice-header" v-if="null != company">
                         <div class="invoice-logo">
                             <img
@@ -72,8 +72,8 @@
 
                     <div class="invoice-body">
                         <h4>{{ this.$func.__("Expense", "erp") }}</h4>
-                        <div class="wperp-row" v-if="null != expense_data">
-                            <div class="wperp-col-sm-6">
+                        <div class="mybizna-row" v-if="null != expense_data">
+                            <div class="mybizna-col-sm-6">
                                 <div class="persons-info">
                                     <strong>{{
                                         expense_data.people_name
@@ -82,7 +82,7 @@
                                     {{ expense_data.address }}
                                 </div>
                             </div>
-                            <div class="wperp-col-sm-6">
+                            <div class="mybizna-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
                                         <th>{{ this.$func.__("Voucher No", "erp") }}:</th>
@@ -137,8 +137,8 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="wperp-row" v-if="expense_data.check_data">
-                            <div class="wperp-col-sm-12">
+                        <div class="mybizna-row" v-if="expense_data.check_data">
+                            <div class="mybizna-col-sm-12">
                                 <table>
                                     <tr>
                                         <th>{{ this.$func.__("Check No", "erp") }}:</th>
@@ -166,11 +166,11 @@
                     </div>
 
                     <div
-                        class="wperp-invoice-table"
+                        class="mybizna-invoice-table"
                         v-if="null != expense_data"
                     >
                         <table
-                            class="wperp-table wperp-form-table invoice-table"
+                            class="mybizna-table mybizna-form-table invoice-table"
                         >
                             <thead>
                                 <tr>
@@ -342,14 +342,14 @@ export default {
     max-width: 960px;
     margin: 0 auto;
 }
-.expense-single .wperp-modal-footer {
+.expense-single .mybizna-modal-footer {
     border-top: 1px solid #e2e2e2;
 }
-.expense-single .wperp-modal-header {
+.expense-single .mybizna-modal-header {
     border-bottom: 1px solid #e2e2e2;
 }
-.expense-single .wperp-form-field,
-.expense-single .wperp-form-field input:not(.wperp-btn) {
+.expense-single .mybizna-form-field,
+.expense-single .mybizna-form-field input:not(.mybizna-btn) {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }

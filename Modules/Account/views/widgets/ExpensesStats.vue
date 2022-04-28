@@ -1,9 +1,9 @@
 <template>
-    <div class="wperp-stats wperp-section">
-        <div class="wperp-panel wperp-panel-default">
-            <div class="wperp-panel-body">
-                <div class="wperp-row">
-                    <div class="wperp-col-sm-4">
+    <div class="mybizna-stats mybizna-section">
+        <div class="mybizna-panel mybizna-panel-default">
+            <div class="mybizna-panel-body">
+                <div class="mybizna-row">
+                    <div class="mybizna-col-sm-4">
                         <pie-chart v-if="chartExpense.values.length"
                                    id="payment"
                                    :title= "__('Payment', 'erp')"
@@ -11,7 +11,7 @@
                                    :colors="chartExpense.colors"
                                    :data="chartExpense.values" />
                     </div>
-                    <div class="wperp-col-sm-4">
+                    <div class="mybizna-col-sm-4">
                         <pie-chart v-if="chartStatus.values.length"
                                    id="status"
                                    :title="__('Status', 'erp')"
@@ -20,10 +20,10 @@
                                    :colors="chartStatus.colors"
                                    :data="chartStatus.values" />
                     </div>
-                    <div class="wperp-col-sm-4">
-                        <div class="wperp-chart-block">
+                    <div class="mybizna-col-sm-4">
+                        <div class="mybizna-chart-block">
                             <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
-                            <div class="wperp-total"><h2>{{ formatAmount(chartExpense.outstanding) }}</h2></div>
+                            <div class="mybizna-total"><h2>{{ formatAmount(chartExpense.outstanding) }}</h2></div>
                         </div>
                     </div>
                 </div>

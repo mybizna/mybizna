@@ -5,7 +5,7 @@
             <li><router-link :to="{ name: 'TaxZones' }">{{ this.$func.__('View Tax Zones', 'erp') }}</router-link></li>
             <li><router-link :to="{ name: 'TaxCategories' }">{{ this.$func.__('View Tax Categories', 'erp') }}</router-link></li>
             <li><router-link :to="{ name: 'TaxAgencies' }">{{ this.$func.__('View Tax Agencies', 'erp') }}</router-link></li>
-            <li><a href="https://wperp.com/docs/accounting/tax/" target="_blank">{{ this.$func.__('Tax Help', 'erp') }}</a></li>
+            <li><a href="https://mybizna.com/docs/accounting/tax/" target="_blank">{{ this.$func.__('Tax Help', 'erp') }}</a></li>
         </ul>
     </div>
 </template>

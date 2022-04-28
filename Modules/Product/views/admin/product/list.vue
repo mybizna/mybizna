@@ -1,5 +1,5 @@
 <template>
-    <div class="wperp-products">
+    <div class="mybizna-products">
         <div class="products-header">
             <h2 class="add-new-product">
                 <span>{{ this.$func.__("Products", "erp") }}</span>
@@ -31,7 +31,7 @@
         <import-modal v-if="showImportModal" />
 
         <list-table
-            tableClass="wperp-table table-striped table-dark widefat table2 product-list"
+            tableClass="mybizna-table table-striped table-dark widefat table2 product-list"
             action-column="actions"
             :columns="columns"
             :rows="products"
@@ -239,21 +239,21 @@ export default {
 </script>
 
 <style>
-.wperp-products .products-header {
+.mybizna-products .products-header {
     display: flex;
     align-items: center;
 }
-.wperp-products .products-header .add-new-product {
+.mybizna-products .products-header .add-new-product {
     margin-top: 15px;
     align-items: center;
     display: flex;
 }
-.wperp-products .products-header .add-new-product span {
+.mybizna-products .products-header .add-new-product span {
     font-size: 18px;
     font-weight: bold;
 }
 
-.wperp-products .products-header .add-new-product a {
+.mybizna-products .products-header .add-new-product a {
     background: #1a9ed4;
     border-radius: 3px;
     color: #fff;
@@ -266,7 +266,7 @@ export default {
     width: 80px !important;
 }
 @media (max-width: 782px) and (min-width: 768px) {
-    .wperp-products .products-header .add-new-product a {
+    .mybizna-products .products-header .add-new-product a {
         margin-right: 18rem;
         margin-bottom: 3px;
         max-width: 120px;
@@ -274,35 +274,35 @@ export default {
 }
 
 @media (max-width: 767px) and (min-width: 707px) {
-    .wperp-products .products-header .add-new-product a {
+    .mybizna-products .products-header .add-new-product a {
         margin-right: 16rem;
         margin-bottom: 3px;
     }
 }
 
 @media (max-width: 706px) and (min-width: 651px) {
-    .wperp-products .products-header .add-new-product a {
+    .mybizna-products .products-header .add-new-product a {
         margin-right: 14rem;
         margin-bottom: 3px;
     }
 }
 
 @media (max-width: 650px) {
-    .wperp-products .products-header .add-new-product a {
+    .mybizna-products .products-header .add-new-product a {
         margin-right: 12rem;
         margin-bottom: 3px;
     }
 }
 
-.wperp-products .products-header .check-column {
+.mybizna-products .products-header .check-column {
     padding: 20px !important;
 }
 
 @media (min-width: 783px) {
-    .wperp-products .products-header .product-list .col--actions {
+    .mybizna-products .products-header .product-list .col--actions {
         float: left !important;
     }
-    .wperp-products .products-header .product-list .row-actions {
+    .mybizna-products .products-header .product-list .row-actions {
         text-align: left !important;
     }
 }

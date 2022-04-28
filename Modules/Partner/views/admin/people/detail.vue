@@ -1,13 +1,13 @@
 <template>
-    <div class="wperp-container">
+    <div class="mybizna-container">
         <!-- Start .header-section -->
         <UserBasicInfo :userData="resData"></UserBasicInfo>
         <!-- End .header-section -->
-        <div class="wperp-stats wperp-section">
-            <div class="wperp-panel wperp-panel-default">
-                <div class="wperp-panel-body">
-                    <div class="wperp-row">
-                        <div class="wperp-col-sm-4">
+        <div class="mybizna-stats mybizna-section">
+            <div class="mybizna-panel mybizna-panel-default">
+                <div class="mybizna-panel-body">
+                    <div class="mybizna-row">
+                        <div class="mybizna-col-sm-4">
                             <pie-chart v-if="paymentData.length"
                                 id="payment"
                                 :title="paymentChart.title"
@@ -15,7 +15,7 @@
                                 :colors="paymentChart.colors"
                                 :data="paymentData"/>
                         </div>
-                        <div class="wperp-col-sm-4">
+                        <div class="mybizna-col-sm-4">
                             <pie-chart v-if="statusData.length"
                                 id="status"
                                 :title="statusChart.title"
@@ -23,10 +23,10 @@
                                 :colors="statusChart.colors"
                                 :data="statusData"/>
                         </div>
-                        <div class="wperp-col-sm-4">
-                            <div class="wperp-chart-block">
+                        <div class="mybizna-col-sm-4">
+                            <div class="mybizna-chart-block">
                                 <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
-                                <div class="wperp-total"><h2>{{ moneyFormat( outstanding ) }}</h2></div>
+                                <div class="mybizna-total"><h2>{{ moneyFormat( outstanding ) }}</h2></div>
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 <template>
-    <div class="wperp-panel wperp-panel-default mt-20">
-        <div class="wperp-panel-body wperp-customer-panel">
+    <div class="mybizna-panel mybizna-panel-default mt-20">
+        <div class="mybizna-panel-body mybizna-customer-panel">
             <people-modal
                 :people="userData"
                 :title="title"
@@ -9,14 +9,14 @@
             <!-- edit customers info trigger -->
             <span
                 class="edit-badge"
-                data-toggle="wperp-modal"
-                data-target="wperp-edit-customer-modal"
+                data-toggle="mybizna-modal"
+                data-target="mybizna-edit-customer-modal"
             >
                 <i class="flaticon-edit" @click="showModal = true"></i>
             </span>
-            <div class="wperp-row">
+            <div class="mybizna-row">
                 <div
-                    class="wperp-col-lg-3 wperp-col-md-4 wperp-col-sm-4 wperp-col-xs-12"
+                    class="mybizna-col-lg-3 mybizna-col-md-4 mybizna-col-sm-4 mybizna-col-xs-12"
                 >
                     <div class="customer-identity">
                         <img :src="user.photo" :alt="user.name" />
@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div
-                    class="wperp-col-lg-9 wperp-col-md-8 wperp-col-sm-8 wperp-col-xs-12"
+                    class="mybizna-col-lg-9 mybizna-col-md-8 mybizna-col-sm-8 mybizna-col-xs-12"
                 >
                     <ul class="customer-meta">
                         <li>

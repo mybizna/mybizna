@@ -1,5 +1,5 @@
 <template>
-    <div class="wperp-chart-block has-separator">
+    <div class="mybizna-chart-block has-separator">
         <h3>{{ title }}</h3>
         <div class="payment-chart">
             <div class="chart-container">

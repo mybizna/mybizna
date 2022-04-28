@@ -1,12 +1,12 @@
 <template>
-    <div class="wperp-modal-dialog sales-single">
-        <div class="wperp-modal-content">
-            <div class="wperp-modal-header">
+    <div class="mybizna-modal-dialog sales-single">
+        <div class="mybizna-modal-content">
+            <div class="mybizna-modal-header">
                 <h2>{{ this.$func.__("Transfer Money", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
-                        class="wperp-btn btn--default print-btn"
+                        class="mybizna-btn btn--default print-btn"
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
@@ -16,7 +16,7 @@
 
                     <dropdown>
                         <template slot="button">
-                            <a href="#" class="wperp-btn btn--default">
+                            <a href="#" class="mybizna-btn btn--default">
                                 <i class="flaticon-settings-work-tool"></i>
                                 &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
@@ -36,8 +36,8 @@
                 </div>
             </div>
 
-            <div class="wperp-modal-body">
-                <div class="wperp-invoice-panel">
+            <div class="mybizna-modal-body">
+                <div class="mybizna-invoice-panel">
                     <div class="invoice-header">
                         <div class="invoice-logo">
                             <img
@@ -61,8 +61,8 @@
 
                     <div class="invoice-body">
                         <h4>{{ this.$func.__("Transfer Money", "erp") }}</h4>
-                        <div class="wperp-row" v-if="voucher.created_by">
-                            <div class="wperp-col-sm-6">
+                        <div class="mybizna-row" v-if="voucher.created_by">
+                            <div class="mybizna-col-sm-6">
                                 <h5>{{ this.$func.__("Created By", "erp") }}:</h5>
                                 <div class="persons-info">
                                     <strong>{{
@@ -72,7 +72,7 @@
                                     {{ voucher.created_by.user_email }}
                                 </div>
                             </div>
-                            <div class="wperp-col-sm-6">
+                            <div class="mybizna-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
                                         <th>
@@ -87,9 +87,9 @@
                         </div>
                     </div>
 
-                    <div class="wperp-invoice-table">
+                    <div class="mybizna-invoice-table">
                         <table
-                            class="wperp-table wperp-form-table invoice-table"
+                            class="mybizna-table mybizna-form-table invoice-table"
                         >
                             <thead>
                                 <tr>
@@ -110,7 +110,7 @@
                             <tfoot>
                                 <tr>
                                     <td
-                                        class="wperp-invoice-amounts"
+                                        class="mybizna-invoice-amounts"
                                         colspan="7"
                                     >
                                         <h2>{{ this.$func.__("Particulars", "erp") }}</h2>
@@ -183,28 +183,28 @@ export default {
 </script>
 
 <style>
-.wperp-email-multiselect .multiselect__content-wrapper {
+.mybizna-email-multiselect .multiselect__content-wrapper {
     display: none !important;
     height: 0 !important;
     visibility: hidden;
 }
-.wperp-email-multiselect .multiselect__tags {
+.mybizna-email-multiselect .multiselect__tags {
     font-size: 12px;
     padding-left: 15px;
     border-radius: 3px;
 }
-.wperp-email-multiselect .multiselect__tags input {
+.mybizna-email-multiselect .multiselect__tags input {
     max-height: 30px;
     font-size: 12px;
 }
 
-.wperp-email-multiselect .multiselect__tag-icon {
+.mybizna-email-multiselect .multiselect__tag-icon {
     line-height: 18px;
 }
-.wperp-email-multiselect .multiselect input.multiselect__input {
+.mybizna-email-multiselect .multiselect input.multiselect__input {
     display: none;
 }
-.wperp-email-multiselect
+.mybizna-email-multiselect
     .multiselect.multiselect--active
     input.multiselect__input {
     display: block;
@@ -215,20 +215,20 @@ export default {
     max-width: 960px;
     margin: 0 auto;
 }
-.sales-single .wperp-modal-footer {
+.sales-single .mybizna-modal-footer {
     border-top: 1px solid #e2e2e2;
 }
-.sales-single .wperp-modal-header {
+.sales-single .mybizna-modal-header {
     border-bottom: 1px solid #e2e2e2;
 }
-.sales-single .wperp-form-field,
-.sales-single .wperp-form-field input:not(.wperp-btn) {
+.sales-single .mybizna-form-field,
+.sales-single .mybizna-form-field input:not(.mybizna-btn) {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }
 
-.wperp-invoice-table td:last-child,
-.wperp-invoice-table th:last-child {
+.mybizna-invoice-table td:last-child,
+.mybizna-invoice-table th:last-child {
     width: 100px !important;
 }
 

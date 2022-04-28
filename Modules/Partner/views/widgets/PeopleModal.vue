@@ -1,15 +1,15 @@
 <template>
     <div id="people-modal">
-        <div class="wperp-container">
+        <div class="mybizna-container">
             <div
-                id="wperp-add-customer-modal"
-                class="wperp-modal has-form wperp-modal-open"
+                id="mybizna-add-customer-modal"
+                class="mybizna-modal has-form mybizna-modal-open"
                 role="dialog"
             >
-                <div class="wperp-modal-dialog">
-                    <div class="wperp-modal-content">
+                <div class="mybizna-modal-dialog">
+                    <div class="mybizna-modal-content">
                         <!-- modal body title -->
-                        <div class="wperp-modal-header">
+                        <div class="mybizna-modal-header">
                             <h3 v-if="!people">{{ title }}</h3>
                             <h3 v-else>
                                 {{ this.$func.__("Update", "erp") }} {{ title }}
@@ -36,7 +36,7 @@
                             class="modal-form edit-customer-modal"
                             @submit.prevent="saveCustomer"
                         >
-                            <div class="wperp-modal-body">
+                            <div class="mybizna-modal-body">
                                 <!-- add new people form -->
                                 <upload-image
                                     :showButton="true"
@@ -53,13 +53,13 @@
                                     :people="people"
                                 />
 
-                                <div class="wperp-row wperp-gutter-20">
+                                <div class="mybizna-row mybizna-gutter-20">
                                     <div
-                                        class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12"
+                                        class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                     >
                                         <label for="first_name"
                                             >{{ this.$func.__("First Name", "erp") }}
-                                            <span class="wperp-required-sign"
+                                            <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
                                         >
@@ -67,7 +67,7 @@
                                             type="text"
                                             v-model="peopleFields.first_name"
                                             id="first_name"
-                                            class="wperp-form-field"
+                                            class="mybizna-form-field"
                                             :placeholder="
                                                 this.$func.__('First Name', 'erp')
                                             "
@@ -75,11 +75,11 @@
                                         />
                                     </div>
                                     <div
-                                        class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12"
+                                        class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                     >
                                         <label for="last_name"
                                             >{{ this.$func.__("Last Name", "erp") }}
-                                            <span class="wperp-required-sign"
+                                            <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
                                         >
@@ -87,7 +87,7 @@
                                             type="text"
                                             v-model="peopleFields.last_name"
                                             id="last_name"
-                                            class="wperp-form-field"
+                                            class="mybizna-form-field"
                                             :placeholder="
                                                 this.$func.__('Last Name', 'erp')
                                             "
@@ -95,11 +95,11 @@
                                         />
                                     </div>
                                     <div
-                                        class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12"
+                                        class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                     >
                                         <label for="email"
                                             >{{ this.$func.__("Email", "erp") }}
-                                            <span class="wperp-required-sign"
+                                            <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
                                         >
@@ -108,13 +108,13 @@
                                             @blur="checkEmailExistence"
                                             v-model="peopleFields.email"
                                             id="email"
-                                            class="wperp-form-field"
+                                            class="mybizna-form-field"
                                             placeholder="you@domain.com"
                                             required
                                         />
                                     </div>
                                     <div
-                                        class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
+                                        class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                     >
                                         <label for="phone">{{
                                             this.$func.__("Phone", "erp")
@@ -123,12 +123,12 @@
                                             type="tel"
                                             v-model="peopleFields.phone"
                                             id="phone"
-                                            class="wperp-form-field"
+                                            class="mybizna-form-field"
                                             placeholder="(123) 456-789"
                                         />
                                     </div>
                                     <div
-                                        class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
+                                        class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                     >
                                         <label for="company">{{
                                             this.$func.__("Company", "erp")
@@ -137,7 +137,7 @@
                                             type="text"
                                             v-model="peopleFields.company"
                                             id="company"
-                                            class="wperp-form-field"
+                                            class="mybizna-form-field"
                                             :placeholder="
                                                 this.$func.__('ABC Corporation', 'erp')
                                             "
@@ -155,10 +155,10 @@
                                 />
 
                                 <!-- extra fields -->
-                                <div class="wperp-more-fields" v-if="showMore">
-                                    <div class="wperp-row wperp-gutter-20">
+                                <div class="mybizna-more-fields" v-if="showMore">
+                                    <div class="mybizna-row mybizna-gutter-20">
                                         <div
-                                            class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12"
+                                            class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                         >
                                             <label for="mobile">{{
                                                 this.$func.__("Mobile", "erp")
@@ -167,11 +167,11 @@
                                                 type="tel"
                                                 v-model="peopleFields.mobile"
                                                 id="mobile"
-                                                class="wperp-form-field"
+                                                class="mybizna-form-field"
                                             />
                                         </div>
                                         <div
-                                            class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
+                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="website">{{
                                                 this.$func.__("Website", "erp")
@@ -180,12 +180,12 @@
                                                 type="text"
                                                 v-model="peopleFields.website"
                                                 id="website"
-                                                class="wperp-form-field"
+                                                class="mybizna-form-field"
                                                 placeholder="www.domain.com"
                                             />
                                         </div>
                                         <div
-                                            class="wperp-col-xs-12 wperp-form-group"
+                                            class="mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="note">{{
                                                 this.$func.__("Note", "erp")
@@ -195,14 +195,14 @@
                                                 id="note"
                                                 cols="30"
                                                 rows="4"
-                                                class="wperp-form-field"
+                                                class="mybizna-form-field"
                                                 :placeholder="
                                                     this.$func.__('Type here', 'erp')
                                                 "
                                             ></textarea>
                                         </div>
                                         <div
-                                            class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
+                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="fax">{{
                                                 this.$func.__("Fax", "erp")
@@ -211,14 +211,14 @@
                                                 type="text"
                                                 v-model="peopleFields.fax"
                                                 id="fax"
-                                                class="wperp-form-field"
+                                                class="mybizna-form-field"
                                                 :placeholder="
                                                     this.$func.__('Type here', 'erp')
                                                 "
                                             />
                                         </div>
                                         <div
-                                            class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
+                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="street1">{{
                                                 this.$func.__("Street 1", "erp")
@@ -227,14 +227,14 @@
                                                 type="text"
                                                 v-model="peopleFields.street_1"
                                                 id="street1"
-                                                class="wperp-form-field"
+                                                class="mybizna-form-field"
                                                 :placeholder="
                                                     this.$func.__('Street 1', 'erp')
                                                 "
                                             />
                                         </div>
                                         <div
-                                            class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
+                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="street2">{{
                                                 this.$func.__("Street 2", "erp")
@@ -243,14 +243,14 @@
                                                 type="text"
                                                 v-model="peopleFields.street_2"
                                                 id="street2"
-                                                class="wperp-form-field"
+                                                class="mybizna-form-field"
                                                 :placeholder="
                                                     this.$func.__('Street 2', 'erp')
                                                 "
                                             />
                                         </div>
                                         <div
-                                            class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
+                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="city">{{
                                                 this.$func.__("City", "erp")
@@ -259,14 +259,14 @@
                                                 type="text"
                                                 v-model="peopleFields.city"
                                                 id="city"
-                                                class="wperp-form-field"
+                                                class="mybizna-form-field"
                                                 :placeholder="
                                                     this.$func.__('City/Town', 'erp')
                                                 "
                                             />
                                         </div>
                                         <div
-                                            class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
+                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label>{{
                                                 this.$func.__("Country", "erp")
@@ -287,7 +287,7 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
+                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label>{{
                                                 this.$func.__("Province/State", "erp")
@@ -301,7 +301,7 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="wperp-col-sm-6 wperp-col-xs-12 wperp-form-group"
+                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="post_code">{{
                                                 this.$func.__("Post Code", "erp")
@@ -312,7 +312,7 @@
                                                     peopleFields.postal_code
                                                 "
                                                 id="post_code"
-                                                class="wperp-form-field"
+                                                class="mybizna-form-field"
                                                 :placeholder="
                                                     this.$func.__('Post Code', 'erp')
                                                 "
@@ -350,11 +350,11 @@
                                 </div>
                             </div>
 
-                            <div class="wperp-modal-footer pt-0">
+                            <div class="mybizna-modal-footer pt-0">
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
                                     <button
-                                        class="wperp-btn btn--default modal-close"
+                                        class="mybizna-btn btn--default modal-close"
                                         @click="$parent.$emit('modal-close')"
                                         type="reset"
                                     >
@@ -362,14 +362,14 @@
                                     </button>
                                     <button
                                         v-if="!people"
-                                        class="wperp-btn btn--primary"
+                                        class="mybizna-btn btn--primary"
                                         type="submit"
                                     >
                                         {{ this.$func.__("Add New", "erp") }}
                                     </button>
                                     <button
                                         v-else
-                                        class="wperp-btn btn--primary"
+                                        class="mybizna-btn btn--primary"
                                         type="submit"
                                     >
                                         {{ this.$func.__("Update", "erp") }}
@@ -771,7 +771,7 @@ export default {
     width: 200px;
 }
 
-#people-modal .wperp-more-fields {
+#people-modal .mybizna-more-fields {
     margin-top: 20px;
 }
 

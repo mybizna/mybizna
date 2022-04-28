@@ -1,10 +1,10 @@
 <template>
-    <div id="wperp-product-modal">
-        <div class="wperp-container">
-            <div class="wperp-modal wperp-modal-open has-form" role="dialog">
-                <div class="wperp-modal-dialog">
-                    <div class="wperp-modal-content">
-                        <div class="wperp-modal-header">
+    <div id="mybizna-product-modal">
+        <div class="mybizna-container">
+            <div class="mybizna-modal mybizna-modal-open has-form" role="dialog">
+                <div class="mybizna-modal-dialog">
+                    <div class="mybizna-modal-content">
+                        <div class="mybizna-modal-header">
                             <h3 v-if="!product">
                                 {{ this.$func.__("Add", "erp") }} {{ title }}
                             </h3>
@@ -18,7 +18,7 @@
                                 ></i>
                             </span>
                         </div>
-                        <div class="wperp-modal-body">
+                        <div class="mybizna-modal-body">
                             <ul class="errors" v-if="error_msg.length">
                                 <li
                                     v-for="(error, index) in error_msg"
@@ -33,23 +33,23 @@
                                 action=""
                                 method="post"
                                 @submit.prevent="saveProduct"
-                                class="add-product-form wperp-form-horizontal"
+                                class="add-product-form mybizna-form-horizontal"
                             >
                                 <!-- product name field -->
 
-                                <div class="wperp-row">
-                                    <div class="wperp-col-sm-3 wperp-col-xs-12">
+                                <div class="mybizna-row">
+                                    <div class="mybizna-col-sm-3 mybizna-col-xs-12">
                                         <label
                                             >{{ this.$func.__("Product Name", "erp") }}
-                                            <span class="wperp-required-sign"
+                                            <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
                                         >
                                     </div>
-                                    <div class="wperp-col-sm-9 wperp-col-xs-12">
+                                    <div class="mybizna-col-sm-9 mybizna-col-xs-12">
                                         <input
                                             type="text"
-                                            class="wperp-form-field"
+                                            class="mybizna-form-field"
                                             :placeholder="
                                                 this.$func.__(
                                                     'Enter Product Name Here',
@@ -64,9 +64,9 @@
 
                                 <!-- product/service details panel -->
                                 <div
-                                    class="wperp-panel wperp-panel-default panel-product-details"
+                                    class="mybizna-panel mybizna-panel-default panel-product-details"
                                 >
-                                    <div class="wperp-panel-heading">
+                                    <div class="mybizna-panel-heading">
                                         <span
                                             class="panel-badge panel-badge-primary"
                                         ></span>
@@ -74,10 +74,10 @@
                                             this.$func.__("Product/Service Details", "erp")
                                         }}</span>
                                     </div>
-                                    <div class="wperp-panel-body">
-                                        <div class="wperp-row">
+                                    <div class="mybizna-panel-body">
+                                        <div class="mybizna-row">
                                             <div
-                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
                                             >
                                                 <label
                                                     >{{
@@ -87,13 +87,13 @@
                                                         )
                                                     }}
                                                     <span
-                                                        class="wperp-required-sign"
+                                                        class="mybizna-required-sign"
                                                         >*</span
                                                     ></label
                                                 >
                                             </div>
                                             <div
-                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
                                             >
                                                 <div class="with-multiselect">
                                                     <multi-select
@@ -108,16 +108,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="wperp-row">
+                                        <div class="mybizna-row">
                                             <div
-                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
                                             >
                                                 <label>{{
                                                     this.$func.__("Category", "erp")
                                                 }}</label>
                                             </div>
                                             <div
-                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
                                             >
                                                 <div class="with-multiselect">
                                                     <multi-select
@@ -136,9 +136,9 @@
 
                                 <!-- product/service details panel -->
                                 <div
-                                    class="wperp-panel wperp-panel-default panel-product-info"
+                                    class="mybizna-panel mybizna-panel-default panel-product-info"
                                 >
-                                    <div class="wperp-panel-heading">
+                                    <div class="mybizna-panel-heading">
                                         <span
                                             class="panel-badge panel-badge-info"
                                         ></span>
@@ -146,17 +146,17 @@
                                             this.$func.__("Product Information", "erp")
                                         }}</span>
                                     </div>
-                                    <div class="wperp-panel-body">
-                                        <div class="wperp-row">
+                                    <div class="mybizna-panel-body">
+                                        <div class="mybizna-row">
                                             <div
-                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
                                             >
                                                 <label for="cost-price">{{
                                                     this.$func.__("Cost Price", "erp")
                                                 }}</label>
                                             </div>
                                             <div
-                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
                                             >
                                                 <input
                                                     type="text"
@@ -170,22 +170,22 @@
                                                 />
                                             </div>
                                         </div>
-                                        <div class="wperp-row">
+                                        <div class="mybizna-row">
                                             <div
-                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
                                             >
                                                 <label for="sale-price"
                                                     >{{
                                                         this.$func.__("Sale Price", "erp")
                                                     }}
                                                     <span
-                                                        class="wperp-required-sign"
+                                                        class="mybizna-required-sign"
                                                         >*</span
                                                     ></label
                                                 >
                                             </div>
                                             <div
-                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
                                             >
                                                 <input
                                                     type="text"
@@ -205,9 +205,9 @@
 
                                 <!-- Miscellaneous panel -->
                                 <div
-                                    class="wperp-panel wperp-panel-default panel-miscellaneous"
+                                    class="mybizna-panel mybizna-panel-default panel-miscellaneous"
                                 >
-                                    <div class="wperp-panel-heading">
+                                    <div class="mybizna-panel-heading">
                                         <span
                                             class="panel-badge panel-badge-secondary"
                                         ></span>
@@ -215,22 +215,22 @@
                                             this.$func.__("Miscellaneous", "erp")
                                         }}</span>
                                     </div>
-                                    <div class="wperp-panel-body">
-                                        <div class="wperp-row">
+                                    <div class="mybizna-panel-body">
+                                        <div class="mybizna-row">
                                             <div
-                                                class="wperp-col-sm-3 wperp-col-xs-12 product-owner"
+                                                class="mybizna-col-sm-3 mybizna-col-xs-12 product-owner"
                                             >
                                                 <label>
                                                     {{ this.$func.__("Owner", "erp") }}
                                                     <span
                                                         v-show="selfOwner"
-                                                        class="wperp-required-sign"
+                                                        class="mybizna-required-sign"
                                                         >*</span
                                                     >
                                                 </label>
                                             </div>
                                             <div
-                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
                                             >
                                                 <input
                                                     type="checkbox"
@@ -242,19 +242,19 @@
                                             </div>
 
                                             <div
-                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
                                                 v-show="!selfOwner"
                                             >
                                                 <label>
                                                     {{ this.$func.__("Vendor", "erp") }}
                                                     <span
-                                                        class="wperp-required-sign"
+                                                        class="mybizna-required-sign"
                                                         >*</span
                                                     >
                                                 </label>
                                             </div>
                                             <div
-                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
                                                 v-show="!selfOwner"
                                             >
                                                 <div class="with-multiselect">
@@ -269,7 +269,7 @@
                                                 </div>
                                             </div>
                                             <div
-                                                class="wperp-col-sm-3 wperp-col-xs-12"
+                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
                                             >
                                                 <label
                                                     >{{
@@ -290,7 +290,7 @@
                                                 ></label>
                                             </div>
                                             <div
-                                                class="wperp-col-sm-9 wperp-col-xs-12"
+                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
                                             >
                                                 <div class="with-multiselect">
                                                     <multi-select
@@ -309,20 +309,20 @@
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
                                     <button
-                                        class="wperp-btn btn--default"
+                                        class="mybizna-btn btn--default"
                                         @click.prevent="$parent.$emit('close')"
                                     >
                                         {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
                                         v-if="!product"
-                                        class="wperp-btn btn--primary"
+                                        class="mybizna-btn btn--primary"
                                     >
                                         {{ this.$func.__("Save", "erp") }}
                                     </button>
                                     <button
                                         v-else
-                                        class="wperp-btn btn--primary"
+                                        class="mybizna-btn btn--primary"
                                     >
                                         {{ this.$func.__("Update", "erp") }}
                                     </button>
@@ -583,29 +583,29 @@ export default {
 </script>
 
 <style>
-#wperp-product-modal .wperp-modal-header {
+#mybizna-product-modal .mybizna-modal-header {
     padding: 30px 20px 20px !important;
 }
 
-#wperp-product-modal .product-owner {
+#mybizna-product-modal .product-owner {
     margin-bottom: 10px;
 }
-#wperp-product-modal .product-owner label {
+#mybizna-product-modal .product-owner label {
     margin-top: 0;
 }
 
-#wperp-product-modal .modal-close {
+#mybizna-product-modal .modal-close {
     line-height: 1.7;
 }
-#wperp-product-modal .modal-close .flaticon-close {
+#mybizna-product-modal .modal-close .flaticon-close {
     font-size: inherit;
 }
 
-#wperp-product-modal .errors {
+#mybizna-product-modal .errors {
     margin: 0;
     color: #f44336;
 }
-#wperp-product-modal .errors li {
+#mybizna-product-modal .errors li {
     background: #f3f3f3;
     padding: 2px 10px;
 }

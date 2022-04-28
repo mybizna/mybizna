@@ -4,25 +4,25 @@
             <span>{{ this.$func.__( 'Sales Tax Report (Transaction Based)', 'erp' ) }}</span>
 
             <router-link
-                class="wperp-btn btn--primary"
+                class="mybizna-btn btn--primary"
                 :to="{ name: 'SalesTaxReportOverview' }">
                 {{ this.$func.__( 'Back', 'erp' ) }}
             </router-link>
         </h2>
 
         <form @submit.prevent="getReport" class="query-options no-print">
-            <div class="wperp-date-group">
+            <div class="mybizna-date-group">
                 <datepicker v-model="startDate" />
 
                 <datepicker v-model="endDate" />
 
-                <button class="wperp-btn btn--primary add-line-trigger" type="submit">
+                <button class="mybizna-btn btn--primary add-line-trigger" type="submit">
                     {{ this.$func.__( 'Filter', 'erp' ) }}
                 </button>
             </div>
 
 
-            <a href="#" class="wperp-btn btn--default print-btn" @click.prevent="printPopup">
+            <a href="#" class="mybizna-btn btn--default print-btn" @click.prevent="printPopup">
                 <i class="flaticon-printer-1"></i>
                 &nbsp; {{ this.$func.__( 'Print', 'erp' ) }}
             </a>
@@ -30,7 +30,7 @@
 
 
         <list-table
-            tableClass="wperp-table table-striped table-dark widefat sales-tax-table sales-tax-table-customer"
+            tableClass="mybizna-table table-striped table-dark widefat sales-tax-table sales-tax-table-customer"
             :columns="columns"
             :rows="taxes"
             :showCb="false">

@@ -12,7 +12,7 @@
             </p>
 
             <router-link
-                class="wperp-btn btn--primary"
+                class="mybizna-btn btn--primary"
                 :to="{ name: 'TrialBalance' }"
                 >{{ this.$func.__("View Report", "erp") }}</router-link
             >
@@ -30,7 +30,7 @@
             </p>
 
             <router-link
-                class="wperp-btn btn--primary"
+                class="mybizna-btn btn--primary"
                 :to="{ name: 'LedgerSingle', params: { id: 7 } }"
                 >{{ this.$func.__("View Report", "erp") }}</router-link
             >
@@ -48,7 +48,7 @@
             </p>
 
             <router-link
-                class="wperp-btn btn--primary"
+                class="mybizna-btn btn--primary"
                 :to="{ name: 'IncomeStatement' }"
                 >View Report</router-link
             >
@@ -66,7 +66,7 @@
             </p>
 
             <router-link
-                class="wperp-btn btn--primary"
+                class="mybizna-btn btn--primary"
                 :to="{ name: 'SalesTaxReportOverview' }"
                 >{{ this.$func.__("View Report", "erp") }}</router-link
             >
@@ -84,7 +84,7 @@
             </p>
 
             <router-link
-                class="wperp-btn btn--primary"
+                class="mybizna-btn btn--primary"
                 :to="{ name: 'BalanceSheet' }"
                 >{{ this.$func.__("View Report", "erp") }}</router-link
             >

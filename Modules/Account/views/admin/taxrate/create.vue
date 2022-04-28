@@ -1,9 +1,9 @@
 <template>
-    <div class="wperp-container">
+    <div class="mybizna-container">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Add New Tax Rate", "erp") }}
                     </h2>
@@ -12,20 +12,20 @@
         </div>
         <!-- End .header-section -->
 
-        <div class="wperp-panel wperp-panel-default pb-0 new-tax-rate">
-            <div class="wperp-panel-body">
+        <div class="mybizna-panel mybizna-panel-default pb-0 new-tax-rate">
+            <div class="mybizna-panel-body">
                 <show-errors :error_msgs="form_errors"></show-errors>
 
-                <form action="" method="post" class="wperp-form">
-                    <div class="wperp-row wperp-gutter-20">
-                        <div class="wperp-form-group wperp-col-sm-6">
+                <form action="" method="post" class="mybizna-form">
+                    <div class="mybizna-row mybizna-gutter-20">
+                        <div class="mybizna-form-group mybizna-col-sm-6">
                             <label
                                 >{{ this.$func.__("Tax Zone Name", "erp")
-                                }}<span class="wperp-required-sign"
+                                }}<span class="mybizna-required-sign"
                                     >*</span
                                 ></label
                             >
-                            <div class="wperp-custom-select with-multiselect">
+                            <div class="mybizna-custom-select with-multiselect">
                                 <multi-select
                                     v-model="tax_name"
                                     :options="rate_names"
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div
-                            class="wperp-form-group wperp-col-sm-6 compound-checkbox"
+                            class="mybizna-form-group mybizna-col-sm-6 compound-checkbox"
                         >
                             <div class="form-check">
                                 <label class="form-check-label">
@@ -56,7 +56,7 @@
 
                     <div class="table-container mt-20">
                         <table
-                            class="wperp-table wperp-form-table new-journal-form"
+                            class="mybizna-table mybizna-form-table new-journal-form"
                         >
                             <thead>
                                 <tr>
@@ -89,7 +89,7 @@
                                     >
                                         <input
                                             type="text"
-                                            class="wperp-form-field"
+                                            class="mybizna-form-field"
                                             v-model="line.component_name"
                                         />
                                         <a
@@ -101,7 +101,7 @@
 
                                         <button
                                             type="button"
-                                            class="wperp-toggle-row"
+                                            class="mybizna-toggle-row"
                                             @click.prevent="
                                                 isRowExpanded = !isRowExpanded
                                             "
@@ -153,7 +153,7 @@
                                     >
                                         <input
                                             type="text"
-                                            class="wperp-form-field text-right"
+                                            class="mybizna-form-field text-right"
                                             v-model="line.tax_rate"
                                         />
                                         <a
@@ -180,7 +180,7 @@
                                     <td colspan="9" class="text-left">
                                         <button
                                             @click.prevent="addLine"
-                                            class="wperp-btn btn--primary add-line-trigger"
+                                            class="mybizna-btn btn--primary add-line-trigger"
                                             type="button"
                                         >
                                             <i
@@ -207,7 +207,7 @@
                         @close="showAgencyModal = false"
                     />
 
-                    <div class="wperp-modal-footer pt-0">
+                    <div class="mybizna-modal-footer pt-0">
                         <!-- buttons -->
                         <div class="buttons-wrapper text-right">
                             <submit-button

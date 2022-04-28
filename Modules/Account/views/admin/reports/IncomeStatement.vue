@@ -5,11 +5,11 @@
         </h2>
 
         <form @submit.prevent="fetchItems" class="query-options no-print">
-            <div class="wperp-date-group">
+            <div class="mybizna-date-group">
                 <datepicker v-model="start_date"></datepicker>
                 <datepicker v-model="end_date"></datepicker>
                 <button
-                    class="wperp-btn btn--primary add-line-trigger"
+                    class="mybizna-btn btn--primary add-line-trigger"
                     type="submit"
                 >
                     {{ this.$func.__("Filter", "erp") }}
@@ -18,7 +18,7 @@
 
             <a
                 href="#"
-                class="wperp-btn btn--default print-btn"
+                class="mybizna-btn btn--default print-btn"
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i>
@@ -36,7 +36,7 @@
         </p>
 
         <list-table
-            tableClass="wperp-table table-striped table-dark widefat income-statement income-balance-report"
+            tableClass="mybizna-table table-striped table-dark widefat income-statement income-balance-report"
             :columns="columns1"
             :rows="rows1"
             :showItemNumbers="false"
@@ -54,7 +54,7 @@
         </list-table>
 
         <list-table
-            tableClass="wperp-table table-striped table-dark widefat income-statement income-balance-report"
+            tableClass="mybizna-table table-striped table-dark widefat income-statement income-balance-report"
             :columns="columns2"
             :rows="rows2"
             :showItemNumbers="false"
@@ -72,10 +72,10 @@
         </list-table>
 
         <table
-            class="wperp-table table-striped table-dark widefat income-statement-balance income-balance-report"
+            class="mybizna-table table-striped table-dark widefat income-statement-balance income-balance-report"
         >
             <template v-if="profit >= 0">
-                <tbody class="wperp-col-sm-12">
+                <tbody class="mybizna-col-sm-12">
                     <tr>
                         <td>
                             <strong>{{ this.$func.__("Profit", "erp") }}</strong>
@@ -86,7 +86,7 @@
                 </tbody>
             </template>
             <template v-else>
-                <tbody class="wperp-col-sm-12">
+                <tbody class="mybizna-col-sm-12">
                     <tr>
                         <td>
                             <strong>{{ this.$func.__("Loss", "erp") }}</strong>
@@ -288,21 +288,21 @@ export default {
 .no-print * {
     display: none !important;
 }
-.wperp-table.income-balance-report td,
-.wperp-table.income-balance-report th {
+.mybizna-table.income-balance-report td,
+.mybizna-table.income-balance-report th {
     padding: 3px 20px;
 }
-.wperp-table.income-balance-report thead tr th {
+.mybizna-table.income-balance-report thead tr th {
     font-weight: bold;
 }
-.wperp-table.income-balance-report thead tr th:not(:first-child) {
+.mybizna-table.income-balance-report thead tr th:not(:first-child) {
     text-align: right;
 }
 
-.wperp-table.income-balance-report tbody tr td:not(:first-child) {
+.mybizna-table.income-balance-report tbody tr td:not(:first-child) {
     text-align: right !important;
 }
-.wperp-table.income-balance-report tfoot td:not(:first-child) {
+.mybizna-table.income-balance-report tfoot td:not(:first-child) {
     text-align: right !important;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="wperp-form-group invoice-customers with-multiselect">
+    <div class="mybizna-form-group invoice-customers with-multiselect">
         <people-modal
             v-if="showModal"
             title="Add new customer"
@@ -7,7 +7,7 @@
         ></people-modal>
         <label
             >{{ this.$func.__("Customer", "erp")
-            }}<span class="wperp-required-sign">*</span></label
+            }}<span class="mybizna-required-sign">*</span></label
         >
         <multi-select v-model="selected" :options="options" />
 

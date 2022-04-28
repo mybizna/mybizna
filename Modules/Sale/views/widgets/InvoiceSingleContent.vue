@@ -1,6 +1,6 @@
 <template>
-    <div class="wperp-modal-body">
-        <div class="wperp-invoice-panel">
+    <div class="mybizna-modal-body">
+        <div class="mybizna-invoice-panel">
             <div class="invoice-header" v-if="company.name">
                 <div class="invoice-logo">
                     <img
@@ -24,8 +24,8 @@
 
             <div class="invoice-body">
                 <h4>{{ getInvoiceType() }}</h4>
-                <div class="wperp-row">
-                    <div class="wperp-col-sm-6">
+                <div class="mybizna-row">
+                    <div class="mybizna-col-sm-6">
                         <h5>{{ this.$func.__("Bill to", "erp") }}:</h5>
                         <div class="persons-info">
                             <strong>{{ invoice.customer_name }}</strong
@@ -33,7 +33,7 @@
                             {{ invoice.billing_address }}
                         </div>
                     </div>
-                    <div class="wperp-col-sm-6">
+                    <div class="mybizna-col-sm-6">
                         <table class="invoice-info">
                             <tr v-if="invoice.sales_voucher_id">
                                 <th>{{ this.$func.__("Sales Voucher No", "erp") }}:</th>
@@ -64,8 +64,8 @@
                 </div>
             </div>
 
-            <div class="wperp-invoice-table">
-                <table class="wperp-table wperp-form-table invoice-table">
+            <div class="mybizna-invoice-table">
+                <table class="mybizna-table mybizna-form-table invoice-table">
                     <thead>
                         <tr>
                             <th>{{ this.$func.__("Sl", "erp") }}.</th>
@@ -98,7 +98,7 @@
                     </tbody>
                     <tfoot>
                         <tr class="inline-edit-row">
-                            <td class="wperp-invoice-amounts" colspan="7">
+                            <td class="mybizna-invoice-amounts" colspan="7">
                                 <ul>
                                     <li>
                                         <span
@@ -257,20 +257,20 @@ export default {
 
 <style>
 @media (max-width: 782px) {
-    .wperp-invoice-table .col--qty,
-    .wperp-invoice-table .col--uni_price,
-    .wperp-invoice-table .col--amount {
+    .mybizna-invoice-table .col--qty,
+    .mybizna-invoice-table .col--uni_price,
+    .mybizna-invoice-table .col--amount {
         display: table-cell !important;
         width: 10%;
     }
 
-    .wperp-invoice-table
+    .mybizna-invoice-table
         tr:not(.inline-edit-row):not(.no-items)
         td:not(.column-primary)::before {
         display: none !important;
     }
 
-    .wperp-invoice-table .wperp-invoice-amounts li {
+    .mybizna-invoice-table .mybizna-invoice-amounts li {
         padding-right: 0 !important;
     }
 }

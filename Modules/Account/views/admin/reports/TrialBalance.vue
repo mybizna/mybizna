@@ -11,13 +11,13 @@
         </div>
 
         <form @submit.prevent="getTrialBalance" class="query-options no-print">
-            <div class="wperp-date-btn-group">
+            <div class="mybizna-date-btn-group">
                 <datepicker v-model="start_date"></datepicker>
                 <datepicker v-model="end_date"></datepicker>
             </div>
 
             <button
-                class="wperp-btn btn--primary add-line-trigger"
+                class="mybizna-btn btn--primary add-line-trigger"
                 type="submit"
             >
                 {{ this.$func.__("View", "erp") }}
@@ -25,7 +25,7 @@
 
             <a
                 href="#"
-                class="wperp-btn btn--default print-btn"
+                class="mybizna-btn btn--default print-btn"
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i> &nbsp;
@@ -43,7 +43,7 @@
             <em>{{ end_date }}</em>
         </p>
 
-        <table class="wperp-table table-striped table-dark widefat">
+        <table class="mybizna-table table-striped table-dark widefat">
             <thead>
                 <tr>
                     <th>{{ this.$func.__("Account Name", "erp") }}</th>
@@ -349,28 +349,28 @@ export default {
         font-weight: bold;
     }
 
-    .trial-balance .wperp-table {
+    .trial-balance .mybizna-table {
         margin-top: 20px;
     }
-    .trial-balance .wperp-table td,
-    .trial-balance .wperp-table th {
+    .trial-balance .mybizna-table td,
+    .trial-balance .mybizna-table th {
         padding: 3px 20px;
     }
 
-    .trial-balance .wperp-table thead tr th {
+    .trial-balance .mybizna-table thead tr th {
         font-weight: bold;
     }
 
-    .trial-balance .wperp-table thead tr th:not(:first-child) {
+    .trial-balance .mybizna-table thead tr th:not(:first-child) {
         text-align: right;
     }
 
-    .trial-balance .wperp-table tbody tr td:not(:first-child) {
+    .trial-balance .mybizna-table tbody tr td:not(:first-child) {
         text-align: right !important;
     }
 }
 
-.trial-balance .wperp-table tfoot td:not(:first-child) {
+.trial-balance .mybizna-table tfoot td:not(:first-child) {
     text-align: right !important;
 }
 

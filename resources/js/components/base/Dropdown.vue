@@ -1,5 +1,5 @@
 <template>
-    <div class="dropdown wperp-has-dropdown" @click.prevent="toggleDropdown">
+    <div class="dropdown mybizna-has-dropdown" @click.prevent="toggleDropdown">
         <slot name="button">
             <button
                 class="btn btn-secondary dropdown-toggle"

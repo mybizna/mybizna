@@ -1,14 +1,14 @@
 <template>
     <div class="app-customers single-tax-rate">
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">
                         {{ $route.params.name }}
                     </h2>
 
                     <a
-                        class="wperp-btn btn--primary"
+                        class="mybizna-btn btn--primary"
                         @click.prevent="addNewLine = true"
                     >
                         <span>{{ this.$func.__("Add New Line", "erp") }}</span>
@@ -28,7 +28,7 @@
 
         <div class="table-container">
             <list-table
-                tableClass="wp-ListTable widefat fixed tax-rate-list wperp-table table-striped table-dark"
+                tableClass="wp-ListTable widefat fixed tax-rate-list mybizna-table table-striped table-dark"
                 action-column="actions"
                 :columns="columns"
                 :rows="rows"

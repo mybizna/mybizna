@@ -5,7 +5,7 @@
                 ref="datePicker"
                 v-model="selectedDate"
                 @input="onChangeDate"
-                class="wperp-form-field"
+                class="mybizna-form-field"
             />
         </template>
         <template slot="dropdown">

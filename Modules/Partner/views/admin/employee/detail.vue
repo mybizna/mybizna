@@ -1,16 +1,16 @@
 <template>
-    <div class="wperp-container">
+    <div class="mybizna-container">
         <!-- Start .header-section -->
         <!-- <UserBasicInfo :userData="resData"></UserBasicInfo> -->
-        <div class="wperp-panel wperp-panel-default mt-20">
-            <div class="wperp-panel-body wperp-customer-panel">
+        <div class="mybizna-panel mybizna-panel-default mt-20">
+            <div class="mybizna-panel-body mybizna-customer-panel">
             <!-- <people-modal  :people="userData" :title="title" v-if="showModal"></people-modal> -->
             <!-- edit customers info trigger -->
-            <!-- <span class="edit-badge" data-toggle="wperp-modal" data-target="wperp-edit-customer-modal">
+            <!-- <span class="edit-badge" data-toggle="mybizna-modal" data-target="mybizna-edit-customer-modal">
                 <i class="flaticon-edit" @click="showModal = true"></i>
             </span> -->
-            <div class="wperp-row">
-                <div class="wperp-col-lg-3 wperp-col-md-4 wperp-col-sm-4 wperp-col-xs-12">
+            <div class="mybizna-row">
+                <div class="mybizna-col-lg-3 mybizna-col-md-4 mybizna-col-sm-4 mybizna-col-xs-12">
                     <div class="customer-identity">
                         <img :src="user.avatar_url" :alt=user.name style="border-radius: 100%">
                         <div class="">
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="wperp-col-lg-9 wperp-col-md-8 wperp-col-sm-8 wperp-col-xs-12">
+                <div class="mybizna-col-lg-9 mybizna-col-md-8 mybizna-col-sm-8 mybizna-col-xs-12">
                     <ul class="customer-meta">
                         <li>
                             <strong>{{ this.$func.__('Phone', 'erp') }}:</strong>
@@ -47,11 +47,11 @@
         </div>
     </div>
         <!-- End .header-section -->
-        <div class="wperp-stats wperp-section">
-            <div class="wperp-panel wperp-panel-default">
-                <div class="wperp-panel-body">
-                    <div class="wperp-row">
-                        <div class="wperp-col-sm-4">
+        <div class="mybizna-stats mybizna-section">
+            <div class="mybizna-panel mybizna-panel-default">
+                <div class="mybizna-panel-body">
+                    <div class="mybizna-row">
+                        <div class="mybizna-col-sm-4">
                             <pie-chart v-if="paymentData.length"
                                        id="payment"
                                        :title="paymentChart.title"
@@ -59,7 +59,7 @@
                                        :colors="paymentChart.colors"
                                        :data="paymentData"/>
                         </div>
-                        <div class="wperp-col-sm-4">
+                        <div class="mybizna-col-sm-4">
                             <pie-chart v-if="statusData.length"
                                        id="status"
                                        :title="statusChart.title"
@@ -67,10 +67,10 @@
                                        :colors="statusChart.colors"
                                        :data="statusData"/>
                         </div>
-                        <div class="wperp-col-sm-4">
-                            <div class="wperp-chart-block">
+                        <div class="mybizna-col-sm-4">
+                            <div class="mybizna-chart-block">
                                 <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
-                                <div class="wperp-total"><h2>{{ moneyFormat( outstanding ) }}</h2></div>
+                                <div class="mybizna-total"><h2>{{ moneyFormat( outstanding ) }}</h2></div>
                             </div>
                         </div>
                     </div>

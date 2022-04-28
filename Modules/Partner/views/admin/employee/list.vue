@@ -15,7 +15,7 @@
         </h2>
 
         <list-table
-            tableClass="wperp-table table-striped table-dark"
+            tableClass="mybizna-table table-striped table-dark"
             action-column="actions"
             :columns="columns"
             :rows="row_data"
@@ -152,8 +152,8 @@ export default {
 }
 
 @media (min-width: 783px) {
-    .app-employees .wperp-table tbody tr td:last-child,
-    .app-employees .wperp-table tbody tr tr:last-child {
+    .app-employees .mybizna-table tbody tr td:last-child,
+    .app-employees .mybizna-table tbody tr tr:last-child {
         text-align: left !important;
     }
 }

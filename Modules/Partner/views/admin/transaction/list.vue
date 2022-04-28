@@ -1,21 +1,21 @@
 <template>
     <div>
-        <div class="content-header-section separator wperp-has-border-top">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+        <div class="content-header-section separator mybizna-has-border-top">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">{{ this.$func.__('Transactions', 'erp') }}</h2>
                 </div>
-                <div class="wperp-col">
-                    <form class="wperp-form form--inline">
-                        <div :class="['wperp-has-dropdown', {'dropdown-opened': showFilters}]">
-                            <a class="wperp-btn btn--default dropdown-trigger filter-button" @click.prevent="toggleFilter">
+                <div class="mybizna-col">
+                    <form class="mybizna-form form--inline">
+                        <div :class="['mybizna-has-dropdown', {'dropdown-opened': showFilters}]">
+                            <a class="mybizna-btn btn--default dropdown-trigger filter-button" @click.prevent="toggleFilter">
                                 <span><i class="flaticon-search-segment"></i>{{ this.$func.__('Filters', 'erp') }}</span>
                                 <i class="flaticon-arrow-down-sign-to-navigate"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right wperp-filter-container">
-                                <div class="wperp-panel wperp-panel-default wperp-filter-panel">
+                            <div class="dropdown-menu dropdown-menu-right mybizna-filter-container">
+                                <div class="mybizna-panel mybizna-panel-default mybizna-filter-panel">
                                     <h3>{{ this.$func.__('Filter', 'erp') }}</h3>
-                                    <div class="wperp-panel-body">
+                                    <div class="mybizna-panel-body">
                                         <h3>{{ this.$func.__('Date', 'erp') }}</h3>
                                         <div class="form-fields">
                                             <div class="start-date has-addons">
@@ -29,25 +29,25 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="wperp-panel-footer">
-                                        <input type="reset" value="Cancel" class="wperp-btn btn--default" @click="toggleFilter">
-                                        <input type="submit" value="Submit" class="wperp-btn btn--primary" @click.prevent="filterList">
+                                    <div class="mybizna-panel-footer">
+                                        <input type="reset" value="Cancel" class="mybizna-btn btn--default" @click="toggleFilter">
+                                        <input type="submit" value="Submit" class="mybizna-btn btn--primary" @click.prevent="filterList">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="wperp-import-wrapper display-inline-block">
-                            <a class="wperp-btn btn--default" href="#" title="Import"><span class="flaticon-import"></span></a>
+                        <div class="mybizna-import-wrapper display-inline-block">
+                            <a class="mybizna-btn btn--default" href="#" title="Import"><span class="flaticon-import"></span></a>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="wperp-transactions-section wperp-section">
+        <div class="mybizna-transactions-section mybizna-section">
             <div class="table-container">
                 <list-table
-                    tableClass="wperp-table people-trns-table table-striped table-dark widefat"
+                    tableClass="mybizna-table people-trns-table table-striped table-dark widefat"
                     action-column="actions"
                     :columns="columns"
                     :rows="rows"

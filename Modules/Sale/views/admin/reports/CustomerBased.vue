@@ -4,7 +4,7 @@
             <span>{{ this.$func.__("Sales Tax Report (Customer Based)", "erp") }}</span>
 
             <router-link
-                class="wperp-btn btn--primary"
+                class="mybizna-btn btn--primary"
                 :to="{ name: 'SalesTaxReportOverview' }"
             >
                 {{ this.$func.__("Back", "erp") }}
@@ -12,7 +12,7 @@
         </h2>
 
         <form @submit.prevent="getReport" class="query-options no-print">
-            <div class="wperp-date-group">
+            <div class="mybizna-date-group">
                 <div class="with-multiselect">
                     <multi-select
                         v-model="customer"
@@ -26,7 +26,7 @@
                 <datepicker v-model="endDate" />
 
                 <button
-                    class="wperp-btn btn--primary add-line-trigger"
+                    class="mybizna-btn btn--primary add-line-trigger"
                     type="submit"
                 >
                     {{ this.$func.__("Filter", "erp") }}
@@ -35,7 +35,7 @@
 
             <a
                 href="#"
-                class="wperp-btn btn--default print-btn"
+                class="mybizna-btn btn--default print-btn"
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i>
@@ -66,7 +66,7 @@
         </ul>
 
         <list-table
-            tableClass="wperp-table table-striped table-dark widefat sales-tax-table sales-tax-table-customer"
+            tableClass="mybizna-table table-striped table-dark widefat sales-tax-table sales-tax-table-customer"
             :columns="columns"
             :rows="taxes"
             :showCb="false"

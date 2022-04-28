@@ -1,8 +1,8 @@
 <template>
-    <div class="wperp-container">
+    <div class="mybizna-container">
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">
                         {{
                             editMode
@@ -23,7 +23,7 @@
             <div class="form-row">
                 <label for=""
                     >{{ this.$func.__("Select chart of accounts", "erp") }}
-                    <span class="wperp-required-sign">*</span></label
+                    <span class="mybizna-required-sign">*</span></label
                 >
                 <treeselect
                     v-model="ledgFields.chart_id"
@@ -58,12 +58,12 @@
             <div class="form-row">
                 <label for=""
                     >{{ this.$func.__("Account Name", "erp") }}
-                    <span class="wperp-required-sign">*</span></label
+                    <span class="mybizna-required-sign">*</span></label
                 >
 
                 <input
                     type="text"
-                    class="wperp-form-field"
+                    class="mybizna-form-field"
                     v-model="ledgFields.name"
                     required
                 />
@@ -74,12 +74,12 @@
 
                 <input
                     type="number"
-                    class="wperp-form-field"
+                    class="mybizna-form-field"
                     v-model="ledgFields.code"
                 />
             </div>
 
-            <button class="wperp-btn btn--primary" type="submit">
+            <button class="mybizna-btn btn--primary" type="submit">
                 {{ editMode ? this.$func.__("Update", "erp") : this.$func.__("Save", "erp") }}
             </button>
         </form>

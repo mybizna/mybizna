@@ -1,15 +1,15 @@
 <template>
-    <div id="wperp-tax-rate-modal" class="wperp-modal has-form wperp-modal-open" role="dialog">
-        <div class="wperp-modal-dialog">
-            <div class="wperp-modal-content">
+    <div id="mybizna-tax-rate-modal" class="mybizna-modal has-form mybizna-modal-open" role="dialog">
+        <div class="mybizna-modal-dialog">
+            <div class="mybizna-modal-content">
                 <!-- modal body title -->
-                <div class="wperp-modal-header">
+                <div class="mybizna-modal-header">
                     <h3>{{tax_rate.tax_rate_name}}</h3>
                     <span class="modal-close" @click.prevent="closeModal"><i class="flaticon-close"></i></span>
                 </div>
 
-                <div class="wperp-invoice-table">
-                    <div class="wperp-panel-body">
+                <div class="mybizna-invoice-table">
+                    <div class="mybizna-panel-body">
                         <tax-rate-row
                             :index="row_data.id"
                             :component_line="row_data"
@@ -91,20 +91,20 @@ export default {
 </script>
 
 <style>
-    .wperp-modal-dialog {
+    .mybizna-modal-dialog {
         max-width: 900px!important;
         margin: 50px auto;
     }
 
-    .wperp-modal .wperp-modal-content  {
+    .mybizna-modal .mybizna-modal-content  {
        min-height: 50vh !important;
     }
 
-    .wperp-modal-header {
+    .mybizna-modal-header {
         padding: 30px 0 20px 40px !important;
     }
 
-    .wperp-modal span.modal-close {
+    .mybizna-modal span.modal-close {
        line-height: 3 !important;
    }
 </style>

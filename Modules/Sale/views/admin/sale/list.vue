@@ -1,6 +1,6 @@
 <template>
-    <div class="wperp-transactions-section wperp-section">
-        <!-- Start .wperp-crm-table -->
+    <div class="mybizna-transactions-section mybizna-section">
+        <!-- Start .mybizna-crm-table -->
         <div class="table-container">
             <div class="bulk-action">
                 <a href="#"
@@ -13,7 +13,7 @@
 
             <list-table
                 :loading="listLoading"
-                tableClass="wperp-table table-striped table-dark widefat table2 transactions-table"
+                tableClass="mybizna-table table-striped table-dark widefat table2 transactions-table"
                 action-column="actions"
                 :columns="columns"
                 :rows="rows"

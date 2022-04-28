@@ -1,9 +1,9 @@
 <template>
-    <div class="wperp-container accordion-container">
+    <div class="mybizna-container accordion-container">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Opening Balances", "erp") }}
                     </h2>
@@ -15,18 +15,18 @@
         <show-errors :error_msgs="form_errors"></show-errors>
 
         <form action="" method="post" @submit.prevent="submitOBForm">
-            <div class="wperp-row">
+            <div class="mybizna-row">
                 <div
-                    class="wperp-col-sm-6 with-multiselect opening-fyear-select"
+                    class="mybizna-col-sm-6 with-multiselect opening-fyear-select"
                 >
                     <label>{{ this.$func.__("Financial Year", "erp") }}</label>
                     <multi-select v-model="fin_year" :options="years" />
                 </div>
 
-                <div class="wperp-col-sm-6">
+                <div class="mybizna-col-sm-6">
                     <a
                         href="#"
-                        class="wperp-col-sm-4 wperp-btn btn--default print-btn"
+                        class="mybizna-col-sm-4 mybizna-btn btn--default print-btn"
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="wperp-row">
+            <div class="mybizna-row">
                 <ul class="report-header" v-if="null !== fin_year">
                     <li>
                         <strong
@@ -59,7 +59,7 @@
                      :class="open5?'active':'before-border'">
                     <span class="wp-erp-ob-title">{{ this.$func.__('Accounts Receivable', 'erp') }}</span>
                 </div>
-                <table class="wperp-table wperp-form-table erp-accordion-expand-body" v-show="open5">
+                <table class="mybizna-table mybizna-form-table erp-accordion-expand-body" v-show="open5">
                     <thead>
                     <tr>
                         <th>{{ this.$func.__('People', 'erp') }}</th>
@@ -72,10 +72,10 @@
                     </thead>
                     <tbody>
                     <tr :key="idx" v-for="(acct,idx) in acct_rec">
-                        <td><div class="wperp-form-group ob-people with-multiselect">
+                        <td><div class="mybizna-form-group ob-people with-multiselect">
                             <multi-select v-model="acct.people" :options="options" /></div></td>
-                        <td><input type="number" step="0.01"  class="wperp-form-field" @keyup="calculateAmount" v-model="acct.debit"></td>
-                        <td><input type="number" step="0.01"  class="wperp-form-field" @keyup="calculateAmount" disabled v-model="acct.credit"></td>
+                        <td><input type="number" step="0.01"  class="mybizna-form-field" @keyup="calculateAmount" v-model="acct.debit"></td>
+                        <td><input type="number" step="0.01"  class="mybizna-form-field" @keyup="calculateAmount" disabled v-model="acct.credit"></td>
                         <td class="delete-row" data-colname="Remove">
                             <a @click.prevent="removeAcctRecRow(idx)" href="#"><i class="flaticon-trash"></i></a>
                         </td>
@@ -85,7 +85,7 @@
                             {{ this.$func.__( 'No People Found!', 'erp' ) }}
                         </td>
                         <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="acct_rec.push({})" class="wperp-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
+                            <button @click.prevent="acct_rec.push({})" class="mybizna-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
                         </td>
                     </tr>
                     </tbody>
@@ -99,7 +99,7 @@
                      :class="open6?'active':'before-border'">
                     <span class="wp-erp-ob-title">{{ this.$func.__('Accounts Payable', 'erp') }}</span>
                 </div>
-                <table class="wperp-table wperp-form-table erp-accordion-expand-body" v-show="open6">
+                <table class="mybizna-table mybizna-form-table erp-accordion-expand-body" v-show="open6">
                     <thead>
                     <tr>
                         <th>{{ this.$func.__('People', 'erp') }}</th>
@@ -112,10 +112,10 @@
                     </thead>
                     <tbody>
                     <tr :key="idx" v-for="(acct,idx) in acct_pay">
-                        <td><div class="wperp-form-group ob-people with-multiselect">
+                        <td><div class="mybizna-form-group ob-people with-multiselect">
                             <multi-select v-model="acct.people" :options="options" /></div></td>
-                        <td><input type="number" step="0.01"  class="wperp-form-field" @keyup="calculateAmount" disabled v-model="acct.debit"></td>
-                        <td><input type="number" step="0.01"  class="wperp-form-field" @keyup="calculateAmount" v-model="acct.credit"></td>
+                        <td><input type="number" step="0.01"  class="mybizna-form-field" @keyup="calculateAmount" disabled v-model="acct.debit"></td>
+                        <td><input type="number" step="0.01"  class="mybizna-form-field" @keyup="calculateAmount" v-model="acct.credit"></td>
                         <td class="delete-row" data-colname="Remove">
                             <a @click.prevent="removeAcctPayRow(idx)" href="#"><i class="flaticon-trash"></i></a>
                         </td>
@@ -125,7 +125,7 @@
                             {{ this.$func.__( 'No People Found!', 'erp' ) }}
                         </td>
                         <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="acct_pay.push({})" class="wperp-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
+                            <button @click.prevent="acct_pay.push({})" class="mybizna-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
                         </td>
                     </tr>
                     </tbody>
@@ -144,7 +144,7 @@
                     }}</span>
                 </div>
                 <table
-                    class="wperp-table wperp-form-table erp-accordion-expand-body"
+                    class="mybizna-table mybizna-form-table erp-accordion-expand-body"
                     v-show="open7"
                 >
                     <thead>
@@ -169,7 +169,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     @keyup="calculateAmount"
                                     disabled
                                     v-model="acct.debit"
@@ -179,7 +179,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     @keyup="calculateAmount"
                                     v-model="acct.credit"
                                 />
@@ -199,7 +199,7 @@
                             <td colspan="9" style="text-align: left">
                                 <button
                                     @click.prevent="tax_pay.push({})"
-                                    class="wperp-btn btn--primary add-line-trigger"
+                                    class="mybizna-btn btn--primary add-line-trigger"
                                 >
                                     <i class="flaticon-add-plus-button"></i
                                     >{{ this.$func.__("Add Agency", "erp") }}
@@ -223,7 +223,7 @@
                 </div>
                 <table
                     v-if="ledgers[1]"
-                    class="wperp-table wperp-form-table erp-accordion-expand-body"
+                    class="mybizna-table mybizna-form-table erp-accordion-expand-body"
                     v-show="open1"
                 >
                     <thead>
@@ -240,7 +240,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.debit"
                                 />
@@ -249,7 +249,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.credit"
                                 />
@@ -272,7 +272,7 @@
                 </div>
                 <table
                     v-if="ledgers[2]"
-                    class="wperp-table wperp-form-table erp-accordion-expand-body"
+                    class="mybizna-table mybizna-form-table erp-accordion-expand-body"
                     v-show="open2"
                 >
                     <thead>
@@ -289,7 +289,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.debit"
                                 />
@@ -298,7 +298,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.credit"
                                 />
@@ -321,7 +321,7 @@
                 </div>
                 <table
                     v-if="ledgers[3]"
-                    class="wperp-table wperp-form-table erp-accordion-expand-body"
+                    class="mybizna-table mybizna-form-table erp-accordion-expand-body"
                     v-show="open3"
                 >
                     <thead>
@@ -338,7 +338,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.debit"
                                 />
@@ -347,7 +347,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.credit"
                                 />
@@ -369,7 +369,7 @@
                     }}</span>
                 </div>
                 <table
-                    class="wperp-table wperp-form-table erp-accordion-expand-body"
+                    class="mybizna-table mybizna-form-table erp-accordion-expand-body"
                     v-show="open4"
                 >
                     <thead>
@@ -387,7 +387,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     @keyup="calculateAmount"
                                     v-model="acct.debit"
                                 />
@@ -396,7 +396,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     @keyup="calculateAmount"
                                     v-model="acct.credit"
                                 />
@@ -413,14 +413,14 @@
                                 {{ this.$func.__("No Bank Account Found!", "erp") }}
                             </td>
                             <!--   <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="ledgers[7].push({})" class="wperp-btn btn&#45;&#45;primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add Bank', 'erp') }}</button>
+                            <button @click.prevent="ledgers[7].push({})" class="mybizna-btn btn&#45;&#45;primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add Bank', 'erp') }}</button>
                         </td>-->
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <table class="wperp-table wperp-form-table">
+            <table class="mybizna-table mybizna-form-table">
                 <tbody>
                     <tr class="total-amount-row">
                         <td
@@ -432,7 +432,7 @@
                         <td :data-colname="__('Total Debit', 'erp')">
                             <input
                                 type="text"
-                                class="text-right wperp-form-field"
+                                class="text-right mybizna-form-field"
                                 :value="moneyFormat(finalTotalDebit)"
                                 readonly
                             />
@@ -440,19 +440,19 @@
                         <td :data-colname="__('Total Credit', 'erp')">
                             <input
                                 type="text"
-                                class="text-right wperp-form-field"
+                                class="text-right mybizna-form-field"
                                 :value="moneyFormat(finalTotalCredit)"
                                 readonly
                             />
                         </td>
                     </tr>
-                    <tr class="wperp-form-group">
+                    <tr class="mybizna-form-group">
                         <td colspan="9" style="text-align: left">
                             <label>{{ this.$func.__("Description", "erp") }}</label>
                             <textarea
                                 v-model="description"
                                 rows="4"
-                                class="wperp-form-field display-flex"
+                                class="mybizna-form-field display-flex"
                                 :placeholder="__('Internal Information', 'erp')"
                             ></textarea>
                         </td>
@@ -935,7 +935,7 @@ export default {
 .accordion-container .erp-accordion table {
     width: calc(100% - 40px);
 }
-.wperp-form-group {
+.mybizna-form-group {
     margin: 0px !important;
 }
 
@@ -955,12 +955,12 @@ export default {
 .accordion-container .print-btn {
     float: right;
 }
-.accordion-container .wperp-custom-select label {
+.accordion-container .mybizna-custom-select label {
     display: inline;
     font-weight: bold;
     padding-right: 5px;
 }
-.accordion-container .wperp-custom-select select {
+.accordion-container .mybizna-custom-select select {
     background: #fff;
     border: none;
     box-shadow: none;

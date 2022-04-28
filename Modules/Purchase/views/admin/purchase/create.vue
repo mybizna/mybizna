@@ -1,9 +1,9 @@
 <template>
-    <div class="wperp-container purchase-create">
+    <div class="mybizna-container purchase-create">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 v-if="orderToPurchase()">
                         {{ this.$func.__("Convert into Purchase", "erp") }}
                     </h2>
@@ -18,23 +18,23 @@
 
         <form action="" method="post" @submit.prevent="SubmitForApproval">
             <div
-                class="wperp-panel wperp-panel-default"
+                class="mybizna-panel mybizna-panel-default"
                 style="padding-bottom: 0"
             >
-                <div class="wperp-panel-body">
+                <div class="mybizna-panel-body">
                     <show-errors :error_msgs="form_errors"></show-errors>
 
-                    <div class="wperp-row">
-                        <div class="wperp-col-sm-4">
+                    <div class="mybizna-row">
+                        <div class="mybizna-col-sm-4">
                             <select-vendors
                                 v-model="basic_fields.vendor"
                             ></select-vendors>
                         </div>
-                        <div class="wperp-col-sm-4">
-                            <div class="wperp-form-group">
+                        <div class="mybizna-col-sm-4">
+                            <div class="mybizna-form-group">
                                 <label
                                     >{{ this.$func.__("Transaction Date", "erp")
-                                    }}<span class="wperp-required-sign"
+                                    }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
                                 >
@@ -43,11 +43,11 @@
                                 ></datepicker>
                             </div>
                         </div>
-                        <div class="wperp-col-sm-4">
-                            <div class="wperp-form-group">
+                        <div class="mybizna-col-sm-4">
+                            <div class="mybizna-form-group">
                                 <label
                                     >{{ this.$func.__("Due Date", "erp")
-                                    }}<span class="wperp-required-sign"
+                                    }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
                                 >
@@ -56,21 +56,21 @@
                                 ></datepicker>
                             </div>
                         </div>
-                        <div class="wperp-col-sm-6">
+                        <div class="mybizna-col-sm-6">
                             <label>{{ this.$func.__("Reference No", "erp") }}</label>
                             <input
                                 type="text"
                                 v-model="basic_fields.ref"
                                 rows="4"
-                                class="wperp-form-field"
+                                class="mybizna-form-field"
                             />
                         </div>
-                        <div class="wperp-col-sm-6">
+                        <div class="mybizna-col-sm-6">
                             <label>{{ this.$func.__("Billing Address", "erp") }}</label>
                             <textarea
                                 v-model="basic_fields.billing_address"
                                 rows="4"
-                                class="wperp-form-field"
+                                class="mybizna-form-field"
                                 :placeholder="__('Type here', 'erp')"
                             ></textarea>
                         </div>
@@ -78,10 +78,10 @@
                 </div>
             </div>
 
-            <div class="wperp-table-responsive">
-                <!-- Start .wperp-form-table -->
+            <div class="mybizna-table-responsive">
+                <!-- Start .mybizna-form-table -->
                 <div class="table-container">
-                    <table class="wperp-table wperp-form-table">
+                    <table class="mybizna-table mybizna-form-table">
                         <thead>
                             <tr class="inline-edit-row">
                                 <td scope="col" class="col--product">
@@ -119,7 +119,7 @@
                                         v-model="line.qty"
                                         @keyup="lineUpdate(index)"
                                         name="qty"
-                                        class="wperp-form-field"
+                                        class="mybizna-form-field"
                                         :required="!!line.product"
                                     />
                                 </td>
@@ -133,7 +133,7 @@
                                         v-model="line.unitPrice"
                                         @keyup="lineUpdate(index)"
                                         step="0.01"
-                                        class="wperp-form-field text-right"
+                                        class="mybizna-form-field text-right"
                                         :required="!!line.product"
                                     />
                                 </td>
@@ -146,7 +146,7 @@
                                         min="0"
                                         step="0.01"
                                         v-model="line.amount"
-                                        class="wperp-form-field text-right"
+                                        class="mybizna-form-field text-right"
                                         readonly
                                     />
                                 </td>
@@ -158,7 +158,7 @@
                                         type="checkbox"
                                         @change="disableLineTax(index)"
                                         v-model="line.applyTax"
-                                        class="wperp-form-field"
+                                        class="mybizna-form-field"
                                     />
                                 </td>
                                 <td
@@ -166,7 +166,7 @@
                                     :data-colname="__('Action', 'erp')"
                                 >
                                     <span
-                                        class="wperp-btn"
+                                        class="mybizna-btn"
                                         @click="removeRow(index)"
                                         ><i class="flaticon-trash"></i
                                     ></span>
@@ -176,7 +176,7 @@
                                 <td colspan="9" style="text-align: left">
                                     <button
                                         @click.prevent="addLine"
-                                        class="wperp-btn btn--primary add-line-trigger"
+                                        class="mybizna-btn btn--primary add-line-trigger"
                                     >
                                         <i class="flaticon-add-plus-button"></i
                                         >{{ this.$func.__("Add Line", "erp") }}
@@ -204,7 +204,7 @@
                                 <td>
                                     <input
                                         type="text"
-                                        class="wperp-form-field"
+                                        class="mybizna-form-field"
                                         :value="moneyFormat(taxTotalAmount)"
                                         readonly
                                     />
@@ -222,14 +222,14 @@
                                     <input
                                         type="text"
                                         v-model="totalAmount"
-                                        class="wperp-form-field text-right"
+                                        class="mybizna-form-field text-right"
                                         readonly
                                     />
                                 </td>
                                 <td></td>
                             </tr>
 
-                            <tr class="wperp-form-group inline-edit-row">
+                            <tr class="mybizna-form-group inline-edit-row">
                                 <td colspan="9" style="text-align: left">
                                     <label>{{
                                         this.$func.__("Particulars", "erp")
@@ -238,7 +238,7 @@
                                         v-model="particulars"
                                         rows="4"
                                         maxlength="250"
-                                        class="wperp-form-field display-flex"
+                                        class="mybizna-form-field display-flex"
                                         :placeholder="__('Particulars', 'erp')"
                                     ></textarea>
                                 </td>
@@ -321,7 +321,7 @@
                 </div>
             </div>
         </form>
-        <!-- End .wperp-crm-table -->
+        <!-- End .mybizna-crm-table -->
     </div>
 </template>
 
@@ -812,7 +812,7 @@ export default {
     width: 200px;
 }
 
-.wperp-form-table .col--tax input {
+.mybizna-form-table .col--tax input {
     width: initial;
     padding: 0 !important;
     border-color: rgba(26, 158, 212, 0.45);

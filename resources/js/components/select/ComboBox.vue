@@ -1,11 +1,11 @@
 <template>
     <div
-        class="wperp-select-container select-primary combo-box"
+        class="mybizna-select-container select-primary combo-box"
         v-click-outside="outside"
     >
         <div
             @click="toggleMenu()"
-            class="wperp-selected-option"
+            class="mybizna-selected-option"
             v-if="selectedOption.name !== undefined"
         >
             {{ selectedOption.name }}
@@ -14,14 +14,14 @@
 
         <div
             @click="toggleMenu()"
-            class="wperp-selected-option"
+            class="mybizna-selected-option"
             v-if="selectedOption.name === undefined"
         >
             {{ placeholderText }}
             <span class="caret"></span>
         </div>
 
-        <ul class="wperp-options" v-if="showMenu">
+        <ul class="mybizna-options" v-if="showMenu">
             <li :key="index" v-for="(option, index) in options">
                 <router-link v-if="hasUrl" :to="{ name: option.namedRoute }">{{
                     option.name
@@ -87,12 +87,12 @@ export default {
 </script>
 
 <style>
-.wperp-select-container {
+.mybizna-select-container {
     display: inline-flex;
     width: auto;
     position: relative;
 }
-.wperp-select-container .wperp-selected-option {
+.mybizna-select-container .mybizna-selected-option {
     display: flex;
     justify-content: space-between;
     background: #1a9ed4;
@@ -103,11 +103,11 @@ export default {
     cursor: pointer;
     min-width: 150px;
 }
-.wperp-select-container a:hover {
+.mybizna-select-container a:hover {
     text-decoration: none;
 }
 
-.wperp-options {
+.mybizna-options {
     position: absolute;
     top: 100%;
     left: 0;
@@ -126,8 +126,8 @@ export default {
     font-size: 14px;
     display: block;
 }
-.wperp-options:after,
-.wperp-options:before {
+.mybizna-options:after,
+.mybizna-options:before {
     content: "";
     position: absolute;
     top: -6px;
@@ -136,18 +136,18 @@ export default {
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
 }
-.wperp-options:after {
+.mybizna-options:after {
     top: -4px;
     right: 20px;
     border-bottom-color: #fff;
 }
-.wperp-options li {
+.mybizna-options li {
     overflow: hidden;
     width: 100%;
     position: relative;
     margin: 0;
 }
-.wperp-options li a {
+.mybizna-options li a {
     padding: 5px 20px;
     display: block;
     clear: both;
@@ -157,7 +157,7 @@ export default {
     white-space: nowrap;
     text-decoration: none;
 }
-.wperp-options li a:hover {
+.mybizna-options li a:hover {
     background: #ececec;
     color: #1a9ed4;
 }

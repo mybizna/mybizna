@@ -1,12 +1,12 @@
 <template>
-    <div class="wperp-modal-dialog journal-single">
-        <div class="wperp-modal-content">
-            <div class="wperp-modal-header">
+    <div class="mybizna-modal-dialog journal-single">
+        <div class="mybizna-modal-content">
+            <div class="mybizna-modal-header">
                 <h2>{{ this.$func.__("Journal", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
-                        class="wperp-btn btn--default print-btn"
+                        class="mybizna-btn btn--default print-btn"
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
@@ -14,8 +14,8 @@
                     </a>
                 </div>
             </div>
-            <div class="wperp-modal-body">
-                <div class="wperp-invoice-panel">
+            <div class="mybizna-modal-body">
+                <div class="mybizna-invoice-panel">
                     <div class="invoice-header" v-if="null != company">
                         <div class="invoice-logo">
                             <img
@@ -39,8 +39,8 @@
 
                     <div class="invoice-body">
                         <h4>{{ this.$func.__("Journal", "erp") }}</h4>
-                        <div class="wperp-row" v-if="null != journal">
-                            <div class="wperp-col-sm-12 pull-right">
+                        <div class="mybizna-row" v-if="null != journal">
+                            <div class="mybizna-col-sm-12 pull-right">
                                 <table class="invoice-info">
                                     <tr>
                                         <th>{{ this.$func.__("Journal No", "erp") }}:</th>
@@ -63,9 +63,9 @@
                         </div>
                     </div>
 
-                    <div class="wperp-invoice-table" v-if="null != journal">
+                    <div class="mybizna-invoice-table" v-if="null != journal">
                         <table
-                            class="wperp-table wperp-form-table invoice-table"
+                            class="mybizna-table mybizna-form-table invoice-table"
                         >
                             <thead>
                                 <tr class="inline-edit-row">
@@ -203,14 +203,14 @@ export default {
     max-width: 960px;
     margin: 0 auto;
 }
-.journal-single .wperp-modal-footer {
+.journal-single .mybizna-modal-footer {
     border-top: 1px solid #e2e2e2;
 }
-.journal-single .wperp-modal-header {
+.journal-single .mybizna-modal-header {
     border-bottom: 1px solid #e2e2e2;
 }
-.journal-single .wperp-form-field,
-input:not(.wperp-btn) {
+.journal-single .mybizna-form-field,
+input:not(.mybizna-btn) {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }

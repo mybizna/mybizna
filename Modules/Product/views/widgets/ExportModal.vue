@@ -1,14 +1,14 @@
 <template>
-    <div id="wperp-product-export-modal">
-        <div class="wperp-container">
+    <div id="mybizna-product-export-modal">
+        <div class="mybizna-container">
             <div
-                id="wperp-import-customer-modal"
-                class="wperp-modal has-form wperp-modal-open"
+                id="mybizna-import-customer-modal"
+                class="mybizna-modal has-form mybizna-modal-open"
                 role="dialog"
             >
-                <div class="wperp-modal-dialog">
-                    <div class="wperp-modal-content">
-                        <div class="wperp-modal-header">
+                <div class="mybizna-modal-dialog">
+                    <div class="mybizna-modal-content">
+                        <div class="mybizna-modal-header">
                             <h3>{{ this.$func.__("Export Products", "erp") }}</h3>
                             <span class="modal-close">
                                 <i
@@ -24,7 +24,7 @@
                             class="modal-form edit-customer-modal"
                             id="export_form"
                         >
-                            <div class="wperp-modal-body">
+                            <div class="mybizna-modal-body">
                                 <div class="erp-grid-container">
                                     <div class="row">
                                         <div class="col-3">
@@ -108,17 +108,17 @@
                                 />
                             </div>
 
-                            <div class="wperp-modal-footer pt-0">
+                            <div class="mybizna-modal-footer pt-0">
                                 <div class="buttons-wrapper text-right">
                                     <button
-                                        class="wperp-btn btn--default modal-close"
+                                        class="mybizna-btn btn--default modal-close"
                                         @click="$parent.$emit('close')"
                                         type="reset"
                                     >
                                         {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
-                                        class="wperp-btn btn--primary"
+                                        class="mybizna-btn btn--primary"
                                         type="submit"
                                     >
                                         {{ this.$func.__("Export", "erp") }}

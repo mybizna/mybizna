@@ -1,7 +1,7 @@
 <template>
-    <div class="wperp-form-group invoice-customers with-multiselect">
+    <div class="mybizna-form-group invoice-customers with-multiselect">
         <people-modal title="Add new vendor" type="vendor" v-if="showModal"></people-modal>
-        <label>{{ this.$func.__('Vendor', 'erp') }}<span class="wperp-required-sign">*</span></label>
+        <label>{{ this.$func.__('Vendor', 'erp') }}<span class="mybizna-required-sign">*</span></label>
         <multi-select v-model="selected" :options="options" />
 
         <a href="#" class="add-new-customer" @click="showModal = true">

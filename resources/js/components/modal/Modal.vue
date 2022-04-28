@@ -1,14 +1,14 @@
 <template>
     <div
         :class="[
-            'wperp-modal',
-            'wperp-modal-open',
-            hasForm ? 'wperp-has-form' : '',
+            'mybizna-modal',
+            'mybizna-modal-open',
+            hasForm ? 'mybizna-has-form' : '',
         ]"
     >
-        <div class="wperp-modal-dialog">
-            <div class="wperp-modal-content">
-                <div class="wperp-modal-header">
+        <div class="mybizna-modal-dialog">
+            <div class="mybizna-modal-content">
+                <div class="mybizna-modal-header">
                     <slot v-if="header" name="header">
                         <h3>{{ title }}</h3>
                     </slot>
@@ -16,10 +16,10 @@
                         ><i class="flaticon-close"></i
                     ></span>
                 </div>
-                <div class="wperp-modal-body">
+                <div class="mybizna-modal-body">
                     <slot name="body" />
                 </div>
-                <div v-if="footer" class="wperp-modal-footer">
+                <div v-if="footer" class="mybizna-modal-footer">
                     <slot name="footer" />
                 </div>
             </div>

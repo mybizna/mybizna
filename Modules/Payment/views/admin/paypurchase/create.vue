@@ -1,9 +1,9 @@
 <template>
-    <div class="wperp-container pay-purchase-create">
+    <div class="mybizna-container pay-purchase-create">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Payment", "erp") }}
                     </h2>
@@ -14,36 +14,36 @@
 
         <form action="" method="post" @submit.prevent="SubmitForPayment">
             <div
-                class="wperp-panel wperp-panel-default"
+                class="mybizna-panel mybizna-panel-default"
                 style="padding-bottom: 0"
             >
-                <div class="wperp-panel-body">
+                <div class="mybizna-panel-body">
                     <show-errors :error_msgs="form_errors"></show-errors>
 
-                    <div class="wperp-row">
-                        <div class="wperp-col-sm-4">
-                            <div class="wperp-form-group">
+                    <div class="mybizna-row">
+                        <div class="mybizna-col-sm-4">
+                            <div class="mybizna-form-group">
                                 <select-vendors
                                     @input="getDuePurchases"
                                     v-model="basic_fields.vendor"
                                 ></select-vendors>
                             </div>
                         </div>
-                        <div class="wperp-col-sm-4">
-                            <div class="wperp-form-group">
+                        <div class="mybizna-col-sm-4">
+                            <div class="mybizna-form-group">
                                 <label>{{ this.$func.__("Reference No", "erp") }}</label>
                                 <input
                                     type="text"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     v-model="basic_fields.trn_ref"
                                 />
                             </div>
                         </div>
-                        <div class="wperp-col-sm-4">
-                            <div class="wperp-form-group">
+                        <div class="mybizna-col-sm-4">
+                            <div class="mybizna-form-group">
                                 <label
                                     >{{ this.$func.__("Payment Date", "erp")
-                                    }}<span class="wperp-required-sign"
+                                    }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
                                 >
@@ -52,10 +52,10 @@
                                 ></datepicker>
                             </div>
                         </div>
-                        <div class="wperp-col-sm-4 with-multiselect">
+                        <div class="mybizna-col-sm-4 with-multiselect">
                             <label
                                 >{{ this.$func.__("Payment Method", "erp")
-                                }}<span class="wperp-required-sign"
+                                }}<span class="mybizna-required-sign"
                                     >*</span
                                 ></label
                             >
@@ -64,10 +64,10 @@
                                 :options="pay_methods"
                             ></multi-select>
                         </div>
-                        <div class="wperp-col-sm-4 with-multiselect">
+                        <div class="mybizna-col-sm-4 with-multiselect">
                             <label
                                 >{{ this.$func.__("Transaction From", "erp")
-                                }}<span class="wperp-required-sign"
+                                }}<span class="mybizna-required-sign"
                                     >*</span
                                 ></label
                             >
@@ -77,26 +77,26 @@
                             />
                         </div>
                         <div
-                            class="wperp-col-sm-4"
+                            class="mybizna-col-sm-4"
                             v-if="basic_fields.trn_by.id === '2'"
                         >
-                            <div class="wperp-form-group">
+                            <div class="mybizna-form-group">
                                 <label>{{
                                     this.$func.__("Transaction Charge", "erp")
                                 }}</label>
                                 <input
                                     type="text"
-                                    class="wperp-form-field"
+                                    class="mybizna-form-field"
                                     v-model="bank_data.trn_charge"
                                 />
                             </div>
                         </div>
-                        <div class="wperp-col-sm-4">
+                        <div class="mybizna-col-sm-4">
                             <label>{{ this.$func.__("Billing Address", "erp") }}</label>
                             <textarea
                                 v-model.trim="basic_fields.billing_address"
                                 rows="3"
-                                class="wperp-form-field"
+                                class="mybizna-form-field"
                                 :placeholder="__('Type here', 'erp')"
                             ></textarea>
                         </div>
@@ -111,10 +111,10 @@
                 </div>
             </div>
 
-            <div class="wperp-table-responsive">
-                <!-- Start .wperp-crm-table -->
+            <div class="mybizna-table-responsive">
+                <!-- Start .mybizna-crm-table -->
                 <div class="table-container">
-                    <table class="wperp-table wperp-form-table">
+                    <table class="mybizna-table mybizna-form-table">
                         <thead>
                             <tr class="inline-edit-row">
                                 <th scope="col" class="col--id">
@@ -165,7 +165,7 @@
                                         name="amount"
                                         v-model="totalAmounts[key]"
                                         @keyup="updateFinalAmount"
-                                        class="text-right wperp-form-field"
+                                        class="text-right mybizna-form-field"
                                     />
                                 </td>
                                 <td
@@ -192,7 +192,7 @@
                                 >
                                     <input
                                         type="text"
-                                        class="text-right wperp-form-field"
+                                        class="text-right mybizna-form-field"
                                         name="finalamount"
                                         :value="moneyFormat(finalTotalAmount)"
                                         readonly
@@ -202,14 +202,14 @@
                                 <td class="text-right"></td>
                             </tr>
                         </tbody>
-                        <tr class="wperp-form-group inline-edit-row">
+                        <tr class="mybizna-form-group inline-edit-row">
                             <td colspan="9" style="text-align: left">
                                 <label>{{ this.$func.__("Particulars", "erp") }}</label>
                                 <textarea
                                     v-model="particulars"
                                     rows="4"
                                     maxlength="250"
-                                    class="wperp-form-field display-flex"
+                                    class="mybizna-form-field display-flex"
                                     :placeholder="
                                         this.$func.__('Internal Information', 'erp')
                                     "

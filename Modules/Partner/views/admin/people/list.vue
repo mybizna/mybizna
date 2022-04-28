@@ -46,7 +46,7 @@
         />
         i
         <list-table
-            tableClass="wperp-table people-table table-striped table-dark "
+            tableClass="mybizna-table people-table table-striped table-dark "
             action-column="actions"
             :columns="columns"
             :rows="row_data"

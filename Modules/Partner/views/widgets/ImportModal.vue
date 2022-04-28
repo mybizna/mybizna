@@ -1,14 +1,14 @@
 <template>
     <div id="people-modal">
-        <div class="wperp-container">
+        <div class="mybizna-container">
             <div
-                id="wperp-import-customer-modal"
-                class="wperp-modal has-form wperp-modal-open"
+                id="mybizna-import-customer-modal"
+                class="mybizna-modal has-form mybizna-modal-open"
                 role="dialog"
             >
-                <div class="wperp-modal-dialog">
-                    <div class="wperp-modal-content">
-                        <div class="wperp-modal-header">
+                <div class="mybizna-modal-dialog">
+                    <div class="mybizna-modal-content">
+                        <div class="mybizna-modal-header">
                             <h3>{{ title }}</h3>
                             <span class="modal-close">
                                 <i
@@ -25,7 +25,7 @@
                             id="import_form"
                             @submit.prevent="importCsv"
                         >
-                            <div class="wperp-modal-body">
+                            <div class="mybizna-modal-body">
                                 <div
                                     v-if="showError"
                                     class="notice notice-error erp-error-notice"
@@ -134,18 +134,18 @@
                                 />
                             </div>
 
-                            <div class="wperp-modal-footer pt-0">
+                            <div class="mybizna-modal-footer pt-0">
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
                                     <button
-                                        class="wperp-btn btn--default modal-close"
+                                        class="mybizna-btn btn--default modal-close"
                                         @click="$parent.$emit('modal-close')"
                                         type="reset"
                                     >
                                         {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
-                                        class="wperp-btn btn--primary"
+                                        class="mybizna-btn btn--primary"
                                         type="submit"
                                     >
                                         {{ this.$func.__("Import", "erp") }}

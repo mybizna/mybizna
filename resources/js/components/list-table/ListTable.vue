@@ -219,7 +219,7 @@
                             <button
                                 v-if="value.isColPrimary"
                                 type="button"
-                                class="wperp-toggle-row"
+                                class="mybizna-toggle-row"
                                 @click.prevent="toggleRow(row)"
                             >
                                 <span class="screen-reader-text">{{

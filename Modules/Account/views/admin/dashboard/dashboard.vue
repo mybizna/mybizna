@@ -1,12 +1,12 @@
 <template>
-    <div class="wperp-containers">
+    <div class="mybizna-containers">
 
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">{{ this.$func.__('Dashboard', 'erp') }}</h2>
-                    <a class="wperp-btn btn--primary" :href="tutorialUrl" id="btn-tutorial-start">
+                    <a class="mybizna-btn btn--primary" :href="tutorialUrl" id="btn-tutorial-start">
                         <span class="dashicons dashicons-controls-play"></span>
                         {{ this.$func.__(' Start Tutorial', 'erp') }}
                     </a>
@@ -15,29 +15,29 @@
         </div>
         <!-- End .header-section -->
 
-        <div class="wperp-dashboard">
-            <div class="wperp-row">
-                <div class="wperp-col-md-9 wperp-col-sm-12 wperp-col-xs-12">
+        <div class="mybizna-dashboard">
+            <div class="mybizna-row">
+                <div class="mybizna-col-md-9 mybizna-col-sm-12 mybizna-col-xs-12">
                     <!-- Start .income-expense-section -->
                     <chart></chart>
                     <!-- End .income-expense-section -->
                 </div>
-                <div class="wperp-col-md-3 wperp-col-sm-12 wperp-col-xs-12">
+                <div class="mybizna-col-md-3 mybizna-col-sm-12 mybizna-col-xs-12">
                     <!-- Start .bank-accounts-section -->
                     <accounts></accounts>
                     <!-- End .bank-accounts-section -->
                 </div>
             </div>
 
-            <div class="wperp-row">
-                    <div class="wperp-col-sm-6 wperp-col-xs-12" >
+            <div class="mybizna-row">
+                    <div class="mybizna-col-sm-6 mybizna-col-xs-12" >
                         <!-- Start .invoice-own-section -->
-                        <div class="invoice-own-section wperp-panel wperp-panel-default">
-                            <div class="wperp-panel-heading wperp-bg-white">
+                        <div class="invoice-own-section mybizna-panel mybizna-panel-default">
+                            <div class="mybizna-panel-heading mybizna-bg-white">
                                 <h4>{{ this.$func.__('Invoice payable to you', 'erp') }}</h4>
                             </div>
-                            <div class="wperp-panel-body pb-0">
-                                <ul class="wperp-list-unstyled list-table-content" v-if="Object.values(to_receive).length">
+                            <div class="mybizna-panel-body pb-0">
+                                <ul class="mybizna-list-unstyled list-table-content" v-if="Object.values(to_receive).length">
                                     <li>
                                         <span class="title">{{ this.$func.__('1-30 days overdue', 'erp') }}</span>
                                         <span class="price">{{formatAmount(to_receive.amount.first)}}</span>
@@ -59,14 +59,14 @@
                         </div>
                         <!-- End .invoice-own-section -->
                     </div>
-                    <div class="wperp-col-sm-6 wperp-col-xs-12 ">
+                    <div class="mybizna-col-sm-6 mybizna-col-xs-12 ">
                         <!-- Start .invoice-own-section -->
-                        <div class="invoice-own-section wperp-panel wperp-panel-default">
-                            <div class="wperp-panel-heading wperp-bg-white">
+                        <div class="invoice-own-section mybizna-panel mybizna-panel-default">
+                            <div class="mybizna-panel-heading mybizna-bg-white">
                                 <h4>{{ this.$func.__('Bills you need to pay', 'erp') }}</h4>
                             </div>
-                            <div class="wperp-panel-body pb-0">
-                                <ul class="wperp-list-unstyled list-table-content"  v-if="Object.values(to_pay).length">
+                            <div class="mybizna-panel-body pb-0">
+                                <ul class="mybizna-list-unstyled list-table-content"  v-if="Object.values(to_pay).length">
                                     <li>
                                         <span class="title">{{ this.$func.__('1-30 days overdue', 'erp') }}</span>
                                         <span class="price">{{formatAmount(to_pay.amount.first)}}</span>

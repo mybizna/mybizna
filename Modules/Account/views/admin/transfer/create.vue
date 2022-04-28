@@ -1,52 +1,52 @@
 <template>
-    <div class="wperp-container">
+    <div class="mybizna-container">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="wperp-row wperp-between-xs">
-                <div class="wperp-col">
+            <div class="mybizna-row mybizna-between-xs">
+                <div class="mybizna-col">
                     <h2 class="content-header__title">{{ this.$func.__('Transfer Money', 'erp') }}</h2>
                 </div>
             </div>
         </div>
         <!-- End .header-section -->
-        <div class="wperp-panel wperp-panel-default pb-0">
-            <div class="wperp-panel-body">
+        <div class="mybizna-panel mybizna-panel-default pb-0">
+            <div class="mybizna-panel-body">
                 <form action="" method="post" class="modal-form edit-customer-modal" @submit.prevent="submitTransfer">
-                    <div class="wperp-modal-body">
+                    <div class="mybizna-modal-body">
                         <!-- add new product form -->
-                        <div class="wperp-row wperp-gutter-20">
-                            <div class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12">
+                        <div class="mybizna-row mybizna-gutter-20">
+                            <div class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12">
                                 <label for="transfer_funds_from">{{ this.$func.__('Transfer Funds From', 'erp') }}</label>
-                                <div class="wperp-custom-select with-multiselect">
+                                <div class="mybizna-custom-select with-multiselect">
                                     <multi-select id="transfer_funds_from" name="from" v-model="transferFrom" :multiple="false" :options="fa" :placeholder="__('Select Account', 'erp')"></multi-select>
                                 </div>
                                 <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(transferFrom.balance)}}</span>
                             </div>
-                            <div class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12">
+                            <div class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12">
                                 <label for="transfer_funds_to">{{ this.$func.__('Transfer Funds To', 'erp') }}</label>
 
-                                <div class="wperp-custom-select with-multiselect">
+                                <div class="mybizna-custom-select with-multiselect">
                                     <multi-select id="transfer_funds_to" name="to" v-model="transferTo" :multiple="false" :options="ta" :placeholder="__('Select Account', 'erp')"></multi-select>
                                 </div>
                                 <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(transferTo.balance)}}</span>
                             </div>
-                            <div class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12">
-                                <label for="transfer_amount">{{ this.$func.__('Transfer Amount', 'erp') }} <span class="wperp-required-sign">*</span></label>
-                                <input required min="0" step="0.01" type="number" name="transfer_amount" id="transfer_amount" class="wperp-form-field" placeholder="$100.00" v-model="amount">
+                            <div class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12">
+                                <label for="transfer_amount">{{ this.$func.__('Transfer Amount', 'erp') }} <span class="mybizna-required-sign">*</span></label>
+                                <input required min="0" step="0.01" type="number" name="transfer_amount" id="transfer_amount" class="mybizna-form-field" placeholder="$100.00" v-model="amount">
                             </div>
-                            <div class="wperp-form-group wperp-col-sm-6 wperp-col-xs-12">
+                            <div class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12">
                                 <label for="transfer_date">{{ this.$func.__('Transfer Date', 'erp') }}</label>
-                                <datepicker id="transfer_date" class="wperp-form-field" name="transfer_date" v-model="transferdate"></datepicker>
+                                <datepicker id="transfer_date" class="mybizna-form-field" name="transfer_date" v-model="transferdate"></datepicker>
                             </div>
-                            <div class="wperp-col-xs-12 wperp-form-group">
+                            <div class="mybizna-col-xs-12 mybizna-form-group">
                                 <label for="particulars">{{ this.$func.__('Particulars', 'erp') }}</label>
-                                <textarea name="particulars" id="particulars" rows="3" maxlength="250" class="wperp-form-field" :placeholder="__('Type Here', 'erp')" v-model="particulars"></textarea>
+                                <textarea name="particulars" id="particulars" rows="3" maxlength="250" class="mybizna-form-field" :placeholder="__('Type Here', 'erp')" v-model="particulars"></textarea>
                             </div>
                         </div>
                     </div>
 
-                    <div class="wperp-modal-footer pt-0">
-                        <button class="wperp-btn btn--primary" type="submit">{{ this.$func.__('Transfer Money', 'erp') }}</button>
+                    <div class="mybizna-modal-footer pt-0">
+                        <button class="mybizna-btn btn--primary" type="submit">{{ this.$func.__('Transfer Money', 'erp') }}</button>
                     </div>
                 </form>
             </div>
@@ -155,7 +155,7 @@ export default {
 </script>
 
 <style>
-    .wperp-modal {
+    .mybizna-modal {
         z-index: 999 !important;
     }
 

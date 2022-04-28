@@ -1,13 +1,13 @@
 <template>
     <div
-        id="wperp-tax-category-modal"
-        class="wperp-modal has-form wperp-modal-open"
+        id="mybizna-tax-category-modal"
+        class="mybizna-modal has-form mybizna-modal-open"
         role="dialog"
     >
-        <div class="wperp-modal-dialog">
-            <div class="wperp-modal-content">
+        <div class="mybizna-modal-dialog">
+            <div class="mybizna-modal-content">
                 <!-- modal body title -->
-                <div class="wperp-modal-header">
+                <div class="mybizna-modal-header">
                     <h3>
                         {{ is_update ? this.$func.__("Edit", "erp") : this.$func.__("Add", "erp") }}
                         {{ this.$func.__("Tax Category", "erp") }}
@@ -25,11 +25,11 @@
                     class="modal-form edit-customer-modal"
                     @submit.prevent="taxCatFormSubmit"
                 >
-                    <div class="wperp-modal-body">
-                        <div class="wperp-form-group">
+                    <div class="mybizna-modal-body">
+                        <div class="mybizna-form-group">
                             <label
                                 >{{ this.$func.__("Tax Category Name", "erp") }}
-                                <span class="wperp-required-sign"
+                                <span class="mybizna-required-sign"
                                     >*</span
                                 ></label
                             >
@@ -37,23 +37,23 @@
                             <input
                                 type="text"
                                 v-model="category"
-                                class="wperp-form-field wperp-required-sign"
+                                class="mybizna-form-field mybizna-required-sign"
                                 required
                             />
                         </div>
 
-                        <div class="wperp-form-group mb-0">
+                        <div class="mybizna-form-group mb-0">
                             <label>{{ this.$func.__("Description", "erp") }}</label>
                             <textarea
                                 v-model="desc"
                                 rows="4"
-                                class="wperp-form-field"
+                                class="mybizna-form-field"
                                 maxlength="250"
                             ></textarea>
                         </div>
                     </div>
 
-                    <div class="wperp-modal-footer pt-0">
+                    <div class="mybizna-modal-footer pt-0">
                         <!-- buttons -->
                         <div class="buttons-wrapper text-right">
                             <submit-button

@@ -3,7 +3,7 @@
         <img :src="image.src ? image.src : src" />
 
         <button
-            class="wperp-btn btn--primary"
+            class="mybizna-btn btn--primary"
             v-if="showButton"
             @click.prevent="uploadImage"
         >
