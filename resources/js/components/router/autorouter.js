@@ -6,6 +6,12 @@ import * as Vue from 'vue';
 
 import { RouterView } from 'vue-router';
 
+import filters from "@/utils/filters";
+
+
+window.$filters = filters;
+window.$func = filters;
+window.$methods = filters;
 
 const options = {
     moduleCache: {

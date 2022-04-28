@@ -20,7 +20,10 @@ import NProgress from 'nprogress';
 
 import Axios from 'axios';
 import VueSweetalert2 from 'vue-sweetalert2';
-import { plugin, defaultConfig } from '@formkit/vue'
+import {
+    plugin,
+    defaultConfig
+} from '@formkit/vue'
 
 //import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/js/bootstrap.bundle.js';
@@ -33,9 +36,9 @@ import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
 import "nprogress/nprogress.css";
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-import autorouter from "@/components/router/autorouter";
 import filters from "@/utils/filters";
 
+import autorouter from "@/components/router/autorouter";
 
 
 const app = createApp(App)
@@ -73,8 +76,8 @@ Axios.defaults.baseURL = base_url;
 //xxxxxxxxxxxxxxxxxxxxxxxxxxx  Filter xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-app.config.globalProperties.$filters = window.$filters = filters;
-app.config.globalProperties.$func = window.$func = filters;
+app.config.globalProperties.$filters = filters;
+app.config.globalProperties.$func = filters;
 
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

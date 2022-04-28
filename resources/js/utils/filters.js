@@ -1,14 +1,13 @@
 import accounting from 'accounting';
 
 const currencyOptions = {
-    symbol  : '$',
-    decimal : '.',
+    symbol: '$',
+    decimal: '.',
     thousand: ',',
-    format  : ''
+    format: ''
 };
 
 const dateFormat = 'd/m/Y';
-
 
 export default {
     __(value, type) {
