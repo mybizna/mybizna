@@ -1,6 +1,6 @@
 <template>
     <div class="timepicker">
-        <p class="title">{{ __("Select Time", "erp") }}</p>
+        <p class="title">{{ this.$func.__("Select Time", "erp") }}</p>
 
         <div v-timepicker :id="elm" />
         <input :value="value" type="text" style="display: none" />
@@ -69,45 +69,38 @@ export default {
 <style src="./mtr-datepicker.min.css"></style>
 <style src="./mtr-datepicker.default-theme.min.css"></style>
 
-<style lang="less">
-.timepicker {
-    .title {
-        padding: 10px 0 0;
-        margin: 0;
-        text-align: center;
-        color: #000;
-    }
+<style>
+.timepicker .title {
+    padding: 10px 0 0;
+    margin: 0;
+    text-align: center;
+    color: #000;
+}
 
-    .mtr-datepicker {
-        .mtr-content {
-            .mtr-values .mtr-default-value,
-            .mtr-input,
-            .mtr-datepicker .mtr-content input {
-                background: #f5f8fa;
-                border: 1px solid #1a9ed4;
-                color: #222;
-            }
-        }
+.timepicker .mtr-datepicker .mtr-content .mtr-values .mtr-default-value,
+.timepicker .mtr-datepicker .mtr-content.mtr-input,
+.timepicker .mtr-datepicker .mtr-content .mtr-datepicker .mtr-content input {
+    background: #f5f8fa;
+    border: 1px solid #1a9ed4;
+    color: #222;
+}
 
-        .mtr-input-radio {
-            margin-right: 0 !important;
+.timepicker .mtr-datepicker .mtr-input-radio {
+    margin-right: 0 !important;
+}
+.timepicker .mtr-datepicker .mtr-input-radio form {
+    display: grid;
+}
 
-            form {
-                display: grid;
-            }
+.timepicker .mtr-datepicker .mtr-input-radio label span.value {
+    color: #222;
+}
 
-            label span.value {
-                color: #222;
-            }
-        }
+.timepicker .mtr-datepicker .mtr-input-slider .mtr-content {
+    height: 46px !important;
+}
 
-        .mtr-input-slider .mtr-content {
-            height: 46px !important;
-        }
-
-        .mtr-arrow:hover {
-            background: none;
-        }
-    }
+.timepicker .mtr-datepicker .mtr-arrow:hover {
+    background: none;
 }
 </style>

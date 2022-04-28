@@ -2,7 +2,7 @@
     <div :class="{ 'table-loading': loading }">
         <div v-if="loading" class="table-loader-wrap">
             <div class="table-loader-center">
-                <div class="table-loader">{{ __("Loading", "erp") }}</div>
+                <div class="table-loader">{{ this.$func.__("Loading", "erp") }}</div>
             </div>
         </div>
 
@@ -13,7 +13,7 @@
 
             <div class="tablenav-pages">
                 <span v-if="showItemNumbers" class="displaying-num"
-                    >{{ itemsTotal }} {{ __("items", "erp") }}</span
+                    >{{ itemsTotal }} {{ this.$func.__("items", "erp") }}</span
                 >
 
                 <span v-if="hasPagination" class="pagination-links">
@@ -223,7 +223,7 @@
                                 @click.prevent="toggleRow(row)"
                             >
                                 <span class="screen-reader-text">{{
-                                    __("Show more details", "erp")
+                                    this.$func.__("Show more details", "erp")
                                 }}</span>
                             </button>
 
@@ -231,9 +231,7 @@
                                 v-if="actionColumn === key"
                                 class="row-actions"
                             >
-                                <slot :row="row" name="row-actions">
-
-                                </slot>
+                                <slot :row="row" name="row-actions"> </slot>
                             </div>
                         </td>
                     </tr>
@@ -246,7 +244,7 @@
         <div class="tablenav bottom">
             <div class="tablenav-pages">
                 <span v-if="showItemNumbers" class="displaying-num"
-                    >{{ itemsTotal }} {{ __("items", "erp") }}</span
+                    >{{ itemsTotal }} {{ this.$func.__("items", "erp") }}</span
                 >
 
                 <span v-if="hasPagination" class="pagination-links">
@@ -319,9 +317,7 @@
 </template>
 
 <script>
-
 export default {
-
     props: {
         columns: {
             type: Object,
@@ -365,7 +361,7 @@ export default {
         },
         notFound: {
             type: String,
-            default: __("No items found.", "erp"),
+            default: this.$func.__("No items found.", "erp"),
         },
         totalItems: {
             type: Number,
@@ -585,40 +581,37 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style>
 .row-actions {
     display: block !important;
     color: #d7dee2;
     position: static;
-
-    span {
-        font-size: 25px;
-        font-weight: bold;
-        cursor: pointer;
-    }
+}
+.row-actions span {
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .table-loading {
     position: relative;
+}
+.table-loading .table-loader-wrap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+}
+.table-loading .table-loader-wrap .table-loader-center {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
 
-    .table-loader-wrap {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 9;
-
-        .table-loader-center {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 100%;
-        }
-    }
-
-    .wp-list-table,
-    .tablenav {
-        opacity: 0.4;
-    }
+.table-loading .wp-list-table,
+.table-loading .tablenav {
+    opacity: 0.4;
 }
 
 .table-loader {
@@ -660,31 +653,30 @@ export default {
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
     transform: translateZ(0);
+}
+.table-loader:before {
+    width: 50%;
+    height: 50%;
+    background: #ffffff;
+    border-radius: 100% 0 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+}
 
-    &:before {
-        width: 50%;
-        height: 50%;
-        background: #ffffff;
-        border-radius: 100% 0 0 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        content: "";
-    }
-
-    &:after {
-        background: #f4f4f4;
-        width: 75%;
-        height: 75%;
-        border-radius: 50%;
-        content: "";
-        margin: auto;
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-    }
+.table-loader:after {
+    background: #f4f4f4;
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+    content: "";
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }
 
 .not-found {
@@ -720,33 +712,30 @@ export default {
 }
 
 @media screen and (max-width: 782px) {
-    .dropdown-popper {
-        ::-webkit-scrollbar {
-            width: 1px;
-            height: 1px;
-        }
+    .dropdown-popper ::-webkit-scrollbar {
+        width: 1px;
+        height: 1px;
+    }
 
-        ::-webkit-scrollbar-button {
-            width: 1px;
-            height: 1px;
-        }
+    .dropdown-popper::-webkit-scrollbar-button {
+        width: 1px;
+        height: 1px;
+    }
 
-        .horizontal-scroll-wrapper {
-            width: 30px;
-            height: 150px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            transform-origin: right top;
-            transform: rotate(-90deg) translateY(-30px);
-
-            > li {
-                margin-top: 20px;
-                width: 30px;
-                height: 150px;
-                transform: rotate(90deg);
-                transform-origin: right top;
-            }
-        }
+    .dropdown-popper .horizontal-scroll-wrapper {
+        width: 30px;
+        height: 150px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        transform-origin: right top;
+        transform: rotate(-90deg) translateY(-30px);
+    }
+    .dropdown-popper .horizontal-scroll-wrapper > li {
+        margin-top: 20px;
+        width: 30px;
+        height: 150px;
+        transform: rotate(90deg);
+        transform-origin: right top;
     }
 }
 </style>

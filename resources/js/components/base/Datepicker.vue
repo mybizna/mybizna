@@ -1,60 +1,67 @@
 <template>
     <dropdown>
         <template slot="button">
-            <input ref="datePicker" v-model="selectedDate" @input="onChangeDate" class="wperp-form-field">
+            <input
+                ref="datePicker"
+                v-model="selectedDate"
+                @input="onChangeDate"
+                class="wperp-form-field"
+            />
         </template>
         <template slot="dropdown">
             <calendar
                 @dayclick="pickerSelect"
                 backgroundColor="#fff"
-                :attributes="pickerAttrs"/>
+                :attributes="pickerAttrs"
+            />
         </template>
     </dropdown>
 </template>
 
 <script>
-import Dropdown from 'assets/components/base/Dropdown.vue';
+import Dropdown from "assets/components/base/Dropdown.vue";
 
-import { setupCalendar, Calendar } from 'v-calendar';
-import 'v-calendar/lib/v-calendar.min.css';
+import { setupCalendar, Calendar } from "v-calendar";
+import "v-calendar/lib/v-calendar.min.css";
 
 setupCalendar({
-    firstDayOfWeek: 2
+    firstDayOfWeek: 2,
 });
 
 export default {
-
     components: {
         Dropdown,
-        Calendar
+        Calendar,
     },
 
     props: {
         value: {
-            type: String
-        }
+            type: String,
+        },
     },
 
     data() {
         return {
-            pickerAttrs: [{
-                key: 'today',
-                highlight: { backgroundColor: '#1A9ED4' },
-                contentStyle: { color: '#fff' },
-                dates: {
-                    /* global erp_acct_var */
-                    start: new Date(erp_acct_var.fy_lower_range),
-                    end: new Date(erp_acct_var.fy_upper_range)
-                }
-            }],
-            selectedDate: ''
+            pickerAttrs: [
+                {
+                    key: "today",
+                    highlight: { backgroundColor: "#1A9ED4" },
+                    contentStyle: { color: "#fff" },
+                    dates: {
+                        /* global erp_acct_var */
+                        start: new Date(erp_acct_var.fy_lower_range),
+                        end: new Date(erp_acct_var.fy_upper_range),
+                    },
+                },
+            ],
+            selectedDate: "",
         };
     },
 
     watch: {
         value(newVal) {
-            if(newVal.length === 0) {
-                this.selectedDate = '';
+            if (newVal.length === 0) {
+                this.selectedDate = "";
             } else {
                 if (!newVal) {
                     this.selectedDate = this.getCurrentDate();
@@ -63,104 +70,98 @@ export default {
                 }
             }
 
-            this.$emit('input', this.selectedDate);
-        }
+            this.$emit("input", this.selectedDate);
+        },
     },
 
     created() {
-        this.$emit('input', this.selectedDate);
+        this.$emit("input", this.selectedDate);
     },
 
     methods: {
         pickerSelect(day) {
             // add leading zero
-            const days  = day.day < 10 ? `0${day.day}` : day.day;
+            const days = day.day < 10 ? `0${day.day}` : day.day;
             const month = day.month < 10 ? `0${day.month}` : day.month;
 
-            const formattedDate = day.year + '-' + month + '-' + days; // e.g. 2018-07-24
+            const formattedDate = day.year + "-" + month + "-" + days; // e.g. 2018-07-24
             this.selectedDate = formattedDate;
             this.$refs.datePicker.click();
-            this.$emit('input', this.selectedDate);
+            this.$emit("input", this.selectedDate);
         },
 
         onChangeDate() {
-            if(this.selectedDate.length === 0){
-                this.selectedDate = '';
-                this.$emit('input', this.selectedDate);
+            if (this.selectedDate.length === 0) {
+                this.selectedDate = "";
+                this.$emit("input", this.selectedDate);
             }
         },
 
         getCurrentDate() {
             var today = new Date();
-            var dd    = today.getDate();
-            var mm    = today.getMonth() + 1;
-            var yyyy  = today.getFullYear();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
 
             if (dd < 10) {
-                dd = '0' + dd;
+                dd = "0" + dd;
             }
 
             if (mm < 10) {
-                mm = '0' + mm;
+                mm = "0" + mm;
             }
 
-            today = yyyy + '-' + mm + '-' + dd;
+            today = yyyy + "-" + mm + "-" + dd;
 
             return today;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="less">
-    #erp-accounting {
-        .c-pane-container {
-            border: 0 !important;
-            box-shadow: 0 0 6px 1px #ddd;
-            border-radius: 3px;
-            right: 0;
-            top: 70px;
+<style>
+#erp-accounting .c-pane-container {
+    border: 0 !important;
+    box-shadow: 0 0 6px 1px #ddd;
+    border-radius: 3px;
+    right: 0;
+    top: 70px;
+}
+#erp-accounting .c-pane-container .c-pane {
+    z-index: 1;
+}
 
-            .c-pane {
-                z-index: 1;
-            }
-        }
+#erp-accounting .c-header {
+    background: #f9f9f9;
+    height: 58px;
+}
+#erp-accounting .c-header .c-title {
+    font-weight: bold !important;
+    font-size: 16px !important;
+}
 
-        .c-header {
-            background: #F9F9F9;
-            height: 58px;
+#erp-accounting .c-weekdays {
+    font-size: 10px !important;
+    font-weight: bold !important;
+    color: #000 !important;
+    background: #fff;
+    padding: 15px 5px 2px !important;
+}
 
-            .c-title {
-                font-weight: bold !important;
-                font-size: 16px !important;
-            }
-        }
+#erp-accounting .c-weeks {
+    background: #fff;
+}
 
-        .c-weekdays {
-            font-size: 10px !important;
-            font-weight: bold !important;
-            color: #000 !important;
-            background: #fff;
-            padding: 15px 5px 2px !important;
-        }
-
-        .c-weeks {
-            background: #fff;
-        }
-
-        .c-weeks-rows-wrapper {
-            color: #A5ACB1;
-
-            .c-day-content {
-                font-size: 11px;
-                width: 2.5rem;
-                height: 2.5rem;
-
-                &:hover {
-                    background: rgb(218, 218, 218);
-                    cursor: pointer;
-                }
-            }
-        }
-    }
+#erp-accounting .c-weeks-rows-wrapper {
+    color: #a5acb1;
+}
+#erp-accounting .c-weeks-rows-wrapper .c-day-content {
+    font-size: 11px;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+#erp-accounting .c-weeks-rows-wrapper .c-day-content:hover {
+    background: rgb(218, 218, 218);
+    cursor: pointer;
+}
 </style>

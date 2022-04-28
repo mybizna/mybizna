@@ -1,26 +1,38 @@
 <template>
     <form enctype="multipart/form-data" novalidate>
-        <div class="attachment-placeholder"> {{ __('To attach', 'erp') }}
-            <input type="file" id="attachment" multiple accept="image/*,.jpg,.png,.doc,.pdf"
+        <div class="attachment-placeholder">
+            {{ this.$func.__("To attach", "erp") }}
+            <input
+                type="file"
+                id="attachment"
+                multiple
+                accept="image/*,.jpg,.png,.doc,.pdf"
                 :name="uploadFieldName"
                 :disabled="isSaving"
-                @change="filesChange($event)" class="display-none">
-            <label for="attachment">{{ __('Select files', 'erp') }}</label> {{ __('from your computer', 'erp') }}
-            <span v-if="isSaving" class="upload-count"> ({{ __('uploading', 'erp') }} {{ fileCount }} {{ __('file(s)', 'erp') }} ...)</span>
-            <span v-if="isUploaded" class="upload-count"> ({{ __('uploaded', 'erp') }} {{ fileCount }} {{ __('file(s)', 'erp') }} ...)</span>
+                @change="filesChange($event)"
+                class="display-none"
+            />
+            <label for="attachment">{{ this.$func.__("Select files", "erp") }}</label>
+            {{ this.$func.__("from your computer", "erp") }}
+            <span v-if="isSaving" class="upload-count">
+                ({{ this.$func.__("uploading", "erp") }} {{ fileCount }}
+                {{ this.$func.__("file(s)", "erp") }} ...)</span
+            >
+            <span v-if="isUploaded" class="upload-count">
+                ({{ this.$func.__("uploaded", "erp") }} {{ fileCount }}
+                {{ this.$func.__("file(s)", "erp") }} ...)</span
+            >
         </div>
     </form>
 </template>
 
 <script>
-
 const STATUS_INITIAL = 0;
-const STATUS_SAVING  = 1;
+const STATUS_SAVING = 1;
 const STATUS_SUCCESS = 2;
-const STATUS_FAILED  = 3;
+const STATUS_FAILED = 3;
 
 export default {
-
     data() {
         return {
             fileCount: 0,
@@ -28,19 +40,19 @@ export default {
             uploadedFiles: [],
             uploadError: null,
             currentStatus: null,
-            uploadFieldName: 'attachments[]'
+            uploadFieldName: "attachments[]",
         };
     },
 
     props: {
         value: {
-            type: Array
+            type: Array,
         },
 
         url: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
 
     watch: {
@@ -51,7 +63,7 @@ export default {
                 this.fileCount = 0;
                 this.isUploaded = false;
             }
-        }
+        },
     },
 
     computed: {
@@ -69,7 +81,7 @@ export default {
 
         isFailed() {
             return this.currentStatus === STATUS_FAILED;
-        }
+        },
     },
     methods: {
         reset() {
@@ -90,10 +102,9 @@ export default {
             this.fileCount = fileList.length;
 
             // append the files to FormData
-            Array.from(Array(fileList.length).keys())
-                .map(x => {
-                    formData.append(fieldName, fileList[x], fileList[x].name);
-                });
+            Array.from(Array(fileList.length).keys()).map((x) => {
+                formData.append(fieldName, fileList[x], fileList[x].name);
+            });
 
             this.upload(formData);
         },
@@ -104,34 +115,31 @@ export default {
 
             const url = `${BASE_URL}/wp-json/erp/v1/accounting/v1${this.url}`;
 
-            return HTTP.post(url, formData).then(res => {
-                res.data.map(img => {
+            return HTTP.post(url, formData).then((res) => {
+                res.data.map((img) => {
                     this.uploadedFiles.push(img.url);
                 });
 
-                this.$emit('input', this.uploadedFiles);
+                this.$emit("input", this.uploadedFiles);
 
                 this.currentStatus = STATUS_SUCCESS;
                 this.isUploaded = true;
             });
-        }
+        },
     },
 
     mounted() {
         this.reset();
-    }
-
+    },
 };
 </script>
 
-<style lang="less" scoped>
-    .upload-count {
-        color: #f44336;
-    }
+<style>
+.upload-count {
+    color: #f44336;
+}
 
-    .attachment-container {
-        .attachment-placeholder {
-            max-width: 396px;
-        }
-    }
+.attachment-container .attachment-placeholder {
+    max-width: 396px;
+}
 </style>

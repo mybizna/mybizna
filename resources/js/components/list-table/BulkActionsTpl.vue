@@ -3,7 +3,13 @@
         <td v-if="showCb" class="manage-column column-cb check-column">
             <div class="form-check">
                 <label class="form-check-label">
-                    <input v-model="bulkSelectAll" type="checkbox" @change="changeBulkCheckbox" ref="removeBulkAction" class="form-check-input" >
+                    <input
+                        v-model="bulkSelectAll"
+                        type="checkbox"
+                        @change="changeBulkCheckbox"
+                        ref="removeBulkAction"
+                        class="form-check-input"
+                    />
                     <span class="form-check-sign">
                         <span class="check"></span>
                     </span>
@@ -12,7 +18,11 @@
         </td>
         <th v-if="hasBulkActions" :colspan="columnsCount">
             <ul class="wp-erp-bulk-actions">
-                <li v-for="bulkAction in bulkActions" :key="bulkAction.key" @click="bulkActionSelect(bulkAction.key)">
+                <li
+                    v-for="bulkAction in bulkActions"
+                    :key="bulkAction.key"
+                    @click="bulkActionSelect(bulkAction.key)"
+                >
                     <!-- <img :src="bulkAction.img" :alt="bulkAction.label"> -->
                     <a href="#">
                         <i :class="bulkAction.iconClass"></i>
@@ -20,7 +30,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="close-div" @click.prevent="removeBulkActions"><i class="flaticon-close"></i></a>
+                    <a
+                        href="#"
+                        class="close-div"
+                        @click.prevent="removeBulkActions"
+                        ><i class="flaticon-close"></i
+                    ></a>
                 </li>
             </ul>
         </th>
@@ -29,40 +44,39 @@
 
 <script>
 export default {
-
     props: {
         bulkActions: {
             type: Array,
             required: false,
-            default: () => []
+            default: () => [],
         },
 
         showCb: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         columnsCount: {
             type: Number,
-            default: 0
+            default: 0,
         },
 
         selectAll: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
 
     data() {
         return {
-            bulkSelectAll: this.selectAll
+            bulkSelectAll: this.selectAll,
         };
     },
 
     computed: {
         hasBulkActions() {
             return this.bulkActions.length > 0;
-        }
+        },
     },
 
     methods: {
@@ -70,43 +84,43 @@ export default {
             this.$refs.removeBulkAction.click();
         },
         changeBulkCheckbox() {
-            this.$parent.$emit('bulk-checkbox', this.bulkSelectAll);
+            this.$parent.$emit("bulk-checkbox", this.bulkSelectAll);
         },
 
         bulkActionSelect(key) {
-            this.$parent.$emit('bulk-action-click', key);
-        }
-    }
+            this.$parent.$emit("bulk-action-click", key);
+        },
+    },
 };
 </script>
 
-<style lang="less" scoped>
-    .wp-erp-bulk-actions {
-        display: flex;
-        margin: 0;
-        li {
-            margin: 0;
-            cursor: pointer;
-            &:first-child {
-                a, i {
-                    margin-left: 0;
-                }
-            }
-            a {
-                 display: inline-flex;
-                color: #23282d;
-                font-size: 12px;
-                margin: 0 10px;
-                i {
-                    margin: 0 5px;
-                }
-                &:hover {
-                    color: #f96332;
-                    i:before {
-                        color: #f96332;
-                    }
-                }
-            }
-        }
-    }
+<style>
+.wp-erp-bulk-actions {
+    display: flex;
+    margin: 0;
+}
+.wp-erp-bulk-actions li {
+    margin: 0;
+    cursor: pointer;
+}
+.wp-erp-bulk-actions li:first-child a,
+.wp-erp-bulk-actions li:first-child i {
+    margin-left: 0;
+}
+.wp-erp-bulk-actions li a {
+    display: inline-flex;
+    color: #23282d;
+    font-size: 12px;
+    margin: 0 10px;
+}
+.wp-erp-bulk-actions li a i {
+    margin: 0 5px;
+}
+.wp-erp-bulk-actions li a:hover {
+    color: #f96332;
+}
+
+.wp-erp-bulk-actions li a:hover i:before {
+    color: #f96332;
+}
 </style>

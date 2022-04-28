@@ -51,32 +51,32 @@ export default {
         return {
             docs: [
                 {
-                    title: window.__("General", "erp"),
+                    title: this.$func.__("General", "erp"),
                     ques: [
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How to set Financial Years?",
                                 "erp"
                             ),
                             url: "https://wperp.com/docs/accounting/getting-started/setting-financial-year/",
                         },
                         {
-                            label: window.__("What is Opening Balance?", "erp"),
+                            label: this.$func.__("What is Opening Balance?", "erp"),
                             url: "https://wperp.com/docs/accounting/getting-started/opening-balance/",
                         },
                         {
-                            label: window.__("How to Set Currency?", "erp"),
+                            label: this.$func.__("How to Set Currency?", "erp"),
                             url: "https://wperp.com/docs/erp-core/global-settings/",
                         },
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "What are the basic transaction types?",
                                 "erp"
                             ),
                             url: "https://wperp.com/docs/accounting/sales-transactions/basic-of-transaction-types/",
                         },
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How to create a Journal Entry?",
                                 "erp"
                             ),
@@ -86,38 +86,38 @@ export default {
                 },
 
                 {
-                    title: window.__("Users", "erp"),
+                    title: this.$func.__("Users", "erp"),
                     ques: [
                         {
-                            label: window.__("How to create customer?", "erp"),
+                            label: this.$func.__("How to create customer?", "erp"),
                             url: "https://wperp.com/docs/accounting/users/creating-a-customer/",
                         },
                         {
-                            label: window.__("How to create vendors?", "erp"),
+                            label: this.$func.__("How to create vendors?", "erp"),
                             url: "https://wperp.com/docs/accounting/users/creating-a-vendor/",
                         },
                     ],
                 },
 
                 {
-                    title: window.__("Sales Transactions", "erp"),
+                    title: this.$func.__("Sales Transactions", "erp"),
                     ques: [
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How to create an invoice?",
                                 "erp"
                             ),
                             url: "https://wperp.com/docs/accounting/sales-transactions/creating-your-first-invoice/",
                         },
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How to receive payment from invoices?",
                                 "erp"
                             ),
                             url: "https://wperp.com/docs/accounting/sales-transactions/adding-invoice-payments/",
                         },
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How can I delete an invoice?",
                                 "erp"
                             ),
@@ -127,28 +127,28 @@ export default {
                 },
 
                 {
-                    title: window.__("Expense Transactions", "erp"),
+                    title: this.$func.__("Expense Transactions", "erp"),
                     ques: [
                         {
-                            label: window.__("How to create a bill?", "erp"),
+                            label: this.$func.__("How to create a bill?", "erp"),
                             url: "https://wperp.com/docs/accounting/expense-transactions/creating-bill-new/",
                         },
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How to create payments for bills?",
                                 "erp"
                             ),
                             url: "https://wperp.com/docs/accounting/expense-transactions/creating-bill-new/",
                         },
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How to create an expense?",
                                 "erp"
                             ),
                             url: "https://wperp.com/docs/accounting/expense-transactions/creating-expense-new/",
                         },
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How to create a check payment?",
                                 "erp"
                             ),
@@ -158,17 +158,17 @@ export default {
                 },
 
                 {
-                    title: window.__("Purchase Transactions", "erp"),
+                    title: this.$func.__("Purchase Transactions", "erp"),
                     ques: [
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How to create purchase quotation?",
                                 "erp"
                             ),
                             url: "https://wperp.com/docs/accounting/purchase-transactions-2/create-purchase/",
                         },
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How to create payments for purchase quotations?",
                                 "erp"
                             ),
@@ -178,17 +178,17 @@ export default {
                 },
 
                 {
-                    title: window.__("Bank Accounts", "erp"),
+                    title: this.$func.__("Bank Accounts", "erp"),
                     ques: [
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "Can I create a bank account in Accounting?",
                                 "erp"
                             ),
                             url: "https://wperp.com/docs/accounting/chart-of-accounts/creating-a-new-chart/",
                         },
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How can I receive, spend transfer between bank accounts?",
                                 "erp"
                             ),
@@ -198,10 +198,10 @@ export default {
                 },
 
                 {
-                    title: window.__("Products", "erp"),
+                    title: this.$func.__("Products", "erp"),
                     ques: [
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "Can I create products / services / product categoty?",
                                 "erp"
                             ),
@@ -211,28 +211,28 @@ export default {
                 },
 
                 {
-                    title: window.__("Tax", "erp"),
+                    title: this.$func.__("Tax", "erp"),
                     ques: [
                         {
-                            label: window.__("What is Tax Zone?", "erp"),
+                            label: this.$func.__("What is Tax Zone?", "erp"),
                             url: "https://wperp.com/docs/accounting/tax/",
                         },
                         {
-                            label: window.__("What is Tax Category?", "erp"),
+                            label: this.$func.__("What is Tax Category?", "erp"),
                             url: "https://wperp.com/docs/accounting/tax/",
                         },
                         {
-                            label: window.__("What is Tax Agency?", "erp"),
+                            label: this.$func.__("What is Tax Agency?", "erp"),
                             url: "https://wperp.com/docs/accounting/tax/",
                         },
                     ],
                 },
 
                 {
-                    title: window.__("Reports", "erp"),
+                    title: this.$func.__("Reports", "erp"),
                     ques: [
                         {
-                            label: window.__(
+                            label: this.$func.__(
                                 "How to produce different types of reports in Accounting?",
                                 "erp"
                             ),
