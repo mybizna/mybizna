@@ -31,7 +31,9 @@
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ this.$func.__("Send Mail", "erp") }}</a
+                                        >{{
+                                            this.$func.__("Send Mail", "erp")
+                                        }}</a
                                     >
                                 </li>
                             </ul>
@@ -85,12 +87,24 @@
                             <div class="mybizna-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
-                                        <th>{{ this.$func.__("Voucher No", "erp") }}:</th>
+                                        <th>
+                                            {{
+                                                this.$func.__(
+                                                    "Voucher No",
+                                                    "erp"
+                                                )
+                                            }}:
+                                        </th>
                                         <td>#{{ expense_data.voucher_no }}</td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ this.$func.__("Reference No", "erp") }}:
+                                            {{
+                                                this.$func.__(
+                                                    "Reference No",
+                                                    "erp"
+                                                )
+                                            }}:
                                         </th>
                                         <td>
                                             <span v-if="expense_data.ref">
@@ -100,14 +114,26 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ this.$func.__("Transaction Date", "erp") }}:
+                                            {{
+                                                this.$func.__(
+                                                    "Transaction Date",
+                                                    "erp"
+                                                )
+                                            }}:
                                         </th>
                                         <td>
                                             {{ formatDate(expense_data.date) }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ this.$func.__("Created At", "erp") }}:</th>
+                                        <th>
+                                            {{
+                                                this.$func.__(
+                                                    "Created At",
+                                                    "erp"
+                                                )
+                                            }}:
+                                        </th>
                                         <td>
                                             {{
                                                 formatDate(
@@ -125,7 +151,10 @@
                                     >
                                         <th>
                                             {{
-                                                this.$func.__("Transaction Charge", "erp")
+                                                this.$func.__(
+                                                    "Transaction Charge",
+                                                    "erp"
+                                                )
                                             }}:
                                         </th>
                                         <td>
@@ -141,7 +170,14 @@
                             <div class="mybizna-col-sm-12">
                                 <table>
                                     <tr>
-                                        <th>{{ this.$func.__("Check No", "erp") }}:</th>
+                                        <th>
+                                            {{
+                                                this.$func.__(
+                                                    "Check No",
+                                                    "erp"
+                                                )
+                                            }}:
+                                        </th>
                                         <td>
                                             #{{
                                                 expense_data.check_data.check_no
@@ -149,13 +185,24 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ this.$func.__("Bank Name", "erp") }}:</th>
+                                        <th>
+                                            {{
+                                                this.$func.__(
+                                                    "Bank Name",
+                                                    "erp"
+                                                )
+                                            }}:
+                                        </th>
                                         <td>
                                             {{ expense_data.check_data.bank }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ this.$func.__("Pay To", "erp") }}:</th>
+                                        <th>
+                                            {{
+                                                this.$func.__("Pay To", "erp")
+                                            }}:
+                                        </th>
                                         <td>
                                             {{ expense_data.check_data.pay_to }}
                                         </td>
@@ -175,9 +222,17 @@
                             <thead>
                                 <tr>
                                     <th>{{ this.$func.__("Sl", "erp") }}</th>
-                                    <th>{{ this.$func.__("Account", "erp") }}</th>
-                                    <th>{{ this.$func.__("Particulars", "erp") }}</th>
-                                    <th>{{ this.$func.__("Amount", "erp") }}</th>
+                                    <th>
+                                        {{ this.$func.__("Account", "erp") }}
+                                    </th>
+                                    <th>
+                                        {{
+                                            this.$func.__("Particulars", "erp")
+                                        }}
+                                    </th>
+                                    <th>
+                                        {{ this.$func.__("Amount", "erp") }}
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -201,7 +256,10 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        this.$func.__("Subtotal", "erp")
+                                                        this.$func.__(
+                                                            "Subtotal",
+                                                            "erp"
+                                                        )
                                                     }}:</span
                                                 >
                                                 {{
@@ -213,7 +271,10 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        this.$func.__("Total", "erp")
+                                                        this.$func.__(
+                                                            "Total",
+                                                            "erp"
+                                                        )
                                                     }}:</span
                                                 >
                                                 {{
@@ -263,15 +324,14 @@
 </template>
 
 <script>
-import SendMail from "assets/components/email/SendMail.vue";
-import Dropdown from "assets/components/base/Dropdown.vue";
-import TransParticulars from "assets/components/transactions/TransParticulars.vue";
 
 export default {
     components: {
-        SendMail,
-        Dropdown,
-        TransParticulars,
+        SendMail: window.$func.fetchComponent("components/email/SendMail.vue"),
+        Dropdown: window.$func.fetchComponent("components/base/Dropdown.vue"),
+        TransParticulars: window.$func.fetchComponent(
+            "components/transactions/TransParticulars.vue"
+        ),
     },
 
     data() {
@@ -337,7 +397,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .expense-single {
     max-width: 960px;
     margin: 0 auto;

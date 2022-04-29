@@ -37,7 +37,7 @@
                             <div class="buttons-wrapper">
                                 <input
                                     type="submit"
-                                    :value="__('Save', 'erp')"
+                                    :value="this.$func.__('Save', 'erp')"
                                     class="mybizna-btn btn--primary text-left"
                                     @click.prevent="createCategory"
                                 />
@@ -101,13 +101,11 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
-import MultiSelect from "assets/components/select/MultiSelect.vue";
 
 export default {
     components: {
-        ListTable,
-        MultiSelect,
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
     },
 
     data() {
@@ -175,7 +173,7 @@ export default {
                 row.isEdit = true;
                 this.category = row;
             } else if (action === "trash") {
-                if (confirm(__("Are you sure want to delete?", "erp"))) {
+                if (confirm(this.$func.__("Are you sure want to delete?", "erp"))) {
                     window.axios
                         .delete("product-cats/" + row.id)
                         .then((response) => {
@@ -195,7 +193,7 @@ export default {
 
         onBulkAction(action, items) {
             if (action === "trash") {
-                if (confirm(__("Are you sure want to delete?", "erp"))) {
+                if (confirm(this.$func.__("Are you sure want to delete?", "erp"))) {
 
                     window.axios
                         .delete("product-cats/delete/" + items)

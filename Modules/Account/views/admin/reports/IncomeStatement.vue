@@ -29,7 +29,10 @@
         <p>
             <strong
                 >{{
-                    this.$func.__("For the period of ( Transaction date )", "erp")
+                    this.$func.__(
+                        "For the period of ( Transaction date )",
+                        "erp"
+                    )
                 }}:</strong
             >
             <em>{{ start_date }}</em> to <em>{{ end_date }}</em>
@@ -78,7 +81,9 @@
                 <tbody class="mybizna-col-sm-12">
                     <tr>
                         <td>
-                            <strong>{{ this.$func.__("Profit", "erp") }}</strong>
+                            <strong>{{
+                                this.$func.__("Profit", "erp")
+                            }}</strong>
                         </td>
                         <td>{{ moneyFormat(Math.abs(profit)) }}</td>
                         <td class="no-print"></td>
@@ -101,13 +106,10 @@
 </template>
 
 <script>
-import Datepicker from "assets/components/base/Datepicker.vue";
-import ListTable from "assets/components/list-table/ListTable.vue";
-
 export default {
     components: {
-        ListTable,
-        Datepicker,
+        ListTable: window.$func.fetchComponent("components/list-table/ListTable.vue"),
+        Datepicker: window.$func.fetchComponent("components/base/Datepicker.vue"),
     },
 
     data() {
@@ -192,7 +194,6 @@ export default {
                     this.expense = response.data.expense;
                     this.profit = response.data.profit;
                     this.loss = response.data.loss;
-
                 })
                 .catch((error) => {
                     throw error;

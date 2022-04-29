@@ -21,30 +21,8 @@
             </div>
 
             <!-- top search bar -->
-            <people-search v-model="search" />
         </div>
 
-        <people-modal
-            v-if="showModal"
-            :people.sync="people"
-            :title="buttonTitle"
-            @close="showModal = false"
-        />
-
-        <import-modal
-            v-if="showImportModal"
-            :title="importTitle"
-            :type="url"
-            @close="showImportModal = false"
-        />
-
-        <export-modal
-            v-if="showExportModal"
-            :title="exportTitle"
-            :type="url"
-            @close="showExportModal = false"
-        />
-        i
         <list-table
             tableClass="mybizna-table people-table table-striped table-dark "
             action-column="actions"
@@ -82,19 +60,12 @@
 </template>
 
 <script>
-import PeopleSearch from "assets/partner/widgets/PeopleSearch.vue";
-import ListTable from "assets/components/list-table/ListTable.vue";
-import PeopleModal from "assets/partner/widgets/PeopleModal.vue";
-import ImportModal from "assets/partner/widgets/PeopleModal.vue";
-import ExportModal from "assets/partner/widgets/PeopleModal.vue";
-
+const func = window.$func;
 export default {
     components: {
-        PeopleSearch,
-        ListTable,
-        PeopleModal,
-        ImportModal,
-        ExportModal,
+        ListTable: func.fetchComponent(
+            "components/list-table/ListTable.vue"
+        ),
     },
 
     data() {
@@ -108,7 +79,10 @@ export default {
                 },
             ],
             columns: {
-                customer: { label: this.$func.__("Name", "erp"), isColPrimary: true },
+                customer: {
+                    label: this.$func.__("Name", "erp"),
+                    isColPrimary: true,
+                },
                 company: { label: this.$func.__("Company", "erp") },
                 email: { label: this.$func.__("Email", "erp") },
                 phone: { label: this.$func.__("Phone", "erp") },
@@ -151,7 +125,6 @@ export default {
     },
 
     created() {
-
         this.$on("modal-close", () => {
             this.showModal = false;
             this.showImportModal = false;
@@ -298,7 +271,10 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
+                            this.showAlert(
+                                "success",
+                                this.$func.__("Deleted !", "erp")
+                            );
                         })
                         .catch((error) => {
                             throw error;

@@ -57,11 +57,10 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
 /* global __ */
 export default {
     components: {
-        ListTable,
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
     },
 
     data() {

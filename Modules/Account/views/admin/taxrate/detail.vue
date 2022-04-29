@@ -47,15 +47,12 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
-import TaxRateLineAdd from "assets/components/tax/TaxRateLineAdd.vue";
-import TaxRateLineEdit from "assets/components/tax/TaxRateLineEdit.vue";
 
 export default {
     components: {
-        ListTable,
-        TaxRateLineAdd,
-        TaxRateLineEdit,
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        TaxRateLineAdd: window.$func.fetchComponent('components/tax/TaxRateLineAdd.vue'),
+        TaxRateLineEdit: window.$func.fetchComponent('components/tax/TaxRateLineEdit.vue'),
     },
 
     data() {
@@ -163,7 +160,7 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(__("Are you sure to delete?", "erp"))) {
+                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
                         window.axios
                             .delete(
                                 "/taxes/" +

@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import 'assets/components/chart/chart.min';
 
 export default {
 

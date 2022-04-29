@@ -53,19 +53,14 @@
 </template>
 
 <script>
-import ListTable from "../list-table/ListTable.vue";
-import ProductModal from "./ProductModal.vue";
-import ProductSearch from "./Search.vue";
-import ExportModal from "./ExportModal.vue";
-import ImportModal from "./ImportModal.vue";
 
 export default {
     components: {
-        ListTable,
-        ProductModal,
-        ExportModal,
-        ImportModal,
-        ProductSearch,
+        ListTable:window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        ProductModal:window.$func.fetchComponent('components/ProductModal.vue'),
+        ExportModal:window.$func.fetchComponent('components/Search.vue'),
+        ImportModal:window.$func.fetchComponent('components/ExportModal.vue'),
+        ProductSearch:window.$func.fetchComponent('components/ImportModal.vue'),
     },
 
     data() {
@@ -183,7 +178,7 @@ export default {
                 this.showModal = true;
                 this.product = row;
             } else if (action === "trash") {
-                if (confirm(__("Are you sure want to delete?", "erp"))) {
+                if (confirm(this.$func.__("Are you sure want to delete?", "erp"))) {
 
                     window.axios
                         .delete("products/" + row.id)
@@ -201,7 +196,7 @@ export default {
 
         onBulkAction(action, items) {
             if (action === "trash") {
-                if (confirm(__("Are you sure want to delete?", "erp"))) {
+                if (confirm(this.$func.__("Are you sure want to delete?", "erp"))) {
 
                     window.axios
                         .delete("products/delete/" + items)

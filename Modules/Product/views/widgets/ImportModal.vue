@@ -345,11 +345,10 @@
 </template>
 
 <script>
-import MultiSelect from "../select/MultiSelect.vue";
 
 export default {
     components: {
-        MultiSelect,
+        MultiSelect:window.$func.fetchComponent('components/select/MultiSelect.vue'),
     },
 
     data() {
@@ -420,7 +419,7 @@ export default {
                 );
             }
 
-            this.manageProgressStatus(__("Validating data", "erp"));
+            this.manageProgressStatus(this.$func.__("Validating data", "erp"));
 
             formData.append("csv_file", this.csvFile);
             formData.append("type", this.type);
@@ -444,7 +443,7 @@ export default {
                     },
                 })
                 .then((response) => {
-                    this.manageProgressStatus(__("Importing data", "erp"));
+                    this.manageProgressStatus(this.$func.__("Importing data", "erp"));
 
                     window.axios
                         .post("products/csv/import", {

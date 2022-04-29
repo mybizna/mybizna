@@ -82,19 +82,14 @@
 </template>
 
 <script>
-import PeopleSearch from "assets/partner/widgets/PeopleSearch.vue";
-import ListTable from "assets/components/list-table/ListTable.vue";
-import PeopleModal from "assets/partner/widgets/PeopleModal.vue";
-import ImportModal from "assets/partner/widgets/PeopleModal.vue";
-import ExportModal from "assets/partner/widgets/PeopleModal.vue";
 
 export default {
     components: {
-        PeopleSearch,
-        ListTable,
-        PeopleModal,
-        ImportModal,
-        ExportModal,
+        PeopleSearch: window.$func.fetchComponent('partner/widgets/PeopleSearch.vue'),
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
+        ImportModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
+        ExportModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
     },
 
     data() {
@@ -239,7 +234,7 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(__("Are you sure to delete?", "erp"))) {
+                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
                         window.axios
                             .delete(this.url + "/" + row.id)
                             .then((response) => {
@@ -275,7 +270,7 @@ export default {
 
         onBulkAction(action, items) {
             if (action === "trash") {
-                if (confirm(__("Are you sure to delete?", "erp"))) {
+                if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
                     window.axios
                         .delete(this.url + "/delete/" + items.join(","))
                         .then((response) => {

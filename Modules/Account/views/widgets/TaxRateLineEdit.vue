@@ -26,12 +26,11 @@
 </template>
 
 <script>
-import TaxRateRow from 'assets/components/tax/TaxRateRow.vue';
 
 export default {
 
     components: {
-        TaxRateRow
+        TaxRateRow: window.$func.fetchComponent('components/tax/TaxRateRow.vue')
     },
 
     props: {

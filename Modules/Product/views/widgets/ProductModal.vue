@@ -337,11 +337,10 @@
 </template>
 
 <script>
-import MultiSelect from "assets/components/select/MultiSelect.vue";
 
 export default {
     components: {
-        MultiSelect,
+        MultiSelect:window.$func.fetchComponent('components/select/MultiSelect.vue'),
     },
 
     props: {
@@ -559,11 +558,11 @@ export default {
             }
 
             if (!this.ProductFields.name) {
-                this.error_msg.push(__("Product name is required", "erp"));
+                this.error_msg.push(this.$func.__("Product name is required", "erp"));
             }
 
             if (!this.ProductFields.type) {
-                this.error_msg.push(__("Product type is required", "erp"));
+                this.error_msg.push(this.$func.__("Product type is required", "erp"));
             }
 
             if (this.ProductFields.salePrice <= 0) {
@@ -573,7 +572,7 @@ export default {
             }
 
             if (!this.selfOwner && !this.ProductFields.vendor) {
-                this.error_msg.push(__("Vendor is required", "erp"));
+                this.error_msg.push(this.$func.__("Vendor is required", "erp"));
             }
 
             return false;

@@ -18,7 +18,7 @@
                             <div class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12">
                                 <label for="transfer_funds_from">{{ this.$func.__('Transfer Funds From', 'erp') }}</label>
                                 <div class="mybizna-custom-select with-multiselect">
-                                    <multi-select id="transfer_funds_from" name="from" v-model="transferFrom" :multiple="false" :options="fa" :placeholder="__('Select Account', 'erp')"></multi-select>
+                                    <multi-select id="transfer_funds_from" name="from" v-model="transferFrom" :multiple="false" :options="fa" :placeholder="this.$func.__('Select Account', 'erp')"></multi-select>
                                 </div>
                                 <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(transferFrom.balance)}}</span>
                             </div>
@@ -26,7 +26,7 @@
                                 <label for="transfer_funds_to">{{ this.$func.__('Transfer Funds To', 'erp') }}</label>
 
                                 <div class="mybizna-custom-select with-multiselect">
-                                    <multi-select id="transfer_funds_to" name="to" v-model="transferTo" :multiple="false" :options="ta" :placeholder="__('Select Account', 'erp')"></multi-select>
+                                    <multi-select id="transfer_funds_to" name="to" v-model="transferTo" :multiple="false" :options="ta" :placeholder="this.$func.__('Select Account', 'erp')"></multi-select>
                                 </div>
                                 <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(transferTo.balance)}}</span>
                             </div>
@@ -40,7 +40,7 @@
                             </div>
                             <div class="mybizna-col-xs-12 mybizna-form-group">
                                 <label for="particulars">{{ this.$func.__('Particulars', 'erp') }}</label>
-                                <textarea name="particulars" id="particulars" rows="3" maxlength="250" class="mybizna-form-field" :placeholder="__('Type Here', 'erp')" v-model="particulars"></textarea>
+                                <textarea name="particulars" id="particulars" rows="3" maxlength="250" class="mybizna-form-field" :placeholder="this.$func.__('Type Here', 'erp')" v-model="particulars"></textarea>
                             </div>
                         </div>
                     </div>
@@ -56,13 +56,11 @@
 </template>
 
 <script>
-import MultiSelect from 'assets/components/select/MultiSelect.vue';
-import Datepicker from 'assets/components/base/Datepicker.vue';
 
 export default {
     components: {
-        MultiSelect,
-        Datepicker
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
+        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue')
     },
 
     data() {

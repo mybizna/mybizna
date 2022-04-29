@@ -66,14 +66,12 @@
 </template>
 
 <script>
-    import ListTable   from '../../list-table/ListTable.vue';
-    import Datepicker  from '../../base/Datepicker.vue';
 
     export default {
 
         components: {
-            ListTable,
-            Datepicker,
+            ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
+            Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
         },
 
         data() {

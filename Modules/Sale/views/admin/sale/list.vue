@@ -115,11 +115,10 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
 /* global __ */
 export default {
     components: {
-        ListTable,
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
     },
 
     data() {
@@ -372,7 +371,7 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(__("Are you sure to delete?", "erp"))) {
+                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
                         window.axios
                             .delete("invoices/" + row.id)
                             .then((response) => {

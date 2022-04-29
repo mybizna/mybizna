@@ -82,13 +82,11 @@
 </template>
 
 <script>
-import PieChart from 'assets/components/chart/PieChart.vue';
-import PeopleTransaction from 'assets/components/people/PeopleTransaction.vue';
 
 export default {
     components: {
-        PieChart,
-        PeopleTransaction
+        PieChart: window.$func.fetchComponent('components/chart/PieChart.vue'),
+        PeopleTransaction: window.$func.fetchComponent('components/people/PeopleTransaction.vue')
     },
 
     data() {

@@ -106,13 +106,11 @@
 </template>
 
 <script>
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-import Datepicker from "assets/components/base/Datepicker.vue";
 
 export default {
     components: {
-        Datepicker,
-        MultiSelect,
+        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
     },
 
     data() {

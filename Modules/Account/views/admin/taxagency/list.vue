@@ -10,7 +10,9 @@
                         class="mybizna-btn btn--primary"
                         @click.prevent="showModal = true"
                     >
-                        <span>{{ this.$func.__("Add Tax Agency", "erp") }}</span>
+                        <span>{{
+                            this.$func.__("Add Tax Agency", "erp")
+                        }}</span>
                     </a>
                 </div>
             </div>
@@ -50,15 +52,12 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
-import NewTaxAgency from "assets/components/tax/NewTaxAgency.vue";
-import TaxShortcuts from "assets/components/tax/TaxShortcuts.vue";
 
 export default {
     components: {
-        ListTable,
-        NewTaxAgency,
-        TaxShortcuts,
+        ListTable: window.$func.fetchComponent("components/list-table/ListTable.vue"),
+        NewTaxAgency: window.$func.fetchComponent("components/tax/NewTaxAgency.vue"),
+        TaxShortcuts: window.$func.fetchComponent("components/tax/TaxShortcuts.vue"),
     },
 
     data() {
@@ -189,7 +188,7 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(__("Are you sure to delete?", "erp"))) {
+                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
                         window.axios
                             .delete("tax-agencies" + "/" + row.id)
                             .then((response) => {
@@ -216,7 +215,7 @@ export default {
 
         onBulkAction(action, items) {
             if (action === "trash") {
-                if (confirm(__("Are you sure to delete?", "erp"))) {
+                if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
                     window.axios
                         .delete("tax-agencies/delete/" + items.join(","))
                         .then((response) => {
@@ -230,7 +229,10 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
+                            this.showAlert(
+                                "success",
+                                this.$func.__("Deleted !", "erp")
+                            );
                         });
                 }
             }

@@ -70,7 +70,10 @@
         <p>
             <strong
                 >{{
-                    this.$func.__("For the period of ( Transaction date )", "erp")
+                    this.$func.__(
+                        "For the period of ( Transaction date )",
+                        "erp"
+                    )
                 }}:</strong
             >
             <em>{{ start_date }}</em> {{ this.$func.__("to", "erp") }}
@@ -110,7 +113,9 @@
 
                         <template slot="tfoot">
                             <tr class="t-foot">
-                                <td>{{ this.$func.__("Total Asset", "erp") }}</td>
+                                <td>
+                                    {{ this.$func.__("Total Asset", "erp") }}
+                                </td>
                                 <td>{{ transformBalance(totalAsset) }}</td>
                             </tr>
                         </template>
@@ -147,7 +152,11 @@
                         </template>
                         <template slot="tfoot">
                             <tr class="t-foot">
-                                <td>{{ this.$func.__("Total Liability", "erp") }}</td>
+                                <td>
+                                    {{
+                                        this.$func.__("Total Liability", "erp")
+                                    }}
+                                </td>
                                 <td>{{ transformBalance(totalLiability) }}</td>
                             </tr>
                         </template>
@@ -175,7 +184,9 @@
                         </template>
                         <template slot="tfoot">
                             <tr class="t-foot">
-                                <td>{{ this.$func.__("Total Equity", "erp") }}</td>
+                                <td>
+                                    {{ this.$func.__("Total Equity", "erp") }}
+                                </td>
                                 <td>{{ transformBalance(totalEquity) }}</td>
                             </tr>
                         </template>
@@ -215,15 +226,12 @@
 </template>
 
 <script>
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-import Datepicker from "assets/components/base/Datepicker.vue";
-import ListTable from "assets/components/list-table/ListTable.vue";
 
 export default {
     components: {
-        MultiSelect,
-        ListTable,
-        Datepicker,
+        MultiSelect: window.$func.fetchComponent("components/select/MultiSelect.vue"),
+        ListTable: window.$func.fetchComponent("components/list-table/ListTable.vue"),
+        Datepicker: window.$func.fetchComponent("components/base/Datepicker.vue"),
     },
 
     data() {
@@ -327,7 +335,6 @@ export default {
                     this.totalAsset = response.data.total_asset;
                     this.totalLiability = response.data.total_liability;
                     this.totalEquity = response.data.total_equity;
-
                 })
                 .catch((error) => {
                     throw error;
@@ -400,8 +407,7 @@ export default {
                 .catch((error) => {
                     throw error;
                 })
-                .then(() => {
-                });
+                .then(() => {});
         },
 
         closeBalancesheet(f_year_id) {
@@ -421,8 +427,7 @@ export default {
                 .catch((error) => {
                     throw error;
                 })
-                .then(() => {
-                });
+                .then(() => {});
         },
     },
 };

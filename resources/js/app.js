@@ -38,7 +38,10 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 import filters from "@/utils/filters";
 
+window.$filters = window.$func = filters;
+
 import autorouter from "@/components/router/autorouter";
+
 
 
 const app = createApp(App)

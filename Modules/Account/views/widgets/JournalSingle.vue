@@ -140,11 +140,10 @@
 </template>
 
 <script>
-import TransParticulars from "assets/components/transactions/TransParticulars.vue";
 
 export default {
     components: {
-        TransParticulars,
+        TransParticulars: window.$func.fetchComponent('components/transactions/TransParticulars.vue'),
     },
 
     data() {

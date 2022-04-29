@@ -109,7 +109,7 @@
                                     </td>
                                     <td
                                         class="col--agency with-multiselect"
-                                        :data-colname="__('Agency', 'erp')"
+                                        :data-colname="this.$func.__('Agency', 'erp')"
                                     >
                                         <multi-select
                                             v-model="line.agency_id"
@@ -149,7 +149,7 @@
                                     </td>
                                     <td
                                         class="col--tax-rate"
-                                        :data-colname="__('Tax Rate', 'erp')"
+                                        :data-colname="this.$func.__('Tax Rate', 'erp')"
                                     >
                                         <input
                                             type="text"
@@ -211,7 +211,7 @@
                         <!-- buttons -->
                         <div class="buttons-wrapper text-right">
                             <submit-button
-                                :text="__('Save', 'erp')"
+                                :text="this.$func.__('Save', 'erp')"
                                 @click.native.prevent="addNewTaxRate"
                             ></submit-button>
                         </div>
@@ -223,21 +223,15 @@
 </template>
 
 <script>
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-import SubmitButton from "assets/components/base/SubmitButton.vue";
-import NewTaxAgency from "assets/components/tax/NewTaxAgency.vue";
-import NewTaxCategory from "assets/components/tax/NewTaxCategory.vue";
-import NewTaxZone from "assets/components/tax/NewTaxZone.vue";
-import ShowErrors from "assets/components/base/ShowErrors.vue";
 
 export default {
     components: {
-        MultiSelect,
-        SubmitButton,
-        NewTaxAgency,
-        NewTaxCategory,
-        NewTaxZone,
-        ShowErrors,
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
+        SubmitButton: window.$func.fetchComponent('components/base/SubmitButton.vue'),
+        NewTaxAgency: window.$func.fetchComponent('components/tax/NewTaxAgency.vue'),
+        NewTaxCategory: window.$func.fetchComponent('components/tax/NewTaxCategory.vue'),
+        NewTaxZone: window.$func.fetchComponent('components/tax/NewTaxZone.vue'),
+        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
     },
 
     data() {

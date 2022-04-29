@@ -62,7 +62,7 @@
                                 v-model="basic_fields.billing_address"
                                 rows="4"
                                 class="mybizna-form-field"
-                                :placeholder="__('Type here', 'erp')"
+                                :placeholder="this.$func.__('Type here', 'erp')"
                             ></textarea>
                         </div>
                     </div>
@@ -210,7 +210,7 @@
                                         rows="4"
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
-                                        :placeholder="__('Particulars', 'erp')"
+                                        :placeholder="this.$func.__('Particulars', 'erp')"
                                     ></textarea>
                                 </td>
                             </tr>
@@ -304,26 +304,17 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
-import Datepicker from "assets/components/base/Datepicker.vue";
-import FileUpload from "assets/components/base/FileUpload.vue";
-import ComboButton from "assets/components/select/ComboButton.vue";
-import InvoiceTrnRow from "assets/components/invoice/InvoiceTrnRow.vue";
-import SelectCustomers from "assets/components/people/SelectCustomers.vue";
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-import ShowErrors from "assets/components/base/ShowErrors.vue";
 
 /* global erp_acct_var */
 export default {
     components: {
-        MultiSelect,
-        Datepicker,
-        FileUpload,
-        ComboButton,
-        InvoiceTrnRow,
-        SelectCustomers,
-        ShowErrors,
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
+        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
+        FileUpload: window.$func.fetchComponent('components/base/FileUpload.vue'),
+        ComboButton: window.$func.fetchComponent('components/select/ComboButton.vue'),
+        InvoiceTrnRow: window.$func.fetchComponent('components/invoice/InvoiceTrnRow.vue'),
+        SelectCustomers: window.$func.fetchComponent('components/people/SelectCustomers.vue'),
+        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
     },
 
     data() {
@@ -815,7 +806,7 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(__("Customer Name is required.", "erp"));
+                this.form_errors.push(this.$func.__("Customer Name is required.", "erp"));
             }
 
             if (!this.basic_fields.trn_date) {
@@ -825,15 +816,15 @@ export default {
             }
 
             if (!this.basic_fields.due_date) {
-                this.form_errors.push(__("Due Date is required.", "erp"));
+                this.form_errors.push(this.$func.__("Due Date is required.", "erp"));
             }
 
             if (!parseFloat(this.finalTotalAmount)) {
-                this.form_errors.push(__("Total amount can't be zero.", "erp"));
+                this.form_errors.push(this.$func.__("Total amount can't be zero.", "erp"));
             }
 
             if (this.noFulfillLines(this.transactionLines, "selectedProduct")) {
-                this.form_errors.push(__("Please select a product.", "erp"));
+                this.form_errors.push(this.$func.__("Please select a product.", "erp"));
             }
         },
     },

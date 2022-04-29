@@ -15,7 +15,7 @@
                     >
                 </div>
                 <input-tag
-                    :placeholder="__('Add Emails', 'erp')"
+                    :placeholder="this.$func.__('Add Emails', 'erp')"
                     v-model="emails"
                     validate="email"
                 />
@@ -29,7 +29,7 @@
                         type="text"
                         v-model="subject"
                         class="mybizna-form-field"
-                        :placeholder="__('Enter Subject Here', 'erp')"
+                        :placeholder="this.$func.__('Enter Subject Here', 'erp')"
                     />
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     <textarea
                         v-model="message"
                         class="mybizna-form-field"
-                        :placeholder="__('Enter Your Message Here', 'erp')"
+                        :placeholder="this.$func.__('Enter Your Message Here', 'erp')"
                         rows="4"
                     ></textarea>
                 </div>
@@ -88,13 +88,10 @@
 </template>
 
 <script>
-import Modal from "assets/components/modal/Modal.vue";
-import InputTag from "vue-input-tag";
 
 export default {
     components: {
-        Modal,
-        InputTag,
+        Modal: window.$func.fetchComponent('components/modal/Modal.vue'),
     },
 
     props: {

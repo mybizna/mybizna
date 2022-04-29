@@ -53,15 +53,12 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
-import NewTaxZone from "assets/components/tax/NewTaxZone.vue";
-import TaxShortcuts from "assets/components/tax/TaxShortcuts.vue";
 
 export default {
     components: {
-        NewTaxZone,
-        ListTable,
-        TaxShortcuts,
+        NewTaxZone: window.$func.fetchComponent('components/tax/NewTaxZone.vue'),
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        TaxShortcuts: window.$func.fetchComponent('components/tax/TaxShortcuts.vue'),
     },
 
     data() {
@@ -191,7 +188,7 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(__("Are you sure to delete?", "erp"))) {
+                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
                         window.axios
                             .delete("tax-rate-names" + "/" + row.id)
                             .then((response) => {
@@ -218,7 +215,7 @@ export default {
 
         onBulkAction(action, items) {
             if (action === "trash") {
-                if (confirm(__("Are you sure to delete?", "erp"))) {
+                if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
                     window.axios
                         .delete("tax-rate-names/delete/" + items.join(","))
                         .then((response) => {

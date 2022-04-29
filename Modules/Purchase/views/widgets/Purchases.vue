@@ -9,7 +9,7 @@
                     <combo-box
                         :options="pages"
                         :hasUrl="true"
-                        :placeholder="__('New Transaction', 'erp')" />
+                        :placeholder="this.$func.__('New Transaction', 'erp')" />
                 </div>
             </div>
         </div>
@@ -23,22 +23,14 @@
 </template>
 
 <script>
-import 'assets/js/plugins/chart.min';
-import 'assets/js/status_chart';
-
-import ComboBox from 'assets/components/select/ComboBox.vue';
-import PurchasesStats from 'assets/components/transactions/purchases/PurchasesStats.vue';
-import PurchasesList from 'assets/components/transactions/purchases/PurchasesList.vue';
-import TransactionsFilter from 'assets/components/transactions/TransactionsFilter.vue';
-import {mapState} from "vuex";
 
 export default {
 
     components: {
-        PurchasesStats,
-        PurchasesList,
-        TransactionsFilter,
-        ComboBox
+        PurchasesStats: window.$func.fetchComponent('components/transactions/purchases/PurchasesStats.vue'),
+        PurchasesList: window.$func.fetchComponent('components/transactions/purchases/PurchasesList.vue'),
+        TransactionsFilter: window.$func.fetchComponent('components/transactions/TransactionsFilter.vue'),
+        ComboBox: window.$func.fetchComponent('components/select/ComboBox.vue')
     },
 
     data() {

@@ -56,7 +56,7 @@
                                 rows="1"
                                 maxlength="250"
                                 class="mybizna-form-field display-flex"
-                                :placeholder="__('Internal Information', 'erp')"
+                                :placeholder="this.$func.__('Internal Information', 'erp')"
                             ></textarea>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                                 </td>
                                 <td
                                     class="col--account"
-                                    :data-colname="__('Account', 'erp')"
+                                    :data-colname="this.$func.__('Account', 'erp')"
                                 >
                                     <div
                                         class="mybizna-custom-select with-multiselect"
@@ -113,7 +113,7 @@
                                 </td>
                                 <td
                                     class="col--particulars"
-                                    :data-colname="__('Particulars', 'erp')"
+                                    :data-colname="this.$func.__('Particulars', 'erp')"
                                 >
                                     <input
                                         type="text"
@@ -124,7 +124,7 @@
                                 </td>
                                 <td
                                     class="col--debit"
-                                    :data-colname="__('Debit', 'erp')"
+                                    :data-colname="this.$func.__('Debit', 'erp')"
                                 >
                                     <input
                                         type="text"
@@ -140,7 +140,7 @@
                                 </td>
                                 <td
                                     class="col--credit"
-                                    :data-colname="__('Credit', 'erp')"
+                                    :data-colname="this.$func.__('Credit', 'erp')"
                                 >
                                     <input
                                         type="text"
@@ -187,7 +187,7 @@
                                         this.$func.__("Total Amount", "erp")
                                     }}</span>
                                 </td>
-                                <td :data-colname="__('Debit', 'erp')">
+                                <td :data-colname="this.$func.__('Debit', 'erp')">
                                     <input
                                         type="text"
                                         class="mybizna-form-field text-right"
@@ -199,7 +199,7 @@
                                         readonly
                                     />
                                 </td>
-                                <td :data-colname="__('Credit', 'erp')">
+                                <td :data-colname="this.$func.__('Credit', 'erp')">
                                     <input
                                         type="text"
                                         class="mybizna-form-field text-right"
@@ -231,7 +231,7 @@
                             <tr class="inline-edit-row">
                                 <td colspan="9" style="text-align: right">
                                     <submit-button
-                                        :text="__('Save', 'erp')"
+                                        :text="this.$func.__('Save', 'erp')"
                                     ></submit-button>
                                 </td>
                             </tr>
@@ -244,19 +244,13 @@
     </div>
 </template>
 <script>
-import Datepicker from "assets/components/base/Datepicker.vue";
-import FileUpload from "assets/components/base/FileUpload.vue";
-import SubmitButton from "assets/components/base/SubmitButton.vue";
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-import ShowErrors from "assets/components/base/ShowErrors.vue";
-
 export default {
     components: {
-        MultiSelect,
-        Datepicker,
-        FileUpload,
-        SubmitButton,
-        ShowErrors,
+        MultiSelect: window.$func.fetchComponent("components/select/MultiSelect.vue"),
+        Datepicker: window.$func.fetchComponent("components/base/Datepicker.vue"),
+        FileUpload: window.$func.fetchComponent("components/base/FileUpload.vue"),
+        SubmitButton: window.$func.fetchComponent("components/base/SubmitButton.vue"),
+        ShowErrors: window.$func.fetchComponent("components/base/ShowErrors.vue"),
     },
 
     data() {
@@ -351,7 +345,7 @@ export default {
             this.form_errors = [];
 
             if (this.account_ids.length < 2) {
-                this.form_errors.push(__("Accounts are required.", "erp"));
+                this.form_errors.push(this.$func.__("Accounts are required.", "erp"));
             }
 
             if (!this.basic_fields.trn_date) {
@@ -361,7 +355,7 @@ export default {
             }
 
             if (!this.debit_total) {
-                this.form_errors.push(__("Total amount can't be zero.", "erp"));
+                this.form_errors.push(this.$func.__("Total amount can't be zero.", "erp"));
             }
 
             if (Math.abs(this.debit_total - this.credit_total)) {

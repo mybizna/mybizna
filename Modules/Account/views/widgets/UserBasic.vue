@@ -66,11 +66,10 @@
 </template>
 
 <script>
-import PeopleModal from "assets/partner/widgets/PeopleModal.vue";
 
 export default {
     components: {
-        PeopleModal,
+        PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
     },
 
     props: {

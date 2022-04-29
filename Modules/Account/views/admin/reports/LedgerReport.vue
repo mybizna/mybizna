@@ -50,7 +50,10 @@
             <li>
                 <strong
                     >{{
-                        this.$func.__("For the period of ( Transaction date )", "erp")
+                        this.$func.__(
+                            "For the period of ( Transaction date )",
+                            "erp"
+                        )
                     }}:</strong
                 >
                 <em>{{ formatDate(start_date) }}</em> to
@@ -88,7 +91,9 @@
             <template slot="tfoot">
                 <tr class="tfoot">
                     <td colspan="3"></td>
-                    <td data-left-align>{{ this.$func.__("Total", "erp") }} =</td>
+                    <td data-left-align>
+                        {{ this.$func.__("Total", "erp") }} =
+                    </td>
                     <td data-colname="Debit">{{ moneyFormat(totalDebit) }}</td>
                     <td data-colname="Credit">
                         {{ moneyFormat(totalCredit) }}
@@ -101,15 +106,11 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
-import Datepicker from "assets/components/base/Datepicker.vue";
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-
 export default {
     components: {
-        ListTable,
-        Datepicker,
-        MultiSelect,
+        ListTable: window.$func.fetchComponent("components/list-table/ListTable.vue"),
+        Datepicker: window.$func.fetchComponent("components/base/Datepicker.vue"),
+        MultiSelect: window.$func.fetchComponent("components/select/MultiSelect.vue"),
     },
 
     data() {
@@ -120,7 +121,10 @@ export default {
             ledgers: [],
             openingBalance: 0,
             columns: {
-                trn_date: { label: this.$func.__("Trns Date", "erp"), isColPrimary: true },
+                trn_date: {
+                    label: this.$func.__("Trns Date", "erp"),
+                    isColPrimary: true,
+                },
                 created_at: { label: this.$func.__("Created At", "erp") },
                 trn_no: { label: this.$func.__("Trns No", "erp") },
                 particulars: { label: this.$func.__("Particulars", "erp") },
@@ -204,7 +208,6 @@ export default {
         getLedgerReport() {
             if (this.selectedLedger === null) return;
 
-
             this.rows = [];
 
             window.axios
@@ -227,10 +230,8 @@ export default {
                             ? item.trn_no
                             : parseInt("" + Math.random() * 100000);
                     });
-
                 })
-                .catch((_) => {
-                });
+                .catch((_) => {});
         },
 
         printPopup() {
@@ -288,7 +289,7 @@ export default {
     font-weight: bold;
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
     .ledger-report tfoot tr:not(.inline-edit-row):not(.no-items) td {
         padding: 10px 10px 10px 35%;
     }

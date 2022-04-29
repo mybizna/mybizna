@@ -64,11 +64,11 @@
                                 </div>
                                 </div>
                                 <div class="mybizna-panel-footer">
-                                    <input type="button" :value="__( 'Cancel', 'erp' )" class="mybizna-btn btn--cancel"
+                                    <input type="button" :value="this.$func.__( 'Cancel', 'erp' )" class="mybizna-btn btn--cancel"
                                            @click="toggleFilter">
-                                    <input type="reset" :value="__( 'Reset', 'erp' )" class="mybizna-btn btn--reset"
+                                    <input type="reset" :value="this.$func.__( 'Reset', 'erp' )" class="mybizna-btn btn--reset"
                                            @click="resetFilter">
-                                    <input type="submit" :value="__( 'Submit', 'erp' )" class="mybizna-btn btn--primary">
+                                    <input type="submit" :value="this.$func.__( 'Submit', 'erp' )" class="mybizna-btn btn--primary">
                                 </div>
                             </div>
                         </div>
@@ -84,8 +84,6 @@
 </template>
 
 <script>
-import Datepicker from 'assets/components/base/Datepicker.vue';
-import SimpleSelect from 'assets/components/select/SimpleSelect.vue';
 
 export default {
 
@@ -117,8 +115,8 @@ export default {
     },
 
     components: {
-        Datepicker,
-        SimpleSelect
+        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
+        SimpleSelect: window.$func.fetchComponent('components/select/SimpleSelect.vue')
     },
 
     data() {

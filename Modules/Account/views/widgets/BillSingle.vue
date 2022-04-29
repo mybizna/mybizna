@@ -206,15 +206,12 @@
 </template>
 
 <script>
-import SendMail from "assets/components/email/SendMail.vue";
-import Dropdown from "assets/components/base/Dropdown.vue";
-import TransParticulars from "assets/components/transactions/TransParticulars.vue";
 
 export default {
     components: {
-        SendMail,
-        Dropdown,
-        TransParticulars,
+        SendMail: window.$func.fetchComponent('components/email/SendMail.vue'),
+        Dropdown: window.$func.fetchComponent('components/base/Dropdown.vue'),
+        TransParticulars: window.$func.fetchComponent('components/transactions/TransParticulars.vue'),
     },
 
     data() {

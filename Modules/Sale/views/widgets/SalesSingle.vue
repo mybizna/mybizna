@@ -76,10 +76,6 @@
 </template>
 
 <script>
-import InvoiceSingleContent from "assets/components/transactions/sales/InvoiceSingleContent.vue";
-import PaymentSingleContent from "assets/components/transactions/sales/PaymentSingleContent.vue";
-import SendMail from "assets/components/email/SendMail.vue";
-import Dropdown from "assets/components/base/Dropdown.vue";
 
 export default {
     data() {
@@ -99,10 +95,10 @@ export default {
     },
 
     components: {
-        InvoiceSingleContent,
-        PaymentSingleContent,
-        SendMail,
-        Dropdown,
+        InvoiceSingleContent : window.$func.fetchComponent('components/transactions/sales/InvoiceSingleContent.vue'),
+        PaymentSingleContent : window.$func.fetchComponent('components/transactions/sales/PaymentSingleContent.vue'),
+        SendMail : window.$func.fetchComponent('components/email/SendMail.vue'),
+        Dropdown : window.$func.fetchComponent('components/base/Dropdown.vue'),
     },
 
     created() {

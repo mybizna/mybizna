@@ -31,7 +31,9 @@
                                     <a
                                         href="#"
                                         @click.prevent="showModal = true"
-                                        >{{ this.$func.__("Send Mail", "erp") }}</a
+                                        >{{
+                                            this.$func.__("Send Mail", "erp")
+                                        }}</a
                                     >
                                 </li>
                             </ul>
@@ -78,7 +80,10 @@
                                     {{
                                         type === "pay_purchase"
                                             ? this.$func.__("Payment To", "erp")
-                                            : this.$func.__("Payment From", "erp")
+                                            : this.$func.__(
+                                                  "Payment From",
+                                                  "erp"
+                                              )
                                     }}:
                                 </h5>
                                 <div class="persons-info">
@@ -92,12 +97,24 @@
                             <div class="mybizna-col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
-                                        <th>{{ this.$func.__("Voucher No", "erp") }}:</th>
+                                        <th>
+                                            {{
+                                                this.$func.__(
+                                                    "Voucher No",
+                                                    "erp"
+                                                )
+                                            }}:
+                                        </th>
                                         <td>#{{ payPurchase.voucher_no }}</td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ this.$func.__("Reference No", "erp") }}:
+                                            {{
+                                                this.$func.__(
+                                                    "Reference No",
+                                                    "erp"
+                                                )
+                                            }}:
                                         </th>
                                         <td>
                                             <span v-if="payPurchase.ref">
@@ -107,7 +124,12 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ this.$func.__("Transaction Date", "erp") }}:
+                                            {{
+                                                this.$func.__(
+                                                    "Transaction Date",
+                                                    "erp"
+                                                )
+                                            }}:
                                         </th>
                                         <td>
                                             {{
@@ -116,7 +138,14 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ this.$func.__("Created At", "erp") }}:</th>
+                                        <th>
+                                            {{
+                                                this.$func.__(
+                                                    "Created At",
+                                                    "erp"
+                                                )
+                                            }}:
+                                        </th>
                                         <td>
                                             {{
                                                 formatDate(
@@ -127,7 +156,12 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ this.$func.__("Transaction From", "erp") }}:
+                                            {{
+                                                this.$func.__(
+                                                    "Transaction From",
+                                                    "erp"
+                                                )
+                                            }}:
                                         </th>
                                         <td>{{ payPurchase.trn_by }}</td>
                                     </tr>
@@ -140,7 +174,10 @@
                                     >
                                         <th>
                                             {{
-                                                this.$func.__("Transaction Charge", "erp")
+                                                this.$func.__(
+                                                    "Transaction Charge",
+                                                    "erp"
+                                                )
                                             }}:
                                         </th>
                                         <td>
@@ -152,16 +189,27 @@
                         </div>
                     </div>
 
-                    <div class="mybizna-invoice-table" v-if="null != payPurchase">
+                    <div
+                        class="mybizna-invoice-table"
+                        v-if="null != payPurchase"
+                    >
                         <table
                             class="mybizna-table mybizna-form-table invoice-table"
                         >
                             <thead>
                                 <tr>
                                     <th>{{ this.$func.__("Sl.", "erp") }}</th>
-                                    <th>{{ this.$func.__("Purchase No", "erp") }}</th>
-                                    <th>{{ this.$func.__("Vendor", "erp") }}</th>
-                                    <th>{{ this.$func.__("Amount", "erp") }}</th>
+                                    <th>
+                                        {{
+                                            this.$func.__("Purchase No", "erp")
+                                        }}
+                                    </th>
+                                    <th>
+                                        {{ this.$func.__("Vendor", "erp") }}
+                                    </th>
+                                    <th>
+                                        {{ this.$func.__("Amount", "erp") }}
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -197,7 +245,10 @@
                                             <li>
                                                 <span
                                                     >{{
-                                                        this.$func.__("Total", "erp")
+                                                        this.$func.__(
+                                                            "Total",
+                                                            "erp"
+                                                        )
                                                     }}:</span
                                                 >
                                                 {{
@@ -255,15 +306,14 @@
 </template>
 
 <script>
-import SendMail from "assets/components/email/SendMail.vue";
-import Dropdown from "assets/components/base/Dropdown.vue";
-import TransParticulars from "assets/components/transactions/TransParticulars.vue";
 
 export default {
     components: {
-        SendMail,
-        Dropdown,
-        TransParticulars,
+        SendMail: window.$func.fetchComponent("components/email/SendMail.vue"),
+        Dropdown: window.$func.fetchComponent("components/base/Dropdown.vue"),
+        TransParticulars: window.$func.fetchComponent(
+            "components/transactions/TransParticulars.vue"
+        ),
     },
 
     data() {

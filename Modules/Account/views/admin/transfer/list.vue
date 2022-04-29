@@ -39,11 +39,9 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
-
 export default {
     components: {
-        ListTable,
+        ListTable: window.$func.fetchComponent("components/list-table/ListTable.vue"),
     },
 
     data() {
@@ -59,7 +57,10 @@ export default {
             money_transfer: false,
             transfer_list: [],
             columns: {
-                voucher: { label: this.$func.__("Voucher No", "erp"), isColPrimary: true },
+                voucher: {
+                    label: this.$func.__("Voucher No", "erp"),
+                    isColPrimary: true,
+                },
                 ac_from: { label: this.$func.__("Account From", "erp") },
                 amount: { label: this.$func.__("Amount", "erp") },
                 ac_to: { label: this.$func.__("Account To", "erp") },

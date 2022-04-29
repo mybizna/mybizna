@@ -107,7 +107,7 @@
                                     v-model.trim="basic_fields.billing_address"
                                     rows="3"
                                     class="mybizna-form-field"
-                                    :placeholder="__('Type here', 'erp')"
+                                    :placeholder="this.$func.__('Type here', 'erp')"
                                 ></textarea>
                             </div>
 
@@ -165,12 +165,12 @@
                                         rows="1"
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
-                                        :placeholder="__('Particulars', 'erp')"
+                                        :placeholder="this.$func.__('Particulars', 'erp')"
                                     ></textarea>
                                 </td>
                                 <td
                                     class="col--amount"
-                                    :data-colname="__('Amount', 'erp')"
+                                    :data-colname="this.$func.__('Amount', 'erp')"
                                 >
                                     <input
                                         type="text"
@@ -186,7 +186,7 @@
                                 </td>
                                 <td
                                     class="col--total"
-                                    :data-colname="__('Total', 'erp')"
+                                    :data-colname="this.$func.__('Total', 'erp')"
                                 >
                                     <input
                                         type="text"
@@ -225,7 +225,7 @@
                                 </td>
                                 <td
                                     class="text-right"
-                                    :data-colname="__('Total Amount', 'erp')"
+                                    :data-colname="this.$func.__('Total Amount', 'erp')"
                                 >
                                     <input
                                         type="text"
@@ -328,27 +328,17 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
-import Datepicker from "assets/components/base/Datepicker.vue";
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-import FileUpload from "assets/components/base/FileUpload.vue";
-import ComboButton from "assets/components/select/ComboButton.vue";
-import SelectPeople from "assets/partner/widgets/SelectPeople.vue";
-import SelectAccounts from "assets/components/select/SelectAccounts.vue";
-import CheckFields from "assets/components/check/CheckFields.vue";
-import ShowErrors from "assets/components/base/ShowErrors.vue";
 
 export default {
     components: {
-        SelectAccounts,
-        Datepicker,
-        MultiSelect,
-        FileUpload,
-        ComboButton,
-        SelectPeople,
-        CheckFields,
-        ShowErrors,
+        SelectAccounts: window.$func.fetchComponent('components/select/SelectAccounts.vue'),
+        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
+        FileUpload: window.$func.fetchComponent('components/base/FileUpload.vue'),
+        ComboButton: window.$func.fetchComponent('components/select/ComboButton.vue'),
+        SelectPeople: window.$func.fetchComponent('partner/widgets/SelectPeople.vue'),
+        CheckFields: window.$func.fetchComponent('components/check/CheckFields.vue'),
+        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
     },
 
     data() {
@@ -807,7 +797,7 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(__("People Name is required.", "erp"));
+                this.form_errors.push(this.$func.__("People Name is required.", "erp"));
             }
 
             if (!this.basic_fields.trn_date) {
@@ -833,7 +823,7 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(__("Payment Method is required.", "erp"));
+                this.form_errors.push(this.$func.__("Payment Method is required.", "erp"));
             }
 
             if (
@@ -846,11 +836,11 @@ export default {
             }
 
             if (!parseFloat(this.finalTotalAmount)) {
-                this.form_errors.push(__("Total amount can't be zero.", "erp"));
+                this.form_errors.push(this.$func.__("Total amount can't be zero.", "erp"));
             }
 
             if (this.noFulfillLines(this.transactionLines, "ledger_id")) {
-                this.form_errors.push(__("Please select an account.", "erp"));
+                this.form_errors.push(this.$func.__("Please select an account.", "erp"));
             }
         },
 

@@ -81,7 +81,7 @@
                                     step="0.01"
                                     v-model="tax_amount"
                                     class="mybizna-form-field"
-                                    :placeholder="__('Enter Tax Amount', 'erp')"
+                                    :placeholder="this.$func.__('Enter Tax Amount', 'erp')"
                                 />
 
                                 <span
@@ -112,13 +112,13 @@
                                 v-model="particulars"
                                 maxlength="250"
                                 class="mybizna-form-field"
-                                :placeholder="__('Enter Particulars', 'erp')"
+                                :placeholder="this.$func.__('Enter Particulars', 'erp')"
                             ></textarea>
                         </div>
                         <div class="mybizna-col-xs-12">
                             <div class="mybizna-form-group text-right mt-10 mb-0">
                                 <submit-button
-                                    :text="__('Save', 'erp')"
+                                    :text="this.$func.__('Save', 'erp')"
                                     :working="isWorking"
                                 ></submit-button>
                             </div>
@@ -131,19 +131,14 @@
 </template>
 
 <script>
-import Datepicker from "assets/components/base/Datepicker.vue";
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-import SubmitButton from "assets/components/base/SubmitButton.vue";
-import SelectAccounts from "assets/components/select/SelectAccounts.vue";
-import ShowErrors from "assets/components/base/ShowErrors.vue";
 
 export default {
     components: {
-        Datepicker,
-        MultiSelect,
-        SubmitButton,
-        SelectAccounts,
-        ShowErrors,
+        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
+        SubmitButton: window.$func.fetchComponent('components/base/SubmitButton.vue'),
+        SelectAccounts: window.$func.fetchComponent('components/select/SelectAccounts.vue'),
+        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
     },
 
     data() {
@@ -322,23 +317,23 @@ export default {
             }
 
             if (!this.deposit_to.id) {
-                this.form_errors.push(__("Deposit to is required.", "erp"));
+                this.form_errors.push(this.$func.__("Deposit to is required.", "erp"));
             }
 
             if (!this.agency.id) {
-                this.form_errors.push(__("Agency to is required.", "erp"));
+                this.form_errors.push(this.$func.__("Agency to is required.", "erp"));
             }
 
             if (!this.trn_date) {
-                this.form_errors.push(__("Date is required.", "erp"));
+                this.form_errors.push(this.$func.__("Date is required.", "erp"));
             }
 
             if (!this.tax_amount) {
-                this.form_errors.push(__("Tax amount is required.", "erp"));
+                this.form_errors.push(this.$func.__("Tax amount is required.", "erp"));
             }
 
             // if ( this.tax_amount > this.dueAmount ) {
-            //     this.form_errors.push(__('Please pay according to your due balance.', 'erp'));
+            //     this.form_errors.push(this.$func.__('Please pay according to your due balance.', 'erp'));
             // }
 
             if (

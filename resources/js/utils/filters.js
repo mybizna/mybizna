@@ -1,5 +1,7 @@
 import accounting from 'accounting';
 
+import fetchComponent from "@/utils/fetchComponent";
+
 const currencyOptions = {
     symbol: '$',
     decimal: '.',
@@ -156,5 +158,9 @@ export default {
                 return date.toDateString().replace(/^\S+\s/, '');
         }
     },
+
+    fetchComponent(comp_path) {
+        return fetchComponent(comp_path);
+    }
 
 };

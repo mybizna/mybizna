@@ -97,7 +97,7 @@
                                 v-model.trim="basic_fields.billing_address"
                                 rows="3"
                                 class="mybizna-form-field"
-                                :placeholder="__('Type here', 'erp')"
+                                :placeholder="this.$func.__('Type here', 'erp')"
                             ></textarea>
                         </div>
 
@@ -138,25 +138,25 @@
                                 </td>
                                 <td
                                     class="col--due-date"
-                                    :data-colname="__('Due Date', 'erp')"
+                                    :data-colname="this.$func.__('Due Date', 'erp')"
                                 >
                                     {{ item.due_date }}
                                 </td>
                                 <td
                                     class="col--total"
-                                    :data-colname="__('Total', 'erp')"
+                                    :data-colname="this.$func.__('Total', 'erp')"
                                 >
                                     {{ moneyFormat(item.total) }}
                                 </td>
                                 <td
                                     class="col--due"
-                                    :data-colname="__('Due', 'erp')"
+                                    :data-colname="this.$func.__('Due', 'erp')"
                                 >
                                     {{ formatAmount(item.due, true) }}
                                 </td>
                                 <td
                                     class="col--amount"
-                                    :data-colname="__('Amount', 'erp')"
+                                    :data-colname="this.$func.__('Amount', 'erp')"
                                 >
                                     <input
                                         type="number"
@@ -188,7 +188,7 @@
                                 </td>
                                 <td
                                     class="text-right"
-                                    :data-colname="__('Total Amount', 'erp')"
+                                    :data-colname="this.$func.__('Total Amount', 'erp')"
                                 >
                                     <input
                                         type="text"
@@ -244,27 +244,17 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
-import Datepicker from "assets/components/base/Datepicker.vue";
-import FileUpload from "assets/components/base/FileUpload.vue";
-import SelectVendors from "assets/components/people/SelectVendors.vue";
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-import CheckFields from "assets/components/check/CheckFields.vue";
-import ShowErrors from "assets/components/base/ShowErrors.vue";
-import SelectAccounts from "assets/componentss/select/SelectAccounts.vue";
-import ComboButton from "assets/components/select/ComboButton.vue";
 
 export default {
     components: {
-        MultiSelect,
-        SelectVendors,
-        Datepicker,
-        FileUpload,
-        ComboButton,
-        CheckFields,
-        SelectAccounts,
-        ShowErrors,
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
+        SelectVendors: window.$func.fetchComponent('components/people/SelectVendors.vue'),
+        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
+        FileUpload: window.$func.fetchComponent('components/base/FileUpload.vue'),
+        ComboButton: window.$func.fetchComponent('components/select/ComboButton.vue'),
+        CheckFields: window.$func.fetchComponent('components/check/CheckFields.vue'),
+        SelectAccounts: window.$func.fetchComponent('components/select/SelectAccounts.vue'),
+        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
     },
 
     data() {
@@ -601,7 +591,7 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(__("Vendor Name is required.", "erp"));
+                this.form_errors.push(this.$func.__("Vendor Name is required.", "erp"));
             }
 
             if (!this.basic_fields.payment_date) {
@@ -627,7 +617,7 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(__("Payment Method is required.", "erp"));
+                this.form_errors.push(this.$func.__("Payment Method is required.", "erp"));
             }
 
             if (
@@ -640,7 +630,7 @@ export default {
             }
 
             if (!parseFloat(this.finalTotalAmount)) {
-                this.form_errors.push(__("Total amount can't be zero.", "erp"));
+                this.form_errors.push(this.$func.__("Total amount can't be zero.", "erp"));
             }
         },
 

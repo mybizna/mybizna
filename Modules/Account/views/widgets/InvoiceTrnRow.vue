@@ -17,7 +17,7 @@
                 :required="line.selectedProduct ? true : false"
             />
         </td>
-        <td class="col--uni_price" :data-colname="__('Unit Price', 'erp')">
+        <td class="col--uni_price" :data-colname="this.$func.__('Unit Price', 'erp')">
             <input
                 type="number"
                 min="0"
@@ -28,7 +28,7 @@
                 :required="line.selectedProduct ? true : false"
             />
         </td>
-        <td class="col--amount" :data-colname="__('Amount', 'erp')">
+        <td class="col--amount" :data-colname="this.$func.__('Amount', 'erp')">
             <input
                 type="number"
                 min="0"
@@ -38,7 +38,7 @@
                 readonly
             />
         </td>
-        <td class="col--tax" :data-colname="__('Tax', 'erp')">
+        <td class="col--tax" :data-colname="this.$func.__('Tax', 'erp')">
             <input
                 type="checkbox"
                 v-model="line.applyTax"
@@ -51,7 +51,7 @@
                 <span style="color: #f44336" v-text="line.discount"></span>
             </template>
         </td>
-        <td class="col--actions delete-row" :data-colname="__('Action', 'erp')">
+        <td class="col--actions delete-row" :data-colname="this.$func.__('Action', 'erp')">
             <span class="mybizna-btn" @click="removeRow"
                 ><i class="flaticon-trash"></i
             ></span>
@@ -60,9 +60,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 
-import MultiSelect from "assets/components/select/MultiSelect.vue";
 
 export default {
     props: {
@@ -83,7 +81,7 @@ export default {
     },
 
     components: {
-        MultiSelect,
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
     },
 
     data() {

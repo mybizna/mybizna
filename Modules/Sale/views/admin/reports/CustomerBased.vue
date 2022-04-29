@@ -104,16 +104,12 @@
 </template>
 
 <script>
-import ListTable from "../../list-table/ListTable.vue";
-import Datepicker from "../../base/Datepicker.vue";
-import MultiSelect from "../../select/MultiSelect.vue";
-import { mapState } from "vuex";
 
 export default {
     components: {
-        ListTable,
-        Datepicker,
-        MultiSelect,
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
     },
 
     data() {

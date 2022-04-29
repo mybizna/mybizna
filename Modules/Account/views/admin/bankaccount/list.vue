@@ -9,7 +9,7 @@
                     <combo-box
                         :options="pages"
                         :hasUrl="true"
-                        :placeholder="__('New Transaction', 'erp')"
+                        :placeholder="this.$func.__('New Transaction', 'erp')"
                     />
                     <span
                         class="erp-help-tip .erp-tips"
@@ -46,7 +46,10 @@
                                 <div class="account-number-info">
                                     <span class="account-number-label"
                                         >{{
-                                            this.$func.__("Account Number", "erp")
+                                            this.$func.__(
+                                                "Account Number",
+                                                "erp"
+                                            )
                                         }}:</span
                                     >
                                     <span class="account-number">{{
@@ -59,7 +62,10 @@
                                     <div class="available-balance">
                                         <span class="account-balance-label"
                                             >{{
-                                                this.$func.__("Available Balance", "erp")
+                                                this.$func.__(
+                                                    "Available Balance",
+                                                    "erp"
+                                                )
                                             }}:</span
                                         >
                                         <strong
@@ -136,13 +142,11 @@
 </template>
 
 <script>
-import Dropdown from "assets/components/base/Dropdown.vue";
-import ComboBox from "assets/components/select/ComboBox.vue";
 
 export default {
     components: {
-        Dropdown,
-        ComboBox,
+        Dropdown: window.$func.fetchComponent("components/base/Dropdown.vue"),
+        ComboBox: window.$func.fetchComponent("components/select/ComboBox.vue"),
     },
 
     data() {
@@ -165,7 +169,6 @@ export default {
 
     methods: {
         fetchAccounts() {
-
             window.axios
                 .get("/accounts/bank-accounts")
                 .then((response) => {
