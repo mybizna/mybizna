@@ -62,7 +62,7 @@
         </ul>
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat ledger-table"
+            tableClass="mybizna-table table-striped widefat ledger-table"
             :columns="columns"
             :rows="rows"
             :showCb="false"

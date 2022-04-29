@@ -15,7 +15,7 @@
         </h2>
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark"
+            tableClass="mybizna-table table-striped"
             action-column="actions"
             :columns="columns"
             :rows="row_data"
@@ -48,7 +48,7 @@
 
 export default {
     components: {
-        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        ListTable: window.fetchComponent('components/list-table/ListTable.vue'),
     },
 
     data() {

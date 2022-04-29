@@ -28,7 +28,7 @@
         <div class="mybizna-row">
             <div class="table-container mybizna-col-sm-8">
                 <list-table
-                    tableClass="wp-ListTable widefat fixed tax-rate-list mybizna-table table-striped table-dark tax-agencies-list"
+                    tableClass="wp-ListTable widefat fixed tax-rate-list mybizna-table table-striped tax-agencies-list"
                     action-column="actions"
                     :columns="columns"
                     :rows="row_data"

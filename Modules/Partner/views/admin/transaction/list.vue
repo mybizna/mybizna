@@ -97,7 +97,7 @@
         <div class="mybizna-transactions-section mybizna-section">
             <div class="table-container">
                 <list-table
-                    tableClass="mybizna-table people-trns-table table-striped table-dark widefat"
+                    tableClass="mybizna-table people-trns-table table-striped widefat"
                     action-column="actions"
                     :columns="columns"
                     :rows="rows"

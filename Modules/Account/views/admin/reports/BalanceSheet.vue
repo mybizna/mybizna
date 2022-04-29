@@ -84,7 +84,7 @@
             <div>
                 <div class="mybizna-col-sm-12">
                     <list-table
-                        tableClass="mybizna-table table-striped table-dark widefat balance-sheet-asset report-table"
+                        tableClass="mybizna-table table-striped widefat balance-sheet-asset report-table"
                         :columns="columns1"
                         :rows="rows1"
                         :showItemNumbers="false"
@@ -124,7 +124,7 @@
 
                 <div class="mybizna-col-sm-12">
                     <list-table
-                        tableClass="mybizna-table table-striped table-dark widefat balance-sheet-liability report-table"
+                        tableClass="mybizna-table table-striped widefat balance-sheet-liability report-table"
                         :columns="columns2"
                         :rows="rows2"
                         :showItemNumbers="false"
@@ -165,7 +165,7 @@
 
                 <div class="mybizna-col-sm-12">
                     <list-table
-                        tableClass="mybizna-table table-striped table-dark widefat balance-sheet-equity report-table"
+                        tableClass="mybizna-table table-striped widefat balance-sheet-equity report-table"
                         :columns="columns3"
                         :rows="rows3"
                         :showItemNumbers="false"
@@ -194,7 +194,7 @@
                 </div>
 
                 <table
-                    class="mybizna-table table-striped table-dark widefat liability-equity-balance report-table"
+                    class="mybizna-table table-striped widefat liability-equity-balance report-table"
                 >
                     <tbody>
                         <tr>

@@ -66,7 +66,7 @@
         </ul>
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat sales-tax-table"
+            tableClass="mybizna-table table-striped widefat sales-tax-table"
             :columns="columns"
             :rows="rows"
             :showCb="false"

@@ -94,15 +94,9 @@
             </div>
         </div>
 
-        <table :class="tableClass">
+        <table :class=" tableClass">
             <thead>
-                <bulk-actions-tpl
-                    v-if="checkedItems.length"
-                    :select-all="selectAll"
-                    :bulk-actions="bulkActions"
-                    :show-cb="showCb"
-                    :columns-count="columnsCount"
-                />
+                <div v-if="checkedItems.length">Bulk Action TPl</div>
 
                 <tr v-else>
                     <td
@@ -147,13 +141,7 @@
             </thead>
             <tfoot>
                 <slot name="tfoot">
-                    <bulk-actions-tpl
-                        v-if="checkedItems.length"
-                        :select-all="selectAll"
-                        :bulk-actions="bulkActions"
-                        :show-cb="showCb"
-                        :columns-count="columnsCount"
-                    />
+                    <div v-if="checkedItems.length">Bulk Action TPl</div>
 
                     <tr v-else>
                         <td
@@ -245,52 +233,7 @@
                                 v-if="actionColumn === key"
                                 class="row-actions"
                             >
-                                <slot :row="row" name="row-actions">
-                                    <dropdown placement="left-start">
-                                        <template slot="button">
-                                            <a class="dropdown-trigger"
-                                                ><i class="flaticon-menu"></i
-                                            ></a>
-                                        </template>
-                                        <template slot="dropdown">
-                                            <ul
-                                                slot="action-items"
-                                                role="menu"
-                                                class="horizontal-scroll-wrapper"
-                                            >
-                                                <slot
-                                                    :row="row"
-                                                    name="action-list"
-                                                >
-                                                    <li
-                                                        v-for="action in actions"
-                                                        :key="action.key"
-                                                        :class="action.key"
-                                                    >
-                                                        <a
-                                                            href="#"
-                                                            @click.prevent="
-                                                                actionClicked(
-                                                                    action.key,
-                                                                    row,
-                                                                    i
-                                                                )
-                                                            "
-                                                            ><i
-                                                                :class="
-                                                                    action.iconClass
-                                                                "
-                                                            ></i
-                                                            >{{
-                                                                action.label
-                                                            }}</a
-                                                        >
-                                                    </li>
-                                                </slot>
-                                            </ul>
-                                        </template>
-                                    </dropdown>
-                                </slot>
+                                <slot :row="row" name="row-actions"> </slot>
                             </div>
                         </td>
                     </tr>
@@ -377,13 +320,6 @@
 
 <script>
 export default {
-    components: {
-        BulkActionsTpl: window.$func.fetchComponent(
-            "components/list-table/BulkActionsTpl.vue"
-        ),
-        Dropdown: window.$func.fetchComponent("components/base/Dropdown.vue"),
-    },
-
     props: {
         columns: {
             type: Object,
@@ -427,7 +363,7 @@ export default {
         },
         notFound: {
             type: String,
-            default: this.$func.__("No items found.", "erp"),
+            default: window.$func.__("No items found.", "erp"),
         },
         totalItems: {
             type: Number,

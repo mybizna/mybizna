@@ -31,7 +31,7 @@
         <import-modal v-if="showImportModal" />
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat table2 product-list"
+            tableClass="mybizna-table table-striped widefat table2 product-list"
             action-column="actions"
             :columns="columns"
             :rows="products"

@@ -23,7 +23,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import {
     plugin,
     defaultConfig
-} from '@formkit/vue'
+} from '@formkit/vue';
 
 //import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/js/bootstrap.bundle.js';

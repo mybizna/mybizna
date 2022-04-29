@@ -30,7 +30,7 @@
 
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat sales-tax-table sales-tax-table-customer"
+            tableClass="mybizna-table table-striped widefat sales-tax-table sales-tax-table-customer"
             :columns="columns"
             :rows="taxes"
             :showCb="false">

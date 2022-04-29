@@ -49,7 +49,7 @@
             <div id="col-right" style="margin-top: 12px">
                 <div class="col-wrap">
                     <list-table
-                        class="mybizna-table table-striped table-dark widefat table2 category-list"
+                        class="mybizna-table table-striped widefat table2 category-list"
                         action-column="actions"
                         :columns="columns"
                         :rows="categories"

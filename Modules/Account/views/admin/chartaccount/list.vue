@@ -27,7 +27,7 @@
 
         <ul v-if="search">
             <list-table
-                tableClass="mybizna-table table-striped table-dark widefat table2 chart-list"
+                tableClass="mybizna-table table-striped widefat table2 chart-list"
                 action-column="actions"
                 :columns="columns"
                 :actions="actions"
@@ -88,7 +88,7 @@
                 </div>
 
                 <list-table
-                    tableClass="mybizna-table table-striped table-dark widefat table2 chart-list"
+                    tableClass="mybizna-table table-striped widefat table2 chart-list"
                     action-column="actions"
                     :columns="columns"
                     :actions="actions"

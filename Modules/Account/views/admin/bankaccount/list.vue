@@ -31,7 +31,7 @@
             <!-- mybizna-accounts-table class is required class for only this component -->
             <div class="table-container">
                 <table
-                    class="mybizna-table table-striped table-dark widefat table2 mybizna-accounts-table"
+                    class="mybizna-table table-striped widefat table2 mybizna-accounts-table"
                 >
                     <tbody>
                         <!-- keep this empty row if possible -->

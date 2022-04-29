@@ -39,7 +39,7 @@
         </p>
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat income-statement income-balance-report"
+            tableClass="mybizna-table table-striped widefat income-statement income-balance-report"
             :columns="columns1"
             :rows="rows1"
             :showItemNumbers="false"
@@ -57,7 +57,7 @@
         </list-table>
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat income-statement income-balance-report"
+            tableClass="mybizna-table table-striped widefat income-statement income-balance-report"
             :columns="columns2"
             :rows="rows2"
             :showItemNumbers="false"
@@ -75,7 +75,7 @@
         </list-table>
 
         <table
-            class="mybizna-table table-striped table-dark widefat income-statement-balance income-balance-report"
+            class="mybizna-table table-striped widefat income-statement-balance income-balance-report"
         >
             <template v-if="profit >= 0">
                 <tbody class="mybizna-col-sm-12">

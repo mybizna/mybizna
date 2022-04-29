@@ -17,7 +17,7 @@
         </div>
         <!-- End .header-section -->
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat table2 money-transfer-list"
+            tableClass="mybizna-table table-striped widefat table2 money-transfer-list"
             action-column="actions"
             :columns="columns"
             :rows="transfer_list"

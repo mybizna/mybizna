@@ -12,7 +12,7 @@
             </div>
 
             <list-table
-                tableClass="mybizna-table table-striped table-dark widefat table2 transactions-table"
+                tableClass="mybizna-table table-striped widefat table2 transactions-table"
                 action-column="actions"
                 :columns="columns"
                 :rows="row_items"

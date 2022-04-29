@@ -43,7 +43,7 @@
             <em>{{ end_date }}</em>
         </p>
 
-        <table class="mybizna-table table-striped table-dark widefat">
+        <table class="mybizna-table table-striped widefat">
             <thead>
                 <tr>
                     <th>{{ this.$func.__("Account Name", "erp") }}</th>
