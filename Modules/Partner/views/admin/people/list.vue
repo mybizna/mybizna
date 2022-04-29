@@ -20,8 +20,6 @@
                 </button>
             </div>
 
-            <!-- top search bar -->
-            <people-search v-model="search" />
         </div>
 
         <people-modal
@@ -46,7 +44,7 @@
         />
         i
         <list-table
-            tableClass="mybizna-table people-table table-striped table-dark "
+            tableClass="mybizna-table people-table table table-striped "
             action-column="actions"
             :columns="columns"
             :rows="row_data"
@@ -85,7 +83,6 @@
 
 export default {
     components: {
-        PeopleSearch: window.$func.fetchComponent('partner/widgets/PeopleSearch.vue'),
         ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
         PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
         ImportModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
@@ -234,7 +231,7 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
+                    if (confirm(__("Are you sure to delete?", "erp"))) {
                         window.axios
                             .delete(this.url + "/" + row.id)
                             .then((response) => {
@@ -270,7 +267,7 @@ export default {
 
         onBulkAction(action, items) {
             if (action === "trash") {
-                if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
+                if (confirm(__("Are you sure to delete?", "erp"))) {
                     window.axios
                         .delete(this.url + "/delete/" + items.join(","))
                         .then((response) => {
