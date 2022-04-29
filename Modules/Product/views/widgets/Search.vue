@@ -12,7 +12,7 @@
             </div>
 
             <button type="submit" class="mybizna-btn btn--primary search-btn">
-                {{ window.$func.__("Search", "erp") }}
+                {{ this.$func.__("Search", "erp") }}
             </button>
         </form>
     </div>

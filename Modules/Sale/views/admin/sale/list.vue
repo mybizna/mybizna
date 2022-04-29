@@ -4,7 +4,7 @@
         <div class="table-container">
             <div class="bulk-action">
                 <a href="#"
-                    ><i class="flaticon-trash"></i>{{ window.$func.__("Trash", "erp") }}</a
+                    ><i class="flaticon-trash"></i>{{ this.$func.__("Trash", "erp") }}</a
                 >
                 <a href="#" class="dismiss-bulk-action"
                     ><i class="flaticon-close"></i
@@ -125,15 +125,15 @@ export default {
     data() {
         return {
             columns: {
-                trn_no: { label: window.$func.__("Voucher No.", "erp"), isColPrimary: true },
-                type: { label: window.$func.__("Type", "erp") },
-                ref: { label: window.$func.__("Ref", "erp") },
-                customer_name: { label: window.$func.__("Customer", "erp") },
-                trn_date: { label: window.$func.__("Trn Date", "erp") },
-                due_date: { label: window.$func.__("Due Date", "erp") },
-                due: { label: window.$func.__("Balance", "erp") },
-                amount: { label: window.$func.__("Total", "erp") },
-                status: { label: window.$func.__("Status", "erp") },
+                trn_no: { label: this.$func.__("Voucher No.", "erp"), isColPrimary: true },
+                type: { label: this.$func.__("Type", "erp") },
+                ref: { label: this.$func.__("Ref", "erp") },
+                customer_name: { label: this.$func.__("Customer", "erp") },
+                trn_date: { label: this.$func.__("Trn Date", "erp") },
+                due_date: { label: this.$func.__("Due Date", "erp") },
+                due: { label: this.$func.__("Balance", "erp") },
+                amount: { label: this.$func.__("Total", "erp") },
+                status: { label: this.$func.__("Status", "erp") },
                 actions: { label: "" },
             },
             listLoading: false,
@@ -218,17 +218,17 @@ export default {
                     this.rows = response.data.map((item) => {
                         if (item.estimate === "1" || item.status_code === "1") {
                             item["actions"] = [
-                                { key: "edit", label: window.$func.__("Edit", "erp") },
+                                { key: "edit", label: this.$func.__("Edit", "erp") },
                                 {
                                     key: "to_invoice",
-                                    label: window.$func.__("Make Invoice", "erp"),
+                                    label: this.$func.__("Make Invoice", "erp"),
                                 },
                             ];
                         } else if (item.status_code === "8") {
                             item["actions"] = [
                                 {
                                     key: "#",
-                                    label: window.$func.__("No actions found", "erp"),
+                                    label: this.$func.__("No actions found", "erp"),
                                 },
                             ];
                         } else if (item.type === "invoice") {
@@ -239,7 +239,7 @@ export default {
                                     item["actions"] = [
                                         {
                                             key: "#",
-                                            label: window.$func.__(
+                                            label: this.$func.__(
                                                 "No actions found",
                                                 "erp"
                                             ),
@@ -253,15 +253,15 @@ export default {
                                     item["actions"] = [
                                         {
                                             key: "receive",
-                                            label: window.$func.__("Payment", "erp"),
+                                            label: this.$func.__("Payment", "erp"),
                                         },
                                         {
                                             key: "edit",
-                                            label: window.$func.__("Edit", "erp"),
+                                            label: this.$func.__("Edit", "erp"),
                                         },
                                         {
                                             key: "void",
-                                            label: window.$func.__("Void", "erp"),
+                                            label: this.$func.__("Void", "erp"),
                                         },
                                     ];
 
@@ -271,21 +271,21 @@ export default {
                                     ) {
                                         item.actions.splice(1, 0, {
                                             key: "return",
-                                            label: window.$func.__("Receive Return", "erp"),
+                                            label: this.$func.__("Receive Return", "erp"),
                                         });
                                     }
                                 } else if (item.status_code === "10") {
                                     item["actions"] = [
                                         {
                                             key: "receive",
-                                            label: window.$func.__("Payment", "erp"),
+                                            label: this.$func.__("Payment", "erp"),
                                         },
                                     ];
 
                                     if (this.proActivated) {
                                         item.actions.splice(1, 0, {
                                             key: "return",
-                                            label: window.$func.__("Receive Return", "erp"),
+                                            label: this.$func.__("Receive Return", "erp"),
                                         });
                                     }
                                 } else if (item.status_code === "9") {
@@ -293,14 +293,14 @@ export default {
                                         item["actions"] = [
                                             {
                                                 key: "receive",
-                                                label: window.$func.__("Payment", "erp"),
+                                                label: this.$func.__("Payment", "erp"),
                                             },
                                         ];
                                     } else {
                                         item["actions"] = [
                                             {
                                                 key: "#",
-                                                label: window.$func.__(
+                                                label: this.$func.__(
                                                     "No actions found",
                                                     "erp"
                                                 ),
@@ -318,7 +318,7 @@ export default {
                                     ) {
                                         item.actions.splice(1, 0, {
                                             key: "return",
-                                            label: window.$func.__("Receive Return", "erp"),
+                                            label: this.$func.__("Receive Return", "erp"),
                                         });
                                     }
                                 }
@@ -327,14 +327,14 @@ export default {
                                     item["actions"] = [
                                         {
                                             key: "return",
-                                            label: window.$func.__("Receive Return", "erp"),
+                                            label: this.$func.__("Receive Return", "erp"),
                                         },
                                     ];
                                 } else {
                                     item["actions"] = [
                                         {
                                             key: "#",
-                                            label: window.$func.__(
+                                            label: this.$func.__(
                                                 "No actions found",
                                                 "erp"
                                             ),
@@ -346,7 +346,7 @@ export default {
                             item["actions"] = [
                                 {
                                     key: "#",
-                                    label: window.$func.__("No actions found", "erp"),
+                                    label: this.$func.__("No actions found", "erp"),
                                 },
                             ];
                         }
@@ -380,7 +380,7 @@ export default {
 
                                 this.showAlert(
                                     "success",
-                                    window.$func.__("Deleted !", "erp")
+                                    this.$func.__("Deleted !", "erp")
                                 );
                             })
                             .catch((error) => {
@@ -427,7 +427,7 @@ export default {
                 case "void":
                     if (
                         confirm(
-                            window.$func.__("Are you sure to void the transaction?", "erp")
+                            this.$func.__("Are you sure to void the transaction?", "erp")
                         )
                     ) {
                         if (row.type === "invoice") {
@@ -436,7 +436,7 @@ export default {
                                 .then((response) => {
                                     this.showAlert(
                                         "success",
-                                        window.$func.__("Transaction has been void!", "erp")
+                                        this.$func.__("Transaction has been void!", "erp")
                                     );
                                 })
                                 .catch((error) => {
@@ -449,7 +449,7 @@ export default {
                                 .then((response) => {
                                     this.showAlert(
                                         "success",
-                                        window.$func.__("Transaction has been void!", "erp")
+                                        this.$func.__("Transaction has been void!", "erp")
                                     );
                                 })
                                 .then(() => {
@@ -499,14 +499,14 @@ export default {
         getTrnType(row) {
             if (row.type === "invoice") {
                 if (row.estimate == "1") {
-                    return window.$func.__("Estimate", "erp");
+                    return this.$func.__("Estimate", "erp");
                 }
 
-                return window.$func.__("Invoice", "erp");
+                return this.$func.__("Invoice", "erp");
             } else if (row.type === "return_payment") {
-                return window.$func.__("Payment", "erp");
+                return this.$func.__("Payment", "erp");
             } else {
-                return window.$func.__("Receive", "erp");
+                return this.$func.__("Receive", "erp");
             }
         },
     },

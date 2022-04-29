@@ -5,7 +5,7 @@
         <div class="content-header-section separator">
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
-                    <h2 class="content-header__title">{{ window.$func.__('Expenses Transactions', 'erp') }}</h2>
+                    <h2 class="content-header__title">{{ this.$func.__('Expenses Transactions', 'erp') }}</h2>
                     <combo-box :options="pages" :hasUrl="true" :placeholder="__('New Transaction', 'erp')" />
                 </div>
             </div>
@@ -14,7 +14,7 @@
 
         <expenses-stats />
 
-        <transactions-filter :types="filterTypes"  :people="{title: window.$func.__('Pay to', 'erp'), items: people}" />
+        <transactions-filter :types="filterTypes"  :people="{title: this.$func.__('Pay to', 'erp'), items: people}" />
 
         <expenses-list />
 
@@ -44,17 +44,17 @@ export default {
     data() {
         return {
             pages: [
-                { namedRoute: 'ExpenseCreate', name: window.$func.__('Create Expense', 'erp') },
-                { namedRoute: 'CheckCreate', name: window.$func.__('Create Check', 'erp') },
-                { namedRoute: 'BillCreate', name: window.$func.__('Create Bill', 'erp') },
-                { namedRoute: 'PayBillCreate', name: window.$func.__('Pay Bill', 'erp') }
+                { namedRoute: 'ExpenseCreate', name: this.$func.__('Create Expense', 'erp') },
+                { namedRoute: 'CheckCreate', name: this.$func.__('Create Check', 'erp') },
+                { namedRoute: 'BillCreate', name: this.$func.__('Create Bill', 'erp') },
+                { namedRoute: 'PayBillCreate', name: this.$func.__('Pay Bill', 'erp') }
             ],
 
             filterTypes:[
-                {id: 'expense', name: window.$func.__('Expense', 'erp')},
-                {id: 'bill', name: window.$func.__('Bill', 'erp')},
-                {id: 'pay_bill', name: window.$func.__('Bill Payment', 'erp')},
-                {id: 'check', name: window.$func.__('Check', 'erp')}
+                {id: 'expense', name: this.$func.__('Expense', 'erp')},
+                {id: 'bill', name: this.$func.__('Bill', 'erp')},
+                {id: 'pay_bill', name: this.$func.__('Bill Payment', 'erp')},
+                {id: 'check', name: this.$func.__('Check', 'erp')}
             ]
         };
     },

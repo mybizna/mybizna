@@ -1,7 +1,7 @@
 <template>
     <form enctype="multipart/form-data" novalidate>
         <div class="attachment-placeholder">
-            {{ window.$func.__("To attach", "erp") }}
+            {{ this.$func.__("To attach", "erp") }}
             <input
                 type="file"
                 id="attachment"
@@ -12,15 +12,15 @@
                 @change="filesChange($event)"
                 class="display-none"
             />
-            <label for="attachment">{{ window.$func.__("Select files", "erp") }}</label>
-            {{ window.$func.__("from your computer", "erp") }}
+            <label for="attachment">{{ this.$func.__("Select files", "erp") }}</label>
+            {{ this.$func.__("from your computer", "erp") }}
             <span v-if="isSaving" class="upload-count">
-                ({{ window.$func.__("uploading", "erp") }} {{ fileCount }}
-                {{ window.$func.__("file(s)", "erp") }} ...)</span
+                ({{ this.$func.__("uploading", "erp") }} {{ fileCount }}
+                {{ this.$func.__("file(s)", "erp") }} ...)</span
             >
             <span v-if="isUploaded" class="upload-count">
-                ({{ window.$func.__("uploaded", "erp") }} {{ fileCount }}
-                {{ window.$func.__("file(s)", "erp") }} ...)</span
+                ({{ this.$func.__("uploaded", "erp") }} {{ fileCount }}
+                {{ this.$func.__("file(s)", "erp") }} ...)</span
             >
         </div>
     </form>

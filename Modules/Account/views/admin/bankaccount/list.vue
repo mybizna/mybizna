@@ -4,7 +4,7 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">
-                        {{ window.$func.__("Accounts", "erp") }}
+                        {{ this.$func.__("Accounts", "erp") }}
                     </h2>
                     <combo-box
                         :options="pages"
@@ -14,7 +14,7 @@
                     <span
                         class="erp-help-tip .erp-tips"
                         :title="
-                            window.$func.__(
+                            this.$func.__(
                                 'To edit a bank account, please navigate to the Chart of Accounts.',
                                 'erp'
                             )
@@ -46,7 +46,7 @@
                                 <div class="account-number-info">
                                     <span class="account-number-label"
                                         >{{
-                                            window.$func.__("Account Number", "erp")
+                                            this.$func.__("Account Number", "erp")
                                         }}:</span
                                     >
                                     <span class="account-number">{{
@@ -59,7 +59,7 @@
                                     <div class="available-balance">
                                         <span class="account-balance-label"
                                             >{{
-                                                window.$func.__("Available Balance", "erp")
+                                                this.$func.__("Available Balance", "erp")
                                             }}:</span
                                         >
                                         <strong
@@ -131,7 +131,7 @@
             </div>
         </div>
 
-        <p v-else>{{ window.$func.__("No data found.", "erp") }}</p>
+        <p v-else>{{ this.$func.__("No data found.", "erp") }}</p>
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div class="trial-balance">
-        <h2>{{ window.$func.__("Trial Balance", "erp") }}</h2>
+        <h2>{{ this.$func.__("Trial Balance", "erp") }}</h2>
 
         <div class="with-multiselect fyear-select">
             <multi-select
@@ -20,7 +20,7 @@
                 class="mybizna-btn btn--primary add-line-trigger"
                 type="submit"
             >
-                {{ window.$func.__("View", "erp") }}
+                {{ this.$func.__("View", "erp") }}
             </button>
 
             <a
@@ -29,26 +29,26 @@
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i> &nbsp;
-                {{ window.$func.__("Print", "erp") }}
+                {{ this.$func.__("Print", "erp") }}
             </a>
         </form>
 
         <p>
             <strong
                 >{{
-                    window.$func.__("For the period of ( Transaction date )", "erp")
+                    this.$func.__("For the period of ( Transaction date )", "erp")
                 }}:</strong
             >
-            <em>{{ start_date }}</em> {{ window.$func.__("to", "erp") }}
+            <em>{{ start_date }}</em> {{ this.$func.__("to", "erp") }}
             <em>{{ end_date }}</em>
         </p>
 
         <table class="mybizna-table table-striped table-dark widefat">
             <thead>
                 <tr>
-                    <th>{{ window.$func.__("Account Name", "erp") }}</th>
-                    <th>{{ window.$func.__("Debit Total", "erp") }}</th>
-                    <th>{{ window.$func.__("Credit Total", "erp") }}</th>
+                    <th>{{ this.$func.__("Account Name", "erp") }}</th>
+                    <th>{{ this.$func.__("Debit Total", "erp") }}</th>
+                    <th>{{ this.$func.__("Credit Total", "erp") }}</th>
                 </tr>
             </thead>
             <tbody :key="key" v-for="(chart, key) in chrtAcct">
@@ -96,7 +96,7 @@
             </tbody>
             <tfoot>
                 <tr class="t-foot inline-edit-row">
-                    <td>{{ window.$func.__("Total", "erp") }}</td>
+                    <td>{{ this.$func.__("Total", "erp") }}</td>
                     <td>{{ moneyFormat(totalDebit) }}</td>
                     <td>{{ moneyFormat(Math.abs(totalCredit)) }}</td>
                 </tr>
@@ -120,16 +120,16 @@ export default {
             bulkActions: [
                 {
                     key: "trash",
-                    label: window.$func.__("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     img:
                         erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
                 },
             ],
             columns: {
-                name: { label: window.$func.__("Account Name", "erp") },
-                debit: { label: window.$func.__("Debit Total", "erp") },
-                credit: { label: window.$func.__("Credit Total", "erp") },
+                name: { label: this.$func.__("Account Name", "erp") },
+                debit: { label: this.$func.__("Debit Total", "erp") },
+                credit: { label: this.$func.__("Credit Total", "erp") },
             },
             rows: [],
             fyears: [],

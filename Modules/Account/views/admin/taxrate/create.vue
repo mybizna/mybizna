@@ -5,7 +5,7 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">
-                        {{ window.$func.__("Add New Tax Rate", "erp") }}
+                        {{ this.$func.__("Add New Tax Rate", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                     <div class="mybizna-row mybizna-gutter-20">
                         <div class="mybizna-form-group mybizna-col-sm-6">
                             <label
-                                >{{ window.$func.__("Tax Zone Name", "erp")
+                                >{{ this.$func.__("Tax Zone Name", "erp")
                                 }}<span class="mybizna-required-sign"
                                     >*</span
                                 ></label
@@ -46,7 +46,7 @@
                                     <span class="form-check-sign"></span>
                                     <span class="field-label"
                                         >{{
-                                            window.$func.__("Is this tax compound", "erp")
+                                            this.$func.__("Is this tax compound", "erp")
                                         }}?</span
                                     >
                                 </label>
@@ -61,16 +61,16 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="column-primary">
-                                        {{ window.$func.__("Component Name", "erp") }}
+                                        {{ this.$func.__("Component Name", "erp") }}
                                     </th>
                                     <th scope="col">
-                                        {{ window.$func.__("Agency", "erp") }}
+                                        {{ this.$func.__("Agency", "erp") }}
                                     </th>
                                     <th scope="col">
-                                        {{ window.$func.__("Tax Category", "erp") }}
+                                        {{ this.$func.__("Tax Category", "erp") }}
                                     </th>
                                     <th scope="col">
-                                        {{ window.$func.__("Tax Rate", "erp") }}
+                                        {{ this.$func.__("Tax Rate", "erp") }}
                                     </th>
                                     <th scope="col" class="col--actions"></th>
                                 </tr>
@@ -96,7 +96,7 @@
                                             href="#"
                                             @click.prevent=""
                                             class="vis-hide after-select-dropdown"
-                                            >{{ window.$func.__("component", "erp") }}</a
+                                            >{{ this.$func.__("component", "erp") }}</a
                                         >
 
                                         <button
@@ -123,14 +123,14 @@
                                             role="button"
                                             class="after-select-dropdown"
                                             >{{
-                                                window.$func.__("Add Tax Agency", "erp")
+                                                this.$func.__("Add Tax Agency", "erp")
                                             }}</a
                                         >
                                     </td>
                                     <td
                                         class="col--tax-category with-multiselect"
                                         :data-colname="
-                                            window.$func.__('Tax Category', 'erp')
+                                            this.$func.__('Tax Category', 'erp')
                                         "
                                     >
                                         <multi-select
@@ -143,7 +143,7 @@
                                             role="button"
                                             class="after-select-dropdown"
                                             >{{
-                                                window.$func.__("Add Tax Category", "erp")
+                                                this.$func.__("Add Tax Category", "erp")
                                             }}</a
                                         >
                                     </td>
@@ -160,13 +160,13 @@
                                             href="#"
                                             @click.prevent=""
                                             class="vis-hide after-select-dropdown"
-                                            >{{ window.$func.__("tax rate", "erp") }}</a
+                                            >{{ this.$func.__("tax rate", "erp") }}</a
                                         >
                                     </td>
                                     <td
                                         class="col--actions delete-row"
                                         :data-colname="
-                                            window.$func.__('Remove Above Selection', 'erp')
+                                            this.$func.__('Remove Above Selection', 'erp')
                                         "
                                     >
                                         <a
@@ -186,7 +186,7 @@
                                             <i
                                                 class="flaticon-add-plus-button"
                                             ></i
-                                            >{{ window.$func.__("Add Component", "erp") }}
+                                            >{{ this.$func.__("Add Component", "erp") }}
                                         </button>
                                     </td>
                                 </tr>
@@ -334,7 +334,7 @@ export default {
                     throw error;
                 })
                 .then((res) => {
-                    this.showAlert("success", window.$func.__("Tax Rate Created!", "erp"));
+                    this.showAlert("success", this.$func.__("Tax Rate Created!", "erp"));
                 })
                 .then(() => {
                     this.$router.push({ name: "TaxRates" });

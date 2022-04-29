@@ -3,13 +3,13 @@
         <journal-modal :entry_id="journal_id" v-if="journalModal" />
 
         <h2 class="add-new-journal">
-            <span>{{ window.$func.__("Journals", "erp") }}</span>
+            <span>{{ this.$func.__("Journals", "erp") }}</span>
             <a
                 href="#"
                 class="erp-journal-new"
                 @click.prevent="$router.push({ name: 'JournalCreate' })"
             >
-                {{ window.$func.__("New Journal Entry", "erp") }}
+                {{ this.$func.__("New Journal Entry", "erp") }}
             </a>
         </h2>
 
@@ -53,10 +53,10 @@ export default {
         return {
             journalModal: false,
             columns: {
-                l_id: { label: window.$func.__("Voucher No.", "erp") },
-                l_date: { label: window.$func.__("Date", "erp") },
-                l_particulars: { label: window.$func.__("Particulars", "erp") },
-                amount: { label: window.$func.__("Amount", "erp") },
+                l_id: { label: this.$func.__("Voucher No.", "erp") },
+                l_date: { label: this.$func.__("Date", "erp") },
+                l_particulars: { label: this.$func.__("Particulars", "erp") },
+                amount: { label: this.$func.__("Amount", "erp") },
             },
             rows: [],
             paginationData: {

@@ -1,13 +1,13 @@
 <template>
     <div class="sales-tax-report">
         <h2 class="title-container">
-            <span>{{ window.$func.__("Sales Tax Report (Agency Based)", "erp") }}</span>
+            <span>{{ this.$func.__("Sales Tax Report (Agency Based)", "erp") }}</span>
 
             <router-link
                 class="mybizna-btn btn--primary"
                 :to="{ name: 'SalesTaxReportOverview' }"
             >
-                {{ window.$func.__("Back", "erp") }}
+                {{ this.$func.__("Back", "erp") }}
             </router-link>
         </h2>
 
@@ -29,7 +29,7 @@
                     class="mybizna-btn btn--primary add-line-trigger"
                     type="submit"
                 >
-                    {{ window.$func.__("Filter", "erp") }}
+                    {{ this.$func.__("Filter", "erp") }}
                 </button>
             </div>
 
@@ -39,25 +39,25 @@
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i>
-                &nbsp; {{ window.$func.__("Print", "erp") }}
+                &nbsp; {{ this.$func.__("Print", "erp") }}
             </a>
         </form>
 
         <ul class="report-header" v-if="null !== selectedAgency">
             <li>
-                <strong>{{ window.$func.__("Agency Name", "erp") }}:</strong>
+                <strong>{{ this.$func.__("Agency Name", "erp") }}:</strong>
                 <em> {{ selectedAgency.name }}</em>
             </li>
 
             <li>
-                <strong>{{ window.$func.__("Currency", "erp") }}:</strong>
+                <strong>{{ this.$func.__("Currency", "erp") }}:</strong>
                 <em> {{ symbol }}</em>
             </li>
 
             <li v-if="startDate && endDate">
                 <strong
                     >{{
-                        window.$func.__("For the period of (Transaction date)", "erp")
+                        this.$func.__("For the period of (Transaction date)", "erp")
                     }}:</strong
                 >
                 <em> {{ formatDate(startDate) }}</em> to
@@ -103,7 +103,7 @@
             <template slot="tfoot">
                 <tr class="tfoot">
                     <td colspan="3"></td>
-                    <td data-left-align>{{ window.$func.__("Total", "erp") }} =</td>
+                    <td data-left-align>{{ this.$func.__("Total", "erp") }} =</td>
                     <td data-colname="Debit">{{ moneyFormat(totalDebit) }}</td>
                     <td data-colname="Credit">
                         {{ moneyFormat(totalCredit) }}
@@ -142,23 +142,23 @@ export default {
             symbol: erp_acct_var.symbol,
             columns: {
                 trn_no: {
-                    label: window.$func.__("Voucher No", "erp"),
+                    label: this.$func.__("Voucher No", "erp"),
                     isColPrimary: true,
                 },
                 trn_date: {
-                    label: window.$func.__("Transaction Date", "erp"),
+                    label: this.$func.__("Transaction Date", "erp"),
                 },
                 particulars: {
-                    label: window.$func.__("Particulars", "erp"),
+                    label: this.$func.__("Particulars", "erp"),
                 },
                 debit: {
-                    label: window.$func.__("Debit", "erp"),
+                    label: this.$func.__("Debit", "erp"),
                 },
                 credit: {
-                    label: window.$func.__("Credit", "erp"),
+                    label: this.$func.__("Credit", "erp"),
                 },
                 balance: {
-                    label: window.$func.__("Balance", "erp"),
+                    label: this.$func.__("Balance", "erp"),
                 },
             },
         };

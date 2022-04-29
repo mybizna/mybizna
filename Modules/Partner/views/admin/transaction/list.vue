@@ -3,26 +3,26 @@
         <div class="content-header-section separator mybizna-has-border-top">
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
-                    <h2 class="content-header__title">{{ window.$func.__('Transactions', 'erp') }}</h2>
+                    <h2 class="content-header__title">{{ this.$func.__('Transactions', 'erp') }}</h2>
                 </div>
                 <div class="mybizna-col">
                     <form class="mybizna-form form--inline">
                         <div :class="['mybizna-has-dropdown', {'dropdown-opened': showFilters}]">
                             <a class="mybizna-btn btn--default dropdown-trigger filter-button" @click.prevent="toggleFilter">
-                                <span><i class="flaticon-search-segment"></i>{{ window.$func.__('Filters', 'erp') }}</span>
+                                <span><i class="flaticon-search-segment"></i>{{ this.$func.__('Filters', 'erp') }}</span>
                                 <i class="flaticon-arrow-down-sign-to-navigate"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right mybizna-filter-container">
                                 <div class="mybizna-panel mybizna-panel-default mybizna-filter-panel">
-                                    <h3>{{ window.$func.__('Filter', 'erp') }}</h3>
+                                    <h3>{{ this.$func.__('Filter', 'erp') }}</h3>
                                     <div class="mybizna-panel-body">
-                                        <h3>{{ window.$func.__('Date', 'erp') }}</h3>
+                                        <h3>{{ this.$func.__('Date', 'erp') }}</h3>
                                         <div class="form-fields">
                                             <div class="start-date has-addons">
                                                 <datepicker v-model="filters.start_date"></datepicker>
                                                 <span class="flaticon-calendar"></span>
                                             </div>
-                                            <span class="label-to">{{ window.$func.__('To', 'erp') }}</span>
+                                            <span class="label-to">{{ this.$func.__('To', 'erp') }}</span>
                                             <div class="end-date has-addons">
                                                 <datepicker v-model="filters.end_date"></datepicker>
                                                 <span class="flaticon-calendar"></span>
@@ -90,22 +90,22 @@ export default {
             bulkActions: [
                 {
                     key: 'trash',
-                    label: window.$func.__('Move to Trash', 'erp'),
+                    label: this.$func.__('Move to Trash', 'erp'),
                     img: erp_acct_var.erp_assets + '/images/trash.png' /* global erp_acct_var */
                 }
             ],
             columns: {
-                trn_date   : { label: window.$func.__('Transaction Date', 'erp'), isColPrimary: true },
-                created_at : { label: window.$func.__('Created At', 'erp') },
-                voucher_no : { label: window.$func.__('Voucher No', 'erp') },
-                particulars: { label: window.$func.__('Particulars', 'erp') },
-                debit      : { label: window.$func.__('Debit', 'erp') },
-                credit     : { label: window.$func.__('Credit', 'erp') },
-                balance    : { label: window.$func.__('Balance', 'erp') }
+                trn_date   : { label: this.$func.__('Transaction Date', 'erp'), isColPrimary: true },
+                created_at : { label: this.$func.__('Created At', 'erp') },
+                voucher_no : { label: this.$func.__('Voucher No', 'erp') },
+                particulars: { label: this.$func.__('Particulars', 'erp') },
+                debit      : { label: this.$func.__('Debit', 'erp') },
+                credit     : { label: this.$func.__('Credit', 'erp') },
+                balance    : { label: this.$func.__('Balance', 'erp') }
             },
             actions : [
-                { key: 'edit', label: window.$func.__('Edit', 'erp') },
-                { key: 'trash', label: window.$func.__('Delete', 'erp') }
+                { key: 'edit', label: this.$func.__('Edit', 'erp') },
+                { key: 'trash', label: this.$func.__('Delete', 'erp') }
             ],
             showFilters: false,
             filters: {

@@ -4,7 +4,7 @@
             <div id="col-left">
                 <div class="col-wrap">
                     <div class="form-wrap">
-                        <h2>{{ window.$func.__("Add new category", "erp") }}</h2>
+                        <h2>{{ this.$func.__("Add new category", "erp") }}</h2>
                         <form id="erp-acct-product-category">
                             <div
                                 :class="[
@@ -13,7 +13,7 @@
                                 ]"
                             >
                                 <label>{{
-                                    window.$func.__("Category Name", "erp")
+                                    this.$func.__("Category Name", "erp")
                                 }}</label>
                                 <input
                                     type="text"
@@ -23,7 +23,7 @@
                             </div>
                             <div class="form-field">
                                 <label>{{
-                                    window.$func.__("Parent Category", "erp")
+                                    this.$func.__("Parent Category", "erp")
                                 }}</label>
                                 <div class="with-multiselect">
                                     <multi-select
@@ -83,13 +83,13 @@
                                     class="mybizna-btn btn--primary"
                                     @click="updateCategory(data.row)"
                                 >
-                                    {{ window.$func.__("Update", "erp") }}
+                                    {{ this.$func.__("Update", "erp") }}
                                 </button>
                                 <button
                                     class="mybizna-btn btn--default"
                                     @click.prevent="data.row.isEdit = false"
                                 >
-                                    {{ window.$func.__("Cancel", "erp") }}
+                                    {{ this.$func.__("Cancel", "erp") }}
                                 </button>
                             </div>
                         </template>
@@ -120,21 +120,21 @@ export default {
             showModal: false,
             columns: {
                 name: {
-                    label: window.$func.__("Category Name", "erp"),
+                    label: this.$func.__("Category Name", "erp"),
                     isColPrimary: true,
                 },
                 actions: {
-                    label: window.$func.__("Actions", "erp"),
+                    label: this.$func.__("Actions", "erp"),
                 },
             },
             actions: [
-                { key: "edit", label: window.$func.__("Edit", "erp") },
-                { key: "trash", label: window.$func.__("Delete", "erp") },
+                { key: "edit", label: this.$func.__("Edit", "erp") },
+                { key: "trash", label: this.$func.__("Delete", "erp") },
             ],
             bulkActions: [
                 {
                     key: "trash",
-                    label: window.$func.__("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     img:
                         erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
@@ -183,7 +183,7 @@ export default {
 
                             this.showAlert(
                                 "success",
-                                window.$func.__("Deleted !", "erp")
+                                this.$func.__("Deleted !", "erp")
                             );
                         })
                         .catch((error) => {
@@ -237,7 +237,7 @@ export default {
 
                     this.showAlert(
                         "success",
-                        window.$func.__("Product category added!", "erp")
+                        this.$func.__("Product category added!", "erp")
                     );
                 })
                 .catch((error) => {
@@ -256,7 +256,7 @@ export default {
 
                     this.showAlert(
                         "success",
-                        window.$func.__("Product category updated!", "erp")
+                        this.$func.__("Product category updated!", "erp")
                     );
                 })
                 .catch((error) => {

@@ -7,16 +7,16 @@
                     href=""
                     id="erp-customer-new"
                     @click.prevent="showModal = true"
-                    >{{ window.$func.__("Add New", "erp") }} {{ buttonTitle }}</a
+                    >{{ this.$func.__("Add New", "erp") }} {{ buttonTitle }}</a
                 >
             </h2>
 
             <div class="erp-btn-group">
                 <button @click.prevent="showImportModal = true">
-                    {{ window.$func.__("Import", "erp") }}
+                    {{ this.$func.__("Import", "erp") }}
                 </button>
                 <button @click.prevent="showExportModal = true">
-                    {{ window.$func.__("Export", "erp") }}
+                    {{ this.$func.__("Export", "erp") }}
                 </button>
             </div>
 
@@ -103,16 +103,16 @@ export default {
             bulkActions: [
                 {
                     key: "trash",
-                    label: window.$func.__("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
             columns: {
-                customer: { label: window.$func.__("Name", "erp"), isColPrimary: true },
-                company: { label: window.$func.__("Company", "erp") },
-                email: { label: window.$func.__("Email", "erp") },
-                phone: { label: window.$func.__("Phone", "erp") },
-                actions: { label: window.$func.__("Actions", "erp") },
+                customer: { label: this.$func.__("Name", "erp"), isColPrimary: true },
+                company: { label: this.$func.__("Company", "erp") },
+                email: { label: this.$func.__("Email", "erp") },
+                phone: { label: this.$func.__("Phone", "erp") },
+                actions: { label: this.$func.__("Actions", "erp") },
             },
             rows: [],
             paginationData: {
@@ -127,12 +127,12 @@ export default {
             actions: [
                 {
                     key: "edit",
-                    label: window.$func.__("Edit", "erp"),
+                    label: this.$func.__("Edit", "erp"),
                     iconClass: "flaticon-edit",
                 },
                 {
                     key: "trash",
-                    label: window.$func.__("Delete", "erp"),
+                    label: this.$func.__("Delete", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
@@ -171,20 +171,20 @@ export default {
 
         this.buttonTitle =
             this.$route.name.toLowerCase() === "customers"
-                ? window.$func.__("Customer", "erp")
-                : window.$func.__("Vendor", "erp");
+                ? this.$func.__("Customer", "erp")
+                : this.$func.__("Vendor", "erp");
         this.importTitle =
             this.$route.name.toLowerCase() === "customers"
-                ? window.$func.__("Import Customers", "erp")
-                : window.$func.__("Import Vendors", "erp");
+                ? this.$func.__("Import Customers", "erp")
+                : this.$func.__("Import Vendors", "erp");
         this.exportTitle =
             this.$route.name.toLowerCase() === "customers"
-                ? window.$func.__("Export Customers", "erp")
-                : window.$func.__("Export Vendors", "erp");
+                ? this.$func.__("Export Customers", "erp")
+                : this.$func.__("Export Vendors", "erp");
         this.pageTitle =
             this.$route.name.toLowerCase() === "customers"
-                ? window.$func.__("Customers", "erp")
-                : window.$func.__("Vendors", "erp");
+                ? this.$func.__("Customers", "erp")
+                : this.$func.__("Vendors", "erp");
         this.url = this.$route.name.toLowerCase();
         this.singleUrl =
             this.url === "customers" ? "CustomerDetails" : "VendorDetails";
@@ -298,7 +298,7 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.showAlert("success", window.$func.__("Deleted !", "erp"));
+                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
                         })
                         .catch((error) => {
                             throw error;

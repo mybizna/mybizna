@@ -25,7 +25,7 @@
                         </div>
                         <div class="mybizna-col-sm-4">
                             <div class="mybizna-chart-block">
-                                <h3>{{ window.$func.__('Outstanding', 'erp') }}</h3>
+                                <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
                                 <div class="mybizna-total"><h2>{{ moneyFormat( outstanding ) }}</h2></div>
                             </div>
                         </div>

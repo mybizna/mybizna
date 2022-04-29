@@ -10,7 +10,7 @@
         >
             <div class="mybizna-modal-content">
                 <div class="mybizna-modal-header">
-                    <h4>{{ `${catData.title} window.$func.__('Category', 'erp')` }}</h4>
+                    <h4>{{ `${catData.title} this.$func.__('Category', 'erp')` }}</h4>
                 </div>
                 <div class="mybizna-modal-body">
                     <form
@@ -24,7 +24,7 @@
 
                         <div class="form-row">
                             <label for="">{{
-                                window.$func.__("Parent Category (optional)", "erp")
+                                this.$func.__("Parent Category (optional)", "erp")
                             }}</label>
                             <treeselect
                                 v-model="parent"
@@ -32,14 +32,14 @@
                                 :disable-branch-nodes="true"
                                 :show-count="true"
                                 :placeholder="
-                                    window.$func.__('Please select a category', 'erp')
+                                    this.$func.__('Please select a category', 'erp')
                                 "
                             />
                         </div>
 
                         <div class="form-row">
                             <label for="">{{
-                                window.$func.__("Name of Category", "erp")
+                                this.$func.__("Name of Category", "erp")
                             }}</label>
 
                             <input type="text" v-model="category" required />
@@ -51,7 +51,7 @@
                                     class="mybizna-btn btn--default modal-close"
                                     @click.prevent="outside"
                                 >
-                                    {{ window.$func.__("Cancel", "erp") }}
+                                    {{ this.$func.__("Cancel", "erp") }}
                                 </button>
                                 <button
                                     class="mybizna-btn btn--primary"
@@ -60,15 +60,15 @@
                                     <template v-if="catData.node">
                                         {{
                                             isCatSaving
-                                                ? window.$func.__("Updating...", "erp")
-                                                : window.$func.__("Update", "erp")
+                                                ? this.$func.__("Updating...", "erp")
+                                                : this.$func.__("Update", "erp")
                                         }}
                                     </template>
                                     <template v-else>
                                         {{
                                             isCatSaving
-                                                ? window.$func.__("Saving...", "erp")
-                                                : window.$func.__("Save", "erp")
+                                                ? this.$func.__("Saving...", "erp")
+                                                : this.$func.__("Save", "erp")
                                         }}
                                     </template>
                                 </button>

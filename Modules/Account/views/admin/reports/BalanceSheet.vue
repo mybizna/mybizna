@@ -1,7 +1,7 @@
 <template>
     <div class="balance-sheet">
         <h2 class="content-header__title">
-            <span>{{ window.$func.__("Balance Sheet", "erp") }}</span>
+            <span>{{ this.$func.__("Balance Sheet", "erp") }}</span>
         </h2>
 
         <div class="blnce-sheet-top">
@@ -13,7 +13,7 @@
                         class="mybizna-btn btn--primary add-line-trigger"
                         type="submit"
                     >
-                        {{ window.$func.__("Filter", "erp") }}
+                        {{ this.$func.__("Filter", "erp") }}
                     </button>
                 </div>
 
@@ -26,9 +26,9 @@
                     </div>
 
                     <div v-if="selectedYear">
-                        {{ window.$func.__("Balance showing from", "erp") }}
+                        {{ this.$func.__("Balance showing from", "erp") }}
                         <em>{{ selectedYear.start_date }}</em>
-                        {{ window.$func.__("to", "erp") }}
+                        {{ this.$func.__("to", "erp") }}
                         <em>{{ selectedYear.end_date }}</em>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                         v-model="closingBtnVisibility"
                     />
                     <label for="prepare-close">{{
-                        window.$func.__("Prepare for closing", "erp")
+                        this.$func.__("Prepare for closing", "erp")
                     }}</label>
                 </div>
 
@@ -53,7 +53,7 @@
                         'mybizna-btn btn--primary close-now-btn',
                     ]"
                     href="#"
-                    >{{ window.$func.__("Close Now", "erp") }}</a
+                    >{{ this.$func.__("Close Now", "erp") }}</a
                 >
 
                 <a
@@ -62,7 +62,7 @@
                     @click.prevent="printPopup"
                 >
                     <i class="flaticon-printer-1"></i>
-                    &nbsp; {{ window.$func.__("Print", "erp") }}
+                    &nbsp; {{ this.$func.__("Print", "erp") }}
                 </a>
             </div>
         </div>
@@ -70,10 +70,10 @@
         <p>
             <strong
                 >{{
-                    window.$func.__("For the period of ( Transaction date )", "erp")
+                    this.$func.__("For the period of ( Transaction date )", "erp")
                 }}:</strong
             >
-            <em>{{ start_date }}</em> {{ window.$func.__("to", "erp") }}
+            <em>{{ start_date }}</em> {{ this.$func.__("to", "erp") }}
             <em>{{ end_date }}</em>
         </p>
 
@@ -110,7 +110,7 @@
 
                         <template slot="tfoot">
                             <tr class="t-foot">
-                                <td>{{ window.$func.__("Total Asset", "erp") }}</td>
+                                <td>{{ this.$func.__("Total Asset", "erp") }}</td>
                                 <td>{{ transformBalance(totalAsset) }}</td>
                             </tr>
                         </template>
@@ -147,7 +147,7 @@
                         </template>
                         <template slot="tfoot">
                             <tr class="t-foot">
-                                <td>{{ window.$func.__("Total Liability", "erp") }}</td>
+                                <td>{{ this.$func.__("Total Liability", "erp") }}</td>
                                 <td>{{ transformBalance(totalLiability) }}</td>
                             </tr>
                         </template>
@@ -175,7 +175,7 @@
                         </template>
                         <template slot="tfoot">
                             <tr class="t-foot">
-                                <td>{{ window.$func.__("Total Equity", "erp") }}</td>
+                                <td>{{ this.$func.__("Total Equity", "erp") }}</td>
                                 <td>{{ transformBalance(totalEquity) }}</td>
                             </tr>
                         </template>
@@ -188,7 +188,7 @@
                     <tbody>
                         <tr>
                             <td style="font-size: 16px; color: #00b33c">
-                                {{ window.$func.__("Assets", "erp") }} =
+                                {{ this.$func.__("Assets", "erp") }} =
                             </td>
                             <td style="font-size: 16px; color: #00b33c">
                                 {{ transformBalance(totalAsset) }}
@@ -198,8 +198,8 @@
                         </tr>
                         <tr>
                             <td style="font-size: 16px; color: #ff6666">
-                                {{ window.$func.__("Liability", "erp") }} +
-                                {{ window.$func.__("Equity", "erp") }} =
+                                {{ this.$func.__("Liability", "erp") }} +
+                                {{ this.$func.__("Equity", "erp") }} =
                             </td>
                             <td style="font-size: 16px; color: #ff6666">
                                 {{ transformBalance(liability_equity) }}
@@ -234,23 +234,23 @@ export default {
             bulkActions: [
                 {
                     key: "trash",
-                    label: window.$func.__("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     img:
                         erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
                 },
             ],
             columns1: {
-                name: { label: window.$func.__("Assets", "erp") },
-                balance: { label: window.$func.__("Amount", "erp") },
+                name: { label: this.$func.__("Assets", "erp") },
+                balance: { label: this.$func.__("Amount", "erp") },
             },
             columns2: {
-                name: { label: window.$func.__("Liability", "erp") },
-                balance: { label: window.$func.__("Amount", "erp") },
+                name: { label: this.$func.__("Liability", "erp") },
+                balance: { label: this.$func.__("Amount", "erp") },
             },
             columns3: {
-                name: { label: window.$func.__("Equity", "erp") },
-                balance: { label: window.$func.__("Amount", "erp") },
+                name: { label: this.$func.__("Equity", "erp") },
+                balance: { label: this.$func.__("Amount", "erp") },
             },
             rows1: [],
             rows2: [],
@@ -373,7 +373,7 @@ export default {
             if (!this.end_date) {
                 this.showAlert(
                     "error",
-                    window.$func.__("Please select financial year", "erp")
+                    this.$func.__("Please select financial year", "erp")
                 );
                 return false;
             }
@@ -388,7 +388,7 @@ export default {
                     if (!response.data) {
                         this.showAlert(
                             "error",
-                            window.$func.__(
+                            this.$func.__(
                                 "Please create a financial year which start after ",
                                 "erp"
                             ) + this.end_date
@@ -414,7 +414,7 @@ export default {
                 .then((response) => {
                     this.showAlert(
                         "success",
-                        window.$func.__("Balance Sheet Closed!", "erp")
+                        this.$func.__("Balance Sheet Closed!", "erp")
                     );
                     this.closingBtnVisibility = false;
                 })

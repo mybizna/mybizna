@@ -5,7 +5,7 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">
-                        {{ window.$func.__("New Check", "erp") }}
+                        {{ this.$func.__("New Check", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                         <div class="mybizna-col-sm-4">
                             <div class="mybizna-form-group">
                                 <label
-                                    >{{ window.$func.__("Check No", "erp")
+                                    >{{ this.$func.__("Check No", "erp")
                                     }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
@@ -47,7 +47,7 @@
                         <div class="mybizna-col-sm-4">
                             <div class="mybizna-form-group">
                                 <label
-                                    >{{ window.$func.__("Payment Date", "erp")
+                                    >{{ this.$func.__("Payment Date", "erp")
                                     }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
@@ -59,7 +59,7 @@
                         </div>
                         <div class="mybizna-col-sm-4 with-multiselect">
                             <label
-                                >{{ window.$func.__("From Account", "erp")
+                                >{{ this.$func.__("From Account", "erp")
                                 }}<span class="mybizna-required-sign"
                                     >*</span
                                 ></label
@@ -70,7 +70,7 @@
                             ></multi-select>
                         </div>
                         <div class="mybizna-col-sm-4">
-                            <label>{{ window.$func.__("Billing Address", "erp") }}</label>
+                            <label>{{ this.$func.__("Billing Address", "erp") }}</label>
                             <textarea
                                 v-model.trim="basic_fields.billing_address"
                                 rows="3"
@@ -89,14 +89,14 @@
                         <thead>
                             <tr class="inline-edit-row">
                                 <th scope="col" class="col--id">
-                                    {{ window.$func.__("SL No.", "erp") }}
+                                    {{ this.$func.__("SL No.", "erp") }}
                                 </th>
-                                <th scope="col">{{ window.$func.__("Account", "erp") }}</th>
+                                <th scope="col">{{ this.$func.__("Account", "erp") }}</th>
                                 <th scope="col">
-                                    {{ window.$func.__("Description", "erp") }}
+                                    {{ this.$func.__("Description", "erp") }}
                                 </th>
-                                <th scope="col">{{ window.$func.__("Amount", "erp") }}</th>
-                                <th scope="col">{{ window.$func.__("Total", "erp") }}</th>
+                                <th scope="col">{{ this.$func.__("Amount", "erp") }}</th>
+                                <th scope="col">{{ this.$func.__("Total", "erp") }}</th>
                                 <th scope="col" class="col--actions"></th>
                             </tr>
                         </thead>
@@ -156,7 +156,7 @@
                                 <td
                                     class="delete-row"
                                     :data-colname="
-                                        window.$func.__('Remove Above Selection', 'erp')
+                                        this.$func.__('Remove Above Selection', 'erp')
                                     "
                                 >
                                     <a @click.prevent="removeRow(key)" href="#"
@@ -178,7 +178,7 @@
 
                             <tr class="total-amount-row inline-edit-row">
                                 <td class="text-right pr-0" colspan="4">
-                                    {{ window.$func.__("Total Amount", "erp") }}
+                                    {{ this.$func.__("Total Amount", "erp") }}
                                 </td>
                                 <td
                                     class="text-right"
@@ -199,7 +199,7 @@
                             <tr class="mybizna-form-group inline-edit-row">
                                 <td colspan="9" style="text-align: left">
                                     <label>{{
-                                        window.$func.__("Particulars", "erp")
+                                        this.$func.__("Particulars", "erp")
                                     }}</label>
                                     <textarea
                                         v-model="particulars"
@@ -207,7 +207,7 @@
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
                                         :placeholder="
-                                            window.$func.__('Internal Information', 'erp')
+                                            this.$func.__('Internal Information', 'erp')
                                         "
                                     ></textarea>
                                 </td>
@@ -241,7 +241,7 @@
                                 <td colspan="9" style="text-align: left">
                                     <div class="attachment-container">
                                         <label class="col--attachement">{{
-                                            window.$func.__("Attachment", "erp")
+                                            this.$func.__("Attachment", "erp")
                                         }}</label>
                                         <file-upload
                                             v-model="attachments"
@@ -312,17 +312,17 @@ export default {
             form_errors: [],
 
             createButtons: [
-                { id: "save", text: window.$func.__("Save", "erp") },
-                // {id: 'send_create', text: window.$func.__('Create and Send', 'erp')},
-                { id: "new_create", text: window.$func.__("Save and New", "erp") },
-                { id: "draft", text: window.$func.__("Save as Draft", "erp") },
+                { id: "save", text: this.$func.__("Save", "erp") },
+                // {id: 'send_create', text: this.$func.__('Create and Send', 'erp')},
+                { id: "new_create", text: this.$func.__("Save and New", "erp") },
+                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
             updateButtons: [
-                { id: "update", text: window.$func.__("Update", "erp") },
-                // {id: 'send_update', text: window.$func.__('Update and Send', 'erp')},
-                { id: "new_update", text: window.$func.__("Update and New", "erp") },
-                { id: "draft", text: window.$func.__(s.$func.__("Save as Draft", "erp") },
+                { id: "update", text: this.$func.__("Update", "erp") },
+                // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
+                { id: "new_update", text: this.$func.__("Update and New", "erp") },
+                { id: "draft", text: this.$func.__(s.$func.__("Save as Draft", "erp") },
             ],
 
             editMode: false,
@@ -380,7 +380,7 @@ export default {
                 if (!request2.data.bill_details.length) {
                     this.showAlert(
                         "error",
-                        window.$func.__("Check does not exists!", "erp")
+                        this.$func.__("Check does not exists!", "erp")
                     );
                     return;
                 }
@@ -514,7 +514,7 @@ export default {
             window.axios
                 .put(`/expenses/${this.voucherNo}`, requestData)
                 .then((res) => {
-                    this.showAlert("success", window.$func.__("Check Updated!", "erp"));
+                    this.showAlert("success", this.$func.__("Check Updated!", "erp"));
                 })
                 .catch((error) => {
                     throw error;
@@ -538,7 +538,7 @@ export default {
             window.axios
                 .post("/expenses", requestData)
                 .then((res) => {
-                    this.showAlert("success", window.$func.__("Check Created!", "erp"));
+                    this.showAlert("success", this.$func.__("Check Created!", "erp"));
                 })
                 .catch((error) => {
                     throw error;
@@ -616,7 +616,7 @@ export default {
 
             if (!this.basic_fields.trn_date) {
                 this.form_errors.push(
-                    window.$func.__("Transaction Date is required.", "erp")
+                    this.$func.__("Transaction Date is required.", "erp")
                 );
             }
 
@@ -627,7 +627,7 @@ export default {
                 )
             ) {
                 this.form_errors.push(
-                    window.$func.__("Transaction Account is required.", "erp")
+                    this.$func.__("Transaction Account is required.", "erp")
                 );
             }
 
@@ -636,7 +636,7 @@ export default {
                 parseFloat(this.finalTotalAmount)
             ) {
                 this.form_errors.push(
-                    window.$func.__("Not enough balance in selected account.", "erp")
+                    this.$func.__("Not enough balance in selected account.", "erp")
                 );
             }
 

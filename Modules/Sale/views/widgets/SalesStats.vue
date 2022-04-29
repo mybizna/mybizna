@@ -21,7 +21,7 @@
                     </div>
                     <div class="mybizna-col-sm-4">
                         <div class="mybizna-chart-block">
-                            <h3>{{ window.$func.__('Outstanding', 'erp') }}</h3>
+                            <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
                             <div class="mybizna-total"><h2>{{ formatAmount(chartPayment.outstanding) }}</h2></div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@ export default {
             },
             chartPayment: {
                 colors: ['#40c4ff', '#e91e63'],
-                labels: [ window.$func.__('Received', 'erp'), window.$func.__('Outstanding', 'erp') ],
+                labels: [ this.$func.__('Received', 'erp'), this.$func.__('Outstanding', 'erp') ],
                 values: [],
                 outstanding: 0
             }

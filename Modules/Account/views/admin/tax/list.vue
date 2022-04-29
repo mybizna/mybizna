@@ -4,13 +4,13 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">
-                        {{ window.$func.__("Tax Payments", "erp") }}
+                        {{ this.$func.__("Tax Payments", "erp") }}
                     </h2>
                     <a
                         class="mybizna-btn btn--primary"
                         @click.prevent="addTaxPayment"
                     >
-                        <span>{{ window.$func.__("New Tax Payment", "erp") }}</span>
+                        <span>{{ this.$func.__("New Tax Payment", "erp") }}</span>
                     </a>
                 </div>
             </div>
@@ -68,14 +68,14 @@ export default {
             modalParams: null,
             columns: {
                 voucher_no: {
-                    label: window.$func.__("Voucher No", "erp"),
+                    label: this.$func.__("Voucher No", "erp"),
                     isColPrimary: true,
                 },
-                agency_id: { label: window.$func.__("Agency", "erp") },
-                trn_date: { label: window.$func.__("Date", "erp") },
-                // 'tax_period': {label: window.$func.__('Tax Period', 'erp')},
-                amount: { label: window.$func.__("Amount", "erp") },
-                actions: { label: window.$func.__("Actions", "erp") },
+                agency_id: { label: this.$func.__("Agency", "erp") },
+                trn_date: { label: this.$func.__("Date", "erp") },
+                // 'tax_period': {label: this.$func.__('Tax Period', 'erp')},
+                amount: { label: this.$func.__("Amount", "erp") },
+                actions: { label: this.$func.__("Actions", "erp") },
             },
             rows: [],
             paginationData: {
@@ -88,13 +88,13 @@ export default {
                         : parseInt(this.$route.params.page),
             },
             actions: [
-                // { key: 'edit', label: window.$func.__('Edit', 'erp'), iconClass: 'flaticon-edit' },
-                { key: "#", label: window.$func.__("No action found", "erp") },
+                // { key: 'edit', label: this.$func.__('Edit', 'erp'), iconClass: 'flaticon-edit' },
+                { key: "#", label: this.$func.__("No action found", "erp") },
             ],
             bulkActions: [
                 {
                     key: "trash",
-                    label: window.$func.__("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
@@ -179,7 +179,7 @@ export default {
 
                                 this.showAlert(
                                     "success",
-                                    window.$func.__("Deleted !", "erp")
+                                    this.$func.__("Deleted !", "erp")
                                 );
                             })
                             .catch((error) => {
@@ -215,7 +215,7 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.showAlert("success", window.$func.__("Deleted !", "erp"));
+                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
                         })
                         .catch((error) => {
                             throw error;

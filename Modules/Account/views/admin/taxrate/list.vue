@@ -4,14 +4,14 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">
-                        {{ window.$func.__("Tax Rates", "erp") }}
+                        {{ this.$func.__("Tax Rates", "erp") }}
                     </h2>
                     <a
                         class="mybizna-btn btn--primary"
                         @click.prevent="newTaxRate"
                         id="add-tax-rate"
                     >
-                        <span>{{ window.$func.__("Add Tax Rate", "erp") }}</span>
+                        <span>{{ this.$func.__("Add Tax Rate", "erp") }}</span>
                     </a>
                 </div>
             </div>
@@ -83,10 +83,10 @@ export default {
             modalParams: null,
             columns: {
                 tax_rate_name: {
-                    label: window.$func.__("Tax Zone Name", "erp"),
+                    label: this.$func.__("Tax Zone Name", "erp"),
                     isColPrimary: true,
                 },
-                actions: { label: window.$func.__("Actions", "erp") },
+                actions: { label: this.$func.__("Actions", "erp") },
             },
             rows: [],
             paginationData: {
@@ -101,31 +101,31 @@ export default {
             actions: [
                 {
                     key: "edit",
-                    label: window.$func.__("Edit", "erp"),
+                    label: this.$func.__("Edit", "erp"),
                     iconClass: "flaticon-edit",
                 },
                 {
                     key: "trash",
-                    label: window.$func.__("Delete", "erp"),
+                    label: this.$func.__("Delete", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
             bulkActions: [
                 {
                     key: "trash",
-                    label: window.$func.__("Move to Trash", "erp"),
+                    label: this.$func.__("Move to Trash", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
             new_entities: [
-                { namedRoute: "NewTaxZone", name: window.$func.__("New Tax Zone", "erp") },
+                { namedRoute: "NewTaxZone", name: this.$func.__("New Tax Zone", "erp") },
                 {
                     namedRoute: "NewTaxCategory",
-                    name: window.$func.__("New Tax Category", "erp"),
+                    name: this.$func.__("New Tax Category", "erp"),
                 },
                 {
                     namedRoute: "NewTaxAgency",
-                    name: window.$func.__("New Tax Agency", "erp"),
+                    name: this.$func.__("New Tax Agency", "erp"),
                 },
             ],
             taxes: [{}],
@@ -172,7 +172,7 @@ export default {
                     if (item.default === 0) {
                         item.default = "-";
                     } else {
-                        item.default = window.$func.__("Default", "erp");
+                        item.default = this.$func.__("Default", "erp");
                     }
                 });
 
@@ -243,7 +243,7 @@ export default {
                                 this.$delete(this.rows, index);
                                 this.showAlert(
                                     "success",
-                                    window.$func.__("Deleted !", "erp")
+                                    this.$func.__("Deleted !", "erp")
                                 );
                             })
                             .catch((error) => {

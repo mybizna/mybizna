@@ -24,7 +24,7 @@
                                         <div class="col-3">
                                             <h3>
                                                 <input type="checkbox" id="selecctall" @change.prevent="selectFields" />
-                                                {{ window.$func.__('Select all', 'erp') }}
+                                                {{ this.$func.__('Select all', 'erp') }}
                                             </h3>
                                         </div>
                                     </div>
@@ -41,7 +41,7 @@
                                     <div class="row"></div>
 
                                     <div class="row">
-                                        <p class="description">{{ window.$func.__( '**Only selected fields will be on the csv file.', 'erp' ) }}</p>
+                                        <p class="description">{{ this.$func.__( '**Only selected fields will be on the csv file.', 'erp' ) }}</p>
                                     </div>
                                 </div>
 
@@ -53,8 +53,8 @@
 
                             <div class="mybizna-modal-footer pt-0">
                                 <div class="buttons-wrapper text-right">
-                                    <button class="mybizna-btn btn--default modal-close" @click="$parent.$emit('modal-close')" type="reset">{{ window.$func.__('Cancel', 'erp') }}</button>
-                                    <button class="mybizna-btn btn--primary" type="submit">{{ window.$func.__('Export', 'erp') }}</button>
+                                    <button class="mybizna-btn btn--default modal-close" @click="$parent.$emit('modal-close')" type="reset">{{ this.$func.__('Cancel', 'erp') }}</button>
+                                    <button class="mybizna-btn btn--primary" type="submit">{{ this.$func.__('Export', 'erp') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -95,8 +95,8 @@ export default {
         this.peopleFields = erp_acct_var.erp_fields ? erp_acct_var.erp_fields[this.peopleType].fields : [];
         this.nonce        = erp_acct_var.export_import_nonce;
         this.description  = 'customer' === this.peopleType
-                          ? window.$func.__('Select customer fields to export', 'erp')
-                          : window.$func.__('Select vendor fields to export', 'erp');
+                          ? this.$func.__('Select customer fields to export', 'erp')
+                          : this.$func.__('Select vendor fields to export', 'erp');
     },
 
     methods: {

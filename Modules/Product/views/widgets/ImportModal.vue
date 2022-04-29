@@ -9,7 +9,7 @@
                 <div class="mybizna-modal-dialog">
                     <div class="mybizna-modal-content">
                         <div class="mybizna-modal-header">
-                            <h3>{{ window.$func.__("Import Products", "erp") }}</h3>
+                            <h3>{{ this.$func.__("Import Products", "erp") }}</h3>
 
                             <span class="modal-close">
                                 <i
@@ -68,7 +68,7 @@
                                             <th>
                                                 <label for="csv_file"
                                                     >{{
-                                                        window.$func.__("CSV File", "erp")
+                                                        this.$func.__("CSV File", "erp")
                                                     }}
                                                     <span class="required"
                                                         >*</span
@@ -86,7 +86,7 @@
 
                                                 <p class="description">
                                                     {{
-                                                        window.$func.__(
+                                                        this.$func.__(
                                                             "Upload a csv file.",
                                                             "erp"
                                                         )
@@ -94,7 +94,7 @@
                                                     <span
                                                         class="erp-help-tip .erp-tips"
                                                         :title="
-                                                            window.$func.__(
+                                                            this.$func.__(
                                                                 'Make sure CSV meets the sample CSV format exactly.',
                                                                 'erp'
                                                             )
@@ -114,7 +114,7 @@
                                                         "
                                                     >
                                                         {{
-                                                            window.$func.__(
+                                                            this.$func.__(
                                                                 "Download Sample CSV",
                                                                 "erp"
                                                             )
@@ -127,7 +127,7 @@
                                         <tr>
                                             <th>
                                                 <label for="update_existing">{{
-                                                    window.$func.__(
+                                                    this.$func.__(
                                                         "Update Existing Products",
                                                         "erp"
                                                     )
@@ -142,7 +142,7 @@
                                                     id="update_existing"
                                                 />
                                                 {{
-                                                    window.$func.__(
+                                                    this.$func.__(
                                                         "Existing products with same name will be updated",
                                                         "erp"
                                                     )
@@ -156,7 +156,7 @@
                                                     for="default_product_cat"
                                                 >
                                                     {{
-                                                        window.$func.__(
+                                                        this.$func.__(
                                                             "Default Product Category",
                                                             "erp"
                                                         )
@@ -167,7 +167,7 @@
                                                     <span
                                                         class="erp-help-tip .erp-tips"
                                                         :title="
-                                                            window.$func.__(
+                                                            this.$func.__(
                                                                 'If product category is null or not found, this default category will be assigned.',
                                                                 'erp'
                                                             )
@@ -191,7 +191,7 @@
                                             <th>
                                                 <label
                                                     >{{
-                                                        window.$func.__(
+                                                        this.$func.__(
                                                             "Default Product Type",
                                                             "erp"
                                                         )
@@ -202,7 +202,7 @@
                                                     <span
                                                         class="erp-help-tip .erp-tips"
                                                         :title="
-                                                            window.$func.__(
+                                                            this.$func.__(
                                                                 'If product type is null or not found, this default type will be assigned.',
                                                                 'erp'
                                                             )
@@ -226,7 +226,7 @@
                                             <th>
                                                 <label for="default_vendor"
                                                     >{{
-                                                        window.$func.__(
+                                                        this.$func.__(
                                                             "Default Vendor",
                                                             "erp"
                                                         )
@@ -234,7 +234,7 @@
                                                     <span
                                                         class="erp-help-tip .erp-tips"
                                                         :title="
-                                                            window.$func.__(
+                                                            this.$func.__(
                                                                 'If product type is null or not found, this default type will be assigned.',
                                                                 'erp'
                                                             )
@@ -256,7 +256,7 @@
                                             <th>
                                                 <label for="default_tax_cat"
                                                     >{{
-                                                        window.$func.__(
+                                                        this.$func.__(
                                                             "Default Tax category",
                                                             "erp"
                                                         )
@@ -264,7 +264,7 @@
                                                     <span
                                                         class="erp-help-tip .erp-tips"
                                                         :title="
-                                                            window.$func.__(
+                                                            this.$func.__(
                                                                 'If product type is null or not found, this default type will be assigned.',
                                                                 'erp'
                                                             )
@@ -326,13 +326,13 @@
                                         @click="$parent.$emit('close')"
                                         type="reset"
                                     >
-                                        {{ window.$func.__("Cancel", "erp") }}
+                                        {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
                                         class="mybizna-btn btn--primary"
                                         type="submit"
                                     >
-                                        {{ window.$func.__("Import", "erp") }}
+                                        {{ this.$func.__("Import", "erp") }}
                                     </button>
                                 </div>
                             </div>
@@ -409,14 +409,14 @@ export default {
             if (!this.defaultProductCat.id) {
                 return this.showAlert(
                     "error",
-                    window.$func.__("Please select a default product category", "erp")
+                    this.$func.__("Please select a default product category", "erp")
                 );
             }
 
             if (!this.defaultProductType.id) {
                 return this.showAlert(
                     "error",
-                    window.$func.__("Please select a default product type", "erp")
+                    this.$func.__("Please select a default product type", "erp")
                 );
             }
 
@@ -456,7 +456,7 @@ export default {
                             this.$root.$emit("imported-products");
                             this.showAlert(
                                 "success",
-                                window.$func.__(
+                                this.$func.__(
                                     `${response.data} products have been imported successfully`,
                                     "erp"
                                 )

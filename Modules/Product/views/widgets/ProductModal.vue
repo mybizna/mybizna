@@ -6,10 +6,10 @@
                     <div class="mybizna-modal-content">
                         <div class="mybizna-modal-header">
                             <h3 v-if="!product">
-                                {{ window.$func.__("Add", "erp") }} {{ title }}
+                                {{ this.$func.__("Add", "erp") }} {{ title }}
                             </h3>
                             <h3 v-else>
-                                {{ window.$func.__("Update", "erp") }} {{ title }}
+                                {{ this.$func.__("Update", "erp") }} {{ title }}
                             </h3>
                             <span class="modal-close">
                                 <i
@@ -40,7 +40,7 @@
                                 <div class="mybizna-row">
                                     <div class="mybizna-col-sm-3 mybizna-col-xs-12">
                                         <label
-                                            >{{ window.$func.__("Product Name", "erp") }}
+                                            >{{ this.$func.__("Product Name", "erp") }}
                                             <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
@@ -51,7 +51,7 @@
                                             type="text"
                                             class="mybizna-form-field"
                                             :placeholder="
-                                                window.$func.__(
+                                                this.$func.__(
                                                     'Enter Product Name Here',
                                                     'erp'
                                                 )
@@ -71,7 +71,7 @@
                                             class="panel-badge panel-badge-primary"
                                         ></span>
                                         <span>{{
-                                            window.$func.__("Product/Service Details", "erp")
+                                            this.$func.__("Product/Service Details", "erp")
                                         }}</span>
                                     </div>
                                     <div class="mybizna-panel-body">
@@ -81,7 +81,7 @@
                                             >
                                                 <label
                                                     >{{
-                                                        window.$func.__(
+                                                        this.$func.__(
                                                             "Product Type",
                                                             "erp"
                                                         )
@@ -113,7 +113,7 @@
                                                 class="mybizna-col-sm-3 mybizna-col-xs-12"
                                             >
                                                 <label>{{
-                                                    window.$func.__("Category", "erp")
+                                                    this.$func.__("Category", "erp")
                                                 }}</label>
                                             </div>
                                             <div
@@ -143,7 +143,7 @@
                                             class="panel-badge panel-badge-info"
                                         ></span>
                                         <span>{{
-                                            window.$func.__("Product Information", "erp")
+                                            this.$func.__("Product Information", "erp")
                                         }}</span>
                                     </div>
                                     <div class="mybizna-panel-body">
@@ -152,7 +152,7 @@
                                                 class="mybizna-col-sm-3 mybizna-col-xs-12"
                                             >
                                                 <label for="cost-price">{{
-                                                    window.$func.__("Cost Price", "erp")
+                                                    this.$func.__("Cost Price", "erp")
                                                 }}</label>
                                             </div>
                                             <div
@@ -176,7 +176,7 @@
                                             >
                                                 <label for="sale-price"
                                                     >{{
-                                                        window.$func.__("Sale Price", "erp")
+                                                        this.$func.__("Sale Price", "erp")
                                                     }}
                                                     <span
                                                         class="mybizna-required-sign"
@@ -212,7 +212,7 @@
                                             class="panel-badge panel-badge-secondary"
                                         ></span>
                                         <span>{{
-                                            window.$func.__("Miscellaneous", "erp")
+                                            this.$func.__("Miscellaneous", "erp")
                                         }}</span>
                                     </div>
                                     <div class="mybizna-panel-body">
@@ -221,7 +221,7 @@
                                                 class="mybizna-col-sm-3 mybizna-col-xs-12 product-owner"
                                             >
                                                 <label>
-                                                    {{ window.$func.__("Owner", "erp") }}
+                                                    {{ this.$func.__("Owner", "erp") }}
                                                     <span
                                                         v-show="selfOwner"
                                                         class="mybizna-required-sign"
@@ -238,7 +238,7 @@
                                                     value="self"
                                                     :required="selfOwner"
                                                 />
-                                                {{ window.$func.__("self", "erp") }}
+                                                {{ this.$func.__("self", "erp") }}
                                             </div>
 
                                             <div
@@ -246,7 +246,7 @@
                                                 v-show="!selfOwner"
                                             >
                                                 <label>
-                                                    {{ window.$func.__("Vendor", "erp") }}
+                                                    {{ this.$func.__("Vendor", "erp") }}
                                                     <span
                                                         class="mybizna-required-sign"
                                                         >*</span
@@ -273,7 +273,7 @@
                                             >
                                                 <label
                                                     >{{
-                                                        window.$func.__(
+                                                        this.$func.__(
                                                             "Tax Category",
                                                             "erp"
                                                         )
@@ -281,7 +281,7 @@
                                                     <span
                                                         class="erp-help-tip .erp-tips"
                                                         :title="
-                                                            window.$func.__(
+                                                            this.$func.__(
                                                                 'Selecting tax category is important if you want to have tax on that product while selling.',
                                                                 'erp'
                                                             )
@@ -312,19 +312,19 @@
                                         class="mybizna-btn btn--default"
                                         @click.prevent="$parent.$emit('close')"
                                     >
-                                        {{ window.$func.__("Cancel", "erp") }}
+                                        {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
                                         v-if="!product"
                                         class="mybizna-btn btn--primary"
                                     >
-                                        {{ window.$func.__("Save", "erp") }}
+                                        {{ this.$func.__("Save", "erp") }}
                                     </button>
                                     <button
                                         v-else
                                         class="mybizna-btn btn--primary"
                                     >
-                                        {{ window.$func.__("Update", "erp") }}
+                                        {{ this.$func.__("Update", "erp") }}
                                     </button>
                                 </div>
                             </form>
@@ -368,7 +368,7 @@ export default {
             categories: [],
             tax_cats: [],
             productType: [],
-            title: window.$func.__("Product", "erp"),
+            title: this.$func.__("Product", "erp"),
             isDisabled: false,
             selfOwner: false,
         };
@@ -475,8 +475,8 @@ export default {
                     this.showAlert(
                         "success",
                         type === "put"
-                            ? window.$func.__("Product Updated!", "erp")
-                            : window.$func.__("Product Created!", "erp")
+                            ? this.$func.__("Product Updated!", "erp")
+                            : this.$func.__("Product Created!", "erp")
                     );
                 })
                 .catch((error) => {
@@ -568,7 +568,7 @@ export default {
 
             if (this.ProductFields.salePrice <= 0) {
                 this.error_msg.push(
-                    window.$func.__("Product sale price should be greater than 0", "erp")
+                    this.$func.__("Product sale price should be greater than 0", "erp")
                 );
             }
 

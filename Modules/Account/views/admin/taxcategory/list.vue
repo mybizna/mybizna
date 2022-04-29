@@ -4,13 +4,13 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">
-                        {{ window.$func.__("Tax Categories", "erp") }}
+                        {{ this.$func.__("Tax Categories", "erp") }}
                     </h2>
                     <a
                         class="mybizna-btn btn--primary"
                         @click.prevent="showModal = true"
                     >
-                        <span>{{ window.$func.__("Add Tax Category", "erp") }}</span>
+                        <span>{{ this.$func.__("Add Tax Category", "erp") }}</span>
                     </a>
                 </div>
             </div>
@@ -67,11 +67,11 @@ export default {
             modalParams: null,
             columns: {
                 tax_cat_name: {
-                    label: window.$func.__("Category Name", "erp"),
+                    label: this.$func.__("Category Name", "erp"),
                     isColPrimary: true,
                 },
-                tax_cat_desc: { label: window.$func.__("Description", "erp") },
-                actions: { label: window.$func.__("Actions", "erp") },
+                tax_cat_desc: { label: this.$func.__("Description", "erp") },
+                actions: { label: this.$func.__("Actions", "erp") },
             },
             rows: [],
             paginationData: {
@@ -86,19 +86,19 @@ export default {
             actions: [
                 {
                     key: "edit",
-                    label: window.$func.__("Edit", "erp"),
+                    label: this.$func.__("Edit", "erp"),
                     iconClass: "flaticon-edit",
                 },
                 {
                     key: "trash",
-                    label: window.$func.__("Delete", "erp"),
+                    label: this.$func.__("Delete", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
             bulkActions: [
                 {
                     key: "trash",
-                    label: window.$func.__("Trash", "erp"),
+                    label: this.$func.__("Trash", "erp"),
                     iconClass: "flaticon-trash",
                 },
             ],
@@ -199,7 +199,7 @@ export default {
                                 this.$delete(this.rows, index);
                                 this.showAlert(
                                     "success",
-                                    window.$func.__("Deleted !", "erp")
+                                    this.$func.__("Deleted !", "erp")
                                 );
                             })
                             .catch((error) => {
@@ -237,7 +237,7 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.showAlert("success", window.$func.__("Deleted !", "erp"));
+                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
                         })
                         .catch((error) => {
                             throw error;

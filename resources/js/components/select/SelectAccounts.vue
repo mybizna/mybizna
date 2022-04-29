@@ -1,7 +1,7 @@
 <template>
     <div class="with-multiselect">
-        <multi-select :placeholder="window.$func.__('Select Account', 'erp')" v-model="selectedAccount" :options="accounts" />
-        <span class="balance mt-10 display-inline-block">{{ window.$func.__('Balance', 'erp') }}: {{transformBalance(balance)}}</span>
+        <multi-select :placeholder="this.$func.__('Select Account', 'erp')" v-model="selectedAccount" :options="accounts" />
+        <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(balance)}}</span>
     </div>
 </template>
 

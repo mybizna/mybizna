@@ -1,12 +1,12 @@
 <template>
     <div class="mybizna-row">
         <div class="mybizna-col-sm-3 mybizna-col-xs-12">
-            <label>{{ window.$func.__('Component', 'erp') }}</label>
+            <label>{{ this.$func.__('Component', 'erp') }}</label>
             <template v-if="is_update"><input type="text" class="mybizna-form-field" v-model="component_line.component_name"/></template>
             <template v-else>{{component_line.component_name}}</template>
         </div>
         <div class="mybizna-col-sm-3 mybizna-col-xs-12 with-multiselect">
-            <label>{{ window.$func.__('Agency', 'erp') }}</label>
+            <label>{{ this.$func.__('Agency', 'erp') }}</label>
             <template v-if="is_update">
             <multi-select
                 v-model="component_line.agency"
@@ -15,7 +15,7 @@
             <template v-else>{{component_line.agency_name}}</template>
         </div>
         <div class="mybizna-col-sm-3 mybizna-col-xs-12 with-multiselect">
-            <label>{{ window.$func.__('Tax Category', 'erp') }}</label>
+            <label>{{ this.$func.__('Tax Category', 'erp') }}</label>
             <template v-if="is_update">
                 <multi-select
                 v-model="component_line.category"
@@ -24,7 +24,7 @@
             <template v-else>{{component_line.tax_cat_name}}</template>
         </div>
         <div class="mybizna-col-sm-3 mybizna-col-xs-12">
-            <label>{{ window.$func.__('Tax Rate', 'erp') }}</label>
+            <label>{{ this.$func.__('Tax Rate', 'erp') }}</label>
             <template v-if="is_update"><input class="mybizna-form-field" type="text" v-model="component_line.tax_rate"/></template>
             <template v-else>{{component_line.tax_rate}}</template>
         </div>
@@ -99,7 +99,7 @@ export default {
                 tax_cat_id: this.component_line.category.id,
                 tax_rate: this.component_line.tax_rate
             }).then(res => {
-                this.showAlert('success', window.$func.__('Tax Rate Updated!', 'erp'));
+                this.showAlert('success', this.$func.__('Tax Rate Updated!', 'erp'));
             }).catch(error => {
                 throw error;
             }).then(() => {

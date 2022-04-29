@@ -1,7 +1,7 @@
 <template>
     <div :class="['bank-accounts-section', 'mybizna-panel', 'mybizna-panel-default', ( isEditSettingsEnabled ? 'open-edit':'' )]">
         <div class="mybizna-panel-heading mybizna-bg-white">
-            <h4>{{ window.$func.__('Accounts', 'erp') }}</h4>
+            <h4>{{ this.$func.__('Accounts', 'erp') }}</h4>
         </div>
         <div class="mybizna-panel-body pb-0">
             <ul v-if="accounts.length" class="mybizna-list-unstyled list-table-content list-table-content--border">
@@ -26,7 +26,7 @@
         </div>
         <div class="mybizna-panel-footer mt-50">
             <div class="bank-accounts-total">
-                <span class="title">{{ window.$func.__('Total Balance', 'erp') }}</span>
+                <span class="title">{{ this.$func.__('Total Balance', 'erp') }}</span>
                 <span class="price">{{totalAmount}}</span>
             </div>
         </div>

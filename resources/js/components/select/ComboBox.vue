@@ -42,7 +42,7 @@ export default {
                 name: "",
             },
             showMenu: false,
-            placeholderText: window.$func.__("-Select-", "erp"),
+            placeholderText: this.$func.__("-Select-", "erp"),
         };
     },
     props: {

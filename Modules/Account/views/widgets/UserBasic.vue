@@ -31,23 +31,23 @@
                 >
                     <ul class="customer-meta">
                         <li>
-                            <strong>{{ window.$func.__("Phone", "erp") }}:</strong>
+                            <strong>{{ this.$func.__("Phone", "erp") }}:</strong>
                             <span>{{ user.phone }}</span>
                         </li>
                         <li>
-                            <strong>{{ window.$func.__("Mobile", "erp") }}:</strong>
+                            <strong>{{ this.$func.__("Mobile", "erp") }}:</strong>
                             <span>{{ user.mobile }}</span>
                         </li>
                         <li>
-                            <strong>{{ window.$func.__("Website", "erp") }}:</strong>
+                            <strong>{{ this.$func.__("Website", "erp") }}:</strong>
                             <span>{{ user.website }}</span>
                         </li>
                         <li>
-                            <strong>{{ window.$func.__("Fax", "erp") }}:</strong>
+                            <strong>{{ this.$func.__("Fax", "erp") }}:</strong>
                             <span>{{ user.fax }}</span>
                         </li>
                         <li>
-                            <strong>{{ window.$func.__("Address", "erp") }}:</strong>
+                            <strong>{{ this.$func.__("Address", "erp") }}:</strong>
                             <span v-if="address">{{ address }}</span>
                         </li>
 

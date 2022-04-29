@@ -4,7 +4,7 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">
-                        {{ window.$func.__("Record Sales Tax Payment", "erp") }}
+                        {{ this.$func.__("Record Sales Tax Payment", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                     <div class="mybizna-row mybizna-gutter-20">
                         <div class="mybizna-col-sm-4 with-multiselect">
                             <label
-                                >{{ window.$func.__("Payment Method", "erp")
+                                >{{ this.$func.__("Payment Method", "erp")
                                 }}<span class="mybizna-required-sign">
                                     *</span
                                 ></label
@@ -36,10 +36,10 @@
                         <div class="mybizna-col-sm-4 mb-20">
                             <label>
                                 <span v-if="'debit' == voucher_type.id">{{
-                                    window.$func.__("Payment From", "erp")
+                                    this.$func.__("Payment From", "erp")
                                 }}</span>
                                 <span v-else>{{
-                                    window.$func.__("Deposit To", "erp")
+                                    this.$func.__("Deposit To", "erp")
                                 }}</span>
                                 <span class="mybizna-required-sign">*</span>
                             </label>
@@ -52,7 +52,7 @@
                         <div class="mybizna-col-sm-4 mybizna-col-xs-12">
                             <div class="mybizna-form-group">
                                 <label
-                                    >{{ window.$func.__("Payment Date", "erp")
+                                    >{{ this.$func.__("Payment Date", "erp")
                                     }}<span class="mybizna-required-sign">
                                         *</span
                                     ></label
@@ -65,7 +65,7 @@
 
                         <div class="mybizna-col-sm-4 mybizna-col-xs-12">
                             <div class="mybizna-form-group with-multiselect">
-                                <label>{{ window.$func.__("Payment To", "erp") }}</label>
+                                <label>{{ this.$func.__("Payment To", "erp") }}</label>
                                 <multi-select
                                     v-model="agency"
                                     :options="agencies"
@@ -74,7 +74,7 @@
                         </div>
                         <div class="mybizna-col-sm-4 mybizna-col-xs-12">
                             <div class="mybizna-form-group">
-                                <label>{{ window.$func.__("Tax Amount", "erp") }}</label>
+                                <label>{{ this.$func.__("Tax Amount", "erp") }}</label>
                                 <input
                                     type="number"
                                     min="0"
@@ -85,7 +85,7 @@
                                 />
 
                                 <span
-                                    >{{ window.$func.__("Due Amount", "erp") }}:
+                                    >{{ this.$func.__("Due Amount", "erp") }}:
                                     <span class="text-theme">{{
                                         moneyFormat(dueAmount)
                                     }}</span></span
@@ -94,19 +94,19 @@
                         </div>
                         <div class="mybizna-col-sm-4 mybizna-col-xs-12">
                             <div class="mybizna-form-group with-multiselect">
-                                <label>{{ window.$func.__("Voucher Type", "erp") }}</label>
+                                <label>{{ this.$func.__("Voucher Type", "erp") }}</label>
                                 <multi-select
                                     v-model="voucher_type"
                                     :options="voucher_types"
                                     :placeholder="
-                                        window.$func.__('Enter Voucher Type', 'erp')
+                                        this.$func.__('Enter Voucher Type', 'erp')
                                     "
                                 />
                             </div>
                         </div>
 
                         <div class="mybizna-col-xs-12">
-                            <label>{{ window.$func.__("Particulars", "erp") }}</label>
+                            <label>{{ this.$func.__("Particulars", "erp") }}</label>
                             <textarea
                                 rows="3"
                                 v-model="particulars"
@@ -160,10 +160,10 @@ export default {
             isWorking: false,
             form_errors: [],
             trn_date: erp_acct_var.current_date /* global erp_acct_var */,
-            voucher_type: { id: "debit", name: window.$func.__("Debit", "erp") },
+            voucher_type: { id: "debit", name: this.$func.__("Debit", "erp") },
             voucher_types: [
-                { id: "debit", name: window.$func.__("Debit", "erp") },
-                { id: "credit", name: window.$func.__("Credit", "erp") },
+                { id: "debit", name: this.$func.__("Debit", "erp") },
+                { id: "credit", name: this.$func.__("Credit", "erp") },
             ],
         };
     },
@@ -290,7 +290,7 @@ export default {
                     throw error;
                 })
                 .then((res) => {
-                    this.showAlert("success", window.$func.__("Tax Paid!", "erp"));
+                    this.showAlert("success", this.$func.__("Tax Paid!", "erp"));
                 })
                 .then(() => {
                     this.$router.push({ name: "TaxRecords" });
@@ -309,7 +309,7 @@ export default {
             this.isWorking = false;
             this.form_errors = [];
             this.trn_date = erp_acct_var.current_date;
-            this.voucher_type = { id: "debit", name: window.$func.__("Debit", "erp") };
+            this.voucher_type = { id: "debit", name: this.$func.__("Debit", "erp") };
         },
 
         validateForm() {
@@ -317,7 +317,7 @@ export default {
 
             if (!this.trn_by.id) {
                 this.form_errors.push(
-                    window.$func.__("Payment method Name is required.", "erp")
+                    this.$func.__("Payment method Name is required.", "erp")
                 );
             }
 
@@ -346,7 +346,7 @@ export default {
                 parseFloat(this.finalTotalAmount)
             ) {
                 this.form_errors.push(
-                    window.$func.__("Not enough balance in selected account.", "erp")
+                    this.$func.__("Not enough balance in selected account.", "erp")
                 );
             }
         },

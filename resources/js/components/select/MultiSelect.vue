@@ -25,7 +25,7 @@ export default {
 
         placeholder: {
             type: String,
-            default: window.$func.__("Please search", "erp"),
+            default: this.$func.__("Please search", "erp"),
         },
     },
 

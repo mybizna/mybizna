@@ -75,7 +75,7 @@ export default {
             const fileStatesOptions = {
                 library: wp.media.query(),
                 multiple: false, // set it true for multiple image
-                title: window.$func.__("Select & Crop Image", "erp"),
+                title: this.$func.__("Select & Crop Image", "erp"),
                 priority: 20,
                 filterable: "uploaded",
                 autoSelect: true,
@@ -154,9 +154,9 @@ export default {
             ];
 
             const mediaOptions = {
-                title: window.$func.__("Select Image", "erp"),
+                title: this.$func.__("Select Image", "erp"),
                 button: {
-                    text: window.$func.__("Select Image", "erp"),
+                    text: this.$func.__("Select Image", "erp"),
                     close: false,
                 },
                 multiple: false,

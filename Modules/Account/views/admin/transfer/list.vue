@@ -5,12 +5,12 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">
-                        {{ window.$func.__("Transfer Money", "erp") }}
+                        {{ this.$func.__("Transfer Money", "erp") }}
                     </h2>
                     <router-link
                         class="mybizna-btn btn--primary"
                         :to="{ name: 'NewTransfer' }"
-                        >{{ window.$func.__("Add new", "erp") }}</router-link
+                        >{{ this.$func.__("Add new", "erp") }}</router-link
                     >
                 </div>
             </div>
@@ -59,10 +59,10 @@ export default {
             money_transfer: false,
             transfer_list: [],
             columns: {
-                voucher: { label: window.$func.__("Voucher No", "erp"), isColPrimary: true },
-                ac_from: { label: window.$func.__("Account From", "erp") },
-                amount: { label: window.$func.__("Amount", "erp") },
-                ac_to: { label: window.$func.__("Account To", "erp") },
+                voucher: { label: this.$func.__("Voucher No", "erp"), isColPrimary: true },
+                ac_from: { label: this.$func.__("Account From", "erp") },
+                amount: { label: this.$func.__("Amount", "erp") },
+                ac_to: { label: this.$func.__("Account To", "erp") },
             },
         };
     },
