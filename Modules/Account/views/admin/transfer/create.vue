@@ -70,7 +70,7 @@ export default {
             accounts    : [],
             fa          : [],
             ta          : [],
-            transferdate: erp_acct_var.current_date, /* global erp_acct_var */
+            transferdate: this.$erp_acct_var.current_date, /* global this.$erp_acct_var */
             particulars : '',
             amount      : ''
         };
@@ -128,7 +128,7 @@ export default {
             this.transferFrom = { balance : 0 };
             this.transferTo   = { balance : 0 };
             this.accounts     = [];
-            this.transferdate = erp_acct_var.current_date;
+            this.transferdate = this.$erp_acct_var.current_date;
             this.particulars  = '';
             this.amount       = '';
         }

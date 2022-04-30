@@ -229,7 +229,7 @@ export default {
             company: null,
             purchase: {},
             isWorking: false,
-            acct_var: erp_acct_var /* global erp_acct_var */,
+            acct_var: this.$erp_acct_var /* global this.$erp_acct_var */,
             print_data: null,
             type: "purchase",
             showModal: false,

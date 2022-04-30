@@ -15,7 +15,7 @@
         </h2>
 
         <list-table
-            tableClass="mybizna-table table-striped"
+            tableClass="mybizna-table table-sm table-striped"
             action-column="actions"
             :columns="columns"
             :rows="row_data"
@@ -48,7 +48,7 @@
 
 export default {
     components: {
-        ListTable: window.fetchComponent('components/list-table/ListTable.vue'),
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
     },
 
     data() {
@@ -58,8 +58,8 @@ export default {
                     key: "trash",
                     label: this.$func.__("Move to Trash", "erp"),
                     img:
-                        erp_acct_var.erp_assets +
-                        "/images/trash.png" /* global erp_acct_var */,
+                        this.$erp_acct_var.erp_assets +
+                        "/images/trash.png" /* global this.$erp_acct_var */,
                 },
             ],
             columns: {

@@ -39,7 +39,7 @@
         </p>
 
         <list-table
-            tableClass="mybizna-table table-striped widefat income-statement income-balance-report"
+            tableClass="mybizna-table table-sm table-striped widefat income-statement income-balance-report"
             :columns="columns1"
             :rows="rows1"
             :showItemNumbers="false"
@@ -57,7 +57,7 @@
         </list-table>
 
         <list-table
-            tableClass="mybizna-table table-striped widefat income-statement income-balance-report"
+            tableClass="mybizna-table table-sm table-striped widefat income-statement income-balance-report"
             :columns="columns2"
             :rows="rows2"
             :showItemNumbers="false"
@@ -121,7 +121,7 @@ export default {
                     key: "trash",
                     label: this.$func.__("Move to Trash", "erp"),
                     img:
-                        erp_acct_var.erp_assets +
+                        this.$erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
                 },
             ],
@@ -155,7 +155,7 @@ export default {
                 this.end_date = this.$route.query.end;
             } else {
                 this.start_date = `${dateObj.getFullYear()}-${month}-01`;
-                this.end_date = erp_acct_var.current_date;
+                this.end_date = this.$erp_acct_var.current_date;
             }
 
             // this.updateDate();

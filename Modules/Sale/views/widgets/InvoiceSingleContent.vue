@@ -211,7 +211,7 @@ export default {
 
     data() {
         return {
-            acct_var: erp_acct_var /* global erp_acct_var */,
+            acct_var: this.$erp_acct_var /* global this.$erp_acct_var */,
             //total   : null
         };
     },

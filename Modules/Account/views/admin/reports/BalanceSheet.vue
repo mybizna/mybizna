@@ -84,7 +84,7 @@
             <div>
                 <div class="mybizna-col-sm-12">
                     <list-table
-                        tableClass="mybizna-table table-striped widefat balance-sheet-asset report-table"
+                        tableClass="mybizna-table table-sm table-striped widefat balance-sheet-asset report-table"
                         :columns="columns1"
                         :rows="rows1"
                         :showItemNumbers="false"
@@ -124,7 +124,7 @@
 
                 <div class="mybizna-col-sm-12">
                     <list-table
-                        tableClass="mybizna-table table-striped widefat balance-sheet-liability report-table"
+                        tableClass="mybizna-table table-sm table-striped widefat balance-sheet-liability report-table"
                         :columns="columns2"
                         :rows="rows2"
                         :showItemNumbers="false"
@@ -165,7 +165,7 @@
 
                 <div class="mybizna-col-sm-12">
                     <list-table
-                        tableClass="mybizna-table table-striped widefat balance-sheet-equity report-table"
+                        tableClass="mybizna-table table-sm table-striped widefat balance-sheet-equity report-table"
                         :columns="columns3"
                         :rows="rows3"
                         :showItemNumbers="false"
@@ -244,8 +244,8 @@ export default {
                     key: "trash",
                     label: this.$func.__("Move to Trash", "erp"),
                     img:
-                        erp_acct_var.erp_assets +
-                        "/images/trash.png" /* global erp_acct_var */,
+                        this.$erp_acct_var.erp_assets +
+                        "/images/trash.png" /* global this.$erp_acct_var */,
                 },
             ],
             columns1: {
@@ -280,7 +280,7 @@ export default {
             const month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
 
             this.start_date = `${dateObj.getFullYear()}-${month}-01`;
-            this.end_date   = erp_acct_var.current_date;
+            this.end_date   = this.$erp_acct_var.current_date;
 
             this.fetchItems();
         });*/

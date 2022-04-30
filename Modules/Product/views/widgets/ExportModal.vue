@@ -146,10 +146,10 @@ export default {
     },
 
     created() {
-        this.productsFields = erp_acct_var.erp_fields
-            ? erp_acct_var.erp_fields[this.exportType].fields
+        this.productsFields = this.$erp_acct_var.erp_fields
+            ? this.$erp_acct_var.erp_fields[this.exportType].fields
             : [];
-        this.nonce = erp_acct_var.export_import_nonce;
+        this.nonce = this.$erp_acct_var.export_import_nonce;
     },
 
     methods: {

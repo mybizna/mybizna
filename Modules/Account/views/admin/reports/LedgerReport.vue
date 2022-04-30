@@ -62,7 +62,7 @@
         </ul>
 
         <list-table
-            tableClass="mybizna-table table-striped widefat ledger-table"
+            tableClass="mybizna-table table-sm table-striped widefat ledger-table"
             :columns="columns"
             :rows="rows"
             :showCb="false"
@@ -135,7 +135,7 @@ export default {
             rows: [],
             totalDebit: 0,
             totalCredit: 0,
-            symbol: erp_acct_var.symbol /* global erp_acct_var */,
+            symbol: this.$erp_acct_var.symbol /* global this.$erp_acct_var */,
         };
     },
 

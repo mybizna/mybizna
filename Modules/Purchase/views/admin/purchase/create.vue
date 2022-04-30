@@ -395,7 +395,7 @@ export default {
             attachments: [],
             transactionLines: [],
             finalTotalAmount: 0,
-            erp_acct_assets: erp_acct_var.acct_assets /* global erp_acct_var */,
+            erp_acct_assets: this.$erp_acct_var.acct_assets /* global this.$erp_acct_var */,
             isWorking: false,
             purchase_title: "",
             purchase_order: 0,
@@ -560,8 +560,8 @@ export default {
                  * create a new purchase
                  * -----------------------------------------------
                  */
-                this.basic_fields.trn_date = erp_acct_var.current_date;
-                this.basic_fields.due_date = erp_acct_var.current_date;
+                this.basic_fields.trn_date = this.$erp_acct_var.current_date;
+                this.basic_fields.due_date = this.$erp_acct_var.current_date;
                 this.transactionLines.push({}, {}, {});
                 // initialize combo button id with `save`
                 this.$store.dispatch("combo/setBtnID", "save");
@@ -596,8 +596,8 @@ export default {
         resetData() {
             this.basic_fields = {
                 vendor: { id: null, name: null },
-                trn_date: erp_acct_var.current_date,
-                due_date: erp_acct_var.current_date,
+                trn_date: this.$erp_acct_var.current_date,
+                due_date: this.$erp_acct_var.current_date,
                 ref: "",
                 billing_address: "",
             };

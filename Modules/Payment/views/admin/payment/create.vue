@@ -323,7 +323,7 @@ export default {
             particulars: "",
             isWorking: false,
             accts_by_chart: [],
-            erp_acct_assets: erp_acct_var.acct_assets /* global erp_acct_var */,
+            erp_acct_assets: this.$erp_acct_var.acct_assets /* global this.$erp_acct_var */,
             reset: false,
             negativeAmount: [],
             negativeTotal: false,
@@ -404,7 +404,7 @@ export default {
                  * create a new Receive Payment
                  * -----------------------------------------------
                  */
-                this.basic_fields.payment_date = erp_acct_var.current_date;
+                this.basic_fields.payment_date = this.$erp_acct_var.current_date;
 
                 this.getPayMethods();
             }
@@ -700,7 +700,7 @@ export default {
             this.basic_fields = {
                 customer: "",
                 trn_ref: "",
-                payment_date: erp_acct_var.current_date,
+                payment_date: this.$erp_acct_var.current_date,
                 deposit_to: "",
                 billing_address: "",
                 trn_by: "",

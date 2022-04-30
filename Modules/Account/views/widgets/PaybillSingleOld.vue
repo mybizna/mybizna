@@ -218,7 +218,7 @@ export default {
             company: null,
             payBill: {},
             isWorking: false,
-            acct_var: erp_acct_var /* global erp_acct_var */,
+            acct_var: this.$erp_acct_var /* global erp_acct_var */,
             print_data: null,
             type: "pay_bill",
             showModal: false,

@@ -214,7 +214,7 @@ export default {
             company: null,
             expense_data: {},
             isWorking: false,
-            acct_var: erp_acct_var /* global erp_acct_var */,
+            acct_var: this.$erp_acct_var /* global this.$erp_acct_var */,
             print_data: null,
             type: "check",
             showModal: false,

@@ -89,7 +89,7 @@ export default {
             taxRate: 0,
             taxAmount: 0,
             taxCatID: 0,
-            debugMode: erp_acct_var.erp_debug_mode /* global erp_acct_var */,
+            debugMode: this.$erp_acct_var.erp_debug_mode /* global this.$erp_acct_var */,
         };
     },
 

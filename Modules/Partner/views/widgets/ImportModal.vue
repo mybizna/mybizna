@@ -186,8 +186,8 @@ export default {
     created() {
         var self = this;
 
-        this.peopleFields = erp_acct_var.erp_fields;
-        this.nonce = erp_acct_var.export_import_nonce;
+        this.peopleFields = this.$erp_acct_var.erp_fields;
+        this.nonce = this.$erp_acct_var.export_import_nonce;
         this.peopleType = "customers" == this.type ? "customer" : "vendor";
 
         wp.ajax.send({
@@ -223,7 +223,7 @@ export default {
                     self.showError = true;
                     self.errors = error;
 
-                   
+
                 },
             });
         },

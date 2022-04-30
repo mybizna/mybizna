@@ -191,7 +191,7 @@ export default {
                             ticks: {
                                 beginAtZero: true,
                                 callback: function(value, index, values) {
-                                    return erp_acct_var.symbol + value;
+                                    return this.$erp_acct_var.symbol + value;
                                 }
                             }
                         }]
@@ -199,7 +199,7 @@ export default {
                     tooltips: {
                         callbacks: {
                             label: function(tooltipItems, data) {
-                                return erp_acct_var.symbol + tooltipItems.yLabel.toString();
+                                return this.$erp_acct_var.symbol + tooltipItems.yLabel.toString();
                             }
                         }
                     }

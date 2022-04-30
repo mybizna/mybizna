@@ -14,7 +14,7 @@
         </h2>
 
         <list-table
-            tableClass="wp-ListTable widefat fixed journal-list"
+            tableClass="wp-ListTable table-sm widefat fixed journal-list"
             action-column="actions"
             :columns="columns"
             :rows="row_data"

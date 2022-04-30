@@ -31,7 +31,7 @@
         <import-modal v-if="showImportModal" />
 
         <list-table
-            tableClass="mybizna-table table-striped widefat table2 product-list"
+            tableClass="mybizna-table table-sm table-striped widefat table2 product-list"
             action-column="actions"
             :columns="columns"
             :rows="products"
@@ -101,8 +101,8 @@ export default {
                     key: "trash",
                     label: this.$func.__("Move to Trash", "erp"),
                     img:
-                        erp_acct_var.erp_assets +
-                        "/images/trash.png" /* global erp_acct_var */,
+                        this.$erp_acct_var.erp_assets +
+                        "/images/trash.png" /* global this.$erp_acct_var */,
                 },
             ],
             paginationData: {

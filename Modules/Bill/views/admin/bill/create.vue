@@ -324,7 +324,7 @@ export default {
             totalAmounts: 0,
             finalTotalAmount: 0,
             particulars: "",
-            erp_acct_assets: erp_acct_var.acct_assets,
+            erp_acct_assets: this.$erp_acct_var.acct_assets,
             extraFields: window.acct.hooks.applyFilters(
                 "acctBillExtraFields",
                 []
@@ -394,9 +394,9 @@ export default {
                  */
                 this.getLedgers();
 
-                /* global erp_acct_var */
-                this.basic_fields.trn_date = erp_acct_var.current_date;
-                this.basic_fields.due_date = erp_acct_var.current_date;
+                /* global this.$erp_acct_var */
+                this.basic_fields.trn_date = this.$erp_acct_var.current_date;
+                this.basic_fields.due_date = this.$erp_acct_var.current_date;
                 this.transactionLines.push({}, {}, {});
 
                 // initialize combo button id with `save`
@@ -584,8 +584,8 @@ export default {
             this.basic_fields = {
                 user: { id: null, name: null },
                 ref: "",
-                trn_date: erp_acct_var.current_date,
-                due_date: erp_acct_var.current_date,
+                trn_date: this.$erp_acct_var.current_date,
+                due_date: this.$erp_acct_var.current_date,
                 billing_address: "",
             };
 

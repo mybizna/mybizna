@@ -154,7 +154,7 @@ export default {
             particulars: "",
             isWorking: false,
             form_errors: [],
-            trn_date: erp_acct_var.current_date /* global erp_acct_var */,
+            trn_date: this.$erp_acct_var.current_date /* global this.$erp_acct_var */,
             voucher_type: { id: "debit", name: this.$func.__("Debit", "erp") },
             voucher_types: [
                 { id: "debit", name: this.$func.__("Debit", "erp") },
@@ -303,7 +303,7 @@ export default {
             this.particulars = "";
             this.isWorking = false;
             this.form_errors = [];
-            this.trn_date = erp_acct_var.current_date;
+            this.trn_date = this.$erp_acct_var.current_date;
             this.voucher_type = { id: "debit", name: this.$func.__("Debit", "erp") };
         },
 

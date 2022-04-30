@@ -120,7 +120,7 @@ export default {
                     key: "trash",
                     label: this.$func.__("Move to Trash", "erp"),
                     img:
-                        erp_acct_var.erp_assets +
+                        this.$erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
                 },
             ],
@@ -142,7 +142,7 @@ export default {
 
     computed: {
         debugMode() {
-            return erp_acct_var.erp_debug_mode === "1";
+            return this.$erp_acct_var.erp_debug_mode === "1";
         },
     },
 

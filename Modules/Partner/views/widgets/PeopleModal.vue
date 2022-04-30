@@ -433,7 +433,7 @@
 </template>
 
 <script>
-/* global erp_acct_var */
+/* global this.$erp_acct_var */
 export default {
     components: {
         UploadImage: window.$func.fetchComponent("components/base/Media.vue"),
@@ -470,7 +470,7 @@ export default {
                 state: "",
                 postal_code: "",
                 photo_id: null,
-                photo: erp_acct_var.erp_assets + "/images/mystery-person.png",
+                photo: this.$erp_acct_var.erp_assets + "/images/mystery-person.png",
             },
             states: [],
             emailExists: false,

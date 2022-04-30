@@ -27,7 +27,7 @@
 
         <ul v-if="search">
             <list-table
-                tableClass="mybizna-table table-striped widefat table2 chart-list"
+                ="mybizna-table table-sm table-striped widefat table2 chart-list"
                 action-column="actions"
                 :columns="columns"
                 :actions="actions"
@@ -88,7 +88,7 @@
                 </div>
 
                 <list-table
-                    tableClass="mybizna-table table-striped widefat table2 chart-list"
+                    tableClass="mybizna-table table-sm table-striped widefat table2 chart-list"
                     action-column="actions"
                     :columns="columns"
                     :actions="actions"
@@ -157,9 +157,9 @@ export default {
 
             chartAccounts: [],
             ledgers: [],
-            temp_ledgers: erp_acct_var.ledgers /* global erp_acct_var */,
+            temp_ledgers: this.$erp_acct_var.ledgers /* global this.$this.$this.$erp_acct_var */,
             search: "",
-            curSymbol: erp_acct_var.symbol || "$",
+            curSymbol: this.$erp_acct_var.symbol || "$",
         };
     },
 

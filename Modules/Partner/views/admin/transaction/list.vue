@@ -97,7 +97,7 @@
         <div class="mybizna-transactions-section mybizna-section">
             <div class="table-container">
                 <list-table
-                    tableClass="mybizna-table people-trns-table table-striped widefat"
+                    tableClass="mybizna-table table-sm people-trns-table table-striped widefat"
                     action-column="actions"
                     :columns="columns"
                     :rows="rows"
@@ -152,7 +152,7 @@ export default {
                 {
                     key: 'trash',
                     label: this.$func.__('Move to Trash', 'erp'),
-                    img: erp_acct_var.erp_assets + '/images/trash.png' /* global erp_acct_var */
+                    img: this.$erp_acct_var.erp_assets + '/images/trash.png' /* global this.$erp_acct_var */
                 }
             ],
             columns: {

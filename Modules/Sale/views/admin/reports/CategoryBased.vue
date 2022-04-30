@@ -66,7 +66,7 @@
         </ul>
 
         <list-table
-            tableClass="mybizna-table table-striped widefat sales-tax-table sales-tax-table-category"
+            tableClass="mybizna-table table-sm table-striped widefat sales-tax-table sales-tax-table-category"
             :columns="columns"
             :rows="taxes"
             :showCb="false"
@@ -125,7 +125,7 @@ export default {
                 trn_date: { label: this.$func.__("Transaction Date", "erp") },
                 tax_amount: { label: this.$func.__("Tax Amount", "erp") },
             },
-            symbol: erp_acct_var.symbol,
+            symbol: this.$erp_acct_var.symbol,
         };
     },
 
@@ -136,7 +136,7 @@ export default {
             const year = dateObj.getFullYear();
 
             this.startDate = `${year}-${month}-01`;
-            this.endDate = erp_acct_var.current_date;
+            this.endDate = this.$erp_acct_var.current_date;
 
             this.fetchData();
         });

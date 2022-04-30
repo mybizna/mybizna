@@ -44,7 +44,7 @@
         />
         i
         <list-table
-            tableClass="mybizna-table people-table table table-striped "
+            tableClass="mybizna-table table-sm people-table table table-striped "
             action-column="actions"
             :columns="columns"
             :rows="row_data"
@@ -231,7 +231,7 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(__("Are you sure to delete?", "erp"))) {
+                    if (confirm( this.$func.__("Are you sure to delete?", "erp"))) {
                         window.axios
                             .delete(this.url + "/" + row.id)
                             .then((response) => {
@@ -267,7 +267,7 @@ export default {
 
         onBulkAction(action, items) {
             if (action === "trash") {
-                if (confirm(__("Are you sure to delete?", "erp"))) {
+                if (confirm( this.$func.__("Are you sure to delete?", "erp"))) {
                     window.axios
                         .delete(this.url + "/delete/" + items.join(","))
                         .then((response) => {

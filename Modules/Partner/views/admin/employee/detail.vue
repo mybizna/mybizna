@@ -97,7 +97,7 @@ export default {
                 id: '',
                 name: '-',
                 email: '-',
-                // 'img_url': erp_acct_var.acct_assets  + '/images/dummy-user.png',
+                // 'img_url': this.$erp_acct_var.acct_assets  + '/images/dummy-user.png',
                 meta: {
                     company: '-',
                     website: '-',

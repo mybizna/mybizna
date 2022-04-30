@@ -13,7 +13,7 @@
 
             <list-table
                 :loading="listLoading"
-                tableClass="mybizna-table table-striped widefat table2 transactions-table"
+                tableClass="mybizna-table table-sm table-striped widefat table2 transactions-table"
                 action-column="actions"
                 :columns="columns"
                 :rows="rows"

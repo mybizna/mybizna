@@ -17,7 +17,7 @@
         </div>
         <!-- End .header-section -->
         <list-table
-            tableClass="mybizna-table table-striped widefat table2 money-transfer-list"
+            tableClass="mybizna-table table-sm table-striped widefat table2 money-transfer-list"
             action-column="actions"
             :columns="columns"
             :rows="transfer_list"
@@ -51,7 +51,7 @@ export default {
             accounts: [],
             fa: [],
             ta: [],
-            transferdate: erp_acct_var.current_date /* global erp_acct_var */,
+            transferdate: this.$erp_acct_var.current_date /* global erp_acct_var */,
             particulars: "",
             amount: "",
             money_transfer: false,
