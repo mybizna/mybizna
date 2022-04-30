@@ -100,7 +100,7 @@ export default {
         return {
             showModal: false,
             title: "",
-            userMeta: window.acct.hooks.applyFilters("acctPeopleMeta", []),
+            userMeta: [],
         };
     },
 

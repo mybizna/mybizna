@@ -82,13 +82,11 @@
 </template>
 
 <script>
-import PieChart from 'assets/components/chart/PieChart.vue';
-import PeopleTransaction from 'assets/components/people/PeopleTransaction.vue';
 
 export default {
     components: {
-        PieChart,
-        PeopleTransaction
+        PieChart: window.$func.fetchComponent('components/chart/PieChart.vue'),
+        PeopleTransaction: window.$func.fetchComponent('components/people/PeopleTransaction.vue')
     },
 
     data() {
@@ -99,7 +97,7 @@ export default {
                 id: '',
                 name: '-',
                 email: '-',
-                // 'img_url': erp_acct_var.acct_assets  + '/images/dummy-user.png',
+                // 'img_url': this.$erp_acct_var.acct_assets  + '/images/dummy-user.png',
                 meta: {
                     company: '-',
                     website: '-',

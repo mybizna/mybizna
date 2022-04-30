@@ -58,12 +58,12 @@
                         <div class="buttons-wrapper text-right">
                             <submit-button
                                 v-if="is_update"
-                                :text="__('Update', 'erp')"
+                                :text="this.$func.__('Update', 'erp')"
                                 :working="isWorking"
                             ></submit-button>
                             <submit-button
                                 v-else
-                                :text="__('Save', 'erp')"
+                                :text="this.$func.__('Save', 'erp')"
                                 :working="isWorking"
                             ></submit-button>
                         </div>
@@ -75,13 +75,11 @@
 </template>
 
 <script>
-import SubmitButton from "assets/components/base/SubmitButton.vue";
-import ShowErrors from "assets/components/base/ShowErrors.vue";
 
 export default {
     components: {
-        SubmitButton,
-        ShowErrors,
+        SubmitButton: window.$func.fetchComponent('components/base/SubmitButton.vue'),
+        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
     },
 
     props: {

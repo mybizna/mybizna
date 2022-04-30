@@ -17,7 +17,7 @@
         </div>
         <!-- End .header-section -->
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat table2 money-transfer-list"
+            tableClass="mybizna-table table-sm table-striped widefat table2 money-transfer-list"
             action-column="actions"
             :columns="columns"
             :rows="transfer_list"
@@ -39,11 +39,9 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
-
 export default {
     components: {
-        ListTable,
+        ListTable: window.$func.fetchComponent("components/list-table/ListTable.vue"),
     },
 
     data() {
@@ -53,13 +51,16 @@ export default {
             accounts: [],
             fa: [],
             ta: [],
-            transferdate: erp_acct_var.current_date /* global erp_acct_var */,
+            transferdate: this.$erp_acct_var.current_date /* global erp_acct_var */,
             particulars: "",
             amount: "",
             money_transfer: false,
             transfer_list: [],
             columns: {
-                voucher: { label: this.$func.__("Voucher No", "erp"), isColPrimary: true },
+                voucher: {
+                    label: this.$func.__("Voucher No", "erp"),
+                    isColPrimary: true,
+                },
                 ac_from: { label: this.$func.__("Account From", "erp") },
                 amount: { label: this.$func.__("Amount", "erp") },
                 ac_to: { label: this.$func.__("Account To", "erp") },

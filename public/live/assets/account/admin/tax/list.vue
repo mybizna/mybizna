@@ -18,7 +18,7 @@
 
         <div class="table-container">
             <list-table
-                tableClass="wp-ListTable widefat fixed tax-records-list mybizna-table table-striped table-dark"
+                tableClass="wp-ListTable table-sm widefat fixed tax-records-list mybizna-table table-striped"
                 action-column="actions"
                 :columns="columns"
                 :rows="row_data"
@@ -51,11 +51,10 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
 
 export default {
     components: {
-        ListTable,
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
     },
 
     data() {
@@ -170,7 +169,7 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(__("Are you sure to delete?", "erp"))) {
+                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
 
                         window.axios
                             .delete(this.url + "/" + row.id)
@@ -200,7 +199,7 @@ export default {
 
         onBulkAction(action, items) {
             if (action === "trash") {
-                if (confirm(__("Are you sure to delete?", "erp"))) {
+                if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
 
                     window.axios
                         .delete("taxes/delete/" + items.join(","))

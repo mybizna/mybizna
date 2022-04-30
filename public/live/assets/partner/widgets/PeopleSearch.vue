@@ -6,7 +6,7 @@
                     v-model="search"
                     type="search"
                     class="mybizna-form-field"
-                    :placeholder="__('Search People', 'erp')"
+                    :placeholder="this.$func.__('Search People', 'erp')"
                 />
                 <span v-if="search" @click="clearSearch">&#x2716;</span>
             </div>

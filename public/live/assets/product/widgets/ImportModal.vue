@@ -345,11 +345,10 @@
 </template>
 
 <script>
-import MultiSelect from "../select/MultiSelect.vue";
 
 export default {
     components: {
-        MultiSelect,
+        MultiSelect:window.$func.fetchComponent('components/select/MultiSelect.vue'),
     },
 
     data() {
@@ -420,7 +419,7 @@ export default {
                 );
             }
 
-            this.manageProgressStatus(__("Validating data", "erp"));
+            this.manageProgressStatus(this.$func.__("Validating data", "erp"));
 
             formData.append("csv_file", this.csvFile);
             formData.append("type", this.type);
@@ -444,7 +443,7 @@ export default {
                     },
                 })
                 .then((response) => {
-                    this.manageProgressStatus(__("Importing data", "erp"));
+                    this.manageProgressStatus(this.$func.__("Importing data", "erp"));
 
                     window.axios
                         .post("products/csv/import", {
@@ -515,7 +514,7 @@ export default {
         },
 
         mapFields() {
-            let erpFields = erp_acct_var.erp_fields;
+            let erpFields = this.$erp_acct_var.erp_fields;
 
             if (erpFields[this.type] !== undefined) {
                 this.fields = erpFields[this.type].fields;
@@ -580,7 +579,7 @@ export default {
         },
 
         generateCsvUrl() {
-            this.sampleUrl = `${erp_acct_var.admin_url}?page=erp-accounting&action=download_sample&type=product&_wpnonce=${erp_acct_var.export_import_nonce}#${this.$route.path}`;
+            this.sampleUrl = `${this.$erp_acct_var.admin_url}?page=erp-accounting&action=download_sample&type=product&_wpnonce=${this.$erp_acct_var.export_import_nonce}#${this.$route.path}`;
         },
 
         downloadSample() {

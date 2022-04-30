@@ -48,9 +48,9 @@ export default {
                     highlight: { backgroundColor: "#1A9ED4" },
                     contentStyle: { color: "#fff" },
                     dates: {
-                        /* global erp_acct_var */
-                        start: new Date(erp_acct_var.fy_lower_range),
-                        end: new Date(erp_acct_var.fy_upper_range),
+                        /* global this.$erp_acct_var */
+                        start: new Date(this.$erp_acct_var.fy_lower_range),
+                        end: new Date(this.$erp_acct_var.fy_upper_range),
                     },
                 },
             ],

@@ -66,7 +66,7 @@
         </ul>
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat sales-tax-table"
+            tableClass="mybizna-table table-sm table-striped widefat sales-tax-table"
             :columns="columns"
             :rows="rows"
             :showCb="false"
@@ -116,17 +116,14 @@
 </template>
 
 <script>
-import ListTable from "../../list-table/ListTable.vue";
-import Datepicker from "../../base/Datepicker.vue";
-import MultiSelect from "../../select/MultiSelect.vue";
 
 export default {
     name: "SalesTaxReportCategoryBased",
 
     components: {
-        ListTable,
-        Datepicker,
-        MultiSelect,
+        ListTable:window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        Datepicker:window.$func.fetchComponent('components/base/Datepicker.vue'),
+        MultiSelect:window.$func.fetchComponent('components/select/MultiSelect.vue'),
     },
 
     data() {
@@ -139,7 +136,7 @@ export default {
             rows: [],
             totalDebit: 0,
             totalCredit: 0,
-            symbol: erp_acct_var.symbol,
+            symbol: this.$erp_acct_var.symbol,
             columns: {
                 trn_no: {
                     label: this.$func.__("Voucher No", "erp"),
@@ -177,7 +174,7 @@ export default {
             const year = dateObj.getFullYear();
 
             this.startDate = `${year}-${month}-01`;
-            this.endDate = erp_acct_var.current_date;
+            this.endDate = this.$erp_acct_var.current_date;
 
             this.fetchData();
         });

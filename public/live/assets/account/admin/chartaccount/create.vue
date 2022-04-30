@@ -30,7 +30,7 @@
                     :options="chartAccounts"
                     :disable-branch-nodes="true"
                     :show-count="true"
-                    :placeholder="__('Please select', 'erp')"
+                    :placeholder="this.$func.__('Please select', 'erp')"
                 />
             </div>
 
@@ -40,7 +40,7 @@
                     :options="categories"
                     :disable-branch-nodes="true"
                     :show-count="true"
-                    :placeholder="__('Please select a category', 'erp')">
+                    :placeholder="this.$func.__('Please select a category', 'erp')">
 
                     <label slot="option-label" slot-scope="{ node, shouldShowCount, count, labelClassName, countClassName }" :class="labelClassName">
                         {{ node.label }}
@@ -89,8 +89,6 @@
 </template>
 
 <script>
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
     data() {
@@ -242,7 +240,7 @@ export default {
         },
 
         removeCategory(node) {
-            if (confirm(__("Are you sure to remove this category?", "erp"))) {
+            if (confirm(this.$func.__("Are you sure to remove this category?", "erp"))) {
                 window.axios
                     .delete(`/ledgers/categories/${node.id}`)
                     .then((response) => {
@@ -287,8 +285,8 @@ export default {
         },
 
         isDuplicateLedger(requestData) {
-            /* global erp_acct_var */
-            const current_ledgers = erp_acct_var.ledgers.filter((led) => {
+            /* global this.$erp_acct_var */
+            const current_ledgers = this.$erp_acct_var.ledgers.filter((led) => {
                 return led.id !== this.$route.params.id;
             });
 

@@ -158,13 +158,11 @@
 </template>
 
 <script>
-import SendMail from "assets/components/email/SendMail.vue";
-import Dropdown from "assets/components/base/Dropdown.vue";
 
 export default {
     components: {
-        SendMail,
-        Dropdown,
+        SendMail: window.$func.fetchComponent('components/email/SendMail.vue'),
+        Dropdown: window.$func.fetchComponent('components/base/Dropdown.vue'),
     },
 
     data() {
@@ -172,7 +170,7 @@ export default {
             company: null,
             tax_pay_data: {},
             isWorking: false,
-            acct_var: erp_acct_var /* global erp_acct_var */,
+            acct_var: this.$erp_acct_var /* global this.$erp_acct_var */,
             print_data: null,
             type: "expense",
             showModal: false,

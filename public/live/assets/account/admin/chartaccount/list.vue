@@ -27,7 +27,7 @@
 
         <ul v-if="search">
             <list-table
-                tableClass="mybizna-table table-striped table-dark widefat table2 chart-list"
+                ="mybizna-table table-sm table-striped widefat table2 chart-list"
                 action-column="actions"
                 :columns="columns"
                 :actions="actions"
@@ -88,7 +88,7 @@
                 </div>
 
                 <list-table
-                    tableClass="mybizna-table table-striped table-dark widefat table2 chart-list"
+                    tableClass="mybizna-table table-sm table-striped widefat table2 chart-list"
                     action-column="actions"
                     :columns="columns"
                     :actions="actions"
@@ -140,8 +140,6 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
-
 export default {
     data() {
         return {
@@ -159,9 +157,9 @@ export default {
 
             chartAccounts: [],
             ledgers: [],
-            temp_ledgers: erp_acct_var.ledgers /* global erp_acct_var */,
+            temp_ledgers: this.$erp_acct_var.ledgers /* global this.$this.$this.$erp_acct_var */,
             search: "",
-            curSymbol: erp_acct_var.symbol || "$",
+            curSymbol: this.$erp_acct_var.symbol || "$",
         };
     },
 
@@ -179,7 +177,7 @@ export default {
     },
 
     components: {
-        ListTable,
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
     },
 
     created() {
@@ -237,7 +235,7 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(__("Are you sure to delete?", "erp"))) {
+                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
 
                         window.axios
                             .delete(`/ledgers/${row.id}`)

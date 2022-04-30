@@ -30,7 +30,7 @@
 
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat sales-tax-table sales-tax-table-customer"
+            tableClass="mybizna-table table-sm table-striped widefat sales-tax-table sales-tax-table-customer"
             :columns="columns"
             :rows="taxes"
             :showCb="false">
@@ -66,14 +66,12 @@
 </template>
 
 <script>
-    import ListTable   from '../../list-table/ListTable.vue';
-    import Datepicker  from '../../base/Datepicker.vue';
 
     export default {
 
         components: {
-            ListTable,
-            Datepicker,
+            ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
+            Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
         },
 
         data() {
@@ -114,7 +112,7 @@
                 const year     = dateObj.getFullYear();
 
                 this.startDate = `${year}-${month}-01`;
-                this.endDate   = erp_acct_var.current_date;
+                this.endDate   = this.$erp_acct_var.current_date;
 
                 this.getReport();
             });

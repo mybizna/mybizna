@@ -11,16 +11,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
-import MultiSelect from 'assets/components/select/MultiSelect.vue';
-import PeopleModal from 'assets/partner/widgets/PeopleModal.vue';
 
 export default {
 
     components: {
-        MultiSelect,
-        PeopleModal
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
+        PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue')
     },
 
     props: {

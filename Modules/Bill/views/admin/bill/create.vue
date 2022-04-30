@@ -325,10 +325,7 @@ export default {
             finalTotalAmount: 0,
             particulars: "",
             erp_acct_assets: this.$erp_acct_var.acct_assets,
-            extraFields: window.acct.hooks.applyFilters(
-                "acctBillExtraFields",
-                []
-            ),
+            extraFields:[],
         };
     },
 
@@ -553,18 +550,7 @@ export default {
                 trnStatus = 2;
             }
 
-            const requestData = window.acct.hooks.applyFilters("requestData", {
-                vendor_id: this.basic_fields.user.id,
-                ref: this.basic_fields.ref,
-                trn_date: this.basic_fields.trn_date,
-                due_date: this.basic_fields.due_date,
-                bill_details: this.formatTrnLines(this.transactionLines),
-                attachments: this.attachments,
-                billing_address: this.basic_fields.billing_address,
-                type: "bill",
-                status: trnStatus,
-                particulars: this.particulars,
-            });
+            const requestData = [];
 
             if (this.editMode) {
                 this.updateBill(requestData);

@@ -340,10 +340,7 @@ export default {
                 { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
-            extraFields: window.acct.hooks.applyFilters(
-                "acctInvoiceExtraFields",
-                []
-            ),
+            extraFields: [],
             editMode: false,
             voucherNo: 0,
             discountType: "discount-percent",
@@ -749,21 +746,7 @@ export default {
                 this.status = 2;
             }
 
-            const requestData = window.acct.hooks.applyFilters("requestData", {
-                customer_id: this.basic_fields.customer.id,
-                date: this.basic_fields.trn_date,
-                due_date: this.basic_fields.due_date,
-                billing_address: this.basic_fields.billing_address,
-                discount_type: this.discountType,
-                tax_rate_id: this.taxRate !== null ? this.taxRate.id : null,
-                line_items: this.formatLineItems(),
-                attachments: this.attachments,
-                particulars: this.particulars,
-                type: "invoice",
-                status: parseInt(this.status),
-                estimate: this.inv_type.id,
-                convert: this.$route.query.convert,
-            });
+            const requestData = [];
 
             if (this.editMode) {
                 this.updateInvoice(requestData);

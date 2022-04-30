@@ -6,7 +6,7 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">{{ this.$func.__('Expenses Transactions', 'erp') }}</h2>
-                    <combo-box :options="pages" :hasUrl="true" :placeholder="__('New Transaction', 'erp')" />
+                    <combo-box :options="pages" :hasUrl="true" :placeholder="this.$func.__('New Transaction', 'erp')" />
                 </div>
             </div>
         </div>
@@ -23,22 +23,15 @@
 </template>
 
 <script>
-import 'assets/js/plugins/chart.min';
-import 'assets/js/status_chart';
 
-import ComboBox from 'assets/components/select/ComboBox.vue';
-import ExpensesStats from 'assets/components/transactions/expenses/ExpensesStats.vue';
-import ExpensesList from 'assets/components/transactions/expenses/ExpensesList.vue';
-import TransactionsFilter from 'assets/components/transactions/TransactionsFilter.vue';
-import {mapState} from "vuex";
 
 export default {
 
     components: {
-        ComboBox,
-        ExpensesStats,
-        ExpensesList,
-        TransactionsFilter
+        ComboBox: window.$func.fetchComponent('components/select/ComboBox.vue'),
+        ExpensesStats: window.$func.fetchComponent('components/transactions/expenses/ExpensesStats.vue'),
+        ExpensesList: window.$func.fetchComponent('components/transactions/expenses/ExpensesList.vue'),
+        TransactionsFilter: window.$func.fetchComponent('components/transactions/TransactionsFilter.vue')
     },
 
     data() {

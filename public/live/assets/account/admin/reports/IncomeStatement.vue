@@ -29,14 +29,17 @@
         <p>
             <strong
                 >{{
-                    this.$func.__("For the period of ( Transaction date )", "erp")
+                    this.$func.__(
+                        "For the period of ( Transaction date )",
+                        "erp"
+                    )
                 }}:</strong
             >
             <em>{{ start_date }}</em> to <em>{{ end_date }}</em>
         </p>
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat income-statement income-balance-report"
+            tableClass="mybizna-table table-sm table-striped widefat income-statement income-balance-report"
             :columns="columns1"
             :rows="rows1"
             :showItemNumbers="false"
@@ -54,7 +57,7 @@
         </list-table>
 
         <list-table
-            tableClass="mybizna-table table-striped table-dark widefat income-statement income-balance-report"
+            tableClass="mybizna-table table-sm table-striped widefat income-statement income-balance-report"
             :columns="columns2"
             :rows="rows2"
             :showItemNumbers="false"
@@ -72,13 +75,15 @@
         </list-table>
 
         <table
-            class="mybizna-table table-striped table-dark widefat income-statement-balance income-balance-report"
+            class="mybizna-table table-striped widefat income-statement-balance income-balance-report"
         >
             <template v-if="profit >= 0">
                 <tbody class="mybizna-col-sm-12">
                     <tr>
                         <td>
-                            <strong>{{ this.$func.__("Profit", "erp") }}</strong>
+                            <strong>{{
+                                this.$func.__("Profit", "erp")
+                            }}</strong>
                         </td>
                         <td>{{ moneyFormat(Math.abs(profit)) }}</td>
                         <td class="no-print"></td>
@@ -101,13 +106,10 @@
 </template>
 
 <script>
-import Datepicker from "assets/components/base/Datepicker.vue";
-import ListTable from "assets/components/list-table/ListTable.vue";
-
 export default {
     components: {
-        ListTable,
-        Datepicker,
+        ListTable: window.$func.fetchComponent("components/list-table/ListTable.vue"),
+        Datepicker: window.$func.fetchComponent("components/base/Datepicker.vue"),
     },
 
     data() {
@@ -119,7 +121,7 @@ export default {
                     key: "trash",
                     label: this.$func.__("Move to Trash", "erp"),
                     img:
-                        erp_acct_var.erp_assets +
+                        this.$erp_acct_var.erp_assets +
                         "/images/trash.png" /* global erp_acct_var */,
                 },
             ],
@@ -153,7 +155,7 @@ export default {
                 this.end_date = this.$route.query.end;
             } else {
                 this.start_date = `${dateObj.getFullYear()}-${month}-01`;
-                this.end_date = erp_acct_var.current_date;
+                this.end_date = this.$erp_acct_var.current_date;
             }
 
             // this.updateDate();
@@ -192,7 +194,6 @@ export default {
                     this.expense = response.data.expense;
                     this.profit = response.data.profit;
                     this.loss = response.data.loss;
-
                 })
                 .catch((error) => {
                     throw error;

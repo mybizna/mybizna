@@ -134,8 +134,6 @@
 </template>
 
 <script>
-import SendMail from "assets/components/email/SendMail.vue";
-import Dropdown from "assets/components/base/Dropdown.vue";
 export default {
     data() {
         return {
@@ -147,8 +145,8 @@ export default {
     },
 
     components: {
-        SendMail,
-        Dropdown,
+        SendMail: window.$func.fetchComponent('components/email/SendMail.vue'),
+        Dropdown: window.$func.fetchComponent('components/base/Dropdown.vue'),
     },
 
     created() {

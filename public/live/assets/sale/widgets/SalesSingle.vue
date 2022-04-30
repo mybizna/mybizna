@@ -76,10 +76,6 @@
 </template>
 
 <script>
-import InvoiceSingleContent from "assets/components/transactions/sales/InvoiceSingleContent.vue";
-import PaymentSingleContent from "assets/components/transactions/sales/PaymentSingleContent.vue";
-import SendMail from "assets/components/email/SendMail.vue";
-import Dropdown from "assets/components/base/Dropdown.vue";
 
 export default {
     data() {
@@ -89,7 +85,7 @@ export default {
             payment: null,
             type: null,
             company: null,
-            acct_var: erp_acct_var /* global erp_acct_var */,
+            acct_var: this.$erp_acct_var /* global this.$erp_acct_var */,
             showModal: false,
             print_data: null,
             copyLink: "#",
@@ -99,10 +95,10 @@ export default {
     },
 
     components: {
-        InvoiceSingleContent,
-        PaymentSingleContent,
-        SendMail,
-        Dropdown,
+        InvoiceSingleContent : window.$func.fetchComponent('components/transactions/sales/InvoiceSingleContent.vue'),
+        PaymentSingleContent : window.$func.fetchComponent('components/transactions/sales/PaymentSingleContent.vue'),
+        SendMail : window.$func.fetchComponent('components/email/SendMail.vue'),
+        Dropdown : window.$func.fetchComponent('components/base/Dropdown.vue'),
     },
 
     created() {
@@ -215,11 +211,11 @@ export default {
         },
 
         handleSuccess(e) {
-            alert(erp_acct_var.link_copy_success);
+            alert(this.$erp_acct_var.link_copy_success);
         },
 
         handleError(e) {
-            alert(erp_acct_var.link_copy_error);
+            alert(this.$erp_acct_var.link_copy_error);
         },
     },
 };

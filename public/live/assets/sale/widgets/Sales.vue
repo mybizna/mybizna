@@ -9,7 +9,7 @@
                     <combo-box
                         :options="pages"
                         :hasUrl="true"
-                        :placeholder="__('New Transaction', 'erp')" />
+                        :placeholder="this.$func.__('New Transaction', 'erp')" />
                 </div>
             </div>
         </div>
@@ -22,19 +22,14 @@
 </template>
 
 <script>
-import ComboBox from 'assets/components/select/ComboBox.vue';
-import SalesStats from 'assets/components/transactions/sales/SalesStats.vue';
-import SalesList from 'assets/components/transactions/sales/SalesList.vue';
-import TransactionsFilter from 'assets/components/transactions/TransactionsFilter.vue';
-import {mapState} from "vuex";
 
 export default {
 
     components: {
-        SalesStats,
-        SalesList,
-        TransactionsFilter,
-        ComboBox
+        SalesStats : window.$func.fetchComponent('components/transactions/sales/SalesStats.vue'),
+        SalesList : window.$func.fetchComponent('components/transactions/sales/SalesList.vue'),
+        TransactionsFilter : window.$func.fetchComponent('components/transactions/sales/SalesList.vue'),
+        ComboBox : window.$func.fetchComponent('components/select/ComboBox.vue')
     },
 
     data() {

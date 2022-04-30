@@ -31,21 +31,19 @@
 
         <div class="mybizna-col-sm-12">
             <div class="mybizna-form-group text-right mt-10 mb-0">
-                <submit-button v-if="is_update" :text="__( 'Update', 'erp' )" @click.native.prevent="UpdateTaxRate"></submit-button>
+                <submit-button v-if="is_update" :text="this.$func.__( 'Update', 'erp' )" @click.native.prevent="UpdateTaxRate"></submit-button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import MultiSelect from 'assets/components/select/MultiSelect.vue';
-import SubmitButton from 'assets/components/base/SubmitButton.vue';
 
 export default {
 
     components: {
-        MultiSelect,
-        SubmitButton
+        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
+        SubmitButton: window.$func.fetchComponent('components/base/SubmitButton.vue')
     },
 
     props: {

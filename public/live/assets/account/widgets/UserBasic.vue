@@ -66,11 +66,10 @@
 </template>
 
 <script>
-import PeopleModal from "assets/partner/widgets/PeopleModal.vue";
 
 export default {
     components: {
-        PeopleModal,
+        PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
     },
 
     props: {
@@ -83,8 +82,8 @@ export default {
                     name: "Full Name",
                     email: "email@mail.com",
                     photo:
-                        erp_acct_var.acct_assets +
-                        "/images/dummy-user.png" /* global erp_acct_var */,
+                        this.$erp_acct_var.acct_assets +
+                        "/images/dummy-user.png" /* global this.$erp_acct_var */,
                     meta: {
                         phone: "+ 88101230123",
                         mobile: "+ 999999999",

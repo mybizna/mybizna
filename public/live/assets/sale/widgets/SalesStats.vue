@@ -6,7 +6,7 @@
                     <div class="mybizna-col-sm-4">
                         <pie-chart v-if="chartPayment.values.length"
                             id="payment"
-                            :title="__('Payment', 'erp')"
+                            :title="this.$func.__('Payment', 'erp')"
                             :labels="chartPayment.labels"
                             :colors="chartPayment.colors"
                             :data="chartPayment.values" />
@@ -14,7 +14,7 @@
                     <div class="mybizna-col-sm-4">
                         <pie-chart v-if="chartStatus.values.length"
                             id="status"
-                            :title="__('Status', 'erp')"
+                            :title="this.$func.__('Status', 'erp')"
                             :labels="chartStatus.labels"
                             :colors="chartStatus.colors"
                             :data="chartStatus.values" />
@@ -32,12 +32,11 @@
 </template>
 
 <script>
-import PieChart from 'assets/components/chart/PieChart.vue';
 
 export default {
 
     components: {
-        PieChart
+        PieChart : window.$func.fetchComponent('components/chart/PieChart.vue')
     },
 
     data() {

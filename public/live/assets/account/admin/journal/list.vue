@@ -14,7 +14,7 @@
         </h2>
 
         <list-table
-            tableClass="wp-ListTable widefat fixed journal-list"
+            tableClass="wp-ListTable table-sm widefat fixed journal-list"
             action-column="actions"
             :columns="columns"
             :rows="row_data"
@@ -42,11 +42,10 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
 
 export default {
     components: {
-        ListTable,
+        ListTable: window.$func.fetchComponent("components/list-table/ListTable.vue"),
     },
 
     data() {
@@ -109,7 +108,6 @@ export default {
                     this.paginationData.totalPages = parseInt(
                         response.headers["x-wp-totalpages"]
                     );
-
                 })
                 .catch((error) => {
                     throw error;

@@ -58,7 +58,12 @@
                                         class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                     >
                                         <label for="first_name"
-                                            >{{ this.$func.__("First Name", "erp") }}
+                                            >{{
+                                                this.$func.__(
+                                                    "First Name",
+                                                    "erp"
+                                                )
+                                            }}
                                             <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
@@ -69,7 +74,10 @@
                                             id="first_name"
                                             class="mybizna-form-field"
                                             :placeholder="
-                                                this.$func.__('First Name', 'erp')
+                                                this.$func.__(
+                                                    'First Name',
+                                                    'erp'
+                                                )
                                             "
                                             required
                                         />
@@ -78,7 +86,12 @@
                                         class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                     >
                                         <label for="last_name"
-                                            >{{ this.$func.__("Last Name", "erp") }}
+                                            >{{
+                                                this.$func.__(
+                                                    "Last Name",
+                                                    "erp"
+                                                )
+                                            }}
                                             <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
@@ -89,7 +102,10 @@
                                             id="last_name"
                                             class="mybizna-form-field"
                                             :placeholder="
-                                                this.$func.__('Last Name', 'erp')
+                                                this.$func.__(
+                                                    'Last Name',
+                                                    'erp'
+                                                )
                                             "
                                             required
                                         />
@@ -98,7 +114,9 @@
                                         class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
                                     >
                                         <label for="email"
-                                            >{{ this.$func.__("Email", "erp") }}
+                                            >{{
+                                                this.$func.__("Email", "erp")
+                                            }}
                                             <span class="mybizna-required-sign"
                                                 >*</span
                                             ></label
@@ -139,7 +157,10 @@
                                             id="company"
                                             class="mybizna-form-field"
                                             :placeholder="
-                                                this.$func.__('ABC Corporation', 'erp')
+                                                this.$func.__(
+                                                    'ABC Corporation',
+                                                    'erp'
+                                                )
                                             "
                                         />
                                     </div>
@@ -155,7 +176,10 @@
                                 />
 
                                 <!-- extra fields -->
-                                <div class="mybizna-more-fields" v-if="showMore">
+                                <div
+                                    class="mybizna-more-fields"
+                                    v-if="showMore"
+                                >
                                     <div class="mybizna-row mybizna-gutter-20">
                                         <div
                                             class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
@@ -197,7 +221,10 @@
                                                 rows="4"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('Type here', 'erp')
+                                                    this.$func.__(
+                                                        'Type here',
+                                                        'erp'
+                                                    )
                                                 "
                                             ></textarea>
                                         </div>
@@ -213,7 +240,10 @@
                                                 id="fax"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('Type here', 'erp')
+                                                    this.$func.__(
+                                                        'Type here',
+                                                        'erp'
+                                                    )
                                                 "
                                             />
                                         </div>
@@ -229,7 +259,10 @@
                                                 id="street1"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('Street 1', 'erp')
+                                                    this.$func.__(
+                                                        'Street 1',
+                                                        'erp'
+                                                    )
                                                 "
                                             />
                                         </div>
@@ -245,7 +278,10 @@
                                                 id="street2"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('Street 2', 'erp')
+                                                    this.$func.__(
+                                                        'Street 2',
+                                                        'erp'
+                                                    )
                                                 "
                                             />
                                         </div>
@@ -261,7 +297,10 @@
                                                 id="city"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('City/Town', 'erp')
+                                                    this.$func.__(
+                                                        'City/Town',
+                                                        'erp'
+                                                    )
                                                 "
                                             />
                                         </div>
@@ -290,7 +329,10 @@
                                             class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label>{{
-                                                this.$func.__("Province/State", "erp")
+                                                this.$func.__(
+                                                    "Province/State",
+                                                    "erp"
+                                                )
                                             }}</label>
                                             <div class="with-multiselect">
                                                 <multi-select
@@ -304,7 +346,10 @@
                                             class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
                                         >
                                             <label for="post_code">{{
-                                                this.$func.__("Post Code", "erp")
+                                                this.$func.__(
+                                                    "Post Code",
+                                                    "erp"
+                                                )
                                             }}</label>
                                             <input
                                                 type="text"
@@ -314,7 +359,10 @@
                                                 id="post_code"
                                                 class="mybizna-form-field"
                                                 :placeholder="
-                                                    this.$func.__('Post Code', 'erp')
+                                                    this.$func.__(
+                                                        'Post Code',
+                                                        'erp'
+                                                    )
                                                 "
                                             />
                                         </div>
@@ -385,14 +433,11 @@
 </template>
 
 <script>
-import UploadImage from "assets/components/base/Media.vue";
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-
-/* global erp_acct_var */
+/* global this.$erp_acct_var */
 export default {
     components: {
-        UploadImage,
-        MultiSelect,
+        UploadImage: window.$func.fetchComponent("components/base/Media.vue"),
+        MultiSelect: window.$func.fetchComponent("components/select/MultiSelect.vue"),
     },
 
     props: {
@@ -425,7 +470,7 @@ export default {
                 state: "",
                 postal_code: "",
                 photo_id: null,
-                photo: erp_acct_var.erp_assets + "/images/mystery-person.png",
+                photo: this.$erp_acct_var.erp_assets + "/images/mystery-person.png",
             },
             states: [],
             emailExists: false,
@@ -539,7 +584,6 @@ export default {
         },
 
         addPeople(peopleFields) {
-
             var type = "";
             var url = "";
 
@@ -579,15 +623,15 @@ export default {
             }
 
             if (!this.peopleFields.first_name) {
-                this.error_message.push(__("First name is required", "erp"));
+                this.error_message.push(this.$func.__("First name is required", "erp"));
             }
 
             if (!this.peopleFields.last_name) {
-                this.error_message.push(__("Last name is required", "erp"));
+                this.error_message.push(this.$func.__("Last name is required", "erp"));
             }
 
             if (!this.peopleFields.email) {
-                this.error_message.push(__("Email is required", "erp"));
+                this.error_message.push(this.$func.__("Email is required", "erp"));
             }
 
             return false;

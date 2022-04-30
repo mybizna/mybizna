@@ -12,7 +12,7 @@
             </div>
 
             <list-table
-                tableClass="mybizna-table table-striped table-dark widefat table2 transactions-table"
+                tableClass="mybizna-table table-sm table-striped widefat table2 transactions-table"
                 action-column="actions"
                 :columns="columns"
                 :rows="row_items"
@@ -57,11 +57,10 @@
 </template>
 
 <script>
-import ListTable from "assets/components/list-table/ListTable.vue";
 /* global __ */
 export default {
     components: {
-        ListTable,
+        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
     },
 
     data() {

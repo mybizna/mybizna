@@ -102,12 +102,11 @@
 </template>
 
 <script>
-import TransParticulars from 'assets/components/transactions/TransParticulars.vue';
 
 export default {
 
     components: {
-        TransParticulars
+        TransParticulars : window.$func.fetchComponent('components/transactions/TransParticulars.vue')
     },
 
     props: {
@@ -124,7 +123,7 @@ export default {
 
     data() {
         return {
-            acct_var: erp_acct_var /* global erp_acct_var */
+            acct_var: this.$erp_acct_var /* global this.$erp_acct_var */
         };
     }
 };

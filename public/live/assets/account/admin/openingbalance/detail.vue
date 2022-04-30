@@ -47,7 +47,8 @@
                             }}:</strong
                         >
                         <em>{{ fin_year.start_date }}</em>
-                        {{ this.$func.__("to", "erp") }} <em>{{ fin_year.end_date }}</em>
+                        {{ this.$func.__("to", "erp") }}
+                        <em>{{ fin_year.end_date }}</em>
                     </li>
                 </ul>
             </div>
@@ -186,7 +187,7 @@
                             </td>
                             <td
                                 class="delete-row"
-                                :data-colname="__('Remove', 'erp')"
+                                :data-colname="this.$func.__('Remove', 'erp')"
                             >
                                 <a
                                     @click.prevent="removeTaxPayRow(idx)"
@@ -410,7 +411,12 @@
                                 v-if="undefined === ledgers[7]"
                                 style="float: left"
                             >
-                                {{ this.$func.__("No Bank Account Found!", "erp") }}
+                                {{
+                                    this.$func.__(
+                                        "No Bank Account Found!",
+                                        "erp"
+                                    )
+                                }}
                             </td>
                             <!--   <td v-else colspan="9" style="text-align: left;">
                             <button @click.prevent="ledgers[7].push({})" class="mybizna-btn btn&#45;&#45;primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add Bank', 'erp') }}</button>
@@ -427,9 +433,11 @@
                             class="pl-10 text-right col--total-amount"
                             style="width: 60%"
                         >
-                            <span>{{ this.$func.__("Total Amount", "erp") }}</span>
+                            <span>{{
+                                this.$func.__("Total Amount", "erp")
+                            }}</span>
                         </td>
-                        <td :data-colname="__('Total Debit', 'erp')">
+                        <td :data-colname="this.$func.__('Total Debit', 'erp')">
                             <input
                                 type="text"
                                 class="text-right mybizna-form-field"
@@ -437,7 +445,7 @@
                                 readonly
                             />
                         </td>
-                        <td :data-colname="__('Total Credit', 'erp')">
+                        <td :data-colname="this.$func.__('Total Credit', 'erp')">
                             <input
                                 type="text"
                                 class="text-right mybizna-form-field"
@@ -448,32 +456,31 @@
                     </tr>
                     <tr class="mybizna-form-group">
                         <td colspan="9" style="text-align: left">
-                            <label>{{ this.$func.__("Description", "erp") }}</label>
+                            <label>{{
+                                this.$func.__("Description", "erp")
+                            }}</label>
                             <textarea
                                 v-model="description"
                                 rows="4"
                                 class="mybizna-form-field display-flex"
-                                :placeholder="__('Internal Information', 'erp')"
+                                :placeholder="this.$func.__('Internal Information', 'erp')"
                             ></textarea>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <submit-button :text="__('Save', 'erp')"></submit-button>
+            <submit-button :text="this.$func.__('Save', 'erp')"></submit-button>
         </form>
     </div>
 </template>
 
 <script>
-import MultiSelect from "assets/components/select/MultiSelect.vue";
-import SubmitButton from "assets/components/base/SubmitButton.vue";
-import ShowErrors from "assets/components/base/ShowErrors.vue";
 
 export default {
     components: {
-        MultiSelect,
-        SubmitButton,
-        ShowErrors,
+        MultiSelect: window.$func.fetchComponent("components/select/MultiSelect.vue"),
+        SubmitButton: window.$func.fetchComponent("components/base/SubmitButton.vue"),
+        ShowErrors: window.$func.fetchComponent("components/base/ShowErrors.vue"),
     },
 
     props: {
@@ -595,7 +602,6 @@ export default {
                     this.chartAccounts = response.data;
 
                     this.getSelectedOB(this.fin_year);
-
                 })
                 .catch((error) => {
                     throw error;
@@ -736,7 +742,10 @@ export default {
                     !Object.prototype.hasOwnProperty.call(element, "people")
                 ) {
                     this.form_errors.push(
-                        this.$func.__("People is not selected in Accounts Payable.", "erp")
+                        this.$func.__(
+                            "People is not selected in Accounts Payable.",
+                            "erp"
+                        )
                     );
                 }
             });
@@ -747,13 +756,16 @@ export default {
                     !Object.prototype.hasOwnProperty.call(element, "agency")
                 ) {
                     this.form_errors.push(
-                        this.$func.__("Agency is not selected in Tax Payable.", "erp")
+                        this.$func.__(
+                            "Agency is not selected in Tax Payable.",
+                            "erp"
+                        )
                     );
                 }
             });
 
             if (!Object.prototype.hasOwnProperty.call(this.fin_year, "id")) {
-                this.form_errors.push(__("Financial year is required.", "erp"));
+                this.form_errors.push(this.$func.__("Financial year is required.", "erp"));
             }
 
             if (this.isWorking) {

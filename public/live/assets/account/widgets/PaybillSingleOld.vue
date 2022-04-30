@@ -205,15 +205,12 @@
 </template>
 
 <script>
-import SendMail from "assets/components/email/SendMail.vue";
-import Dropdown from "assets/components/base/Dropdown.vue";
-import TransParticulars from "assets/components/transactions/TransParticulars.vue";
 
 export default {
     components: {
-        SendMail,
-        Dropdown,
-        TransParticulars,
+        SendMail: window.$func.fetchComponent('components/email/SendMail.vue'),
+        Dropdown: window.$func.fetchComponent('components/base/Dropdown.vue'),
+        TransParticulars: window.$func.fetchComponent('components/transactions/TransParticulars.vue'),
     },
 
     data() {
@@ -221,7 +218,7 @@ export default {
             company: null,
             payBill: {},
             isWorking: false,
-            acct_var: erp_acct_var /* global erp_acct_var */,
+            acct_var: this.$erp_acct_var /* global erp_acct_var */,
             print_data: null,
             type: "pay_bill",
             showModal: false,
