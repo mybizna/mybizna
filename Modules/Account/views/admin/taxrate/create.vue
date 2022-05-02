@@ -46,7 +46,10 @@
                                     <span class="form-check-sign"></span>
                                     <span class="field-label"
                                         >{{
-                                            this.$func.__("Is this tax compound", "erp")
+                                            this.$func.__(
+                                                "Is this tax compound",
+                                                "erp"
+                                            )
                                         }}?</span
                                     >
                                 </label>
@@ -61,13 +64,20 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="column-primary">
-                                        {{ this.$func.__("Component Name", "erp") }}
+                                        {{
+                                            this.$func.__(
+                                                "Component Name",
+                                                "erp"
+                                            )
+                                        }}
                                     </th>
                                     <th scope="col">
                                         {{ this.$func.__("Agency", "erp") }}
                                     </th>
                                     <th scope="col">
-                                        {{ this.$func.__("Tax Category", "erp") }}
+                                        {{
+                                            this.$func.__("Tax Category", "erp")
+                                        }}
                                     </th>
                                     <th scope="col">
                                         {{ this.$func.__("Tax Rate", "erp") }}
@@ -96,7 +106,12 @@
                                             href="#"
                                             @click.prevent=""
                                             class="vis-hide after-select-dropdown"
-                                            >{{ this.$func.__("component", "erp") }}</a
+                                            >{{
+                                                this.$func.__(
+                                                    "component",
+                                                    "erp"
+                                                )
+                                            }}</a
                                         >
 
                                         <button
@@ -109,7 +124,9 @@
                                     </td>
                                     <td
                                         class="col--agency with-multiselect"
-                                        :data-colname="this.$func.__('Agency', 'erp')"
+                                        :data-colname="
+                                            this.$func.__('Agency', 'erp')
+                                        "
                                     >
                                         <multi-select
                                             v-model="line.agency_id"
@@ -123,7 +140,10 @@
                                             role="button"
                                             class="after-select-dropdown"
                                             >{{
-                                                this.$func.__("Add Tax Agency", "erp")
+                                                this.$func.__(
+                                                    "Add Tax Agency",
+                                                    "erp"
+                                                )
                                             }}</a
                                         >
                                     </td>
@@ -143,13 +163,18 @@
                                             role="button"
                                             class="after-select-dropdown"
                                             >{{
-                                                this.$func.__("Add Tax Category", "erp")
+                                                this.$func.__(
+                                                    "Add Tax Category",
+                                                    "erp"
+                                                )
                                             }}</a
                                         >
                                     </td>
                                     <td
                                         class="col--tax-rate"
-                                        :data-colname="this.$func.__('Tax Rate', 'erp')"
+                                        :data-colname="
+                                            this.$func.__('Tax Rate', 'erp')
+                                        "
                                     >
                                         <input
                                             type="text"
@@ -160,13 +185,18 @@
                                             href="#"
                                             @click.prevent=""
                                             class="vis-hide after-select-dropdown"
-                                            >{{ this.$func.__("tax rate", "erp") }}</a
+                                            >{{
+                                                this.$func.__("tax rate", "erp")
+                                            }}</a
                                         >
                                     </td>
                                     <td
                                         class="col--actions delete-row"
                                         :data-colname="
-                                            this.$func.__('Remove Above Selection', 'erp')
+                                            this.$func.__(
+                                                'Remove Above Selection',
+                                                'erp'
+                                            )
                                         "
                                     >
                                         <a
@@ -186,7 +216,12 @@
                                             <i
                                                 class="flaticon-add-plus-button"
                                             ></i
-                                            >{{ this.$func.__("Add Component", "erp") }}
+                                            >{{
+                                                this.$func.__(
+                                                    "Add Component",
+                                                    "erp"
+                                                )
+                                            }}
                                         </button>
                                     </td>
                                 </tr>
@@ -223,15 +258,26 @@
 </template>
 
 <script>
-
 export default {
     components: {
-        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
-        SubmitButton: window.$func.fetchComponent('components/base/SubmitButton.vue'),
-        NewTaxAgency: window.$func.fetchComponent('components/tax/NewTaxAgency.vue'),
-        NewTaxCategory: window.$func.fetchComponent('components/tax/NewTaxCategory.vue'),
-        NewTaxZone: window.$func.fetchComponent('components/tax/NewTaxZone.vue'),
-        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
+        MultiSelect: window.$func.fetchComponent(
+            "components/select/MultiSelect.vue"
+        ),
+        SubmitButton: window.$func.fetchComponent(
+            "components/base/SubmitButton.vue"
+        ),
+        NewTaxAgency: window.$func.fetchComponent(
+            "components/tax/NewTaxAgency.vue"
+        ),
+        NewTaxCategory: window.$func.fetchComponent(
+            "components/tax/NewTaxCategory.vue"
+        ),
+        NewTaxZone: window.$func.fetchComponent(
+            "components/tax/NewTaxZone.vue"
+        ),
+        ShowErrors: window.$func.fetchComponent(
+            "components/base/ShowErrors.vue"
+        ),
     },
 
     data() {
@@ -253,18 +299,22 @@ export default {
             form_errors: [],
         };
     },
+    emits: {
+        // Validate submit event
+        refetch_tax_data: () => {
+            this.fetchData();
+            return true;
+        },
+
+        "remove-row": ({ index }) => {
+            this.$delete(this.componentLines, index);
+            this.updateFinalAmount();
+            return true;
+        },
+    },
 
     created() {
         this.fetchData();
-
-        this.$root.$on("refetch_tax_data", () => {
-            this.fetchData();
-        });
-
-        this.$on("remove-row", (index) => {
-            this.$delete(this.componentLines, index);
-            this.updateFinalAmount();
-        });
     },
 
     methods: {
@@ -317,7 +367,6 @@ export default {
                 return;
             }
 
-
             window.axios
                 .post("/taxes", {
                     tax_rate_name: this.tax_name.id,
@@ -328,7 +377,10 @@ export default {
                     throw error;
                 })
                 .then((res) => {
-                    this.showAlert("success", this.$func.__("Tax Rate Created!", "erp"));
+                    this.showAlert(
+                        "success",
+                        this.$func.__("Tax Rate Created!", "erp")
+                    );
                 })
                 .then(() => {
                     this.$router.push({ name: "TaxRates" });

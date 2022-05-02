@@ -55,11 +55,16 @@ export default {
             }
         };
     },
+    emits: {
+        // Validate submit event
+        'transactions-filter': () => {
+            //this.getExpenseChartData(filters);
+            return true;
+        },
+    },
+
 
     created() {
-        this.$root.$on('transactions-filter', filters => {
-            //this.getExpenseChartData(filters);
-        });
 
         const filters = {};
 

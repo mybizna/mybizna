@@ -347,14 +347,19 @@ export default {
             pdf_link: "#",
         };
     },
+    emits: {
+        // Validate submit event
+        close: () => {
+            this.showModal = false;
+            return true;
+        },
+    },
+
 
     created() {
         this.getCompanyInfo();
         this.getExpense();
 
-        this.$root.$on("close", () => {
-            this.showModal = false;
-        });
     },
 
     methods: {

@@ -227,14 +227,17 @@ export default {
             pdf_link: "#",
         };
     },
+    emits: {
+        // Validate submit event
+        close: () => {
+            this.showModal = false;
+            return true;
+        },
+    },
 
     created() {
         this.getCompanyInfo();
         this.getBill();
-
-        this.$root.$on("close", () => {
-            this.showModal = false;
-        });
     },
 
     methods: {

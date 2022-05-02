@@ -221,12 +221,16 @@ export default {
             people_id: null,
         };
     },
+    emits: {
+        // Validate submit event
+        close: () => {
+            this.showModal = false;
+            return true;
+        },
+    },
 
     created() {
 
-        this.$root.$on("close", () => {
-            this.showModal = false;
-        });
 
         this.getCompanyInfo();
         this.getCheck();

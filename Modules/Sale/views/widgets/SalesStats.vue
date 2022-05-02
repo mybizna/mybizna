@@ -54,11 +54,15 @@ export default {
             }
         };
     },
+    emits: {
+        // Validate submit event
+        "transactions-filter": ({ filter }) => {
+           //  this.getSalesChartData(filters);
+            return true;
+        },
+    },
 
     created() {
-        this.$root.$on('transactions-filter', filters => {
-           //  this.getSalesChartData(filters);
-        });
 
         const filters = {};
 

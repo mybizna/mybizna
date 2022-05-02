@@ -8,7 +8,11 @@
                         {{ this.$func.__("Convert into Invoice", "erp") }}
                     </h2>
                     <h2 v-else class="content-header__title">
-                        {{ editMode ? this.$func.__("Edit", "erp") : this.$func.__("New", "erp") }}
+                        {{
+                            editMode
+                                ? this.$func.__("Edit", "erp")
+                                : this.$func.__("New", "erp")
+                        }}
                         {{ inv_title }}
                     </h2>
                 </div>
@@ -33,7 +37,11 @@
                         <div class="mybizna-col-sm-4">
                             <div class="mybizna-form-group">
                                 <label
-                                    >{{ this.$func.__("Transaction Date", "erp")
+                                    >{{
+                                        this.$func.__(
+                                            "Transaction Date",
+                                            "erp"
+                                        )
                                     }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
@@ -57,7 +65,9 @@
                             </div>
                         </div>
                         <div class="mybizna-col-sm-6">
-                            <label>{{ this.$func.__("Billing Address", "erp") }}</label>
+                            <label>{{
+                                this.$func.__("Billing Address", "erp")
+                            }}</label>
                             <textarea
                                 v-model="basic_fields.billing_address"
                                 rows="4"
@@ -77,7 +87,9 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="col--products">
-                                    {{ this.$func.__("Product/Service", "erp") }}
+                                    {{
+                                        this.$func.__("Product/Service", "erp")
+                                    }}
                                 </th>
                                 <th scope="col" class="col--qty">
                                     {{ this.$func.__("Qty", "erp") }}
@@ -131,10 +143,20 @@
                                 >
                                     <select v-model="discountType">
                                         <option value="discount-percent">
-                                            {{ this.$func.__("Discount percent", "erp") }}
+                                            {{
+                                                this.$func.__(
+                                                    "Discount percent",
+                                                    "erp"
+                                                )
+                                            }}
                                         </option>
                                         <option value="discount-value">
-                                            {{ this.$func.__("Discount value", "erp") }}
+                                            {{
+                                                this.$func.__(
+                                                    "Discount value",
+                                                    "erp"
+                                                )
+                                            }}
                                         </option>
                                     </select>
                                 </td>
@@ -169,7 +191,10 @@
                                         :options="taxRates"
                                         class="tax-rates"
                                         :placeholder="
-                                            this.$func.__('Select sales tax', 'erp')
+                                            this.$func.__(
+                                                'Select sales tax',
+                                                'erp'
+                                            )
                                         "
                                     />
                                 </td>
@@ -187,7 +212,10 @@
                             <tr class="total-amount-row inline-edit-row">
                                 <td colspan="4" class="text-right">
                                     <span
-                                        >{{ this.$func.__("Total Amount", "erp") }} =</span
+                                        >{{
+                                            this.$func.__("Total Amount", "erp")
+                                        }}
+                                        =</span
                                     >
                                 </td>
                                 <td>
@@ -210,7 +238,9 @@
                                         rows="4"
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
-                                        :placeholder="this.$func.__('Particulars', 'erp')"
+                                        :placeholder="
+                                            this.$func.__('Particulars', 'erp')
+                                        "
                                     ></textarea>
                                 </td>
                             </tr>
@@ -304,17 +334,30 @@
 </template>
 
 <script>
-
 /* global this.$erp_acct_var */
 export default {
     components: {
-        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
-        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
-        FileUpload: window.$func.fetchComponent('components/base/FileUpload.vue'),
-        ComboButton: window.$func.fetchComponent('components/select/ComboButton.vue'),
-        InvoiceTrnRow: window.$func.fetchComponent('components/invoice/InvoiceTrnRow.vue'),
-        SelectCustomers: window.$func.fetchComponent('components/people/SelectCustomers.vue'),
-        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
+        MultiSelect: window.$func.fetchComponent(
+            "components/select/MultiSelect.vue"
+        ),
+        Datepicker: window.$func.fetchComponent(
+            "components/base/Datepicker.vue"
+        ),
+        FileUpload: window.$func.fetchComponent(
+            "components/base/FileUpload.vue"
+        ),
+        ComboButton: window.$func.fetchComponent(
+            "components/select/ComboButton.vue"
+        ),
+        InvoiceTrnRow: window.$func.fetchComponent(
+            "components/invoice/InvoiceTrnRow.vue"
+        ),
+        SelectCustomers: window.$func.fetchComponent(
+            "components/people/SelectCustomers.vue"
+        ),
+        ShowErrors: window.$func.fetchComponent(
+            "components/base/ShowErrors.vue"
+        ),
     },
 
     data() {
@@ -329,14 +372,20 @@ export default {
             createButtons: [
                 { id: "save", text: this.$func.__("Save", "erp") },
                 // {id: 'send_create', text: this.$func.__('Create and Send', 'erp')},
-                { id: "new_create", text: this.$func.__("Save and New", "erp") },
+                {
+                    id: "new_create",
+                    text: this.$func.__("Save and New", "erp"),
+                },
                 { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
             updateButtons: [
                 { id: "update", text: this.$func.__("Update", "erp") },
                 // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
-                { id: "new_update", text: this.$func.__("Update and New", "erp") },
+                {
+                    id: "new_update",
+                    text: this.$func.__("Update and New", "erp"),
+                },
                 { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
@@ -393,6 +442,18 @@ export default {
         ...mapState({ actionType: (state) => state.combo.btnID }),
     },
 
+    emits: {
+        // Validate submit event
+        "remove-row": ({ index }) => {
+            this.$delete(this.transactionLines, index);
+            this.updateFinalAmount();
+            return true;
+        },
+        "total-updated": ({ amount }) => {
+            this.updateFinalAmount();
+            return true;
+        },
+    },
     created() {
         if (this.$route.name === "EstimateCreate") {
             this.inv_title = "Estimate";
@@ -403,15 +464,6 @@ export default {
         }
 
         this.prepareDataLoad();
-
-        this.$root.$on("remove-row", (index) => {
-            this.$delete(this.transactionLines, index);
-            this.updateFinalAmount();
-        });
-
-        this.$root.$on("total-updated", (amount) => {
-            this.updateFinalAmount();
-        });
     },
 
     methods: {
@@ -529,7 +581,6 @@ export default {
         },
 
         getProducts() {
-
             window.axios
                 .get("/products", {
                     params: {
@@ -538,7 +589,6 @@ export default {
                 })
                 .then((response) => {
                     this.products = response.data;
-
                 })
                 .catch((error) => {
                     throw error;
@@ -677,15 +727,16 @@ export default {
         },
 
         updateInvoice(requestData) {
-
             window.axios
                 .put(`/invoices/${this.voucherNo}`, requestData)
                 .then((res) => {
-
                     let message = this.$func.__("Invoice Updated!", "erp");
 
                     if (this.estimateToInvoice()) {
-                        message = this.$func.__("Conversion Successful!", "erp");
+                        message = this.$func.__(
+                            "Conversion Successful!",
+                            "erp"
+                        );
                     }
 
                     this.showAlert("success", message);
@@ -706,7 +757,6 @@ export default {
         },
 
         createInvoice(requestData) {
-
             window.axios
                 .post("/invoices", requestData)
                 .then((res) => {
@@ -789,7 +839,9 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(this.$func.__("Customer Name is required.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Customer Name is required.", "erp")
+                );
             }
 
             if (!this.basic_fields.trn_date) {
@@ -799,15 +851,21 @@ export default {
             }
 
             if (!this.basic_fields.due_date) {
-                this.form_errors.push(this.$func.__("Due Date is required.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Due Date is required.", "erp")
+                );
             }
 
             if (!parseFloat(this.finalTotalAmount)) {
-                this.form_errors.push(this.$func.__("Total amount can't be zero.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Total amount can't be zero.", "erp")
+                );
             }
 
             if (this.noFulfillLines(this.transactionLines, "selectedProduct")) {
-                this.form_errors.push(this.$func.__("Please select a product.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Please select a product.", "erp")
+                );
             }
         },
     },

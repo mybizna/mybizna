@@ -17,11 +17,14 @@
 </template>
 
 <script>
-
 export default {
     components: {
-        PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
-        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
+        PeopleModal: window.$func.fetchComponent(
+            "partner/widgets/PeopleModal.vue"
+        ),
+        MultiSelect: window.$func.fetchComponent(
+            "components/select/MultiSelect.vue"
+        ),
     },
 
     props: {
@@ -71,23 +74,27 @@ export default {
         options: (state) => state.expense.people,
     }),
 
-    created() {
-        this.$store.dispatch("expense/fetchPeople");
-
-        this.$root.$on("options-query", (query) => {
+    emits: {
+        // Validate submit event
+        "options-query": ({ query }) => {
             if (query) {
                 this.getPeople(query);
             }
-        });
-
-        this.$on("modal-close", () => {
+            return true;
+        },
+        "modal-close": () => {
             this.showModal = false;
             this.people = null;
-        });
-
-        this.$root.$on("peopleUpdate", () => {
+            return true;
+        },
+        peopleUpdate: () => {
             this.showModal = false;
-        });
+            return true;
+        },
+    },
+    created() {
+        this.$store.dispatch("expense/fetchPeople");
+
     },
 
     methods: {

@@ -141,25 +141,29 @@ export default {
             isActiveOptionDropdown: false,
         };
     },
-
-    created() {
-
-        this.$on("modal-close", () => {
-            this.showModal = false;
+    emits: {
+        // Validate submit event
+        "imported-people": () => {
+            this.showImportModal = false;
+            this.fetchItems();
+            return true;
+        },
+        "modal-close": () => {
+          this.showModal = false;
             this.showImportModal = false;
             this.showExportModal = false;
             this.people = null;
-        });
-
-        this.$root.$on("peopleUpdate", () => {
+            return true;
+        },
+        peopleUpdate: () => {
             this.showModal = false;
-            this.fetchItems();
-        });
+        this.fetchItems();
+            return true;
+        },
+    },
+    created() {
 
-        this.$root.$on("imported-people", () => {
-            this.showImportModal = false;
-            this.fetchItems();
-        });
+
 
         this.buttonTitle =
             this.$route.name.toLowerCase() === "customers"

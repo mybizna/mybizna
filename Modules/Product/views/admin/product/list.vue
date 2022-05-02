@@ -53,14 +53,19 @@
 </template>
 
 <script>
-
 export default {
     components: {
-        ListTable:window.$func.fetchComponent('components/list-table/ListTable.vue'),
-        ProductModal:window.$func.fetchComponent('components/ProductModal.vue'),
-        ExportModal:window.$func.fetchComponent('components/Search.vue'),
-        ImportModal:window.$func.fetchComponent('components/ExportModal.vue'),
-        ProductSearch:window.$func.fetchComponent('components/ImportModal.vue'),
+        ListTable: window.$func.fetchComponent(
+            "components/list-table/ListTable.vue"
+        ),
+        ProductModal: window.$func.fetchComponent(
+            "components/ProductModal.vue"
+        ),
+        ExportModal: window.$func.fetchComponent("components/Search.vue"),
+        ImportModal: window.$func.fetchComponent("components/ExportModal.vue"),
+        ProductSearch: window.$func.fetchComponent(
+            "components/ImportModal.vue"
+        ),
     },
 
     data() {
@@ -119,21 +124,24 @@ export default {
         };
     },
 
-    created() {
-        this.getProducts();
-
-        this.$on("close", function () {
+    emits: {
+        // Validate submit event
+        close: () => {
             this.showModal = false;
             this.showImportModal = false;
             this.showExportModal = false;
             this.product = null;
-        });
-
-        this.$root.$on("imported-products", () => {
+            return true;
+        },
+        "imported-products": () => {
             this.showImportModal = false;
             this.getProducts();
-        });
+            return true;
+        },
     },
+    created() {
+        this.getProducts();
+
 
     watch: {
         search(newVal, oldVal) {
@@ -144,7 +152,6 @@ export default {
     methods: {
         getProducts() {
             this.products = [];
-
 
             window.axios
                 .get("/products", {
@@ -166,7 +173,6 @@ export default {
                     this.paginationData.totalPages = parseInt(
                         response.headers["x-wp-totalpages"]
                     );
-
                 })
                 .catch((error) => {
                     throw error;
@@ -178,14 +184,16 @@ export default {
                 this.showModal = true;
                 this.product = row;
             } else if (action === "trash") {
-                if (confirm(this.$func.__("Are you sure want to delete?", "erp"))) {
-
+                if (
+                    confirm(
+                        this.$func.__("Are you sure want to delete?", "erp")
+                    )
+                ) {
                     window.axios
                         .delete("products/" + row.id)
                         .then((response) => {
                             this.$delete(this.products, index);
                             this.getProducts();
-
                         })
                         .catch((error) => {
                             throw error;
@@ -196,8 +204,11 @@ export default {
 
         onBulkAction(action, items) {
             if (action === "trash") {
-                if (confirm(this.$func.__("Are you sure want to delete?", "erp"))) {
-
+                if (
+                    confirm(
+                        this.$func.__("Are you sure want to delete?", "erp")
+                    )
+                ) {
                     window.axios
                         .delete("products/delete/" + items)
                         .then((response) => {
@@ -209,7 +220,6 @@ export default {
                                 toggleCheckbox.click();
                             }
                             this.getProducts();
-
                         })
                         .catch((error) => {
                             throw error;

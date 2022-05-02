@@ -127,13 +127,17 @@
                                 </td>
                                 <td
                                     class="col--due-date"
-                                    :data-colname="this.$func.__('Due Date', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Due Date', 'erp')
+                                    "
                                 >
                                     {{ pay_bill.due_date }}
                                 </td>
                                 <td
                                     class="col--total"
-                                    :data-colname="this.$func.__('Total', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Total', 'erp')
+                                    "
                                 >
                                     {{ moneyFormat(pay_bill.amount) }}
                                 </td>
@@ -177,7 +181,9 @@
                                 </td>
                                 <td
                                     class="text-right"
-                                    :data-colname="this.$func.__('Total Amount', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Total Amount', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -237,17 +243,32 @@
 </template>
 
 <script>
-
 export default {
     components: {
-        SelectAccounts: window.$func.fetchComponent('components/select/SelectAccounts.vue'),
-        SelectPeople: window.$func.fetchComponent('partner/widgets/SelectPeople.vue'),
-        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
-        FileUpload: window.$func.fetchComponent('components/base/FileUpload.vue'),
-        MultiSelect: window.$func.fetchComponent('componentss/select/MultiSelect.vue'),
-        CheckFields: window.$func.fetchComponent('components/check/CheckFields.vue'),
-        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
-        ComboButton: window.$func.fetchComponent('components/select/ComboButton.vue'),
+        SelectAccounts: window.$func.fetchComponent(
+            "components/select/SelectAccounts.vue"
+        ),
+        SelectPeople: window.$func.fetchComponent(
+            "partner/widgets/SelectPeople.vue"
+        ),
+        Datepicker: window.$func.fetchComponent(
+            "components/base/Datepicker.vue"
+        ),
+        FileUpload: window.$func.fetchComponent(
+            "components/base/FileUpload.vue"
+        ),
+        MultiSelect: window.$func.fetchComponent(
+            "componentss/select/MultiSelect.vue"
+        ),
+        CheckFields: window.$func.fetchComponent(
+            "components/check/CheckFields.vue"
+        ),
+        ShowErrors: window.$func.fetchComponent(
+            "components/base/ShowErrors.vue"
+        ),
+        ComboButton: window.$func.fetchComponent(
+            "components/select/ComboButton.vue"
+        ),
     },
 
     data() {
@@ -256,7 +277,8 @@ export default {
                 people: {},
                 trn_ref: "",
                 payment_date:
-                    this.$erp_acct_var.current_date /* global this.$erp_acct_var */,
+                    this.$erp_acct_var
+                        .current_date /* global this.$erp_acct_var */,
                 deposit_to: "",
                 billing_address: "",
                 trn_by: "",
@@ -295,13 +317,16 @@ export default {
         ...mapState({ actionType: (state) => state.combo.btnID }),
     },
 
-    created() {
-        this.getPayMethods();
-
-        this.$root.$on("remove-row", (index) => {
+    emits: {
+        // Validate submit event
+        "remove-row": ({ index }) => {
             this.$delete(this.pay_bills, index);
             this.updateFinalAmount();
-        });
+            return true;
+        },
+    },
+    created() {
+        this.getPayMethods();
 
         // initialize combo button id with `save`
         this.$store.dispatch("combo/setBtnID", "save");
@@ -543,7 +568,9 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(this.$func.__("People Name is required.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("People Name is required.", "erp")
+                );
             }
 
             if (!this.basic_fields.payment_date) {
@@ -569,7 +596,9 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(this.$func.__("Payment Method is required.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Payment Method is required.", "erp")
+                );
             }
 
             if (
@@ -585,7 +614,9 @@ export default {
             }
 
             if (!parseFloat(this.finalTotalAmount)) {
-                this.form_errors.push(this.$func.__("Total amount can't be zero.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Total amount can't be zero.", "erp")
+                );
             }
         },
 

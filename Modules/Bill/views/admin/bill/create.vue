@@ -5,7 +5,11 @@
             <div class="mybizna-row mybizna-between-xs">
                 <div class="mybizna-col">
                     <h2 class="content-header__title">
-                        {{ editMode ? this.$func.__("Edit", "erp") : this.$func.__("New", "erp") }}
+                        {{
+                            editMode
+                                ? this.$func.__("Edit", "erp")
+                                : this.$func.__("New", "erp")
+                        }}
                         {{ this.$func.__("Bill", "erp") }}
                     </h2>
                 </div>
@@ -57,7 +61,9 @@
                                 </div>
                             </div>
                             <div class="mybizna-col-sm-6">
-                                <label>{{ this.$func.__("Reference No", "erp") }}</label>
+                                <label>{{
+                                    this.$func.__("Reference No", "erp")
+                                }}</label>
                                 <input
                                     type="text"
                                     v-model="basic_fields.ref"
@@ -73,7 +79,9 @@
                                     v-model="basic_fields.billing_address"
                                     rows="4"
                                     class="mybizna-form-field"
-                                    :placeholder="this.$func.__('Type here', 'erp')"
+                                    :placeholder="
+                                        this.$func.__('Type here', 'erp')
+                                    "
                                 ></textarea>
                             </div>
                         </div>
@@ -90,12 +98,18 @@
                                 <th scope="col" class="col--id">
                                     {{ this.$func.__("SL No", "erp") }}.
                                 </th>
-                                <th scope="col">{{ this.$func.__("Account", "erp") }}</th>
+                                <th scope="col">
+                                    {{ this.$func.__("Account", "erp") }}
+                                </th>
                                 <th scope="col">
                                     {{ this.$func.__("Description", "erp") }}
                                 </th>
-                                <th scope="col">{{ this.$func.__("Amount", "erp") }}</th>
-                                <th scope="col">{{ this.$func.__("Total", "erp") }}</th>
+                                <th scope="col">
+                                    {{ this.$func.__("Amount", "erp") }}
+                                </th>
+                                <th scope="col">
+                                    {{ this.$func.__("Total", "erp") }}
+                                </th>
                                 <th scope="col" class="col--actions"></th>
                             </tr>
                         </thead>
@@ -120,12 +134,16 @@
                                         rows="1"
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
-                                        :placeholder="this.$func.__('Particulars', 'erp')"
+                                        :placeholder="
+                                            this.$func.__('Particulars', 'erp')
+                                        "
                                     ></textarea>
                                 </td>
                                 <td
                                     class="col--amount"
-                                    :data-colname="this.$func.__('Amount', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Amount', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -141,7 +159,9 @@
                                 <td
                                     class="col--total"
                                     style="text-align: center"
-                                    :data-colname="this.$func.__('Total', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Total', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -154,7 +174,10 @@
                                 <td
                                     class="delete-row"
                                     :data-colname="
-                                        this.$func.__('Remove Above Selection', 'erp')
+                                        this.$func.__(
+                                            'Remove Above Selection',
+                                            'erp'
+                                        )
                                     "
                                 >
                                     <a @click.prevent="removeRow(key)" href="#"
@@ -180,7 +203,9 @@
                                 </td>
                                 <td
                                     class="text-right"
-                                    :data-colname="this.$func.__('Total Amount', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Total Amount', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -204,7 +229,10 @@
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
                                         :placeholder="
-                                            this.$func.__('Internal Information', 'erp')
+                                            this.$func.__(
+                                                'Internal Information',
+                                                'erp'
+                                            )
                                         "
                                     ></textarea>
                                 </td>
@@ -277,16 +305,26 @@
 </template>
 
 <script>
-
-
 export default {
     components: {
-        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
-        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
-        FileUpload: window.$func.fetchComponent('components/base/FileUpload.vue'),
-        ComboButton: window.$func.fetchComponent('components/select/ComboButton.vue'),
-        SelectPeople: window.$func.fetchComponent('partner/widgets/SelectPeople.vue'),
-        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
+        Datepicker: window.$func.fetchComponent(
+            "components/base/Datepicker.vue"
+        ),
+        MultiSelect: window.$func.fetchComponent(
+            "components/select/MultiSelect.vue"
+        ),
+        FileUpload: window.$func.fetchComponent(
+            "components/base/FileUpload.vue"
+        ),
+        ComboButton: window.$func.fetchComponent(
+            "components/select/ComboButton.vue"
+        ),
+        SelectPeople: window.$func.fetchComponent(
+            "partner/widgets/SelectPeople.vue"
+        ),
+        ShowErrors: window.$func.fetchComponent(
+            "components/base/ShowErrors.vue"
+        ),
     },
 
     data() {
@@ -304,14 +342,20 @@ export default {
             createButtons: [
                 { id: "save", text: this.$func.__("Save", "erp") },
                 // {id: 'send_create', text: this.$func.__('Create and Send', 'erp') },
-                { id: "new_create", text: this.$func.__("Save and New", "erp") },
+                {
+                    id: "new_create",
+                    text: this.$func.__("Save and New", "erp"),
+                },
                 { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
             updateButtons: [
                 { id: "update", text: this.$func.__("Update", "erp") },
                 // {id: 'send_update', text: this.$func.__('Update and Send', 'erp') },
-                { id: "new_update", text: this.$func.__("Update and New", "erp") },
+                {
+                    id: "new_update",
+                    text: this.$func.__("Update and New", "erp"),
+                },
                 { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
@@ -325,21 +369,23 @@ export default {
             finalTotalAmount: 0,
             particulars: "",
             erp_acct_assets: this.$erp_acct_var.acct_assets,
-            extraFields:[],
+            extraFields: [],
         };
     },
 
     computed: {
         ...mapState({ actionType: (state) => state.combo.btnID }),
     },
-
-    created() {
-        this.prepareDataLoad();
-
-        this.$on("remove-row", (index) => {
+    emits: {
+        // Validate submit event
+        "remove-row": ({ index }) => {
             this.$delete(this.transactionLines, index);
             this.updateFinalAmount();
-        });
+            return true;
+        },
+    },
+    created() {
+        this.prepareDataLoad();
     },
 
     methods: {
@@ -367,7 +413,10 @@ export default {
                 );
 
                 if (!request2.data.bill_details.length) {
-                    this.showAlert("error", this.$func.__("Bill does not exists!", "erp"));
+                    this.showAlert(
+                        "error",
+                        this.$func.__("Bill does not exists!", "erp")
+                    );
                     return;
                 }
 
@@ -489,7 +538,10 @@ export default {
             window.axios
                 .put(`/bills/${this.voucherNo}`, requestData)
                 .then((res) => {
-                    this.showAlert("success", this.$func.__("Bill Updated!", "erp"));
+                    this.showAlert(
+                        "success",
+                        this.$func.__("Bill Updated!", "erp")
+                    );
                 })
                 .catch((error) => {
                     throw error;
@@ -512,7 +564,10 @@ export default {
             window.axios
                 .post("/bills", requestData)
                 .then((res) => {
-                    this.showAlert("success", this.$func.__("Bill Created!", "erp"));
+                    this.showAlert(
+                        "success",
+                        this.$func.__("Bill Created!", "erp")
+                    );
                 })
                 .catch((error) => {
                     throw error;
@@ -590,7 +645,9 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(this.$func.__("People Name is required.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("People Name is required.", "erp")
+                );
             }
 
             if (!this.basic_fields.trn_date) {
@@ -600,15 +657,21 @@ export default {
             }
 
             if (!this.basic_fields.due_date) {
-                this.form_errors.push(this.$func.__("Due Date is required.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Due Date is required.", "erp")
+                );
             }
 
             if (!parseFloat(this.finalTotalAmount)) {
-                this.form_errors.push(this.$func.__("Total amount can't be zero.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Total amount can't be zero.", "erp")
+                );
             }
 
             if (this.noFulfillLines(this.transactionLines, "ledger_id")) {
-                this.form_errors.push(this.$func.__("Please select an account.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Please select an account.", "erp")
+                );
             }
         },
 

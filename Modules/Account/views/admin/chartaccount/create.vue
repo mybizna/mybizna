@@ -70,7 +70,9 @@
             </div>
 
             <div class="form-row">
-                <label for="">{{ this.$func.__("Code (optional)", "erp") }}</label>
+                <label for="">{{
+                    this.$func.__("Code (optional)", "erp")
+                }}</label>
 
                 <input
                     type="number"
@@ -80,7 +82,11 @@
             </div>
 
             <button class="mybizna-btn btn--primary" type="submit">
-                {{ editMode ? this.$func.__("Update", "erp") : this.$func.__("Save", "erp") }}
+                {{
+                    editMode
+                        ? this.$func.__("Update", "erp")
+                        : this.$func.__("Save", "erp")
+                }}
             </button>
         </form>
 
@@ -89,7 +95,6 @@
 </template>
 
 <script>
-
 export default {
     data() {
         return {
@@ -126,24 +131,28 @@ export default {
             // this.fetchLedgerCategories();
         },
     },
+    /*emits: {
+        // Validate submit event
+        "cat-modal-close": () => {
+            this.catAddModal = false;
+            return true;
+        },
+         "category-created": () => {
+            this.catAddModal = false;
+             this.catAddModal = false;
+
+             this.catData.title = 'Add New';
+             this.catData.node = null;
+
+             this.showAlert('success', this.$func.__('Successful !', 'erp'));
+
+             this.fetchLedgerCategories();
+            return true;
+        },
+    },*/
 
     created() {
         this.prepareDataLoad();
-
-        // this.$root.$on('cat-modal-close', () => {
-        //     this.catAddModal = false;
-        // });
-
-        // this.$root.$on('category-created', () => {
-        //     this.catAddModal = false;
-
-        //     this.catData.title = 'Add New';
-        //     this.catData.node = null;
-
-        //     this.showAlert('success', this.$func.__('Successful !', 'erp'));
-
-        //     this.fetchLedgerCategories();
-        // });
     },
 
     methods: {
@@ -240,11 +249,21 @@ export default {
         },
 
         removeCategory(node) {
-            if (confirm(this.$func.__("Are you sure to remove this category?", "erp"))) {
+            if (
+                confirm(
+                    this.$func.__(
+                        "Are you sure to remove this category?",
+                        "erp"
+                    )
+                )
+            ) {
                 window.axios
                     .delete(`/ledgers/categories/${node.id}`)
                     .then((response) => {
-                        this.showAlert("error", this.$func.__("Category Removed!", "erp"));
+                        this.showAlert(
+                            "error",
+                            this.$func.__("Category Removed!", "erp")
+                        );
 
                         this.fetchLedgerCategories();
                     });
@@ -252,11 +271,13 @@ export default {
         },
 
         createLedger(requestData) {
-
             window.axios
                 .post("/ledgers", requestData)
                 .then((res) => {
-                    this.showAlert("success", this.$func.__("Created !", "erp"));
+                    this.showAlert(
+                        "success",
+                        this.$func.__("Created !", "erp")
+                    );
                     window.location.reload();
                 })
                 .catch((error) => {
@@ -268,11 +289,13 @@ export default {
         },
 
         updateteLedger(requestData) {
-
             window.axios
                 .put(`/ledgers/${this.ledgerID}`, requestData)
                 .then((res) => {
-                    this.showAlert("success", this.$func.__("Updated !", "erp"));
+                    this.showAlert(
+                        "success",
+                        this.$func.__("Updated !", "erp")
+                    );
                     window.location.reload();
                 })
                 .catch((error) => {
@@ -305,7 +328,6 @@ export default {
         },
 
         saveAccount() {
-
             this.error = false;
             this.isChartAdding = true;
 
@@ -317,7 +339,10 @@ export default {
             };
 
             if (this.isDuplicateLedger(requestData)) {
-                this.showAlert("error", this.$func.__("Duplicate Account!", "erp"));
+                this.showAlert(
+                    "error",
+                    this.$func.__("Duplicate Account!", "erp")
+                );
                 return;
             }
 
@@ -334,7 +359,6 @@ export default {
             this.ledgFields.name = "";
             this.ledgFields.code = "";
             this.isChartAdding = false;
-
         },
     },
 };

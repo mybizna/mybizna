@@ -100,6 +100,14 @@ export default {
         SendMail : window.$func.fetchComponent('components/email/SendMail.vue'),
         Dropdown : window.$func.fetchComponent('components/base/Dropdown.vue'),
     },
+,
+    emits: {
+        // Validate submit event
+        close: () => {
+            this.showModal = false;
+            return true;
+        },
+    },
 
     created() {
         /* If this page load directly,
@@ -115,9 +123,6 @@ export default {
 
         this.getCompanyInfo();
 
-        this.$root.$on("close", () => {
-            this.showModal = false;
-        });
     },
 
     methods: {

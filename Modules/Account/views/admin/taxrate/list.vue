@@ -63,14 +63,23 @@
 </template>
 
 <script>
-
 export default {
     components: {
-        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
-        NewTaxZone: window.$func.fetchComponent('components/tax/NewTaxZone.vue'),
-        NewTaxCategory: window.$func.fetchComponent('components/tax/NewTaxCategory.vue'),
-        NewTaxAgency: window.$func.fetchComponent('components/tax/NewTaxAgency.vue'),
-        TaxShortcuts: window.$func.fetchComponent('components/tax/TaxShortcuts.vue'),
+        ListTable: window.$func.fetchComponent(
+            "components/list-table/ListTable.vue"
+        ),
+        NewTaxZone: window.$func.fetchComponent(
+            "components/tax/NewTaxZone.vue"
+        ),
+        NewTaxCategory: window.$func.fetchComponent(
+            "components/tax/NewTaxCategory.vue"
+        ),
+        NewTaxAgency: window.$func.fetchComponent(
+            "components/tax/NewTaxAgency.vue"
+        ),
+        TaxShortcuts: window.$func.fetchComponent(
+            "components/tax/TaxShortcuts.vue"
+        ),
     },
 
     data() {
@@ -113,7 +122,10 @@ export default {
                 },
             ],
             new_entities: [
-                { namedRoute: "NewTaxZone", name: this.$func.__("New Tax Zone", "erp") },
+                {
+                    namedRoute: "NewTaxZone",
+                    name: this.$func.__("New Tax Zone", "erp"),
+                },
                 {
                     namedRoute: "NewTaxCategory",
                     name: this.$func.__("New Tax Category", "erp"),
@@ -136,11 +148,9 @@ export default {
             taxagencyModal: false,
         };
     },
-
-    created() {
-        this.fetchItems();
-
-        this.$root.$on("comboSelected", (data) => {
+    emits: {
+        // Validate submit event
+        comboSelected: ({ data }) => {
             switch (data.namedRoute) {
                 case "NewTaxZone":
                     this.taxrateModal = true;
@@ -154,7 +164,11 @@ export default {
                 default:
                     break;
             }
-        });
+            return true;
+        },
+    },
+    created() {
+        this.fetchItems();
     },
 
     computed: {
@@ -231,7 +245,9 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
+                    if (
+                        confirm(this.$func.__("Are you sure to delete?", "erp"))
+                    ) {
                         window.axios
                             .delete("/taxes/" + row.id)
                             .then((response) => {
@@ -262,7 +278,6 @@ export default {
         onBulkAction(action, items) {
             if (action === "trash") {
                 if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
-
                     window.axios
                         .delete("taxes/delete/" + items.join(","))
                         .then((response) => {

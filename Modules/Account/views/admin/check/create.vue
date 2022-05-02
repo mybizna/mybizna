@@ -70,7 +70,9 @@
                             ></multi-select>
                         </div>
                         <div class="mybizna-col-sm-4">
-                            <label>{{ this.$func.__("Billing Address", "erp") }}</label>
+                            <label>{{
+                                this.$func.__("Billing Address", "erp")
+                            }}</label>
                             <textarea
                                 v-model.trim="basic_fields.billing_address"
                                 rows="3"
@@ -91,12 +93,18 @@
                                 <th scope="col" class="col--id">
                                     {{ this.$func.__("SL No.", "erp") }}
                                 </th>
-                                <th scope="col">{{ this.$func.__("Account", "erp") }}</th>
+                                <th scope="col">
+                                    {{ this.$func.__("Account", "erp") }}
+                                </th>
                                 <th scope="col">
                                     {{ this.$func.__("Description", "erp") }}
                                 </th>
-                                <th scope="col">{{ this.$func.__("Amount", "erp") }}</th>
-                                <th scope="col">{{ this.$func.__("Total", "erp") }}</th>
+                                <th scope="col">
+                                    {{ this.$func.__("Amount", "erp") }}
+                                </th>
+                                <th scope="col">
+                                    {{ this.$func.__("Total", "erp") }}
+                                </th>
                                 <th scope="col" class="col--actions"></th>
                             </tr>
                         </thead>
@@ -121,12 +129,16 @@
                                         rows="1"
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
-                                        :placeholder="this.$func.__('Particulars', 'erp')"
+                                        :placeholder="
+                                            this.$func.__('Particulars', 'erp')
+                                        "
                                     ></textarea>
                                 </td>
                                 <td
                                     class="col--amount"
-                                    :data-colname="this.$func.__('Amount', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Amount', 'erp')
+                                    "
                                 >
                                     <input
                                         type="number"
@@ -143,7 +155,9 @@
                                 </td>
                                 <td
                                     class="col--total"
-                                    :data-colname="this.$func.__('Total', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Total', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -156,7 +170,10 @@
                                 <td
                                     class="delete-row"
                                     :data-colname="
-                                        this.$func.__('Remove Above Selection', 'erp')
+                                        this.$func.__(
+                                            'Remove Above Selection',
+                                            'erp'
+                                        )
                                     "
                                 >
                                     <a @click.prevent="removeRow(key)" href="#"
@@ -182,7 +199,9 @@
                                 </td>
                                 <td
                                     class="text-right"
-                                    :data-colname="this.$func.__('Total Amount', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Total Amount', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -207,7 +226,10 @@
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
                                         :placeholder="
-                                            this.$func.__('Internal Information', 'erp')
+                                            this.$func.__(
+                                                'Internal Information',
+                                                'erp'
+                                            )
                                         "
                                     ></textarea>
                                 </td>
@@ -340,15 +362,18 @@ export default {
     computed: {
         ...mapState({ actionType: (state) => state.combo.btnID }),
     },
+ emits: {
 
+    // Validate submit event
+    "remove-row": ({ index }) => {
+        this.$delete(this.transactionLines, index);
+        this.updateFinalAmount();
+        return true;
+    }
+  },
     created() {
         this.getBanks();
         this.prepareDataLoad();
-
-        this.$root.$on("remove-row", (index) => {
-            this.$delete(this.transactionLines, index);
-            this.updateFinalAmount();
-        });
     },
 
     methods: {

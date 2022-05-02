@@ -47,7 +47,11 @@
                             <div class="mybizna-col-sm-4">
                                 <div class="mybizna-form-group">
                                     <label
-                                        >{{ this.$func.__("Expense Date", "erp")
+                                        >{{
+                                            this.$func.__(
+                                                "Expense Date",
+                                                "erp"
+                                            )
                                         }}<span class="mybizna-required-sign"
                                             >*</span
                                         ></label
@@ -71,7 +75,11 @@
                             </div>
                             <div class="mybizna-col-sm-4 with-multiselect">
                                 <label
-                                    >{{ this.$func.__("Transaction From", "erp")
+                                    >{{
+                                        this.$func.__(
+                                            "Transaction From",
+                                            "erp"
+                                        )
                                     }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
@@ -87,7 +95,10 @@
                             >
                                 <div class="mybizna-form-group">
                                     <label>{{
-                                        this.$func.__("Transaction Charge", "erp")
+                                        this.$func.__(
+                                            "Transaction Charge",
+                                            "erp"
+                                        )
                                     }}</label>
                                     <input
                                         type="text"
@@ -104,7 +115,9 @@
                                     v-model.trim="basic_fields.billing_address"
                                     rows="3"
                                     class="mybizna-form-field"
-                                    :placeholder="this.$func.__('Type here', 'erp')"
+                                    :placeholder="
+                                        this.$func.__('Type here', 'erp')
+                                    "
                                 ></textarea>
                             </div>
 
@@ -126,12 +139,18 @@
                                 <th scope="col" class="col--id">
                                     {{ this.$func.__("SL No.", "erp") }}
                                 </th>
-                                <th scope="col">{{ this.$func.__("Account", "erp") }}</th>
+                                <th scope="col">
+                                    {{ this.$func.__("Account", "erp") }}
+                                </th>
                                 <th scope="col">
                                     {{ this.$func.__("Description", "erp") }}
                                 </th>
-                                <th scope="col">{{ this.$func.__("Amount", "erp") }}</th>
-                                <th scope="col">{{ this.$func.__("Total", "erp") }}</th>
+                                <th scope="col">
+                                    {{ this.$func.__("Amount", "erp") }}
+                                </th>
+                                <th scope="col">
+                                    {{ this.$func.__("Total", "erp") }}
+                                </th>
                                 <th scope="col" class="col--actions"></th>
                             </tr>
                         </thead>
@@ -156,12 +175,16 @@
                                         rows="1"
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
-                                        :placeholder="this.$func.__('Particulars', 'erp')"
+                                        :placeholder="
+                                            this.$func.__('Particulars', 'erp')
+                                        "
                                     ></textarea>
                                 </td>
                                 <td
                                     class="col--amount"
-                                    :data-colname="this.$func.__('Amount', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Amount', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -177,7 +200,9 @@
                                 </td>
                                 <td
                                     class="col--total"
-                                    :data-colname="this.$func.__('Total', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Total', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -190,7 +215,10 @@
                                 <td
                                     class="delete-row"
                                     :data-colname="
-                                        this.$func.__('Remove Above Selection', 'erp')
+                                        this.$func.__(
+                                            'Remove Above Selection',
+                                            'erp'
+                                        )
                                     "
                                 >
                                     <a @click.prevent="removeRow(key)" href="#"
@@ -216,7 +244,9 @@
                                 </td>
                                 <td
                                     class="text-right"
-                                    :data-colname="this.$func.__('Total Amount', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Total Amount', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -241,7 +271,10 @@
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
                                         :placeholder="
-                                            this.$func.__('Internal Information', 'erp')
+                                            this.$func.__(
+                                                'Internal Information',
+                                                'erp'
+                                            )
                                         "
                                     ></textarea>
                                 </td>
@@ -319,18 +352,32 @@
 </template>
 
 <script>
-
-
 export default {
     components: {
-        SelectAccounts: window.$func.fetchComponent('components/select/SelectAccounts.vue'),
-        Datepicker: window.$func.fetchComponent('components/base/Datepicker.vue'),
-        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue'),
-        FileUpload: window.$func.fetchComponent('components/base/FileUpload.vue'),
-        ComboButton: window.$func.fetchComponent('components/select/ComboButton.vue'),
-        SelectPeople: window.$func.fetchComponent('partner/widgets/SelectPeople.vue'),
-        CheckFields: window.$func.fetchComponent('components/check/CheckFields.vue'),
-        ShowErrors: window.$func.fetchComponent('components/base/ShowErrors.vue'),
+        SelectAccounts: window.$func.fetchComponent(
+            "components/select/SelectAccounts.vue"
+        ),
+        Datepicker: window.$func.fetchComponent(
+            "components/base/Datepicker.vue"
+        ),
+        MultiSelect: window.$func.fetchComponent(
+            "components/select/MultiSelect.vue"
+        ),
+        FileUpload: window.$func.fetchComponent(
+            "components/base/FileUpload.vue"
+        ),
+        ComboButton: window.$func.fetchComponent(
+            "components/select/ComboButton.vue"
+        ),
+        SelectPeople: window.$func.fetchComponent(
+            "partner/widgets/SelectPeople.vue"
+        ),
+        CheckFields: window.$func.fetchComponent(
+            "components/check/CheckFields.vue"
+        ),
+        ShowErrors: window.$func.fetchComponent(
+            "components/base/ShowErrors.vue"
+        ),
     },
 
     data() {
@@ -359,14 +406,20 @@ export default {
             createButtons: [
                 { id: "save", text: this.$func.__("Save", "erp") },
                 // {id: 'send_create', text: this.$func.__('Create and Send', 'erp') },
-                { id: "new_create", text: this.$func.__("Save and New", "erp") },
+                {
+                    id: "new_create",
+                    text: this.$func.__("Save and New", "erp"),
+                },
                 { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
             updateButtons: [
                 { id: "update", text: this.$func.__("Update", "erp") },
                 // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
-                { id: "new_update", text: this.$func.__("Update and New", "erp") },
+                {
+                    id: "new_update",
+                    text: this.$func.__("Update and New", "erp"),
+                },
                 { id: "draft", text: "Save as Draft" },
             ],
 
@@ -382,7 +435,8 @@ export default {
             particulars: "",
             isWorking: false,
             accts_by_chart: [],
-            erp_acct_assets: this.$erp_acct_var.acct_assets /* global this.$erp_acct_var */,
+            erp_acct_assets:
+                this.$erp_acct_var.acct_assets /* global this.$erp_acct_var */,
         };
     },
 
@@ -403,18 +457,20 @@ export default {
     computed: {
         ...mapState({ actionType: (state) => state.combo.btnID }),
     },
-
-    created() {
-        this.prepareDataLoad();
-
-        this.$root.$on("remove-row", (index) => {
+    emits: {
+        // Validate submit event
+        "remove-row": ({ index }) => {
             this.$delete(this.transactionLines, index);
             this.updateFinalAmount();
-        });
-
-        this.$root.$on("combo-btn-select", (button) => {
+            return true;
+        },
+        "combo-btn-select": ({ button }) => {
             this.actionType = button.id;
-        });
+            return true;
+        },
+    },
+    created() {
+        this.prepareDataLoad();
     },
 
     methods: {
@@ -580,11 +636,13 @@ export default {
             window.axios
                 .put(`/expenses/${this.voucherNo}`, requestData)
                 .then((res) => {
-
                     var message = this.$func.__("Expense Updated!", "erp");
 
                     if (this.draftToExpense()) {
-                        message = this.$func.__("Conversion Successful!", "erp");
+                        message = this.$func.__(
+                            "Conversion Successful!",
+                            "erp"
+                        );
                     }
 
                     this.showAlert("success", message);
@@ -611,7 +669,10 @@ export default {
             window.axios
                 .post("/expenses", requestData)
                 .then((res) => {
-                    this.showAlert("success", this.$func.__("Expense Created!", "erp"));
+                    this.showAlert(
+                        "success",
+                        this.$func.__("Expense Created!", "erp")
+                    );
                     this.$router.push({ name: "Expenses" });
                 })
                 .catch((error) => {
@@ -789,7 +850,9 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(this.$func.__("People Name is required.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("People Name is required.", "erp")
+                );
             }
 
             if (!this.basic_fields.trn_date) {
@@ -815,7 +878,9 @@ export default {
                     "id"
                 )
             ) {
-                this.form_errors.push(this.$func.__("Payment Method is required.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Payment Method is required.", "erp")
+                );
             }
 
             if (
@@ -823,16 +888,23 @@ export default {
                 parseFloat(this.finalTotalAmount)
             ) {
                 this.form_errors.push(
-                    this.$func.__("Not enough balance in selected account.", "erp")
+                    this.$func.__(
+                        "Not enough balance in selected account.",
+                        "erp"
+                    )
                 );
             }
 
             if (!parseFloat(this.finalTotalAmount)) {
-                this.form_errors.push(this.$func.__("Total amount can't be zero.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Total amount can't be zero.", "erp")
+                );
             }
 
             if (this.noFulfillLines(this.transactionLines, "ledger_id")) {
-                this.form_errors.push(this.$func.__("Please select an account.", "erp"));
+                this.form_errors.push(
+                    this.$func.__("Please select an account.", "erp")
+                );
             }
         },
 

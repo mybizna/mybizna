@@ -31,15 +31,21 @@
                 >
                     <ul class="customer-meta">
                         <li>
-                            <strong>{{ this.$func.__("Phone", "erp") }}:</strong>
+                            <strong
+                                >{{ this.$func.__("Phone", "erp") }}:</strong
+                            >
                             <span>{{ user.phone }}</span>
                         </li>
                         <li>
-                            <strong>{{ this.$func.__("Mobile", "erp") }}:</strong>
+                            <strong
+                                >{{ this.$func.__("Mobile", "erp") }}:</strong
+                            >
                             <span>{{ user.mobile }}</span>
                         </li>
                         <li>
-                            <strong>{{ this.$func.__("Website", "erp") }}:</strong>
+                            <strong
+                                >{{ this.$func.__("Website", "erp") }}:</strong
+                            >
                             <span>{{ user.website }}</span>
                         </li>
                         <li>
@@ -47,7 +53,9 @@
                             <span>{{ user.fax }}</span>
                         </li>
                         <li>
-                            <strong>{{ this.$func.__("Address", "erp") }}:</strong>
+                            <strong
+                                >{{ this.$func.__("Address", "erp") }}:</strong
+                            >
                             <span v-if="address">{{ address }}</span>
                         </li>
 
@@ -66,10 +74,11 @@
 </template>
 
 <script>
-
 export default {
     components: {
-        PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
+        PeopleModal: window.$func.fetchComponent(
+            "partner/widgets/PeopleModal.vue"
+        ),
     },
 
     props: {
@@ -142,21 +151,24 @@ export default {
                 });
         },
     },
-
+    emits: {
+        // Validate submit event
+        "modal-close": () => {
+            this.showModal = false;
+            return true;
+        },
+        peopleUpdate: () => {
+            this.showModal = false;
+            this.$parent.fetchItem(self.$route.params.id);
+            return true;
+        },
+    },
     created() {
         this.title =
             this.$route.name.toLowerCase() === "customerdetails"
                 ? "customer"
                 : "vendor";
 
-        this.$on("modal-close", function () {
-            this.showModal = false;
-        });
-        var self = this;
-        this.$root.$on("peopleUpdate", function () {
-            self.showModal = false;
-            self.$parent.fetchItem(self.$route.params.id);
-        });
     },
 };
 </script>

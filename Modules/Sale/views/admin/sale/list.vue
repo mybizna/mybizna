@@ -148,12 +148,10 @@ export default {
             },
         };
     },
-
-    created() {
-        alert("created");
-
-        this.$root.$on("transactions-filter", (filters) => {
-            /*  this.$router.push({
+   emits: {
+        // Validate submit event
+        "transactions-filter": ({ filters }) => {
+       /*  this.$router.push({
                 path : '/transactions/sales',
                 query: { start: filters.start_date, end: filters.end_date, status: filters.status, type: filters.type }
             });*/
@@ -165,7 +163,11 @@ export default {
 
             this.fetchItems(filters);
             this.fetched = true;
-        });
+            return true;
+        },
+    },
+    created() {
+        alert("created");
 
         const filters = {};
         // Get start & end date from url on page load

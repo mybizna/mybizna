@@ -111,19 +111,24 @@ export default {
             is_update: false,
         };
     },
+    emits: {
+
+        // Validate submit event
+        "refetch_tax_data": () => {
+            this.fetchItems();
+            this.is_update = false;
+            return true;
+        },
+
+         "modal_closed": () => {
+             this.is_update = false;
+            return true;
+        }
+    },
 
     created() {
         this.pageTitle = this.$route.name;
         this.url = this.$route.name.toLowerCase();
-
-        this.$root.$on("refetch_tax_data", () => {
-            this.fetchItems();
-            this.is_update = false;
-        });
-
-        this.$root.$on("modal_closed", () => {
-            this.is_update = false;
-        });
 
         this.fetchItems();
     },

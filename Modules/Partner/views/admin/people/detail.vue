@@ -85,6 +85,13 @@ export default {
             req_url: ''
         };
     },
+    emits: {
+        // Validate submit event
+        "people-transaction-filter": ({filter}) => {
+            this.filterTransaction(filter);
+            return true;
+        },
+    },
 
     created() {
         this.url = this.$route.params.route;
@@ -95,9 +102,6 @@ export default {
         this.fetchItem(this.userId);
         this.getTransactions();
         this.getChartData();
-        this.$root.$on('people-transaction-filter', filter => {
-            this.filterTransaction(filter);
-        });
     },
 
     watch: {
