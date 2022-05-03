@@ -141,11 +141,15 @@ export default {
         };
     },
 
+    emits: {
+        // Validate submit event
+        "close": () => {
+            this.showModal = false;
+            return true;
+        },
+    },
     created() {
         this.getCategories();
-        this.$on("close", function () {
-            this.showModal = false;
-        });
     },
     methods: {
         getCategories() {

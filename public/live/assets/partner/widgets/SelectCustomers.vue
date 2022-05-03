@@ -12,17 +12,21 @@
         <multi-select v-model="selected" :options="options" />
 
         <a href="#" class="add-new-customer" @click="showModal = true">
-            <i class="flaticon-add-plus-button"></i>{{ this.$func.__("Add new", "erp") }}
+            <i class="flaticon-add-plus-button"></i
+            >{{ this.$func.__("Add new", "erp") }}
         </a>
     </div>
 </template>
 
 <script>
-
 export default {
     components: {
-        MultiSelect: window.$func.fetchComponent('components/select/MultiSelect.vue"'),
-        PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
+        MultiSelect: window.$func.fetchComponent(
+            'components/select/MultiSelect.vue"'
+        ),
+        PeopleModal: window.$func.fetchComponent(
+            "partner/widgets/PeopleModal.vue"
+        ),
     },
 
     props: {
@@ -62,23 +66,27 @@ export default {
         options: (state) => state.sales.customers,
     }),
 
-    created() {
-        this.$store.dispatch("sales/fetchCustomers");
-
-        this.$root.$on("options-query", (query) => {
+    emits: {
+        // Validate submit event
+        "options-query": ({ query }) => {
             if (query) {
                 this.getCustomers(query);
             }
-        });
-
-        this.$on("modal-close", () => {
+            return true;
+        },
+        "modal-close": () => {
             this.showModal = false;
             this.people = null;
-        });
-
-        this.$root.$on("peopleUpdate", () => {
+            return true;
+        },
+        peopleUpdate: () => {
             this.showModal = false;
-        });
+            return true;
+        },
+    },
+    created() {
+        this.$store.dispatch("sales/fetchCustomers");
+
     },
 
     methods: {

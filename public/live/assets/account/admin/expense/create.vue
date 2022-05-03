@@ -49,6 +49,7 @@
                                     <label
                                         >{{ this.$func.__(s.$func.__("Expense Date", "erp")
 
+
                                         }}<span class="mybizna-required-sign"
                                             >*</span
                                         ></label
@@ -62,6 +63,7 @@
                                 <label
                                     >{{ this.$func.__(s.$func.__("Payment Method", "erp")
 
+
                                     }}<span class="mybizna-required-sign"
                                         >*</span
                                     ></label
@@ -74,6 +76,7 @@
                             <div class="mybizna-col-sm-4 with-multiselect">
                                 <label
                                     >{{ this.$func.__(s.$func.__("Transaction From", "erp")
+
 
                                     }}<span class="mybizna-required-sign"
                                         >*</span
@@ -107,7 +110,9 @@
                                     v-model.trim="basic_fields.billing_address"
                                     rows="3"
                                     class="mybizna-form-field"
-                                    :placeholder="this.$func.__('Type here', 'erp')"
+                                    :placeholder="
+                                        this.$func.__('Type here', 'erp')
+                                    "
                                 ></textarea>
                             </div>
 
@@ -165,12 +170,16 @@
                                         rows="1"
                                         maxlength="250"
                                         class="mybizna-form-field display-flex"
-                                        :placeholder="this.$func.__('Particulars', 'erp')"
+                                        :placeholder="
+                                            this.$func.__('Particulars', 'erp')
+                                        "
                                     ></textarea>
                                 </td>
                                 <td
                                     class="col--amount"
-                                    :data-colname="this.$func.__('Amount', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Amount', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -186,7 +195,9 @@
                                 </td>
                                 <td
                                     class="col--total"
-                                    :data-colname="this.$func.__('Total', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Total', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -225,7 +236,9 @@
                                 </td>
                                 <td
                                     class="text-right"
-                                    :data-colname="this.$func.__('Total Amount', 'erp')"
+                                    :data-colname="
+                                        this.$func.__('Total Amount', 'erp')
+                                    "
                                 >
                                     <input
                                         type="text"
@@ -411,18 +424,22 @@ export default {
     computed: {
         ...mapState({ actionType: (state) => state.combo.btnID }),
     },
+    emits: {
 
+        // Validate submit event
+        "remove-row": ({ index }) => {
+             this.$delete(this.transactionLines, index);
+            this.updateFinalAmount();
+            return true;
+        },
+
+         "combo-btn-select": ({ button }) => {
+             this.actionType = button.id;
+            return true;
+        }
+    },
     created() {
         this.prepareDataLoad();
-
-        this.$root.$on("remove-row", (index) => {
-            this.$delete(this.transactionLines, index);
-            this.updateFinalAmount();
-        });
-
-        this.$root.$on("combo-btn-select", (button) => {
-            this.actionType = button.id;
-        });
     },
 
     methods: {

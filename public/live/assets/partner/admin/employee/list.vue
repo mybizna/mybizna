@@ -81,10 +81,16 @@ export default {
             },
         };
     },
-    created() {
-        this.$on("modal-close", function () {
+
+
+    emits: {
+        // Validate submit event
+        "modal-close": () => {
             this.showModal = false;
-        });
+            return true;
+        },
+    },
+    created() {
 
         this.fetchItems();
     },

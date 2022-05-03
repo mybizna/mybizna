@@ -53,12 +53,17 @@
 </template>
 
 <script>
-
 export default {
     components: {
-        NewTaxZone: window.$func.fetchComponent('components/tax/NewTaxZone.vue'),
-        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
-        TaxShortcuts: window.$func.fetchComponent('components/tax/TaxShortcuts.vue'),
+        NewTaxZone: window.$func.fetchComponent(
+            "components/tax/NewTaxZone.vue"
+        ),
+        ListTable: window.$func.fetchComponent(
+            "components/list-table/ListTable.vue"
+        ),
+        TaxShortcuts: window.$func.fetchComponent(
+            "components/tax/TaxShortcuts.vue"
+        ),
     },
 
     data() {
@@ -114,15 +119,20 @@ export default {
             is_update: false,
         };
     },
-
-    created() {
-        this.$root.$on("refetch_tax_data", () => {
+    emits: {
+        // Validate submit event
+        refetch_tax_data: () => {
             this.fetchItems();
             this.is_update = false;
-        });
-        this.$root.$on("modal_closed", () => {
+
+            return true;
+        },
+        modal_closed: () => {
             this.is_update = false;
-        });
+            return true;
+        },
+    },
+    created() {
         this.fetchItems();
     },
 
@@ -140,7 +150,6 @@ export default {
 
     methods: {
         fetchItems() {
-
             this.rows = [];
             window.axios
                 .get("/tax-rate-names", {
@@ -188,7 +197,9 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
+                    if (
+                        confirm(this.$func.__("Are you sure to delete?", "erp"))
+                    ) {
                         window.axios
                             .delete("tax-rate-names" + "/" + row.id)
                             .then((response) => {
@@ -229,7 +240,10 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
+                            this.showAlert(
+                                "success",
+                                this.$func.__("Deleted !", "erp")
+                            );
                         })
                         .catch((error) => {
                             throw error;

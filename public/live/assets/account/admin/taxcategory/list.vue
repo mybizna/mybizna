@@ -10,7 +10,9 @@
                         class="mybizna-btn btn--primary"
                         @click.prevent="showModal = true"
                     >
-                        <span>{{ this.$func.__("Add Tax Category", "erp") }}</span>
+                        <span>{{
+                            this.$func.__("Add Tax Category", "erp")
+                        }}</span>
                     </a>
                 </div>
             </div>
@@ -50,12 +52,17 @@
 </template>
 
 <script>
-
 export default {
     components: {
-        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
-        NewTaxCategory: window.$func.fetchComponent('components/tax/NewTaxCategory.vue'),
-        TaxShortcuts: window.$func.fetchComponent('components/tax/TaxShortcuts.vue'),
+        ListTable: window.$func.fetchComponent(
+            "components/list-table/ListTable.vue"
+        ),
+        NewTaxCategory: window.$func.fetchComponent(
+            "components/tax/NewTaxCategory.vue"
+        ),
+        TaxShortcuts: window.$func.fetchComponent(
+            "components/tax/TaxShortcuts.vue"
+        ),
     },
 
     data() {
@@ -109,17 +116,21 @@ export default {
             is_update: false,
         };
     },
-
-    created() {
-        this.$root.$on("refetch_tax_data", () => {
+    emits: {
+        // Validate submit event
+        refetch_tax_data: () => {
             this.fetchItems();
             this.is_update = false;
-        });
+            return true;
+        },
 
-        this.$root.$on("modal_closed", () => {
+        modal_closed: () => {
             this.is_update = false;
-        });
+            return true;
+        },
+    },
 
+    created() {
         this.fetchItems();
     },
 
@@ -172,10 +183,6 @@ export default {
                 query: queries,
             });
 
-            this.$root.$on("refetch_tax_data", () => {
-                this.fetchItems();
-            });
-
             this.fetchItems();
         },
 
@@ -189,7 +196,9 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
+                    if (
+                        confirm(this.$func.__("Are you sure to delete?", "erp"))
+                    ) {
                         window.axios
                             .delete("tax-cats" + "/" + row.id)
                             .then((response) => {
@@ -220,7 +229,6 @@ export default {
         onBulkAction(action, items) {
             if (action === "trash") {
                 if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
-
                     window.axios
                         .delete("tax-cats/delete/" + items.join(","))
                         .then((response) => {
@@ -234,7 +242,10 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
+                            this.showAlert(
+                                "success",
+                                this.$func.__("Deleted !", "erp")
+                            );
                         })
                         .catch((error) => {
                             throw error;

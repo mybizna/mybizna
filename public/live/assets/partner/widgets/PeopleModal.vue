@@ -480,18 +480,9 @@ export default {
             error_message: [],
             countries: [],
             get_states: [],
-            extraFieldsTop: window.acct.hooks.applyFilters(
-                "acctPeopleExtraFieldsTop",
-                []
-            ),
-            extraFieldsMiddle: window.acct.hooks.applyFilters(
-                "acctPeopleExtraFieldsMiddle",
-                []
-            ),
-            extraFieldsBottom: window.acct.hooks.applyFilters(
-                "acctPeopleExtraFieldsBottom",
-                []
-            ),
+            extraFieldsTop: [],
+            extraFieldsMiddle: [],
+            extraFieldsBottom: [],
         };
     },
 
@@ -502,15 +493,11 @@ export default {
     },
 
     mounted() {
-        window.acct.hooks.doAction("acctPeopleID", this.peopleFields.id);
     },
 
     methods: {
         saveCustomer() {
-            const peopleFields = window.acct.hooks.applyFilters(
-                "acctPeopleFieldsData",
-                this.peopleFields
-            );
+            const peopleFields = [];
 
             if (!this.checkForm()) {
                 return false;
@@ -605,10 +592,7 @@ export default {
         },
 
         checkForm() {
-            this.error_message = window.acct.hooks.applyFilters(
-                "acctPeopleFieldsError",
-                []
-            );
+            this.error_message = [];
 
             if (this.error_message.length) {
                 return false;

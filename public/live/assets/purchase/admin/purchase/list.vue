@@ -161,8 +161,9 @@ export default {
         };
     },
 
-    created() {
-        this.$root.$on("transactions-filter", (filters) => {
+    emits: {
+        // Validate submit event
+        "transactions-filter": ({ filters }) => {
             /*  this.$router.push({
                 path : '/transactions/purchases',
                 query: { start: filters.start_date, end: filters.end_date, status: filters.status }
@@ -176,7 +177,10 @@ export default {
 
             this.fetchItems(filters);
             this.fetched = true;
-        });
+            return true;
+        },
+    },
+    created() {
 
         const filters = {};
 

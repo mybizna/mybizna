@@ -329,15 +329,20 @@ export default {
             pdf_link: "#",
         };
     },
+    emits: {
+        // Validate submit event
+        close: () => {
+            this.showModal = false;
+            return true;
+        },
+    },
+
 
     created() {
         this.type = this.$route.params.type;
         this.getCompanyInfo();
         this.getPurchase();
 
-        this.$root.$on("close", () => {
-            this.showModal = false;
-        });
     },
 
     methods: {

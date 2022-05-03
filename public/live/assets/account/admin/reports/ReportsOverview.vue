@@ -102,10 +102,7 @@
 export default {
     data() {
         return {
-            reportLists: window.acct.hooks.applyFilters(
-                "acctExtensionReportsList",
-                []
-            ),
+            reportLists: [],
             proEnable: false,
             proActivated: false,
         };

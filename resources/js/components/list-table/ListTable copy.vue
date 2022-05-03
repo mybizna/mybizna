@@ -2,7 +2,9 @@
     <div :class="{ 'table-loading': loading }">
         <div v-if="loading" class="table-loader-wrap">
             <div class="table-loader-center">
-                <div class="table-loader">{{ this.$func.__("Loading", "erp") }}</div>
+                <div class="table-loader">
+                    {{ this.$func.__("Loading", "erp") }}
+                </div>
             </div>
         </div>
 
@@ -557,19 +559,21 @@ export default {
             },
         },
     },
-
-    created() {
-        this.$on("bulk-checkbox", (e) => {
+    emits: {
+        // Validate submit event
+        "bulk-checkbox": (e) => {
             if (!e) {
                 this.checkedItems = [];
             }
-        });
-
-        this.$on("bulk-action-click", (key) => {
+            return true;
+        },
+        "bulk-action-click": (key) => {
             this.bulkLocal = key;
             this.handleBulkAction();
-        });
+            return true;
+        },
     },
+    created() {},
 
     methods: {
         collapsRow(obj) {
