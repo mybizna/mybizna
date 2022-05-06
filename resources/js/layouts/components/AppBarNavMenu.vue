@@ -294,7 +294,7 @@ export default {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     background: white !important;
-    z-index: 1000000;
+    z-index: 1000;
     @media (min-width: 160px) and (min-width: 768px) {
     }
 

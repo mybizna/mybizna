@@ -1,23 +1,33 @@
 <template>
     <div class="app-customers bg-white p-1">
-        <div class="people-header">
-            <h2 class="add-new-people">
-                <span>{{ pageTitle }}</span>
-            </h2>
-
-            <div class="erp-btn-group text-right">
+        <div class="row people-header">
+            <div class="col-sm-6">
+                <h2 class="add-new-people">
+                    <span>{{ pageTitle }}</span>
+                </h2>
+            </div>
+            <div class="col-sm-6 text-right">
                 <a
                     href=""
+                    class="btn btn-sm btn-primary mr-2"
                     id="erp-customer-new"
                     @click.prevent="showModal = true"
                     >{{ this.$func.__("Add New", "erp") }} {{ buttonTitle }}</a
                 >
-                <button @click.prevent="showImportModal = true">
-                    {{ this.$func.__("Import", "erp") }}
-                </button>
-                <button @click.prevent="showExportModal = true">
-                    {{ this.$func.__("Export", "erp") }}
-                </button>
+                <div class="btn-group btn-group-sm">
+                    <button
+                        class="btn btn-light"
+                        @click.prevent="showImportModal = true"
+                    >
+                        {{ this.$func.__("Import", "erp") }}
+                    </button>
+                    <button
+                        class="btn btn-light"
+                        @click.prevent="showExportModal = true"
+                    >
+                        {{ this.$func.__("Export", "erp") }}
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -43,7 +53,7 @@
         />
 
         <list-table
-            tableClass="table table-sm people-table table table-striped "
+            tableClass="table table-sm people-table table mt-1"
             action-column="actions"
             :columns="columns"
             :rows="row_data"

@@ -21,7 +21,7 @@
                     >
                         <div>
                             <div class="row">
-                                <div class="form-group col-sm-3">
+                                <div class="form-group col-sm-3 mb-0">
                                     <!-- add new people form -->
                                     <upload-image
                                         :showButton="true"
@@ -172,7 +172,7 @@
                                             class="form-control form-control-sm form-field"
                                         />
                                     </div>
-                                    <div class="col-sm-6 form-group">
+                                    <div class="form-group col-sm-6">
                                         <label for="website">{{
                                             this.$func.__("Website", "erp")
                                         }}</label>
@@ -184,25 +184,8 @@
                                             placeholder="www.domain.com"
                                         />
                                     </div>
-                                    <div class="form-group">
-                                        <label for="note">{{
-                                            this.$func.__("Note", "erp")
-                                        }}</label>
-                                        <textarea
-                                            v-model="peopleFields.notes"
-                                            id="note"
-                                            cols="30"
-                                            rows="4"
-                                            class="form-control form-control-sm form-field"
-                                            :placeholder="
-                                                this.$func.__(
-                                                    'Type here',
-                                                    'erp'
-                                                )
-                                            "
-                                        ></textarea>
-                                    </div>
-                                    <div class="col-sm-6 form-group">
+
+                                    <div class="form-group col-sm-6">
                                         <label for="fax">{{
                                             this.$func.__("Fax", "erp")
                                         }}</label>
@@ -219,7 +202,7 @@
                                             "
                                         />
                                     </div>
-                                    <div class="col-sm-6 form-group">
+                                    <div class="form-group col-sm-6">
                                         <label for="street1">{{
                                             this.$func.__("Street 1", "erp")
                                         }}</label>
@@ -233,7 +216,7 @@
                                             "
                                         />
                                     </div>
-                                    <div class="col-sm-6 form-group">
+                                    <div class="form-group col-sm-6">
                                         <label for="street2">{{
                                             this.$func.__("Street 2", "erp")
                                         }}</label>
@@ -247,7 +230,7 @@
                                             "
                                         />
                                     </div>
-                                    <div class="col-sm-6 form-group">
+                                    <div class="form-group col-sm-6">
                                         <label for="city">{{
                                             this.$func.__("City", "erp")
                                         }}</label>
@@ -264,7 +247,7 @@
                                             "
                                         />
                                     </div>
-                                    <div class="col-sm-6 form-group">
+                                    <div class="form-group col-sm-6">
                                         <label>{{
                                             this.$func.__("Country", "erp")
                                         }}</label>
@@ -281,7 +264,7 @@
                                             />
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 form-group">
+                                    <div class="form-group col-sm-6">
                                         <label>{{
                                             this.$func.__(
                                                 "Province/State",
@@ -296,7 +279,7 @@
                                             />
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 form-group">
+                                    <div class="form-group col-sm-6">
                                         <label for="post_code">{{
                                             this.$func.__("Post Code", "erp")
                                         }}</label>
@@ -312,6 +295,25 @@
                                                 )
                                             "
                                         />
+                                    </div>
+
+                                    <div class="form-group col-sm-12">
+                                        <label for="note">{{
+                                            this.$func.__("Note", "erp")
+                                        }}</label>
+                                        <textarea
+                                            v-model="peopleFields.notes"
+                                            id="note"
+                                            cols="30"
+                                            rows="4"
+                                            class="form-control form-control-sm form-field"
+                                            :placeholder="
+                                                this.$func.__(
+                                                    'Type here',
+                                                    'erp'
+                                                )
+                                            "
+                                        ></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -754,21 +756,20 @@ export default {
     }
 }
 #people-modal .erp-upload-image img {
-    width: 200px;
+    width: 150px;
 }
 
 #people-modal .erp-upload-image button {
-    margin-top: 20px;
-    width: 200px;
+    margin-top: 10px;
+    width: 150px;
 }
 
 #people-modal .more-fields {
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 #people-modal .form-check {
     display: inline-block;
-    padding-left: 0;
     margin-top: 15px;
 }
 #people-modal .form-check .form-check-label .field-label {

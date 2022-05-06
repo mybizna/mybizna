@@ -1,4 +1,13 @@
-<template>Multiselect</template>
+<template>
+    <FormKit
+        type="select"
+        name="small_country"
+        :multiple="multiple"
+        :options="options"
+        :placeholder="placeholder"
+        :disabled="disabled"
+    />
+</template>
 
 <script>
 export default {
@@ -182,14 +191,17 @@ export default {
     content: "";
 }
 
-.with-multiselect .multiselect__option--selected .multiselect__option--highlight:after {
+.with-multiselect
+    .multiselect__option--selected
+    .multiselect__option--highlight:after {
     background: #f3f3f3 !important;
     content: "\f158" !important;
     color: #ff6a6a !important;
     font-family: dashicons !important;
 }
 
-.with-multiselect.multiselect__option--selected .multiselect__option--highligh:after {
+.with-multiselect.multiselect__option--selected
+    .multiselect__option--highligh:after {
     content: "\f147" !important;
     font-size: 20px !important;
     color: rgba(45, 140, 240, 0.9) !important;

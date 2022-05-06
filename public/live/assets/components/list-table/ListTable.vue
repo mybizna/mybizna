@@ -9,7 +9,7 @@
         </div>
 
         <table :class="tableClass">
-            <thead class="shadow-sm">
+            <thead class="table-light shadow-sm">
                 <div v-if="checkedItems.length">Bulk Action TPl</div>
 
                 <tr v-else>
@@ -559,6 +559,10 @@ export default {
     left: 0;
     bottom: 0;
     right: 0;
+}
+
+.table {
+    font-size: 14px;
 }
 
 .not-found {
