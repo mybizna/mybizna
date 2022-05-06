@@ -1,26 +1,12 @@
 <template>
     <div id="people-modal">
-        <div class="mybizna-container">
             <div
-                id="mybizna-add-customer-modal"
-                class="mybizna-modal has-form mybizna-modal-open"
-                role="dialog"
+                id="add-customer-modal"
+                class=""
             >
-                <div class="mybizna-modal-dialog">
-                    <div class="mybizna-modal-content">
+                <div class="">
+                    <div class="">
                         <!-- modal body title -->
-                        <div class="mybizna-modal-header">
-                            <h3 v-if="!people">{{ title }}</h3>
-                            <h3 v-else>
-                                {{ this.$func.__("Update", "erp") }} {{ title }}
-                            </h3>
-                            <span class="modal-close">
-                                <i
-                                    class="flaticon-close"
-                                    @click="$parent.$emit('modal-close')"
-                                ></i
-                            ></span>
-                        </div>
                         <ul class="errors" v-if="error_message.length">
                             <li
                                 v-for="(error, index) in error_message"
@@ -36,7 +22,7 @@
                             class="modal-form edit-customer-modal"
                             @submit.prevent="saveCustomer"
                         >
-                            <div class="mybizna-modal-body">
+                            <div class="modal-body">
                                 <!-- add new people form -->
                                 <upload-image
                                     :showButton="true"
@@ -53,9 +39,9 @@
                                     :people="people"
                                 />
 
-                                <div class="mybizna-row mybizna-gutter-20">
+                                <div class="row gutter-20">
                                     <div
-                                        class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
+                                        class="form-group col-sm-6 col-xs-12"
                                     >
                                         <label for="first_name"
                                             >{{
@@ -64,7 +50,7 @@
                                                     "erp"
                                                 )
                                             }}
-                                            <span class="mybizna-required-sign"
+                                            <span class="required-sign"
                                                 >*</span
                                             ></label
                                         >
@@ -72,7 +58,7 @@
                                             type="text"
                                             v-model="peopleFields.first_name"
                                             id="first_name"
-                                            class="mybizna-form-field"
+                                            class="form-field"
                                             :placeholder="
                                                 this.$func.__(
                                                     'First Name',
@@ -83,7 +69,7 @@
                                         />
                                     </div>
                                     <div
-                                        class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
+                                        class="form-group col-sm-6 col-xs-12"
                                     >
                                         <label for="last_name"
                                             >{{
@@ -92,7 +78,7 @@
                                                     "erp"
                                                 )
                                             }}
-                                            <span class="mybizna-required-sign"
+                                            <span class="required-sign"
                                                 >*</span
                                             ></label
                                         >
@@ -100,7 +86,7 @@
                                             type="text"
                                             v-model="peopleFields.last_name"
                                             id="last_name"
-                                            class="mybizna-form-field"
+                                            class="form-field"
                                             :placeholder="
                                                 this.$func.__(
                                                     'Last Name',
@@ -111,13 +97,13 @@
                                         />
                                     </div>
                                     <div
-                                        class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
+                                        class="form-group col-sm-6 col-xs-12"
                                     >
                                         <label for="email"
                                             >{{
                                                 this.$func.__("Email", "erp")
                                             }}
-                                            <span class="mybizna-required-sign"
+                                            <span class="required-sign"
                                                 >*</span
                                             ></label
                                         >
@@ -126,13 +112,13 @@
                                             @blur="checkEmailExistence"
                                             v-model="peopleFields.email"
                                             id="email"
-                                            class="mybizna-form-field"
+                                            class="form-field"
                                             placeholder="you@domain.com"
                                             required
                                         />
                                     </div>
                                     <div
-                                        class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
+                                        class="col-sm-6 col-xs-12 form-group"
                                     >
                                         <label for="phone">{{
                                             this.$func.__("Phone", "erp")
@@ -141,12 +127,12 @@
                                             type="tel"
                                             v-model="peopleFields.phone"
                                             id="phone"
-                                            class="mybizna-form-field"
+                                            class="form-field"
                                             placeholder="(123) 456-789"
                                         />
                                     </div>
                                     <div
-                                        class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
+                                        class="col-sm-6 col-xs-12 form-group"
                                     >
                                         <label for="company">{{
                                             this.$func.__("Company", "erp")
@@ -155,7 +141,7 @@
                                             type="text"
                                             v-model="peopleFields.company"
                                             id="company"
-                                            class="mybizna-form-field"
+                                            class="form-field"
                                             :placeholder="
                                                 this.$func.__(
                                                     'ABC Corporation',
@@ -177,12 +163,12 @@
 
                                 <!-- extra fields -->
                                 <div
-                                    class="mybizna-more-fields"
+                                    class="more-fields"
                                     v-if="showMore"
                                 >
-                                    <div class="mybizna-row mybizna-gutter-20">
+                                    <div class="row gutter-20">
                                         <div
-                                            class="mybizna-form-group mybizna-col-sm-6 mybizna-col-xs-12"
+                                            class="form-group col-sm-6 col-xs-12"
                                         >
                                             <label for="mobile">{{
                                                 this.$func.__("Mobile", "erp")
@@ -191,11 +177,11 @@
                                                 type="tel"
                                                 v-model="peopleFields.mobile"
                                                 id="mobile"
-                                                class="mybizna-form-field"
+                                                class="form-field"
                                             />
                                         </div>
                                         <div
-                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
+                                            class="col-sm-6 col-xs-12 form-group"
                                         >
                                             <label for="website">{{
                                                 this.$func.__("Website", "erp")
@@ -204,12 +190,12 @@
                                                 type="text"
                                                 v-model="peopleFields.website"
                                                 id="website"
-                                                class="mybizna-form-field"
+                                                class="form-field"
                                                 placeholder="www.domain.com"
                                             />
                                         </div>
                                         <div
-                                            class="mybizna-col-xs-12 mybizna-form-group"
+                                            class="col-xs-12 form-group"
                                         >
                                             <label for="note">{{
                                                 this.$func.__("Note", "erp")
@@ -219,7 +205,7 @@
                                                 id="note"
                                                 cols="30"
                                                 rows="4"
-                                                class="mybizna-form-field"
+                                                class="form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'Type here',
@@ -229,7 +215,7 @@
                                             ></textarea>
                                         </div>
                                         <div
-                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
+                                            class="col-sm-6 col-xs-12 form-group"
                                         >
                                             <label for="fax">{{
                                                 this.$func.__("Fax", "erp")
@@ -238,7 +224,7 @@
                                                 type="text"
                                                 v-model="peopleFields.fax"
                                                 id="fax"
-                                                class="mybizna-form-field"
+                                                class="form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'Type here',
@@ -248,7 +234,7 @@
                                             />
                                         </div>
                                         <div
-                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
+                                            class="col-sm-6 col-xs-12 form-group"
                                         >
                                             <label for="street1">{{
                                                 this.$func.__("Street 1", "erp")
@@ -257,7 +243,7 @@
                                                 type="text"
                                                 v-model="peopleFields.street_1"
                                                 id="street1"
-                                                class="mybizna-form-field"
+                                                class="form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'Street 1',
@@ -267,7 +253,7 @@
                                             />
                                         </div>
                                         <div
-                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
+                                            class="col-sm-6 col-xs-12 form-group"
                                         >
                                             <label for="street2">{{
                                                 this.$func.__("Street 2", "erp")
@@ -276,7 +262,7 @@
                                                 type="text"
                                                 v-model="peopleFields.street_2"
                                                 id="street2"
-                                                class="mybizna-form-field"
+                                                class="form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'Street 2',
@@ -286,7 +272,7 @@
                                             />
                                         </div>
                                         <div
-                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
+                                            class="col-sm-6 col-xs-12 form-group"
                                         >
                                             <label for="city">{{
                                                 this.$func.__("City", "erp")
@@ -295,7 +281,7 @@
                                                 type="text"
                                                 v-model="peopleFields.city"
                                                 id="city"
-                                                class="mybizna-form-field"
+                                                class="form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'City/Town',
@@ -305,7 +291,7 @@
                                             />
                                         </div>
                                         <div
-                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
+                                            class="col-sm-6 col-xs-12 form-group"
                                         >
                                             <label>{{
                                                 this.$func.__("Country", "erp")
@@ -326,7 +312,7 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
+                                            class="col-sm-6 col-xs-12 form-group"
                                         >
                                             <label>{{
                                                 this.$func.__(
@@ -343,7 +329,7 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="mybizna-col-sm-6 mybizna-col-xs-12 mybizna-form-group"
+                                            class="col-sm-6 col-xs-12 form-group"
                                         >
                                             <label for="post_code">{{
                                                 this.$func.__(
@@ -357,7 +343,7 @@
                                                     peopleFields.postal_code
                                                 "
                                                 id="post_code"
-                                                class="mybizna-form-field"
+                                                class="form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'Post Code',
@@ -398,11 +384,11 @@
                                 </div>
                             </div>
 
-                            <div class="mybizna-modal-footer pt-0">
+                            <div class="modal-footer pt-0">
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
                                     <button
-                                        class="mybizna-btn btn--default modal-close"
+                                        class="btn btn--default modal-close"
                                         @click="$parent.$emit('modal-close')"
                                         type="reset"
                                     >
@@ -410,14 +396,14 @@
                                     </button>
                                     <button
                                         v-if="!people"
-                                        class="mybizna-btn btn--primary"
+                                        class="btn btn--primary"
                                         type="submit"
                                     >
                                         {{ this.$func.__("Add New", "erp") }}
                                     </button>
                                     <button
                                         v-else
-                                        class="mybizna-btn btn--primary"
+                                        class="btn btn--primary"
                                         type="submit"
                                     >
                                         {{ this.$func.__("Update", "erp") }}
@@ -428,7 +414,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </template>
 
@@ -799,7 +784,7 @@ export default {
     width: 200px;
 }
 
-#people-modal .mybizna-more-fields {
+#people-modal .more-fields {
     margin-top: 20px;
 }
 

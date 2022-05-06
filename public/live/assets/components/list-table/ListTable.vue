@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        <table :class=" tableClass">
+        <table :class="tableClass">
             <thead>
                 <div v-if="checkedItems.length">Bulk Action TPl</div>
 
@@ -494,18 +494,19 @@ export default {
             },
         },
     },
-
-    created() {
-        this.$on("bulk-checkbox", (e) => {
+    emits: {
+        // Validate submit event
+        "bulk-checkbox": (e) => {
             if (!e) {
                 this.checkedItems = [];
             }
-        });
-
-        this.$on("bulk-action-click", (key) => {
+            return true;
+        },
+        "bulk-action-click": (key) => {
             this.bulkLocal = key;
             this.handleBulkAction();
-        });
+            return true;
+        },
     },
 
     methods: {

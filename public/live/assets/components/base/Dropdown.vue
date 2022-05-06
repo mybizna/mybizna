@@ -64,13 +64,18 @@ export default {
         },
     },
 
+    emits: {
+        // Validate submit event
+        "action:click": () => {
+            this.visible = false;
+            return true;
+        },
+    },
     created() {
         // Create non-reactive property
         this._popper = null;
 
-        this.$parent.$on("action:click", () => {
-            this.visible = false;
-        });
+
     },
 
     mounted() {

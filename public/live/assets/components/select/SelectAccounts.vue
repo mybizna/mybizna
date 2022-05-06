@@ -1,48 +1,55 @@
 <template>
     <div class="with-multiselect">
-        <multi-select :placeholder="this.$func.__('Select Account', 'erp')" v-model="selectedAccount" :options="accounts" />
-        <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(balance)}}</span>
+        <multi-select
+            :placeholder="this.$func.__('Select Account', 'erp')"
+            v-model="selectedAccount"
+            :options="accounts"
+        />
+        <span class="balance mt-10 display-inline-block"
+            >{{ this.$func.__("Balance", "erp") }}:
+            {{ transformBalance(balance) }}</span
+        >
     </div>
 </template>
 
 <script>
-import MultiSelect from 'assets/components/select/MultiSelect.vue';
+import MultiSelect from "assets/components/select/MultiSelect.vue";
 
 export default {
-
-
     components: {
-        MultiSelect
+        MultiSelect,
     },
 
     props: {
         value: {
             type: [String, Object, Array],
-            default: ''
+            default: "",
         },
 
         override_accts: {
-            type: [Object, Array]
+            type: [Object, Array],
         },
 
         reset: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
 
     data() {
         return {
             selectedAccount: null,
-            balance        : 0,
-            accounts       : []
+            balance: 0,
+            accounts: [],
         };
     },
 
     watch: {
         value(newVal) {
-            const val = this.accounts.find(account => newVal.id === account.id);
-            if (typeof newVal === 'undefined' || typeof val === 'undefined') {
+            const val = this.accounts.find(
+                (account) => newVal.id === account.id
+            );
+            if (typeof newVal === "undefined" || typeof val === "undefined") {
                 return newVal;
             }
             this.selectedAccount = val;
@@ -51,14 +58,14 @@ export default {
 
         selectedAccount() {
             this.balance = 0;
-            this.$emit('input', this.selectedAccount);
+            this.$emit("input", this.selectedAccount);
         },
 
         override_accts() {
             this.accounts = [];
 
             for (const acct of this.override_accts) {
-                if (!Object.prototype.hasOwnProperty.call(acct, 'name')) {
+                if (!Object.prototype.hasOwnProperty.call(acct, "name")) {
                     continue;
                 }
 
@@ -68,14 +75,18 @@ export default {
 
         reset() {
             this.selectedAccount = [];
-            this.balance         = 0;
-        }
+            this.balance = 0;
+        },
+    },
+    emits: {
+        // Validate submit event
+        "account-changed": () => {
+            this.selectedAccount = [];
+            return true;
+        },
     },
 
     created() {
-        this.$root.$on('account-changed', () => {
-            this.selectedAccount = [];
-        });
         if (this.override_accts && this.override_accts.length) {
             this.accounts = this.override_accts;
         } else {
@@ -85,7 +96,7 @@ export default {
 
     methods: {
         fetchAccounts() {
-            window.axios.get('/accounts').then(response => {
+            window.axios.get("/accounts").then((response) => {
                 this.accounts = response.data;
             });
         },
@@ -95,8 +106,8 @@ export default {
                 return `Cr. ${this.moneyFormat(Math.abs(val))} (Loan)`;
             }
 
-            return `Dr. ${this.moneyFormat(val)} `+ (val > 0 ? ' (Cash)' : '') ;
-        }
-    }
+            return `Dr. ${this.moneyFormat(val)} ` + (val > 0 ? " (Cash)" : "");
+        },
+    },
 };
 </script>

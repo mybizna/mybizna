@@ -1,6 +1,9 @@
 <template>
     <div class="app-customers">
         <div class="people-header">
+sdfsdfds
+            <ErrorAlert :msg="errorMgs" :visible="showModal" :newcomponent="newcomponent" />
+asfasdasd
             <h2 class="add-new-people">
                 <span>{{ pageTitle }}</span>
                 <a
@@ -87,10 +90,13 @@ export default {
         PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
         ImportModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
         ExportModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
+        ErrorAlert: window.$func.fetchComponent('partner/widgets/ErrorAlert.vue'),
     },
 
     data() {
         return {
+            newcomponent:window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
+            errorMgs: "sdfdsfds",
             people: null,
             bulkActions: [
                 {
