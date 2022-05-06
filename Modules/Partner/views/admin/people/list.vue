@@ -3,15 +3,15 @@
         <div class="people-header">
             <h2 class="add-new-people">
                 <span>{{ pageTitle }}</span>
+            </h2>
+
+            <div class="erp-btn-group text-right">
                 <a
                     href=""
                     id="erp-customer-new"
                     @click.prevent="showModal = true"
                     >{{ this.$func.__("Add New", "erp") }} {{ buttonTitle }}</a
                 >
-            </h2>
-
-            <div class="erp-btn-group">
                 <button @click.prevent="showImportModal = true">
                     {{ this.$func.__("Import", "erp") }}
                 </button>
@@ -27,7 +27,6 @@
             :visible="showModal"
             :newcomponent="peopleModal"
         />
-
 
         <import-modal
             v-if="showImportModal"
