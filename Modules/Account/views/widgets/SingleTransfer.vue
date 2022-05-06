@@ -1,7 +1,7 @@
 <template>
-    <div class="modal-dialog sales-single">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class=" sales-single">
+        <div >
+            <div >
                 <h2>{{ this.$func.__("Transfer Money", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="modal-body">
+            <div >
                 <div class="invoice-panel">
                     <div class="invoice-header">
                         <div class="invoice-logo">

@@ -1,7 +1,7 @@
 <template>
-    <div class="modal-dialog purchase-single">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="purchase-single">
+        <div >
+            <div >
                 <h4>{{ this.$func.__("Purchase", "erp") }}</h4>
                 <div class="d-print-none">
                     <a
@@ -47,7 +47,7 @@
                 :type="type"
             />
 
-            <div class="modal-body">
+            <div >
                 <div class="invoice-panel">
                     <div class="invoice-header" v-if="null != company">
                         <div class="invoice-logo">

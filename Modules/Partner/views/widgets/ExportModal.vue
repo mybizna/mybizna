@@ -2,17 +2,17 @@
     <div id="people-modal">
         <div class="container">
             <div id="import-customer-modal" class="modal has-form modal-open" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                <div >
+                    <div >
+                        <div >
                             <h3>{{ title }}</h3>
-                            <span class="modal-close">
+                            <span >
                                 <i class="flaticon-close" @click="$parent.$emit('modal-close')"></i>
                             </span>
                         </div>
 
-                        <form action="" method="post" class="modal-form edit-customer-modal" id="export_form">
-                            <div class="modal-body">
+                        <form action="" method="post" class="edit-customer-modal" id="export_form">
+                            <div >
                                 <div class="erp-grid-container">
                                     <div class="row">
                                         <div class="col-3">
@@ -51,7 +51,7 @@
 
                             </div>
 
-                            <div class="modal-footer pt-0">
+                            <div class="pt-0">
                                 <div class="buttons-wrapper text-right">
                                     <button class="btn btn-default modal-close" @click="$parent.$emit('modal-close')" type="reset">{{ this.$func.__('Cancel', 'erp') }}</button>
                                     <button class="btn btn-primary" type="submit">{{ this.$func.__('Export', 'erp') }}</button>

@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-body">
+    <div >
         <div class="invoice-panel">
             <div class="invoice-header" v-if="company.name">
                 <div class="invoice-logo">

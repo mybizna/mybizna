@@ -1,7 +1,7 @@
 <template>
-    <div class="modal-dialog sales-single">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="sales-single">
+        <div >
+            <div >
                 <h2 v-if="null != type">{{ trnType(type) }}</h2>
                 <div class="d-print-none">
                     <a

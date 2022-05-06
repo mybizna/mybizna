@@ -4,15 +4,15 @@
         role="dialog"
     >
         <div
-            class="modal-dialog"
+            
             v-click-outside="outside"
             @click="inside"
         >
-            <div class="modal-content">
-                <div class="modal-header">
+            <div >
+                <div >
                     <h4>{{ `${catData.title} this.$func.__('Category', 'erp')` }}</h4>
                 </div>
-                <div class="modal-body">
+                <div>
                     <form
                         action=""
                         class="ledger-cat-form"
@@ -45,7 +45,7 @@
                             <input type="text" v-model="category" required />
                         </div>
 
-                        <div class="modal-footer pt-0">
+                        <div class=" pt-0">
                             <div class="buttons-wrapper text-right">
                                 <button
                                     class="btn btn-default modal-close"

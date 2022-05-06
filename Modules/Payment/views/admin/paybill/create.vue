@@ -149,7 +149,7 @@
                                 </td>
                                 <td
                                     class="col--amount text-right"
-                                    :data-colname="this.$func.__(s.$func.__('Amount', 'erp')"
+                                    :data-colname="this.$func.__('Amount', 'erp')"
                                 >
                                     <input
                                         type="text"

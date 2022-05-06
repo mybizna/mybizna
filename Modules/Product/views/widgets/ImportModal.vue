@@ -6,12 +6,12 @@
                 class="modal has-form modal-open"
                 role="dialog"
             >
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                <div >
+                    <div >
+                        <div >
                             <h3>{{ this.$func.__("Import Products", "erp") }}</h3>
 
-                            <span class="modal-close">
+                            <span >
                                 <i
                                     class="flaticon-close"
                                     @click="$parent.$emit('close')"
@@ -23,12 +23,12 @@
                             action=""
                             enctype="multipart/form-data"
                             method="post"
-                            class="modal-form edit-customer-modal"
+                            class="edit-customer-modal"
                             id="import_form"
                             @submit.prevent="importCsv"
                         >
                             <div
-                                class="modal-body"
+                                
                                 id="erp-import-modal-body"
                             >
                                 <div
@@ -318,7 +318,7 @@
                                 </table>
                             </div>
 
-                            <div class="modal-footer pt-0">
+                            <div class="pt-0">
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
                                     <button

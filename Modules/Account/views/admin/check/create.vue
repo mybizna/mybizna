@@ -338,7 +338,7 @@ export default {
                 { id: "update", text: this.$func.__("Update", "erp") },
                 // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
                 { id: "new_update", text: this.$func.__("Update and New", "erp") },
-                { id: "draft", text: this.$func.__(s.$func.__("Save as Draft", "erp") },
+                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
             editMode: false,

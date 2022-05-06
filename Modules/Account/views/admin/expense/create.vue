@@ -5,10 +5,10 @@
             <div class="row between-xs">
                 <div class="col">
                     <h2 v-if="draftToExpense()">
-                        {{ this.$func.__(s.$func.__("Convert into Expense", "erp") }}
+                        {{ this.$func.__("Convert into Expense", "erp") }}
                     </h2>
                     <h2 v-else class="content-header__title">
-                        {{ this.$func.__(s.$func.__("New Expense", "erp") }}
+                        {{ this.$func.__("New Expense", "erp") }}
                     </h2>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>{{
-                                        this.$func.__(s.$func.__("Reference No", "erp")
+                                        this.$func.__("Reference No", "erp")
                                     }}</label>
                                     <input
                                         type="text"
@@ -47,7 +47,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label
-                                        >{{ this.$func.__(s.$func.__("Expense Date", "erp")
+                                        >{{ this.$func.__("Expense Date", "erp")
 
 
                                         }}<span class="required-sign"
@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-sm-4 with-multiselect">
                                 <label
-                                    >{{ this.$func.__(s.$func.__("Payment Method", "erp")
+                                    >{{ this.$func.__("Payment Method", "erp")
 
 
                                     }}<span class="required-sign"
@@ -75,7 +75,7 @@
                             </div>
                             <div class="col-sm-4 with-multiselect">
                                 <label
-                                    >{{ this.$func.__(s.$func.__("Transaction From", "erp")
+                                    >{{ this.$func.__("Transaction From", "erp")
 
 
                                     }}<span class="required-sign"
@@ -93,7 +93,7 @@
                             >
                                 <div class="form-group">
                                     <label>{{
-                                        this.$func.__(s.$func.__("Transaction Charge", "erp")
+                                        this.$func.__("Transaction Charge", "erp")
                                     }}</label>
                                     <input
                                         type="text"
@@ -104,7 +104,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <label>{{
-                                    this.$func.__(s.$func.__("Billing Address", "erp")
+                                    this.$func.__("Billing Address", "erp")
                                 }}</label>
                                 <textarea
                                     v-model.trim="basic_fields.billing_address"
@@ -132,19 +132,19 @@
                         <thead>
                             <tr class="inline-edit-row">
                                 <th scope="col" class="col--id">
-                                    {{ this.$func.__(s.$func.__("SL No.", "erp") }}
+                                    {{ this.$func.__("SL No.", "erp") }}
                                 </th>
                                 <th scope="col">
-                                    {{ this.$func.__(s.$func.__("Account", "erp") }}
+                                    {{ this.$func.__("Account", "erp") }}
                                 </th>
                                 <th scope="col">
-                                    {{ this.$func.__(s.$func.__("Description", "erp") }}
+                                    {{ this.$func.__("Description", "erp") }}
                                 </th>
                                 <th scope="col">
-                                    {{ this.$func.__(s.$func.__("Amount", "erp") }}
+                                    {{ this.$func.__("Amount", "erp") }}
                                 </th>
                                 <th scope="col">
-                                    {{ this.$func.__(s.$func.__("Total", "erp") }}
+                                    {{ this.$func.__("Total", "erp") }}
                                 </th>
                                 <th scope="col" class="col--actions"></th>
                             </tr>
@@ -210,7 +210,7 @@
                                 <td
                                     class="delete-row"
                                     :data-colname="
-                                        this.$func.__(s.$func.__('Remove Above Selection', 'erp')
+                                        this.$func.__('Remove Above Selection', 'erp')
                                     "
                                 >
                                     <a @click.prevent="removeRow(key)" href="#"
@@ -225,14 +225,14 @@
                                         class="btn btn-primary add-line-trigger"
                                     >
                                         <i class="flaticon-add-plus-button"></i
-                                        >{{ this.$func.__(s.$func.__("Add Line", "erp") }}
+                                        >{{ this.$func.__("Add Line", "erp") }}
                                     </button>
                                 </td>
                             </tr>
 
                             <tr class="total-amount-row inline-edit-row">
                                 <td class="text-right pr-0" colspan="4">
-                                    {{ this.$func.__(s.$func.__("Total Amount", "erp") }}
+                                    {{ this.$func.__("Total Amount", "erp") }}
                                 </td>
                                 <td
                                     class="text-right"
@@ -255,7 +255,7 @@
                             <tr class="form-group inline-edit-row">
                                 <td colspan="9" style="text-align: left">
                                     <label>{{
-                                        this.$func.__(s.$func.__("Particulars", "erp")
+                                        this.$func.__("Particulars", "erp")
                                     }}</label>
                                     <textarea
                                         v-model="particulars"
@@ -263,7 +263,7 @@
                                         maxlength="250"
                                         class="form-control form-contro-sm form-field display-flex"
                                         :placeholder="
-                                            this.$func.__(s.$func.__('Internal Information', 'erp')
+                                            this.$func.__('Internal Information', 'erp')
                                         "
                                     ></textarea>
                                 </td>
@@ -297,7 +297,7 @@
                                 <td colspan="9" style="text-align: left">
                                     <div class="attachment-container">
                                         <label class="col--attachement">{{
-                                            this.$func.__(s.$func.__("Attachment", "erp")
+                                            this.$func.__("Attachment", "erp")
                                         }}</label>
                                         <file-upload
                                             v-model="attachments"
@@ -315,7 +315,7 @@
                                         :options="[
                                             {
                                                 id: 'update',
-                                                text: this.$func.__(s.$func.__(
+                                                text: this.$func.__(
                                                     'Save Conversion',
                                                     'erp'
                                                 ),
@@ -378,16 +378,16 @@ export default {
             form_errors: [],
 
             createButtons: [
-                { id: "save", text: this.$func.__(s.$func.__("Save", "erp") },
-                // {id: 'send_create', text: this.$func.__(s.$func.__('Create and Send', 'erp') },
-                { id: "new_create", text: this.$func.__(s.$func.__("Save and New", "erp") },
-                { id: "draft", text: this.$func.__(s.$func.__("Save as Draft", "erp") },
+                { id: "save", text: this.$func.__("Save", "erp") },
+                // {id: 'send_create', text: this.$func.__('Create and Send', 'erp') },
+                { id: "new_create", text: this.$func.__("Save and New", "erp") },
+                { id: "draft", text: this.$func.__("Save as Draft", "erp") },
             ],
 
             updateButtons: [
-                { id: "update", text: this.$func.__(s.$func.__("Update", "erp") },
-                // {id: 'send_update', text: this.$func.__(s.$func.__('Update and Send', 'erp')},
-                { id: "new_update", text: this.$func.__(s.$func.__("Update and New", "erp") },
+                { id: "update", text: this.$func.__("Update", "erp") },
+                // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
+                { id: "new_update", text: this.$func.__("Update and New", "erp") },
                 { id: "draft", text: "Save as Draft" },
             ],
 
@@ -606,10 +606,10 @@ export default {
                 .put(`/expenses/${this.voucherNo}`, requestData)
                 .then((res) => {
 
-                    var message = this.$func.__(s.$func.__("Expense Updated!", "erp");
+                    var message = this.$func.__("Expense Updated!", "erp");
 
                     if (this.draftToExpense()) {
-                        message = this.$func.__(s.$func.__("Conversion Successful!", "erp");
+                        message = this.$func.__("Conversion Successful!", "erp");
                     }
 
                     this.showAlert("success", message);
@@ -636,7 +636,7 @@ export default {
             window.axios
                 .post("/expenses", requestData)
                 .then((res) => {
-                    this.showAlert("success", this.$func.__(s.$func.__("Expense Created!", "erp"));
+                    this.showAlert("success", this.$func.__("Expense Created!", "erp"));
                     this.$router.push({ name: "Expenses" });
                 })
                 .catch((error) => {
@@ -819,7 +819,7 @@ export default {
 
             if (!this.basic_fields.trn_date) {
                 this.form_errors.push(
-                    this.$func.__(s.$func.__("Transaction Date is required.", "erp")
+                    this.$func.__("Transaction Date is required.", "erp")
                 );
             }
 
@@ -830,7 +830,7 @@ export default {
                 )
             ) {
                 this.form_errors.push(
-                    this.$func.__(s.$func.__("Transaction Account is required.", "erp")
+                    this.$func.__("Transaction Account is required.", "erp")
                 );
             }
 
@@ -848,7 +848,7 @@ export default {
                 parseFloat(this.finalTotalAmount)
             ) {
                 this.form_errors.push(
-                    this.$func.__(s.$func.__("Not enough balance in selected account.", "erp")
+                    this.$func.__("Not enough balance in selected account.", "erp")
                 );
             }
 

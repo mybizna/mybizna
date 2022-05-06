@@ -1,9 +1,13 @@
 <template>
     <div class="app-customers">
         <div class="people-header">
+            <Modal
+                :title="this.$func.__('Add New', 'erp') + buttonTitle"
+                :msg="errorMgs"
+                :visible="showModal"
+                :newcomponent="peopleModal"
+            />
 
-            <Modal :title="'Title'" :msg="errorMgs" :visible="showModal" :newcomponent="newcomponent" />
-           
             <h2 class="add-new-people">
                 <span>{{ pageTitle }}</span>
                 <a
@@ -22,15 +26,7 @@
                     {{ this.$func.__("Export", "erp") }}
                 </button>
             </div>
-
         </div>
-
-        <people-modal
-            v-if="showModal"
-            :people.sync="people"
-            :title="buttonTitle"
-            @close="showModal = false"
-        />
 
         <import-modal
             v-if="showImportModal"
@@ -83,19 +79,25 @@
 </template>
 
 <script>
-
 export default {
     components: {
-        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
-        PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
-        ImportModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
-        ExportModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
-        Modal: window.$func.fetchComponent('components/modal/Modal.vue'),
+        ListTable: window.$func.fetchComponent(
+            "components/list-table/ListTable.vue"
+        ),
+        ImportModal: window.$func.fetchComponent(
+            "partner/widgets/PeopleModal.vue"
+        ),
+        ExportModal: window.$func.fetchComponent(
+            "partner/widgets/PeopleModal.vue"
+        ),
+        Modal: window.$func.fetchComponent("components/modal/Modal.vue"),
     },
 
     data() {
         return {
-            newcomponent:window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
+            peopleModal: window.$func.fetchComponent(
+                "partner/widgets/PeopleModal.vue"
+            ),
             errorMgs: "sdfdsfds",
             people: null,
             bulkActions: [
@@ -106,7 +108,10 @@ export default {
                 },
             ],
             columns: {
-                customer: { label: this.$func.__("Name", "erp"), isColPrimary: true },
+                customer: {
+                    label: this.$func.__("Name", "erp"),
+                    isColPrimary: true,
+                },
                 company: { label: this.$func.__("Company", "erp") },
                 email: { label: this.$func.__("Email", "erp") },
                 phone: { label: this.$func.__("Phone", "erp") },
@@ -155,7 +160,7 @@ export default {
             return true;
         },
         "modal-close": () => {
-          this.showModal = false;
+            this.showModal = false;
             this.showImportModal = false;
             this.showExportModal = false;
             this.people = null;
@@ -163,14 +168,11 @@ export default {
         },
         peopleUpdate: () => {
             this.showModal = false;
-        this.fetchItems();
+            this.fetchItems();
             return true;
         },
     },
     created() {
-
-
-
         this.buttonTitle =
             this.$route.name.toLowerCase() === "customers"
                 ? this.$func.__("Customer", "erp")
@@ -241,7 +243,9 @@ export default {
         onActionClick(action, row, index) {
             switch (action) {
                 case "trash":
-                    if (confirm( this.$func.__("Are you sure to delete?", "erp"))) {
+                    if (
+                        confirm(this.$func.__("Are you sure to delete?", "erp"))
+                    ) {
                         window.axios
                             .delete(this.url + "/" + row.id)
                             .then((response) => {
@@ -277,7 +281,7 @@ export default {
 
         onBulkAction(action, items) {
             if (action === "trash") {
-                if (confirm( this.$func.__("Are you sure to delete?", "erp"))) {
+                if (confirm(this.$func.__("Are you sure to delete?", "erp"))) {
                     window.axios
                         .delete(this.url + "/delete/" + items.join(","))
                         .then((response) => {
@@ -300,7 +304,10 @@ export default {
                             }
 
                             this.fetchItems();
-                            this.showAlert("success", this.$func.__("Deleted !", "erp"));
+                            this.showAlert(
+                                "success",
+                                this.$func.__("Deleted !", "erp")
+                            );
                         })
                         .catch((error) => {
                             throw error;

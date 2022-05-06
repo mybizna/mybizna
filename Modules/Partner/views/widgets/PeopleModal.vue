@@ -2,10 +2,10 @@
     <div id="people-modal">
             <div
                 id="add-customer-modal"
-                class=""
+                
             >
-                <div class="">
-                    <div class="">
+                <div >
+                    <div >
                         <!-- modal body title -->
                         <ul class="errors" v-if="error_message.length">
                             <li
@@ -19,10 +19,10 @@
                         <form
                             action=""
                             method="post"
-                            class="modal-form edit-customer-modal"
+                            class="edit-customer-modal"
                             @submit.prevent="saveCustomer"
                         >
-                            <div class="modal-body">
+                            <div >
                                 <!-- add new people form -->
                                 <upload-image
                                     :showButton="true"
@@ -384,7 +384,7 @@
                                 </div>
                             </div>
 
-                            <div class="modal-footer pt-0">
+                            <div class="pt-0">
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
                                     <button

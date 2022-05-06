@@ -19,7 +19,7 @@
                                 :alt="user.name"
                                 style="border-radius: 100%"
                             />
-                            <div class="">
+                            <div >
                                 <h3>
                                     {{ user.first_name }} {{ user.last_name }}
                                 </h3>

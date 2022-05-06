@@ -11,8 +11,8 @@
         <!-- End .header-section -->
         <div class="panel panel-default pb-0">
             <div class="panel-body">
-                <form action="" method="post" class="modal-form edit-customer-modal" @submit.prevent="submitTransfer">
-                    <div class="modal-body">
+                <form action="" method="post" class=" edit-customer-modal" @submit.prevent="submitTransfer">
+                    <div>
                         <!-- add new product form -->
                         <div class="row gutter-20">
                             <div class="form-group col-sm-6 col-xs-12">
@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer pt-0">
+                    <div class="pt-0">
                         <button class="btn btn-primary" type="submit">{{ this.$func.__('Transfer Money', 'erp') }}</button>
                     </div>
                 </form>

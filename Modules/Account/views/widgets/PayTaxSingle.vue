@@ -1,7 +1,7 @@
 <template>
-    <div class="modal-dialog expense-single">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="expense-single">
+        <div >
+            <div >
                 <h2>{{ this.$func.__("Tax Payment", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
@@ -37,7 +37,7 @@
 
             <send-mail v-if="showModal" :data="print_data" :type="type" />
 
-            <div class="modal-body">
+            <div >
                 <div class="invoice-panel">
                     <div class="invoice-header" v-if="null != company">
                         <div class="invoice-logo">

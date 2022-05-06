@@ -4,10 +4,10 @@
         class="modal has-form modal-open"
         role="dialog"
     >
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <div >
+            <div >
                 <!-- modal body title -->
-                <div class="modal-header">
+                <div >
                     <h3>
                         {{
                             is_update
@@ -16,7 +16,7 @@
                         }}
                         {{ this.$func.__("Tax Zone", "erp") }}
                     </h3>
-                    <span class="modal-close" @click.prevent="closeModal"
+                    <span  @click.prevent="closeModal"
                         ><i class="flaticon-close"></i
                     ></span>
                 </div>
@@ -25,10 +25,10 @@
 
                 <form
                     method="post"
-                    class="modal-form edit-customer-modal"
+                    class="edit-customer-modal"
                     @submit.prevent="taxZoneFormSubmit"
                 >
-                    <div class="modal-body">
+                    <div >
                         <div class="form-group">
                             <label
                                 >{{ this.$func.__("Tax Zone Name", "erp") }}
@@ -75,7 +75,7 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer pt-0">
+                    <div class="pt-0">
                         <!-- buttons -->
                         <div class="buttons-wrapper text-right">
                             <submit-button

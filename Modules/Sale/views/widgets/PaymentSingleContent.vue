@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-body">
+    <div >
         <div class="invoice-panel">
             <div class="invoice-header">
                 <div class="invoice-logo">

@@ -2,23 +2,23 @@
     <div id="product-modal">
         <div class="container">
             <div class="modal modal-open has-form" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                <div >
+                    <div> 
+                        <div >
                             <h3 v-if="!product">
                                 {{ this.$func.__("Add", "erp") }} {{ title }}
                             </h3>
                             <h3 v-else>
                                 {{ this.$func.__("Update", "erp") }} {{ title }}
                             </h3>
-                            <span class="modal-close">
+                            <span >
                                 <i
                                     class="flaticon-close"
                                     @click.prevent="$parent.$emit('close')"
                                 ></i>
                             </span>
                         </div>
-                        <div class="modal-body">
+                        <div >
                             <ul class="errors" v-if="error_msg.length">
                                 <li
                                     v-for="(error, index) in error_msg"

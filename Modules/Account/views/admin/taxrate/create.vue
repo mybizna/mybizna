@@ -242,7 +242,7 @@
                         @close="showAgencyModal = false"
                     />
 
-                    <div class="modal-footer pt-0">
+                    <div class=" pt-0">
                         <!-- buttons -->
                         <div class="buttons-wrapper text-right">
                             <submit-button

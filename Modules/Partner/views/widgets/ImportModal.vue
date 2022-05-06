@@ -6,11 +6,11 @@
                 class="modal has-form modal-open"
                 role="dialog"
             >
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                <div >
+                    <div >
+                        <div >
                             <h3>{{ title }}</h3>
-                            <span class="modal-close">
+                            <span >
                                 <i
                                     class="flaticon-close"
                                     @click="$parent.$emit('modal-close')"
@@ -21,11 +21,11 @@
                         <form
                             action=""
                             method="post"
-                            class="modal-form edit-customer-modal"
+                            class="edit-customer-modal"
                             id="import_form"
                             @submit.prevent="importCsv"
                         >
-                            <div class="modal-body">
+                            <div >
                                 <div
                                     v-if="showError"
                                     class="notice notice-error erp-error-notice"
@@ -134,7 +134,7 @@
                                 />
                             </div>
 
-                            <div class="modal-footer pt-0">
+                            <div class="pt-0">
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
                                     <button

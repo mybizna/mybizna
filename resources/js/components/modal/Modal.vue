@@ -34,7 +34,7 @@ export default {
     name: "AlertDefault",
     props: {
         visible: Boolean,
-        variant: String,
+        title: String,
         newcomponent: String,
     },
 
@@ -64,7 +64,23 @@ export default {
 </script>
 
 <style>
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
+}
 .modal .modal-dialog {
     max-width: 90%;
+}
+
+.modal-dialog,
+.modal-content {
+    /* 80% of window height */
+    height: 90%;
+}
+
+
+.modal-body {
+    /* 100% = dialog height, 120px = header + footer */
+    max-height: calc(100% - 120px);
+    overflow-y: scroll;
 }
 </style>

@@ -6,11 +6,11 @@
                 class="modal has-form modal-open"
                 role="dialog"
             >
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                <div >
+                    <div >
+                        <div >
                             <h3>{{ this.$func.__("Export Products", "erp") }}</h3>
-                            <span class="modal-close">
+                            <span >
                                 <i
                                     class="flaticon-close"
                                     @click="$parent.$emit('close')"
@@ -21,10 +21,10 @@
                         <form
                             action=""
                             method="post"
-                            class="modal-form edit-customer-modal"
+                            class="edit-customer-modal"
                             id="export_form"
                         >
-                            <div class="modal-body">
+                            <div >
                                 <div class="erp-grid-container">
                                     <div class="row">
                                         <div class="col-3">
@@ -108,7 +108,7 @@
                                 />
                             </div>
 
-                            <div class="modal-footer pt-0">
+                            <div class="pt-0">
                                 <div class="buttons-wrapper text-right">
                                     <button
                                         class="btn btn-default modal-close"

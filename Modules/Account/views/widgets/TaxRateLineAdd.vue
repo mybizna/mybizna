@@ -1,11 +1,11 @@
 <template>
     <div id="tax-rate-modal" class="modal has-form modal-open" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <div >
+            <div >
                 <!-- modal body title -->
-                <div class="modal-header">
+                <div >
                     <h3>{{ this.$func.__('Add New Line', 'erp') }}</h3>
-                    <span class="modal-close" @click.prevent="closeModal"><i class="flaticon-close"></i></span>
+                    <span  @click.prevent="closeModal"><i class="flaticon-close"></i></span>
                 </div>
 
                 <div class="invoice-table">
