@@ -4,7 +4,7 @@
             <span>{{ this.$func.__("Sales Tax Reports", "erp") }}</span>
 
             <router-link
-                class="mybizna-btn btn--primary"
+                class="btn btn-primary"
                 :to="{ name: 'ReportsOverview' }"
             >
                 {{ this.$func.__("Back", "erp") }}
@@ -24,7 +24,7 @@
                 </p>
 
                 <router-link
-                    class="mybizna-btn btn--primary"
+                    class="btn btn-primary"
                     :to="{ name: 'SalesTaxReportAgencyBased' }"
                 >
                     {{ this.$func.__("View Report", "erp") }}
@@ -43,7 +43,7 @@
                 </p>
 
                 <router-link
-                    class="mybizna-btn btn--primary"
+                    class="btn btn-primary"
                     :to="{ name: 'SalesTaxReportTransactionBased' }"
                 >
                     {{ this.$func.__("View Report", "erp") }}
@@ -62,7 +62,7 @@
                 </p>
 
                 <router-link
-                    class="mybizna-btn btn--primary"
+                    class="btn btn-primary"
                     :to="{ name: 'SalesTaxReportCustomerBased' }"
                 >
                     {{ this.$func.__("View Report", "erp") }}
@@ -81,7 +81,7 @@
                 </p>
 
                 <router-link
-                    class="mybizna-btn btn--primary"
+                    class="btn btn-primary"
                     :to="{ name: 'SalesTaxReportCategoryBased' }"
                 >
                     {{ this.$func.__("View Report", "erp") }}
@@ -197,48 +197,48 @@ export default {
         display: none !important;
     }
 
-    .sales-tax-report .mybizna-table.sales-tax-table th.trn_date,
-    .sales-tax-report .mybizna-table.sales-tax-tableth.created_at {
+    .sales-tax-report .table.sales-tax-table th.trn_date,
+    .sales-tax-report .table.sales-tax-tableth.created_at {
         min-width: 120px;
     }
 
-    .sales-tax-report .mybizna-table.sales-tax-table th.trn_no {
+    .sales-tax-report .table.sales-tax-table th.trn_no {
         min-width: 100px;
     }
 
-    .sales-tax-report .mybizna-table.sales-tax-table td,
-    .sales-tax-report .mybizna-table.sales-tax-table th {
+    .sales-tax-report .table.sales-tax-table td,
+    .sales-tax-report .table.sales-tax-table th {
         padding: 3px !important;
     }
 
-    .sales-tax-report .mybizna-table.sales-tax-table tr th:first-child,
+    .sales-tax-report .table.sales-tax-table tr th:first-child,
     tr td:last-child {
         padding-left: 5px;
     }
 
-    .sales-tax-report .mybizna-table.sales-tax-table tr th:last-child,
-    .sales-tax-report .mybizna-table.sales-tax-table tr td:last-child {
+    .sales-tax-report .table.sales-tax-table tr th:last-child,
+    .sales-tax-report .table.sales-tax-table tr td:last-child {
         padding-right: 5px;
     }
 
-    .sales-tax-report .mybizna-table.sales-tax-table thead tr th {
+    .sales-tax-report .table.sales-tax-table thead tr th {
         font-weight: bold;
     }
-    .sales-tax-report .mybizna-table.sales-tax-table thead tr th:nth-child(5),
-    .sales-tax-report .mybizna-table.sales-tax-table thead tr th:nth-child(6),
-    .sales-tax-report .mybizna-table.sales-tax-table thead tr th:nth-child(7) {
+    .sales-tax-report .table.sales-tax-table thead tr th:nth-child(5),
+    .sales-tax-report .table.sales-tax-table thead tr th:nth-child(6),
+    .sales-tax-report .table.sales-tax-table thead tr th:nth-child(7) {
         text-align: right;
     }
 }
 
-.sales-tax-report .mybizna-table.sales-tax-table tbody tr td:nth-child(5),
-.sales-tax-report .mybizna-table.sales-tax-table tbody tr td:nth-child(6),
-.sales-tax-report .mybizna-table.sales-tax-table tbody tr td:nth-child(7) {
+.sales-tax-report .table.sales-tax-table tbody tr td:nth-child(5),
+.sales-tax-report .table.sales-tax-table tbody tr td:nth-child(6),
+.sales-tax-report .table.sales-tax-table tbody tr td:nth-child(7) {
     text-align: right !important;
 }
 
-.sales-tax-report .mybizna-table.sales-tax-table tfoot td:nth-child(3),
-.sales-tax-report .mybizna-table.sales-tax-table tfoot td:nth-child(4) {
+.sales-tax-report .table.sales-tax-table tfoot td:nth-child(3),
+.sales-tax-report .table.sales-tax-table tfoot td:nth-child(4) {
     text-align: right !important;
 }
 </style>

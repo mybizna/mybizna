@@ -1,13 +1,13 @@
 <template>
-    <div class="mybizna-container">
+    <div class="container">
         <!-- Start .header-section -->
         <UserBasicInfo :userData="resData"></UserBasicInfo>
         <!-- End .header-section -->
-        <div class="mybizna-stats mybizna-section">
-            <div class="mybizna-panel mybizna-panel-default">
-                <div class="mybizna-panel-body">
-                    <div class="mybizna-row">
-                        <div class="mybizna-col-sm-4">
+        <div class="stats section">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-4">
                             <pie-chart v-if="paymentData.length"
                                 id="payment"
                                 :title="paymentChart.title"
@@ -15,7 +15,7 @@
                                 :colors="paymentChart.colors"
                                 :data="paymentData"/>
                         </div>
-                        <div class="mybizna-col-sm-4">
+                        <div class="col-sm-4">
                             <pie-chart v-if="statusData.length"
                                 id="status"
                                 :title="statusChart.title"
@@ -23,10 +23,10 @@
                                 :colors="statusChart.colors"
                                 :data="statusData"/>
                         </div>
-                        <div class="mybizna-col-sm-4">
-                            <div class="mybizna-chart-block">
+                        <div class="col-sm-4">
+                            <div class="chart-block">
                                 <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
-                                <div class="mybizna-total"><h2>{{ moneyFormat( outstanding ) }}</h2></div>
+                                <div class="total"><h2>{{ moneyFormat( outstanding ) }}</h2></div>
                             </div>
                         </div>
                     </div>

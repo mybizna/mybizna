@@ -1,10 +1,10 @@
 <template>
-    <div :class="['bank-accounts-section', 'mybizna-panel', 'mybizna-panel-default', ( isEditSettingsEnabled ? 'open-edit':'' )]">
-        <div class="mybizna-panel-heading mybizna-bg-white">
+    <div :class="['bank-accounts-section', 'panel', 'panel-default', ( isEditSettingsEnabled ? 'open-edit':'' )]">
+        <div class="panel-heading bg-white">
             <h4>{{ this.$func.__('Accounts', 'erp') }}</h4>
         </div>
-        <div class="mybizna-panel-body pb-0">
-            <ul v-if="accounts.length" class="mybizna-list-unstyled list-table-content list-table-content--border">
+        <div class="panel-body pb-0">
+            <ul v-if="accounts.length" class="list-unstyled list-table-content list-table-content--border">
                 <li :key="key" v-for="(data,key) in accounts">
                     <div class="left">
                         <i class="flaticon-menu-1"></i>
@@ -24,7 +24,7 @@
                 </li>
             </ul>
         </div>
-        <div class="mybizna-panel-footer mt-50">
+        <div class="panel-footer mt-50">
             <div class="bank-accounts-total">
                 <span class="title">{{ this.$func.__('Total Balance', 'erp') }}</span>
                 <span class="price">{{totalAmount}}</span>

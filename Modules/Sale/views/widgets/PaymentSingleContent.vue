@@ -1,6 +1,6 @@
 <template>
-    <div class="mybizna-modal-body">
-        <div class="mybizna-invoice-panel">
+    <div class="modal-body">
+        <div class="invoice-panel">
             <div class="invoice-header">
                 <div class="invoice-logo">
                     <img :src="company.logo" alt="logo name" width="100" height="100">
@@ -18,15 +18,15 @@
 
             <div class="invoice-body">
                 <h4>{{ this.$func.__('Payment Details', 'erp') }}</h4>
-                <div class="mybizna-row">
-                    <div class="mybizna-col-sm-6">
+                <div class="row">
+                    <div class="col-sm-6">
                         <h5>{{ type === "payment" ? this.$func.__('Payment From', 'erp') : this.$func.__('Payment To', 'erp') }}:</h5>
                         <div class="persons-info">
                             <strong>{{ payment.customer_name }}</strong><br>
                             <!-- {{ payment.billing_address }} -->
                         </div>
                     </div>
-                    <div class="mybizna-col-sm-6">
+                    <div class="col-sm-6">
                         <table class="invoice-info">
                             <tr>
                                 <th>{{ this.$func.__('Voucher No', 'erp') }}:</th>
@@ -53,8 +53,8 @@
                 </div>
             </div>
 
-            <div class="mybizna-invoice-table">
-                <table class="mybizna-table mybizna-form-table invoice-table">
+            <div class="invoice-table">
+                <table class="table form-table invoice-table">
                     <thead>
                         <tr>
                             <th>{{ this.$func.__('Sl.', 'erp') }}</th>

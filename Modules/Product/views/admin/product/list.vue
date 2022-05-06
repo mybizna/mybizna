@@ -1,5 +1,5 @@
 <template>
-    <div class="mybizna-products">
+    <div class="products">
         <div class="products-header">
             <h2 class="add-new-product">
                 <span>{{ this.$func.__("Products", "erp") }}</span>
@@ -31,7 +31,7 @@
         <import-modal v-if="showImportModal" />
 
         <list-table
-            tableClass="mybizna-table table-sm table-striped widefat table2 product-list"
+            tableClass="table table-sm table-striped widefat table2 product-list"
             action-column="actions"
             :columns="columns"
             :rows="products"
@@ -244,21 +244,21 @@ export default {
 </script>
 
 <style>
-.mybizna-products .products-header {
+.products .products-header {
     display: flex;
     align-items: center;
 }
-.mybizna-products .products-header .add-new-product {
+.products .products-header .add-new-product {
     margin-top: 15px;
     align-items: center;
     display: flex;
 }
-.mybizna-products .products-header .add-new-product span {
+.products .products-header .add-new-product span {
     font-size: 18px;
     font-weight: bold;
 }
 
-.mybizna-products .products-header .add-new-product a {
+.products .products-header .add-new-product a {
     background: #1a9ed4;
     border-radius: 3px;
     color: #fff;
@@ -271,7 +271,7 @@ export default {
     width: 80px !important;
 }
 @media (max-width: 782px) and (min-width: 768px) {
-    .mybizna-products .products-header .add-new-product a {
+    .products .products-header .add-new-product a {
         margin-right: 18rem;
         margin-bottom: 3px;
         max-width: 120px;
@@ -279,35 +279,35 @@ export default {
 }
 
 @media (max-width: 767px) and (min-width: 707px) {
-    .mybizna-products .products-header .add-new-product a {
+    .products .products-header .add-new-product a {
         margin-right: 16rem;
         margin-bottom: 3px;
     }
 }
 
 @media (max-width: 706px) and (min-width: 651px) {
-    .mybizna-products .products-header .add-new-product a {
+    .products .products-header .add-new-product a {
         margin-right: 14rem;
         margin-bottom: 3px;
     }
 }
 
 @media (max-width: 650px) {
-    .mybizna-products .products-header .add-new-product a {
+    .products .products-header .add-new-product a {
         margin-right: 12rem;
         margin-bottom: 3px;
     }
 }
 
-.mybizna-products .products-header .check-column {
+.products .products-header .check-column {
     padding: 20px !important;
 }
 
 @media (min-width: 783px) {
-    .mybizna-products .products-header .product-list .col--actions {
+    .products .products-header .product-list .col--actions {
         float: left !important;
     }
-    .mybizna-products .products-header .product-list .row-actions {
+    .products .products-header .product-list .row-actions {
         text-align: left !important;
     }
 }

@@ -1,13 +1,13 @@
 <template>
     <div
-        id="mybizna-tax-category-modal"
-        class="mybizna-modal has-form mybizna-modal-open"
+        id="tax-category-modal"
+        class="modal has-form modal-open"
         role="dialog"
     >
-        <div class="mybizna-modal-dialog">
-            <div class="mybizna-modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <!-- modal body title -->
-                <div class="mybizna-modal-header">
+                <div class="modal-header">
                     <h3>
                         {{ is_update ? this.$func.__("Edit", "erp") : this.$func.__("Add", "erp") }}
                         {{ this.$func.__("Tax Category", "erp") }}
@@ -25,11 +25,11 @@
                     class="modal-form edit-customer-modal"
                     @submit.prevent="taxCatFormSubmit"
                 >
-                    <div class="mybizna-modal-body">
-                        <div class="mybizna-form-group">
+                    <div class="modal-body">
+                        <div class="form-group">
                             <label
                                 >{{ this.$func.__("Tax Category Name", "erp") }}
-                                <span class="mybizna-required-sign"
+                                <span class="required-sign"
                                     >*</span
                                 ></label
                             >
@@ -37,23 +37,23 @@
                             <input
                                 type="text"
                                 v-model="category"
-                                class="mybizna-form-field mybizna-required-sign"
+                                class="form-control form-contro-sm form-field required-sign"
                                 required
                             />
                         </div>
 
-                        <div class="mybizna-form-group mb-0">
+                        <div class="form-group mb-0">
                             <label>{{ this.$func.__("Description", "erp") }}</label>
                             <textarea
                                 v-model="desc"
                                 rows="4"
-                                class="mybizna-form-field"
+                                class="form-control form-contro-sm form-field"
                                 maxlength="250"
                             ></textarea>
                         </div>
                     </div>
 
-                    <div class="mybizna-modal-footer pt-0">
+                    <div class="modal-footer pt-0">
                         <!-- buttons -->
                         <div class="buttons-wrapper text-right">
                             <submit-button

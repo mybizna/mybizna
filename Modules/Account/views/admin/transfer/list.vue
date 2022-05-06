@@ -2,13 +2,13 @@
     <div class="app-money-transfer">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Transfer Money", "erp") }}
                     </h2>
                     <router-link
-                        class="mybizna-btn btn--primary"
+                        class="btn btn-primary"
                         :to="{ name: 'NewTransfer' }"
                         >{{ this.$func.__("Add new", "erp") }}</router-link
                     >
@@ -17,7 +17,7 @@
         </div>
         <!-- End .header-section -->
         <list-table
-            tableClass="mybizna-table table-sm table-striped widefat table2 money-transfer-list"
+            tableClass="table table-sm table-striped widefat table2 money-transfer-list"
             action-column="actions"
             :columns="columns"
             :rows="transfer_list"

@@ -1,14 +1,14 @@
 <template>
-    <div class="mybizna-containers">
+    <div class="containers">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Dashboard", "erp") }}
                     </h2>
                     <a
-                        class="mybizna-btn btn--primary"
+                        class="btn btn-primary"
                         :href="tutorialUrl"
                         id="btn-tutorial-start"
                     >
@@ -20,17 +20,17 @@
         </div>
         <!-- End .header-section -->
 
-        <div class="mybizna-dashboard">
-            <div class="mybizna-row">
+        <div class="dashboard">
+            <div class="row">
                 <div
-                    class="mybizna-col-md-9 mybizna-col-sm-12 mybizna-col-xs-12"
+                    class="col-md-9 col-sm-12 col-xs-12"
                 >
                     <!-- Start .income-expense-section -->
                     <chart></chart>
                     <!-- End .income-expense-section -->
                 </div>
                 <div
-                    class="mybizna-col-md-3 mybizna-col-sm-12 mybizna-col-xs-12"
+                    class="col-md-3 col-sm-12 col-xs-12"
                 >
                     <!-- Start .bank-accounts-section -->
                     <accounts></accounts>
@@ -38,13 +38,13 @@
                 </div>
             </div>
 
-            <div class="mybizna-row">
-                <div class="mybizna-col-sm-6 mybizna-col-xs-12">
+            <div class="row">
+                <div class="col-sm-6 col-xs-12">
                     <!-- Start .invoice-own-section -->
                     <div
-                        class="invoice-own-section mybizna-panel mybizna-panel-default"
+                        class="invoice-own-section panel panel-default"
                     >
-                        <div class="mybizna-panel-heading mybizna-bg-white">
+                        <div class="panel-heading bg-white">
                             <h4>
                                 {{
                                     this.$func.__(
@@ -54,9 +54,9 @@
                                 }}
                             </h4>
                         </div>
-                        <div class="mybizna-panel-body pb-0">
+                        <div class="panel-body pb-0">
                             <ul
-                                class="mybizna-list-unstyled list-table-content"
+                                class="list-unstyled list-table-content"
                                 v-if="Object.values(to_receive).length"
                             >
                                 <li>
@@ -105,12 +105,12 @@
                     </div>
                     <!-- End .invoice-own-section -->
                 </div>
-                <div class="mybizna-col-sm-6 mybizna-col-xs-12">
+                <div class="col-sm-6 col-xs-12">
                     <!-- Start .invoice-own-section -->
                     <div
-                        class="invoice-own-section mybizna-panel mybizna-panel-default"
+                        class="invoice-own-section panel panel-default"
                     >
-                        <div class="mybizna-panel-heading mybizna-bg-white">
+                        <div class="panel-heading bg-white">
                             <h4>
                                 {{
                                     this.$func.__(
@@ -120,9 +120,9 @@
                                 }}
                             </h4>
                         </div>
-                        <div class="mybizna-panel-body pb-0">
+                        <div class="panel-body pb-0">
                             <ul
-                                class="mybizna-list-unstyled list-table-content"
+                                class="list-unstyled list-table-content"
                                 v-if="Object.values(to_pay).length"
                             >
                                 <li>

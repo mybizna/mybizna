@@ -1,16 +1,16 @@
 <template>
-    <div class="mybizna-col-sm-12">
+    <div class="col-sm-12">
         <div class="check-fields">
             <label>{{ this.$func.__('Bank Name', 'erp') }}</label>
-            <input type="text" class="mybizna-form-field" @input="updateCheckData" v-model="check_fields.bank_name"/>
+            <input type="text" class="form-control form-contro-sm form-field" @input="updateCheckData" v-model="check_fields.bank_name"/>
         </div>
         <div class="check-fields">
             <label>{{ this.$func.__('Check Name', 'erp') }}</label>
-            <input type="text" class="mybizna-form-field" @input="updateCheckData" v-model="check_fields.payer_name"/>
+            <input type="text" class="form-control form-contro-sm form-field" @input="updateCheckData" v-model="check_fields.payer_name"/>
         </div>
         <div class="check-fields">
             <label>{{ this.$func.__('Check No', 'erp') }}</label>
-            <input type="text" class="mybizna-form-field" @input="updateCheckData" v-model="check_fields.check_no"/>
+            <input type="text" class="form-control form-contro-sm form-field" @input="updateCheckData" v-model="check_fields.check_no"/>
         </div>
     </div>
 </template>

@@ -1,9 +1,9 @@
 <template>
     <div class="app-customers">
         <div class="people-header">
-sdfsdfds
-            <ErrorAlert :msg="errorMgs" :visible="showModal" :newcomponent="newcomponent" />
-asfasdasd
+
+            <Modal :title="'Title'" :msg="errorMgs" :visible="showModal" :newcomponent="newcomponent" />
+           
             <h2 class="add-new-people">
                 <span>{{ pageTitle }}</span>
                 <a
@@ -47,7 +47,7 @@ asfasdasd
         />
         i
         <list-table
-            tableClass="mybizna-table table-sm people-table table table-striped "
+            tableClass="table table-sm people-table table table-striped "
             action-column="actions"
             :columns="columns"
             :rows="row_data"
@@ -90,7 +90,7 @@ export default {
         PeopleModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
         ImportModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
         ExportModal: window.$func.fetchComponent('partner/widgets/PeopleModal.vue'),
-        ErrorAlert: window.$func.fetchComponent('partner/widgets/ErrorAlert.vue'),
+        Modal: window.$func.fetchComponent('components/modal/Modal.vue'),
     },
 
     data() {

@@ -1,9 +1,9 @@
 <template>
-    <div class="mybizna-container pay-bill-create">
+    <div class="container pay-bill-create">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("New Bill Payment", "erp") }}
                     </h2>
@@ -14,38 +14,38 @@
 
         <form action="" method="post" @submit.prevent="SubmitForPayment">
             <div
-                class="mybizna-panel mybizna-panel-default"
+                class="panel panel-default"
                 style="padding-bottom: 0"
             >
-                <div class="mybizna-panel-body">
+                <div class="panel-body">
                     <show-errors :error_msgs="form_errors"></show-errors>
 
-                    <div class="mybizna-row">
-                        <div class="mybizna-col-sm-4">
-                            <div class="mybizna-form-group">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
                                 <select-people
                                     @input="getDueBills"
                                     v-model="basic_fields.people"
                                 ></select-people>
                             </div>
                         </div>
-                        <div class="mybizna-col-sm-4">
-                            <div class="mybizna-form-group">
+                        <div class="col-sm-4">
+                            <div class="form-group">
                                 <label>{{
                                     this.$func.__("Reference NO", "erp")
                                 }}</label>
                                 <input
                                     type="text"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     v-model="basic_fields.trn_ref"
                                 />
                             </div>
                         </div>
-                        <div class="mybizna-col-sm-4">
-                            <div class="mybizna-form-group">
+                        <div class="col-sm-4">
+                            <div class="form-group">
                                 <label
                                     >{{ this.$func.__("Payment Date", "erp")
-                                    }}<span class="mybizna-required-sign"
+                                    }}<span class="required-sign"
                                         >*</span
                                     ></label
                                 >
@@ -54,7 +54,7 @@
                                 ></datepicker>
                             </div>
                         </div>
-                        <div class="mybizna-col-sm-4 with-multiselect">
+                        <div class="col-sm-4 with-multiselect">
                             <label>{{
                                 this.$func.__("Payment Method", "erp")
                             }}</label>
@@ -63,7 +63,7 @@
                                 :options="pay_methods"
                             ></multi-select>
                         </div>
-                        <div class="mybizna-col-sm-4">
+                        <div class="col-sm-4">
                             <label>{{
                                 this.$func.__("Transaction From", "erp")
                             }}</label>
@@ -72,14 +72,14 @@
                                 :override_accts="accts_by_chart"
                             ></select-accounts>
                         </div>
-                        <div class="mybizna-col-sm-4">
+                        <div class="col-sm-4">
                             <label>{{
                                 this.$func.__("Billing Address", "erp")
                             }}</label>
                             <textarea
                                 v-model.trim="basic_fields.billing_address"
                                 rows="3"
-                                class="mybizna-form-field"
+                                class="form-control form-contro-sm form-field"
                                 :placeholder="this.$func.__('Type here', 'erp')"
                             ></textarea>
                         </div>
@@ -92,10 +92,10 @@
                 </div>
             </div>
 
-            <div class="mybizna-table-responsive">
-                <!-- Start .mybizna-crm-table -->
+            <div class="table-responsive">
+                <!-- Start .crm-table -->
                 <div class="table-container">
-                    <table class="mybizna-table mybizna-form-table">
+                    <table class="table form-table">
                         <thead>
                             <tr class="inline-edit-row">
                                 <th scope="col" class="col--id">
@@ -196,7 +196,7 @@
                                 <td class="text-right"></td>
                             </tr>
                         </tbody>
-                        <tr class="mybizna-form-group inline-edit-row">
+                        <tr class="form-group inline-edit-row">
                             <td colspan="9" style="text-align: left">
                                 <label>{{
                                     this.$func.__("Particulars", "erp")
@@ -205,7 +205,7 @@
                                     v-model="particulars"
                                     rows="4"
                                     maxlength="250"
-                                    class="mybizna-form-field display-flex"
+                                    class="form-control form-contro-sm form-field display-flex"
                                     :placeholder="
                                         this.$func.__(
                                             'Internal Information',

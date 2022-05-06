@@ -1,9 +1,9 @@
 <template>
-    <div class="mybizna-container rec-payment">
+    <div class="container rec-payment">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Payment", "erp") }}
                     </h2>
@@ -14,37 +14,37 @@
 
         <form action="" method="post" @submit.prevent="SubmitForPayment">
             <div
-                class="mybizna-panel mybizna-panel-default"
+                class="panel panel-default"
                 style="padding-bottom: 0"
             >
-                <div class="mybizna-panel-body">
+                <div class="panel-body">
                     <show-errors :error_msgs="form_errors"></show-errors>
 
-                    <form action="" class="mybizna-form" method="post">
-                        <div class="mybizna-row">
-                            <div class="mybizna-col-sm-4">
-                                <div class="mybizna-form-group">
+                    <form action="" class="form" method="post">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
                                     <!-- @input="getDueInvoices"  -->
                                     <select-customers
                                         v-model="basic_fields.customer"
                                     ></select-customers>
                                 </div>
                             </div>
-                            <div class="mybizna-col-sm-4">
-                                <div class="mybizna-form-group">
+                            <div class="col-sm-4">
+                                <div class="form-group">
                                     <label>{{ this.$func.__("Reference", "erp") }}</label>
                                     <input
                                         type="text"
-                                        class="mybizna-form-field"
+                                        class="form-control form-contro-sm form-field"
                                         v-model="basic_fields.trn_ref"
                                     />
                                 </div>
                             </div>
-                            <div class="mybizna-col-sm-4">
-                                <div class="mybizna-form-group">
+                            <div class="col-sm-4">
+                                <div class="form-group">
                                     <label
                                         >{{ this.$func.__("Payment Date", "erp")
-                                        }}<span class="mybizna-required-sign"
+                                        }}<span class="required-sign"
                                             >*</span
                                         ></label
                                     >
@@ -53,10 +53,10 @@
                                     ></datepicker>
                                 </div>
                             </div>
-                            <div class="mybizna-col-sm-4 with-multiselect">
+                            <div class="col-sm-4 with-multiselect">
                                 <label
                                     >{{ this.$func.__("Payment Method", "erp")
-                                    }}<span class="mybizna-required-sign"
+                                    }}<span class="required-sign"
                                         >*</span
                                     ></label
                                 >
@@ -65,10 +65,10 @@
                                     :options="pay_methods"
                                 ></multi-select>
                             </div>
-                            <div class="mybizna-col-sm-4">
+                            <div class="col-sm-4">
                                 <label
                                     >{{ this.$func.__("Deposit to", "erp")
-                                    }}<span class="mybizna-required-sign"
+                                    }}<span class="required-sign"
                                         >*</span
                                     ></label
                                 >
@@ -80,29 +80,29 @@
                             </div>
 
                             <div
-                                class="mybizna-col-sm-4"
+                                class="col-sm-4"
                                 v-if="basic_fields.trn_by.id === '2'"
                             >
-                                <div class="mybizna-form-group">
+                                <div class="form-group">
                                     <label>{{
                                         this.$func.__("Transaction Charge", "erp")
                                     }}</label>
                                     <input
                                         type="text"
-                                        class="mybizna-form-field"
+                                        class="form-control form-contro-sm form-field"
                                         v-model="bank_data.trn_charge"
                                     />
                                 </div>
                             </div>
 
-                            <div class="mybizna-col-sm-4">
+                            <div class="col-sm-4">
                                 <label>{{
                                     this.$func.__("Billing Address", "erp")
                                 }}</label>
                                 <textarea
                                     v-model.trim="basic_fields.billing_address"
                                     rows="4"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     :placeholder="this.$func.__('Type here', 'erp')"
                                 ></textarea>
                             </div>
@@ -116,10 +116,10 @@
                 </div>
             </div>
 
-            <div class="mybizna-table-responsive">
-                <!-- Start .mybizna-crm-table -->
+            <div class="table-responsive">
+                <!-- Start .crm-table -->
                 <div class="table-container">
-                    <table class="mybizna-table mybizna-form-table">
+                    <table class="table form-table">
                         <thead>
                             <tr class="inline-edit-row">
                                 <th scope="col" class="col--id">
@@ -169,7 +169,7 @@
                                         :max="Math.abs(invoice.due)"
                                         v-model="totalAmounts[key]"
                                         @keyup="updateFinalAmount"
-                                        class="mybizna-form-field text-right"
+                                        class="form-control form-contro-sm form-field text-right"
                                     />
                                 </td>
                                 <td
@@ -194,7 +194,7 @@
                                 >
                                     <input
                                         type="text"
-                                        class="mybizna-form-field text-right"
+                                        class="form-control form-contro-sm form-field text-right"
                                         name="finalamount"
                                         :value="moneyFormat(finalTotalAmount)"
                                         readonly
@@ -204,14 +204,14 @@
                                 <td class="text-right"></td>
                             </tr>
                         </tbody>
-                        <tr class="mybizna-form-group inline-edit-row">
+                        <tr class="form-group inline-edit-row">
                             <td colspan="9" style="text-align: left">
                                 <label>{{ this.$func.__("Particulars", "erp") }}</label>
                                 <textarea
                                     v-model="particulars"
                                     rows="4"
                                     maxlength="250"
-                                    class="mybizna-form-field display-flex"
+                                    class="form-control form-contro-sm form-field display-flex"
                                     :placeholder="
                                         this.$func.__('Internal Information', 'erp')
                                     "

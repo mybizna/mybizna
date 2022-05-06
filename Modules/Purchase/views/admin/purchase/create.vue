@@ -1,9 +1,9 @@
 <template>
-    <div class="mybizna-container purchase-create">
+    <div class="container purchase-create">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 v-if="orderToPurchase()">
                         {{ this.$func.__("Convert into Purchase", "erp") }}
                     </h2>
@@ -22,27 +22,27 @@
 
         <form action="" method="post" @submit.prevent="SubmitForApproval">
             <div
-                class="mybizna-panel mybizna-panel-default"
+                class="panel panel-default"
                 style="padding-bottom: 0"
             >
-                <div class="mybizna-panel-body">
+                <div class="panel-body">
                     <show-errors :error_msgs="form_errors"></show-errors>
 
-                    <div class="mybizna-row">
-                        <div class="mybizna-col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-4">
                             <select-vendors
                                 v-model="basic_fields.vendor"
                             ></select-vendors>
                         </div>
-                        <div class="mybizna-col-sm-4">
-                            <div class="mybizna-form-group">
+                        <div class="col-sm-4">
+                            <div class="form-group">
                                 <label
                                     >{{
                                         this.$func.__(
                                             "Transaction Date",
                                             "erp"
                                         )
-                                    }}<span class="mybizna-required-sign"
+                                    }}<span class="required-sign"
                                         >*</span
                                     ></label
                                 >
@@ -51,11 +51,11 @@
                                 ></datepicker>
                             </div>
                         </div>
-                        <div class="mybizna-col-sm-4">
-                            <div class="mybizna-form-group">
+                        <div class="col-sm-4">
+                            <div class="form-group">
                                 <label
                                     >{{ this.$func.__("Due Date", "erp")
-                                    }}<span class="mybizna-required-sign"
+                                    }}<span class="required-sign"
                                         >*</span
                                     ></label
                                 >
@@ -64,7 +64,7 @@
                                 ></datepicker>
                             </div>
                         </div>
-                        <div class="mybizna-col-sm-6">
+                        <div class="col-sm-6">
                             <label>{{
                                 this.$func.__("Reference No", "erp")
                             }}</label>
@@ -72,17 +72,17 @@
                                 type="text"
                                 v-model="basic_fields.ref"
                                 rows="4"
-                                class="mybizna-form-field"
+                                class="form-control form-contro-sm form-field"
                             />
                         </div>
-                        <div class="mybizna-col-sm-6">
+                        <div class="col-sm-6">
                             <label>{{
                                 this.$func.__("Billing Address", "erp")
                             }}</label>
                             <textarea
                                 v-model="basic_fields.billing_address"
                                 rows="4"
-                                class="mybizna-form-field"
+                                class="form-control form-contro-sm form-field"
                                 :placeholder="this.$func.__('Type here', 'erp')"
                             ></textarea>
                         </div>
@@ -90,10 +90,10 @@
                 </div>
             </div>
 
-            <div class="mybizna-table-responsive">
-                <!-- Start .mybizna-form-table -->
+            <div class="table-responsive">
+                <!-- Start .form-table -->
                 <div class="table-container">
-                    <table class="mybizna-table mybizna-form-table">
+                    <table class="table form-table">
                         <thead>
                             <tr class="inline-edit-row">
                                 <td scope="col" class="col--product">
@@ -139,7 +139,7 @@
                                         v-model="line.qty"
                                         @keyup="lineUpdate(index)"
                                         name="qty"
-                                        class="mybizna-form-field"
+                                        class="form-control form-contro-sm form-field"
                                         :required="!!line.product"
                                     />
                                 </td>
@@ -153,7 +153,7 @@
                                         v-model="line.unitPrice"
                                         @keyup="lineUpdate(index)"
                                         step="0.01"
-                                        class="mybizna-form-field text-right"
+                                        class="form-control form-contro-sm form-field text-right"
                                         :required="!!line.product"
                                     />
                                 </td>
@@ -166,7 +166,7 @@
                                         min="0"
                                         step="0.01"
                                         v-model="line.amount"
-                                        class="mybizna-form-field text-right"
+                                        class="form-control form-contro-sm form-field text-right"
                                         readonly
                                     />
                                 </td>
@@ -178,7 +178,7 @@
                                         type="checkbox"
                                         @change="disableLineTax(index)"
                                         v-model="line.applyTax"
-                                        class="mybizna-form-field"
+                                        class="form-control form-contro-sm form-field"
                                     />
                                 </td>
                                 <td
@@ -186,7 +186,7 @@
                                     :data-colname="this.$func.__('Action', 'erp')"
                                 >
                                     <span
-                                        class="mybizna-btn"
+                                        class="btn"
                                         @click="removeRow(index)"
                                         ><i class="flaticon-trash"></i
                                     ></span>
@@ -196,7 +196,7 @@
                                 <td colspan="9" style="text-align: left">
                                     <button
                                         @click.prevent="addLine"
-                                        class="mybizna-btn btn--primary add-line-trigger"
+                                        class="btn btn-primary add-line-trigger"
                                     >
                                         <i class="flaticon-add-plus-button"></i
                                         >{{ this.$func.__("Add Line", "erp") }}
@@ -224,7 +224,7 @@
                                 <td>
                                     <input
                                         type="text"
-                                        class="mybizna-form-field"
+                                        class="form-control form-contro-sm form-field"
                                         :value="moneyFormat(taxTotalAmount)"
                                         readonly
                                     />
@@ -245,14 +245,14 @@
                                     <input
                                         type="text"
                                         v-model="totalAmount"
-                                        class="mybizna-form-field text-right"
+                                        class="form-control form-contro-sm form-field text-right"
                                         readonly
                                     />
                                 </td>
                                 <td></td>
                             </tr>
 
-                            <tr class="mybizna-form-group inline-edit-row">
+                            <tr class="form-group inline-edit-row">
                                 <td colspan="9" style="text-align: left">
                                     <label>{{
                                         this.$func.__("Particulars", "erp")
@@ -261,7 +261,7 @@
                                         v-model="particulars"
                                         rows="4"
                                         maxlength="250"
-                                        class="mybizna-form-field display-flex"
+                                        class="form-control form-contro-sm form-field display-flex"
                                         :placeholder="this.$func.__('Particulars', 'erp')"
                                     ></textarea>
                                 </td>
@@ -344,7 +344,7 @@
                 </div>
             </div>
         </form>
-        <!-- End .mybizna-crm-table -->
+        <!-- End .crm-table -->
     </div>
 </template>
 
@@ -839,7 +839,7 @@ export default {
     width: 200px;
 }
 
-.mybizna-form-table .col--tax input {
+.form-table .col--tax input {
     width: initial;
     padding: 0 !important;
     border-color: rgba(26, 158, 212, 0.45);

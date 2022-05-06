@@ -1,10 +1,10 @@
 <template>
-    <div class="mybizna-container">
+    <div class="container">
 
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">{{ this.$func.__('Sales Transactions', 'erp') }}</h2>
                     <combo-box
                         :options="pages"

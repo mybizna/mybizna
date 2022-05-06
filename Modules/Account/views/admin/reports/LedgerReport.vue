@@ -12,12 +12,12 @@
                 <multi-select v-model="selectedLedger" :options="ledgers" />
             </div>
 
-            <div class="mybizna-date-group">
+            <div class="date-group">
                 <datepicker v-model="start_date"></datepicker>
                 <datepicker v-model="end_date"></datepicker>
 
                 <button
-                    class="mybizna-btn btn--primary add-line-trigger"
+                    class="btn btn-primary add-line-trigger"
                     type="submit"
                 >
                     {{ this.$func.__("Filter", "erp") }}
@@ -25,7 +25,7 @@
 
                 <a
                     href="#"
-                    class="mybizna-btn btn--default print-btn"
+                    class="btn btn-default print-btn"
                     @click.prevent="printPopup"
                 >
                     <i class="flaticon-printer-1"></i>
@@ -62,7 +62,7 @@
         </ul>
 
         <list-table
-            tableClass="mybizna-table table-sm table-striped widefat ledger-table"
+            tableClass="table table-sm table-striped widefat ledger-table"
             :columns="columns"
             :rows="rows"
             :showCb="false"
@@ -268,7 +268,7 @@ export default {
     margin-right: 50px;
 }
 
-.ledger-report .mybizna-btn {
+.ledger-report .btn {
     margin-top: 2px;
 }
 
@@ -317,59 +317,59 @@ export default {
         margin: 0 0 20px 0;
     }
 
-    .ledger-report .mybizna-table.ledger-table th.trn_date,
-    .ledger-report .mybizna-table.ledger-table th.created_at,
-    .ledger-report .mybizna-table.ledger-table .balance {
+    .ledger-report .table.ledger-table th.trn_date,
+    .ledger-report .table.ledger-table th.created_at,
+    .ledger-report .table.ledger-table .balance {
         min-width: 118px;
     }
 
-    .ledger-report .mybizna-table.ledger-table th.trn_no {
+    .ledger-report .table.ledger-table th.trn_no {
         min-width: 95px;
     }
 
-    .ledger-report .mybizna-table.ledger-table td.column.particulars {
+    .ledger-report .table.ledger-table td.column.particulars {
         text-align: left !important;
     }
 
-    .ledger-report .mybizna-table.ledger-table tr th:first-child,
-    .ledger-report .mybizna-table.ledger-table tr td:last-child {
+    .ledger-report .table.ledger-table tr th:first-child,
+    .ledger-report .table.ledger-table tr td:last-child {
         padding-left: 5px;
     }
 
-    .ledger-report .mybizna-table.ledger-table tr th:last-child,
-    .ledger-report .mybizna-table.ledger-table tr td:last-child {
+    .ledger-report .table.ledger-table tr th:last-child,
+    .ledger-report .table.ledger-table tr td:last-child {
         padding-right: 5px;
     }
 
-    .ledger-report .mybizna-table.ledger-table td,
-    .ledger-report .mybizna-table.ledger-table th {
+    .ledger-report .table.ledger-table td,
+    .ledger-report .table.ledger-table th {
         padding: 3px 0;
     }
 
-    .ledger-report .mybizna-table.ledger-table thead tr th {
+    .ledger-report .table.ledger-table thead tr th {
         font-weight: bold;
     }
-    .ledger-report .mybizna-table.ledger-table thead tr th :nth-child(5),
-    .ledger-report .mybizna-table.ledger-table thead tr th :nth-child(6),
-    .ledger-report .mybizna-table.ledger-table thead tr th :nth-child(7) {
+    .ledger-report .table.ledger-table thead tr th :nth-child(5),
+    .ledger-report .table.ledger-table thead tr th :nth-child(6),
+    .ledger-report .table.ledger-table thead tr th :nth-child(7) {
         min-width: 100px;
         text-align: right;
     }
 
-    .ledger-report .mybizna-table.ledger-table tbody tr td:nth-child(5),
-    .ledger-report .mybizna-table.ledger-table tbody tr td:nth-child(6),
-    .ledger-report .mybizna-table.ledger-table tbody tr td:nth-child(7) {
+    .ledger-report .table.ledger-table tbody tr td:nth-child(5),
+    .ledger-report .table.ledger-table tbody tr td:nth-child(6),
+    .ledger-report .table.ledger-table tbody tr td:nth-child(7) {
         min-width: 100px;
         text-align: right !important;
     }
 }
 
-.ledger-report .mybizna-table.ledger-table tbody tr:last-child td:last-child {
+.ledger-report .table.ledger-table tbody tr:last-child td:last-child {
     font-weight: bold;
 }
 
-.ledger-report .mybizna-table.ledger-table tfoot td:nth-child(3),
-.ledger-report .mybizna-table.ledger-table tfoot td:nth-child(4) {
+.ledger-report .table.ledger-table tfoot td:nth-child(3),
+.ledger-report .table.ledger-table tfoot td:nth-child(4) {
     text-align: right !important;
 }
 </style>

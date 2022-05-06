@@ -1,9 +1,9 @@
 <template>
-    <div class="mybizna-stats mybizna-section">
-        <div class="mybizna-panel mybizna-panel-default">
-            <div class="mybizna-panel-body">
-                <div class="mybizna-row">
-                    <div class="mybizna-col-sm-4">
+    <div class="stats section">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
                         <pie-chart v-if="chartPurchase.values.length"
                             id="payment"
                             :title="this.$func.__('Payment', 'erp')"
@@ -11,7 +11,7 @@
                             :colors="chartPurchase.colors"
                             :data="chartPurchase.values" />
                     </div>
-                    <div class="mybizna-col-sm-4">
+                    <div class="col-sm-4">
                         <pie-chart v-if="chartStatus.values.length"
                             id="status"
                             :title="this.$func.__('Status', 'erp')"
@@ -20,10 +20,10 @@
                             :colors="chartStatus.colors"
                             :data="chartStatus.values" />
                     </div>
-                    <div class="mybizna-col-sm-4">
-                        <div class="mybizna-chart-block">
+                    <div class="col-sm-4">
+                        <div class="chart-block">
                             <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
-                            <div class="mybizna-total"><h2>{{ formatAmount(chartPurchase.outstanding) }}</h2></div>
+                            <div class="total"><h2>{{ formatAmount(chartPurchase.outstanding) }}</h2></div>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="mybizna-form-group invoice-customers with-multiselect">
+    <div class="form-group invoice-customers with-multiselect">
         <people-modal
             title="Add new vendor"
             type="vendor"
@@ -7,7 +7,7 @@
         ></people-modal>
         <label
             >{{ this.$func.__("Vendor", "erp")
-            }}<span class="mybizna-required-sign">*</span></label
+            }}<span class="required-sign">*</span></label
         >
         <multi-select v-model="selected" :options="options" />
 

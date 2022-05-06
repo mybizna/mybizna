@@ -1,12 +1,12 @@
 <template>
-    <div class="mybizna-container chart-accounts">
+    <div class="container chart-accounts">
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col-6">
+            <div class="row between-xs">
+                <div class="col-6">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Chart of Accounts", "erp") }}
                         <router-link
-                            class="mybizna-btn btn--primary"
+                            class="btn btn-primary"
                             :to="{ name: 'AddChartAccounts' }"
                             id="erp-add-chart-of-account"
                         >
@@ -14,11 +14,11 @@
                         </router-link>
                     </h2>
                 </div>
-                <div class="mybizna-col-6">
+                <div class="col-6">
                     <h4>{{ this.$func.__("Search Ledger", "erp") }}</h4>
                     <input
                         type="text"
-                        class="mybizna-form-field"
+                        class="form-control form-contro-sm form-field"
                         v-model="search"
                     />
                 </div>
@@ -27,7 +27,7 @@
 
         <ul v-if="search">
             <list-table
-                ="mybizna-table table-sm table-striped widefat table2 chart-list"
+                ="table table-sm table-striped widefat table2 chart-list"
                 action-column="actions"
                 :columns="columns"
                 :actions="actions"
@@ -88,7 +88,7 @@
                 </div>
 
                 <list-table
-                    tableClass="mybizna-table table-sm table-striped widefat table2 chart-list"
+                    tableClass="table table-sm table-striped widefat table2 chart-list"
                     action-column="actions"
                     :columns="columns"
                     :actions="actions"

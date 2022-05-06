@@ -1,8 +1,8 @@
 <template>
     <div class="app-customers">
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Record Sales Tax Payment", "erp") }}
                     </h2>
@@ -10,21 +10,21 @@
             </div>
         </div>
 
-        <div class="mybizna-panel mybizna-panel-default pb-0">
-            <div class="mybizna-panel-body">
+        <div class="panel panel-default pb-0">
+            <div class="panel-body">
                 <form
                     action="#"
-                    class="mybizna-form"
+                    class="form"
                     method="post"
                     @submit.prevent="submitForTaxPay"
                 >
                     <show-errors :error_msgs="form_errors" />
 
-                    <div class="mybizna-row mybizna-gutter-20">
-                        <div class="mybizna-col-sm-4 with-multiselect">
+                    <div class="row gutter-20">
+                        <div class="col-sm-4 with-multiselect">
                             <label
                                 >{{ this.$func.__("Payment Method", "erp")
-                                }}<span class="mybizna-required-sign">
+                                }}<span class="required-sign">
                                     *</span
                                 ></label
                             >
@@ -33,7 +33,7 @@
                                 :options="pay_methods"
                             ></multi-select>
                         </div>
-                        <div class="mybizna-col-sm-4 mb-20">
+                        <div class="col-sm-4 mb-20">
                             <label>
                                 <span v-if="'debit' == voucher_type.id">{{
                                     this.$func.__("Payment From", "erp")
@@ -41,7 +41,7 @@
                                 <span v-else>{{
                                     this.$func.__("Deposit To", "erp")
                                 }}</span>
-                                <span class="mybizna-required-sign">*</span>
+                                <span class="required-sign">*</span>
                             </label>
 
                             <select-accounts
@@ -49,22 +49,22 @@
                                 :override_accts="accts_by_chart"
                             ></select-accounts>
                         </div>
-                        <div class="mybizna-col-sm-4 mybizna-col-xs-12">
-                            <div class="mybizna-form-group">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group">
                                 <label
                                     >{{ this.$func.__("Payment Date", "erp")
-                                    }}<span class="mybizna-required-sign">
+                                    }}<span class="required-sign">
                                         *</span
                                     ></label
                                 >
-                                <div class="mybizna-has-datepicker pay-tax-date">
+                                <div class="has-datepicker pay-tax-date">
                                     <datepicker v-model="trn_date"></datepicker>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mybizna-col-sm-4 mybizna-col-xs-12">
-                            <div class="mybizna-form-group with-multiselect">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group with-multiselect">
                                 <label>{{ this.$func.__("Payment To", "erp") }}</label>
                                 <multi-select
                                     v-model="agency"
@@ -72,15 +72,15 @@
                                 />
                             </div>
                         </div>
-                        <div class="mybizna-col-sm-4 mybizna-col-xs-12">
-                            <div class="mybizna-form-group">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group">
                                 <label>{{ this.$func.__("Tax Amount", "erp") }}</label>
                                 <input
                                     type="number"
                                     min="0"
                                     step="0.01"
                                     v-model="tax_amount"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     :placeholder="this.$func.__('Enter Tax Amount', 'erp')"
                                 />
 
@@ -92,8 +92,8 @@
                                 >
                             </div>
                         </div>
-                        <div class="mybizna-col-sm-4 mybizna-col-xs-12">
-                            <div class="mybizna-form-group with-multiselect">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="form-group with-multiselect">
                                 <label>{{ this.$func.__("Voucher Type", "erp") }}</label>
                                 <multi-select
                                     v-model="voucher_type"
@@ -105,18 +105,18 @@
                             </div>
                         </div>
 
-                        <div class="mybizna-col-xs-12">
+                        <div class="col-xs-12">
                             <label>{{ this.$func.__("Particulars", "erp") }}</label>
                             <textarea
                                 rows="3"
                                 v-model="particulars"
                                 maxlength="250"
-                                class="mybizna-form-field"
+                                class="form-control form-contro-sm form-field"
                                 :placeholder="this.$func.__('Enter Particulars', 'erp')"
                             ></textarea>
                         </div>
-                        <div class="mybizna-col-xs-12">
-                            <div class="mybizna-form-group text-right mt-10 mb-0">
+                        <div class="col-xs-12">
+                            <div class="form-group text-right mt-10 mb-0">
                                 <submit-button
                                     :text="this.$func.__('Save', 'erp')"
                                     :working="isWorking"
@@ -350,7 +350,7 @@ export default {
 </script>
 
 <style>
-.pay-tax-date .mybizna-has-dropdown {
+.pay-tax-date .has-dropdown {
     width: 100%;
 }
 

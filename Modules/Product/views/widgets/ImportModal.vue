@@ -1,14 +1,14 @@
 <template>
-    <div id="mybizna-product-import-modal">
-        <div class="mybizna-container">
+    <div id="product-import-modal">
+        <div class="container">
             <div
-                id="mybizna-import-customer-modal"
-                class="mybizna-modal has-form mybizna-modal-open"
+                id="import-customer-modal"
+                class="modal has-form modal-open"
                 role="dialog"
             >
-                <div class="mybizna-modal-dialog">
-                    <div class="mybizna-modal-content">
-                        <div class="mybizna-modal-header">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
                             <h3>{{ this.$func.__("Import Products", "erp") }}</h3>
 
                             <span class="modal-close">
@@ -28,7 +28,7 @@
                             @submit.prevent="importCsv"
                         >
                             <div
-                                class="mybizna-modal-body"
+                                class="modal-body"
                                 id="erp-import-modal-body"
                             >
                                 <div
@@ -107,7 +107,7 @@
                                                     v-if="sampleUrl"
                                                 >
                                                     <button
-                                                        class="mybizna-btn btn--primary"
+                                                        class="btn btn-primary"
                                                         id="erp-employee-sample-csv"
                                                         @click.prevent="
                                                             downloadSample
@@ -318,18 +318,18 @@
                                 </table>
                             </div>
 
-                            <div class="mybizna-modal-footer pt-0">
+                            <div class="modal-footer pt-0">
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
                                     <button
-                                        class="mybizna-btn btn--default modal-close"
+                                        class="btn btn-default modal-close"
                                         @click="$parent.$emit('close')"
                                         type="reset"
                                     >
                                         {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
-                                        class="mybizna-btn btn--primary"
+                                        class="btn btn-primary"
                                         type="submit"
                                     >
                                         {{ this.$func.__("Import", "erp") }}

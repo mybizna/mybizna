@@ -1,8 +1,8 @@
 <template>
-    <div class="mybizna-container">
+    <div class="container">
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">
                         {{
                             editMode
@@ -23,7 +23,7 @@
             <div class="form-row">
                 <label for=""
                     >{{ this.$func.__("Select chart of accounts", "erp") }}
-                    <span class="mybizna-required-sign">*</span></label
+                    <span class="required-sign">*</span></label
                 >
                 <treeselect
                     v-model="ledgFields.chart_id"
@@ -58,12 +58,12 @@
             <div class="form-row">
                 <label for=""
                     >{{ this.$func.__("Account Name", "erp") }}
-                    <span class="mybizna-required-sign">*</span></label
+                    <span class="required-sign">*</span></label
                 >
 
                 <input
                     type="text"
-                    class="mybizna-form-field"
+                    class="form-control form-contro-sm form-field"
                     v-model="ledgFields.name"
                     required
                 />
@@ -76,12 +76,12 @@
 
                 <input
                     type="number"
-                    class="mybizna-form-field"
+                    class="form-control form-contro-sm form-field"
                     v-model="ledgFields.code"
                 />
             </div>
 
-            <button class="mybizna-btn btn--primary" type="submit">
+            <button class="btn btn-primary" type="submit">
                 {{
                     editMode
                         ? this.$func.__("Update", "erp")

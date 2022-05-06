@@ -1,39 +1,39 @@
 <template>
-    <div id="mybizna-tax-rate-modal" class="mybizna-modal has-form mybizna-modal-open" role="dialog">
-        <div class="mybizna-modal-dialog">
-            <div class="mybizna-modal-content">
+    <div id="tax-rate-modal" class="modal has-form modal-open" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <!-- modal body title -->
-                <div class="mybizna-modal-header">
+                <div class="modal-header">
                     <h3>{{ this.$func.__('Add New Line', 'erp') }}</h3>
                     <span class="modal-close" @click.prevent="closeModal"><i class="flaticon-close"></i></span>
                 </div>
 
-                <div class="mybizna-invoice-table">
-                    <div class="mybizna-panel-body">
-                        <div class="mybizna-row">
-                            <div class="mybizna-col-sm-3 mybizna-col-xs-12">
+                <div class="invoice-table">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 col-xs-12">
                                 <label>{{ this.$func.__('Component', 'erp') }}</label>
-                                <input type="text" class="mybizna-form-field" v-model="component_name" />
+                                <input type="text" class="form-control form-contro-sm form-field" v-model="component_name" />
                             </div>
-                            <div class="mybizna-col-sm-3 mybizna-col-xs-12 with-multiselect">
+                            <div class="col-sm-3 col-xs-12 with-multiselect">
                                 <label>{{ this.$func.__('Agency', 'erp') }}</label>
                                 <multi-select
                                     v-model="agency"
                                     :options="agencies"/>
                             </div>
-                            <div class="mybizna-col-sm-3 mybizna-col-xs-12 with-multiselect">
+                            <div class="col-sm-3 col-xs-12 with-multiselect">
                                 <label>{{ this.$func.__('Tax Category', 'erp') }}</label>
                                     <multi-select
                                     v-model="category"
                                     :options="categories" />
                             </div>
-                            <div class="mybizna-col-sm-3 mybizna-col-xs-12">
+                            <div class="col-sm-3 col-xs-12">
                                 <label>{{ this.$func.__('Tax Rate', 'erp') }}</label>
-                                <input type="text" class="mybizna-form-field" v-model="tax_rate"/>
+                                <input type="text" class="form-control form-contro-sm form-field" v-model="tax_rate"/>
                             </div>
 
-                            <div class="mybizna-col-sm-12">
-                                <div class="mybizna-form-group text-right mt-10 mb-0">
+                            <div class="col-sm-12">
+                                <div class="form-group text-right mt-10 mb-0">
                                     <submit-button :text="this.$func.__( 'Save', 'erp' )" @click.native.prevent="addTaxRate"></submit-button>
                                 </div>
                             </div>
@@ -120,24 +120,24 @@ export default {
 </script>
 
 <style>
-    .mybizna-modal-dialog {
+    .modal-dialog {
         max-width: 900px !important;
         margin: 50px auto;
     }
 
-    .mybizna-modal .mybizna-modal-content  {
+    .modal .modal-content  {
        min-height: 50vh !important;
     }
 
-    .mybizna-modal-header {
+    .modal-header {
         padding: 30px 0 20px 40px !important;
     }
 
-    .mybizna-row {
+    .row {
        padding: 10px 40px !important;
    }
 
-   .mybizna-modal span.modal-close {
+   .modal span.modal-close {
        line-height: 3 !important;
    }
 </style>

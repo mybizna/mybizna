@@ -4,7 +4,7 @@
             <span>{{ this.$func.__("Sales Tax Report (Agency Based)", "erp") }}</span>
 
             <router-link
-                class="mybizna-btn btn--primary"
+                class="btn btn-primary"
                 :to="{ name: 'SalesTaxReportOverview' }"
             >
                 {{ this.$func.__("Back", "erp") }}
@@ -12,7 +12,7 @@
         </h2>
 
         <form @submit.prevent="getReport" class="query-options no-print">
-            <div class="mybizna-date-group">
+            <div class="date-group">
                 <div class="with-multiselect">
                     <multi-select
                         v-model="selectedAgency"
@@ -26,7 +26,7 @@
                 <datepicker v-model="endDate" />
 
                 <button
-                    class="mybizna-btn btn--primary add-line-trigger"
+                    class="btn btn-primary add-line-trigger"
                     type="submit"
                 >
                     {{ this.$func.__("Filter", "erp") }}
@@ -35,7 +35,7 @@
 
             <a
                 href="#"
-                class="mybizna-btn btn--default print-btn"
+                class="btn btn-default print-btn"
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i>
@@ -66,7 +66,7 @@
         </ul>
 
         <list-table
-            tableClass="mybizna-table table-sm table-striped widefat sales-tax-table"
+            tableClass="table table-sm table-striped widefat sales-tax-table"
             :columns="columns"
             :rows="rows"
             :showCb="false"

@@ -1,12 +1,12 @@
 <template>
-    <div class="mybizna-modal-dialog expense-single">
-        <div class="mybizna-modal-content">
-            <div class="mybizna-modal-header">
+    <div class="modal-dialog expense-single">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h2>{{ this.$func.__("Check", "erp") }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
-                        class="mybizna-btn btn--default print-btn"
+                        class="btn btn-default print-btn"
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
@@ -15,7 +15,7 @@
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
                     <dropdown>
                         <template slot="button">
-                            <a href="#" class="mybizna-btn btn--default">
+                            <a href="#" class="btn btn-default">
                                 <i class="flaticon-settings-work-tool"></i>
                                 &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
@@ -42,8 +42,8 @@
                 :type="type"
             />
 
-            <div class="mybizna-modal-body">
-                <div class="mybizna-invoice-panel">
+            <div class="modal-body">
+                <div class="invoice-panel">
                     <div class="invoice-header" v-if="null != company">
                         <div class="invoice-logo">
                             <img
@@ -67,8 +67,8 @@
 
                     <div class="invoice-body">
                         <h4>{{ this.$func.__("Check", "erp") }}</h4>
-                        <div class="mybizna-row" v-if="null != expense_data">
-                            <div class="mybizna-col-sm-6">
+                        <div class="row" v-if="null != expense_data">
+                            <div class="col-sm-6">
                                 <div class="persons-info">
                                     <strong>{{
                                         expense_data.people_name
@@ -77,7 +77,7 @@
                                     {{ expense_data.address }}
                                 </div>
                             </div>
-                            <div class="mybizna-col-sm-6">
+                            <div class="col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
                                         <th>{{ this.$func.__("Check No", "erp") }}</th>
@@ -107,11 +107,11 @@
                     </div>
 
                     <div
-                        class="mybizna-invoice-table"
+                        class="invoice-table"
                         v-if="null != expense_data"
                     >
                         <table
-                            class="mybizna-table mybizna-form-table invoice-table"
+                            class="table form-table invoice-table"
                         >
                             <thead>
                                 <tr class="inline-edit-row">
@@ -279,14 +279,14 @@ export default {
     max-width: 960px;
     margin: 0 auto;
 }
-.expense-single .mybizna-modal-footer {
+.expense-single .modal-footer {
     border-top: 1px solid #e2e2e2;
 }
-.expense-single .mybizna-modal-header {
+.expense-single .modal-header {
     border-bottom: 1px solid #e2e2e2;
 }
-.expense-single .mybizna-form-field,
-input:not(.mybizna-btn) {
+.expense-single .form-field,
+input:not(.btn) {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }

@@ -1,12 +1,12 @@
 <template>
-    <div class="mybizna-modal-dialog sales-single">
-        <div class="mybizna-modal-content">
-            <div class="mybizna-modal-header">
+    <div class="modal-dialog sales-single">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h2 v-if="null != type">{{ trnType(type) }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
-                        class="mybizna-btn btn--default print-btn"
+                        class="btn btn-default print-btn"
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
@@ -16,7 +16,7 @@
 
                     <dropdown v-if="acct_var.pdf_plugin_active">
                         <template slot="button">
-                            <a href="#" class="mybizna-btn btn--default">
+                            <a href="#" class="btn btn-default">
                                 <i class="flaticon-settings-work-tool"></i>
                                 &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
@@ -42,7 +42,7 @@
                     <template v-if="invoice">
                         <a
                             href="#"
-                            class="mybizna-btn btn--default print-btn"
+                            class="btn btn-default print-btn"
                             v-clipboard="copyLink"
                             @success="handleSuccess"
                             @error="handleError"
@@ -227,28 +227,28 @@ export default {
 </script>
 
 <style>
-.mybizna-email-multiselect .multiselect__content-wrapper {
+.email-multiselect .multiselect__content-wrapper {
     display: none !important;
     height: 0 !important;
     visibility: hidden;
 }
-.mybizna-email-multiselect .multiselect__tags {
+.email-multiselect .multiselect__tags {
     font-size: 12px;
     padding-left: 15px;
     border-radius: 3px;
 }
-.mybizna-email-multiselect .multiselect__tags input {
+.email-multiselect .multiselect__tags input {
     max-height: 30px;
     font-size: 12px;
 }
 
-.mybizna-email-multiselect .multiselect__tag-icon {
+.email-multiselect .multiselect__tag-icon {
     line-height: 18px;
 }
-.mybizna-email-multiselect .multiselect input.multiselect__input {
+.email-multiselect .multiselect input.multiselect__input {
     display: none;
 }
-.mybizna-email-multiselect
+.email-multiselect
     .multiselect
     .multiselect--active
     input.multiselect__input {
@@ -260,14 +260,14 @@ export default {
     max-width: 960px;
     margin: 0 auto;
 }
-.sales-single .mybizna-modal-footer {
+.sales-single .modal-footer {
     border-top: 1px solid #e2e2e2;
 }
-.sales-single .mybizna-modal-header {
+.sales-single .modal-header {
     border-bottom: 1px solid #e2e2e2;
 }
-.sales-single .mybizna-form-field,
-.sales-single input:not(.mybizna-btn) {
+.sales-single .form-field,
+.sales-single input:not(.btn) {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }

@@ -5,11 +5,11 @@
         </h2>
 
         <form @submit.prevent="fetchItems" class="query-options no-print">
-            <div class="mybizna-date-group">
+            <div class="date-group">
                 <datepicker v-model="start_date"></datepicker>
                 <datepicker v-model="end_date"></datepicker>
                 <button
-                    class="mybizna-btn btn--primary add-line-trigger"
+                    class="btn btn-primary add-line-trigger"
                     type="submit"
                 >
                     {{ this.$func.__("Filter", "erp") }}
@@ -18,7 +18,7 @@
 
             <a
                 href="#"
-                class="mybizna-btn btn--default print-btn"
+                class="btn btn-default print-btn"
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i>
@@ -39,7 +39,7 @@
         </p>
 
         <list-table
-            tableClass="mybizna-table table-sm table-striped widefat income-statement income-balance-report"
+            tableClass="table table-sm table-striped widefat income-statement income-balance-report"
             :columns="columns1"
             :rows="rows1"
             :showItemNumbers="false"
@@ -57,7 +57,7 @@
         </list-table>
 
         <list-table
-            tableClass="mybizna-table table-sm table-striped widefat income-statement income-balance-report"
+            tableClass="table table-sm table-striped widefat income-statement income-balance-report"
             :columns="columns2"
             :rows="rows2"
             :showItemNumbers="false"
@@ -75,10 +75,10 @@
         </list-table>
 
         <table
-            class="mybizna-table table-striped widefat income-statement-balance income-balance-report"
+            class="table table-striped widefat income-statement-balance income-balance-report"
         >
             <template v-if="profit >= 0">
-                <tbody class="mybizna-col-sm-12">
+                <tbody class="col-sm-12">
                     <tr>
                         <td>
                             <strong>{{
@@ -91,7 +91,7 @@
                 </tbody>
             </template>
             <template v-else>
-                <tbody class="mybizna-col-sm-12">
+                <tbody class="col-sm-12">
                     <tr>
                         <td>
                             <strong>{{ this.$func.__("Loss", "erp") }}</strong>
@@ -289,21 +289,21 @@ export default {
 .no-print * {
     display: none !important;
 }
-.mybizna-table.income-balance-report td,
-.mybizna-table.income-balance-report th {
+.table.income-balance-report td,
+.table.income-balance-report th {
     padding: 3px 20px;
 }
-.mybizna-table.income-balance-report thead tr th {
+.table.income-balance-report thead tr th {
     font-weight: bold;
 }
-.mybizna-table.income-balance-report thead tr th:not(:first-child) {
+.table.income-balance-report thead tr th:not(:first-child) {
     text-align: right;
 }
 
-.mybizna-table.income-balance-report tbody tr td:not(:first-child) {
+.table.income-balance-report tbody tr td:not(:first-child) {
     text-align: right !important;
 }
-.mybizna-table.income-balance-report tfoot td:not(:first-child) {
+.table.income-balance-report tfoot td:not(:first-child) {
     text-align: right !important;
 }
 </style>

@@ -1,18 +1,18 @@
 <template>
     <div
-        class="mybizna-modal mybizna-modal-open mybizna-invoice-modal mybizna-custom-scroll"
+        class="modal modal-open invoice-modal custom-scroll"
         role="dialog"
     >
         <div
-            class="mybizna-modal-dialog"
+            class="modal-dialog"
             v-click-outside="outside"
             @click="inside"
         >
-            <div class="mybizna-modal-content">
-                <div class="mybizna-modal-header">
+            <div class="modal-content">
+                <div class="modal-header">
                     <h4>{{ `${catData.title} this.$func.__('Category', 'erp')` }}</h4>
                 </div>
-                <div class="mybizna-modal-body">
+                <div class="modal-body">
                     <form
                         action=""
                         class="ledger-cat-form"
@@ -45,16 +45,16 @@
                             <input type="text" v-model="category" required />
                         </div>
 
-                        <div class="mybizna-modal-footer pt-0">
+                        <div class="modal-footer pt-0">
                             <div class="buttons-wrapper text-right">
                                 <button
-                                    class="mybizna-btn btn--default modal-close"
+                                    class="btn btn-default modal-close"
                                     @click.prevent="outside"
                                 >
                                     {{ this.$func.__("Cancel", "erp") }}
                                 </button>
                                 <button
-                                    class="mybizna-btn btn--primary"
+                                    class="btn btn-rimary"
                                     type="submit"
                                 >
                                     <template v-if="catData.node">

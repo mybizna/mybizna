@@ -13,7 +13,7 @@
                 v-model="line.qty"
                 @keyup="respondAtChange"
                 name="qty"
-                class="mybizna-form-field"
+                class="form-control form-contro-sm form-field"
                 :required="line.selectedProduct ? true : false"
             />
         </td>
@@ -24,7 +24,7 @@
                 step="0.01"
                 v-model="line.unitPrice"
                 @keyup="respondAtChange"
-                class="mybizna-form-field"
+                class="form-control form-contro-sm form-field"
                 :required="line.selectedProduct ? true : false"
             />
         </td>
@@ -34,7 +34,7 @@
                 min="0"
                 step="0.01"
                 v-model="line.amount"
-                class="mybizna-form-field"
+                class="form-control form-contro-sm form-field"
                 readonly
             />
         </td>
@@ -43,7 +43,7 @@
                 type="checkbox"
                 v-model="line.applyTax"
                 @change="respondAtChange"
-                class="mybizna-form-field"
+                class="form-control form-contro-sm form-field"
             />
 
             <template v-if="'1' == debugMode">
@@ -52,7 +52,7 @@
             </template>
         </td>
         <td class="col--actions delete-row" :data-colname="this.$func.__('Action', 'erp')">
-            <span class="mybizna-btn" @click="removeRow"
+            <span class="btn" @click="removeRow"
                 ><i class="flaticon-trash"></i
             ></span>
         </td>
@@ -263,7 +263,7 @@ export default {
 </script>
 
 <style>
-.mybizna-form-table .col--tax input {
+.form-table .col--tax input {
     width: initial;
     padding: 0 !important;
     border-color: rgba(26, 158, 212, 0.45);

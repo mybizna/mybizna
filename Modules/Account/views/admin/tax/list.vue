@@ -1,13 +1,13 @@
 <template>
     <div class="app-customers">
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Tax Payments", "erp") }}
                     </h2>
                     <a
-                        class="mybizna-btn btn--primary"
+                        class="btn btn-primary"
                         @click.prevent="addTaxPayment"
                     >
                         <span>{{ this.$func.__("New Tax Payment", "erp") }}</span>
@@ -18,7 +18,7 @@
 
         <div class="table-container">
             <list-table
-                tableClass="wp-ListTable table-sm widefat fixed tax-records-list mybizna-table table-striped"
+                tableClass="wp-ListTable table-sm widefat fixed tax-records-list table table-striped"
                 action-column="actions"
                 :columns="columns"
                 :rows="row_data"

@@ -8,7 +8,7 @@
                         <form id="erp-acct-product-category">
                             <div
                                 :class="[
-                                    'form-field term-name-wrap',
+                                    'form-control form-contro-sm form-field term-name-wrap',
                                     { 'form-invalid': error },
                                 ]"
                             >
@@ -17,11 +17,11 @@
                                 }}</label>
                                 <input
                                     type="text"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     v-model="categoryName"
                                 />
                             </div>
-                            <div class="form-field">
+                            <div class="form-control form-contro-sm form-field">
                                 <label>{{
                                     this.$func.__("Parent Category", "erp")
                                 }}</label>
@@ -38,7 +38,7 @@
                                 <input
                                     type="submit"
                                     :value="this.$func.__('Save', 'erp')"
-                                    class="mybizna-btn btn--primary text-left"
+                                    class="btn btn-primary text-left"
                                     @click.prevent="createCategory"
                                 />
                             </div>
@@ -49,7 +49,7 @@
             <div id="col-right" style="margin-top: 12px">
                 <div class="col-wrap">
                     <list-table
-                        class="mybizna-table table-striped widefat table2 category-list"
+                        class="table table-striped widefat table2 category-list"
                         action-column="actions"
                         :columns="columns"
                         :rows="categories"
@@ -67,7 +67,7 @@
                         >
                             <input
                                 type="text"
-                                class="mybizna-form-field"
+                                class="form-control form-contro-sm form-field"
                                 :value="data.row.name"
                                 :id="'cat-' + data.row.id"
                             />
@@ -80,13 +80,13 @@
                                 style="margin-top: 10px"
                             >
                                 <button
-                                    class="mybizna-btn btn--primary"
+                                    class="btn btn-primary"
                                     @click="updateCategory(data.row)"
                                 >
                                     {{ this.$func.__("Update", "erp") }}
                                 </button>
                                 <button
-                                    class="mybizna-btn btn--default"
+                                    class="btn btn-default"
                                     @click.prevent="data.row.isEdit = false"
                                 >
                                     {{ this.$func.__("Cancel", "erp") }}
@@ -306,7 +306,7 @@ export default {
     }
 }
 
-.categories .category-list .buttons-wrapper .mybizna-btn {
+.categories .category-list .buttons-wrapper .btn {
     margin-left: 0 !important;
 }
 

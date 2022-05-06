@@ -1,6 +1,6 @@
 <template>
-    <div class="mybizna-transactions-section mybizna-section">
-        <!-- Start .mybizna-crm-table -->
+    <div class="transactions-section section">
+        <!-- Start .crm-table -->
         <div class="table-container">
             <div class="bulk-action">
                 <a href="#"
@@ -13,7 +13,7 @@
 
             <list-table
                 :loading="listLoading"
-                tableClass="mybizna-table table-sm table-striped widefat table2 transactions-table"
+                tableClass="table table-sm table-striped widefat table2 transactions-table"
                 action-column="actions"
                 :columns="columns"
                 :rows="rows"

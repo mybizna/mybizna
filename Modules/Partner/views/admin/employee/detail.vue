@@ -1,17 +1,17 @@
 <template>
-    <div class="mybizna-container">
+    <div class="container">
         <!-- Start .header-section -->
         <!-- <UserBasicInfo :userData="resData"></UserBasicInfo> -->
-        <div class="mybizna-panel mybizna-panel-default mt-20">
-            <div class="mybizna-panel-body mybizna-customer-panel">
+        <div class="panel panel-default mt-20">
+            <div class="panel-body customer-panel">
                 <!-- <people-modal  :people="userData" :title="title" v-if="showModal"></people-modal> -->
                 <!-- edit customers info trigger -->
-                <!-- <span class="edit-badge" data-toggle="mybizna-modal" data-target="mybizna-edit-customer-modal">
+                <!-- <span class="edit-badge" data-toggle="modal" data-target="edit-customer-modal">
                 <i class="flaticon-edit" @click="showModal = true"></i>
             </span> -->
-                <div class="mybizna-row">
+                <div class="row">
                     <div
-                        class="mybizna-col-lg-3 mybizna-col-md-4 mybizna-col-sm-4 mybizna-col-xs-12"
+                        class="col-lg-3 col-md-4 col-sm-4 col-xs-12"
                     >
                         <div class="customer-identity">
                             <img
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div
-                        class="mybizna-col-lg-9 mybizna-col-md-8 mybizna-col-sm-8 mybizna-col-xs-12"
+                        class="col-lg-9 col-md-8 col-sm-8 col-xs-12"
                     >
                         <ul class="customer-meta">
                             <li>
@@ -81,11 +81,11 @@
             </div>
         </div>
         <!-- End .header-section -->
-        <div class="mybizna-stats mybizna-section">
-            <div class="mybizna-panel mybizna-panel-default">
-                <div class="mybizna-panel-body">
-                    <div class="mybizna-row">
-                        <div class="mybizna-col-sm-4">
+        <div class="stats section">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-4">
                             <pie-chart
                                 v-if="paymentData.length"
                                 id="payment"
@@ -95,7 +95,7 @@
                                 :data="paymentData"
                             />
                         </div>
-                        <div class="mybizna-col-sm-4">
+                        <div class="col-sm-4">
                             <pie-chart
                                 v-if="statusData.length"
                                 id="status"
@@ -105,12 +105,12 @@
                                 :data="statusData"
                             />
                         </div>
-                        <div class="mybizna-col-sm-4">
-                            <div class="mybizna-chart-block">
+                        <div class="col-sm-4">
+                            <div class="chart-block">
                                 <h3>
                                     {{ this.$func.__("Outstanding", "erp") }}
                                 </h3>
-                                <div class="mybizna-total">
+                                <div class="total">
                                     <h2>{{ moneyFormat(outstanding) }}</h2>
                                 </div>
                             </div>

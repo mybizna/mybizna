@@ -1,9 +1,9 @@
 <template>
-    <div class="mybizna-container accordion-container">
+    <div class="container accordion-container">
         <!-- Start .header-section -->
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Opening Balances", "erp") }}
                     </h2>
@@ -15,18 +15,18 @@
         <show-errors :error_msgs="form_errors"></show-errors>
 
         <form action="" method="post" @submit.prevent="submitOBForm">
-            <div class="mybizna-row">
+            <div class="row">
                 <div
-                    class="mybizna-col-sm-6 with-multiselect opening-fyear-select"
+                    class="col-sm-6 with-multiselect opening-fyear-select"
                 >
                     <label>{{ this.$func.__("Financial Year", "erp") }}</label>
                     <multi-select v-model="fin_year" :options="years" />
                 </div>
 
-                <div class="mybizna-col-sm-6">
+                <div class="col-sm-6">
                     <a
                         href="#"
-                        class="mybizna-col-sm-4 mybizna-btn btn--default print-btn"
+                        class="col-sm-4 btn btn-default print-btn"
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="mybizna-row">
+            <div class="row">
                 <ul class="report-header" v-if="null !== fin_year">
                     <li>
                         <strong
@@ -60,7 +60,7 @@
                      :class="open5?'active':'before-border'">
                     <span class="wp-erp-ob-title">{{ this.$func.__('Accounts Receivable', 'erp') }}</span>
                 </div>
-                <table class="mybizna-table mybizna-form-table erp-accordion-expand-body" v-show="open5">
+                <table class="table form-table erp-accordion-expand-body" v-show="open5">
                     <thead>
                     <tr>
                         <th>{{ this.$func.__('People', 'erp') }}</th>
@@ -73,10 +73,10 @@
                     </thead>
                     <tbody>
                     <tr :key="idx" v-for="(acct,idx) in acct_rec">
-                        <td><div class="mybizna-form-group ob-people with-multiselect">
+                        <td><div class="form-group ob-people with-multiselect">
                             <multi-select v-model="acct.people" :options="options" /></div></td>
-                        <td><input type="number" step="0.01"  class="mybizna-form-field" @keyup="calculateAmount" v-model="acct.debit"></td>
-                        <td><input type="number" step="0.01"  class="mybizna-form-field" @keyup="calculateAmount" disabled v-model="acct.credit"></td>
+                        <td><input type="number" step="0.01"  class="form-control form-contro-sm form-field" @keyup="calculateAmount" v-model="acct.debit"></td>
+                        <td><input type="number" step="0.01"  class="form-control form-contro-sm form-field" @keyup="calculateAmount" disabled v-model="acct.credit"></td>
                         <td class="delete-row" data-colname="Remove">
                             <a @click.prevent="removeAcctRecRow(idx)" href="#"><i class="flaticon-trash"></i></a>
                         </td>
@@ -86,7 +86,7 @@
                             {{ this.$func.__( 'No People Found!', 'erp' ) }}
                         </td>
                         <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="acct_rec.push({})" class="mybizna-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
+                            <button @click.prevent="acct_rec.push({})" class="btn btn-rimary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
                         </td>
                     </tr>
                     </tbody>
@@ -100,7 +100,7 @@
                      :class="open6?'active':'before-border'">
                     <span class="wp-erp-ob-title">{{ this.$func.__('Accounts Payable', 'erp') }}</span>
                 </div>
-                <table class="mybizna-table mybizna-form-table erp-accordion-expand-body" v-show="open6">
+                <table class="table form-table erp-accordion-expand-body" v-show="open6">
                     <thead>
                     <tr>
                         <th>{{ this.$func.__('People', 'erp') }}</th>
@@ -113,10 +113,10 @@
                     </thead>
                     <tbody>
                     <tr :key="idx" v-for="(acct,idx) in acct_pay">
-                        <td><div class="mybizna-form-group ob-people with-multiselect">
+                        <td><div class="form-group ob-people with-multiselect">
                             <multi-select v-model="acct.people" :options="options" /></div></td>
-                        <td><input type="number" step="0.01"  class="mybizna-form-field" @keyup="calculateAmount" disabled v-model="acct.debit"></td>
-                        <td><input type="number" step="0.01"  class="mybizna-form-field" @keyup="calculateAmount" v-model="acct.credit"></td>
+                        <td><input type="number" step="0.01"  class="form-control form-contro-sm form-field" @keyup="calculateAmount" disabled v-model="acct.debit"></td>
+                        <td><input type="number" step="0.01"  class="form-control form-contro-sm form-field" @keyup="calculateAmount" v-model="acct.credit"></td>
                         <td class="delete-row" data-colname="Remove">
                             <a @click.prevent="removeAcctPayRow(idx)" href="#"><i class="flaticon-trash"></i></a>
                         </td>
@@ -126,7 +126,7 @@
                             {{ this.$func.__( 'No People Found!', 'erp' ) }}
                         </td>
                         <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="acct_pay.push({})" class="mybizna-btn btn--primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
+                            <button @click.prevent="acct_pay.push({})" class="btn btn-rimary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
                         </td>
                     </tr>
                     </tbody>
@@ -145,7 +145,7 @@
                     }}</span>
                 </div>
                 <table
-                    class="mybizna-table mybizna-form-table erp-accordion-expand-body"
+                    class="table form-table erp-accordion-expand-body"
                     v-show="open7"
                 >
                     <thead>
@@ -170,7 +170,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     @keyup="calculateAmount"
                                     disabled
                                     v-model="acct.debit"
@@ -180,7 +180,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     @keyup="calculateAmount"
                                     v-model="acct.credit"
                                 />
@@ -200,7 +200,7 @@
                             <td colspan="9" style="text-align: left">
                                 <button
                                     @click.prevent="tax_pay.push({})"
-                                    class="mybizna-btn btn--primary add-line-trigger"
+                                    class="btn btn-rimary add-line-trigger"
                                 >
                                     <i class="flaticon-add-plus-button"></i
                                     >{{ this.$func.__("Add Agency", "erp") }}
@@ -224,7 +224,7 @@
                 </div>
                 <table
                     v-if="ledgers[1]"
-                    class="mybizna-table mybizna-form-table erp-accordion-expand-body"
+                    class="table form-table erp-accordion-expand-body"
                     v-show="open1"
                 >
                     <thead>
@@ -241,7 +241,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.debit"
                                 />
@@ -250,7 +250,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.credit"
                                 />
@@ -273,7 +273,7 @@
                 </div>
                 <table
                     v-if="ledgers[2]"
-                    class="mybizna-table mybizna-form-table erp-accordion-expand-body"
+                    class="table form-table erp-accordion-expand-body"
                     v-show="open2"
                 >
                     <thead>
@@ -290,7 +290,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.debit"
                                 />
@@ -299,7 +299,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.credit"
                                 />
@@ -322,7 +322,7 @@
                 </div>
                 <table
                     v-if="ledgers[3]"
-                    class="mybizna-table mybizna-form-table erp-accordion-expand-body"
+                    class="table form-table erp-accordion-expand-body"
                     v-show="open3"
                 >
                     <thead>
@@ -339,7 +339,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.debit"
                                 />
@@ -348,7 +348,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     @keyup="calculateAmount"
                                     v-model="ledger.credit"
                                 />
@@ -370,7 +370,7 @@
                     }}</span>
                 </div>
                 <table
-                    class="mybizna-table mybizna-form-table erp-accordion-expand-body"
+                    class="table form-table erp-accordion-expand-body"
                     v-show="open4"
                 >
                     <thead>
@@ -388,7 +388,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     @keyup="calculateAmount"
                                     v-model="acct.debit"
                                 />
@@ -397,7 +397,7 @@
                                 <input
                                     type="number"
                                     step="0.01"
-                                    class="mybizna-form-field"
+                                    class="form-control form-contro-sm form-field"
                                     @keyup="calculateAmount"
                                     v-model="acct.credit"
                                 />
@@ -419,14 +419,14 @@
                                 }}
                             </td>
                             <!--   <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="ledgers[7].push({})" class="mybizna-btn btn&#45;&#45;primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add Bank', 'erp') }}</button>
+                            <button @click.prevent="ledgers[7].push({})" class="btn btn&#45;&#45;primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add Bank', 'erp') }}</button>
                         </td>-->
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <table class="mybizna-table mybizna-form-table">
+            <table class="table form-table">
                 <tbody>
                     <tr class="total-amount-row">
                         <td
@@ -440,7 +440,7 @@
                         <td :data-colname="this.$func.__('Total Debit', 'erp')">
                             <input
                                 type="text"
-                                class="text-right mybizna-form-field"
+                                class="text-right form-field"
                                 :value="moneyFormat(finalTotalDebit)"
                                 readonly
                             />
@@ -448,13 +448,13 @@
                         <td :data-colname="this.$func.__('Total Credit', 'erp')">
                             <input
                                 type="text"
-                                class="text-right mybizna-form-field"
+                                class="text-right form-field"
                                 :value="moneyFormat(finalTotalCredit)"
                                 readonly
                             />
                         </td>
                     </tr>
-                    <tr class="mybizna-form-group">
+                    <tr class="form-group">
                         <td colspan="9" style="text-align: left">
                             <label>{{
                                 this.$func.__("Description", "erp")
@@ -462,7 +462,7 @@
                             <textarea
                                 v-model="description"
                                 rows="4"
-                                class="mybizna-form-field display-flex"
+                                class="form-control form-contro-sm form-field display-flex"
                                 :placeholder="this.$func.__('Internal Information', 'erp')"
                             ></textarea>
                         </td>
@@ -947,7 +947,7 @@ export default {
 .accordion-container .erp-accordion table {
     width: calc(100% - 40px);
 }
-.mybizna-form-group {
+.form-group {
     margin: 0px !important;
 }
 
@@ -967,12 +967,12 @@ export default {
 .accordion-container .print-btn {
     float: right;
 }
-.accordion-container .mybizna-custom-select label {
+.accordion-container .custom-select label {
     display: inline;
     font-weight: bold;
     padding-right: 5px;
 }
-.accordion-container .mybizna-custom-select select {
+.accordion-container .custom-select select {
     background: #fff;
     border: none;
     box-shadow: none;

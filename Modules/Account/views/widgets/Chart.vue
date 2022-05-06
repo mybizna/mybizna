@@ -1,10 +1,10 @@
 <template>
-    <div class="income-expense-section mybizna-panel mybizna-panel-default">
-        <div class="mybizna-panel-heading mybizna-bg-white">
+    <div class="income-expense-section panel panel-default">
+        <div class="panel-heading bg-white">
             <h4>{{ this.$func.__('Income & Expense', 'erp') }}</h4>
 
-            <div class="mybizna-custom-select mybizna-custom-select--inline-block mybizna-pull-right" v-if="showDropdown">
-                <select name="query_time" class="mybizna-form-field" id="att-filter-duration" v-model="chartRange" >
+            <div class="custom-select custom-select--inline-block pull-right" v-if="showDropdown">
+                <select name="query_time" class="form-control form-contro-sm form-field" id="att-filter-duration" v-model="chartRange" >
                     <option value="this_month">{{ this.$func.__('This Month', 'erp') }}</option>
                     <option value="last_month">{{ this.$func.__('Last Month', 'erp') }}</option>
                     <option value="this_quarter" v-if="thisQuarter.labels.length">{{ this.$func.__('This Quarter', 'erp') }}</option>
@@ -15,8 +15,8 @@
                 <i class="flaticon-arrow-down-sign-to-navigate"></i>
             </div>
         </div>
-        <div class="mybizna-panel-body">
-            <div class="mybizna-chart-block">
+        <div class="panel-body">
+            <div class="chart-block">
                 <canvas id="bar_chart" ref="bar_chart" height="90"></canvas>
             </div>
         </div>
@@ -282,7 +282,7 @@ export default {
 </script>
 
 <style>
-    .mybizna-panel-heading.mybizna-bg-white {
+    .panel-heading.bg-white {
         padding: 10px;
     }
 </style>

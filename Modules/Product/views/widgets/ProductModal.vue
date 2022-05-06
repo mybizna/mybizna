@@ -1,10 +1,10 @@
 <template>
-    <div id="mybizna-product-modal">
-        <div class="mybizna-container">
-            <div class="mybizna-modal mybizna-modal-open has-form" role="dialog">
-                <div class="mybizna-modal-dialog">
-                    <div class="mybizna-modal-content">
-                        <div class="mybizna-modal-header">
+    <div id="product-modal">
+        <div class="container">
+            <div class="modal modal-open has-form" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
                             <h3 v-if="!product">
                                 {{ this.$func.__("Add", "erp") }} {{ title }}
                             </h3>
@@ -18,7 +18,7 @@
                                 ></i>
                             </span>
                         </div>
-                        <div class="mybizna-modal-body">
+                        <div class="modal-body">
                             <ul class="errors" v-if="error_msg.length">
                                 <li
                                     v-for="(error, index) in error_msg"
@@ -33,23 +33,23 @@
                                 action=""
                                 method="post"
                                 @submit.prevent="saveProduct"
-                                class="add-product-form mybizna-form-horizontal"
+                                class="add-product-form form-horizontal"
                             >
                                 <!-- product name field -->
 
-                                <div class="mybizna-row">
-                                    <div class="mybizna-col-sm-3 mybizna-col-xs-12">
+                                <div class="row">
+                                    <div class="col-sm-3 col-xs-12">
                                         <label
                                             >{{ this.$func.__("Product Name", "erp") }}
-                                            <span class="mybizna-required-sign"
+                                            <span class="required-sign"
                                                 >*</span
                                             ></label
                                         >
                                     </div>
-                                    <div class="mybizna-col-sm-9 mybizna-col-xs-12">
+                                    <div class="col-sm-9 col-xs-12">
                                         <input
                                             type="text"
-                                            class="mybizna-form-field"
+                                            class="form-control form-contro-sm form-field"
                                             :placeholder="
                                                 this.$func.__(
                                                     'Enter Product Name Here',
@@ -64,9 +64,9 @@
 
                                 <!-- product/service details panel -->
                                 <div
-                                    class="mybizna-panel mybizna-panel-default panel-product-details"
+                                    class="panel panel-default panel-product-details"
                                 >
-                                    <div class="mybizna-panel-heading">
+                                    <div class="panel-heading">
                                         <span
                                             class="panel-badge panel-badge-primary"
                                         ></span>
@@ -74,10 +74,10 @@
                                             this.$func.__("Product/Service Details", "erp")
                                         }}</span>
                                     </div>
-                                    <div class="mybizna-panel-body">
-                                        <div class="mybizna-row">
+                                    <div class="panel-body">
+                                        <div class="row">
                                             <div
-                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
+                                                class="col-sm-3 col-xs-12"
                                             >
                                                 <label
                                                     >{{
@@ -87,13 +87,13 @@
                                                         )
                                                     }}
                                                     <span
-                                                        class="mybizna-required-sign"
+                                                        class="required-sign"
                                                         >*</span
                                                     ></label
                                                 >
                                             </div>
                                             <div
-                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
+                                                class="col-sm-9 col-xs-12"
                                             >
                                                 <div class="with-multiselect">
                                                     <multi-select
@@ -108,16 +108,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mybizna-row">
+                                        <div class="row">
                                             <div
-                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
+                                                class="col-sm-3 col-xs-12"
                                             >
                                                 <label>{{
                                                     this.$func.__("Category", "erp")
                                                 }}</label>
                                             </div>
                                             <div
-                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
+                                                class="col-sm-9 col-xs-12"
                                             >
                                                 <div class="with-multiselect">
                                                     <multi-select
@@ -136,9 +136,9 @@
 
                                 <!-- product/service details panel -->
                                 <div
-                                    class="mybizna-panel mybizna-panel-default panel-product-info"
+                                    class="panel panel-default panel-product-info"
                                 >
-                                    <div class="mybizna-panel-heading">
+                                    <div class="panel-heading">
                                         <span
                                             class="panel-badge panel-badge-info"
                                         ></span>
@@ -146,53 +146,53 @@
                                             this.$func.__("Product Information", "erp")
                                         }}</span>
                                     </div>
-                                    <div class="mybizna-panel-body">
-                                        <div class="mybizna-row">
+                                    <div class="panel-body">
+                                        <div class="row">
                                             <div
-                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
+                                                class="col-sm-3 col-xs-12"
                                             >
                                                 <label for="cost-price">{{
                                                     this.$func.__("Cost Price", "erp")
                                                 }}</label>
                                             </div>
                                             <div
-                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
+                                                class="col-sm-9 col-xs-12"
                                             >
                                                 <input
                                                     type="text"
                                                     name="cost-price"
                                                     id="cost-price"
                                                     value="0"
-                                                    class="dk-form-field"
+                                                    class="form-control form-contro-sm form-field"
                                                     v-model="
                                                         ProductFields.costPrice
                                                     "
                                                 />
                                             </div>
                                         </div>
-                                        <div class="mybizna-row">
+                                        <div class="row">
                                             <div
-                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
+                                                class="col-sm-3 col-xs-12"
                                             >
                                                 <label for="sale-price"
                                                     >{{
                                                         this.$func.__("Sale Price", "erp")
                                                     }}
                                                     <span
-                                                        class="mybizna-required-sign"
+                                                        class="required-sign"
                                                         >*</span
                                                     ></label
                                                 >
                                             </div>
                                             <div
-                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
+                                                class="col-sm-9 col-xs-12"
                                             >
                                                 <input
                                                     type="text"
                                                     name="sale-price"
                                                     id="sale-price"
                                                     value="0"
-                                                    class="dk-form-field"
+                                                    class="form-control form-contro-sm form-field"
                                                     v-model="
                                                         ProductFields.salePrice
                                                     "
@@ -205,9 +205,9 @@
 
                                 <!-- Miscellaneous panel -->
                                 <div
-                                    class="mybizna-panel mybizna-panel-default panel-miscellaneous"
+                                    class="panel panel-default panel-miscellaneous"
                                 >
-                                    <div class="mybizna-panel-heading">
+                                    <div class="panel-heading">
                                         <span
                                             class="panel-badge panel-badge-secondary"
                                         ></span>
@@ -215,22 +215,22 @@
                                             this.$func.__("Miscellaneous", "erp")
                                         }}</span>
                                     </div>
-                                    <div class="mybizna-panel-body">
-                                        <div class="mybizna-row">
+                                    <div class="panel-body">
+                                        <div class="row">
                                             <div
-                                                class="mybizna-col-sm-3 mybizna-col-xs-12 product-owner"
+                                                class="col-sm-3 col-xs-12 product-owner"
                                             >
                                                 <label>
                                                     {{ this.$func.__("Owner", "erp") }}
                                                     <span
                                                         v-show="selfOwner"
-                                                        class="mybizna-required-sign"
+                                                        class="required-sign"
                                                         >*</span
                                                     >
                                                 </label>
                                             </div>
                                             <div
-                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
+                                                class="col-sm-9 col-xs-12"
                                             >
                                                 <input
                                                     type="checkbox"
@@ -242,19 +242,19 @@
                                             </div>
 
                                             <div
-                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
+                                                class="col-sm-3 col-xs-12"
                                                 v-show="!selfOwner"
                                             >
                                                 <label>
                                                     {{ this.$func.__("Vendor", "erp") }}
                                                     <span
-                                                        class="mybizna-required-sign"
+                                                        class="required-sign"
                                                         >*</span
                                                     >
                                                 </label>
                                             </div>
                                             <div
-                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
+                                                class="col-sm-9 col-xs-12"
                                                 v-show="!selfOwner"
                                             >
                                                 <div class="with-multiselect">
@@ -269,7 +269,7 @@
                                                 </div>
                                             </div>
                                             <div
-                                                class="mybizna-col-sm-3 mybizna-col-xs-12"
+                                                class="col-sm-3 col-xs-12"
                                             >
                                                 <label
                                                     >{{
@@ -290,7 +290,7 @@
                                                 ></label>
                                             </div>
                                             <div
-                                                class="mybizna-col-sm-9 mybizna-col-xs-12"
+                                                class="col-sm-9 col-xs-12"
                                             >
                                                 <div class="with-multiselect">
                                                     <multi-select
@@ -309,20 +309,20 @@
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
                                     <button
-                                        class="mybizna-btn btn--default"
+                                        class="btn btn-default"
                                         @click.prevent="$parent.$emit('close')"
                                     >
                                         {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
                                         v-if="!product"
-                                        class="mybizna-btn btn--primary"
+                                        class="btn btn-primary"
                                     >
                                         {{ this.$func.__("Save", "erp") }}
                                     </button>
                                     <button
                                         v-else
-                                        class="mybizna-btn btn--primary"
+                                        class="btn btn-primary"
                                     >
                                         {{ this.$func.__("Update", "erp") }}
                                     </button>
@@ -585,29 +585,29 @@ export default {
 </script>
 
 <style>
-#mybizna-product-modal .mybizna-modal-header {
+#product-modal .modal-header {
     padding: 30px 20px 20px !important;
 }
 
-#mybizna-product-modal .product-owner {
+#product-modal .product-owner {
     margin-bottom: 10px;
 }
-#mybizna-product-modal .product-owner label {
+#product-modal .product-owner label {
     margin-top: 0;
 }
 
-#mybizna-product-modal .modal-close {
+#product-modal .modal-close {
     line-height: 1.7;
 }
-#mybizna-product-modal .modal-close .flaticon-close {
+#product-modal .modal-close .flaticon-close {
     font-size: inherit;
 }
 
-#mybizna-product-modal .errors {
+#product-modal .errors {
     margin: 0;
     color: #f44336;
 }
-#mybizna-product-modal .errors li {
+#product-modal .errors li {
     background: #f3f3f3;
     padding: 2px 10px;
 }

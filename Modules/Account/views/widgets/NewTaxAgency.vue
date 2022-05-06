@@ -1,13 +1,13 @@
 <template>
     <div
-        id="mybizna-tax-agency-modal"
-        class="mybizna-modal has-form mybizna-modal-open"
+        id="tax-agency-modal"
+        class="modal has-form modal-open"
         role="dialog"
     >
-        <div class="mybizna-modal-dialog">
-            <div class="mybizna-modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <!-- modal body title -->
-                <div class="mybizna-modal-header">
+                <div class="modal-header">
                     <h3>
                         {{
                             is_update
@@ -29,11 +29,11 @@
                     class="modal-form edit-customer-modal"
                     @submit.prevent="taxAgencyFormSubmit"
                 >
-                    <div class="mybizna-modal-body">
-                        <div class="mybizna-form-group">
+                    <div class="modal-body">
+                        <div class="form-group">
                             <label
                                 >{{ this.$func.__("Tax Agency Name", "erp")
-                                }}<span class="mybizna-required-sign"
+                                }}<span class="required-sign"
                                     >*</span
                                 ></label
                             >
@@ -41,12 +41,12 @@
                             <input
                                 type="text"
                                 v-model="agency"
-                                class="mybizna-form-field"
+                                class="form-control form-contro-sm form-field"
                             />
                         </div>
                     </div>
 
-                    <div class="mybizna-modal-footer pt-0">
+                    <div class="modal-footer pt-0">
                         <!-- buttons -->
                         <div class="buttons-wrapper text-right">
                             <submit-button

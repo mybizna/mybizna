@@ -58,7 +58,7 @@
                                             type="text"
                                             v-model="peopleFields.first_name"
                                             id="first_name"
-                                            class="form-field"
+                                            class="form-control form-control-sm form-field"
                                             :placeholder="
                                                 this.$func.__(
                                                     'First Name',
@@ -86,7 +86,7 @@
                                             type="text"
                                             v-model="peopleFields.last_name"
                                             id="last_name"
-                                            class="form-field"
+                                            class="form-control form-control-sm form-field"
                                             :placeholder="
                                                 this.$func.__(
                                                     'Last Name',
@@ -112,7 +112,7 @@
                                             @blur="checkEmailExistence"
                                             v-model="peopleFields.email"
                                             id="email"
-                                            class="form-field"
+                                            class="form-control form-control-sm form-field"
                                             placeholder="you@domain.com"
                                             required
                                         />
@@ -127,7 +127,7 @@
                                             type="tel"
                                             v-model="peopleFields.phone"
                                             id="phone"
-                                            class="form-field"
+                                            class="form-control form-control-sm form-field"
                                             placeholder="(123) 456-789"
                                         />
                                     </div>
@@ -141,7 +141,7 @@
                                             type="text"
                                             v-model="peopleFields.company"
                                             id="company"
-                                            class="form-field"
+                                            class="form-control form-control-sm form-field"
                                             :placeholder="
                                                 this.$func.__(
                                                     'ABC Corporation',
@@ -177,7 +177,7 @@
                                                 type="tel"
                                                 v-model="peopleFields.mobile"
                                                 id="mobile"
-                                                class="form-field"
+                                                class="form-control form-control-sm form-field"
                                             />
                                         </div>
                                         <div
@@ -190,7 +190,7 @@
                                                 type="text"
                                                 v-model="peopleFields.website"
                                                 id="website"
-                                                class="form-field"
+                                                class="form-control form-control-sm form-field"
                                                 placeholder="www.domain.com"
                                             />
                                         </div>
@@ -205,7 +205,7 @@
                                                 id="note"
                                                 cols="30"
                                                 rows="4"
-                                                class="form-field"
+                                                class="form-control form-control-sm form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'Type here',
@@ -224,7 +224,7 @@
                                                 type="text"
                                                 v-model="peopleFields.fax"
                                                 id="fax"
-                                                class="form-field"
+                                                class="form-control form-control-sm form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'Type here',
@@ -243,7 +243,7 @@
                                                 type="text"
                                                 v-model="peopleFields.street_1"
                                                 id="street1"
-                                                class="form-field"
+                                                class="form-control form-control-sm form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'Street 1',
@@ -262,7 +262,7 @@
                                                 type="text"
                                                 v-model="peopleFields.street_2"
                                                 id="street2"
-                                                class="form-field"
+                                                class="form-control form-control-sm form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'Street 2',
@@ -281,7 +281,7 @@
                                                 type="text"
                                                 v-model="peopleFields.city"
                                                 id="city"
-                                                class="form-field"
+                                                class="form-control form-control-sm form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'City/Town',
@@ -343,7 +343,7 @@
                                                     peopleFields.postal_code
                                                 "
                                                 id="post_code"
-                                                class="form-field"
+                                                class="form-control form-control-sm form-field"
                                                 :placeholder="
                                                     this.$func.__(
                                                         'Post Code',
@@ -388,7 +388,7 @@
                                 <!-- buttons -->
                                 <div class="buttons-wrapper text-right">
                                     <button
-                                        class="btn btn--default modal-close"
+                                        class="btn btn-default modal-close"
                                         @click="$parent.$emit('modal-close')"
                                         type="reset"
                                     >
@@ -396,14 +396,14 @@
                                     </button>
                                     <button
                                         v-if="!people"
-                                        class="btn btn--primary"
+                                        class="btn btn-primary"
                                         type="submit"
                                     >
                                         {{ this.$func.__("Add New", "erp") }}
                                     </button>
                                     <button
                                         v-else
-                                        class="btn btn--primary"
+                                        class="btn btn-primary"
                                         type="submit"
                                     >
                                         {{ this.$func.__("Update", "erp") }}

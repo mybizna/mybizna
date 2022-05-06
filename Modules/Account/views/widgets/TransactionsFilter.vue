@@ -1,25 +1,25 @@
 <template>
-    <div class="content-header-section separator mybizna-has-border-top">
-        <div class="mybizna-row mybizna-between-xs">
-            <div class="mybizna-col">
+    <div class="content-header-section separator has-border-top">
+        <div class="row between-xs">
+            <div class="col">
                 <h2 class="content-header__title">
                     {{ this.$func.__("Transactions", "erp") }}
                 </h2>
             </div>
-            <div class="mybizna-col" ref="filterArea">
+            <div class="col" ref="filterArea">
                 <form
-                    class="mybizna-form form--inline"
+                    class="form form--inline"
                     action=""
                     @submit.prevent="filterList"
                 >
                     <div
                         :class="[
-                            'mybizna-has-dropdown',
+                            'has-dropdown',
                             { 'dropdown-opened': showFilters },
                         ]"
                     >
                         <a
-                            class="mybizna-btn btn--default dropdown-trigger filter-button"
+                            class="btn btn-default dropdown-trigger filter-button"
                             @click.prevent="toggleFilter"
                         >
                             <span
@@ -29,15 +29,15 @@
                             <i class="flaticon-arrow-down-sign-to-navigate"></i>
                         </a>
                         <div
-                            class="dropdown-menu dropdown-menu-right mybizna-filter-container"
+                            class="dropdown-menu dropdown-menu-right filter-container"
                         >
                             <div
-                                class="mybizna-panel mybizna-panel-default mybizna-filter-panel"
+                                class="panel panel-default filter-panel"
                             >
                                 <h3>{{ this.$func.__("Filter", "erp") }}</h3>
-                                <div class="mybizna-panel-body">
+                                <div class="panel-body">
                                     <h3>{{ this.$func.__("Date", "erp") }}</h3>
-                                    <div class="form-fields">
+                                    <div class="form-control form-contro-sm form-fields">
                                         <div class="start-date has-addons">
                                             <datepicker
                                                 v-model="filters.start_date"
@@ -59,9 +59,9 @@
                                         </div>
                                     </div>
                                     <br />
-                                    <div class="form-fields">
+                                    <div class="form-control form-contro-sm form-fields">
                                         <div
-                                            class="form-field-wrapper"
+                                            class="form-control form-contro-sm form-field-wrapper"
                                             v-if="status"
                                         >
                                             <h3>
@@ -72,7 +72,7 @@
                                                     )
                                                 }}
                                             </h3>
-                                            <div class="form-fields">
+                                            <div class="form-control form-contro-sm form-fields">
                                                 <simple-select
                                                     v-model="filters.status"
                                                     :options="statuses"
@@ -81,7 +81,7 @@
                                             </div>
                                         </div>
                                         <div
-                                            class="form-field-wrapper"
+                                            class="form-control form-contro-sm form-field-wrapper"
                                             v-if="types.length"
                                         >
                                             <h3>
@@ -89,7 +89,7 @@
                                                     this.$func.__("Type", "erp")
                                                 }}
                                             </h3>
-                                            <div class="form-fields">
+                                            <div class="form-control form-contro-sm form-fields">
                                                 <simple-select
                                                     v-model="filters.type"
                                                     :options="types"
@@ -112,7 +112,7 @@
                                                 )
                                             }}
                                         </h3>
-                                        <div class="form-fields">
+                                        <div class="form-control form-contro-sm form-fields">
                                             <simple-select
                                                 v-model="filters.people_id"
                                                 :options="people.items"
@@ -121,31 +121,31 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mybizna-panel-footer">
+                                <div class="panel-footer">
                                     <input
                                         type="button"
                                         :value="this.$func.__('Cancel', 'erp')"
-                                        class="mybizna-btn btn--cancel"
+                                        class="btn btn-cancel"
                                         @click="toggleFilter"
                                     />
                                     <input
                                         type="reset"
                                         :value="this.$func.__('Reset', 'erp')"
-                                        class="mybizna-btn btn--reset"
+                                        class="btn btn-reset"
                                         @click="resetFilter"
                                     />
                                     <input
                                         type="submit"
                                         :value="this.$func.__('Submit', 'erp')"
-                                        class="mybizna-btn btn--primary"
+                                        class="btn btn-primary"
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="mybizna-import-wrapper display-inline-block">
+                    <div class="import-wrapper display-inline-block">
                         <a
-                            class="mybizna-btn btn--default"
+                            class="btn btn-default"
                             href="#"
                             title="Import"
                             ><span class="flaticon-import"></span
@@ -274,7 +274,7 @@ export default {
     padding-right: 10px;
 }
 
-.btn--cancel {
+.btn-cancel {
     color: #000;
     background-color: #fff !important;
     border: 1px solid #e2e2e2 !important;
@@ -283,7 +283,7 @@ export default {
     float: left;
 }
 
-.btn--reset {
+.btn-reset {
     color: #3c9fd4;
     background-color: #fff !important;
     border: 1px solid #e2e2e2 !important;

@@ -1,12 +1,12 @@
 <template>
-    <div class="mybizna-modal-dialog paypurchase-single">
-        <div class="mybizna-modal-content">
-            <div class="mybizna-modal-header">
+    <div class="modal-dialog paypurchase-single">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h2>{{ trnType() }}</h2>
                 <div class="d-print-none">
                     <a
                         href="#"
-                        class="mybizna-btn btn--default print-btn"
+                        class="btn btn-default print-btn"
                         @click.prevent="printPopup"
                     >
                         <i class="flaticon-printer-1"></i>
@@ -15,7 +15,7 @@
                     <!-- todo: more action has some dropdown and will implement later please consider as planning -->
                     <dropdown>
                         <template slot="button">
-                            <a href="#" class="mybizna-btn btn--default">
+                            <a href="#" class="btn btn-default">
                                 <i class="flaticon-settings-work-tool"></i>
                                 &nbsp; {{ this.$func.__("More Action", "erp") }}
                             </a>
@@ -49,8 +49,8 @@
                 :type="type"
             />
 
-            <div class="mybizna-modal-body">
-                <div class="mybizna-invoice-panel">
+            <div class="modal-body">
+                <div class="invoice-panel">
                     <div class="invoice-header" v-if="null != company">
                         <div class="invoice-logo">
                             <img
@@ -74,8 +74,8 @@
 
                     <div class="invoice-body">
                         <h4>{{ this.$func.__("Payment Details", "erp") }}</h4>
-                        <div class="mybizna-row" v-if="null != payPurchase">
-                            <div class="mybizna-col-sm-6">
+                        <div class="row" v-if="null != payPurchase">
+                            <div class="col-sm-6">
                                 <h5>
                                     {{
                                         type === "pay_purchase"
@@ -94,7 +94,7 @@
                                     {{ payPurchase.billing_address }}
                                 </div>
                             </div>
-                            <div class="mybizna-col-sm-6">
+                            <div class="col-sm-6">
                                 <table class="invoice-info">
                                     <tr>
                                         <th>
@@ -190,11 +190,11 @@
                     </div>
 
                     <div
-                        class="mybizna-invoice-table"
+                        class="invoice-table"
                         v-if="null != payPurchase"
                     >
                         <table
-                            class="mybizna-table mybizna-form-table invoice-table"
+                            class="table form-table invoice-table"
                         >
                             <thead>
                                 <tr>
@@ -398,14 +398,14 @@ export default {
     max-width: 960px;
     margin: 0 auto;
 }
-.paypurchase-single .mybizna-modal-footer {
+.paypurchase-single .modal-footer {
     border-top: 1px solid #e2e2e2;
 }
-.paypurchase-single .mybizna-modal-header {
+.paypurchase-single .modal-header {
     border-bottom: 1px solid #e2e2e2;
 }
-.paypurchase-single .mybizna-form-field,
-input:not(.mybizna-btn) {
+.paypurchase-single .form-field,
+input:not(.btn) {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }

@@ -1,15 +1,15 @@
 <template>
-    <div id="mybizna-tax-rate-modal" class="mybizna-modal has-form mybizna-modal-open" role="dialog">
-        <div class="mybizna-modal-dialog">
-            <div class="mybizna-modal-content">
+    <div id="tax-rate-modal" class="modal has-form modal-open" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <!-- modal body title -->
-                <div class="mybizna-modal-header">
+                <div class="modal-header">
                     <h3>{{tax_rate.tax_rate_name}}</h3>
                     <span class="modal-close" @click.prevent="closeModal"><i class="flaticon-close"></i></span>
                 </div>
 
-                <div class="mybizna-invoice-table">
-                    <div class="mybizna-panel-body">
+                <div class="invoice-table">
+                    <div class="panel-body">
                         <tax-rate-row
                             :index="row_data.id"
                             :component_line="row_data"
@@ -90,20 +90,20 @@ export default {
 </script>
 
 <style>
-    .mybizna-modal-dialog {
+    .modal-dialog {
         max-width: 900px!important;
         margin: 50px auto;
     }
 
-    .mybizna-modal .mybizna-modal-content  {
+    .modal .modal-content  {
        min-height: 50vh !important;
     }
 
-    .mybizna-modal-header {
+    .modal-header {
         padding: 30px 0 20px 40px !important;
     }
 
-    .mybizna-modal span.modal-close {
+    .modal span.modal-close {
        line-height: 3 !important;
    }
 </style>

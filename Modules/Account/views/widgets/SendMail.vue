@@ -7,11 +7,11 @@
         :header="true"
     >
         <template slot="body">
-            <div class="mybizna-form-group mybizna-row">
-                <div class="mybizna-col-sm-3 mybizna-col-xs-12 send-mail-to">
+            <div class="form-group row">
+                <div class="col-sm-3 col-xs-12 send-mail-to">
                     <label
                         >{{ this.$func.__("To", "erp") }}
-                        <span class="mybizna-required-sign">*</span></label
+                        <span class="required-sign">*</span></label
                     >
                 </div>
                 <input-tag
@@ -20,40 +20,40 @@
                     validate="email"
                 />
             </div>
-            <div class="mybizna-form-group mybizna-row">
-                <div class="mybizna-col-sm-3 mybizna-col-xs-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-xs-12">
                     <label>{{ this.$func.__("Subject", "erp") }}</label>
                 </div>
-                <div class="mybizna-col-sm-9 mybizna-col-xs-12">
+                <div class="col-sm-9 col-xs-12">
                     <input
                         type="text"
                         v-model="subject"
-                        class="mybizna-form-field"
+                        class="form-control form-contro-sm form-field"
                         :placeholder="this.$func.__('Enter Subject Here', 'erp')"
                     />
                 </div>
             </div>
-            <div class="mybizna-form-group mybizna-row">
-                <div class="mybizna-col-sm-3 mybizna-col-xs-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-xs-12">
                     <label>{{ this.$func.__("Message", "erp") }}</label>
                 </div>
-                <div class="mybizna-col-sm-9 mybizna-col-xs-12">
+                <div class="col-sm-9 col-xs-12">
                     <textarea
                         v-model="message"
-                        class="mybizna-form-field"
+                        class="form-control form-contro-sm form-field"
                         :placeholder="this.$func.__('Enter Your Message Here', 'erp')"
                         rows="4"
                     ></textarea>
                 </div>
             </div>
-            <div class="mybizna-row">
-                <div class="mybizna-col-sm-3 mybizna-col-xs-12">
+            <div class="row">
+                <div class="col-sm-3 col-xs-12">
                     <label
                         >{{ this.$func.__("Attachment", "erp") }}
-                        <span class="mybizna-required-sign">*</span></label
+                        <span class="required-sign">*</span></label
                     >
                 </div>
-                <div class="mybizna-col-sm-9 mybizna-col-xs-12">
+                <div class="col-sm-9 col-xs-12">
                     <div class="form-check">
                         <label class="form-check-label mb-0">
                             <input
@@ -72,11 +72,11 @@
         </template>
         <template slot="footer">
             <div class="buttons-wrapper text-right">
-                <button class="mybizna-btn btn--default" @click="closeModal">
+                <button class="btn btn-default" @click="closeModal">
                     {{ this.$func.__("Cancel", "erp") }}
                 </button>
                 <button
-                    class="mybizna-btn btn--primary"
+                    class="btn btn-primary"
                     type="submit"
                     @click.prevent="sendAsMail"
                 >
@@ -153,7 +153,7 @@ export default {
 </script>
 
 <style>
-.mybizna-row .vue-input-tag-wrapper .input-tag {
+.row .vue-input-tag-wrapper .input-tag {
     background-color: rgba(67, 160, 71, 0.8);
     border: 1px solid #689f38;
     color: #fff;
@@ -167,17 +167,17 @@ export default {
     border-radius: 3px;
 }
 
-.mybizna-row .vue-input-tag-wrapper .new-tag {
+.row .vue-input-tag-wrapper .new-tag {
     height: 34px;
     padding-top: 0 !important;
     box-shadow: none;
 }
 
-.mybizna-row .vue-input-tag-wrapper .input-tag span {
+.row .vue-input-tag-wrapper .input-tag span {
     padding: 0 6px;
 }
 
-.mybizna-row .vue-input-tag-wrapper .input-tag .remove {
+.row .vue-input-tag-wrapper .input-tag .remove {
     color: rgba(105, 240, 174, 1);
 }
 .send-mail-to {

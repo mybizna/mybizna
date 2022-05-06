@@ -13,6 +13,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h5 class="modal-title">{{ title }}</h5>
                         <button
                             type="button"
                             @click="OpenCloseFun()"
@@ -21,16 +22,6 @@
                     </div>
                     <div class="modal-body">
                         <component :is="newcomponent"></component>
-                        <slot></slot>
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            @click="OpenCloseFun()"
-                            :class="'btn btn-' + variant"
-                        >
-                            {{ this.$func.__("Close") }}
-                        </button>
                     </div>
                 </div>
             </div>
@@ -71,3 +62,9 @@ export default {
     },
 };
 </script>
+
+<style>
+.modal .modal-dialog {
+    max-width: 90%;
+}
+</style>

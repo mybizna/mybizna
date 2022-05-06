@@ -11,13 +11,13 @@
         </div>
 
         <form @submit.prevent="getTrialBalance" class="query-options no-print">
-            <div class="mybizna-date-btn-group">
+            <div class="date-btn-group">
                 <datepicker v-model="start_date"></datepicker>
                 <datepicker v-model="end_date"></datepicker>
             </div>
 
             <button
-                class="mybizna-btn btn--primary add-line-trigger"
+                class="btn btn-primary add-line-trigger"
                 type="submit"
             >
                 {{ this.$func.__("View", "erp") }}
@@ -25,7 +25,7 @@
 
             <a
                 href="#"
-                class="mybizna-btn btn--default print-btn"
+                class="btn btn-default print-btn"
                 @click.prevent="printPopup"
             >
                 <i class="flaticon-printer-1"></i> &nbsp;
@@ -43,7 +43,7 @@
             <em>{{ end_date }}</em>
         </p>
 
-        <table class="mybizna-table table-striped widefat">
+        <table class="table table-striped widefat">
             <thead>
                 <tr>
                     <th>{{ this.$func.__("Account Name", "erp") }}</th>
@@ -347,28 +347,28 @@ export default {
         font-weight: bold;
     }
 
-    .trial-balance .mybizna-table {
+    .trial-balance .table {
         margin-top: 20px;
     }
-    .trial-balance .mybizna-table td,
-    .trial-balance .mybizna-table th {
+    .trial-balance .table td,
+    .trial-balance .table th {
         padding: 3px 20px;
     }
 
-    .trial-balance .mybizna-table thead tr th {
+    .trial-balance .table thead tr th {
         font-weight: bold;
     }
 
-    .trial-balance .mybizna-table thead tr th:not(:first-child) {
+    .trial-balance .table thead tr th:not(:first-child) {
         text-align: right;
     }
 
-    .trial-balance .mybizna-table tbody tr td:not(:first-child) {
+    .trial-balance .table tbody tr td:not(:first-child) {
         text-align: right !important;
     }
 }
 
-.trial-balance .mybizna-table tfoot td:not(:first-child) {
+.trial-balance .table tfoot td:not(:first-child) {
     text-align: right !important;
 }
 

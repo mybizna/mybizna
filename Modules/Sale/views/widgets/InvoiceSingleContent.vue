@@ -1,6 +1,6 @@
 <template>
-    <div class="mybizna-modal-body">
-        <div class="mybizna-invoice-panel">
+    <div class="modal-body">
+        <div class="invoice-panel">
             <div class="invoice-header" v-if="company.name">
                 <div class="invoice-logo">
                     <img
@@ -24,8 +24,8 @@
 
             <div class="invoice-body">
                 <h4>{{ getInvoiceType() }}</h4>
-                <div class="mybizna-row">
-                    <div class="mybizna-col-sm-6">
+                <div class="row">
+                    <div class="col-sm-6">
                         <h5>{{ this.$func.__("Bill to", "erp") }}:</h5>
                         <div class="persons-info">
                             <strong>{{ invoice.customer_name }}</strong
@@ -33,7 +33,7 @@
                             {{ invoice.billing_address }}
                         </div>
                     </div>
-                    <div class="mybizna-col-sm-6">
+                    <div class="col-sm-6">
                         <table class="invoice-info">
                             <tr v-if="invoice.sales_voucher_id">
                                 <th>{{ this.$func.__("Sales Voucher No", "erp") }}:</th>
@@ -64,8 +64,8 @@
                 </div>
             </div>
 
-            <div class="mybizna-invoice-table">
-                <table class="mybizna-table mybizna-form-table invoice-table">
+            <div class="invoice-table">
+                <table class="table form-table invoice-table">
                     <thead>
                         <tr>
                             <th>{{ this.$func.__("Sl", "erp") }}.</th>
@@ -98,7 +98,7 @@
                     </tbody>
                     <tfoot>
                         <tr class="inline-edit-row">
-                            <td class="mybizna-invoice-amounts" colspan="7">
+                            <td class="invoice-amounts" colspan="7">
                                 <ul>
                                     <li>
                                         <span
@@ -256,20 +256,20 @@ export default {
 
 <style>
 @media (max-width: 782px) {
-    .mybizna-invoice-table .col--qty,
-    .mybizna-invoice-table .col--uni_price,
-    .mybizna-invoice-table .col--amount {
+    .invoice-table .col--qty,
+    .invoice-table .col--uni_price,
+    .invoice-table .col--amount {
         display: table-cell !important;
         width: 10%;
     }
 
-    .mybizna-invoice-table
+    .invoice-table
         tr:not(.inline-edit-row):not(.no-items)
         td:not(.column-primary)::before {
         display: none !important;
     }
 
-    .mybizna-invoice-table .mybizna-invoice-amounts li {
+    .invoice-table .invoice-amounts li {
         padding-right: 0 !important;
     }
 }

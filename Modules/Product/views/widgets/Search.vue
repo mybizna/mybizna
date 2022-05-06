@@ -5,13 +5,13 @@
                 <input
                     v-model="search"
                     type="search"
-                    class="mybizna-form-field"
+                    class="form-control form-contro-sm form-field"
                     :placeholder="this.$func.__('Search Products', 'erp')"
                 />
                 <span v-if="search" @click="clearSearch">&#x2716;</span>
             </div>
 
-            <button type="submit" class="mybizna-btn btn--primary search-btn">
+            <button type="submit" class="btn btn-primary search-btn">
                 {{ this.$func.__("Search", "erp") }}
             </button>
         </form>

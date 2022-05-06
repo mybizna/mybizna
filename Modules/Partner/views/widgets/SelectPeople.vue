@@ -1,11 +1,11 @@
 <template>
-    <div class="mybizna-form-group expense-people with-multiselect">
+    <div class="form-group expense-people with-multiselect">
         <people-modal
             v-if="showModal"
             title="Add new people"
             type="all"
         ></people-modal>
-        <label>{{ label }}<span class="mybizna-required-sign">*</span></label>
+        <label>{{ label }}<span class="required-sign">*</span></label>
         <multi-select
             :disabled="isDisabled"
             v-model="selected"

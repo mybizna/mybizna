@@ -1,22 +1,22 @@
 <template>
     <div>
-        <div class="content-header-section separator mybizna-has-border-top">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+        <div class="content-header-section separator has-border-top">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Transactions", "erp") }}
                     </h2>
                 </div>
-                <div class="mybizna-col">
-                    <form class="mybizna-form form--inline">
+                <div class="col">
+                    <form class="form form--inline">
                         <div
                             :class="[
-                                'mybizna-has-dropdown',
+                                'has-dropdown',
                                 { 'dropdown-opened': showFilters },
                             ]"
                         >
                             <a
-                                class="mybizna-btn btn--default dropdown-trigger filter-button"
+                                class="btn btn-default dropdown-trigger filter-button"
                                 @click.prevent="toggleFilter"
                             >
                                 <span
@@ -28,19 +28,19 @@
                                 ></i>
                             </a>
                             <div
-                                class="dropdown-menu dropdown-menu-right mybizna-filter-container"
+                                class="dropdown-menu dropdown-menu-right filter-container"
                             >
                                 <div
-                                    class="mybizna-panel mybizna-panel-default mybizna-filter-panel"
+                                    class="panel panel-default filter-panel"
                                 >
                                     <h3>
                                         {{ this.$func.__("Filter", "erp") }}
                                     </h3>
-                                    <div class="mybizna-panel-body">
+                                    <div class="panel-body">
                                         <h3>
                                             {{ this.$func.__("Date", "erp") }}
                                         </h3>
-                                        <div class="form-fields">
+                                        <div class="form-control form-contro-sm form-fields">
                                             <div class="start-date has-addons">
                                                 <datepicker
                                                     v-model="filters.start_date"
@@ -62,17 +62,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mybizna-panel-footer">
+                                    <div class="panel-footer">
                                         <input
                                             type="reset"
                                             value="Cancel"
-                                            class="mybizna-btn btn--default"
+                                            class="btn btn-default"
                                             @click="toggleFilter"
                                         />
                                         <input
                                             type="submit"
                                             value="Submit"
-                                            class="mybizna-btn btn--primary"
+                                            class="btn btn-primary"
                                             @click.prevent="filterList"
                                         />
                                     </div>
@@ -80,10 +80,10 @@
                             </div>
                         </div>
                         <div
-                            class="mybizna-import-wrapper display-inline-block"
+                            class="import-wrapper display-inline-block"
                         >
                             <a
-                                class="mybizna-btn btn--default"
+                                class="btn btn-default"
                                 href="#"
                                 title="Import"
                                 ><span class="flaticon-import"></span
@@ -94,10 +94,10 @@
             </div>
         </div>
 
-        <div class="mybizna-transactions-section mybizna-section">
+        <div class="transactions-section section">
             <div class="table-container">
                 <list-table
-                    tableClass="mybizna-table table-sm people-trns-table table-striped widefat"
+                    tableClass="table table-sm people-trns-table table-striped widefat"
                     action-column="actions"
                     :columns="columns"
                     :rows="rows"

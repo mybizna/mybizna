@@ -15,7 +15,7 @@
         </h2>
 
         <list-table
-            tableClass="mybizna-table table-sm table-striped"
+            tableClass="table table-sm table-striped"
             action-column="actions"
             :columns="columns"
             :rows="row_data"
@@ -157,8 +157,8 @@ export default {
 }
 
 @media (min-width: 783px) {
-    .app-employees .mybizna-table tbody tr td:last-child,
-    .app-employees .mybizna-table tbody tr tr:last-child {
+    .app-employees .table tbody tr td:last-child,
+    .app-employees .table tbody tr tr:last-child {
         text-align: left !important;
     }
 }

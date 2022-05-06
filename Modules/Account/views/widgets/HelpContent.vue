@@ -4,7 +4,7 @@
             <span>{{ this.$func.__("Accounting Help", "erp") }}</span>
             <a
                 href="https://mybizna.com/docs/accounting/getting-started/"
-                class="mybizna-btn"
+                class="btn"
                 >{{ this.$func.__("View all documentation", "erp") }}</a
             >
         </h2>

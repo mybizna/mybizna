@@ -1,13 +1,13 @@
 <template>
     <div class="app-taxes">
         <div class="content-header-section separator">
-            <div class="mybizna-row mybizna-between-xs">
-                <div class="mybizna-col">
+            <div class="row between-xs">
+                <div class="col">
                     <h2 class="content-header__title">
                         {{ this.$func.__("Tax Rates", "erp") }}
                     </h2>
                     <a
-                        class="mybizna-btn btn--primary"
+                        class="btn btn-primary"
                         @click.prevent="newTaxRate"
                         id="add-tax-rate"
                     >
@@ -17,10 +17,10 @@
             </div>
         </div>
 
-        <div class="mybizna-row">
-            <div class="table-container mybizna-col-sm-8">
+        <div class="row">
+            <div class="table-container col-sm-8">
                 <list-table
-                    tableClass="wp-ListTable table-sm widefat fixed tax-rate-list mybizna-table table-striped table-taxrates"
+                    tableClass="wp-ListTable table-sm widefat fixed tax-rate-list table table-striped table-taxrates"
                     action-column="actions"
                     :columns="columns"
                     :rows="row_data"
@@ -51,7 +51,7 @@
                     </template>
                 </list-table>
             </div>
-            <div class="mybizna-col-sm-4">
+            <div class="col-sm-4">
                 <tax-shortcuts></tax-shortcuts>
             </div>
         </div>

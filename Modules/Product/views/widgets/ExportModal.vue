@@ -1,14 +1,14 @@
 <template>
-    <div id="mybizna-product-export-modal">
-        <div class="mybizna-container">
+    <div id="product-export-modal">
+        <div class="container">
             <div
-                id="mybizna-import-customer-modal"
-                class="mybizna-modal has-form mybizna-modal-open"
+                id="import-customer-modal"
+                class="modal has-form modal-open"
                 role="dialog"
             >
-                <div class="mybizna-modal-dialog">
-                    <div class="mybizna-modal-content">
-                        <div class="mybizna-modal-header">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
                             <h3>{{ this.$func.__("Export Products", "erp") }}</h3>
                             <span class="modal-close">
                                 <i
@@ -24,7 +24,7 @@
                             class="modal-form edit-customer-modal"
                             id="export_form"
                         >
-                            <div class="mybizna-modal-body">
+                            <div class="modal-body">
                                 <div class="erp-grid-container">
                                     <div class="row">
                                         <div class="col-3">
@@ -108,17 +108,17 @@
                                 />
                             </div>
 
-                            <div class="mybizna-modal-footer pt-0">
+                            <div class="modal-footer pt-0">
                                 <div class="buttons-wrapper text-right">
                                     <button
-                                        class="mybizna-btn btn--default modal-close"
+                                        class="btn btn-default modal-close"
                                         @click="$parent.$emit('close')"
                                         type="reset"
                                     >
                                         {{ this.$func.__("Cancel", "erp") }}
                                     </button>
                                     <button
-                                        class="mybizna-btn btn--primary"
+                                        class="btn btn-primary"
                                         type="submit"
                                     >
                                         {{ this.$func.__("Export", "erp") }}
