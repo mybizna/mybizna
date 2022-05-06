@@ -1,13 +1,6 @@
 <template>
-    <div class="app-customers">
+    <div class="app-customers bg-white p-1">
         <div class="people-header">
-            <Modal
-                :title="this.$func.__('Add New', 'erp') + buttonTitle"
-                :msg="errorMgs"
-                :visible="showModal"
-                :newcomponent="peopleModal"
-            />
-
             <h2 class="add-new-people">
                 <span>{{ pageTitle }}</span>
                 <a
@@ -28,6 +21,14 @@
             </div>
         </div>
 
+        <Modal
+            :title="this.$func.__('Add New', 'erp') + buttonTitle"
+            :msg="errorMgs"
+            :visible="showModal"
+            :newcomponent="peopleModal"
+        />
+
+
         <import-modal
             v-if="showImportModal"
             :title="importTitle"
@@ -41,7 +42,7 @@
             :type="url"
             @close="showExportModal = false"
         />
-        i
+
         <list-table
             tableClass="table table-sm people-table table table-striped "
             action-column="actions"

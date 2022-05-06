@@ -1,11 +1,11 @@
 <template>
     <div class="row">
-        <div class="col-sm-3 col-xs-12">
+        <div class="col-sm-3 ">
             <label>{{ this.$func.__('Component', 'erp') }}</label>
             <template v-if="is_update"><input type="text" class="form-control form-contro-sm form-field" v-model="component_line.component_name"/></template>
             <template v-else>{{component_line.component_name}}</template>
         </div>
-        <div class="col-sm-3 col-xs-12 with-multiselect">
+        <div class="col-sm-3  with-multiselect">
             <label>{{ this.$func.__('Agency', 'erp') }}</label>
             <template v-if="is_update">
             <multi-select
@@ -14,7 +14,7 @@
             </template>
             <template v-else>{{component_line.agency_name}}</template>
         </div>
-        <div class="col-sm-3 col-xs-12 with-multiselect">
+        <div class="col-sm-3  with-multiselect">
             <label>{{ this.$func.__('Tax Category', 'erp') }}</label>
             <template v-if="is_update">
                 <multi-select
@@ -23,7 +23,7 @@
             </template>
             <template v-else>{{component_line.tax_cat_name}}</template>
         </div>
-        <div class="col-sm-3 col-xs-12">
+        <div class="col-sm-3 ">
             <label>{{ this.$func.__('Tax Rate', 'erp') }}</label>
             <template v-if="is_update"><input class="form-control form-contro-sm form-field" type="text" v-model="component_line.tax_rate"/></template>
             <template v-else>{{component_line.tax_rate}}</template>

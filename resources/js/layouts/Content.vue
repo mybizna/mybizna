@@ -29,7 +29,7 @@
 
         <app-bar-nav-menu></app-bar-nav-menu>
 
-        <v-main>
+        <v-main class="p-0">
             <div class="app-content-container boxed-container">
                 <slot></slot>
             </div>

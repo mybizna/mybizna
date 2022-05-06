@@ -8,7 +8,7 @@
     >
         <template slot="body">
             <div class="form-group row">
-                <div class="col-sm-3 col-xs-12 send-mail-to">
+                <div class="col-sm-3  send-mail-to">
                     <label
                         >{{ this.$func.__("To", "erp") }}
                         <span class="required-sign">*</span></label
@@ -21,10 +21,10 @@
                 />
             </div>
             <div class="form-group row">
-                <div class="col-sm-3 col-xs-12">
+                <div class="col-sm-3 ">
                     <label>{{ this.$func.__("Subject", "erp") }}</label>
                 </div>
-                <div class="col-sm-9 col-xs-12">
+                <div class="col-sm-9 ">
                     <input
                         type="text"
                         v-model="subject"
@@ -34,10 +34,10 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-sm-3 col-xs-12">
+                <div class="col-sm-3 ">
                     <label>{{ this.$func.__("Message", "erp") }}</label>
                 </div>
-                <div class="col-sm-9 col-xs-12">
+                <div class="col-sm-9 ">
                     <textarea
                         v-model="message"
                         class="form-control form-contro-sm form-field"
@@ -47,13 +47,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3 col-xs-12">
+                <div class="col-sm-3 ">
                     <label
                         >{{ this.$func.__("Attachment", "erp") }}
                         <span class="required-sign">*</span></label
                     >
                 </div>
-                <div class="col-sm-9 col-xs-12">
+                <div class="col-sm-9 ">
                     <div class="form-check">
                         <label class="form-check-label mb-0">
                             <input

@@ -49,7 +49,7 @@
                                 :override_accts="accts_by_chart"
                             ></select-accounts>
                         </div>
-                        <div class="col-sm-4 col-xs-12">
+                        <div class="col-sm-4 ">
                             <div class="form-group">
                                 <label
                                     >{{ this.$func.__("Payment Date", "erp")
@@ -63,7 +63,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-4 col-xs-12">
+                        <div class="col-sm-4 ">
                             <div class="form-group with-multiselect">
                                 <label>{{ this.$func.__("Payment To", "erp") }}</label>
                                 <multi-select
@@ -72,7 +72,7 @@
                                 />
                             </div>
                         </div>
-                        <div class="col-sm-4 col-xs-12">
+                        <div class="col-sm-4 ">
                             <div class="form-group">
                                 <label>{{ this.$func.__("Tax Amount", "erp") }}</label>
                                 <input
@@ -92,7 +92,7 @@
                                 >
                             </div>
                         </div>
-                        <div class="col-sm-4 col-xs-12">
+                        <div class="col-sm-4 ">
                             <div class="form-group with-multiselect">
                                 <label>{{ this.$func.__("Voucher Type", "erp") }}</label>
                                 <multi-select
@@ -105,7 +105,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-12">
+                        <div class="col-sm-12">
                             <label>{{ this.$func.__("Particulars", "erp") }}</label>
                             <textarea
                                 rows="3"
@@ -115,7 +115,7 @@
                                 :placeholder="this.$func.__('Enter Particulars', 'erp')"
                             ></textarea>
                         </div>
-                        <div class="col-xs-12">
+                        <div class="col-sm-12">
                             <div class="form-group text-right mt-10 mb-0">
                                 <submit-button
                                     :text="this.$func.__('Save', 'erp')"

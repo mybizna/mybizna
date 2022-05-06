@@ -23,14 +23,14 @@
         <div class="dashboard">
             <div class="row">
                 <div
-                    class="col-md-9 col-sm-12 col-xs-12"
+                    class="col-md-9 col-sm-12 "
                 >
                     <!-- Start .income-expense-section -->
                     <chart></chart>
                     <!-- End .income-expense-section -->
                 </div>
                 <div
-                    class="col-md-3 col-sm-12 col-xs-12"
+                    class="col-md-3 col-sm-12 "
                 >
                     <!-- Start .bank-accounts-section -->
                     <accounts></accounts>
@@ -39,7 +39,7 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-6 ">
                     <!-- Start .invoice-own-section -->
                     <div
                         class="invoice-own-section panel panel-default"
@@ -105,7 +105,7 @@
                     </div>
                     <!-- End .invoice-own-section -->
                 </div>
-                <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-6 ">
                     <!-- Start .invoice-own-section -->
                     <div
                         class="invoice-own-section panel panel-default"

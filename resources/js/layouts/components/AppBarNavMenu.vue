@@ -1,6 +1,6 @@
 <template>
     <div style="margin-top: 36px">
-        <nav class="navbar navbar-expand-md navbar-light bg-white">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="row">
                 <div class="col-6 col-md-8">
                     <div class="d-block d-md-none mt-1 mx-1">
@@ -294,6 +294,7 @@ export default {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     background: white !important;
+    z-index: 1000000;
     @media (min-width: 160px) and (min-width: 768px) {
     }
 

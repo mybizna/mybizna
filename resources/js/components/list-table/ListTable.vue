@@ -8,94 +8,8 @@
             </div>
         </div>
 
-        <div class="tablenav top">
-            <div class="alignleft actions">
-                <slot name="filters" />
-            </div>
-
-            <div class="tablenav-pages">
-                <span v-if="showItemNumbers" class="displaying-num"
-                    >{{ itemsTotal }} {{ this.$func.__("items", "erp") }}</span
-                >
-
-                <span v-if="hasPagination" class="pagination-links">
-                    <span
-                        v-if="disableFirst"
-                        class="tablenav-pages-navspan"
-                        aria-hidden="true"
-                        >&laquo;</span
-                    >
-                    <a
-                        v-else
-                        href="#"
-                        class="first-page"
-                        @click.prevent="goToPage(1)"
-                        ><span aria-hidden="true">&laquo;</span></a
-                    >
-
-                    <span
-                        v-if="disablePrev"
-                        class="tablenav-pages-navspan"
-                        aria-hidden="true"
-                        >&lsaquo;</span
-                    >
-                    <a
-                        v-else
-                        href="#"
-                        class="prev-page"
-                        @click.prevent="goToPage(currentPage - 1)"
-                        ><span aria-hidden="true">&lsaquo;</span></a
-                    >
-
-                    <span class="paging-input">
-                        <span class="tablenav-paging-text">
-                            <input
-                                :value="currentPage"
-                                class="current-page"
-                                type="text"
-                                name="paged"
-                                aria-describedby="table-paging"
-                                size="1"
-                                @keyup.enter="goToCustomPage"
-                            />
-                            of
-                            <span class="total-pages">{{ totalPages }}</span>
-                        </span>
-                    </span>
-
-                    <span
-                        v-if="disableNext"
-                        class="tablenav-pages-navspan"
-                        aria-hidden="true"
-                        >&rsaquo;</span
-                    >
-                    <a
-                        v-else
-                        href="#"
-                        class="next-page"
-                        @click.prevent="goToPage(currentPage + 1)"
-                        ><span aria-hidden="true">&rsaquo;</span></a
-                    >
-
-                    <span
-                        v-if="disableLast"
-                        class="tablenav-pages-navspan"
-                        aria-hidden="true"
-                        >&raquo;</span
-                    >
-                    <a
-                        v-else
-                        href="#"
-                        class="last-page"
-                        @click.prevent="goToPage(totalPages)"
-                        ><span aria-hidden="true">&raquo;</span></a
-                    >
-                </span>
-            </div>
-        </div>
-
         <table :class="tableClass">
-            <thead>
+            <thead class="shadow-sm">
                 <div v-if="checkedItems.length">Bulk Action TPl</div>
 
                 <tr v-else>
@@ -139,42 +53,7 @@
                     </th>
                 </tr>
             </thead>
-            <tfoot>
-                <slot name="tfoot">
-                    <div v-if="checkedItems.length">Bulk Action TPl</div>
 
-                    <tr v-else>
-                        <td
-                            v-if="showCb"
-                            class="manage-column column-cb check-column"
-                        >
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input
-                                        v-model="selectAll"
-                                        type="checkbox"
-                                        class="form-check-input"
-                                    />
-                                    <span class="form-check-sign">
-                                        <span class="check"></span>
-                                    </span>
-                                </label>
-                            </div>
-                        </td>
-                        <th
-                            v-for="(value, key) in columns"
-                            :key="key"
-                            :class="[
-                                'column',
-                                key,
-                                value.isColPrimary ? 'column-primary' : '',
-                            ]"
-                        >
-                            {{ value.label }}
-                        </th>
-                    </tr>
-                </slot>
-            </tfoot>
             <tbody>
                 <template v-if="rows.length">
                     <tr

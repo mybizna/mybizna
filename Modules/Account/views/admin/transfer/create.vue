@@ -15,14 +15,14 @@
                     <div>
                         <!-- add new product form -->
                         <div class="row gutter-20">
-                            <div class="form-group col-sm-6 col-xs-12">
+                            <div class="form-group col-sm-6 ">
                                 <label for="transfer_funds_from">{{ this.$func.__('Transfer Funds From', 'erp') }}</label>
                                 <div class="custom-select with-multiselect">
                                     <multi-select id="transfer_funds_from" name="from" v-model="transferFrom" :multiple="false" :options="fa" :placeholder="this.$func.__('Select Account', 'erp')"></multi-select>
                                 </div>
                                 <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(transferFrom.balance)}}</span>
                             </div>
-                            <div class="form-group col-sm-6 col-xs-12">
+                            <div class="form-group col-sm-6 ">
                                 <label for="transfer_funds_to">{{ this.$func.__('Transfer Funds To', 'erp') }}</label>
 
                                 <div class="custom-select with-multiselect">
@@ -30,15 +30,15 @@
                                 </div>
                                 <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(transferTo.balance)}}</span>
                             </div>
-                            <div class="form-group col-sm-6 col-xs-12">
+                            <div class="form-group col-sm-6 ">
                                 <label for="transfer_amount">{{ this.$func.__('Transfer Amount', 'erp') }} <span class="required-sign">*</span></label>
                                 <input required min="0" step="0.01" type="number" name="transfer_amount" id="transfer_amount" class="form-control form-contro-sm form-field" placeholder="$100.00" v-model="amount">
                             </div>
-                            <div class="form-group col-sm-6 col-xs-12">
+                            <div class="form-group col-sm-6 ">
                                 <label for="transfer_date">{{ this.$func.__('Transfer Date', 'erp') }}</label>
                                 <datepicker id="transfer_date" class="form-control form-contro-sm form-field" name="transfer_date" v-model="transferdate"></datepicker>
                             </div>
-                            <div class="col-xs-12 form-group">
+                            <div class=" form-group">
                                 <label for="particulars">{{ this.$func.__('Particulars', 'erp') }}</label>
                                 <textarea name="particulars" id="particulars" rows="3" maxlength="250" class="form-control form-contro-sm form-field" :placeholder="this.$func.__('Type Here', 'erp')" v-model="particulars"></textarea>
                             </div>

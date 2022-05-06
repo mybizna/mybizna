@@ -11,23 +11,23 @@
                 <div class="invoice-table">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-sm-3 col-xs-12">
+                            <div class="col-sm-3 ">
                                 <label>{{ this.$func.__('Component', 'erp') }}</label>
                                 <input type="text" class="form-control form-contro-sm form-field" v-model="component_name" />
                             </div>
-                            <div class="col-sm-3 col-xs-12 with-multiselect">
+                            <div class="col-sm-3  with-multiselect">
                                 <label>{{ this.$func.__('Agency', 'erp') }}</label>
                                 <multi-select
                                     v-model="agency"
                                     :options="agencies"/>
                             </div>
-                            <div class="col-sm-3 col-xs-12 with-multiselect">
+                            <div class="col-sm-3  with-multiselect">
                                 <label>{{ this.$func.__('Tax Category', 'erp') }}</label>
                                     <multi-select
                                     v-model="category"
                                     :options="categories" />
                             </div>
-                            <div class="col-sm-3 col-xs-12">
+                            <div class="col-sm-3 ">
                                 <label>{{ this.$func.__('Tax Rate', 'erp') }}</label>
                                 <input type="text" class="form-control form-contro-sm form-field" v-model="tax_rate"/>
                             </div>

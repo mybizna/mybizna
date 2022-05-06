@@ -3,7 +3,7 @@
         <div class="container">
             <div class="modal modal-open has-form" role="dialog">
                 <div >
-                    <div> 
+                    <div>
                         <div >
                             <h3 v-if="!product">
                                 {{ this.$func.__("Add", "erp") }} {{ title }}
@@ -38,7 +38,7 @@
                                 <!-- product name field -->
 
                                 <div class="row">
-                                    <div class="col-sm-3 col-xs-12">
+                                    <div class="col-sm-3 ">
                                         <label
                                             >{{ this.$func.__("Product Name", "erp") }}
                                             <span class="required-sign"
@@ -46,7 +46,7 @@
                                             ></label
                                         >
                                     </div>
-                                    <div class="col-sm-9 col-xs-12">
+                                    <div class="col-sm-9 ">
                                         <input
                                             type="text"
                                             class="form-control form-contro-sm form-field"
@@ -77,7 +77,7 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div
-                                                class="col-sm-3 col-xs-12"
+                                                class="col-sm-3 "
                                             >
                                                 <label
                                                     >{{
@@ -93,7 +93,7 @@
                                                 >
                                             </div>
                                             <div
-                                                class="col-sm-9 col-xs-12"
+                                                class="col-sm-9 "
                                             >
                                                 <div class="with-multiselect">
                                                     <multi-select
@@ -110,14 +110,14 @@
                                         </div>
                                         <div class="row">
                                             <div
-                                                class="col-sm-3 col-xs-12"
+                                                class="col-sm-3 "
                                             >
                                                 <label>{{
                                                     this.$func.__("Category", "erp")
                                                 }}</label>
                                             </div>
                                             <div
-                                                class="col-sm-9 col-xs-12"
+                                                class="col-sm-9 "
                                             >
                                                 <div class="with-multiselect">
                                                     <multi-select
@@ -149,14 +149,14 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div
-                                                class="col-sm-3 col-xs-12"
+                                                class="col-sm-3 "
                                             >
                                                 <label for="cost-price">{{
                                                     this.$func.__("Cost Price", "erp")
                                                 }}</label>
                                             </div>
                                             <div
-                                                class="col-sm-9 col-xs-12"
+                                                class="col-sm-9 "
                                             >
                                                 <input
                                                     type="text"
@@ -172,7 +172,7 @@
                                         </div>
                                         <div class="row">
                                             <div
-                                                class="col-sm-3 col-xs-12"
+                                                class="col-sm-3 "
                                             >
                                                 <label for="sale-price"
                                                     >{{
@@ -185,7 +185,7 @@
                                                 >
                                             </div>
                                             <div
-                                                class="col-sm-9 col-xs-12"
+                                                class="col-sm-9 "
                                             >
                                                 <input
                                                     type="text"
@@ -218,7 +218,7 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div
-                                                class="col-sm-3 col-xs-12 product-owner"
+                                                class="col-sm-3  product-owner"
                                             >
                                                 <label>
                                                     {{ this.$func.__("Owner", "erp") }}
@@ -230,7 +230,7 @@
                                                 </label>
                                             </div>
                                             <div
-                                                class="col-sm-9 col-xs-12"
+                                                class="col-sm-9 "
                                             >
                                                 <input
                                                     type="checkbox"
@@ -242,7 +242,7 @@
                                             </div>
 
                                             <div
-                                                class="col-sm-3 col-xs-12"
+                                                class="col-sm-3
                                                 v-show="!selfOwner"
                                             >
                                                 <label>
@@ -254,7 +254,7 @@
                                                 </label>
                                             </div>
                                             <div
-                                                class="col-sm-9 col-xs-12"
+                                                class="col-sm-9 "
                                                 v-show="!selfOwner"
                                             >
                                                 <div class="with-multiselect">
@@ -269,7 +269,7 @@
                                                 </div>
                                             </div>
                                             <div
-                                                class="col-sm-3 col-xs-12"
+                                                class="col-sm-3 "
                                             >
                                                 <label
                                                     >{{
@@ -290,7 +290,7 @@
                                                 ></label>
                                             </div>
                                             <div
-                                                class="col-sm-9 col-xs-12"
+                                                class="col-sm-9 "
                                             >
                                                 <div class="with-multiselect">
                                                     <multi-select
