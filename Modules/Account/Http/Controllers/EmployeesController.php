@@ -65,7 +65,7 @@ class AccountsController extends Controller
         $user_id   = $people->getUserIdByPeopleId($people_id);
 
         $employee = new \WeDevs\ERP\HRM\Employee($user_id);
-        $item     = (array) erp_get_people($people_id);
+        $item     = (array) $people->getPeople($people_id);
 
         if (empty($item['id'])) {
             return new WP_Error('rest_employee_invalid_id', __('Invalid resource id.'), ['status' => 404]);

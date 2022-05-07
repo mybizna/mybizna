@@ -26,12 +26,7 @@ class Bank
 
         $args = wp_parse_args($args, $defaults);
 
-        $last_changed = erp_cache_get_last_changed('accounting', 'products', 'erp-accounting');
-        $cache_key    = 'erp-get-products-' . md5(serialize($args)) . ": $last_changed";
-        $products     = wp_cache_get($cache_key, 'erp-accounting');
-
-        $cache_key_count = 'erp-get-products-count-' . md5(serialize($args)) . ": $last_changed";
-        $products_count  = wp_cache_get($cache_key_count, 'erp-accounting');
+        $products_count  = $products = false;
 
         if (false === $products) {
             $limit = '';
@@ -70,8 +65,8 @@ class Bank
 
             $sql .= " ORDER BY product.{$args['orderby']} {$args['order']} {$limit}";
 
-           //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+            //config()->set('database.connections.mysql.strict', false);
+            //config()->set('database.connections.mysql.strict', true);
 
             if ($args['count']) {
                 $products_count = $wpdb->get_var($sql);
@@ -102,8 +97,8 @@ class Bank
     {
         global $wpdb;
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row(
             "SELECT
@@ -354,12 +349,7 @@ class Bank
 
         $args = wp_parse_args($args, $defaults);
 
-        $last_changed    = erp_cache_get_last_changed('accounting', 'products_vendor', 'erp-accounting');
-        $cache_key       = 'erp-get-products_vendor-' . md5(serialize($args)) . ": $last_changed";
-        $products_vendor = wp_cache_get($cache_key, 'erp-accounting');
-
-        $cache_key_count       = 'erp-get-products_vendor-count-' . md5(serialize($args)) . ": $last_changed";
-        $products_vendor_count = wp_cache_get($cache_key_count, 'erp-accounting');
+        $products_vendor_count =  $products_vendor = false;
 
         if (false === $products_vendor) {
             $limit = '';

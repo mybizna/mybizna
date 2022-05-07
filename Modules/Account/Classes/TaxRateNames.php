@@ -25,12 +25,7 @@ class Bank
 
         $args = wp_parse_args($args, $defaults);
 
-        $last_changed = erp_cache_get_last_changed('accounting', 'tax_rates_names', 'erp-accounting');
-        $cache_key    = 'erp-get-tax-rates-name-' . md5(serialize($args)) . ": $last_changed";
-        $tax_rates    = wp_cache_get($cache_key, 'erp-accounting');
-
-        $cache_key_count = 'erp-get-tax-rates-name-count-' . md5(serialize($args)) . " : $last_changed";
-        $tax_rates_count  = wp_cache_get($cache_key_count, 'erp-accounting');
+        $tax_rates_count  = $tax_rates    =  false;
 
         if (false === $tax_rates) {
             $limit = '';

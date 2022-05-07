@@ -214,7 +214,7 @@ class Bank
 
         $payment = $recpayments->getPayment($voucher_no);
 
-        $payment['email'] = erp_get_people_email($data['customer_id']);
+        $payment['email'] = $people->getPeopleEmail($data['customer_id']);
 
         do_action('erp_acct_new_transaction_payment', $voucher_no, $payment);
 
@@ -438,7 +438,7 @@ class Bank
         $payment_data = [];
 
         // We can pass the name from view... to reduce query load
-        $user_info = erp_get_people($data['customer_id']);
+        $user_info = $people->getPeople($data['customer_id']);
         $company   = new \WeDevs\ERP\Company();
 
         $payment_data['voucher_no']       = !empty($voucher_no) ? $voucher_no : 0;

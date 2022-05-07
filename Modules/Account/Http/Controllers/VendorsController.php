@@ -38,7 +38,7 @@ class AccountsController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         foreach ($items as $item) {
-            $photo_id = erp_people_get_meta($item->id, 'photo_id', true);
+            $photo_id = $people->peopleGetMeta($item->id, 'photo_id', true);
 
             $item->{'photo_id'} = $photo_id;
             $item->{'photo'}    = wp_get_attachment_thumb_url($photo_id);
@@ -47,7 +47,7 @@ class AccountsController extends Controller
                 $include_params = explode(',', str_replace(' ', '', $request['include']));
 
                 if (in_array('owner', $include_params, true)) {
-                    $vendor_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : erp_people_get_meta($item->id, 'contact_owner', true);
+                    $vendor_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : $people->peopleGetMeta($item->id, 'contact_owner', true);
 
                     $item->owner       = $this->get_user($vendor_owner_id);
                     $additional_fields = ['owner' => $item->owner];
@@ -75,14 +75,14 @@ class AccountsController extends Controller
     public function get_vendor($request)
     {
         $id   = (int) $request['id'];
-        $item = erp_get_people($id);
+        $item = $people->getPeople($id);
         $item = (array) $item;
 
         if (empty($id) || empty($item['id'])) {
             return new WP_Error('rest_vendor_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $photo_id = erp_people_get_meta($id, 'photo_id', true);
+        $photo_id = $people->peopleGetMeta($id, 'photo_id', true);
 
         $item['photo_id'] = $photo_id;
         $item['photo']    = wp_get_attachment_thumb_url($photo_id);
@@ -93,7 +93,7 @@ class AccountsController extends Controller
             $include_params = explode(',', str_replace(' ', '', $request['include']));
 
             if (in_array('owner', $include_params, true)) {
-                $vendor_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : erp_people_get_meta($item->id, 'contact_owner', true);
+                $vendor_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : $people->peopleGetMeta($item->id, 'contact_owner', true);
 
                 $item->owner       = $this->get_user($vendor_owner_id);
                 $additional_fields = ['owner' => $item->owner];
@@ -127,7 +127,7 @@ class AccountsController extends Controller
 
         $id   = $people->insertPeople($item);
 
-        $vendor       = (array) erp_get_people($id);
+        $vendor       = (array) $people->getPeople($id);
         $vendor['id'] = $id;
 
         $this->add_log($vendor, 'add');
@@ -153,7 +153,7 @@ class AccountsController extends Controller
     {
         $id = (int) $request['id'];
 
-        $item = erp_get_people($id);
+        $item = $people->getPeople($id);
 
         if (!$item) {
             return new WP_Error('rest_vendor_invalid_id', __('Invalid resource id.'), ['status' => 400]);
@@ -165,7 +165,7 @@ class AccountsController extends Controller
 
         $id   = $people->insertPeople($item);
 
-        $vendor       = (array) erp_get_people($id);
+        $vendor       = (array) $people->getPeople($id);
         $vendor['id'] = $id;
 
         $this->add_log((array) $item, 'edit', $vendor);
@@ -173,7 +173,7 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $vendor   = erp_get_people($id);
+        $vendor   = $people->getPeople($id);
         $response = $this->prepare_item_for_response($vendor, $request, $additional_fields);
         $response = rest_ensure_response($response);
         $response->set_status(200);
@@ -206,10 +206,10 @@ class AccountsController extends Controller
             'type' => 'vendor',
         ];
 
-        $vendor = (array) erp_get_people((int) $id);
+        $vendor = (array) $people->getPeople((int) $id);
 
 
-        erp_delete_people($data);
+        $people->deletePeople($data);
 
         $this->add_log($vendor, 'delete');
 
@@ -242,11 +242,11 @@ class AccountsController extends Controller
                 wp_send_json_error($error);
             }
 
-            $vendors[] = (array) erp_get_people((int) $id);
+            $vendors[] = (array) $people->getPeople((int) $id);
         }
 
 
-        erp_delete_people($data);
+        $people->deletePeople($data);
 
         foreach ($vendors as $vendor) {
             $this->add_log($vendor, 'delete');

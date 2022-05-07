@@ -351,7 +351,7 @@ class Bank
             return new WP_error('expense-exception', $e->getMessage());
         }
 
-        $email = erp_get_people_email($expense_data['people_id']);
+        $email = $people->getPeopleEmail($expense_data['people_id']);
 
         if ('check' === $type) {
             $check          = $expense->getCheck($voucher_no);
@@ -572,7 +572,7 @@ class Bank
             return new WP_error('expense-exception', $e->getMessage());
         }
 
-        $email = erp_get_people_email($expense_data['people_id']);
+        $email = $people->getPeopleEmail($expense_data['people_id']);
 
         if ('check' === $type) {
             $check          = $expense->getCheck($expense_id);
@@ -632,7 +632,7 @@ class Bank
     {
         $expense_data = [];
 
-        $people  = erp_get_people($data['people_id']);
+        $people  = $people->getPeople($data['people_id']);
         $company = new \WeDevs\ERP\Company();
 
         $expense_data['voucher_no']       = !empty($voucher_no) ? $voucher_no : 0;

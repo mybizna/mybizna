@@ -25,12 +25,8 @@ class Bank
 
         $args = wp_parse_args($args, $defaults);
 
-        $last_changed = erp_cache_get_last_changed('accounting', 'journals', 'erp-accounting');
-        $cache_key    = 'erp-get-journals-' . md5(serialize($args)) . ": $last_changed";
-        $journals     = wp_cache_get($cache_key, 'erp-accounting');
+        $journals    = $journals_count  = false;
 
-        $cache_key_count = 'erp-get-sales-transactions-count-' . md5(serialize($args)) . " : $last_changed";
-        $journals_count  = wp_cache_get($cache_key_count, 'erp-accounting');
 
         if (false === $journals) {
 
@@ -105,8 +101,8 @@ class Bank
             LEFT JOIN {$wpdb->prefix}erp_acct_journal_details as journal_detail ON journal.voucher_no = journal_detail.trn_no
             WHERE journal.voucher_no = {$journal_no} LIMIT 1";
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $row                = $wpdb->get_row($sql, ARRAY_A);
         $rows               = $row;
@@ -354,8 +350,8 @@ class Bank
             LEFT JOIN {$wpdb->prefix}erp_acct_journal_details as journal_detail ON journal.voucher_no = journal_detail.trn_no
             WHERE journal.voucher_no = {$journal_no}";
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $rows       = $wpdb->get_results($sql, ARRAY_A);
         $line_items = [];

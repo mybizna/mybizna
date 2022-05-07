@@ -273,7 +273,7 @@ class Bank
 
         $pay_purchase = $this->getPayPurchase($voucher_no);
 
-        $pay_purchase['email'] = erp_get_people_email($data['vendor_id']);
+        $pay_purchase['email'] = $people->getPeopleEmail($data['vendor_id']);
 
         do_action('erp_acct_new_transaction_pay_purchase', $voucher_no, $pay_purchase);
 
@@ -430,7 +430,7 @@ class Bank
     {
         $pay_purchase_data = [];
 
-        $user_data = erp_get_people($data['vendor_id']);
+        $user_data = $people->getPeople($data['vendor_id']);
         $company   = new \WeDevs\ERP\Company();
 
         $pay_purchase_data['voucher_no']       = !empty($voucher_no) ? $voucher_no : 0;

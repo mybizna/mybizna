@@ -24,12 +24,7 @@ class Bank
 
         $args = wp_parse_args($args, $defaults);
 
-        $last_changed = erp_cache_get_last_changed('accounting', 'tax_agencies', 'erp-accounting');
-        $cache_key    = 'erp-get-tax-agencies-' . md5(serialize($args)) . ": $last_changed";
-        $tax_agencies = wp_cache_get($cache_key, 'erp-accounting');
-
-        $cache_key_count     = 'erp-get-tax-agencies-count-' . md5(serialize($args)) . " : $last_changed";
-        $tax_agencies_count  = wp_cache_get($cache_key_count, 'erp-accounting');
+        $tax_agencies_count  = $tax_agencies = false;
 
         if (false === $tax_agencies) {
 

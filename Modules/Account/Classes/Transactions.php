@@ -26,12 +26,7 @@ function getSalesTransactions( $args = [] ) {
 
     $args = wp_parse_args( $args, $defaults );
 
-    $last_changed      = erp_cache_get_last_changed( 'accounting', 'sales_transaction', 'erp-accounting' );
-    $cache_key         = 'erp-get-sales-transactions-' . md5( serialize( $args ) ) . " : $last_changed";
-    $sales_transaction = wp_cache_get( $cache_key, 'erp-accounting' );
-
-    $cache_key_count         = 'erp-get-sales-transactions-count-' . md5( serialize( $args ) ) . " : $last_changed";
-    $sales_transaction_count = wp_cache_get( $cache_key_count, 'erp-accounting' );
+    $sales_transaction_count = $sales_transaction = false;
 
     if ( false === $sales_transaction ) {
         $limit = '';
@@ -594,12 +589,7 @@ function getExpenseTransactions( $args = [] ) {
 
     $args = wp_parse_args( $args, $defaults );
 
-    $last_changed        = erp_cache_get_last_changed( 'accounting', 'expense_transaction', 'erp-accounting' );
-    $cache_key           = 'erp-get-expense-transactions-' . md5( serialize( $args ) ) . " : $last_changed";
-    $expense_transaction = wp_cache_get( $cache_key, 'erp-accounting' );
-
-    $cache_key_count           = 'erp-get-expense-transactions-count-' . md5( serialize( $args ) ) . " : $last_changed";
-    $expense_transaction_count = wp_cache_get( $cache_key_count, 'erp-accounting' );
+    $expense_transaction_count =  $expense_transaction =  false; 
 
     if ( false === $expense_transaction ) {
         $limit = '';
@@ -719,12 +709,7 @@ function getPurchaseTransactions( $args = [] ) {
 
     $args = wp_parse_args( $args, $defaults );
 
-    $last_changed         = erp_cache_get_last_changed( 'accounting', 'purchase_transaction', 'erp-accounting' );
-    $cache_key            = 'erp-get-purchase-transactions-' . md5( serialize( $args ) ) . " : $last_changed";
-    $purchase_transaction = wp_cache_get( $cache_key, 'erp-accounting' );
-
-    $cache_key_count            = 'erp-get-purchase-transactions-count-' . md5( serialize( $args ) ) . " : $last_changed";
-    $purchase_transaction_count = wp_cache_get( $cache_key_count, 'erp-accounting' );
+    $purchase_transaction_count = $purchase_transaction =  false;
 
     if ( false === $purchase_transaction ) {
         $limit = '';
@@ -955,7 +940,7 @@ function generatePdf( $request, $transaction, $file_name = '', $output_method = 
     $to_address = array_values( $people->getPeopleAddress( $user_id ) );
 
     if ( empty( $to_address ) ) {
-        $to_address = erp_get_people( $user_id )->email;
+        $to_address = $people->getPeople( $user_id )->email;
     }
     array_unshift( $to_address, $user->get_full_name() );
 

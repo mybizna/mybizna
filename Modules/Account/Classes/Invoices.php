@@ -199,7 +199,7 @@ class Bank
         $estimate_type = 1;
         $draft         = 1;
         $currency      = erp_get_currency(true);
-        $email         = erp_get_people_email($data['customer_id']);
+        $email         = $people->getPeopleEmail($data['customer_id']);
 
         try {
             $wpdb->query('START TRANSACTION');
@@ -273,7 +273,7 @@ class Bank
 
         $invoice = $invoices->getInvoice($voucher_no);
 
-        $invoice['email'] = erp_get_people_email($data['customer_id']);
+        $invoice['email'] = $people->getPeopleEmail($data['customer_id']);
 
         do_action('erp_acct_new_transaction_sales', $voucher_no, $invoice);
 
@@ -626,7 +626,7 @@ class Bank
 
         $invoice = $invoices->getInvoice($invoice_no);
 
-        $invoice['email'] = erp_get_people_email($data['customer_id']);
+        $invoice['email'] = $people->getPeopleEmail($data['customer_id']);
 
         do_action('erp_acct_new_transaction_sales', $invoice_no, $invoice);
 
@@ -693,7 +693,7 @@ class Bank
 
         // We can pass the name from view... to reduce DB query load
         if (empty($data['customer_name'])) {
-            $customer      = erp_get_people($data['customer_id']);
+            $customer      = $people->getPeople($data['customer_id']);
             $customer_name = $customer->first_name . ' ' . $customer->last_name;
         } else {
             $customer_name = $data['customer_name'];

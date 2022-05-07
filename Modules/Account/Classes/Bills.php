@@ -240,7 +240,7 @@ class Bills
 
         $bill = $this->getBill($voucher_no);
 
-        $bill['email'] = erp_get_people_email($bill_data['vendor_id']);
+        $bill['email'] = $people->getPeopleEmail($bill_data['vendor_id']);
 
         do_action('erp_acct_new_transaction_bill', $voucher_no, $bill);
 
@@ -484,7 +484,7 @@ class Bills
     {
         $bill_data = [];
 
-        $vendor = erp_get_people($data['vendor_id']);
+        $vendor = $people->getPeople($data['vendor_id']);
 
         $bill_data['voucher_no']      = !empty($voucher_no) ? $voucher_no : 0;
         $bill_data['vendor_id']       = isset($data['vendor_id']) ? $data['vendor_id'] : 1;

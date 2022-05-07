@@ -23,8 +23,8 @@ class AccountsController extends Controller
             's'      => !empty($request['search']) ? $request['search'] : '',
         ];
 
-        $items       = erp_get_peoples($args);
-        $total_items = erp_get_peoples(
+        $items       = $people->getPeoples($args);
+        $total_items = $people->getPeoples(
             [
                 'type'  => $args['type'],
                 'count' => true,
@@ -43,7 +43,7 @@ class AccountsController extends Controller
                 $include_params = explode(',', str_replace(' ', '', $request['include']));
 
                 if (in_array('owner', $include_params, true)) {
-                    $customer_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : erp_people_get_meta($item->id, 'contact_owner', true);
+                    $customer_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : $people->peopleGetMeta($item->id, 'contact_owner', true);
 
                     $item->owner       = $this->get_user($customer_owner_id);
                     $additional_fields = ['owner' => $item->owner];
@@ -77,7 +77,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $people = erp_get_people($id);
+        $people = $people->getPeople($id);
 
         $people->{'state'}   = erp_get_state_name($people->country, $people->state);
         $people->{'country'} = erp_get_country_name($people->country);

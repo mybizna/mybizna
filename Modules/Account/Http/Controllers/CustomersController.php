@@ -39,7 +39,7 @@ class AccountsController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         foreach ($items as $item) {
-            $photo_id = erp_people_get_meta($item->id, 'photo_id', true);
+            $photo_id = $people->peopleGetMeta($item->id, 'photo_id', true);
 
             $item->{'photo_id'} = $photo_id;
             $item->{'photo'}    = wp_get_attachment_thumb_url($photo_id);
@@ -48,7 +48,7 @@ class AccountsController extends Controller
                 $include_params = explode(',', str_replace(' ', '', $request['include']));
 
                 if (in_array('owner', $include_params, true)) {
-                    $customer_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : erp_people_get_meta($item->id, 'contact_owner', true);
+                    $customer_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : $people->peopleGetMeta($item->id, 'contact_owner', true);
 
                     $item->owner       = $this->get_user($customer_owner_id);
                     $additional_fields = ['owner' => $item->owner];
@@ -77,14 +77,14 @@ class AccountsController extends Controller
     public function get_customer($request)
     {
         $id   = (int) $request['id'];
-        $item = erp_get_people($id);
+        $item = $people->getPeople($id);
         $item = (array) $item;
 
         if (empty($id) || empty($item['id'])) {
             return new WP_Error('rest_customer_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $photo_id = erp_people_get_meta($id, 'photo_id', true);
+        $photo_id = $people->peopleGetMeta($id, 'photo_id', true);
 
         $item['photo_id'] = $photo_id;
         $item['photo']    = wp_get_attachment_thumb_url($photo_id);
@@ -95,7 +95,7 @@ class AccountsController extends Controller
             $include_params = explode(',', str_replace(' ', '', $request['include']));
 
             if (in_array('owner', $include_params, true)) {
-                $customer_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : erp_people_get_meta($item->id, 'contact_owner', true);
+                $customer_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : $people->peopleGetMeta($item->id, 'contact_owner', true);
 
                 $item->owner       = $this->get_user($customer_owner_id);
                 $additional_fields = ['owner' => $item->owner];
@@ -128,7 +128,7 @@ class AccountsController extends Controller
         $item = $this->prepare_item_for_database($request);
         $id   = $people->insertPeople($item);
 
-        $customer       = (array) erp_get_people($id);
+        $customer       = (array) $people->getPeople($id);
         $customer['id'] = $id;
 
         $this->add_log($customer, 'add');
@@ -154,7 +154,7 @@ class AccountsController extends Controller
     {
         $id = (int) $request['id'];
 
-        $item = erp_get_people($id);
+        $item = $people->getPeople($id);
 
         if (!$item) {
             return new WP_Error('rest_customer_invalid_id', __('Invalid resource id.'), ['status' => 400]);
@@ -164,7 +164,7 @@ class AccountsController extends Controller
 
         $id = $people->insertPeople($item);
 
-        $customer       = (array) erp_get_people($id);
+        $customer       = (array) $people->getPeople($id);
         $customer['id'] = $id;
 
         $this->add_log((array) $item, 'edit', $customer);
@@ -204,10 +204,10 @@ class AccountsController extends Controller
             'type' => 'customer',
         ];
 
-        $customer = (array) erp_get_people($id);
+        $customer = (array) $people->getPeople($id);
 
 
-        erp_delete_people($data);
+        $people->deletePeople($data);
 
         $this->add_log($customer, 'delete');
 
@@ -240,11 +240,11 @@ class AccountsController extends Controller
                 wp_send_json_error($error);
             }
 
-            $customers[] = (array) erp_get_people((int) $id);
+            $customers[] = (array) $people->getPeople((int) $id);
         }
 
 
-        erp_delete_people($data);
+        $people->deletePeople($data);
 
         foreach ($customers as $customer) {
             $this->add_log($customer, 'delete');

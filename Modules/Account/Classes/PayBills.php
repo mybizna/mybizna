@@ -232,7 +232,7 @@ class Bank
 
         $pay_bill = $this->getPayBill($voucher_no);
 
-        $pay_bill['email'] = erp_get_people_email($data['vendor_id']);
+        $pay_bill['email'] = $people->getPeopleEmail($data['vendor_id']);
 
         do_action('erp_acct_new_transaction_pay_bill', $voucher_no, $pay_bill);
 
@@ -375,7 +375,7 @@ class Bank
     {
         $pay_bill_data = [];
 
-        $user_info = erp_get_people($data['vendor_id']);
+        $user_info = $people->getPeople($data['vendor_id']);
         $company   = new \WeDevs\ERP\Company();
 
         $pay_bill_data['voucher_no']       = !empty($voucher_no) ? $voucher_no : 0;

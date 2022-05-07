@@ -578,7 +578,7 @@ class Bank
      */
     function existPeople($email, $types = [])
     {
-        $people = erp_get_people_by('email', $email);
+        $people = $people->getPeopleBy('email', $email);
 
         // this $email belongs to nobody
         if (!$people) {
@@ -653,7 +653,7 @@ class Bank
                 $data['people_id'] = $customer_id;
                 $data['type']      = 'customer';
 
-                erp_convert_to_people($data);
+                $people->convertToPeople($data);
             }
         }
     }

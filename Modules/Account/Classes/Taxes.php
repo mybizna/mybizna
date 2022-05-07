@@ -25,12 +25,8 @@ class Bank
 
         $args = wp_parse_args($args, $defaults);
 
-        $last_changed = erp_cache_get_last_changed('accounting', 'tax_rates', 'erp-accounting');
-        $cache_key    = 'erp-get-tax-rates-' . md5(serialize($args)) . ": $last_changed";
-        $tax_rates    = wp_cache_get($cache_key, 'erp-accounting');
+        $tax_rates_count  = $tax_rates    = false;
 
-        $cache_key_count = 'erp-get-tax-rates-count-' . md5(serialize($args)) . " : $last_changed";
-        $tax_rates_count  = wp_cache_get($cache_key_count, 'erp-accounting');
 
         if (false === $tax_rates) {
             $limit = '';
@@ -93,8 +89,8 @@ class Bank
 
             WHERE tax.id = {$tax_no} LIMIT 1";
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 
@@ -378,12 +374,7 @@ class Bank
 
         $args = wp_parse_args($args, $defaults);
 
-        $last_changed = erp_cache_get_last_changed('accounting', 'tax_pay', 'erp-accounting');
-        $cache_key    = 'erp-get-tax-pay-' . md5(serialize($args)) . ": $last_changed";
-        $tax_pay      = wp_cache_get($cache_key, 'erp-accounting');
-
-        $cache_key_count = 'erp-get-tax-pay-count-' . md5(serialize($args)) . " : $last_changed";
-        $tax_pay_count   = wp_cache_get($cache_key_count, 'erp-accounting');
+        $tax_pay_count   = $tax_pay      = false;
 
         if (false === $tax_pay) {
 
@@ -567,7 +558,6 @@ class Bank
                 'updated_by'  => $tax_data['updated_by'],
             ]
         );
-
     }
 
     /**
@@ -667,8 +657,8 @@ class Bank
     {
         global $wpdb;
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         return $wpdb->get_results(
             "SELECT

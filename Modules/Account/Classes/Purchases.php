@@ -250,7 +250,7 @@ class Bank
 
             do_action('erp_acct_after_purchase_create', $data, $voucher_no);
 
-            $email = erp_get_people_email($purchase_data['vendor_id']);
+            $email = $people->getPeopleEmail($purchase_data['vendor_id']);
 
             if ($purchase_type_order === $purchase_data['purchase_order'] || $draft === $purchase_data['status']) {
                 $wpdb->query('COMMIT');
@@ -603,7 +603,7 @@ class Bank
 
         $purchase = $purchases->getPurchases($purchase_id);
 
-        $purchase['email'] = erp_get_people_email($purchase['vendor_id']);
+        $purchase['email'] = $people->getPeopleEmail($purchase['vendor_id']);
 
         do_action('erp_acct_new_transaction_purchase', $purchase_id, $purchase);
 
@@ -649,7 +649,7 @@ class Bank
      */
     function getFormattedPurchaseData($data, $voucher_no)
     {
-        $user_info = erp_get_people($data['vendor_id']);
+        $user_info = $people->getPeople($data['vendor_id']);
 
         $purchase_data['voucher_no']      = isset($data['voucher_no']) ? $data['voucher_no'] : $voucher_no;
         $purchase_data['vendor_id']       = isset($data['vendor_id']) ? $data['vendor_id'] : 0;
