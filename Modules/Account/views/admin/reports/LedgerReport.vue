@@ -135,7 +135,7 @@ export default {
             rows: [],
             totalDebit: 0,
             totalCredit: 0,
-            symbol: this.$erp_acct_var.symbol /* global this.$erp_acct_var */,
+            symbol: this.$mybizna_var.symbol /* global this.$mybizna_var */,
         };
     },
 

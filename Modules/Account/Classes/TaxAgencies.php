@@ -9,7 +9,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_all_tax_agencies($args = [])
+    function getAllTaxAgencies($args = [])
     {
         global $wpdb;
 
@@ -68,7 +68,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_tax_agency($tax_no)
+    function getTaxAgency($tax_no)
     {
         global $wpdb;
 
@@ -84,7 +84,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_insert_tax_agency($data)
+    function insertTaxAgency($data)
     {
         global $wpdb;
 
@@ -92,7 +92,7 @@ class Bank
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
-        $tax_data = erp_acct_get_formatted_tax_data($data);
+        $tax_data = $taxes->getFormattedTaxData($data);
 
         $wpdb->insert(
             $wpdb->prefix . 'erp_acct_tax_agencies',
@@ -107,7 +107,6 @@ class Bank
 
         $tax_id = $wpdb->insert_id;
 
-        erp_acct_purge_cache(['list' => 'tax_agencies']);
 
         return $tax_id;
     }
@@ -119,7 +118,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_update_tax_agency($data, $id)
+    function updateTaxAgency($data, $id)
     {
         global $wpdb;
 
@@ -127,7 +126,7 @@ class Bank
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
-        $tax_data = erp_acct_get_formatted_tax_data($data);
+        $tax_data = $taxes->getFormattedTaxData($data);
 
         $wpdb->update(
             $wpdb->prefix . 'erp_acct_tax_agencies',
@@ -141,7 +140,6 @@ class Bank
             ]
         );
 
-        erp_acct_purge_cache(['list' => 'tax_agencies']);
 
         return $id;
     }
@@ -153,13 +151,12 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_delete_tax_agency($id)
+    function deleteTaxAgency($id)
     {
         global $wpdb;
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_tax_agencies', ['id' => $id]);
 
-        erp_acct_purge_cache(['list' => 'tax_agencies']);
 
         return $id;
     }
@@ -171,7 +168,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_tax_agency_name_by_id($agency_id)
+    function getTaxAgencyNameById($agency_id)
     {
         global $wpdb;
 

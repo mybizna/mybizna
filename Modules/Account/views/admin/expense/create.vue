@@ -403,7 +403,7 @@ export default {
             particulars: "",
             isWorking: false,
             accts_by_chart: [],
-            erp_acct_assets: this.$erp_acct_var.acct_assets /* global this.$erp_acct_var */,
+            erp_acct_assets: this.$mybizna_var.acct_assets /* global this.$mybizna_var */,
         };
     },
 
@@ -484,8 +484,8 @@ export default {
                 this.getLedgers();
                 this.getPayMethods();
 
-                this.basic_fields.trn_date = this.$erp_acct_var.current_date;
-                this.basic_fields.due_date = this.$erp_acct_var.current_date;
+                this.basic_fields.trn_date = this.$mybizna_var.current_date;
+                this.basic_fields.due_date = this.$mybizna_var.current_date;
                 this.transactionLines.push({}, {}, {});
 
                 // initialize combo button id with `save`
@@ -780,7 +780,7 @@ export default {
             this.basic_fields = {
                 people: "",
                 trn_ref: "",
-                trn_date: this.$erp_acct_var.current_date,
+                trn_date: this.$mybizna_var.current_date,
                 deposit_to: "",
                 trn_by: "",
                 billing_address: "",

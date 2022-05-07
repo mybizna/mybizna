@@ -26,8 +26,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $items       = erp_acct_get_all_journals($args);
-        $total_items = erp_acct_get_all_journals(
+        $items       = $this->getAllJournals($args);
+        $total_items = $this->getAllJournals(
             [
                 'count'  => true,
                 'number' => -1,
@@ -65,7 +65,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_journal_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_journal($id);
+        $item = $journal->updateInvoice($id);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
@@ -121,7 +121,7 @@ class AccountsController extends Controller
 
         $trans_data['voucher_amount'] = $total_dr;
 
-        $journal = erp_acct_insert_journal($trans_data);
+        $journal = $this->insertJournal($trans_data);
 
         $this->add_log($journal, 'add');
 

@@ -514,7 +514,7 @@ export default {
         },
 
         mapFields() {
-            let erpFields = this.$erp_acct_var.erp_fields;
+            let erpFields = this.$mybizna_var.erp_fields;
 
             if (erpFields[this.type] !== undefined) {
                 this.fields = erpFields[this.type].fields;
@@ -579,7 +579,7 @@ export default {
         },
 
         generateCsvUrl() {
-            this.sampleUrl = `${this.$erp_acct_var.admin_url}?page=erp-accounting&action=download_sample&type=product&_wpnonce=${this.$erp_acct_var.export_import_nonce}#${this.$route.path}`;
+            this.sampleUrl = `${this.$mybizna_var.admin_url}?page=erp-accounting&action=download_sample&type=product&_wpnonce=${this.$mybizna_var.export_import_nonce}#${this.$route.path}`;
         },
 
         downloadSample() {

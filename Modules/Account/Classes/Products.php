@@ -11,7 +11,7 @@ class Bank
      * @return mixed
      */
 
-    function erp_acct_get_all_products($args = [])
+    function getAllProducts($args = [])
     {
         global $wpdb;
 
@@ -70,7 +70,8 @@ class Bank
 
             $sql .= " ORDER BY product.{$args['orderby']} {$args['order']} {$limit}";
 
-            erp_disable_mysql_strict_mode();
+           //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
             if ($args['count']) {
                 $products_count = $wpdb->get_var($sql);
@@ -97,11 +98,12 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_product($product_id)
+    function getProduct($product_id)
     {
         global $wpdb;
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row(
             "SELECT
@@ -133,7 +135,7 @@ class Bank
      * @param $data
      * @return WP_Error | integer
      */
-    function erp_acct_insert_product($data)
+    function insertProduct($data)
     {
         global $wpdb;
 
@@ -144,7 +146,7 @@ class Bank
 
         try {
             $wpdb->query('START TRANSACTION');
-            $product_data = erp_acct_get_formatted_product_data($data);
+            $product_data = $products->getFormattedProductData($data);
 
             $product_check =  $wpdb->get_row(
                 $wpdb->prepare(
@@ -183,11 +185,10 @@ class Bank
             return new WP_Error('duplicate-product', $e->getMessage(), array('status' => 400));
         }
 
-        erp_acct_purge_cache(['list' => 'products,products_vendor']);
 
         do_action('erp_acct_after_change_product_list');
 
-        return erp_acct_get_product($product_id);
+        return $this->getAllProducts($product_id);
     }
 
     /**
@@ -197,7 +198,7 @@ class Bank
      *
      * @return WP_Error | Object
      */
-    function erp_acct_update_product($data, $id)
+    function updateProduct($data, $id)
     {
         global $wpdb;
 
@@ -207,7 +208,7 @@ class Bank
 
         try {
             $wpdb->query('START TRANSACTION');
-            $product_data = erp_acct_get_formatted_product_data($data);
+            $product_data = $products->getFormattedProductData($data);
 
             $product_name_check =  $wpdb->get_row(
                 $wpdb->prepare(
@@ -249,11 +250,10 @@ class Bank
             return new WP_Error('duplicate-product', $e->getMessage(), array('status' => 400));
         }
 
-        erp_acct_purge_cache(['list' => 'products,products_vendor']);
 
         do_action('erp_acct_after_change_product_list');
 
-        return erp_acct_get_product($id);
+        return $this->getAllProducts($id);
     }
 
     /**
@@ -264,7 +264,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_product_data($data)
+    function getFormattedProductData($data)
     {
         $product_data['name']            = !empty($data['name']) ? $data['name'] : 1;
         $product_data['product_type_id'] = !empty($data['product_type_id']) ? $data['product_type_id'] : 1;
@@ -288,14 +288,13 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_delete_product($product_id)
+    function deleteProduct($product_id)
     {
         global $wpdb;
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_products', ['id' => $product_id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_product_details', ['product_id' => $product_id]);
 
-        erp_acct_purge_cache(['list' => 'products,products_vendor']);
 
         do_action('erp_acct_after_change_product_list');
 
@@ -309,7 +308,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_product_types()
+    function getProductTypes()
     {
         global $wpdb;
 
@@ -325,7 +324,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_product_type_id_by_product_id($product_id)
+    function getProductTypeIdByProductId($product_id)
     {
         global $wpdb;
 
@@ -339,7 +338,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_vendor_products($args = [])
+    function getVendorProducts($args = [])
     {
         global $wpdb;
 
@@ -420,7 +419,7 @@ class Bank
      *
      * @return array|WP_Error
      */
-    function erp_acct_validate_csv_data($data)
+    function validateCsvData($data)
     {
         $files = wp_check_filetype_and_ext($data['csv_file']['tmp_name'], $data['csv_file']['name']);
 
@@ -596,7 +595,7 @@ class Bank
      *
      * @return int|WP_Error
      */
-    function erp_acct_import_products($data)
+    function importProducts($data)
     {
         global $wpdb;
 

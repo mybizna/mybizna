@@ -25,8 +25,8 @@ class AccountsController extends Controller
             's'      => !empty($request['search']) ? $request['search'] : '',
         ];
 
-        $items       = erp_acct_get_accounting_people($args);
-        $total_items = erp_acct_get_accounting_people(
+        $items       = $people->getAccountingPeople($args);
+        $total_items = $people->getAccountingPeople(
             ['type' => 'vendor', 's' => $args['s'], 'count' => true]
         );
         $total_items = is_array($total_items) ? count($total_items) : $total_items;
@@ -119,13 +119,13 @@ class AccountsController extends Controller
      */
     public function create_vendor($request)
     {
-        if (erp_acct_exist_people($request['email'])) {
+        if ($common->existPeople($request['email'])) {
             return new WP_Error('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
         }
 
         $item = $this->prepare_item_for_database($request);
 
-        $id   = erp_acct_insert_people($item);
+        $id   = $people->insertPeople($item);
 
         $vendor       = (array) erp_get_people($id);
         $vendor['id'] = $id;
@@ -163,7 +163,7 @@ class AccountsController extends Controller
 
         $item = $this->prepare_item_for_database($request);
 
-        $id   = erp_acct_insert_people($item);
+        $id   = $people->insertPeople($item);
 
         $vendor       = (array) erp_get_people($id);
         $vendor['id'] = $id;
@@ -192,7 +192,7 @@ class AccountsController extends Controller
     {
         $id = (int) $request['id'];
 
-        $exist = erp_acct_check_associated_tranasaction($id);
+        $exist = $people->checkAssociatedTranasaction($id);
 
         if ($exist) {
             $error = new WP_Error('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
@@ -208,7 +208,6 @@ class AccountsController extends Controller
 
         $vendor = (array) erp_get_people((int) $id);
 
-        erp_acct_purge_cache(['group' => 'erp', 'list' => 'people', 'type' => $data['type']]);
 
         erp_delete_people($data);
 
@@ -235,7 +234,7 @@ class AccountsController extends Controller
         ];
 
         foreach ($data['id'] as $id) {
-            $exist = erp_acct_check_associated_tranasaction($id);
+            $exist = $people->checkAssociatedTranasaction($id);
 
             if ($exist) {
                 $error = new WP_Error('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
@@ -246,7 +245,6 @@ class AccountsController extends Controller
             $vendors[] = (array) erp_get_people((int) $id);
         }
 
-        erp_acct_purge_cache(['group' => 'erp', 'list' => 'people', 'type' => $data['type']]);
 
         erp_delete_people($data);
 
@@ -269,7 +267,7 @@ class AccountsController extends Controller
         $id                = (int) $request['id'];
         $args['people_id'] = $id;
 
-        $transactions = erp_acct_get_people_transactions($args);
+        $transactions = $people->getPeopleTransactions($args);
 
         return new WP_REST_Response($transactions, 200);
     }
@@ -291,7 +289,7 @@ class AccountsController extends Controller
             'start_date' => $start_date,
             'end_date'   => $end_date,
         ];
-        $transactions = erp_acct_get_people_transactions($args);
+        $transactions = $people->getPeopleTransactions($args);
         $response     = rest_ensure_response($transactions);
 
         return $response;
@@ -318,8 +316,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $product_data = erp_acct_get_vendor_products($args);
-        $total_items  = erp_acct_get_vendor_products(
+        $product_data = $products->getVendorProducts($args);
+        $total_items  = $products->getVendorProducts(
             [
                 'count'  => true,
                 'number' => -1,

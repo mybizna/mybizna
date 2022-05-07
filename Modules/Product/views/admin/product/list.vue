@@ -106,8 +106,8 @@ export default {
                     key: "trash",
                     label: this.$func.__("Move to Trash", "erp"),
                     img:
-                        this.$erp_acct_var.erp_assets +
-                        "/images/trash.png" /* global this.$erp_acct_var */,
+                        this.$mybizna_var.erp_assets +
+                        "/images/trash.png" /* global this.$mybizna_var */,
                 },
             ],
             paginationData: {

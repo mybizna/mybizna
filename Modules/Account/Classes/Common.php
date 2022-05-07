@@ -10,7 +10,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_upload_attachments($files)
+    function uploadAttachments($files)
     {
         if (!function_exists('wp_handle_upload')) {
             require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -45,7 +45,7 @@ class Bank
      *
      * @return array|object|null
      */
-    function erp_acct_get_payables($from, $to)
+    function getPayables($from, $to)
     {
         global $wpdb;
 
@@ -97,7 +97,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_payables_overview()
+    function getPayablesOverview()
     {
         // get dates till coming 90 days
         $from_date = date('Y-m-d');
@@ -110,7 +110,7 @@ class Bank
             'third'  => 0,
         ];
 
-        $result = erp_acct_get_payables($from_date, $to_date);
+        $result = $this->getPayables($from_date, $to_date);
 
         if (!empty($result)) {
             $from_date = new DateTime($from_date);
@@ -160,7 +160,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_insert_check_data($check_data)
+    function insertCheckData($check_data)
     {
         global $wpdb;
 
@@ -190,7 +190,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_update_check_data($check_data, $check_no)
+    function updateCheckData($check_data, $check_no)
     {
         global $wpdb;
 
@@ -221,7 +221,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_people_info_by_id($people_id)
+    function getPeopleInfoById($people_id)
     {
         global $wpdb;
 
@@ -237,7 +237,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_ledger_by_id($ledger_id)
+    function getLedgerById($ledger_id)
     {
         global $wpdb;
 
@@ -256,7 +256,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_ledger_by($field = 'id', $value = '')
+    function getLedgerBy($field = 'id', $value = '')
     {
         global $wpdb;
 
@@ -283,7 +283,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_product_type_by_id($product_type_id)
+    function getProductTypeById($product_type_id)
     {
         global $wpdb;
 
@@ -299,7 +299,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_product_category_by_id($cat_id)
+    function getProductCategoryById($cat_id)
     {
         global $wpdb;
 
@@ -315,7 +315,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_tax_agency_by_id($agency_id)
+    function getTaxAgencyById($agency_id)
     {
         global $wpdb;
 
@@ -331,7 +331,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_tax_category_by_id($cat_id)
+    function getTaxCategoryById($cat_id)
     {
         global $wpdb;
 
@@ -349,7 +349,7 @@ class Bank
      *
      * @return string
      */
-    function erp_acct_get_trn_status_by_id($trn_id)
+    function getTrnStatusById($trn_id)
     {
         global $wpdb;
 
@@ -369,7 +369,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_payment_method_by_id($method_id)
+    function getPaymentMethodById($method_id)
     {
         global $wpdb;
 
@@ -385,7 +385,7 @@ class Bank
      *
      * @return string
      */
-    function erp_acct_get_payment_method_name_by_id($method_id)
+    function getPaymentMethodNameById($method_id)
     {
         global $wpdb;
 
@@ -401,7 +401,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_check_trn_type_by_id($trn_type_id)
+    function getCheckTrnTypeById($trn_type_id)
     {
         global $wpdb;
 
@@ -420,7 +420,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_tax_rate_with_agency($tax_id, $tax_cat_id)
+    function getTaxRateWithAgency($tax_id, $tax_cat_id)
     {
         global $wpdb;
 
@@ -444,7 +444,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_invoice_items_agency_wise_tax_rate($invoice_details_id)
+    function getInvoiceItemsAgencyWiseTaxRate($invoice_details_id)
     {
         global $wpdb;
 
@@ -466,7 +466,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_quick_access_menu()
+    function quickAccessMenu()
     {
         $menus = [
             'invoice'         => [
@@ -557,7 +557,7 @@ class Bank
      *
      * @return bool
      */
-    function erp_acct_check_voucher_edit_state($id)
+    function checkVoucherEditState($id)
     {
         global $wpdb;
 
@@ -576,7 +576,7 @@ class Bank
      *
      * @return bool
      */
-    function erp_acct_exist_people($email, $types = [])
+    function existPeople($email, $types = [])
     {
         $people = erp_get_people_by('email', $email);
 
@@ -605,7 +605,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_trn_status_by_id($slug)
+    function trnStatusById($slug)
     {
         global $wpdb;
 
@@ -617,7 +617,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_all_trn_statuses()
+    function getAllTrnStatuses()
     {
         global $wpdb;
 
@@ -637,13 +637,13 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_customer_create_from_crm($customer_id, $data, $people_type)
+    function customerCreateFromCrm($customer_id, $data, $people_type)
     {
         if ('contact' === $people_type || 'company' === $people_type) {
             $customer_auto_import = (int) erp_get_option('customer_auto_import', false, 0);
             $crm_user_type        = erp_get_option('crm_user_type', false, []); // Contact or Company
             // Check whether the email already exists in Accounting
-            $exists_people        = erp_acct_exist_people($data['email'], ['customer', 'vendor']);
+            $exists_people        =$this-> existPeople($data['email'], ['customer', 'vendor']);
 
             if (!$exists_people && $customer_auto_import && count($crm_user_type)) {
                 // No need to add wordpress `user id` again
@@ -665,7 +665,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_bank_transaction_charge_into_ledger($payment_data)
+    function insertBankTransactionChargeIntoLedger($payment_data)
     {
         global $wpdb;
 
@@ -675,7 +675,7 @@ class Bank
 
         // Insert amount in ledger_details
         // get ledger id of "Bank Transaction Charge"
-        $ledger_data = erp_acct_get_ledger_by('slug', 'bank_transaction_charge');
+        $ledger_data = $this->getLedgerBy('slug', 'bank_transaction_charge');
 
         if (empty($ledger_data)) {
             return;

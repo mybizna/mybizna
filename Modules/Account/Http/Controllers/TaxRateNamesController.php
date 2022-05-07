@@ -16,7 +16,7 @@ class AccountsController extends Controller
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function get_tax_cats($request)
+    public function get_tax_rate_names($request)
     {
         $args = [
             'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
@@ -31,8 +31,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data    = erp_acct_get_all_tax_cats($args);
-        $total_items = erp_acct_get_all_tax_cats(
+        $tax_data    = $taxratenames->getAllTaxRateNames($args);
+        $total_items = $taxratenames->getAllTaxRateNames(
             [
                 'count'  => true,
                 'number' => -1,
@@ -67,7 +67,7 @@ class AccountsController extends Controller
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function get_tax_cat($request)
+    public function get_tax_rate_name($request)
     {
         $id = (int) $request['id'];
 
@@ -75,7 +75,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_tax_cat($id);
+        $item = $taxratenames->getTaxRateName($id);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
@@ -95,11 +95,11 @@ class AccountsController extends Controller
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function create_tax_cat($request)
+    public function create_tax_rate_name($request)
     {
         $tax_data = $this->prepare_item_for_database($request);
 
-        $tax_id = erp_acct_insert_tax_cat($tax_data);
+        $tax_id = $taxratenames->insertTaxRateName($tax_data);
 
         $tax_data['id'] = $tax_id;
 
@@ -123,7 +123,7 @@ class AccountsController extends Controller
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function update_tax_cat($request)
+    public function update_tax_rate_name($request)
     {
         $id = (int) $request['id'];
 
@@ -132,17 +132,8 @@ class AccountsController extends Controller
         }
 
         $tax_data = $this->prepare_item_for_database($request);
-
-        $items = $request['tax_components'];
-
-        foreach ($items as $key => $item) {
-            $item_rates[$key] = $item['tax_rate'];
-        }
-
-        $tax_data['total_rate'] = array_sum($item_rates);
-
-        $old_data = erp_acct_get_tax_cat($id);
-        $tax_id   = erp_acct_update_tax_cat($tax_data, $id);
+        $old_data = $taxratenames->getTaxRateName($id);
+        $tax_id   = $taxratenames->updateTaxRateName($tax_data, $id);
 
         $this->add_log($tax_data, 'edit', $old_data);
 
@@ -165,7 +156,7 @@ class AccountsController extends Controller
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function delete_tax_cat($request)
+    public function delete_tax_rate_name($request)
     {
         $id = (int) $request['id'];
 
@@ -173,9 +164,9 @@ class AccountsController extends Controller
             return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_tax_cat($id);
+        $item = $taxratenames->getTaxRateName($id);
 
-        erp_acct_delete_tax_cat($id);
+        $taxratenames->deleteTaxRateName($id);
 
         $this->add_log($item, 'delete');
 
@@ -199,9 +190,9 @@ class AccountsController extends Controller
         }
 
         foreach ($ids as $id) {
-            $item = erp_acct_get_tax_cat($id);
+            $item = $taxratenames->getTaxRateName($id);
 
-            erp_acct_delete_tax_cat($id);
+            $taxratenames->deleteTaxRateName($id);
 
             $this->add_log($item, 'delete');
         }
@@ -210,7 +201,7 @@ class AccountsController extends Controller
     }
 
     /**
-     * Log for tax category related actions
+     * Log for tax zone related actions
      *
      * @param array $data
      * @param string $action
@@ -238,7 +229,7 @@ class AccountsController extends Controller
                 'sub_component' => __('Tax', 'erp'),
                 'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
                 'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => '<strong>' . $data['name'] . '</strong>' . sprintf(__(' tax category has been %s', 'erp'), $operation),
+                'message'       => '<strong>' . $data['tax_rate_name'] . '</strong>' . sprintf(__(' tax zone has been %s', 'erp'), $operation),
                 'changetype'    => $action,
                 'created_by'    => get_current_user_id(),
             ]
@@ -256,12 +247,16 @@ class AccountsController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['name'])) {
-            $prepared_item['name'] = $request['name'];
+        if (isset($request['tax_rate_name'])) {
+            $prepared_item['tax_rate_name'] = $request['tax_rate_name'];
         }
 
-        if (isset($request['description'])) {
-            $prepared_item['description'] = $request['description'];
+        if (isset($request['tax_number'])) {
+            $prepared_item['tax_number'] = $request['tax_number'];
+        }
+
+        if (isset($request['default'])) {
+            $prepared_item['default'] = $request['default'];
         }
 
         return $prepared_item;
@@ -278,15 +273,7 @@ class AccountsController extends Controller
      */
     public function prepare_item_for_response($item, $request, $additional_fields = [])
     {
-        $item = (object) $item;
-
-        $data = [
-            'id'          => (int) $item->id,
-            'name'        => $item->name,
-            'description' => !empty($item->description) ? $item->description : '',
-        ];
-
-        $data = array_merge($data, $additional_fields);
+        $data = array_merge($item, $additional_fields);
 
         // Wrap the data in a response object
         $response = rest_ensure_response($data);
@@ -305,30 +292,35 @@ class AccountsController extends Controller
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'tax_category',
+            'title'      => 'tax',
             'type'       => 'object',
             'properties' => [
-                'id'          => [
+                'id'   => [
                     'description' => __('Unique identifier for the resource.'),
                     'type'        => 'integer',
                     'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
                 ],
-                'name'        => [
-                    'description' => __('Tax Category name for the resource.'),
+                'tax_rate_name' => [
+                    'description' => __('Tax rate name for the resource.'),
                     'type'        => 'string',
-                    'context'     => ['edit'],
+                    'context'     => ['view', 'edit'],
                     'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
                 ],
-                'description' => [
-                    'description' => __('Tax Category Description for the resource.'),
+                'tax_number' => [
+                    'description' => __('Tax number for the resource.'),
                     'type'        => 'string',
-                    'context'     => ['edit'],
+                    'context'     => ['view', 'edit'],
                     'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
+                ],
+                'default' => [
+                    'description' => __('Tax default value for the resource.'),
+                    'type'        => ['integer', 'string', 'boolean'],
+                    'context'     => ['view', 'edit'],
                 ],
             ],
         ];

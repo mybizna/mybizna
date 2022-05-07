@@ -157,9 +157,9 @@ export default {
 
             chartAccounts: [],
             ledgers: [],
-            temp_ledgers: this.$erp_acct_var.ledgers /* global this.$this.$this.$erp_acct_var */,
+            temp_ledgers: this.$mybizna_var.ledgers /* global this.$this.$this.$mybizna_var */,
             search: "",
-            curSymbol: this.$erp_acct_var.symbol || "$",
+            curSymbol: this.$mybizna_var.symbol || "$",
         };
     },
 

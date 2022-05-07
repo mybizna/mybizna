@@ -121,8 +121,8 @@ export default {
                     key: "trash",
                     label: this.$func.__("Move to Trash", "erp"),
                     img:
-                        this.$erp_acct_var.erp_assets +
-                        "/images/trash.png" /* global erp_acct_var */,
+                        this.$mybizna_var.erp_assets +
+                        "/images/trash.png" /* global mybizna_var */,
                 },
             ],
             columns1: {
@@ -155,7 +155,7 @@ export default {
                 this.end_date = this.$route.query.end;
             } else {
                 this.start_date = `${dateObj.getFullYear()}-${month}-01`;
-                this.end_date = this.$erp_acct_var.current_date;
+                this.end_date = this.$mybizna_var.current_date;
             }
 
             // this.updateDate();

@@ -31,8 +31,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $invoice_data = erp_acct_get_all_invoices($args);
-        $total_items  = erp_acct_get_all_invoices(
+        $invoice_data = $invoices->getAllInvoices($args);
+        $total_items  = $invoices->getAllInvoices(
             [
                 'count'  => true,
                 'number' => -1,
@@ -75,9 +75,9 @@ class AccountsController extends Controller
             return new WP_Error('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_invoice($id);
+        $item = $invoices->getInvoice($id);
 
-        $link_hash    = erp_acct_get_invoice_link_hash($id, 'invoice');
+        $link_hash    = $trans->getInvoiceLinkHash($id, 'invoice');
         $readonly_url = add_query_arg(
             [
                 'query'    => 'readonly_invoice',
@@ -135,7 +135,7 @@ class AccountsController extends Controller
         $additional_fields['namespace']  = $this->namespace;
         $additional_fields['rest_base']  = $this->rest_base;
 
-        $invoice_id = erp_acct_insert_invoice($invoice_data);
+        $invoice_id = $invoices->insertInvoice($invoice_data);
 
         $invoice_data['id'] = $invoice_id;
 
@@ -164,7 +164,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $can_edit = erp_acct_check_voucher_edit_state($id);
+        $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
             return new WP_Error('rest_invoice_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
@@ -197,9 +197,9 @@ class AccountsController extends Controller
         $additional_fields['namespace']  = $this->namespace;
         $additional_fields['rest_base']  = $this->rest_base;
 
-        $old_data = erp_acct_get_invoice($id);
+        $old_data = $invoices->getInvoice($id);
 
-        $invoice_id = erp_acct_update_invoice($invoice_data, $id);
+        $invoice_id = $invoices->updateInvoice($invoice_data, $id);
 
         $this->add_log($id, 'edit', $old_data);
 
@@ -228,7 +228,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        erp_acct_void_invoice($id);
+        $this->voidInvoice($id);
 
         return new WP_REST_Response(true, 204);
     }
@@ -259,7 +259,7 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $invoice_data = erp_acct_receive_payments_from_customer(['people_id' => $id]);
+        $invoice_data = $invoices->receivePaymentsFromCustomer(['people_id' => $id]);
         $total_items  = count($invoice_data);
 
         foreach ($invoice_data as $item) {
@@ -292,7 +292,7 @@ class AccountsController extends Controller
      */
     public function get_overview_receivables($request)
     {
-        $items    = erp_acct_get_recievables_overview();
+        $items    = $invoices->getRecievablesOverview();
         $response = rest_ensure_response($items);
 
         $response->set_status(200);
@@ -311,7 +311,7 @@ class AccountsController extends Controller
     {
         $file = $_FILES['attachments'];
 
-        $movefiles = erp_acct_upload_attachments($file);
+        $movefiles = $account->uploadAttachments($file);
 
         $response = rest_ensure_response($movefiles);
         $response->set_status(200);
@@ -333,7 +333,7 @@ class AccountsController extends Controller
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
-                $data      = erp_acct_get_invoice($id);
+                $data      = $invoices->getInvoice($id);
                 $changes   = !empty($old_data) ? erp_get_array_diff((array) $data, (array) $old_data) : [];
                 unset($changes['pdf_link'], $changes['attachments'], $changes['line_items']);
                 break;
@@ -350,7 +350,7 @@ class AccountsController extends Controller
                 'sub_component' => __('Invoice', 'erp'),
                 'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
                 'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('An invoice of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, erp_acct_get_people_name_by_people_id($data['customer_id'])),
+                'message'       => sprintf(__('An invoice of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, $people->getPeopleNameByPeopleId($data['customer_id'])),
                 'changetype'    => $action,
                 'created_by'    => get_current_user_id(),
             ]

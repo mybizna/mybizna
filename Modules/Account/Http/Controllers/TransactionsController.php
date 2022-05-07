@@ -20,7 +20,7 @@ class AccountsController extends Controller
     {
         $voucher_no = !empty($request['voucher_no']) ? $request['voucher_no'] : 0;
 
-        $voucher_type = erp_acct_get_transaction_type($voucher_no);
+        $voucher_type = $trans->getTransactionType($voucher_no);
 
         $response = rest_ensure_response($voucher_type);
 
@@ -76,8 +76,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $transactions = erp_acct_get_sales_transactions($args);
-        $total_items  = erp_acct_get_sales_transactions(
+        $transactions = $this->getSalesTransactions($args);
+        $total_items  = $this->getSalesTransactions(
             [
                 'count'       => true,
                 'number'      => -1,
@@ -112,7 +112,7 @@ class AccountsController extends Controller
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
         ];
 
-        $chart_status = erp_acct_get_sales_chart_status($args);
+        $chart_status = $trans->getSalesChartStatus($args);
 
         $response = rest_ensure_response($chart_status);
 
@@ -131,7 +131,7 @@ class AccountsController extends Controller
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
         ];
 
-        $chart_payment = erp_acct_get_sales_chart_payment($args);
+        $chart_payment = $thtransis->getSalesChartPayment($args);
 
         $response = rest_ensure_response($chart_payment);
 
@@ -149,7 +149,7 @@ class AccountsController extends Controller
      */
     public function get_income_expense_overview($request)
     {
-        $data = erp_acct_get_income_expense_chart_data();
+        $data = $this->getIncomeExpenseChartData();
 
         $response = rest_ensure_response($data);
 
@@ -172,8 +172,8 @@ class AccountsController extends Controller
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
         ];
 
-        $bill_payment    = erp_acct_get_bill_chart_data($args);
-        $expense_payment = erp_acct_get_expense_chart_data($args);
+        $bill_payment    = $this->getBillChartData($args);
+        $expense_payment = $trans->getExpenseChartData($args);
 
         $chart_payment['paid'] = $bill_payment['paid'] + $expense_payment['paid'];
 
@@ -200,8 +200,8 @@ class AccountsController extends Controller
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
         ];
 
-        $chart_statuses = erp_acct_get_bill_chart_status($args);
-        $expense_status = erp_acct_get_expense_chart_status($args);
+        $chart_statuses = $trans->getBillChartStatus($args);
+        $expense_status = $trans->getExpenseChartStatus($args);
 
         foreach ($chart_statuses as $bill_status) {
             if ($bill_status['type_name'] === $expense_status['type_name']) {
@@ -244,8 +244,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $transactions = erp_acct_get_expense_transactions($args);
-        $total_items  = erp_acct_get_expense_transactions(
+        $transactions = $trans->getExpenseTransactions($args);
+        $total_items  = $trans->getExpenseTransactions(
             [
                 'count'      => true,
                 'number'     => -1,
@@ -284,7 +284,7 @@ class AccountsController extends Controller
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
         ];
 
-        $chart_payment = erp_acct_get_purchase_chart_data($args);
+        $chart_payment = $trans->getPurchaseChartData($args);
 
         $response = rest_ensure_response($chart_payment);
 
@@ -307,7 +307,7 @@ class AccountsController extends Controller
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
         ];
 
-        $chart_status = erp_acct_get_purchase_chart_status($args);
+        $chart_status = $this->getPurchaseChartStatus($args);
 
         $response = rest_ensure_response($chart_status);
 
@@ -341,8 +341,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $transactions = erp_acct_get_purchase_transactions($args);
-        $total_items  = erp_acct_get_purchase_transactions(
+        $transactions = $trans->getPurchaseTransactions($args);
+        $total_items  = $trans->getPurchaseTransactions(
             [
                 'count'      => true,
                 'number'     => -1,
@@ -389,7 +389,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_voucher_type_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $response = erp_acct_get_transaction_type($id);
+        $response = $trans>getTransactionType($id);
 
         $response = rest_ensure_response($response);
         $response->set_status(200);
@@ -478,10 +478,10 @@ class AccountsController extends Controller
             'message' => 'There was an error sending mail!',
         ];
 
-        $file_name   = erp_acct_get_pdf_filename($request['trn_data']['voucher_no']);
+        $file_name   = $trans->getPdfFilename($request['trn_data']['voucher_no']);
         $transaction = (object) $request['trn_data'];
 
-        if (erp_acct_send_email_with_pdf_attached($request, $transaction, $file_name, 'F')) {
+        if ($trans->sendEmailWithPdfAttached($request, $transaction, $file_name, 'F')) {
             $response['status']  = 200;
             $response['message'] = 'mail sent successfully.';
         }
@@ -501,10 +501,10 @@ class AccountsController extends Controller
 
         $args['people_id'] = $request['id'];
 
-        $bill_payment     = erp_acct_get_bill_chart_data($args);
-        $expense_payment  = erp_acct_get_expense_chart_data($args);
-        $sales_payment    = erp_acct_get_sales_chart_payment($args);
-        $purchase_payment = erp_acct_get_purchase_chart_data($args);
+        $bill_payment     = $trans->getBillChartData($args);
+        $expense_payment  = $trans->getExpenseChartData($args);
+        $sales_payment    = $trans->getSalesChartPayment($args);
+        $purchase_payment = $trans->getPurchaseChartData($args);
 
         $chart_payment['paid']    = $bill_payment['paid'] + $expense_payment['paid'] + $sales_payment['received'] + $purchase_payment['paid'];
         $chart_payment['payable'] = $bill_payment['payable'] + $expense_payment['payable'] + $sales_payment['outstanding'] + $purchase_payment['payable'];
@@ -528,10 +528,11 @@ class AccountsController extends Controller
 
         $args['people_id'] = $request['id'];
 
-        $chart_statuses    = erp_acct_get_bill_chart_status($args);
-        $expense_status    = erp_acct_get_expense_chart_status($args);
-        $sales_statuses    = erp_acct_get_sales_chart_status($args);
-        $purchase_statuses = erp_acct_get_purchase_chart_status($args);
+        $chart_statuses    = $trans->getBillChartStatus($args);
+        $expense_status    = $trans->getExpenseChartStatus($args);
+        $sales_statuses    = $trans->getSalesChartStatus($args);
+        $purchase_statuses = $trans->function getPurchaseChartStatus( $args = [] ) {
+            ($args);
 
         foreach ($chart_statuses as $key => $item) {
             $chart_statuses[$key]['sub_total'] = (int) $chart_statuses[$key]['sub_total'];

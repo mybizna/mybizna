@@ -334,7 +334,7 @@
 </template>
 
 <script>
-/* global this.$erp_acct_var */
+/* global this.$mybizna_var */
 export default {
     components: {
         MultiSelect: window.$func.fetchComponent(
@@ -406,7 +406,7 @@ export default {
             finalTotalAmount: 0,
             inv_title: "",
             inv_type: {},
-            erp_acct_assets: this.$erp_acct_var.acct_assets,
+            erp_acct_assets: this.$mybizna_var.acct_assets,
             form_errors: [],
         };
     },
@@ -526,8 +526,8 @@ export default {
                 this.getProducts();
                 this.getTaxRates();
 
-                this.basic_fields.trn_date = this.$erp_acct_var.current_date;
-                this.basic_fields.due_date = this.$erp_acct_var.current_date;
+                this.basic_fields.trn_date = this.$mybizna_var.current_date;
+                this.basic_fields.due_date = this.$mybizna_var.current_date;
                 this.transactionLines.push({}, {}, {});
 
                 // initialize combo button id with `save`
@@ -813,8 +813,8 @@ export default {
             // why can't we use `form.reset()` ?
 
             this.basic_fields.customer = { id: null, name: null };
-            this.basic_fields.trn_date = this.$erp_acct_var.current_date;
-            this.basic_fields.due_date = this.$erp_acct_var.current_date;
+            this.basic_fields.trn_date = this.$mybizna_var.current_date;
+            this.basic_fields.due_date = this.$mybizna_var.current_date;
             this.basic_fields.billing_address = "";
             this.particulars = "";
             this.attachments = [];

@@ -10,7 +10,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_all_journals($args = [])
+    function getAllJournals($args = [])
     {
         global $wpdb;
 
@@ -83,7 +83,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_journal($journal_no)
+    function getJournal($journal_no)
     {
         global $wpdb;
 
@@ -105,11 +105,12 @@ class Bank
             LEFT JOIN {$wpdb->prefix}erp_acct_journal_details as journal_detail ON journal.voucher_no = journal_detail.trn_no
             WHERE journal.voucher_no = {$journal_no} LIMIT 1";
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         $row                = $wpdb->get_row($sql, ARRAY_A);
         $rows               = $row;
-        $rows['line_items'] = erp_acct_format_journal_data($row, $journal_no);
+        $rows['line_items'] = $this->formatJournalData($row, $journal_no);
 
         return $rows;
     }
@@ -121,7 +122,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_journal($data)
+    function insertJournal($data)
     {
         global $wpdb;
 
@@ -149,7 +150,7 @@ class Bank
 
             $voucher_no = $wpdb->insert_id;
 
-            $journal_data = erp_acct_get_formatted_journal_data($data, $voucher_no);
+            $journal_data = $this->getFormattedJournalData($data, $voucher_no);
 
             $wpdb->insert(
                 $wpdb->prefix . 'erp_acct_journals',
@@ -209,9 +210,8 @@ class Bank
             return new WP_error('journal-exception', $e->getMessage());
         }
 
-        erp_acct_purge_cache(['list' => 'journals']);
 
-        return erp_acct_get_journal($voucher_no);
+        return $this->getJournal($voucher_no);
     }
 
     /**
@@ -221,7 +221,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_update_journal($data, $journal_no)
+    function updateJournal($data, $journal_no)
     {
         global $wpdb;
 
@@ -232,7 +232,7 @@ class Bank
         try {
             $wpdb->query('START TRANSACTION');
 
-            $journal_data = erp_acct_get_formatted_journal_data($data, $journal_no);
+            $journal_data = $journals->getFormattedJournalData($data, $journal_no);
 
             $wpdb->update(
                 $wpdb->prefix . 'erp_acct_journals',
@@ -298,9 +298,8 @@ class Bank
             return new WP_error('journal-exception', $e->getMessage());
         }
 
-        erp_acct_purge_cache(['list' => 'journals']);
 
-        return erp_acct_get_journal($journal_no);
+        return $journal->updateInvoice($journal_no);
     }
 
     /**
@@ -311,7 +310,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_journal_data($data, $voucher_no)
+    function getFormattedJournalData($data, $voucher_no)
     {
         $journal_data = [];
 
@@ -339,7 +338,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_format_journal_data($item, $journal_no)
+    function formatJournalData($item, $journal_no)
     {
         global $wpdb;
 
@@ -355,14 +354,15 @@ class Bank
             LEFT JOIN {$wpdb->prefix}erp_acct_journal_details as journal_detail ON journal.voucher_no = journal_detail.trn_no
             WHERE journal.voucher_no = {$journal_no}";
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         $rows       = $wpdb->get_results($sql, ARRAY_A);
         $line_items = [];
 
         foreach ($rows as $key => $item) {
             $line_items[$key]['ledger_id']   = $item['ledger_id'];
-            $line_items[$key]['account']     = erp_acct_get_ledger_name_by_id($item['ledger_id']);
+            $line_items[$key]['account']     = $ledger->getLedgerNameById($item['ledger_id']);
             $line_items[$key]['particulars'] = $item['particulars'];
             $line_items[$key]['debit']       = $item['debit'];
             $line_items[$key]['credit']      = $item['credit'];

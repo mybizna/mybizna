@@ -112,7 +112,7 @@
                 const year     = dateObj.getFullYear();
 
                 this.startDate = `${year}-${month}-01`;
-                this.endDate   = this.$erp_acct_var.current_date;
+                this.endDate   = this.$mybizna_var.current_date;
 
                 this.getReport();
             });

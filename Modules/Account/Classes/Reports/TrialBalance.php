@@ -17,7 +17,7 @@ class TrialBalance
      *
      * @return int
      */
-    function erp_acct_cash_at_bank($args, $type)
+    function cashAtBank($args, $type)
     {
         global $wpdb;
 
@@ -36,7 +36,7 @@ class TrialBalance
 
             $data = $wpdb->get_var($wpdb->prepare($sql2, $args['start_date'], $args['end_date']));
 
-            $balance = erp_acct_bank_cash_calc_with_opening_balance($args['start_date'], $data, $sql2, $type);
+            $balance = $this->bankCashCalcWithOpeningBalance($args['start_date'], $data, $sql2, $type);
         }
 
         if ('loan' === $type && $balance < 0) {
@@ -55,7 +55,7 @@ class TrialBalance
      *
      * @return mixed
      */
-    function erp_acct_bank_balance($args, $type)
+    function bankBalance($args, $type)
     {
         global $wpdb;
 
@@ -70,7 +70,7 @@ class TrialBalance
 
         $data = $wpdb->get_results($wpdb->prepare($sql, $chart_bank, $args['start_date'], $args['end_date']), ARRAY_A);
 
-        $balance = erp_acct_bank_balance_calc_with_opening_balance($args['start_date'], $data, $sql, $type);
+        $balance = $this->bankBalanceCalcWithOpeningBalance($args['start_date'], $data, $sql, $type);
 
         return $balance;
     }
@@ -83,7 +83,7 @@ class TrialBalance
      *
      * @return int
      */
-    function erp_acct_sales_tax_query($args, $type)
+    function salesTaxQuery($args, $type)
     {
         global $wpdb;
 
@@ -99,7 +99,7 @@ class TrialBalance
 
         $data = $wpdb->get_var($wpdb->prepare($sql, $args['start_date'], $args['end_date']));
 
-        return erp_acct_sales_tax_calc_with_opening_balance($args['start_date'], $data, $sql, $type);
+        return $this->salesTaxCalcWithOpeningBalance($args['start_date'], $data, $sql, $type);
     }
 
     /**
@@ -107,7 +107,7 @@ class TrialBalance
      *
      * Get account receivable
      */
-    function erp_acct_get_account_receivable($args)
+    function getAccountReceivable($args)
     {
         global $wpdb;
 
@@ -120,7 +120,7 @@ class TrialBalance
 
         $data = $wpdb->get_var($wpdb->prepare($sql, $args['start_date'], $args['end_date']));
 
-        return erp_acct_people_calc_with_opening_balance($args, $data, 'receivable', $sql);
+        return $this->salesTaxCalcWithOpeningBalance($args, $data, 'receivable', $sql);
     }
 
     /**
@@ -128,7 +128,7 @@ class TrialBalance
      *
      * Get account payble
      */
-    function erp_acct_get_account_payable($args)
+    function getAccountPayable($args)
     {
         global $wpdb;
 
@@ -151,7 +151,7 @@ class TrialBalance
 
         $data = (float) $bill_amount + (float) $purchase_amount;
 
-        return erp_acct_people_calc_with_opening_balance($args, $data, 'payable', $bill_sql, $purchase_sql);
+        return $this->salesTaxCalcWithOpeningBalance($args, $data, 'payable', $bill_sql, $purchase_sql);
     }
 
     /**
@@ -159,7 +159,7 @@ class TrialBalance
      *
      * Get owners equity
      */
-    function erp_acct_get_owners_equity($args, $type)
+    function getOwnersEquity($args, $type)
     {
         global $wpdb;
 
@@ -176,7 +176,7 @@ class TrialBalance
 
         $data = $wpdb->get_var($wpdb->prepare($sql, $args['start_date'], $args['end_date']));
 
-        return erp_acct_owners_equity_calc_with_opening_balance($args['start_date'], $data, $sql, $type);
+        return $this->ownersEquityCalcWithOpeningBalance($args['start_date'], $data, $sql, $type);
     }
 
     /**
@@ -187,7 +187,7 @@ class TrialBalance
      *
      * @return bool
      */
-    function erp_acct_has_date_diff($date1, $date2)
+    function hasDateDiff($date1, $date2)
     {
         $interval = date_diff(date_create($date1), date_create($date2));
 
@@ -208,7 +208,7 @@ class TrialBalance
      *
      * @return float
      */
-    function erp_acct_calculate_people_balance($sql, $start_date, $end_date)
+    function calculatePeopleBalance($sql, $start_date, $end_date)
     {
         global $wpdb;
 
@@ -231,7 +231,7 @@ class TrialBalance
      *
      * @return array
      */
-    function erp_acct_get_balance_with_opening_balance($ledgers, $data, $opening_balance)
+    function getBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
     {
         $temp_data = [];
 
@@ -274,7 +274,7 @@ class TrialBalance
      *
      * @return array
      */
-    function erp_acct_get_balance_within_ledger_details_and_trial_balance($sql, $temp_data)
+    function getBalanceWithinLedgerDetailsAndTrialBalance($sql, $temp_data)
     {
         global $wpdb;
 
@@ -315,14 +315,14 @@ class TrialBalance
      *
      * @return array
      */
-    function erp_acct_calc_with_opening_balance($tb_start_date, $data, $sql)
+    function calcWithOpeningBalance($tb_start_date, $data, $sql)
     {
         global $wpdb;
 
         $result = [];
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($tb_start_date);
+        $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
 
         // get opening balance data within that(^) financial year
         $opening_balance = erp_acct_opening_balance_by_fn_year_id($closest_fy_date['id']);
@@ -333,7 +333,7 @@ class TrialBalance
             ARRAY_A
         );
 
-        $temp_data = erp_acct_get_balance_with_opening_balance($ledgers, $data, $opening_balance);
+        $temp_data = $this->getBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
 
         // should we go further calculation, check the diff
         if (!erp_acct_has_date_diff($tb_start_date, $closest_fy_date['start_date'])) {
@@ -352,7 +352,7 @@ class TrialBalance
             $prev_date_of_tb_start
         );
 
-        $result = erp_acct_get_balance_within_ledger_details_and_trial_balance($sql, $temp_data);
+        $result = $this->getBalanceWithinLedgerDetailsAndTrialBalance($sql, $temp_data);
 
         return $result;
     }
@@ -367,15 +367,15 @@ class TrialBalance
      *
      * @return float
      */
-    function erp_acct_bank_cash_calc_with_opening_balance($tb_start_date, $data, $sql, $type)
+    function bankCashCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
         global $wpdb;
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($tb_start_date);
+        $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = erp_acct_bank_cash_opening_balance_by_fn_year_id($closest_fy_date['id']);
+        $opening_balance = $this->bankCashOpeningBalanceByFnYearId($closest_fy_date['id']);
 
         $balance = (float) $data;
 
@@ -413,21 +413,21 @@ class TrialBalance
      *
      * @return array
      */
-    function erp_acct_bank_balance_calc_with_opening_balance($tb_start_date, $data, $sql, $type)
+    function bankBalanceCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
         global $wpdb;
 
         $chart_bank = 7;
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($tb_start_date);
+        $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = erp_acct_bank_balance_opening_balance_by_fn_year_id($closest_fy_date['id']);
+        $opening_balance = $this->bankBalanceOpeningBalanceByFnYearId($closest_fy_date['id']);
 
         $ledgers = $wpdb->get_results("SELECT ledger.id, ledger.chart_id, ledger.name FROM {$wpdb->prefix}erp_acct_ledgers AS ledger WHERE ledger.chart_id = 7", ARRAY_A);
 
-        $temp_data = erp_acct_get_balance_with_opening_balance($ledgers, $data, $opening_balance);
+        $temp_data = $this->getBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
 
         // should we go further calculation, check the diff
         if (!erp_acct_has_date_diff($tb_start_date, $closest_fy_date['start_date'])) {
@@ -438,7 +438,7 @@ class TrialBalance
 
         $sql = $wpdb->prepare($sql, $chart_bank, $closest_fy_date['start_date'], $prev_date_of_tb_start);
 
-        $result = erp_acct_get_balance_within_ledger_details_and_trial_balance($sql, $temp_data);
+        $result = $this->getBalanceWithinLedgerDetailsAndTrialBalance($sql, $temp_data);
 
         return $result;
     }
@@ -453,15 +453,15 @@ class TrialBalance
      *
      * @return float
      */
-    function erp_acct_sales_tax_calc_with_opening_balance($tb_start_date, $data, $sql, $type)
+    function salesTaxCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
         global $wpdb;
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($tb_start_date);
+        $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = erp_acct_sales_tax_opening_balance_by_fn_year_id($closest_fy_date['id'], $type);
+        $opening_balance = $this->salesTaxOpeningBalanceByFnYearId($closest_fy_date['id'], $type);
 
         $balance = (float) $data;
 
@@ -501,15 +501,15 @@ class TrialBalance
      *
      * @return float
      */
-    function erp_acct_people_calc_with_opening_balance($tb_date, $data, $type, $sql1, $sql2 = null)
+    function peopleCalcWithOpeningBalance($tb_date, $data, $type, $sql1, $sql2 = null)
     {
         global $wpdb;
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($tb_date['start_date']);
+        $closest_fy_date = $this->getClosestFnYearDate($tb_date['start_date']);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = erp_acct_people_opening_balance_by_fn_year_id($closest_fy_date['id'], $type);
+        $opening_balance = $this->peopleOpeningBalanceByFnYearId($closest_fy_date['id'], $type);
 
         $balance = (float) $data;
 
@@ -518,7 +518,7 @@ class TrialBalance
         }
 
         // get people account details balance within trial balance end and financial year start date
-        $people_account_details = erp_acct_calc_with_people_account_details($closest_fy_date['start_date'], $tb_date['end_date'], $type);
+        $people_account_details = $this->calcWithPeopleAccountDetails($closest_fy_date['start_date'], $tb_date['end_date'], $type);
 
         if (!empty($people_account_details)) {
             $balance += (float) $people_account_details;
@@ -536,7 +536,7 @@ class TrialBalance
      *
      * @return void
      */
-    function erp_acct_calc_with_people_account_details($closest_fy_start_date, $tb_end_date, $type)
+    function calcWithPeopleAccountDetails($closest_fy_start_date, $tb_end_date, $type)
     {
         global $wpdb;
 
@@ -566,15 +566,15 @@ class TrialBalance
      *
      * @return float
      */
-    function erp_acct_owners_equity_calc_with_opening_balance($tb_start_date, $data, $sql, $type)
+    function ownersEquityCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
         global $wpdb;
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($tb_start_date);
+        $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = erp_acct_owners_equity_opening_balance_by_fn_year_id($closest_fy_date['id'], $type);
+        $opening_balance = $this->ownersEquityOpeningBalanceByFnYearId($closest_fy_date['id'], $type);
 
         $balance = (float) $data;
 
@@ -609,7 +609,7 @@ class TrialBalance
      *
      * @return string
      */
-    function erp_acct_get_closest_fn_year_date($date)
+    function getClosestFnYearDate($date)
     {
         global $wpdb;
 
@@ -626,7 +626,7 @@ class TrialBalance
      *
      * @return string
      */
-    function erp_acct_opening_balance_by_fn_year_id($id, $chart_id = null)
+    function openingBalanceByFnYearId($id, $chart_id = null)
     {
         global $wpdb;
 
@@ -653,7 +653,7 @@ class TrialBalance
      *
      * @return array
      */
-    function erp_acct_bank_cash_opening_balance_by_fn_year_id($id)
+    function bankCashOpeningBalanceByFnYearId($id)
     {
         global $wpdb;
 
@@ -672,7 +672,7 @@ class TrialBalance
      *
      * @return array
      */
-    function erp_acct_sales_tax_opening_balance_by_fn_year_id($id, $type)
+    function salesTaxOpeningBalanceByFnYearId($id, $type)
     {
         global $wpdb;
 
@@ -697,7 +697,7 @@ class TrialBalance
      *
      * @return array
      */
-    function erp_acct_bank_balance_opening_balance_by_fn_year_id($id)
+    function bankBalanceOpeningBalanceByFnYearId($id)
     {
         global $wpdb;
 
@@ -717,7 +717,7 @@ class TrialBalance
      *
      * @return mixed
      */
-    function erp_acct_owners_equity_opening_balance_by_fn_year_id($id, $type)
+    function ownersEquityOpeningBalanceByFnYearId($id, $type)
     {
         global $wpdb;
 
@@ -735,7 +735,7 @@ class TrialBalance
         return $wpdb->get_var($wpdb->prepare($sql, $id));
     }
 
-    function erp_acct_people_opening_balance_by_fn_year_id($id, $type)
+    function peopleOpeningBalanceByFnYearId($id, $type)
     {
         global $wpdb;
 
@@ -757,7 +757,7 @@ class TrialBalance
      *
      * @return mixed
      */
-    function erp_acct_get_trial_balance($args)
+    function getTrialBalance($args)
     {
         global $wpdb;
 
@@ -769,7 +769,7 @@ class TrialBalance
         $data = $wpdb->get_results($wpdb->prepare($sql, $args['start_date'], $args['end_date']), ARRAY_A);
 
         // All calculated DB results are inside `rows` key
-        $results['rows'] = erp_acct_calc_with_opening_balance($args['start_date'], $data, $sql);
+        $results['rows'] = $this->calcWithOpeningBalance($args['start_date'], $data, $sql);
 
         /*
      * Let's create some virtual ledgers
@@ -793,33 +793,33 @@ class TrialBalance
         $results['rows'][] = [
             'chart_id' => '2',
             'name'     => 'Sales Tax Payable',
-            'balance'  => erp_acct_sales_tax_query($args, 'payable'),
+            'balance'  => $this->salesTaxQuery($args, 'payable'),
         ];
         $results['rows'][] = [
             'chart_id' => '1',
             'name'     => 'Sales Tax Receivable',
-            'balance'  => erp_acct_sales_tax_query($args, 'receivable'),
+            'balance'  => $this->salesTaxQuery($args, 'receivable'),
         ];
 
         $results['rows'][] = [
             'chart_id' => '2',
             'name'     => 'Accounts Payable',
-            'balance'  => erp_acct_get_account_payable($args),
+            'balance'  => $this->getAccountPayable($args),
         ];
         $results['rows'][] = [
             'chart_id' => '1',
             'name'     => 'Accounts Receivable',
-            'balance'  => erp_acct_get_account_receivable($args),
+            'balance'  => $this->getAccountReceivable($args),
         ];
 
         /**
          * Owner's equity
          */
-        $capital     = erp_acct_get_owners_equity($args, 'capital');
-        $drawings    = erp_acct_get_owners_equity($args, 'drawings');
+        $capital     = $this->getOwnersEquity($args, 'capital');
+        $drawings    = $this->getOwnersEquity($args, 'drawings');
         $new_capital = $capital + $drawings;
 
-        $closest_fy_date       = erp_acct_get_closest_fn_year_date($args['start_date']);
+        $closest_fy_date       = $this->getClosestFnYearDate($args['start_date']);
         $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($args['start_date'])));
 
         // Owner's Equity calculation with income statement profit/loss
@@ -828,7 +828,7 @@ class TrialBalance
             'end_date'   => $prev_date_of_tb_start,
         ];
 
-        $income_statement_balance = erp_acct_get_income_statement($inc_statmnt_range);
+        $income_statement_balance = $reports->getIncomeStatement($inc_statmnt_range);
 
         $new_capital = $new_capital - $income_statement_balance['raw_balance'];
 

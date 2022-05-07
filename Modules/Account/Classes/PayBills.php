@@ -11,7 +11,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_pay_bills($args = [])
+    function getPayBills($args = [])
     {
         global $wpdb;
 
@@ -50,7 +50,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_pay_bill($bill_no)
+    function getPayBill($bill_no)
     {
         global $wpdb;
 
@@ -76,8 +76,8 @@ class Bank
             ARRAY_A
         );
 
-        $row['bill_details'] = erp_acct_format_paybill_line_items($bill_no);
-        $row['pdf_link']    = erp_acct_pdf_abs_path_to_url($bill_no);
+        $row['bill_details'] = $this->formatPaybillLineItems($bill_no);
+        $row['pdf_link']    = $this-> pdfAbsPathToUrl($bill_no);
 
         return $row;
     }
@@ -85,7 +85,7 @@ class Bank
     /**
      * Format pay bill line items
      */
-    function erp_acct_format_paybill_line_items($voucher_no)
+    function formatPaybillLineItems($voucher_no)
     {
         global $wpdb;
 
@@ -113,7 +113,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_pay_bill($data)
+    function insertPayBill($data)
     {
         global $wpdb;
 
@@ -143,7 +143,7 @@ class Bank
 
             $voucher_no = $wpdb->insert_id;
 
-            $pay_bill_data = erp_acct_get_formatted_pay_bill_data($data, $voucher_no);
+            $pay_bill_data = $this->getFormattedPayBillData($data, $voucher_no);
 
             $wpdb->insert(
                 $wpdb->prefix . 'erp_acct_pay_bill',
@@ -185,7 +185,7 @@ class Bank
                 if (1 === $pay_bill_data['status']) {
                     $wpdb->query('COMMIT');
 
-                    return erp_acct_get_pay_bill($voucher_no);
+                    return $this->getPayBill($voucher_no);
                 }
             }
 
@@ -207,15 +207,15 @@ class Bank
                 );
             }
 
-            erp_acct_insert_pay_bill_data_into_ledger($pay_bill_data);
+            $this->insertPayBillDataIntoLedger($pay_bill_data);
 
             if (isset($pay_bill_data['trn_by']) && 3 === $pay_bill_data['trn_by']) {
-                erp_acct_insert_check_data($pay_bill_data);
+                $common->insertCheckData($pay_bill_data);
             }
 
             $data['dr'] = $pay_bill_data['amount'];
             $data['cr'] = 0;
-            erp_acct_insert_data_into_people_trn_details($data, $voucher_no);
+            $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
             do_action('erp_acct_after_pay_bill_create', $pay_bill_data, $voucher_no);
 
@@ -227,16 +227,15 @@ class Bank
         }
 
         foreach ($items as $item) {
-            erp_acct_change_bill_status($item['voucher_no']);
+            $this->changeBillStatus($item['voucher_no']);
         }
 
-        $pay_bill = erp_acct_get_pay_bill($voucher_no);
+        $pay_bill = $this->getPayBill($voucher_no);
 
         $pay_bill['email'] = erp_get_people_email($data['vendor_id']);
 
         do_action('erp_acct_new_transaction_pay_bill', $voucher_no, $pay_bill);
 
-        erp_acct_purge_cache(['list' => 'sales_transaction,purchase_transaction,expense_transaction']);
 
         return $pay_bill;
     }
@@ -250,7 +249,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_update_pay_bill($data, $pay_bill_id)
+    function updatePayBill($data, $pay_bill_id)
     {
         global $wpdb;
 
@@ -261,7 +260,7 @@ class Bank
         try {
             $wpdb->query('START TRANSACTION');
 
-            $pay_bill_data = erp_acct_get_formatted_pay_bill_data($data, $pay_bill_id);
+            $pay_bill_data = $this->getFormattedPayBillData($data, $pay_bill_id);
 
             $wpdb->update(
                 $wpdb->prefix . 'erp_acct_pay_bill',
@@ -319,7 +318,7 @@ class Bank
                 );
             }
 
-            erp_acct_update_pay_bill_data_into_ledger($pay_bill_data, $pay_bill_id);
+            $this->updatePayBillDataIntoLedger($pay_bill_data, $pay_bill_id);
 
             $wpdb->query('COMMIT');
         } catch (Exception $e) {
@@ -329,12 +328,11 @@ class Bank
         }
 
         foreach ($items as $item) {
-            erp_acct_change_bill_status($item['voucher_no']);
+            $this->changeBillStatus($item['voucher_no']);
         }
 
-        erp_acct_purge_cache(['list' => 'sales_transaction,purchase_transaction,expense_transaction']);
 
-        return erp_acct_get_pay_bill($pay_bill_id);
+        return $this->getPayBill($pay_bill_id);
     }
 
     /**
@@ -344,7 +342,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_void_pay_bill($id)
+    function voidPayBill($id)
     {
         global $wpdb;
 
@@ -363,7 +361,6 @@ class Bank
         $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_bill_account_details', ['trn_no' => $id]);
 
-        erp_acct_purge_cache(['list' => 'sales_transaction,purchase_transaction,expense_transaction']);
     }
 
     /**
@@ -374,7 +371,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_pay_bill_data($data, $voucher_no)
+    function getFormattedPayBillData($data, $voucher_no)
     {
         $pay_bill_data = [];
 
@@ -415,7 +412,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_pay_bill_data_into_ledger($pay_bill_data)
+    function insertPayBillDataIntoLedger($pay_bill_data)
     {
         global $wpdb;
 
@@ -450,7 +447,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_update_pay_bill_data_into_ledger($pay_bill_data, $pay_bill_no)
+    function updatePayBillDataIntoLedger($pay_bill_data, $pay_bill_no)
     {
         global $wpdb;
 
@@ -483,7 +480,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_pay_bill_count()
+    function getPayBillCount()
     {
         global $wpdb;
 
@@ -499,11 +496,11 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_change_bill_status($bill_no)
+    function changeBillStatus($bill_no)
     {
         global $wpdb;
 
-        $due = erp_acct_get_bill_due($bill_no);
+        $due = $bills->getBillDue($bill_no);
 
         if (0 == $due) {
             $wpdb->update(

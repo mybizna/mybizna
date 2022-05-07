@@ -12,7 +12,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_expenses($args = [])
+    function getExpenses($args = [])
     {
         global $wpdb;
 
@@ -37,7 +37,8 @@ class Bank
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
         $sql .= "FROM {$wpdb->prefix}erp_acct_expenses WHERE `trn_by_ledger_id` IS NOT NULL ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         if ($args['count']) {
             return $wpdb->get_var($sql);
@@ -55,7 +56,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_expense($expense_no)
+    function getExpense($expense_no)
     {
         global $wpdb;
 
@@ -83,14 +84,15 @@ class Bank
 
             FROM {$wpdb->prefix}erp_acct_expenses AS expense WHERE expense.voucher_no = {$expense_no}";
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 
-        $row['bill_details'] = erp_acct_format_expense_line_items($expense_no);
-        $row['pdf_link']    = erp_acct_pdf_abs_path_to_url($expense_no);
+        $row['bill_details'] = $this->formatExpenseLineItems($expense_no);
+        $row['pdf_link']    = $this->pdfAbsPathToUrl($expense_no);
 
-        $check_data = erp_acct_get_check_data_of_expense($expense_no);
+        $check_data = $expense->getCheckDataOfExpense($expense_no);
 
         if (!empty($check_data)) {
             $row['check_data'] = $check_data;
@@ -106,7 +108,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_check($expense_no)
+    function getCheck($expense_no)
     {
         global $wpdb;
 
@@ -139,11 +141,12 @@ class Bank
 
     WHERE expense.voucher_no = {$expense_no} AND expense.trn_by = 3";
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 
-        $row['bill_details'] = erp_acct_format_check_line_items($expense_no);
+        $row['bill_details'] = $this->formatCheckLineItems($expense_no);
 
         return $row;
     }
@@ -151,7 +154,7 @@ class Bank
     /**
      * Format check line items
      */
-    function erp_acct_format_check_line_items($voucher_no)
+    function formatCheckLineItems($voucher_no)
     {
         global $wpdb;
 
@@ -183,7 +186,7 @@ class Bank
     /**
      * Format expense line items
      */
-    function erp_acct_format_expense_line_items($voucher_no)
+    function formatExpenseLineItems($voucher_no)
     {
         global $wpdb;
 
@@ -211,7 +214,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_expense($data)
+    function insertExpense($data)
     {
         global $wpdb;
 
@@ -247,7 +250,7 @@ class Bank
 
             $voucher_no = $wpdb->insert_id;
 
-            $expense_data = erp_acct_get_formatted_expense_data($data, $voucher_no);
+            $expense_data = $expense->getFormattedExpenseData($data, $voucher_no);
 
             // check transaction charge
             $transaction_charge = 0;
@@ -299,45 +302,45 @@ class Bank
                     ]
                 );
 
-                erp_acct_insert_expense_data_into_ledger($expense_data, $item);
+                $expense->insertExpenseDataIntoLedger($expense_data, $item);
             }
 
 
             // add transaction charge entry to ledger
             if ($transaction_charge) {
-                erp_acct_insert_bank_transaction_charge_into_ledger($expense_data);
+                $bank->insertBankTransactionChargeIntoLedger($expense_data);
             }
 
             if (1 === $expense_data['status']) {
                 $wpdb->query('COMMIT');
 
                 if ('check' === $type) {
-                    return erp_acct_get_check($voucher_no);
+                    return $expense->getCheck($voucher_no);
                 }
 
-                return erp_acct_get_expense($voucher_no);
+                return $this->getExpense($voucher_no);
             }
 
             $check = 3;
 
             if ($check == $expense_data['trn_by']) {
-                erp_acct_insert_check_data($expense_data);
+                $common->insertCheckData($expense_data);
             } elseif ('check' === $type) {
-                erp_acct_insert_check_data($expense_data);
+                $common->insertCheckData($expense_data);
             }
 
             if ('check' === $type) {
-                erp_acct_insert_source_expense_data_into_ledger($expense_data);
+                $expense->insertSourceExpenseDataIntoLedger($expense_data);
             } elseif (isset($expense_data['trn_by']) && 4 === $expense_data['trn_by']) {
                 do_action('erp_acct_expense_people_transaction', $expense_data, $voucher_no);
             } else {
                 //Insert into Ledger for source account
-                erp_acct_insert_source_expense_data_into_ledger($expense_data);
+                $expense->insertSourceExpenseDataIntoLedger($expense_data);
             }
 
             $data['dr'] = 0;
             $data['cr'] = $expense_data['amount'];
-            erp_acct_insert_data_into_people_trn_details($data, $voucher_no);
+            $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
             do_action('erp_acct_after_expense_create', $expense_data, $voucher_no);
 
@@ -351,7 +354,7 @@ class Bank
         $email = erp_get_people_email($expense_data['people_id']);
 
         if ('check' === $type) {
-            $check          = erp_acct_get_check($voucher_no);
+            $check          = $expense->getCheck($voucher_no);
             $check['email'] = $email;
 
             do_action('erp_acct_new_transaction_check', $voucher_no, $check);
@@ -359,12 +362,11 @@ class Bank
             return $check;
         }
 
-        $expense          = erp_acct_get_expense($voucher_no);
+        $expense          = $this->getExpense($voucher_no);
         $expense['email'] = $email;
 
         do_action('erp_acct_new_transaction_expense', $voucher_no, $expense);
 
-        erp_acct_purge_cache(['list' => 'expense_transaction']);
 
         return $expense;
     }
@@ -377,12 +379,12 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_update_expense($data, $expense_id)
+    function updateExpense($data, $expense_id)
     {
         global $wpdb;
 
         if ($data['convert']) {
-            erp_acct_convert_draft_to_expense($data, $expense_id);
+            $expense->convertDraftToExpense($data, $expense_id);
 
             return;
         }
@@ -394,7 +396,7 @@ class Bank
         try {
             $wpdb->query('START TRANSACTION');
 
-            $expense_data = erp_acct_get_formatted_expense_data($data, $expense_id);
+            $expense_data = $expense->getFormattedExpenseData($data, $expense_id);
 
             $wpdb->update(
                 $wpdb->prefix . 'erp_acct_expenses',
@@ -454,7 +456,6 @@ class Bank
             return new WP_error('expense-exception', $e->getMessage());
         }
 
-        erp_acct_purge_cache(['list' => 'expense_transaction']);
 
         return $expense_id;
     }
@@ -467,7 +468,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_convert_draft_to_expense($data, $expense_id)
+    function convertDraftToExpense($data, $expense_id)
     {
         global $wpdb;
 
@@ -484,7 +485,7 @@ class Bank
                 $type = 'check';
             }
 
-            $expense_data = erp_acct_get_formatted_expense_data($data, $expense_id);
+            $expense_data = $expense->getFormattedExpenseData($data, $expense_id);
 
             $wpdb->update(
                 $wpdb->prefix . 'erp_acct_expenses',
@@ -538,29 +539,29 @@ class Bank
                     ]
                 );
 
-                erp_acct_insert_expense_data_into_ledger($expense_data, $item);
+                $expense->insertExpenseDataIntoLedger($expense_data, $item);
             }
 
             $check = 3;
 
             if ($check == $expense_data['trn_by']) {
-                erp_acct_insert_check_data($expense_data);
+                $common->insertCheckData($expense_data);
             } elseif ('check' === $type) {
-                erp_acct_insert_check_data($expense_data);
+                $common->insertCheckData($expense_data);
             }
 
             if ('check' === $type) {
-                erp_acct_insert_source_expense_data_into_ledger($expense_data);
+                $expense->insertSourceExpenseDataIntoLedger($expense_data);
             } elseif (isset($expense_data['trn_by']) && 4 === $expense_data['trn_by']) {
                 do_action('erp_acct_expense_people_transaction', $expense_data, $expense_id);
             } else {
                 //Insert into Ledger for source account
-                erp_acct_insert_source_expense_data_into_ledger($expense_data);
+                $expense->insertSourceExpenseDataIntoLedger($expense_data);
             }
 
             $data['dr'] = 0;
             $data['cr'] = $expense_data['amount'];
-            erp_acct_insert_data_into_people_trn_details($data, $expense_id);
+            $trans->insertDataIntoPeopleTrnDetails($data, $expense_id);
 
             do_action('erp_acct_after_expense_create', $expense_data, $expense_id);
 
@@ -574,7 +575,7 @@ class Bank
         $email = erp_get_people_email($expense_data['people_id']);
 
         if ('check' === $type) {
-            $check          = erp_acct_get_check($expense_id);
+            $check          = $expense->getCheck($expense_id);
             $check['email'] = $email;
 
             do_action('erp_acct_new_transaction_check', $expense_id, $check);
@@ -582,12 +583,11 @@ class Bank
             return $check;
         }
 
-        $expense          = erp_acct_get_expense($expense_id);
+        $expense          = $this->getExpense($expense_id);
         $expense['email'] = $email;
 
         do_action('erp_acct_new_transaction_expense', $expense_id, $expense);
 
-        erp_acct_purge_cache(['list' => 'expense_transaction']);
 
         return $expense;
     }
@@ -599,7 +599,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_void_expense($id)
+    function voidExpense($id)
     {
         global $wpdb;
 
@@ -618,7 +618,6 @@ class Bank
         $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_expense_details', ['trn_no' => $id]);
 
-        erp_acct_purge_cache(['list' => 'expense_transaction']);
     }
 
     /**
@@ -629,7 +628,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_expense_data($data, $voucher_no)
+    function getFormattedExpenseData($data, $voucher_no)
     {
         $expense_data = [];
 
@@ -671,7 +670,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_expense_data_into_ledger($expense_data, $item_data = [])
+    function insertExpenseDataIntoLedger($expense_data, $item_data = [])
     {
         global $wpdb;
 
@@ -709,7 +708,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_update_expense_data_into_ledger($expense_data, $expense_no, $item_data = [])
+    function updateExpenseDataIntoLedger($expense_data, $expense_no, $item_data = [])
     {
         global $wpdb;
 
@@ -744,7 +743,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_insert_source_expense_data_into_ledger($expense_data)
+    function insertSourceExpenseDataIntoLedger($expense_data)
     {
         global $wpdb;
 
@@ -777,7 +776,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_check_data_of_expense($expense_no)
+    function getCheckDataOfExpense($expense_no)
     {
         global $wpdb;
 
@@ -798,7 +797,8 @@ class Bank
 
             WHERE cheque.trn_no = {$expense_no}";
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 

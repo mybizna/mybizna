@@ -13,12 +13,12 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_add_employee_as_people($data, $update = false)
+    function addEmployeeAsPeople($data, $update = false)
     {
         global $wpdb;
         $people_id = null;
 
-        if (erp_acct_is_employee_people($data['user_id'])) {
+        if ($this->isEmployeePeople($data['user_id'])) {
             return;
         }
 
@@ -88,7 +88,6 @@ class Bank
             $people_id = $wpdb->insert_id;
         }
 
-        erp_acct_purge_cache(['list' => 'people']);
 
         return $people_id;
     }
@@ -102,7 +101,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_people($args)
+    function insertPeople($args)
     {
         $people = erp_get_people_by('email', $args['email']);
 
@@ -123,7 +122,7 @@ class Bank
         if (!is_wp_error($id)) {
             global $wpdb;
 
-            $type_id = erp_acct_get_people_type_id_by_name($args['type']);
+            $type_id = $this->getPeopleTypeIdByName($args['type']);
 
             $wpdb->insert(
                 "{$wpdb->prefix}erp_people_type_relations",
@@ -161,7 +160,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_people_address($people_id)
+    function getPeopleAddress($people_id)
     {
         global $wpdb;
 
@@ -181,7 +180,7 @@ class Bank
     /**
      * Format people address
      */
-    function erp_acct_format_people_address($address = [])
+    function formatPeopleAddress($address = [])
     {
         $add = '';
 
@@ -200,7 +199,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_people_transactions($args = [])
+    function getPeopleTransactions($args = [])
     {
         global $wpdb;
 
@@ -275,7 +274,7 @@ class Bank
             'financial_year_id' => $financial_year['id']
         ];
 
-        $previousBalance     = erp_acct_get_people_previous_balance($previous_balance_data);  // get previous balance from financial year start date to previous date of start date
+        $previousBalance     = $this->getPeoplePreviousBalance($previous_balance_data);  // get previous balance from financial year start date to previous date of start date
 
 
 
@@ -346,7 +345,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_people_previous_balance($args = [])
+    function getPeoplePreviousBalance($args = [])
     {
         global $wpdb;
 
@@ -368,13 +367,13 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_people_type_by_id($people_id)
+    function getPeopleTypeById($people_id)
     {
         global $wpdb;
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT people_types_id FROM {$wpdb->prefix}erp_people_type_relations WHERE people_id = %d LIMIT 1", $people_id));
 
-        return erp_acct_get_people_type_by_type_id($row->people_types_id);
+        return $this->getPeopleTypeByTypeId($row->people_types_id);
     }
 
     /**
@@ -384,7 +383,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_people_type_by_type_id($type_id)
+    function getPeopleTypeByTypeId($type_id)
     {
         global $wpdb;
 
@@ -402,7 +401,7 @@ class Bank
      *
      * @return int|string
      */
-    function erp_acct_get_people_type_id_by_name($type_name)
+    function getPeopleTypeIdByName($type_name)
     {
         global $wpdb;
 
@@ -423,7 +422,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_people_id_by_user_id($user_id)
+    function getPeopleIdByUserId($user_id)
     {
         global $wpdb;
 
@@ -437,7 +436,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_people_name_by_people_id($people_id)
+    function getPeopleNameByPeopleId($people_id)
     {
         global $wpdb;
 
@@ -453,7 +452,7 @@ class Bank
      *
      * @return bool
      */
-    function erp_acct_is_employee_people($user_id)
+    function isEmployeePeople($user_id)
     {
         global $wpdb;
 
@@ -477,7 +476,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_user_id_by_people_id($people_id)
+    function getUserIdByPeopleId($people_id)
     {
         global $wpdb;
 
@@ -489,7 +488,7 @@ class Bank
     /**
      * Get Customer or Vendors
      */
-    function erp_acct_get_accounting_people($args = [])
+    function getAccountingPeople($args = [])
     {
         global $wpdb;
 
@@ -652,7 +651,7 @@ class Bank
      *
      * @param int $id
      */
-    function erp_acct_check_associated_tranasaction($people_id)
+    function checkAssociatedTranasaction($people_id)
     {
         global $wpdb;
 

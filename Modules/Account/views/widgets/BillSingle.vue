@@ -219,7 +219,7 @@ export default {
             company: null,
             bill: {},
             isWorking: false,
-            acct_var: this.$erp_acct_var /* global this.$erp_acct_var */,
+            acct_var: this.$mybizna_var /* global this.$mybizna_var */,
             print_data: null,
             type: "bill",
             showModal: false,

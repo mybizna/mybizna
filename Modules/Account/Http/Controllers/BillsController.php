@@ -6,16 +6,16 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class AccountsController extends Controller
+class Bills extends Controller
 {
     /**
-     * Get a collection of expenses
+     * Get a collection of bills
      *
      * @param WP_REST_Request $request
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function get_expenses($request)
+    public function get_bills($request)
     {
         $args = [
             'number' => isset($request['per_page']) ? $request['per_page'] : 20,
@@ -28,15 +28,15 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $expense_data = erp_acct_get_expenses($args);
-        $total_items  = erp_acct_get_expenses(
+        $bill_data   = $bills->getBills($args);
+        $total_items = $bills->getBills(
             [
                 'count'  => true,
                 'number' => -1,
             ]
         );
 
-        foreach ($expense_data as $item) {
+        foreach ($bill_data as $item) {
             if (isset($request['include'])) {
                 $include_params = explode(',', str_replace(' ', '', $request['include']));
 
@@ -58,30 +58,27 @@ class AccountsController extends Controller
     }
 
     /**
-     * Get a expense
+     * Get a bill
      *
      * @param WP_REST_Request $request
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function get_expense($request)
+    public function get_bill($request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return new WP_Error('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $expense_data       = erp_acct_get_expense($id);
-        $expense_data['id'] = $id;
-
-        $expense_data['created_by'] = $this->get_user($expense_data['created_by']);
+        $bill_data = $bills->getBill($id);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
-
-        $data     = $this->prepare_item_for_response($expense_data, $request, $additional_fields);
-        $response = rest_ensure_response($data);
+        $data            = $this->prepare_item_for_response($bill_data, $request, $additional_fields);
+        $formatted_items = $this->prepare_response_for_collection($data);
+        $response        = rest_ensure_response($formatted_items);
 
         $response->set_status(200);
 
@@ -89,143 +86,190 @@ class AccountsController extends Controller
     }
 
     /**
-     * Get a check
+     * Create a bill
      *
      * @param WP_REST_Request $request
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function get_check($request)
+    public function create_bill($request)
     {
-        $id = (int) $request['id'];
+        $bill_data = $this->prepare_item_for_database($request);
 
-        if (empty($id)) {
-            return new WP_Error('rest_check_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-        }
-
-        $expense_data       = erp_acct_get_check($id);
-        $expense_data['id'] = $id;
-
-        $expense_data['created_by'] = $this->get_user($expense_data['created_by']);
-
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
-
-        $data     = $this->prepare_item_for_response($expense_data, $request, $additional_fields);
-        $response = rest_ensure_response($data);
-
-        $response->set_status(200);
-
-        return $response;
-    }
-
-    /**
-     * Create a expense
-     *
-     * @param WP_REST_Request $request
-     *
-     * @return WP_Error|WP_REST_Response
-     */
-    public function create_expense($request)
-    {
-        $expense_data = $this->prepare_item_for_database($request);
-
-        $item_amount       = [];
         $item_total        = [];
         $additional_fields = [];
 
         $items = $request['bill_details'];
 
         foreach ($items as $key => $item) {
-            $item_amount[$key] = $item['amount'];
-            $item_total[$key]  = $item['amount'];
+            $item_total[$key] = $item['amount'];
         }
-        $expense_data['attachments'] = maybe_serialize($request['attachments']);
-        $expense_data['amount']      = array_sum($item_total);
 
-        $expense = erp_acct_insert_expense($expense_data);
-        $this->add_log((array) $expense, 'add');
+        $bill_data['attachments']     = maybe_serialize($bill_data['attachments']);
+        $bill_data['billing_address'] = isset($bill_data['billing_address']) ? maybe_serialize($bill_data['billing_address']) : '';
+        $bill_data['amount']          = array_sum($item_total);
+
+        $bill = erp_acct_insert_bill($bill_data);
+
+        $this->add_log($bill, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $expense_data = $this->prepare_item_for_response($expense, $request, $additional_fields);
-
-        $response = rest_ensure_response($expense_data);
+        $bill_data = $this->prepare_item_for_response($bill, $request, $additional_fields);
+        $response = rest_ensure_response($bill_data);
         $response->set_status(201);
 
         return $response;
     }
 
     /**
-     * Update a expense
+     * Update a bill
      *
      * @param WP_REST_Request $request
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function update_expense($request)
+    public function update_bill($request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return new WP_Error('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $expense_data = $this->prepare_item_for_database($request);
+        $can_edit = $common->checkVoucherEditState($id);
 
-        $item_amount       = [];
+        if (!$can_edit) {
+            return new WP_Error('rest_bill_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
+        }
+
+        $bill_data = $this->prepare_item_for_database($request);
+
         $item_total        = [];
         $additional_fields = [];
 
         $items = $request['bill_details'];
 
         foreach ($items as $key => $item) {
-            $item_amount[$key] = $item['amount'];
-            $item_total[$key]  = $item['amount'];
+            $item_total[$key] = $item['amount'];
         }
-        $expense_data['attachments'] = maybe_serialize($request['attachments']);
-        $expense_data['amount']      = array_sum($item_total);
 
-        $old_data   = erp_acct_get_expense($id);
-        $expense_id = erp_acct_update_expense($expense_data, $id);
+        $bill_data['attachments']     = maybe_serialize($bill_data['attachments']);
+        $bill_data['billing_address'] = isset($bill_data['billing_address']) ? maybe_serialize($bill_data['billing_address']) : '';
+        $bill_data['amount']          = array_sum($item_total);
 
-        $this->add_log($expense_data, 'edit', $old_data);
+        $old_data = $bills->getBill($id);
+        $bill     = $bills->updateBill($bill_data, $id);
 
-        $expense_data['id']             = $expense_id;
+        $this->add_log($bill_data, 'edit', $old_data);
+
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $expense_data = $this->prepare_item_for_response($expense_data, $request, $additional_fields);
+        $bill_data = $this->prepare_item_for_response($bill, $request, $additional_fields);
 
-        $response = rest_ensure_response($expense_data);
+        $response = rest_ensure_response($bill_data);
         $response->set_status(200);
 
         return $response;
     }
 
     /**
-     * Void a expense
+     * Void a bill
      *
      * @param WP_REST_Request $request
      *
      * @return WP_Error|WP_REST_Request
      */
-    public function void_expense($request)
+    public function void_bill($request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return new WP_Error('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        erp_acct_void_expense($id);
+        $bills->voidBill($id);
 
         return new WP_REST_Response(true, 204);
     }
 
     /**
-     * Log for expense related actions
+     * Get a collection of bills with due of a people
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function due_bills($request)
+    {
+        $id = (int) $request['id'];
+
+        if (empty($id)) {
+            return new WP_Error('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+        }
+
+        $args = [
+            'number' => !empty($request['per_page']) ? $request['per_page'] : 20,
+            'offset' => ($request['per_page'] * ($request['page'] - 1)),
+        ];
+
+        $formatted_items   = [];
+        $additional_fields = [];
+
+        $additional_fields['namespace'] = $this->namespace;
+        $additional_fields['rest_base'] = $this->rest_base;
+
+        $bill_data   = $this->getDueBillsByPeople(['people_id' => $id]);
+        $total_items = $this->getDueBillsByPeople(
+            [
+                'people_id' => $id,
+                'count'     => true,
+                'number'    => -1,
+            ]
+        );
+
+        foreach ($bill_data as $item) {
+            if (isset($request['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $request['include']));
+
+                if (in_array('created_by', $include_params, true)) {
+                    $item['created_by'] = $this->get_user($item['created_by']);
+                }
+            }
+
+            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepare_response_for_collection($data);
+        }
+
+        $response = rest_ensure_response($formatted_items);
+        $response = $this->format_collection_response($response, $request, $total_items);
+
+        $response->set_status(200);
+
+        return $response;
+    }
+
+    /**
+     * Get Dashboard Payable segments
+     *
+     * @param $request
+     *
+     * @return mixed|WP_REST_Response
+     */
+    public function get_overview_payables($request)
+    {
+        $items    = $common->getPayables();
+        $response = rest_ensure_response($items);
+
+        $response->set_status(200);
+
+        return $response;
+    }
+
+    /**
+     * Log for bill related actions
      *
      * @param array $data
      * @param string $action
@@ -250,10 +294,10 @@ class AccountsController extends Controller
         erp_log()->add(
             [
                 'component'     => 'Accounting',
-                'sub_component' => __('Expense', 'erp'),
+                'sub_component' => __('Bill', 'erp'),
                 'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
                 'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('An expense of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, erp_acct_get_people_name_by_people_id($data['people_id'])),
+                'message'       => sprintf(__('A bill of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, $people->getPeopleNameByPeopleId($data['vendor_id'])),
                 'changetype'    => $action,
                 'created_by'    => get_current_user_id(),
             ]
@@ -271,20 +315,8 @@ class AccountsController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['people_id'])) {
-            $prepared_item['people_id'] = $request['people_id'];
-        }
-
-        if (isset($request['ref'])) {
-            $prepared_item['ref'] = $request['ref'];
-        }
-
-        if (isset($request['bank'])) {
-            $prepared_item['bank'] = $request['bank'];
-        }
-
-        if (isset($request['check_no'])) {
-            $prepared_item['check_no'] = $request['check_no'];
+        if (isset($request['vendor_id'])) {
+            $prepared_item['vendor_id'] = $request['vendor_id'];
         }
 
         if (isset($request['trn_date'])) {
@@ -296,64 +328,46 @@ class AccountsController extends Controller
         }
 
         if (isset($request['amount'])) {
-            $prepared_item['total'] = $request['amount'];
+            $prepared_item['total'] = (int) $request['amount'];
+        }
+
+        if (isset($request['due'])) {
+            $prepared_item['due'] = (int) $request['due'];
         }
 
         if (isset($request['trn_no'])) {
             $prepared_item['trn_no'] = $request['trn_no'];
         }
 
-        if (isset($request['attachments'])) {
-            $prepared_item['attachments'] = $request['attachments'];
-        }
-
-        if (isset($request['deposit_to'])) {
-            $prepared_item['trn_by_ledger_id'] = $request['deposit_to'];
-        }
-
         if (isset($request['trn_by'])) {
             $prepared_item['trn_by'] = $request['trn_by'];
-        }
-
-        if (isset($request['bank_trn_charge'])) {
-            $prepared_item['bank_trn_charge'] = $request['bank_trn_charge'];
         }
 
         if (isset($request['bill_details'])) {
             $prepared_item['bill_details'] = $request['bill_details'];
         }
 
-        if (isset($request['billing_address'])) {
-            $prepared_item['billing_address'] = $request['billing_address'];
+        if (isset($request['status'])) {
+            $prepared_item['status'] = $request['status'];
         }
 
         if (isset($request['particulars'])) {
             $prepared_item['particulars'] = $request['particulars'];
         }
 
-        if (isset($request['status'])) {
-            $prepared_item['status'] = $request['status'];
-        }
-
         if (isset($request['attachments'])) {
             $prepared_item['attachments'] = $request['attachments'];
         }
 
-        if (isset($request['name'])) {
-            $prepared_item['name'] = $request['name'];
+        if (isset($request['billing_address'])) {
+            $prepared_item['billing_address'] = maybe_serialize($request['billing_address']);
         }
 
-        if (isset($request['pay_to'])) {
-            $prepared_item['pay_to'] = $request['pay_to'];
+        if (isset($request['ref'])) {
+            $prepared_item['ref'] = $request['ref'];
         }
 
-        if (isset($request['type'])) {
-            $prepared_item['voucher_type'] = $request['type'];
-        }
-
-        if (isset($request['convert'])) {
-            $prepared_item['convert'] = $request['convert'];
-        }
+        $prepared_item['request'] = $request;
 
         return $prepared_item;
     }
@@ -372,25 +386,23 @@ class AccountsController extends Controller
         $item = (object) $item;
 
         $data = [
-            'id'                 => (int) $item->id,
-            'voucher_no'         => (int) $item->voucher_no,
-            'people_id'          => (int) $item->people_id,
-            'people_name'        => $item->people_name,
-            'date'               => $item->trn_date,
-            'address'            => $item->address,
-            'bill_details'       => $item->bill_details,
-            'pdf_link'           => $item->pdf_link,
-            'total'              => (float) $item->amount,
-            'ref'                => !empty($item->ref) ? $item->ref : '',
-            'check_no'           => $item->check_no,
-            'particulars'        => $item->particulars,
-            'status'             => $item->status,
-            'attachments'        => maybe_unserialize($item->attachments),
-            'trn_by'             => $item->trn_by,
-            'transaction_charge' => $item->transaction_charge,
-            'created_at'         => $item->created_at,
-            'deposit_to'         => $item->trn_by_ledger_id,
-            'check_data'         => !empty($item->check_data) ? $item->check_data : [],
+            'id'              => (int) $item->id,
+            'editable'        => !empty($item->editable) ? (int) $item->editable : 1,
+            'voucher_no'      => (int) $item->voucher_no,
+            'vendor_id'       => (int) $item->vendor_id,
+            'vendor_name'     => $item->vendor_name,
+            'trn_date'        => $item->trn_date,
+            'due_date'        => $item->due_date,
+            'billing_address' => !empty($item->billing_address) ? $item->billing_address : $people->getPeopleAddress($item->vendor_id),
+            'pdf_link'        => $item->pdf_link,
+            'bill_details'    => !empty($item->bill_details) ? $item->bill_details : [],
+            'amount'          => (int) $item->amount,
+            'due'             => !empty($item->due) ? $item->due : $item->amount,
+            'ref'             => !empty($item->ref) ? $item->ref : '',
+            'particulars'     => $item->particulars,
+            'status'          => $item->status,
+            'created_at'      => $item->created_at,
+            'attachments'     => maybe_unserialize($item->attachments),
         ];
 
         $data = array_merge($data, $additional_fields);
@@ -412,35 +424,30 @@ class AccountsController extends Controller
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'expense',
+            'title'      => 'bill',
             'type'       => 'object',
             'properties' => [
-                'id'              => [
+                'id'           => [
                     'description' => __('Unique identifier for the resource.'),
                     'type'        => 'integer',
                     'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
                 ],
-                'voucher_no'      => [
+                'voucher_no'   => [
                     'description' => __('Voucher no. for the resource.'),
                     'type'        => 'integer',
                     'context'     => ['edit'],
                 ],
-                'people_id'       => [
+                'vendor_id'    => [
                     'description' => __('People id for the resource.'),
                     'type'        => 'integer',
-                    'context'     => ['edit'],
-                    'required'    => true,
-                ],
-                'ref'       => [
-                    'description' => __('Reference for the resource.'),
-                    'type'        => 'string',
                     'context'     => ['edit'],
                     'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
+                    'required'    => true,
                 ],
-                'trn_date'        => [
+                'trn_date'     => [
                     'description' => __('Date for the resource.'),
                     'type'        => 'string',
                     'context'     => ['edit'],
@@ -449,10 +456,22 @@ class AccountsController extends Controller
                     ],
                     'required'    => true,
                 ],
-                'trn_by'        => [
-                    'description' => __('Trans by for the resource.'),
-                    'type'        => 'integer',
+                'due_date'     => [
+                    'description' => __('Due date for the resource.'),
+                    'type'        => 'string',
                     'context'     => ['edit'],
+                    'arg_options' => [
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ],
+                    'required'    => true,
+                ],
+                'ref'     => [
+                    'description' => __('Reference number for the resource.'),
+                    'type'        => 'string',
+                    'context'     => ['edit'],
+                    'arg_options' => [
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ],
                 ],
                 'billing_address' => [
                     'description' => __('Billing address for the resource.'),
@@ -461,6 +480,7 @@ class AccountsController extends Controller
                     'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
+                    'required'    => true,
                 ],
                 'bill_details' => [
                     'description' => __('List of line items data.', 'erp'),
@@ -471,10 +491,9 @@ class AccountsController extends Controller
                             'description' => __('Ledger id.', 'erp'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
-                            'required'    => true,
                         ],
-                        'particulars' => [
-                            'description' => __('Bill Particulars.', 'erp'),
+                        'description' => [
+                            'description' => __('Item Particular.', 'erp'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                             'arg_options' => [
@@ -485,24 +504,16 @@ class AccountsController extends Controller
                             'description' => __('Bill Amount', 'erp'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
-                            'required'    => true,
                         ],
                     ],
                 ],
-                'particulars'     => [
-                    'description' => __('Particulars for the resource.'),
-                    'type'        => 'string',
-                    'context'     => ['edit'],
-                    'arg_options' => [
-                        'sanitize_callback' => 'sanitize_text_field',
-                    ],
-                ],
-                'status'          => [
+                'status'       => [
                     'description' => __('Status for the resource.'),
                     'type'        => 'integer',
                     'context'     => ['edit'],
+                    'required'    => true,
                 ],
-                'type'            => [
+                'type' => [
                     'description' => __('Item Type.', 'erp'),
                     'type'        => 'string',
                     'context'     => ['edit'],
@@ -510,19 +521,13 @@ class AccountsController extends Controller
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
                 ],
-                'check_no'        => [
-                    'description' => __('Payment method for the resource.'),
+                'particulars' => [
+                    'description' => __('Bill Particular.', 'erp'),
                     'type'        => 'string',
                     'context'     => ['edit'],
                     'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
-                ],
-                'deposit_to'      => [
-                    'description' => __('Account for the resource.'),
-                    'type'        => 'integer',
-                    'context'     => ['edit'],
-                    'required'    => true,
                 ],
             ],
         ];

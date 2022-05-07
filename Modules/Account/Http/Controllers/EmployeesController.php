@@ -62,7 +62,7 @@ class AccountsController extends Controller
     public function get_employee($request)
     {
         $people_id = (int) $request['id'];
-        $user_id   = erp_acct_get_user_id_by_people_id($people_id);
+        $user_id   = $people->getUserIdByPeopleId($people_id);
 
         $employee = new \WeDevs\ERP\HRM\Employee($user_id);
         $item     = (array) erp_get_people($people_id);
@@ -98,7 +98,7 @@ class AccountsController extends Controller
     {
         $args['people_id'] = (int) $request['id'];
 
-        $transactions = erp_acct_get_people_transactions($args);
+        $transactions = $people->getPeopleTransactions($args);
 
         return new WP_REST_Response($transactions, 200);
     }
@@ -120,7 +120,7 @@ class AccountsController extends Controller
         $data                = array_merge($item['work'], $item['personal'], $additional_fields);
         $data['user_id']     = $item['user_id'];
         $data['email']       = $item['user_email'];
-        $data['people_id']   = erp_acct_get_people_id_by_user_id($item['user_id']);
+        $data['people_id']   = $this->getPeopleIdByUserId($item['user_id']);
         $data['department']  = $employee->get_department('view');
         $data['designation'] = $employee->get_designation('view');
 

@@ -277,8 +277,8 @@ export default {
                 people: {},
                 trn_ref: "",
                 payment_date:
-                    this.$erp_acct_var
-                        .current_date /* global this.$erp_acct_var */,
+                    this.$mybizna_var
+                        .current_date /* global this.$mybizna_var */,
                 deposit_to: "",
                 billing_address: "",
                 trn_by: "",
@@ -309,7 +309,7 @@ export default {
             particulars: "",
             isWorking: false,
             accts_by_chart: [],
-            acct_assets: this.$erp_acct_var.acct_assets,
+            acct_assets: this.$mybizna_var.acct_assets,
         };
     },
 
@@ -628,7 +628,7 @@ export default {
             this.basic_fields = {
                 people: { id: null, name: null },
                 trn_ref: "",
-                payment_date: this.$erp_acct_var.current_date,
+                payment_date: this.$mybizna_var.current_date,
                 deposit_to: "",
                 billing_address: "",
                 trn_by: "",

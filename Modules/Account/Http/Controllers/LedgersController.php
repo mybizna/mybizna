@@ -23,7 +23,7 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $ledgers = erp_acct_get_ledgers_with_balances();
+        $ledgers = $this->getLedgersWithBalances();
 
         foreach ($ledgers as $ledger) {
             $data              = $this->prepare_ledger_for_response($ledger, $request, $additional_fields);
@@ -53,7 +53,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_empty_chart_id', __('Chart ID is Empty.'), ['status' => 400]);
         }
 
-        $items = erp_acct_get_ledgers_by_chart_id($id);
+        $items = $ledger->getLedgersByChartId($id);
 
         $response = rest_ensure_response($items);
         $response->set_status(200);
@@ -79,7 +79,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_ledger($id);
+        $item = $ledger->getLedger($id);
 
         $result   = $this->prepare_item_for_response($item, $request);
         $response = rest_ensure_response($item);
@@ -138,9 +138,9 @@ class AccountsController extends Controller
 
         $item = $this->prepare_item_for_database($request);
 
-        $old_data = erp_acct_get_ledger($id);
+        $old_data = $ledger->getLedger($id);
 
-        $result = erp_acct_update_ledger($item, $id);
+        $result = $ledger->updateLedger($item, $id);
 
         $this->add_log($item, 'edit', $old_data);
 
@@ -206,7 +206,7 @@ class AccountsController extends Controller
      */
     public function get_bank_accounts($request)
     {
-        $items = erp_acct_get_banks(true, false, false);
+        $items = $bank->getBanks(true, false, false);
 
         if (empty($items)) {
             return new WP_Error('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
@@ -239,7 +239,7 @@ class AccountsController extends Controller
         $args               = [];
         $args['start_date'] = date('Y-m-d');
 
-        $closest_fy_date    = erp_acct_get_closest_fn_year_date($args['start_date']);
+        $closest_fy_date    = $trialbal->getClosestFnYearDate($args['start_date']);
         $args['start_date'] = $closest_fy_date['start_date'];
         $args['end_date']   = $closest_fy_date['end_date'];
 
@@ -276,7 +276,7 @@ class AccountsController extends Controller
     {
         $chart_id = absint($request['chart_id']);
 
-        $categories = erp_acct_get_ledger_categories($chart_id);
+        $categories = $ledger->getLedgerCategories($chart_id);
 
         $response = rest_ensure_response($categories);
 
@@ -294,7 +294,7 @@ class AccountsController extends Controller
      */
     public function create_ledger_category($request)
     {
-        $category = erp_acct_create_ledger_category($request);
+        $category = $ledger->createLedgerCategory($request);
 
         if (!$category) {
             return new WP_Error('rest_ledger_already_exist', __('Category already exist.'), ['status' => 404]);
@@ -322,7 +322,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $category = erp_acct_update_ledger_category($request);
+        $category = $ledger->updateLedgerCategory($request);
 
         if (!$category) {
             return new WP_Error('rest_ledger_already_exist', __('Category already exist.'), ['status' => 404]);
@@ -346,7 +346,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        erp_acct_delete_ledger_category($id);
+        $ledger->deleteLedgerCategory($id);
 
         return new WP_REST_Response(true, 204);
     }
@@ -380,7 +380,7 @@ class AccountsController extends Controller
                 'sub_component' => __('Ledger Account', 'erp'),
                 'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
                 'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('A ledger account named %1$s has been %2$s for %3$s', 'erp'), $data['name'], $operation, erp_acct_get_people_name_by_people_id($data['people_id'])),
+                'message'       => sprintf(__('A ledger account named %1$s has been %2$s for %3$s', 'erp'), $data['name'], $operation, $people->getPeopleNameByPeopleId($data['people_id'])),
                 'changetype'    => $action,
                 'created_by'    => get_current_user_id(),
             ]
@@ -426,9 +426,9 @@ class AccountsController extends Controller
             'name'        => $item->name,
             'slug'        => $item->slug,
             'code'        => $item->code,
-            'trn_count'   => erp_acct_get_ledger_trn_count($item->id),
+            'trn_count'   => $ledger->getLedgerTrnCount($item->id),
             'system'      => $item->system,
-            'balance'     => erp_acct_get_ledger_balance($item->id),
+            'balance'     => $ledger->getLedgerBalance($item->id),
         ];
 
         $data = array_merge($data, $additional_fields);

@@ -18,7 +18,7 @@ class Accounts extends Controller
      */
     public function get_accounts($request)
     {
-        $items = erp_acct_get_transfer_accounts(true);
+        $items = $bank->getTransferAccounts(true);
 
         $formatted_items = [];
 
@@ -45,7 +45,7 @@ class Accounts extends Controller
     public function get_account($request)
     {
         $id   = (int) $request['id'];
-        $item = erp_acct_get_bank($id);
+        $item = $bank->getBank($id);
 
         if (empty($id) || empty($item->id)) {
             return new WP_Error('rest_bank_account_invalid_id', __('Invalid resource id.'), ['status' => 404]);
@@ -67,7 +67,7 @@ class Accounts extends Controller
     public function delete_account($request)
     {
         $id   = (int) $request['id'];
-        $item = erp_acct_delete_bank($id);
+        $item = $bank->deleteBank($id);
 
         if (empty($id) || empty($item->id)) {
             return new WP_Error('rest_bank_account_invalid_id', __('Invalid resource id.'), ['status' => 404]);
@@ -96,7 +96,7 @@ class Accounts extends Controller
         $args               = [];
         $args['start_date'] = date('Y-m-d');
 
-        $closest_fy_date    = erp_acct_get_closest_fn_year_date($args['start_date']);
+        $closest_fy_date    = $trialbal->getClosestFnYearDate($args['start_date']);
         $args['start_date'] = $closest_fy_date['start_date'];
         $args['end_date']   = $closest_fy_date['end_date'];
 
@@ -112,7 +112,7 @@ class Accounts extends Controller
         //     return new WP_Error( 'rest_transfer_insufficient_funds', __( 'Not enough money on selected transfer source.' ), [ 'status' => 400 ] );
         // }
 
-        $id = erp_acct_perform_transfer($item);
+        $id = $bank->performTransfer($item);
 
         if (is_wp_error($id)) {
             return $id;
@@ -139,8 +139,8 @@ class Accounts extends Controller
             'offset'   => ($request['per_page'] * ($request['page'] - 1)),
         ];
 
-        $items    = erp_acct_get_transfer_vouchers($args);
-        $accounts = erp_acct_get_transfer_accounts();
+        $items    = $bank->getTransferVouchers($args);
+        $accounts = $bank->getTransferAccounts();
         $accounts = wp_list_pluck($accounts, 'name', 'id');
 
         $formatted_items = [];
@@ -164,8 +164,8 @@ class Accounts extends Controller
     public function get_single_transfer($request)
     {
         $id       = !empty($request['id']) ? intval($request['id']) : 0;
-        $item     = erp_acct_get_single_voucher($id);
-        $accounts = erp_acct_get_transfer_accounts();
+        $item     = $bank->getSingleVoucher($id);
+        $accounts = $bank->getTransferAccounts();
         $accounts = wp_list_pluck($accounts, 'name', 'id');
         $data     = $this->prepare_list_item_for_response($item, $request, [], $accounts);
         $response = rest_ensure_response($data);
@@ -182,7 +182,7 @@ class Accounts extends Controller
      */
     public function get_bank_accounts($request)
     {
-        $items = erp_acct_get_banks(true, true, false);
+        $items = $bank->getBanks(true, true, false);
 
         if (empty($items)) {
             return new WP_Error('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
@@ -213,7 +213,7 @@ class Accounts extends Controller
     public function get_cash_at_bank($request)
     {
         $formatted_items = [];
-        $items           = erp_acct_get_dashboard_banks();
+        $items           = $bank->getDashboardBanks();
 
         if (empty($items)) {
             return new WP_Error('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
@@ -247,7 +247,7 @@ class Accounts extends Controller
                 'old_value'     => '',
                 'new_value'     => '',
                 // translators: %1$s: amount, %2$s: id
-                'message'       => sprintf(__('%1$s has been transferred from %2$s to %3$s', 'erp'), $data['amount'], erp_acct_get_ledger_name_by_id($data['from_account_id']), erp_acct_get_ledger_name_by_id($data['to_account_id'])),
+                'message'       => sprintf(__('%1$s has been transferred from %2$s to %3$s', 'erp'), $data['amount'], $ledger->getLedgerNameById($data['from_account_id']), $ledger->getLedgerNameById($data['to_account_id'])),
                 'changetype'    => $action,
                 'created_by'    => get_current_user_id(),
             ]

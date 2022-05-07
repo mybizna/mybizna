@@ -26,8 +26,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $items       = erp_acct_get_all_opening_balances($args);
-        $total_items = erp_acct_get_all_opening_balances(
+        $items       = $obalance->getAllOpeningBalances($args);
+        $total_items = $obalance->getAllOpeningBalances(
             [
                 'count'  => true,
                 'number' => -1,
@@ -67,7 +67,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $ledgers = erp_acct_get_opening_balance($id);
+        $ledgers = $obalance->getAllOpeningBalances($id);
 
         $formatted_items   = [];
         $additional_fields = [];
@@ -193,7 +193,7 @@ class AccountsController extends Controller
 
         $opening_balance_data['amount'] = $total_dr;
 
-        $opening_balance = erp_acct_insert_opening_balance($opening_balance_data);
+        $opening_balance = $obalance->getVirtualAcct($opening_balance_data);
 
         $this->add_log($opening_balance_data, 'add');
 
@@ -225,7 +225,7 @@ class AccountsController extends Controller
         $acc_pay_rec = [];
 
         $acc_pay_rec['invoice_acc']       = erp_acct_get_opb_invoice_account_details($request['start_date']);
-        $acc_pay_rec['bill_purchase_acc'] = erp_acct_get_opb_bill_purchase_account_details($request['start_date']);
+        $acc_pay_rec['bill_purchase_acc'] = $this->getOpbBillPurchaseAccountDetails($request['start_date']);
 
         $response = rest_ensure_response($acc_pay_rec);
 

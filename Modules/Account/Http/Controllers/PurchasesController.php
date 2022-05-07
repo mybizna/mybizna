@@ -29,8 +29,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $purchase_data = erp_acct_get_purchases($args);
-        $total_items   = erp_acct_get_purchases(
+        $purchase_data = $purchases->getPurchases($args);
+        $total_items   = $purchases->getPurchases(
             [
                 'count'  => true,
                 'number' => -1,
@@ -125,7 +125,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_purchase($id);
+        $item = $purchases->getPurchases($id);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
@@ -163,7 +163,7 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $purchase_data = erp_acct_insert_purchase($purchase_data);
+        $purchase_data = $this->insertPurchase($purchase_data);
 
         $this->add_log($purchase_data, 'add');
 
@@ -190,7 +190,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $can_edit = erp_acct_check_voucher_edit_state($id);
+        $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
             return new WP_Error('rest_purchase_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
@@ -212,8 +212,8 @@ class AccountsController extends Controller
         $purchase_data['amount']          = array_sum($item_total);
         $purchase_data['tax']             = array_sum($tax_total);
 
-        $old_data = erp_acct_get_purchase($id);
-        $purchase = erp_acct_update_purchase($purchase_data, $id);
+        $old_data = $purchases->getPurchases($id);
+        $purchase = $purchases->updatePurchase($purchase_data, $id);
 
         $this->add_log($purchase_data, 'edit', $old_data);
 
@@ -243,7 +243,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        erp_acct_void_purchase($id);
+        $this->voidPurchase($id);
 
         return new WP_REST_Response(true, 204);
     }
@@ -277,7 +277,7 @@ class AccountsController extends Controller
                 'sub_component' => __('Purchase', 'erp'),
                 'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
                 'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('A purchase of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, erp_acct_get_people_name_by_people_id($data['vendor_id'])),
+                'message'       => sprintf(__('A purchase of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, $people->getPeopleNameByPeopleId($data['vendor_id'])),
                 'changetype'    => $action,
                 'created_by'    => get_current_user_id(),
             ]
@@ -380,13 +380,13 @@ class AccountsController extends Controller
             'tax'            => $item->tax,
             'tax_zone_id'    => $item->tax_zone_id,
             'ref'            => $item->ref,
-            'billing_address' => erp_acct_format_people_address(erp_acct_get_people_address((int) $item->vendor_id)),
+            'billing_address' => $people->formatPeopleAddress($people->getPeopleAddress((int) $item->vendor_id)),
             'pdf_link'       => $item->pdf_link,
             'status'         => $item->status,
             'purchase_order' => $item->purchase_order,
             'amount'         => $item->amount,
             'created_at'     => $item->created_at,
-            'due'            => empty($item->due) ? erp_acct_get_purchase_due($item->voucher_no) : $item->due,
+            'due'            => empty($item->due) ? $purchases->getPurchaseDue($item->voucher_no) : $item->due,
             'attachments'    => maybe_unserialize($item->attachments),
             'particulars'    => $item->particulars,
         ];

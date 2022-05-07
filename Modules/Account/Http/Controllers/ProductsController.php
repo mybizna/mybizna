@@ -29,8 +29,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $product_data = erp_acct_get_all_products($args);
-        $total_items  = erp_acct_get_all_products(
+        $product_data = $products->getAllProducts($args);
+        $total_items  = $products->getAllProducts(
             [
                 'count'  => true,
                 'number' => -1,
@@ -59,7 +59,7 @@ class AccountsController extends Controller
     public function get_inventory_product($request)
     {
         $id   = (int) $request['id'];
-        $item = erp_acct_get_product($id);
+        $item = $products->getAllProducts($id);
 
         if (empty($id)) {
             return new WP_Error('rest_inventory_product_invalid_id', __('Invalid resource id.'), ['status' => 404]);
@@ -86,7 +86,7 @@ class AccountsController extends Controller
     {
         $item  = $this->prepare_item_for_database($request);
 
-        $id    = erp_acct_insert_product($item);
+        $id    = $products->insertProduct($item);
 
         if (is_wp_error($id)) {
             return $id;
@@ -123,9 +123,9 @@ class AccountsController extends Controller
 
         $item = $this->prepare_item_for_database($request);
 
-        $old_data = erp_acct_get_product($id);
+        $old_data = $products->getAllProducts($id);
 
-        $id = erp_acct_update_product($item, $id);
+        $id = $products->updateProduct($item, $id);
 
         if (is_wp_error($id)) {
             return $id;
@@ -156,9 +156,9 @@ class AccountsController extends Controller
     {
         $id = (int) $request['id'];
 
-        $item = erp_acct_get_product($id);
+        $item = $products->getAllProducts($id);
 
-        erp_acct_delete_product($id);
+        $products->deleteProduct($id);
 
         $this->add_log($item, 'delete');
 
@@ -185,7 +185,7 @@ class AccountsController extends Controller
             'fields'          => !empty($request['fields'])          ? $request['fields']          : '',
         ];
 
-        $data = erp_acct_validate_csv_data($args);
+        $data = $products->validateCsvData($args);
 
         if (is_wp_error($data)) {
             return $data;
@@ -212,7 +212,7 @@ class AccountsController extends Controller
             'total'  => !empty($request['total'])  ? $request['total']   : '',
         ];
 
-        $imported = erp_acct_import_products($args);
+        $imported = $products->importProducts($args);
 
         if (is_wp_error($imported)) {
             return $imported;
@@ -478,7 +478,7 @@ class AccountsController extends Controller
      */
     public function get_product_types()
     {
-        $types    = erp_acct_get_product_types();
+        $types    = $products->getProductTypes();
         $response = rest_ensure_response($types);
 
         return $response;
@@ -501,7 +501,7 @@ class AccountsController extends Controller
         }
 
         foreach ($ids as $id) {
-            erp_acct_delete_product($id);
+            $products->deleteProduct($id);
         }
 
         return new WP_REST_Response(true, 204);

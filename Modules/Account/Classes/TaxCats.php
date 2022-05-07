@@ -10,7 +10,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_all_tax_cats($args = [])
+    function getAllTaxCats($args = [])
     {
         global $wpdb;
 
@@ -68,7 +68,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_tax_cat($tax_no)
+    function getTaxCat($tax_no)
     {
         global $wpdb;
 
@@ -84,7 +84,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_insert_tax_cat($data)
+    function insertTaxCat($data)
     {
         global $wpdb;
 
@@ -92,7 +92,7 @@ class Bank
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
-        $tax_data = erp_acct_get_formatted_tax_data($data);
+        $tax_data = $taxes->getFormattedTaxData($data);
 
         $wpdb->insert(
             $wpdb->prefix . 'erp_acct_tax_categories',
@@ -108,7 +108,6 @@ class Bank
 
         $tax_id = $wpdb->insert_id;
 
-        erp_acct_purge_cache(['list' => 'tax_cats']);
 
         return $tax_id;
     }
@@ -120,7 +119,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_update_tax_cat($data, $id)
+    function updateTaxCat($data, $id)
     {
         global $wpdb;
 
@@ -128,7 +127,7 @@ class Bank
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
-        $tax_data = erp_acct_get_formatted_tax_data($data);
+        $tax_data = $taxes->getFormattedTaxData($data);
 
         $wpdb->update(
             $wpdb->prefix . 'erp_acct_tax_categories',
@@ -143,7 +142,6 @@ class Bank
             ]
         );
 
-        erp_acct_purge_cache(['list' => 'tax_cats']);
 
         return $id;
     }
@@ -155,13 +153,12 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_delete_tax_cat($id)
+    function deleteTaxCat($id)
     {
         global $wpdb;
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_tax_categories', ['id' => $id]);
 
-        erp_acct_purge_cache(['list' => 'tax_cats']);
 
         return $id;
     }

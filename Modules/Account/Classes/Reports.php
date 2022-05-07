@@ -20,15 +20,15 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_ledger_report($ledger_id, $start_date, $end_date)
+    function getLedgerReport($ledger_id, $start_date, $end_date)
     {
         global $wpdb;
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($start_date);
+        $closest_fy_date = $trialbal->getClosestFnYearDate($start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = (float) erp_acct_ledger_report_opening_balance_by_fn_year_id($closest_fy_date['id'], $ledger_id);
+        $opening_balance = (float) $this->ledgerReportOpeningBalanceByFnYearId($closest_fy_date['id'], $ledger_id);
 
         // should we go further calculation, check the diff
         if (erp_acct_has_date_diff($start_date, $closest_fy_date['start_date'])) {
@@ -139,7 +139,7 @@ class Bank
      *
      * @return string|null
      */
-    function erp_acct_ledger_report_opening_balance_by_fn_year_id($id, $ledger_id)
+    function ledgerReportOpeningBalanceByFnYearId($id, $ledger_id)
     {
         global $wpdb;
 
@@ -164,7 +164,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_sales_tax_report($agency_id, $start_date, $end_date)
+    function getSalesTaxReport($agency_id, $start_date, $end_date)
     {
         global $wpdb;
 
@@ -277,7 +277,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_filtered_sales_tax_report($args)
+    function getFilteredSalesTaxReport($args)
     {
         global $wpdb;
 
@@ -326,11 +326,11 @@ class Bank
     /**
      * Get income statement
      */
-    function erp_acct_get_income_statement($args)
+    function getIncomeStatement($args)
     {
         global $wpdb;
 
-        $results = erp_acct_get_profit_loss($args);
+        $results = $this->getProfitLoss($args);
 
         if ($results['income'] >= abs($results['expense'])) {
             $results['profit']      = $results['income'] - $results['expense'];
@@ -355,18 +355,18 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_income_statement_calculate_with_opening_balance($is_start_date, $data, $sql, $chart_id)
+    function incomeStatementCalculateWithOpeningBalance($is_start_date, $data, $sql, $chart_id)
     {
         global $wpdb;
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($is_start_date);
+        $closest_fy_date = $trialbal->getClosestFnYearDate($is_start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = erp_acct_is_opening_balance_by_fn_year_id($closest_fy_date['id'], $chart_id);
+        $opening_balance = $this->isOpeningBalanceByFnYearId($closest_fy_date['id'], $chart_id);
 
         $ledgers   = $wpdb->get_results($wpdb->prepare("SELECT ledger.id, ledger.name FROM {$wpdb->prefix}erp_acct_ledgers AS ledger WHERE ledger.chart_id = %d", $chart_id), ARRAY_A);
-        $temp_data = erp_acct_get_is_balance_with_opening_balance($ledgers, $data, $opening_balance);
+        $temp_data = $this->getIsBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
         $result    = [];
 
         if (!erp_acct_has_date_diff($is_start_date, $closest_fy_date['start_date'])) {
@@ -423,7 +423,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_is_balance_with_opening_balance($ledgers, $data, $opening_balance)
+    function getIsBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
     {
         $temp_data = [];
 
@@ -462,7 +462,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_is_opening_balance_by_fn_year_id($id, $chart_id)
+    function isOpeningBalanceByFnYearId($id, $chart_id)
     {
         global $wpdb;
 
@@ -494,7 +494,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_balance_sheet($args)
+    function getBalanceSheet($args)
     {
         global $wpdb;
 
@@ -539,21 +539,21 @@ class Bank
         $data2 = $wpdb->get_results($wpdb->prepare($sql2, $args['start_date'], $args['end_date']), ARRAY_A);
         $data3 = $wpdb->get_results($wpdb->prepare($sql3, $args['start_date'], $args['end_date']), ARRAY_A);
 
-        $results['rows1'] = erp_acct_balance_sheet_calculate_with_opening_balance($args['start_date'], $data1, $sql1, 1);
-        $results['rows2'] = erp_acct_balance_sheet_calculate_with_opening_balance($args['start_date'], $data2, $sql2, 2);
-        $results['rows3'] = erp_acct_balance_sheet_calculate_with_opening_balance($args['start_date'], $data3, $sql3, 3);
+        $results['rows1'] = $this->balanceSheetCalculateWithOpeningBalance($args['start_date'], $data1, $sql1, 1);
+        $results['rows2'] = $this->balanceSheetCalculateWithOpeningBalance($args['start_date'], $data2, $sql2, 2);
+        $results['rows3'] = $this->balanceSheetCalculateWithOpeningBalance($args['start_date'], $data3, $sql3, 3);
 
         $final_accounts   = new \WeDevs\ERP\Accounting\Includes\Classes\Final_Accounts($args);
 
         $results['rows1'][] = [
             'name'    => 'Accounts Receivable',
-            'balance' => erp_acct_get_account_receivable($args),
+            'balance' => $trialbal->getAccountReceivable($args),
         ];
 
         $results['rows1'][] = [
             'name'    => 'Sales Tax Receivable',
             'slug'    => 'sales_tax',
-            'balance' => erp_acct_sales_tax_query($args, 'receivable'),
+            'balance' => $trialbal->salesTaxQuery($args, 'receivable'),
         ];
 
         $results['rows1'][] = [
@@ -564,7 +564,7 @@ class Bank
 
         $results['rows2'][] = [
             'name'    => 'Accounts Payable',
-            'balance' => erp_acct_get_account_payable($args),
+            'balance' => $trialbal->getAccountPayable($args),
         ];
 
         $results['rows2'][] = [
@@ -576,17 +576,17 @@ class Bank
         $results['rows2'][] = [
             'name'    => 'Sales Tax Payable',
             'slug'    => 'sales_tax',
-            'balance' => erp_acct_sales_tax_query($args, 'payable'),
+            'balance' => $trialbal->salesTaxQuery($args, 'payable'),
         ];
 
         $ledger_map        = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
         $owner_s_equity_id = $ledger_map->get_ledger_id_by_slug('owner_s_equity');
 
-        $capital     = erp_acct_get_owners_equity($args, 'capital');
-        $drawings    = erp_acct_get_owners_equity($args, 'drawings');
+        $capital     = $trialbal->getOwnersEquity($args, 'capital');
+        $drawings    = $trialbal->getOwnersEquity($args, 'drawings');
         $new_capital = $capital + $drawings;
 
-        $closest_fy_date       = erp_acct_get_closest_fn_year_date($args['start_date']);
+        $closest_fy_date       = $trialbal->getClosestFnYearDate($args['start_date']);
         $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($args['start_date'])));
 
         // Owner's Equity calculation with income statement profit/loss
@@ -595,7 +595,7 @@ class Bank
             'end_date'   => $prev_date_of_tb_start,
         ];
 
-        $income_statement_balance = erp_acct_get_income_statement($inc_statmnt_range);
+        $income_statement_balance = $this->getIncomeStatement($inc_statmnt_range);
 
         $new_capital = $new_capital - $income_statement_balance['raw_balance'];
 
@@ -613,7 +613,7 @@ class Bank
             ];
         }
 
-        $profit_loss = erp_acct_get_income_statement($args);
+        $profit_loss = $this->getIncomeStatement($args);
 
         if (!empty($profit_loss['profit'])) {
             $results['rows3'][] = [
@@ -692,15 +692,15 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_balance_sheet_calculate_with_opening_balance($bs_start_date, $data, $sql, $chart_id)
+    function balanceSheetCalculateWithOpeningBalance($bs_start_date, $data, $sql, $chart_id)
     {
         global $wpdb;
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($bs_start_date);
+        $closest_fy_date = $trialbal->getClosestFnYearDate($bs_start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = erp_acct_bs_opening_balance_by_fn_year_id($closest_fy_date['id'], $chart_id);
+        $opening_balance = $this->bsOpeningBalanceByFnYearId($closest_fy_date['id'], $chart_id);
 
         $ledger_sql = "SELECT
         ledger.id, ledger.name
@@ -708,7 +708,7 @@ class Bank
         WHERE ledger.chart_id={$chart_id} AND ledger.slug <> 'owner_s_equity'";
 
         $ledgers   = $wpdb->get_results($ledger_sql, ARRAY_A);
-        $temp_data = erp_acct_get_bs_balance_with_opening_balance($ledgers, $data, $opening_balance);
+        $temp_data = $this->getBsBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
         $result    = [];
 
         if (!erp_acct_has_date_diff($bs_start_date, $closest_fy_date['start_date'])) {
@@ -765,7 +765,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_bs_balance_with_opening_balance($ledgers, $data, $opening_balance)
+    function getBsBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
     {
         $temp_data = [];
 
@@ -804,7 +804,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_bs_opening_balance_by_fn_year_id($id, $chart_id)
+    function bsOpeningBalanceByFnYearId($id, $chart_id)
     {
         global $wpdb;
 
@@ -830,14 +830,14 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_profit_loss($args)
+    function getProfitLoss($args)
     {
         global $wpdb;
 
         if (empty($args['start_date'])) {
             $args['start_date'] = date('Y-m-d', strtotime('first day of january'));
         } else {
-            $closest_fy_date    = erp_acct_get_closest_fn_year_date($args['start_date']);
+            $closest_fy_date    = $trialbal->getClosestFnYearDate($args['start_date']);
             $args['start_date'] = $closest_fy_date['start_date'];
         }
 
@@ -869,8 +869,8 @@ class Bank
         $data1 = $wpdb->get_results($wpdb->prepare($sql1, $args['start_date'], $args['end_date']), ARRAY_A);
         $data2 = $wpdb->get_results($wpdb->prepare($sql2, $args['start_date'], $args['end_date']), ARRAY_A);
 
-        $results['rows1'] = erp_acct_income_statement_calculate_with_opening_balance($args['start_date'], $data1, $sql1, 4);
-        $results['rows2'] = erp_acct_income_statement_calculate_with_opening_balance($args['start_date'], $data2, $sql2, 5);
+        $results['rows1'] = $this->incomeStatementCalculateWithOpeningBalance($args['start_date'], $data1, $sql1, 4);
+        $results['rows2'] = $this->incomeStatementCalculateWithOpeningBalance($args['start_date'], $data2, $sql2, 5);
 
         $results['income']  = 0;
         $results['expense'] = 0;

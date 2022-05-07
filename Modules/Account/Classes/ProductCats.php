@@ -10,7 +10,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_all_product_cats()
+    function getAllProductCats()
     {
         global $wpdb;
 
@@ -33,7 +33,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_product_cat($product_cat_id)
+    function getProductCat($product_cat_id)
     {
         global $wpdb;
 
@@ -49,7 +49,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_insert_product_cat($data)
+    function insertProductCat($data)
     {
         global $wpdb;
 
@@ -59,7 +59,7 @@ class Bank
 
         try {
             $wpdb->query('START TRANSACTION');
-            $product_cat_data = erp_acct_get_formatted_product_cat_data($data);
+            $product_cat_data = $this->getFormattedProductCatData($data);
 
             $wpdb->insert(
                 $wpdb->prefix . 'erp_acct_product_categories',
@@ -82,7 +82,6 @@ class Bank
             return new WP_error('product-exception', $e->getMessage());
         }
 
-        erp_acct_purge_cache(['key' => 'erp-get-product-categories']);
 
         return $product_cat_id;
     }
@@ -94,7 +93,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_update_product_cat($data, $id)
+    function updateProductCat($data, $id)
     {
         global $wpdb;
 
@@ -104,7 +103,7 @@ class Bank
 
         try {
             $wpdb->query('START TRANSACTION');
-            $product_cat_data = erp_acct_get_formatted_product_cat_data($data);
+            $product_cat_data = $this->getFormattedProductCatData($data);
 
             $wpdb->update(
                 $wpdb->prefix . 'erp_acct_product_categories',
@@ -128,7 +127,6 @@ class Bank
             return new WP_error('product-exception', $e->getMessage());
         }
 
-        erp_acct_purge_cache(['key' => 'erp-get-product-categories']);
 
         return $id;
     }
@@ -141,7 +139,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_product_cat_data($data)
+    function getFormattedProductCatData($data)
     {
         $product_cat_data['name']       = isset($data['name']) ? $data['name'] : '';
         $product_cat_data['parent']     = isset($data['parent']) ? $data['parent'] : 0;
@@ -166,6 +164,5 @@ class Bank
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_product_categories', ['id' => $product_cat_id]);
 
-        erp_acct_purge_cache(['key' => 'erp-get-product-categories']);
     }
 }

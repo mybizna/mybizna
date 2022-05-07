@@ -22,8 +22,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $items       = erp_acct_get_all_currencies();
-        $total_items = erp_acct_get_all_currencies( true );
+        $items       = $currencies->getAllCurrencies();
+        $total_items = $currencies->getAllCurrencies( true );
 
         $formatted_items = [];
 

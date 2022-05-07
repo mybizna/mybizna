@@ -10,16 +10,16 @@ class AccountsController extends Controller
 {
 
     /**
-     * Get a collection of payments
+     * Get a collection of pay_purchases
      *
      * @param WP_REST_Request $request
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function get_payments($request)
+    public function get_pay_purchases($request)
     {
         $args = [
-            'number' => isset($request['per_page']) ? $request['per_page'] : 20,
+            'number' => (int) isset($request['per_page']) ? $request['per_page'] : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
         ];
 
@@ -29,15 +29,15 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $payment_data  = erp_acct_get_payments($args);
-        $payment_count = erp_acct_get_payments(
+        $pay_purchase_data = $this->getPayPurchases($args);
+        $total_items       = $this->getPayPurchases(
             [
                 'count'  => true,
                 'number' => -1,
             ]
         );
 
-        foreach ($payment_data as $item) {
+        foreach ($pay_purchase_data as $item) {
             if (isset($request['include'])) {
                 $include_params = explode(',', str_replace(' ', '', $request['include']));
 
@@ -51,7 +51,7 @@ class AccountsController extends Controller
         }
 
         $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $payment_count);
+        $response = $this->format_collection_response($response, $request, $total_items);
 
         $response->set_status(200);
 
@@ -59,26 +59,27 @@ class AccountsController extends Controller
     }
 
     /**
-     * Get a payment
+     * Get a pay_purchase
      *
      * @param WP_REST_Request $request
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function get_payment($request)
+    public function get_pay_purchase($request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return new WP_Error('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_payment($id);
+        $item = $pay_purchases->getPayPurchase($id);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $item     = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $item = $this->prepare_item_for_response($item, $request, $additional_fields);
+
         $response = rest_ensure_response($item);
 
         $response->set_status(200);
@@ -87,113 +88,110 @@ class AccountsController extends Controller
     }
 
     /**
-     * Create a payment
+     * Create a pay_purchase
      *
      * @param WP_REST_Request $request
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function create_payment($request)
+    public function create_pay_purchase($request)
     {
         $additional_fields = [];
-        $payment_data      = $this->prepare_item_for_database($request);
+        $pay_purchase_data = $this->prepare_item_for_database($request);
 
-        $items      = $request['line_items'];
+        $items      = $request['purchase_details'];
         $item_total = [];
 
         foreach ($items as $key => $item) {
             $item_total[$key] = $item['line_total'];
         }
 
-        $payment_data['amount'] = array_sum($item_total);
+        $pay_purchase_data['amount'] = array_sum($item_total);
 
-        $payment_data = erp_acct_insert_payment($payment_data);
+        $pay_purchase_data = $this->insertPayPurchase($pay_purchase_data);
 
-        $this->add_log($payment_data, 'add');
+        $this->add_log($pay_purchase_data, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $payment_data = $this->prepare_item_for_response($payment_data, $request, $additional_fields);
+        $pay_purchase_data = $this->prepare_item_for_response($pay_purchase_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($payment_data);
+        $response = rest_ensure_response($pay_purchase_data);
+
         $response->set_status(201);
 
         return $response;
     }
 
     /**
-     * Update a payment
+     * Update a pay_purchase
      *
      * @param WP_REST_Request $request
      *
      * @return WP_Error|WP_REST_Response
      */
-    public function update_payment($request)
+    public function update_pay_purchase($request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return new WP_Error('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $payment_data = $this->prepare_item_for_database($request);
+        $pay_purchase_data = $this->prepare_item_for_database($request);
 
-        $items      = $request['line_items'];
+        $items      = $request['purchase_details'];
         $item_total = [];
 
         foreach ($items as $key => $item) {
             $item_total[$key] = $item['line_total'];
         }
 
-        $payment_data['amount'] = array_sum($item_total);
+        $pay_purchase_data['amount'] = array_sum($item_total);
 
-        $old_data     = erp_acct_get_payment($id);
-        $payment_data = erp_acct_update_payment($payment_data, $id);
+        $old_data = $pay_purchases->getPayPurchase($id);
 
-        $this->add_log($payment_data, 'edit', $old_data);
+        $pay_purchase_id = $pay_purchases->updatePayPurchase($pay_purchase_data, $id);
 
-        $additional_fields              = [];
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $this->add_log($pay_purchase_data, 'edit', $old_data);
 
-        $payment_response = $this->prepare_item_for_response($payment_data, $request, $additional_fields);
-
-        $response = rest_ensure_response($payment_response);
-
-        $response->set_status(200);
+        $response = rest_ensure_response($pay_purchase_data);
+        $response = $this->format_collection_response($response, $request, 1);
 
         return $response;
     }
 
     /**
-     * Void a payment
+     * Void a pay_purchase
      *
      * @param WP_REST_Request $request
      *
      * @return WP_Error|WP_REST_Request
      */
-    public function void_payment($request)
+    public function void_pay_purchase($request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return new WP_Error('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        erp_acct_void_payment($id);
+        $item = $pay_purchases->getPayPurchase($id);
+
+        $this->voidPayPurchase($id);
+
+        $this->add_log($item, 'delete');
 
         return new WP_REST_Response(true, 204);
     }
 
     /**
-     * Log for inventory payment related actions
+     * Log when purchase payment is created
      *
      * @param array $data
      * @param string $action
      * @param array $old_data
-     *
-     * @return void
      */
     public function add_log($data, $action, $old_data = [])
     {
@@ -212,10 +210,10 @@ class AccountsController extends Controller
         erp_log()->add(
             [
                 'component'     => 'Accounting',
-                'sub_component' => __('Receive Payment', 'erp'),
+                'sub_component' => __('Pay Purchase', 'erp'),
                 'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
                 'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('An invoice payment of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, erp_acct_get_people_name_by_people_id($data['customer_id'])),
+                'message'       => sprintf(__('A purchase payment of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, $people->getPeopleNameByPeopleId($data['people_id'])),
                 'changetype'    => $action,
                 'created_by'    => get_current_user_id(),
             ]
@@ -233,28 +231,20 @@ class AccountsController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['id'])) {
-            $prepared_item['id'] = $request['id'];
+        if (isset($request['vendor_id'])) {
+            $prepared_item['vendor_id'] = $request['vendor_id'];
         }
 
-        if (isset($request['customer_id'])) {
-            $prepared_item['customer_id'] = $request['customer_id'];
+        if (isset($request['ref'])) {
+            $prepared_item['ref'] = $request['ref'];
         }
 
         if (isset($request['trn_date'])) {
             $prepared_item['trn_date'] = $request['trn_date'];
         }
 
-        if (isset($request['line_items'])) {
-            $prepared_item['line_items'] = $request['line_items'];
-        }
-
-        if (isset($request['particulars'])) {
-            $prepared_item['particulars'] = $request['particulars'];
-        }
-
-        if (isset($request['invoice_no'])) {
-            $prepared_item['invoice_no'] = $request['invoice_no'];
+        if (isset($request['purchase_details'])) {
+            $prepared_item['purchase_details'] = $request['purchase_details'];
         }
 
         if (isset($request['amount'])) {
@@ -265,20 +255,16 @@ class AccountsController extends Controller
             $prepared_item['ref'] = $request['ref'];
         }
 
-        if (isset($request['due'])) {
-            $prepared_item['due'] = $request['due'];
-        }
-
-        if (isset($request['line_total'])) {
-            $prepared_item['line_total'] = $request['line_total'];
-        }
-
         if (isset($request['trn_by'])) {
             $prepared_item['trn_by'] = $request['trn_by'];
         }
 
-        if (isset($request['type'])) {
-            $prepared_item['type'] = $request['type'];
+        if (isset($request['bank_trn_charge'])) {
+            $prepared_item['bank_trn_charge'] = $request['bank_trn_charge'];
+        }
+
+        if (isset($request['particulars'])) {
+            $prepared_item['particulars'] = $request['particulars'];
         }
 
         if (isset($request['status'])) {
@@ -293,6 +279,14 @@ class AccountsController extends Controller
             $prepared_item['billing_address'] = maybe_serialize($request['billing_address']);
         }
 
+        if (isset($request['type'])) {
+            $prepared_item['voucher_type'] = $request['type'];
+        }
+
+        if (isset($request['check_no'])) {
+            $prepared_item['check_no'] = $request['check_no'];
+        }
+
         if (isset($request['deposit_to'])) {
             $prepared_item['deposit_to'] = $request['deposit_to'];
         }
@@ -303,14 +297,6 @@ class AccountsController extends Controller
 
         if (isset($request['bank'])) {
             $prepared_item['bank'] = $request['bank'];
-        }
-
-        if (isset($request['check_no'])) {
-            $prepared_item['check_no'] = $request['check_no'];
-        }
-
-        if (isset($request['bank_trn_charge'])) {
-            $prepared_item['bank_trn_charge'] = $request['bank_trn_charge'];
         }
 
         return $prepared_item;
@@ -330,22 +316,20 @@ class AccountsController extends Controller
         $item = (object) $item;
 
         $data = [
-            'id'                    => (int) $item->id,
-            'voucher_no'            => (int) $item->voucher_no,
-            'customer_id'           => (int) $item->customer_id,
-            'customer_name'         => $item->customer_name,
-            'trn_date'              => $item->trn_date,
-            'amount'                => $item->amount,
-            'transaction_charge'    => $item->transaction_charge,
-            'ref'                   => $item->ref,
-            'account'               => erp_acct_get_ledger_name_by_id($item->trn_by_ledger_id),
-            'line_items'            => $item->line_items,
-            'attachments'           => maybe_unserialize($item->attachments),
-            'status'                => erp_acct_get_trn_status_by_id($item->status),
-            'pdf_link'              => $item->pdf_link,
-            'type'                  => !empty($item->type) ? $item->type : 'payment',
-            'particulars'           => $item->particulars,
-            'created_at'            => $item->created_at,
+            'id'                 => (int) $item->id,
+            'voucher_no'         => (int) $item->voucher_no,
+            'vendor_id'          => (int) $item->vendor_id,
+            'trn_date'           => $item->trn_date,
+            'purchase_details'   => $item->purchase_details,
+            'pdf_link'           => $item->pdf_link,
+            'ref'                =>  $item->ref,
+            'amount'             => (float) $item->amount,
+            'particulars'        => $item->particulars,
+            'attachments'        => maybe_unserialize($item->attachments),
+            'status'             => $item->status,
+            'created_at'         => $item->created_at,
+            'transaction_charge' => $item->transaction_charge,
+            'trn_by'             => erp_acct_get_payment_method_by_id($item->trn_by)->name,
         ];
 
         $data = array_merge($data, $additional_fields);
@@ -367,24 +351,29 @@ class AccountsController extends Controller
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'payment',
+            'title'      => 'pay_purchase',
             'type'       => 'object',
             'properties' => [
-                'id'              => [
+                'id'               => [
                     'description' => __('Unique identifier for the resource.'),
                     'type'        => 'integer',
                     'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
                 ],
-                'voucher_no'      => [
+                'voucher_no'       => [
                     'description' => __('Voucher no. for the resource.'),
                     'type'        => 'integer',
+                    'context'     => ['edit'],
+                ],
+                'type'             => [
+                    'description' => __('Type for the resource.'),
+                    'type'        => 'string',
                     'context'     => ['edit'],
                     'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
                 ],
-                'customer_id'     => [
+                'vendor_id'        => [
                     'description' => __('Vendor id for the resource.'),
                     'type'        => 'integer',
                     'context'     => ['edit'],
@@ -393,7 +382,7 @@ class AccountsController extends Controller
                     ],
                     'required'    => true,
                 ],
-                'trn_date'        => [
+                'trn_date'         => [
                     'description' => __('Date for the resource.'),
                     'type'        => 'string',
                     'context'     => ['edit'],
@@ -402,74 +391,52 @@ class AccountsController extends Controller
                     ],
                     'required'    => true,
                 ],
-                'billing_address' => [
-                    'description' => __('List of billing address data.', 'erp'),
-                    'type'        => 'object',
-                    'context'     => ['view', 'edit'],
-                    'properties'  => [
-                        'city'        => [
-                            'description' => __('City name.', 'erp'),
-                            'type'        => 'string',
-                            'context'     => ['view', 'edit'],
-                        ],
-                        'state'       => [
-                            'description' => __('ISO code or name of the state, province or district.', 'erp'),
-                            'type'        => 'string',
-                            'context'     => ['view', 'edit'],
-                        ],
-                        'postal_code' => [
-                            'description' => __('Postal code.', 'erp'),
-                            'type'        => 'string',
-                            'context'     => ['view', 'edit'],
-                        ],
-                        'country'     => [
-                            'description' => __('ISO code of the country.', 'erp'),
-                            'type'        => 'string',
-                            'context'     => ['view', 'edit'],
-                        ],
-                        'phone'       => [
-                            'description' => __('Phone for the resource.'),
-                            'type'        => 'string',
-                            'context'     => ['edit'],
-                        ],
-                    ],
-                ],
-                'line_items'      => [
+                'purchase_details' => [
                     'description' => __('List of line items data.', 'erp'),
                     'type'        => 'array',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
-                        'invoice_no' => [
-                            'description' => __('Invoice no.', 'erp'),
+                        'id'         => [
+                            'description' => __('Product id.', 'erp'),
+                            'type'        => 'string',
+                            'context'     => ['view', 'edit'],
+                        ],
+                        'voucher_no' => [
+                            'description' => __('Product type.', 'erp'),
+                            'type'        => 'string',
+                            'context'     => ['view', 'edit'],
+                        ],
+                        'due_date'        => [
+                            'description' => __('Unit price.', 'erp'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
-                        'amount'     => [
-                            'description' => __('Invoice amount.', 'erp'),
-                            'type'        => 'integer',
+                        'total'      => [
+                            'description' => __('Discount.', 'erp'),
+                            'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],
-                        'due'        => [
-                            'description' => __('Invoice due.', 'erp'),
-                            'type'        => 'integer',
+                        'due'      => [
+                            'description' => __('Discount.', 'erp'),
+                            'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],
                         'line_total' => [
-                            'description' => __('Total.', 'erp'),
-                            'type'        => 'integer',
-                            'context'     => ['view', 'edit'],
+                            'description' => __('Item total.'),
+                            'type'        => 'number',
+                            'context'     => ['edit'],
                         ],
                     ],
                 ],
-                'check_no'        => [
+                'check_no'         => [
                     'description' => __('Check no for the resource.'),
-                    'type'        => 'integer',
+                    'type'        => 'string',
                     'context'     => ['edit'],
                     'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
                 ],
-                'name'            => [
+                'name'             => [
                     'description' => __('Check name for the resource.'),
                     'type'        => 'string',
                     'context'     => ['edit'],
@@ -487,11 +454,28 @@ class AccountsController extends Controller
                 ],
                 'status'          => [
                     'description' => __('Status for the resource.'),
+                    'type'        => 'integer',
+                    'context'     => ['edit'],
+                ],
+                'particulars'           => [
+                    'description' => __('Particulars for the resource.'),
                     'type'        => 'string',
                     'context'     => ['edit'],
                     'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
+                ],
+                'deposit_to'      => [
+                    'description' => __('Status for the resource.'),
+                    'type'        => 'integer',
+                    'context'     => ['edit'],
+                    'required'    => true,
+                ],
+                'trn_by'          => [
+                    'description' => __('Status for the resource.'),
+                    'type'        => 'integer',
+                    'context'     => ['edit'],
+                    'required'    => true,
                 ],
             ],
         ];

@@ -8,7 +8,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_all_currencies($count = false)
+    function getAllCurrencies($count = false)
     {
         global $wpdb;
 
@@ -24,9 +24,9 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_currencies_for_dropdown()
+    function getCurrenciesForDropdown()
     {
-        $currencies = erp_acct_get_all_currencies();
+        $currencies = $this->getAllCurrencies();
 
         $currencies_dropdown = [];
 
@@ -42,7 +42,7 @@ class Bank
      *
      * @return string
      */
-    function erp_acct_get_currency_symbol()
+    function getCurrencySymbol()
     {
         global $wpdb;
 
@@ -63,7 +63,7 @@ class Bank
      *
      * @return string
      */
-    function erp_acct_get_price_format()
+    function getPriceFormat()
     {
         $currency_pos = erp_get_option('erp_ac_currency_position', false, 'left');
         $format       = '%s%v';
@@ -96,7 +96,7 @@ class Bank
      *
      * @return string
      */
-    function erp_acct_get_price_format_php()
+    function getPriceFormatPhp()
     {
         $currency_pos = erp_get_option('erp_ac_currency_position', false, 'left');
         $format       = '%1$s%2$s';
@@ -130,7 +130,7 @@ class Bank
      *
      * @return string
      */
-    function erp_acct_get_price($main_price, $args = [])
+    function getPrice($main_price, $args = [])
     {
         extract(
             apply_filters(
@@ -142,9 +142,9 @@ class Bank
                         'decimal_separator'  => erp_get_option('erp_ac_de_separator', false, '.'),
                         'thousand_separator' => erp_get_option('erp_ac_th_separator', false, ','),
                         'decimals'           => absint(erp_get_option('erp_ac_nm_decimal', false, 2)),
-                        'price_format'       => erp_acct_get_price_format_php(),
+                        'price_format'       => $this->getPriceFormatPhp(),
                         'symbol'             => true,
-                        'currency_symbol'    => erp_acct_get_currency_symbol(),
+                        'currency_symbol'    => $this->getCurrencySymbol(),
                     ]
                 )
             )

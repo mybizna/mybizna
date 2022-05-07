@@ -258,7 +258,7 @@ export default {
             basic_fields: {
                 journal_no: "",
                 trn_ref: "",
-                trn_date: this.$erp_acct_var.current_date,
+                trn_date: this.$mybizna_var.current_date,
             },
             form_errors: [],
             journal_id: 0,
@@ -274,7 +274,7 @@ export default {
             journal_parti: "",
             particulars: [],
             isWorking: false,
-            acct_assets: this.$erp_acct_var.acct_assets,
+            acct_assets: this.$mybizna_var.acct_assets,
         };
     },
 
@@ -413,7 +413,7 @@ export default {
         resetFields() {
             this.basic_fields.journal_no = { id: null, name: null };
             this.basic_fields.trn_date =
-                this.$erp_acct_var.current_date; /* global erp_acct_var */
+                this.$mybizna_var.current_date; /* global mybizna_var */
             this.attachments = [];
             this.transactionLines = [{}, {}];
             this.isWorking = false;

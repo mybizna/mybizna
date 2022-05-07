@@ -10,7 +10,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_all_charts()
+    function getAllCharts()
     {
         global $wpdb;
 
@@ -33,7 +33,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_ledger_name_by_id($ledger_id)
+    function getLedgerNameById($ledger_id)
     {
         global $wpdb;
 
@@ -45,7 +45,7 @@ class Bank
     /**
      * Get ledger categories
      */
-    function erp_acct_get_ledger_categories($chart_id)
+    function getLedgerCategories($chart_id)
     {
         global $wpdb;
 
@@ -64,7 +64,7 @@ class Bank
     /**
      * Create ledger category
      */
-    function erp_acct_create_ledger_category($args)
+    function createLedgerCategory($args)
     {
         global $wpdb;
 
@@ -82,7 +82,6 @@ class Bank
             return $wpdb->insert_id;
         }
 
-        erp_acct_purge_cache(['key' => 'erp-get-ledger-categories']);
 
         return false;
     }
@@ -90,7 +89,7 @@ class Bank
     /**
      * Update ledger category
      */
-    function erp_acct_update_ledger_category($args)
+    function updateLedgerCategory($args)
     {
         global $wpdb;
 
@@ -109,7 +108,6 @@ class Bank
             );
         }
 
-        erp_acct_purge_cache(['key' => 'erp-get-ledger-categories']);
 
         return false;
     }
@@ -117,7 +115,7 @@ class Bank
     /**
      * Remove ledger category
      */
-    function erp_acct_delete_ledger_category($id)
+    function deleteLedgerCategory($id)
     {
         global $wpdb;
 
@@ -133,7 +131,6 @@ class Bank
             ['%d']
         );
 
-        erp_acct_purge_cache(['key' => 'erp-get-ledger-categories']);
 
         return $wpdb->delete($table, ['id' => $id]);
     }
@@ -143,14 +140,14 @@ class Bank
      *
      * @return array|object|null
      */
-    function erp_acct_get_ledgers_by_chart_id($chart_id)
+    function getLedgersByChartId($chart_id)
     {
         global $wpdb;
 
         $ledgers = $wpdb->get_results($wpdb->prepare("SELECT id, name FROM {$wpdb->prefix}erp_acct_ledgers WHERE chart_id = %d AND unused IS NULL", $chart_id), ARRAY_A);
 
         for ($i = 0; $i < count($ledgers); $i++) {
-            $ledgers[$i]['balance'] = erp_acct_get_ledger_balance($ledgers[$i]['id']);
+            $ledgers[$i]['balance'] = $this->getLedgerBalance($ledgers[$i]['id']);
         }
 
         return $ledgers;
@@ -163,7 +160,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_ledger_trn_count($ledger_id)
+    function getLedgerTrnCount($ledger_id)
     {
         global $wpdb;
 
@@ -179,7 +176,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_ledger_balance($ledger_id)
+    function getLedgerBalance($ledger_id)
     {
         global $wpdb;
 
@@ -199,7 +196,7 @@ class Bank
      *
      * @return array|object|void|null
      */
-    function erp_acct_get_ledger($id)
+    function getLedger($id)
     {
         global $wpdb;
 
@@ -213,7 +210,7 @@ class Bank
      *
      * @return array|object|void|null
      */
-    function erp_acct_insert_ledger($item)
+    function insertLedger($item)
     {
         global $wpdb;
 
@@ -228,7 +225,7 @@ class Bank
             ]
         );
 
-        return erp_acct_get_ledger($wpdb->insert_id);
+        return $this->getLedger($wpdb->insert_id);
     }
 
     /**
@@ -239,7 +236,7 @@ class Bank
      *
      * @return array|object|void|null
      */
-    function erp_acct_update_ledger($item, $id)
+    function updateLedger($item, $id)
     {
         global $wpdb;
 
@@ -255,7 +252,7 @@ class Bank
             ['id' => $id]
         );
 
-        return erp_acct_get_ledger($id);
+        return $this->getLedger($id);
     }
 
     /**
@@ -266,7 +263,7 @@ class Bank
      *
      * @return string
      */
-    function erp_acct_ledger_opening_balance_by_fn_year_id($id)
+    function ledgerOpeningBalanceByFnYearId($id)
     {
         global $wpdb;
 
@@ -288,7 +285,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_ledgers_with_balances()
+    function getLedgersWithBalances()
     {
         global $wpdb;
 
@@ -301,10 +298,10 @@ class Bank
         );
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($today);
+        $closest_fy_date = $trialbal->getClosestFnYearDate($today);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = erp_acct_ledger_opening_balance_by_fn_year_id($closest_fy_date['id']);
+        $opening_balance = $this->ledgerOpeningBalanceByFnYearId($closest_fy_date['id']);
 
         $sql2 = "SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance
         FROM {$wpdb->prefix}erp_acct_ledgers AS ledger
@@ -313,7 +310,7 @@ class Bank
 
         $data = $wpdb->get_results($wpdb->prepare($sql2, $closest_fy_date['start_date'], $today), ARRAY_A);
 
-        return erp_acct_ledger_balance_with_opening_balance($ledgers, $data, $opening_balance);
+        return $this->ledgerBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
     }
 
     /**
@@ -323,7 +320,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_ledgers_opening_balance_by_fn_year_id($id)
+    function ledgersOpeningBalanceByFnYearId($id)
     {
         global $wpdb;
 
@@ -345,7 +342,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_ledger_balance_with_opening_balance($ledgers, $data, $opening_balance)
+    function ledgerBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
     {
         $temp_data         = [];
         $ledger_balance    = [];
@@ -396,7 +393,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_chart_id_by_slug($key)
+    function getChartIdBySlug($key)
     {
         switch ($key) {
             case 'asset':
@@ -440,7 +437,7 @@ class Bank
      *
      * @return array|object|null
      */
-    function erp_acct_get_ledgers()
+    function getLedgers()
     {
         global $wpdb;
 

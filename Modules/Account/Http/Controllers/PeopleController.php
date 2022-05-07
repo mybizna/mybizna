@@ -104,7 +104,7 @@ class AccountsController extends Controller
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT street_1, street_2, city, state, postal_code, country FROM {$wpdb->prefix}erp_peoples WHERE id = %d", $id), ARRAY_A);
 
-        return new WP_REST_Response(erp_acct_format_people_address($row), 200);
+        return new WP_REST_Response($people->formatPeopleAddress($row), 200);
     }
 
     /**
@@ -133,7 +133,7 @@ class AccountsController extends Controller
      */
     public function check_people_email($request)
     {
-        $res      = erp_acct_exist_people($request['email'], ['customer', 'vendor', 'contact', 'company']);
+        $res      = $common->existPeople($request['email'], ['customer', 'vendor', 'contact', 'company']);
 
         $response = rest_ensure_response($res);
         $response->set_status(200);

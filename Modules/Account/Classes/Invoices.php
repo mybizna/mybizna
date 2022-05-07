@@ -9,7 +9,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_all_invoices($args = [])
+    function getAllInvoices($args = [])
     {
         global $wpdb;
 
@@ -46,7 +46,8 @@ class Bank
         $sql .= " FROM {$wpdb->prefix}erp_acct_invoices AS invoice LEFT JOIN {$wpdb->prefix}erp_acct_ledger_details AS ledger_detail";
         $sql .= " ON invoice.voucher_no = ledger_detail.trn_no {$where} GROUP BY invoice.voucher_no ORDER BY invoice.{$args['orderby']} {$args['order']} {$limit}";
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         if ($args['count']) {
             return $wpdb->get_var($sql);
@@ -62,7 +63,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_invoice($invoice_no)
+    function getInvoice($invoice_no)
     {
         global $wpdb;
 
@@ -102,13 +103,14 @@ class Bank
             $invoice_no
         );
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 
-        $row['line_items']  = erp_acct_format_invoice_line_items($invoice_no);
+        $row['line_items']  = $invoices->formatInvoiceLineItems($invoice_no);
 
-        $row['tax_rate_id'] = empty($row['tax_zone_id']) ? erp_acct_get_default_tax_rate_name_id() : (int) $row['tax_zone_id'];
+        $row['tax_rate_id'] = empty($row['tax_zone_id']) ? $taxes->getDefaultTaxRateNameId() : (int) $row['tax_zone_id'];
 
         // calculate every line total
         foreach ($row['line_items'] as $key => $value) {
@@ -117,8 +119,8 @@ class Bank
         }
 
         $row['attachments'] = isset($row['attachments']) ? maybe_unserialize($row['attachments']) : null;
-        $row['total_due']   = erp_acct_get_invoice_due($invoice_no);
-        $row['pdf_link']    = erp_acct_pdf_abs_path_to_url($invoice_no);
+        $row['total_due']   = $this->getInvoiceDue($invoice_no);
+        $row['pdf_link']    = $this-> pdfAbsPathToUrl($invoice_no);
 
         return $row;
     }
@@ -126,7 +128,7 @@ class Bank
     /**
      * Get formatted line items
      */
-    function erp_acct_format_invoice_line_items($voucher_no)
+    function formatInvoiceLineItems($voucher_no)
     {
         global $wpdb;
 
@@ -182,7 +184,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_insert_invoice($data)
+    function insertInvoice($data)
     {
         global $wpdb;
 
@@ -215,7 +217,7 @@ class Bank
 
             $voucher_no = $wpdb->insert_id;
 
-            $invoice_data = erp_acct_get_formatted_invoice_data($data, $voucher_no);
+            $invoice_data = $this->getFormattedInvoiceData($data, $voucher_no);
 
             $wpdb->insert(
                 $wpdb->prefix . 'erp_acct_invoices',
@@ -242,25 +244,25 @@ class Bank
                 ]
             );
 
-            erp_acct_insert_invoice_details_and_tax($invoice_data, $voucher_no);
+            $this->insertInvoiceDetailsAndTax($invoice_data, $voucher_no);
 
             if ($estimate_type === $invoice_data['estimate'] || $draft === $invoice_data['status']) {
                 $wpdb->query('COMMIT');
-                $estimate          = erp_acct_get_invoice($voucher_no);
+                $estimate          = $invoices->getInvoice($voucher_no);
                 $estimate['email'] = $email;
                 do_action('erp_acct_new_transaction_estimate', $voucher_no, $estimate);
 
                 return $estimate;
             }
 
-            erp_acct_insert_invoice_account_details($invoice_data, $voucher_no);
-            erp_acct_insert_invoice_data_into_ledger($invoice_data);
+            $this->insertInvoiceAccountDetails($invoice_data, $voucher_no);
+            $this->insertInvoiceDataIntoLedger($invoice_data);
 
             do_action('erp_acct_after_sales_create', $data, $voucher_no);
 
             $data['dr'] = $invoice_data['amount'];
             $data['cr'] = 0;
-            erp_acct_insert_data_into_people_trn_details($data, $voucher_no);
+            $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
             $wpdb->query('COMMIT');
         } catch (Exception $e) {
@@ -269,7 +271,7 @@ class Bank
             return new WP_Error('invoice-exception', $e->getMessage());
         }
 
-        $invoice = erp_acct_get_invoice($voucher_no);
+        $invoice = $invoices->getInvoice($voucher_no);
 
         $invoice['email'] = erp_get_people_email($data['customer_id']);
 
@@ -286,7 +288,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_insert_invoice_details_and_tax($invoice_data, $voucher_no, $contra = false)
+    function insertInvoiceDetailsAndTax($invoice_data, $voucher_no, $contra = false)
     {
         global $wpdb;
 
@@ -334,7 +336,7 @@ class Bank
                 $tax_rate_agency = !empty($item['tax_rate_agency']) ? $item['tax_rate_agency'] : null;
             } else {
                 // calculate tax for every related agency
-                $tax_rate_agency = erp_acct_get_tax_rate_with_agency($invoice_data['tax_rate_id'], $item['tax_cat_id']);
+                $tax_rate_agency = $common->getTaxRateWithAgency($invoice_data['tax_rate_id'], $item['tax_cat_id']);
             }
 
             if (!empty($tax_rate_agency)) {
@@ -400,7 +402,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_insert_invoice_account_details($invoice_data, $voucher_no, $contra = false)
+    function insertInvoiceAccountDetails($invoice_data, $voucher_no, $contra = false)
     {
         global $wpdb;
 
@@ -446,12 +448,12 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_update_invoice($data, $invoice_no)
+    function updateInvoice($data, $invoice_no)
     {
         global $wpdb;
 
         if (1 === $data['estimate'] && $data['convert']) {
-            erp_acct_convert_estimate_to_invoice($data, $invoice_no);
+            $this->convertEstimateToInvoice($data, $invoice_no);
 
             return;
         }
@@ -472,7 +474,7 @@ class Bank
             $wpdb->query('START TRANSACTION');
 
             if ($estimate_type === $data['estimate'] || $draft === $data['status']) {
-                erp_acct_update_draft_and_estimate($data, $invoice_no);
+                $this->updateDraftAndEstimate($data, $invoice_no);
             } else {
                 // disable editing on old invoice
                 $wpdb->update($wpdb->prefix . 'erp_acct_voucher_no', ['editable' => 0], ['id' => $invoice_no]);
@@ -493,7 +495,7 @@ class Bank
 
                 $voucher_no = $wpdb->insert_id;
 
-                $old_invoice = erp_acct_get_invoice($invoice_no);
+                $old_invoice = $invoices->getInvoice($invoice_no);
 
                 // insert contra `erp_acct_invoices` (basically a duplication of row)
                 $wpdb->query($wpdb->prepare("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM {$wpdb->prefix}erp_acct_invoices WHERE voucher_no = %d", $invoice_no));
@@ -523,22 +525,22 @@ class Bank
                 );
 
                 // insert contra `erp_acct_invoice_details` AND `erp_acct_invoice_details_tax`
-                erp_acct_insert_invoice_details_and_tax($old_invoice, $voucher_no, true);
+                $this->insertInvoiceDetailsAndTax($old_invoice, $voucher_no, true);
 
                 // insert contra `erp_acct_invoice_account_details`
-                erp_acct_insert_invoice_account_details($old_invoice, $voucher_no, true);
+                $this->insertInvoiceAccountDetails($old_invoice, $voucher_no, true);
 
                 // insert contra `erp_acct_ledger_details`
-                erp_acct_insert_invoice_data_into_ledger($old_invoice, $voucher_no, true);
+                $this->insertInvoiceDataIntoLedger($old_invoice, $voucher_no, true);
 
                 // insert new invoice with edited data
-                $new_invoice = erp_acct_insert_invoice($data);
+                $new_invoice = $invoices->insertInvoice($data);
 
                 do_action('erp_acct_after_sales_update', $data, $invoice_no);
 
                 $data['dr'] = $data['amount'];
                 $data['cr'] = 0;
-                erp_acct_update_data_into_people_trn_details($data, $old_invoice['voucher_no']);
+                $trans->updateDataIntoPeopleTrnDetails($data, $old_invoice['voucher_no']);
             }
 
             $wpdb->query('COMMIT');
@@ -548,7 +550,7 @@ class Bank
             return new WP_error('invoice-exception', $e->getMessage());
         }
 
-        return erp_acct_get_invoice($new_invoice['voucher_no']);
+        return $invoices->getInvoice($new_invoice['voucher_no']);
     }
 
     /**
@@ -559,7 +561,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_convert_estimate_to_invoice($data, $invoice_no)
+    function convertEstimateToInvoice($data, $invoice_no)
     {
         global $wpdb;
 
@@ -574,9 +576,8 @@ class Bank
         try {
             $wpdb->query('START TRANSACTION');
 
-            $invoice_data = erp_acct_get_formatted_invoice_data($data, $invoice_no);
+            $invoice_data = $this->getFormattedInvoiceData($data, $invoice_no);
 
-            // erp_acct_invoices
             $wpdb->update(
                 $wpdb->prefix . 'erp_acct_invoices',
                 [
@@ -601,21 +602,20 @@ class Bank
                 ['voucher_no' => $invoice_no]
             );
 
-            // remove data from erp_acct_invoice_details
             $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_details', ['trn_no' => $invoice_no]);
 
-            // insert data into erp_acct_invoice_details
-            erp_acct_insert_invoice_details_and_tax($invoice_data, $invoice_no);
+            // insert data into invoice_details
+            $this->insertInvoiceDetailsAndTax($invoice_data, $invoice_no);
 
-            erp_acct_insert_invoice_account_details($invoice_data, $invoice_no);
+            $this->insertInvoiceAccountDetails($invoice_data, $invoice_no);
 
-            erp_acct_insert_invoice_data_into_ledger($invoice_data, $invoice_no);
+            $this->insertInvoiceDataIntoLedger($invoice_data, $invoice_no);
 
             do_action('erp_acct_after_sales_create', $data, $invoice_no);
 
             $data['dr'] = $invoice_data['amount'];
             $data['cr'] = 0;
-            erp_acct_insert_data_into_people_trn_details($data, $invoice_no);
+            $trans->insertDataIntoPeopleTrnDetails($data, $invoice_no);
 
             $wpdb->query('COMMIT');
         } catch (Exception $e) {
@@ -624,7 +624,7 @@ class Bank
             return new WP_error('invoice-exception', $e->getMessage());
         }
 
-        $invoice = erp_acct_get_invoice($invoice_no);
+        $invoice = $invoices->getInvoice($invoice_no);
 
         $invoice['email'] = erp_get_people_email($data['customer_id']);
 
@@ -641,11 +641,11 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_update_draft_and_estimate($data, $invoice_no)
+    function updateDraftAndEstimate($data, $invoice_no)
     {
         global $wpdb;
 
-        $invoice_data = erp_acct_get_formatted_invoice_data($data, $invoice_no);
+        $invoice_data = $this->getFormattedInvoiceData($data, $invoice_no);
 
         $wpdb->update($wpdb->prefix . 'erp_acct_invoices', [
             'customer_id'     => $invoice_data['customer_id'],
@@ -676,7 +676,7 @@ class Bank
      */
         $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_details', ['trn_no' => $invoice_no]);
 
-        erp_acct_insert_invoice_details_and_tax($invoice_data, $invoice_no);
+        $this->insertInvoiceDetailsAndTax($invoice_data, $invoice_no);
     }
 
     /**
@@ -687,7 +687,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_invoice_data($data, $voucher_no)
+    function getFormattedInvoiceData($data, $voucher_no)
     {
         $invoice_data = [];
 
@@ -740,7 +740,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_void_invoice($invoice_no)
+    function voidInvoice($invoice_no)
     {
         global $wpdb;
 
@@ -778,7 +778,6 @@ class Bank
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_tax_agency_details', ['trn_no' => $invoice_no]);
 
-        erp_acct_purge_cache(['list' => 'sales_transaction']);
     }
 
     /**
@@ -788,7 +787,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_invoice_data_into_ledger($invoice_data, $voucher_no = 0, $contra = false)
+    function insertInvoiceDataIntoLedger($invoice_data, $voucher_no = 0, $contra = false)
     {
         global $wpdb;
 
@@ -900,7 +899,6 @@ class Bank
             );
         }
 
-        erp_acct_purge_cache(['list' => 'sales_transaction']);
     }
 
     /**
@@ -910,7 +908,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_update_invoice_data_in_ledger($invoice_data, $invoice_no)
+    function updateInvoiceDataInLedger($invoice_data, $invoice_no)
     {
         global $wpdb;
 
@@ -944,7 +942,6 @@ class Bank
             ]
         );
 
-        erp_acct_purge_cache(['list' => 'sales_transaction']);
     }
 
     /**
@@ -952,7 +949,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_invoice_count()
+    function getInvoiceCount()
     {
         global $wpdb;
 
@@ -966,7 +963,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_receive_payments_from_customer($args = [])
+    function receivePaymentsFromCustomer($args = [])
     {
         global $wpdb;
 
@@ -1019,7 +1016,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_due_payment($invoice_no)
+    function getDuePayment($invoice_no)
     {
         global $wpdb;
 
@@ -1036,7 +1033,7 @@ class Bank
      *
      * @return array|object|null
      */
-    function erp_acct_get_recievables($from, $to)
+    function getRecievables($from, $to)
     {
         global $wpdb;
 
@@ -1063,7 +1060,7 @@ class Bank
     /**
      * Get Dashboard Overview details
      */
-    function erp_acct_get_recievables_overview()
+    function getRecievablesOverview()
     {
         // get dates till coming 90 days
         $from_date = date('Y-m-d');
@@ -1076,7 +1073,7 @@ class Bank
             'third'  => 0,
         ];
 
-        $result = erp_acct_get_recievables($from_date, $to_date);
+        $result = $this->getRecievables($from_date, $to_date);
 
         if (!empty($result)) {
             $from_date = new DateTime($from_date);
@@ -1127,7 +1124,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_invoice_due($invoice_no)
+    function getInvoiceDue($invoice_no)
     {
         global $wpdb;
 
@@ -1154,7 +1151,7 @@ class Bank
      *
      * @return int|string
      */
-    function erp_acct_get_invoice_tax_zone($invoice_no)
+    function getInvoiceTaxZone($invoice_no)
     {
         global $wpdb;
 

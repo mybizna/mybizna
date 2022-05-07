@@ -85,7 +85,7 @@ export default {
             payment: null,
             type: null,
             company: null,
-            acct_var: this.$erp_acct_var /* global this.$erp_acct_var */,
+            acct_var: this.$mybizna_var /* global this.$mybizna_var */,
             showModal: false,
             print_data: null,
             copyLink: "#",
@@ -216,11 +216,11 @@ export default {
         },
 
         handleSuccess(e) {
-            alert(this.$erp_acct_var.link_copy_success);
+            alert(this.$mybizna_var.link_copy_success);
         },
 
         handleError(e) {
-            alert(this.$erp_acct_var.link_copy_error);
+            alert(this.$mybizna_var.link_copy_error);
         },
     },
 };

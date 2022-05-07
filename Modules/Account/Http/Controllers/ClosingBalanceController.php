@@ -32,7 +32,7 @@ class Accounts extends Controller
             'end_date'   => $request['end_date'],
         ];
 
-        $data     = erp_acct_clsbl_close_balance_sheet_now($args);
+        $data     = $cbalance->closeBalanceSheetNow($args);
         $response = rest_ensure_response($data);
 
         $response->set_status(200);
@@ -53,7 +53,7 @@ class Accounts extends Controller
             return new WP_Error('rest_invalid_date', __('Invalid resource date.'), ['status' => 404]);
         }
 
-        $data     = erp_acct_clsbl_get_closest_next_fn_year($request['date']);
+        $data     = $cbalance->getClosestNextFnYear($request['date']);
         $response = rest_ensure_response($data);
 
         $response->set_status(200);
@@ -70,7 +70,7 @@ class Accounts extends Controller
      */
     public function get_closest_fn_year($request)
     {
-        $data     = erp_acct_get_closest_fn_year_date(date('Y-m-d'));
+        $data     = $trialbal->getClosestFnYearDate(date('Y-m-d'));
         $response = rest_ensure_response($data);
 
         $response->set_status(200);

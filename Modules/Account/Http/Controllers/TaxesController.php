@@ -31,8 +31,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data    = erp_acct_get_all_tax_rates($args);
-        $total_items = erp_acct_get_all_tax_rates(
+        $tax_data    = $taxes->getAllTaxRates($args);
+        $total_items = $taxes->getAllTaxRates(
             [
                 'count'  => true,
                 'number' => -1,
@@ -75,7 +75,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_tax_rate($id);
+        $item = $taxes->getTaxRate($id);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
@@ -109,7 +109,7 @@ class AccountsController extends Controller
 
         $tax_data['tax_rate'] = array_sum($item_rates);
 
-        erp_acct_insert_tax_rate($tax_data);
+        $taxes->insertTaxRate($tax_data);
 
         $tax_data['id'] = $tax_data['tax_rate_name'];
 
@@ -152,7 +152,7 @@ class AccountsController extends Controller
 
         $tax_data['tax_rate'] = array_sum($item_rates);
 
-        $tax_id = erp_acct_update_tax_rate($tax_data, $id);
+        $tax_id = $taxes->updateTaxRate($tax_data, $id);
 
         $tax_data['id'] = $tax_id;
 
@@ -189,7 +189,7 @@ class AccountsController extends Controller
 
         $tax_data['tax_rate'] = array_sum($item_rates);
 
-        $tax_id = erp_acct_quick_edit_tax_rate($tax_data, $id);
+        $tax_id = $taxes->quickEditTaxRate($tax_data, $id);
 
         $tax_data['id'] = $tax_id;
 
@@ -223,7 +223,7 @@ class AccountsController extends Controller
 
         $tax_data = $this->prepare_line_item_for_database($request);
 
-        $line_id = erp_acct_add_tax_rate_line($tax_data);
+        $line_id = $taxes->addTaxRateLine($tax_data);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
@@ -254,7 +254,7 @@ class AccountsController extends Controller
 
         $tax_data = $this->prepare_line_item_for_database($request);
 
-        $line_id = erp_acct_edit_tax_rate_line($tax_data);
+        $line_id = $taxes->editTaxRateLine($tax_data);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
@@ -302,9 +302,9 @@ class AccountsController extends Controller
             return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_tax_rate($id);
+        $item = $taxes->getTaxRate($id);
 
-        erp_acct_delete_tax_rate($id);
+        $taxes->deleteTaxRate($id);
 
         $this->add_log($item, 'delete');
 
@@ -333,8 +333,8 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data    = erp_acct_get_tax_pay_records($args);
-        $total_items = erp_acct_get_tax_pay_records(
+        $tax_data    = $taxes->getTaxPayRecords($args);
+        $total_items = $taxes->getTaxPayRecords(
             [
                 'count'  => true,
                 'number' => -1,
@@ -377,7 +377,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_tax_pay_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_tax_pay_record($id);
+        $item = $taxes->getTaxPayRecord($id);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
@@ -401,7 +401,7 @@ class AccountsController extends Controller
     {
         $tax_data = $this->prepare_item_for_database($request);
 
-        $tax_id = erp_acct_pay_tax($tax_data);
+        $tax_id = $taxes->payTax($tax_data);
 
         $tax_data['id'] = $tax_id;
 
@@ -431,7 +431,7 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $summary = erp_acct_tax_summary();
+        $summary = $taxes->taxSummary();
 
         foreach ($summary as $item) {
             $data              = $this->prepare_tax_summary_response($item, $request, $additional_fields);
@@ -462,9 +462,9 @@ class AccountsController extends Controller
         }
 
         foreach ($ids as $id) {
-            $item = erp_acct_get_tax_rate($id);
+            $item = $taxes->getTaxRate($id);
 
-            erp_acct_delete_tax_rate($id);
+            $taxes->deleteTaxRate($id);
 
             $this->add_log($item, 'delete');
         }
@@ -686,12 +686,12 @@ class AccountsController extends Controller
         $data = [
             'id'           => (int) $item->id,
             'voucher_no'   => $item->voucher_no,
-            'agency_id'    => erp_acct_get_tax_agency_name_by_id($item->agency_id),
+            'agency_id'    => $taxagencies->getTaxAgencyNameById($item->agency_id),
             'trn_date'     => $item->trn_date,
             'particulars'  => $item->particulars,
             'amount'       => $item->amount,
             'trn_by'       => $item->trn_by,
-            'ledger_id'    => erp_acct_get_ledger_name_by_id($item->ledger_id),
+            'ledger_id'    => $ledger->getLedgerNameById($item->ledger_id),
             'voucher_type' => $item->voucher_type,
             'created_at'   => $item->created_at,
         ];

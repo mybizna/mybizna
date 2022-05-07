@@ -10,7 +10,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_all_opening_balances($args = [])
+    function getAllOpeningBalances($args = [])
     {
         global $wpdb;
 
@@ -63,7 +63,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_opening_balance($year_id)
+    function getOpeningBalance($year_id)
     {
         global $wpdb;
 
@@ -85,7 +85,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_virtual_acct($year_id)
+    function getVirtualAcct($year_id)
     {
         global $wpdb;
 
@@ -98,7 +98,7 @@ class Bank
             ARRAY_A
         );
 
-        $rows = erp_acct_get_ob_virtual_acct($year_id);
+        $rows = $this->getOpbInvoiceAccountDetails($year_id);
 
         return $rows;
     }
@@ -110,7 +110,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_opening_balance($data)
+    function insertOpeningBalance($data)
     {
         global $wpdb;
 
@@ -121,7 +121,7 @@ class Bank
         try {
             $wpdb->query('START TRANSACTION');
 
-            $opening_balance_data = erp_acct_get_formatted_opening_balance_data($data);
+            $opening_balance_data = $this->getFormattedOpeningBalanceData($data);
 
             $items = $opening_balance_data['ledgers'];
 
@@ -155,7 +155,7 @@ class Bank
                 }
             }
 
-            erp_acct_insert_ob_vir_accounts($opening_balance_data, $year_id);
+            $this->insertObVirAccounts($opening_balance_data, $year_id);
 
             $wpdb->query('COMMIT');
         } catch (Exception $e) {
@@ -164,7 +164,7 @@ class Bank
             return new WP_error('opening_balance-exception', $e->getMessage());
         }
 
-        return erp_acct_get_opening_balance($year_id);
+        return $this->getOpeningBalance($year_id);
     }
 
     /**
@@ -173,7 +173,7 @@ class Bank
      * @param $data
      * @param $year_id
      */
-    function erp_acct_insert_ob_vir_accounts($data, $year_id)
+    function insertObVirAccounts($data, $year_id)
     {
         global $wpdb;
 
@@ -243,7 +243,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_opening_balance_data($data)
+    function getFormattedOpeningBalanceData($data)
     {
         $opening_balance_data = [];
 
@@ -267,7 +267,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_opening_balance_names()
+    function getOpeningBalanceNames()
     {
         global $wpdb;
 
@@ -283,7 +283,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_start_end_date($year_id)
+    function getStartEndDate($year_id)
     {
         $dates = [];
         global $wpdb;
@@ -299,7 +299,7 @@ class Bank
     /**
      * Get virtual accts summary for opening balance
      */
-    function erp_acct_get_ob_virtual_acct($year_id)
+    function getObVirtualAcct($year_id)
     {
         global $wpdb;
 
@@ -315,7 +315,7 @@ class Bank
             }
 
             $vir_ac['acct_payable'][$i]['people']['id']   = $vir_ac['acct_payable'][$i]['people_id'];
-            $vir_ac['acct_payable'][$i]['people']['name'] = erp_acct_get_people_name_by_people_id($vir_ac['acct_payable'][$i]['people_id']);
+            $vir_ac['acct_payable'][$i]['people']['name'] = $people->getPeopleNameByPeopleId($vir_ac['acct_payable'][$i]['people_id']);
         }
 
         for ($i = 0; $i < count($vir_ac['acct_receivable']); $i++) {
@@ -324,7 +324,7 @@ class Bank
             }
 
             $vir_ac['acct_receivable'][$i]['people']['id']   = $vir_ac['acct_receivable'][$i]['people_id'];
-            $vir_ac['acct_receivable'][$i]['people']['name'] = erp_acct_get_people_name_by_people_id($vir_ac['acct_receivable'][$i]['people_id']);
+            $vir_ac['acct_receivable'][$i]['people']['name'] = $people->getPeopleNameByPeopleId($vir_ac['acct_receivable'][$i]['people_id']);
         }
 
         for ($i = 0; $i < count($vir_ac['tax_payable']); $i++) {
@@ -333,7 +333,7 @@ class Bank
             }
 
             $vir_ac['tax_payable'][$i]['agency']['id']   = $vir_ac['tax_payable'][$i]['agency_id'];
-            $vir_ac['tax_payable'][$i]['agency']['name'] = erp_acct_get_tax_agency_name_by_id($vir_ac['tax_payable'][$i]['agency_id']);
+            $vir_ac['tax_payable'][$i]['agency']['name'] = $taxagencies->getTaxAgencyNameById($vir_ac['tax_payable'][$i]['agency_id']);
         }
 
         return $vir_ac;
@@ -352,7 +352,7 @@ class Bank
         global $wpdb;
 
         // get closest financial year id and start date
-        $closest_fy_date = erp_acct_get_closest_fn_year_date($start_date);
+        $closest_fy_date = $trialbal->getClosestFnYearDate($start_date);
 
         // get opening balance data within that(^) financial year
         $opening_balance = (float) erp_acct_ledger_report_opening_balance_by_fn_year_id($closest_fy_date['id'], $ledger_id);
@@ -417,7 +417,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_opb_invoice_account_details($fy_start_date)
+    function getOpbInvoiceAccountDetails($fy_start_date)
     {
         global $wpdb;
 
@@ -438,7 +438,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_opb_bill_purchase_account_details($fy_start_date)
+    function getOpbBillPurchaseAccountDetails($fy_start_date)
     {
         global $wpdb;
 
@@ -465,7 +465,7 @@ class Bank
     /**
      *Get lower and upper bound of financial years
      */
-    function erp_acct_get_date_boundary()
+    function getDateBoundary()
     {
         global $wpdb;
 
@@ -477,7 +477,7 @@ class Bank
     /**
      * Get current financial year
      */
-    function erp_acct_get_current_financial_year($date = '')
+    function getCurrentFinancialYear($date = '')
     {
         global $wpdb;
 

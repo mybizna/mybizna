@@ -92,8 +92,8 @@ export default {
 
     created() {
         this.peopleType   = 'customers' == this.type ? 'customer' : 'vendor';
-        this.peopleFields = this.$erp_acct_var.erp_fields ? this.$erp_acct_var.erp_fields[this.peopleType].fields : [];
-        this.nonce        = this.$erp_acct_var.export_import_nonce;
+        this.peopleFields = this.$mybizna_var.erp_fields ? this.$mybizna_var.erp_fields[this.peopleType].fields : [];
+        this.nonce        = this.$mybizna_var.export_import_nonce;
         this.description  = 'customer' === this.peopleType
                           ? this.$func.__('Select customer fields to export', 'erp')
                           : this.$func.__('Select vendor fields to export', 'erp');

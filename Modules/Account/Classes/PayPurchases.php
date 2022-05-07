@@ -12,7 +12,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_pay_purchases($args = [])
+    function getPayPurchases($args = [])
     {
         global $wpdb;
 
@@ -51,11 +51,12 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_pay_purchase($purchase_no)
+    function getPayPurchase($purchase_no)
     {
         global $wpdb;
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row(
             $wpdb->prepare(
@@ -81,8 +82,8 @@ class Bank
             ARRAY_A
         );
 
-        $row['purchase_details'] = erp_acct_format_pay_purchase_line_items($purchase_no);
-        $row['pdf_link']    = erp_acct_pdf_abs_path_to_url($purchase_no);
+        $row['purchase_details'] = $this->formatPayPurchaseLineItems($purchase_no);
+        $row['pdf_link']    = $this-> pdfAbsPathToUrl($purchase_no);
 
         return $row;
     }
@@ -90,7 +91,7 @@ class Bank
     /**
      * Format pay purchase line items
      */
-    function erp_acct_format_pay_purchase_line_items($voucher_no)
+    function formatPayPurchaseLineItems($voucher_no)
     {
         global $wpdb;
 
@@ -117,7 +118,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_pay_purchase($data)
+    function insertPayPurchase($data)
     {
         global $wpdb;
 
@@ -153,7 +154,7 @@ class Bank
 
             $voucher_no = $wpdb->insert_id;
 
-            $pay_purchase_data = erp_acct_get_formatted_pay_purchase_data($data, $voucher_no);
+            $pay_purchase_data = $this->getFormattedPayPurchaseData($data, $voucher_no);
 
             // check transaction charge
             $transaction_charge = 0;
@@ -200,19 +201,19 @@ class Bank
                     ]
                 );
 
-                erp_acct_insert_pay_purchase_data_into_ledger($pay_purchase_data, $item);
+                $this->insertPayPurchase($pay_purchase_data, $item);
             }
 
             // add transaction charge entry to ledger
             if ($transaction_charge) {
-                erp_acct_insert_bank_transaction_charge_into_ledger($pay_purchase_data);
+                $bank->insertBankTransactionChargeIntoLedger($pay_purchase_data);
             }
 
 
             if (1 === $pay_purchase_data['status']) {
                 $wpdb->query('COMMIT');
 
-                return erp_acct_get_pay_purchase($voucher_no);
+                return $this->getPayPurchase($voucher_no);
             }
 
             foreach ($items as $key => $item) {
@@ -243,7 +244,7 @@ class Bank
             }
 
             if (isset($pay_purchase_data['trn_by']) && 3 === $pay_purchase_data['trn_by']) {
-                erp_acct_insert_check_data($pay_purchase_data);
+                $common->insertCheckData($pay_purchase_data);
             }
 
             $data['dr'] = 0;
@@ -255,7 +256,7 @@ class Bank
                 $data['cr'] = $pay_purchase_data['amount'];
             }
 
-            erp_acct_insert_data_into_people_trn_details($data, $voucher_no);
+            $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
             do_action('erp_acct_after_pay_purchase_create', $pay_purchase_data, $voucher_no);
 
@@ -267,16 +268,15 @@ class Bank
         }
 
         foreach ($items as $item) {
-            erp_acct_change_purchase_status($item['voucher_no']);
+            $this->changePurchaseStatus($item['voucher_no']);
         }
 
-        $pay_purchase = erp_acct_get_pay_purchase($voucher_no);
+        $pay_purchase = $this->getPayPurchase($voucher_no);
 
         $pay_purchase['email'] = erp_get_people_email($data['vendor_id']);
 
         do_action('erp_acct_new_transaction_pay_purchase', $voucher_no, $pay_purchase);
 
-        erp_acct_purge_cache(['list' => 'purchase_transaction']);
 
         return $pay_purchase;
     }
@@ -290,7 +290,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_update_pay_purchase($data, $pay_purchase_id)
+    function updatePayPurchase($data, $pay_purchase_id)
     {
         global $wpdb;
 
@@ -299,7 +299,7 @@ class Bank
         try {
             $wpdb->query('START TRANSACTION');
 
-            $pay_purchase_data = erp_acct_get_formatted_pay_purchase_data($data, $pay_purchase_id);
+            $pay_purchase_data = $this->getFormattedPayPurchaseData($data, $pay_purchase_id);
 
             $wpdb->update(
                 $wpdb->prefix . 'erp_acct_pay_purchase',
@@ -337,13 +337,13 @@ class Bank
                     ]
                 );
 
-                erp_acct_update_pay_purchase_data_into_ledger($pay_purchase_data, $pay_purchase_id, $item);
+                $this->updatePayPurchaseDataIntoLedger($pay_purchase_data, $pay_purchase_id, $item);
             }
 
             if (1 === $pay_purchase_data['status']) {
                 $wpdb->query('COMMIT');
 
-                return erp_acct_get_pay_purchase($pay_purchase_id);
+                return $this->getPayPurchase($pay_purchase_id);
             }
 
             foreach ($items as $key => $item) {
@@ -383,12 +383,11 @@ class Bank
         }
 
         foreach ($items as $item) {
-            erp_acct_change_purchase_status($item['voucher_no']);
+            $this->changePurchaseStatus($item['voucher_no']);
         }
 
-        erp_acct_purge_cache(['list' => 'purchase_transaction']);
 
-        return erp_acct_get_pay_purchase($pay_purchase_id);
+        return $this->getPayPurchase($pay_purchase_id);
     }
 
     /**
@@ -398,7 +397,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_void_pay_purchase($id)
+    function voidPayPurchase($id)
     {
         global $wpdb;
 
@@ -417,7 +416,6 @@ class Bank
         $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_purchase_account_details', ['trn_no' => $id]);
 
-        erp_acct_purge_cache(['list' => 'purchase_transaction']);
     }
 
     /**
@@ -428,7 +426,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_pay_purchase_data($data, $voucher_no)
+    function getFormattedPayPurchaseData($data, $voucher_no)
     {
         $pay_purchase_data = [];
 
@@ -470,7 +468,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_pay_purchase_data_into_ledger($pay_purchase_data, $item_data)
+    function insertPayPurchaseDataIntoLedger($pay_purchase_data, $item_data)
     {
         global $wpdb;
 
@@ -514,7 +512,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_update_pay_purchase_data_into_ledger($pay_purchase_data, $pay_purchase_no, $item_data)
+    function updatePayPurchaseDataIntoLedger($pay_purchase_data, $pay_purchase_no, $item_data)
     {
         global $wpdb;
 
@@ -556,7 +554,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_pay_purchase_count()
+    function getPayPurchaseCount()
     {
         global $wpdb;
 
@@ -572,11 +570,11 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_change_purchase_status($purchase_no)
+    function changePurchaseStatus($purchase_no)
     {
         global $wpdb;
 
-        $due = erp_acct_get_purchase_due($purchase_no);
+        $due = $purchases->getPurchaseDue($purchase_no);
 
         if (0 == $due) {
             $wpdb->update(

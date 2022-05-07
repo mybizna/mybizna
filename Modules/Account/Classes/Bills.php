@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Classes\Reports;
 
-class Bank
+class Bills
 {
 
     /**
@@ -12,7 +12,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_bills($args = [])
+    function getBills($args = [])
     {
         global $wpdb;
 
@@ -53,7 +53,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_bill($bill_no)
+    function getBill($bill_no)
     {
         global $wpdb;
 
@@ -82,12 +82,13 @@ class Bank
             $bill_no
         );
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 
-        $row['bill_details'] = erp_acct_format_bill_line_items($bill_no);
-        $row['pdf_link']    = erp_acct_pdf_abs_path_to_url($bill_no);
+        $row['bill_details'] = $this->formatBillLineItems($bill_no);
+        $row['pdf_link']    = $this-> pdfAbsPathToUrl($bill_no);
         return $row;
     }
 
@@ -98,7 +99,7 @@ class Bank
      *
      * @return array|object|null
      */
-    function erp_acct_format_bill_line_items($voucher_no)
+    function formatBillLineItems($voucher_no)
     {
         global $wpdb;
 
@@ -119,7 +120,8 @@ class Bank
             $voucher_no
         );
 
-        erp_disable_mysql_strict_mode();
+       //config()->set('database.connections.mysql.strict', false);
+//config()->set('database.connections.mysql.strict', true);
 
         return $wpdb->get_results($sql, ARRAY_A);
     }
@@ -131,7 +133,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_bill($data)
+    function insertBill($data)
     {
         global $wpdb;
 
@@ -163,7 +165,7 @@ class Bank
 
             $voucher_no = $wpdb->insert_id;
 
-            $bill_data           = erp_acct_get_formatted_bill_data($data, $voucher_no);
+            $bill_data           = $this->getFormattedBillData($data, $voucher_no);
             $bill_data['trn_no'] = $voucher_no;
 
             $wpdb->insert(
@@ -200,13 +202,13 @@ class Bank
                     ]
                 );
 
-                erp_acct_insert_bill_data_into_ledger($bill_data, $item);
+                $this->insertBillDataIntoLedger($bill_data, $item);
             }
 
             if ($draft === $bill_data['status']) {
                 $wpdb->query('COMMIT');
 
-                return erp_acct_get_bill($voucher_no);
+                return $this->getBill($voucher_no);
             }
 
             $wpdb->insert(
@@ -225,7 +227,7 @@ class Bank
 
             $data['dr'] = 0;
             $data['cr'] = $bill_data['amount'];
-            erp_acct_insert_data_into_people_trn_details($data, $voucher_no);
+            $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
             do_action('erp_acct_after_bill_create', $data, $voucher_no);
 
@@ -236,13 +238,12 @@ class Bank
             return new WP_error('bill-exception', $e->getMessage());
         }
 
-        $bill = erp_acct_get_bill($voucher_no);
+        $bill = $this->getBill($voucher_no);
 
         $bill['email'] = erp_get_people_email($bill_data['vendor_id']);
 
         do_action('erp_acct_new_transaction_bill', $voucher_no, $bill);
 
-        erp_acct_purge_cache(['list' => 'sales_transaction,purchase_transaction,expense_transaction']);
 
         return $bill;
     }
@@ -255,7 +256,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_update_bill($data, $bill_id)
+    function updateBill($data, $bill_id)
     {
         global $wpdb;
 
@@ -273,7 +274,7 @@ class Bank
             $wpdb->query('START TRANSACTION');
 
             if ($draft === $data['status']) {
-                erp_acct_update_draft_bill($data, $bill_id);
+                $this->updateDraftBill($data, $bill_id);
             } else {
                 // disable editing on old bill
                 $wpdb->update($wpdb->prefix . 'erp_acct_voucher_no', ['editable' => 0], ['id' => $bill_id]);
@@ -294,7 +295,7 @@ class Bank
 
                 $voucher_no = $wpdb->insert_id;
 
-                $old_bill = erp_acct_get_bill($bill_id);
+                $old_bill = $this->getBill($bill_id);
 
                 // insert contra `erp_acct_bills` (basically a duplication of row)
                 $wpdb->query($wpdb->prepare("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM {$wpdb->prefix}erp_acct_bills WHERE voucher_no = %d", $bill_id));
@@ -340,7 +341,7 @@ class Bank
                     );
 
                     // insert contra `erp_acct_ledger_details`
-                    erp_acct_update_bill_data_into_ledger($old_bill, $voucher_no, $item);
+                    $this->updateBillDataIntoLedger($old_bill, $voucher_no, $item);
                 }
 
                 // insert contra `erp_acct_bill_account_details`
@@ -358,13 +359,13 @@ class Bank
                 );
 
                 // insert new bill with edited data
-                $new_bill = erp_acct_insert_bill($data);
+                $new_bill = $this->insertBill($data);
 
                 do_action('erp_acct_after_bill_update', $data, $bill_id);
 
                 $data['dr'] = 0;
                 $data['cr'] = $data['amount'];
-                erp_acct_update_data_into_people_trn_details($data, $old_bill['voucher_no']);
+                $trans->updateDataIntoPeopleTrnDetails($data, $old_bill['voucher_no']);
             }
 
             $wpdb->query('COMMIT');
@@ -374,9 +375,8 @@ class Bank
             return new WP_error('bill-exception', $e->getMessage());
         }
 
-        erp_acct_purge_cache(['list' => 'sales_transaction,purchase_transaction,expense_transaction']);
 
-        return erp_acct_get_bill($new_bill['voucher_no']);
+        return $this->getBill($new_bill['voucher_no']);
     }
 
     /**
@@ -387,11 +387,11 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_update_draft_bill($data, $bill_id)
+    function updateDraftBill($data, $bill_id)
     {
         global $wpdb;
 
-        $bill_data = erp_acct_get_formatted_bill_data($data, $bill_id);
+        $bill_data = $this->getFormattedBillData($data, $bill_id);
 
         $wpdb->update(
             $wpdb->prefix . 'erp_acct_bills',
@@ -442,7 +442,6 @@ class Bank
             );
         }
 
-        erp_acct_purge_cache(['list' => 'sales_transaction,purchase_transaction,expense_transaction']);
     }
 
     /**
@@ -452,7 +451,7 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_void_bill($id)
+    function voidBill($id)
     {
         global $wpdb;
 
@@ -471,7 +470,6 @@ class Bank
         $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_bill_account_details', ['bill_no' => $id]);
 
-        erp_acct_purge_cache(['list' => 'sales_transaction,purchase_transaction,expense_transaction']);
     }
 
     /**
@@ -482,7 +480,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_bill_data($data, $voucher_no)
+    function getFormattedBillData($data, $voucher_no)
     {
         $bill_data = [];
 
@@ -520,7 +518,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_insert_bill_data_into_ledger($bill_data, $item_data)
+    function insertBillDataIntoLedger($bill_data, $item_data)
     {
         global $wpdb;
 
@@ -557,7 +555,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_update_bill_data_into_ledger($bill_data, $bill_no, $item_data)
+    function updateBillDataIntoLedger($bill_data, $bill_no, $item_data)
     {
         global $wpdb;
 
@@ -590,7 +588,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_bill_count()
+    function getBillCount()
     {
         global $wpdb;
 
@@ -606,7 +604,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_due_bills_by_people($args = [])
+    function getDueBillsByPeople($args = [])
     {
         global $wpdb;
 
@@ -658,7 +656,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_get_bill_due($bill_no)
+    function getBillDue($bill_no)
     {
         global $wpdb;
 

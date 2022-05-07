@@ -10,7 +10,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_all_tax_rate_names($args = [])
+    function getAllTaxRateNames($args = [])
     {
         global $wpdb;
 
@@ -68,7 +68,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_tax_rate_name($tax_no)
+    function getTaxRateName($tax_no)
     {
         global $wpdb;
 
@@ -84,7 +84,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_insert_tax_rate_name($data)
+    function insertTaxRateName($data)
     {
         global $wpdb;
 
@@ -96,7 +96,7 @@ class Bank
             $wpdb->query("UPDATE {$wpdb->prefix}erp_acct_taxes SET `default` = 0");
         }
 
-        $tax_data = erp_acct_get_formatted_tax_rate_name_data($data);
+        $tax_data = $taxratenames->getFormattedTaxRateNameData($data);
 
         $wpdb->insert(
             $wpdb->prefix . 'erp_acct_taxes',
@@ -111,7 +111,6 @@ class Bank
             ]
         );
 
-        erp_acct_purge_cache(['list' => 'tax_rates_names']);
 
         return $wpdb->insert_id;
     }
@@ -123,7 +122,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_update_tax_rate_name($data, $id)
+    function updateTaxRateName($data, $id)
     {
         global $wpdb;
 
@@ -131,7 +130,7 @@ class Bank
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
-        $tax_data = erp_acct_get_formatted_tax_rate_name_data($data);
+        $tax_data = $taxratenames->getFormattedTaxRateNameData($data);
 
         if (!empty($tax_data['default'])) {
             $wpdb->query("UPDATE {$wpdb->prefix}erp_acct_taxes SET `default` = 0");
@@ -151,7 +150,6 @@ class Bank
             ]
         );
 
-        erp_acct_purge_cache(['list' => 'tax_rates_names']);
 
         return $id;
     }
@@ -163,13 +161,12 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_delete_tax_rate_name($id)
+    function deleteTaxRateName($id)
     {
         global $wpdb;
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_taxes', ['id' => $id]);
 
-        erp_acct_purge_cache(['list' => 'tax_rates_names']);
 
         return $id;
     }
@@ -181,7 +178,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_tax_rate_name_data($data)
+    function getFormattedTaxRateNameData($data)
     {
         $tax_data = [];
 

@@ -13,14 +13,14 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_banks($show_balance = false, $with_cash = false, $no_bank = false)
+    function getBanks($show_balance = false, $with_cash = false, $no_bank = false)
     {
         global $wpdb;
 
         $args               = [];
         $args['start_date'] = date('Y-m-d');
 
-        $closest_fy_date    = erp_acct_get_closest_fn_year_date($args['start_date']);
+        $closest_fy_date    = $trialbal->getClosestFnYearDate($args['start_date']);
         $args['start_date'] = $closest_fy_date['start_date'];
         $args['end_date']   = $closest_fy_date['end_date'];
 
@@ -103,7 +103,7 @@ class Bank
             return $accts;
         }
 
-        $banks = erp_acct_get_ledgers_by_chart_id(7);
+        $banks = $ledger->getLedgersByChartId(7);
 
         if ($bank_only && empty($banks)) {
             return new WP_Error('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
@@ -133,12 +133,12 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_dashboard_banks()
+    function getDashboardBanks()
     {
         $args               = [];
         $args['start_date'] = date('Y-m-d');
 
-        $closest_fy_date    = erp_acct_get_closest_fn_year_date($args['start_date']);
+        $closest_fy_date    = $trialbal->getClosestFnYearDate($args['start_date']);
         $args['start_date'] = $closest_fy_date['start_date'];
         $args['end_date']   = $closest_fy_date['end_date'];
 
@@ -156,14 +156,14 @@ class Bank
 
         $results[] = [
             'name'       => __('Cash at Bank', 'erp'),
-            'balance'    => erp_acct_cash_at_bank($args, 'balance'),
-            'additional' => erp_acct_bank_balance($args, 'balance'),
+            'balance'    =>$trialbal->cashAtBank($args, 'balance'),
+            'additional' => $trialbal->bankBalance($args, 'balance'),
         ];
 
         $results[] = [
             'name'       => __('Bank Loan', 'erp'),
-            'balance'    => erp_acct_cash_at_bank($args, 'loan'),
-            'additional' => erp_acct_bank_balance($args, 'loan'),
+            'balance'    =>$trialbal->cashAtBank($args, 'loan'),
+            'additional' => $trialbal->bankBalance($args, 'loan'),
         ];
 
         return $results;
@@ -176,7 +176,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_bank($bank_no)
+    function getBank($bank_no)
     {
         global $wpdb;
 
@@ -193,11 +193,11 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_insert_bank($data)
+    function insertBank($data)
     {
         global $wpdb;
 
-        $bank_data = erp_acct_get_formatted_bank_data($data);
+        $bank_data = $this->getFormattedBankData($data);
 
         try {
             $wpdb->query('START TRANSACTION');
@@ -226,7 +226,7 @@ class Bank
      *
      * @return int
      */
-    function erp_acct_delete_bank($id)
+    function deleteBank($id)
     {
         global $wpdb;
 
@@ -251,7 +251,7 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_formatted_bank_data($bank_data)
+    function getFormattedBankData($bank_data)
     {
         $bank_data['ledger_id'] = !empty($bank_data['ledger_id']) ? $bank_data['ledger_id'] : 0;
 
@@ -263,7 +263,7 @@ class Bank
      *
      * @param $ledger_id
      */
-    function erp_acct_get_single_account_balance($ledger_id)
+    function getSingleAccountBalance($ledger_id)
     {
         global $wpdb;
 
@@ -277,7 +277,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_account_debit_credit($ledger_id)
+    function getAccountDebitCredit($ledger_id)
     {
         global $wpdb;
         $dr_cr = [];
@@ -293,7 +293,7 @@ class Bank
      *
      * @param $item
      */
-    function erp_acct_perform_transfer($item)
+    function performTransfer($item)
     {
         global $wpdb;
         $created_by = get_current_user_id();
@@ -379,11 +379,11 @@ class Bank
     /**
      * Sync dashboard account on transfer
      */
-    function erp_acct_sync_dashboard_accounts()
+    function syncDashboardAccounts()
     {
         global $wpdb;
 
-        $accounts = erp_acct_get_banks(true, true, false);
+        $accounts = $this->GetBanks(true, true, false);
 
         foreach ($accounts as $account) {
             $wpdb->update(
@@ -401,9 +401,9 @@ class Bank
     /**
      * Get transferrable accounts
      */
-    function erp_acct_get_transfer_accounts($show_balance = false)
+    function getTransferAccounts($show_balance = false)
     {
-        $results = erp_acct_get_banks(true, true, false);
+        $results = $this->GetBanks(true, true, false);
 
         return $results;
     }
@@ -415,7 +415,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_transfer_vouchers($args = [])
+    function getTransferVouchers($args = [])
     {
         global $wpdb;
 
@@ -448,7 +448,7 @@ class Bank
      *
      * @return object Single voucher
      */
-    function erp_acct_get_single_voucher($id)
+    function getSingleVoucher($id)
     {
         global $wpdb;
 
@@ -468,7 +468,7 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_balance_by_ledger($id)
+    function getBalanceByLedger($id)
     {
         if (is_array($id)) {
             $id = "'" . implode("','", $id) . "'";
@@ -489,10 +489,10 @@ class Bank
      *
      * @return array
      */
-    function erp_acct_get_bank_dropdown()
+    function getBankDropdown()
     {
         $accounts = [];
-        $banks    = erp_acct_get_banks(true, true, false);
+        $banks    = $this->GetBanks(true, true, false);
 
         if ($banks) {
             foreach ($banks as $bank) {
