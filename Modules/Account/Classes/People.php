@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+class People
 {
 
     /**
@@ -15,7 +15,7 @@ class Bank
      */
     function addEmployeeAsPeople($data, $update = false)
     {
-        global $wpdb;
+       
         $people_id = null;
 
         if ($this->isEmployeePeople($data['user_id'])) {
@@ -26,7 +26,7 @@ class Bank
 
         if ($update) {
             $wpdb->update(
-                $wpdb->prefix . 'erp_peoples',
+                'erp_peoples',
                 [
                     'first_name'    => $data['personal']['first_name'],
                     'last_name'     => $data['personal']['last_name'],
@@ -48,7 +48,7 @@ class Bank
                     'life_stage'    => '',
                     'contact_owner' => '',
                     'hash'          => '',
-                    'created_by'    => get_current_user_id(),
+                    'created_by'    =>auth()->user()->id,
                     'created'       => '',
                 ],
                 [
@@ -57,7 +57,7 @@ class Bank
             );
         } else {
             $wpdb->insert(
-                $wpdb->prefix . 'erp_peoples',
+                'erp_peoples',
                 [
                     'user_id'       => $data['user_id'],
                     'first_name'    => $data['personal']['first_name'],
@@ -80,7 +80,7 @@ class Bank
                     'life_stage'    => '',
                     'contact_owner' => '',
                     'hash'          => '',
-                    'created_by'    => get_current_user_id(),
+                    'created_by'    =>auth()->user()->id,
                     'created'       => '',
                 ]
             );
@@ -120,7 +120,7 @@ class Bank
         $id   = $this->insertPeopleDB($args);
 
         if (!is_wp_error($id)) {
-            global $wpdb;
+           
 
             $type_id = $this->getPeopleTypeIdByName($args['type']);
 
@@ -144,7 +144,7 @@ class Bank
      */
     function peopleFilterTransaction($people_id, $args = [])
     {
-        global $wpdb;
+       
         $start_date = isset($args['start_date']) ? $args['start_date'] : '';
         $end_date   = isset($args['end_date']) ? $args['start_date'] : '';
 
@@ -162,7 +162,7 @@ class Bank
      */
     function getPeopleAddress($people_id)
     {
-        global $wpdb;
+       
 
         $row = [];
 
@@ -201,7 +201,7 @@ class Bank
      */
     function getPeopleTransactions($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number' => 20,
@@ -214,7 +214,7 @@ class Bank
         $args           = wp_parse_args($args, $defaults);
         $limit          = '';
         $where          = '';
-        $fy_start_date  = !empty($args['start_date']) ? $args['start_date'] : erp_current_datetime()->format('Y-m-d');
+        $fy_start_date  = !empty($args['start_date']) ? $args['start_date'] : date('Y-m-d');
         $financial_year = \WeDevs\ERP\Accounting\Includes\Classes\Common::closest_financial_year($fy_start_date);
 
         if (!empty($args['people_id'])) {
@@ -347,7 +347,7 @@ class Bank
      */
     function getPeoplePreviousBalance($args = [])
     {
-        global $wpdb;
+       
 
         $opening_balance_query     = $wpdb->prepare("SELECT SUM(debit - credit) AS opening_balance FROM {$wpdb->prefix}erp_acct_opening_balances where type = 'people' AND ledger_id = %d AND financial_year_id = %d", $args['people_id'], $args['financial_year_id']);
         $opening_balance_result    = $wpdb->get_row($opening_balance_query, ARRAY_A);
@@ -369,7 +369,7 @@ class Bank
      */
     function getPeopleTypeById($people_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT people_types_id FROM {$wpdb->prefix}erp_people_type_relations WHERE people_id = %d LIMIT 1", $people_id));
 
@@ -385,7 +385,7 @@ class Bank
      */
     function getPeopleTypeByTypeId($type_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_people_types WHERE id = %d LIMIT 1", $type_id));
 
@@ -403,7 +403,7 @@ class Bank
      */
     function getPeopleTypeIdByName($type_name)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row(
             $wpdb->prepare(
@@ -424,7 +424,7 @@ class Bank
      */
     function getPeopleIdByUserId($user_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_peoples WHERE user_id = %d LIMIT 1", $user_id));
 
@@ -438,7 +438,7 @@ class Bank
      */
     function getPeopleNameByPeopleId($people_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT first_name, last_name FROM {$wpdb->prefix}erp_peoples WHERE id = %d LIMIT 1", $people_id));
 
@@ -454,7 +454,7 @@ class Bank
      */
     function isEmployeePeople($user_id)
     {
-        global $wpdb;
+       
 
         if (!$user_id) {
             return false;
@@ -478,7 +478,7 @@ class Bank
      */
     function getUserIdByPeopleId($people_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT user_id FROM {$wpdb->prefix}erp_peoples WHERE id = %d LIMIT 1", $people_id));
 
@@ -490,7 +490,7 @@ class Bank
      */
     function getAccountingPeople($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'type'       => 'all',
@@ -514,10 +514,10 @@ class Bank
         $items        = false;
 
 
-        $pep_tb      = $wpdb->prefix . 'erp_peoples';
-        $pepmeta_tb  = $wpdb->prefix . 'erp_peoplemeta';
-        $types_tb    = $wpdb->prefix . 'erp_people_types';
-        $type_rel_tb = $wpdb->prefix . 'erp_people_type_relations';
+        $pep_tb      = 'erp_peoples';
+        $pepmeta_tb  = 'erp_peoplemeta';
+        $types_tb    = 'erp_people_types';
+        $type_rel_tb = 'erp_people_type_relations';
 
         if (false === $items) {
             extract($args);
@@ -637,7 +637,7 @@ class Bank
                     }
                 );
 
-                $items = ($no_object) ? $results : erp_array_to_object($results);
+                $items = ($no_object) ? $results : (object)$results;
             }
             wp_cache_set($cache_key, $items, 'erp');
         }
@@ -652,7 +652,7 @@ class Bank
      */
     function checkAssociatedTranasaction($people_id)
     {
-        global $wpdb;
+       
 
         return $wpdb->get_var(
             $wpdb->prepare(
@@ -676,7 +676,7 @@ class Bank
      */
     function getPeoples($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'type'       => 'all',
@@ -695,16 +695,14 @@ class Bank
         ];
 
         $args                 = wp_parse_args($args, $defaults);
-        $args['crm_agent_id'] = (!erp_crm_is_current_user_manager() && erp_crm_is_current_user_crm_agent()) ? get_current_user_id() : false;
+        $args['crm_agent_id'] =get_current_user_id();
 
         $people_type  = is_array($args['type']) ? implode('-', $args['type'])       : $args['type'];
-        $last_changed = erp_cache_get_last_changed('crm', 'people');
-        $cache_key    = 'erp-people-' . $people_type . '-' . md5(serialize($args)) . ": $last_changed";
-        $items        = wp_cache_get($cache_key, 'erp');
-        $pep_tb       = $wpdb->prefix . 'erp_peoples';
-        $pepmeta_tb   = $wpdb->prefix . 'erp_peoplemeta';
-        $types_tb     = $wpdb->prefix . 'erp_people_types';
-        $type_rel_tb  = $wpdb->prefix . 'erp_people_type_relations';
+        $items        = false;
+        $pep_tb       = 'erp_peoples';
+        $pepmeta_tb   = 'erp_peoplemeta';
+        $types_tb     = 'erp_people_types';
+        $type_rel_tb  = 'erp_people_type_relations';
 
         if (false === $items) {
             extract($args);
@@ -754,10 +752,6 @@ class Bank
                 $sql['where'][] = "AND people.contact_owner='$contact_owner'";
             }
 
-            if (!erp_crm_is_current_user_manager() && erp_crm_is_current_user_crm_agent()) {
-                $current_user_id = get_current_user_id();
-                $sql['where'][]  = "AND people.contact_owner='$current_user_id'";
-            }
 
             // Check if the row want to search
             if (!empty($s)) {
@@ -841,7 +835,7 @@ class Bank
                     $results['types'] = explode(',', $results['types']);
                 });
 
-                $items = ($no_object) ? $results : erp_array_to_object($results);
+                $items = ($no_object) ? $results : (object)$results;
             }
             wp_cache_set($cache_key, $items, 'erp');
         }
@@ -906,11 +900,9 @@ class Bank
             }
 
             do_action('erp_after_delete_people', $people_id, $data);
-            // e.g.: erp_acct_delete_customer, erp_acct_delete_vendor
             do_action("erp_acct_delete_{$data['type']}", $data);
         }
 
-        erp_crm_purge_cache(['list' => 'people', 'type' => $data['type']]);
     }
 
     /**
@@ -958,7 +950,6 @@ class Bank
             do_action('erp_after_restoring_people', $people_id, $data);
         }
 
-        erp_crm_purge_cache(['list' => 'people', 'type' => $data['type']]);
     }
 
     /**
@@ -1029,7 +1020,7 @@ class Bank
      */
     function getPeopleBy($field, $value)
     {
-        global $wpdb;
+       
 
         if (empty($field)) {
             return new WP_Error('no-field', __('No field provided', 'erp'));
@@ -1068,7 +1059,7 @@ class Bank
             }, $results);
 
             if (is_array($value)) {
-                $people = erp_array_to_object($results);
+                $people = (object)$results;
             } else {
                 $people = (!empty($results)) ? $results[0] : false;
             }
@@ -1138,11 +1129,11 @@ class Bank
         $args['email'] = strtolower(trim($args['email']));
 
         if (!empty($args['phone'])) {
-            $args['phone'] = erp_sanitize_phone_number($args['phone'], true);
+            $args['phone'] = $args['phone'];
         }
 
         if (!empty($args['mobile'])) {
-            $args['mobile'] = erp_sanitize_phone_number($args['mobile'], true);
+            $args['mobile'] = $args['mobile'];
         }
 
         // Assign first name as company name for accounting customer search
@@ -1199,9 +1190,6 @@ class Bank
             return new WP_Error('invalid-email', esc_attr__('Please provide a valid email address', 'erp'));
         }
 
-        if (!empty($args['life_stage']) && !array_key_exists($args['life_stage'], erp_crm_get_life_stages_dropdown_raw())) {
-            return new WP_Error('invalid-life-stage', esc_attr__('Please select a valid life stage', 'erp'));
-        }
 
         if (!empty($args['phone']) && !erp_is_valid_contact_no($args['phone'])) {
             return new WP_Error('invalid-phone', esc_attr__('Please provide a valid phone number', 'erp'));
@@ -1227,16 +1215,9 @@ class Bank
             return new WP_Error('invalid-fax', esc_attr__('Please provide a valid fax number', 'erp'));
         }
 
-        if (!empty($args['city']) && erp_contains_disallowed_chars($args['city'])) {
-            return new WP_Error('invalid-city', esc_attr__('Please provide a valid city name', 'erp'));
-        }
 
         if (!empty($args['postal_code']) && !erp_is_valid_zip_code($args['postal_code'])) {
             return new WP_Error('invalid-postal-code', esc_attr__('Please provide a valid postal code', 'erp'));
-        }
-
-        if (!empty($args['source']) && !array_key_exists($args['source'], erp_crm_contact_sources())) {
-            return new WP_Error('invalid-contact-source', esc_attr__('Please select a valid contact source', 'erp'));
         }
 
         $errors = apply_filters('erp_people_validation_error', [], $args);
@@ -1259,7 +1240,7 @@ class Bank
                 $user->user_email = '';
             }
 
-            $args['created_by'] = get_current_user_id() ? get_current_user_id() : 1;
+            $args['created_by'] =auth()->user()->id ?auth()->user()->id : 1;
             $args['hash']       = sha1(microtime() . 'erp-unique-hash-id' . $args['email']);
 
             $existing_people_by_email = \WeDevs\ERP\Framework\Models\People::where('email', $args['email'])->first();
@@ -1372,7 +1353,6 @@ class Bank
 
         if (!$existing_people->id) {
             do_action('erp_create_new_people', $people->id, $args, $people_type);
-            // e.g.: erp_acct_after_new_customer, erp_acct_after_new_vendor
             do_action("erp_acct_after_new_{$people_type}", $people->id, $args);
         } else {
             do_action('erp_update_people', $people->id, $args, $people_type);
@@ -1389,23 +1369,11 @@ class Bank
             $people->update(['hash', $hash_id]);
         }
 
-        erp_crm_purge_cache([
-            'list'          => 'people',
-            'type'          => $people_type,
-            'erp-people-by' => [(int) $people->id, $people->email, (int) $people->user_id]
-        ]);
-
-        erp_acct_purge_cache([
-            'group'         => 'erp',
-            'list'          => 'people',
-            'type'          => $people_type,
-            'erp-people-by' => [(int) $people->id, $people->email, (int) $people->user_id]
-        ]);
 
         /*
      * Action hook to trigger any event when a people is created.
-     * 
-     * @since 1.10.3 
+     *
+     * @since 1.10.3
      */
         do_action('erp_people_created', $people->id, $people, $people_type);
 
@@ -1585,7 +1553,6 @@ class Bank
             $people_id = $people_obj->id;
         }
 
-        erp_crm_purge_cache(['list' => 'people', 'type' => $type]);
 
         return $people_id;
     }
@@ -1603,7 +1570,7 @@ class Bank
      */
     function getPeopleEmail($id)
     {
-        global $wpdb;
+       
 
         $sql = $wpdb->prepare("SELECT email FROM {$wpdb->prefix}erp_peoples WHERE id = %d", absint($id));
 
@@ -1621,7 +1588,7 @@ class Bank
      */
     function isPeopleTrashed($id)
     {
-        global $wpdb;
+       
 
         $trashed = $wpdb->get_var(
             $wpdb->prepare("SELECT deleted_at FROM {$wpdb->prefix}erp_people_type_relations WHERE people_id = %d", absint($id))

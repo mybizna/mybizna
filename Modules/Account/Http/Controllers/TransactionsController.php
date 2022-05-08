@@ -5,8 +5,9 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
 
-class AccountsController extends Controller
+class TransactionssController extends Controller
 {
 
     /**
@@ -18,6 +19,8 @@ class AccountsController extends Controller
      */
     public function get_transaction_type($request)
     {
+        $trans = new Transactions();
+        $trans = new Transactions();
         $voucher_no = !empty($request['voucher_no']) ? $request['voucher_no'] : 0;
 
         $voucher_type = $trans->getTransactionType($voucher_no);
@@ -38,7 +41,7 @@ class AccountsController extends Controller
      */
     public function get_trn_statuses($request)
     {
-        global $wpdb;
+       
 
         $statuses = $wpdb->get_results("SELECT id, type_name as name, slug FROM {$wpdb->prefix}erp_acct_trn_status_types", ARRAY_A);
 
@@ -107,6 +110,7 @@ class AccountsController extends Controller
      */
     public function get_sales_chart_status($request)
     {
+        $trans = new Transactions();
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
@@ -167,6 +171,7 @@ class AccountsController extends Controller
      */
     public function get_expense_chart_data($request)
     {
+        $trans = new Transactions();
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
@@ -195,6 +200,7 @@ class AccountsController extends Controller
      */
     public function get_expense_chart_status($request)
     {
+        $trans = new Transactions();
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
@@ -228,6 +234,7 @@ class AccountsController extends Controller
      */
     public function get_expenses($request)
     {
+        $trans = new Transactions();
         $args = [
             'number'     => empty($request['per_page']) ? 20 : (int) $request['per_page'],
             'offset'     => ($request['per_page'] * ($request['page'] - 1)),
@@ -279,6 +286,7 @@ class AccountsController extends Controller
      */
     public function get_purchase_chart_data($request)
     {
+        $trans = new Transactions();
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
@@ -325,6 +333,7 @@ class AccountsController extends Controller
      */
     public function get_purchases($request)
     {
+        $trans = new Transactions();
         $args = [
             'number'     => (int) empty($request['per_page']) ? 20 : (int) $request['per_page'],
             'offset'     => ($request['per_page'] * ($request['page'] - 1)),
@@ -374,7 +383,7 @@ class AccountsController extends Controller
      */
     public function get_payment_methods()
     {
-        global $wpdb;
+       
 
         $rows = $wpdb->get_results("SELECT id, name FROM {$wpdb->prefix}erp_acct_payment_methods", ARRAY_A);
 
@@ -407,6 +416,7 @@ class AccountsController extends Controller
      */
     public function prepare_item_for_response($item, $request, $additional_fields = [])
     {
+        $common = new CommonFunc();
         $status = null;
 
         if (!empty($item['inv_status'])) {
@@ -437,7 +447,7 @@ class AccountsController extends Controller
             }
         }
 
-        $item['status']      = erp_acct_get_trn_status_by_id($status);
+        $item['status']      = $common->getTrnStatusById($status);
         $item['status_code'] = $status;
 
         $item['ref']         = isset($item['ref'])
@@ -467,6 +477,7 @@ class AccountsController extends Controller
      */
     public function send_as_pdf($request)
     {
+        $trans = new Transactions();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -494,6 +505,7 @@ class AccountsController extends Controller
      */
     public function get_people_trn_amount_data($request)
     {
+        $trans = new Transactions();
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
@@ -521,6 +533,7 @@ class AccountsController extends Controller
      */
     public function get_people_trn_status_data($request)
     {
+        $trans = new Transactions();
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],

@@ -5,8 +5,11 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\PayPurchases;
 
-class AccountsController extends Controller
+
+class PayPurchasesController extends Controller
 {
 
     /**
@@ -67,6 +70,8 @@ class AccountsController extends Controller
      */
     public function get_pay_purchase($request)
     {
+        $pay_purchases = new PayPurchases();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -133,6 +138,8 @@ class AccountsController extends Controller
      */
     public function update_pay_purchase($request)
     {
+        $pay_purchases = new PayPurchases();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -171,6 +178,8 @@ class AccountsController extends Controller
      */
     public function void_pay_purchase($request)
     {
+        $pay_purchases = new PayPurchases();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -195,10 +204,11 @@ class AccountsController extends Controller
      */
     public function add_log($data, $action, $old_data = [])
     {
+        $common = new CommonFunc();
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
-                $changes   = !empty($old_data) ? erp_get_array_diff($data, $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff($data, $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -206,18 +216,6 @@ class AccountsController extends Controller
             default:
                 $operation = 'created';
         }
-
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Pay Purchase', 'erp'),
-                'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
-                'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('A purchase payment of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, $people->getPeopleNameByPeopleId($data['people_id'])),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**
@@ -313,6 +311,7 @@ class AccountsController extends Controller
      */
     public function prepare_item_for_response($item, $request, $additional_fields = [])
     {
+        $common = new CommonFunc();
         $item = (object) $item;
 
         $data = [
@@ -329,7 +328,7 @@ class AccountsController extends Controller
             'status'             => $item->status,
             'created_at'         => $item->created_at,
             'transaction_charge' => $item->transaction_charge,
-            'trn_by'             => erp_acct_get_payment_method_by_id($item->trn_by)->name,
+            'trn_by'             => $common->getPaymentMethodById($item->trn_by)->name,
         ];
 
         $data = array_merge($data, $additional_fields);

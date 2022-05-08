@@ -5,8 +5,11 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\People;
+use Modules\Account\Classes\Bills;
 
-class Bills extends Controller
+class BillsController extends Controller
 {
     /**
      * Get a collection of bills
@@ -17,6 +20,8 @@ class Bills extends Controller
      */
     public function get_bills($request)
     {
+
+        $bills = new Bills();
         $args = [
             'number' => isset($request['per_page']) ? $request['per_page'] : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -66,6 +71,7 @@ class Bills extends Controller
      */
     public function get_bill($request)
     {
+        $bills = new Bills();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -94,6 +100,7 @@ class Bills extends Controller
      */
     public function create_bill($request)
     {
+        $bills = new Bills();
         $bill_data = $this->prepare_item_for_database($request);
 
         $item_total        = [];
@@ -109,7 +116,7 @@ class Bills extends Controller
         $bill_data['billing_address'] = isset($bill_data['billing_address']) ? maybe_serialize($bill_data['billing_address']) : '';
         $bill_data['amount']          = array_sum($item_total);
 
-        $bill = erp_acct_insert_bill($bill_data);
+        $bill = $bills->insertBill($bill_data);
 
         $this->add_log($bill, 'add');
 
@@ -132,6 +139,8 @@ class Bills extends Controller
      */
     public function update_bill($request)
     {
+        $common = new CommonFunc();
+        $bills = new Bills();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -184,6 +193,8 @@ class Bills extends Controller
      */
     public function void_bill($request)
     {
+        $bills = new Bills();
+        
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -260,6 +271,7 @@ class Bills extends Controller
      */
     public function get_overview_payables($request)
     {
+        $common = new CommonFunc();
         $items    = $common->getPayables();
         $response = rest_ensure_response($items);
 
@@ -279,10 +291,11 @@ class Bills extends Controller
      */
     public function add_log($data, $action, $old_data = [])
     {
+        $common = new CommonFunc();
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
-                $changes   = !empty($old_data) ? erp_get_array_diff($data, $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff($data, $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -290,18 +303,6 @@ class Bills extends Controller
             default:
                 $operation = 'created';
         }
-
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Bill', 'erp'),
-                'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
-                'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('A bill of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, $people->getPeopleNameByPeopleId($data['vendor_id'])),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**
@@ -383,6 +384,7 @@ class Bills extends Controller
      */
     public function prepare_item_for_response($item, $request, $additional_fields = [])
     {
+        $people = new People();
         $item = (object) $item;
 
         $data = [

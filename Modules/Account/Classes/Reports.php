@@ -2,7 +2,10 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+
+use Modules\Account\Classes\Reports\TrialBalance;
+
+class Reports
 {
 
     /**
@@ -22,7 +25,9 @@ class Bank
      */
     function getLedgerReport($ledger_id, $start_date, $end_date)
     {
-        global $wpdb;
+        $trialbal = new TrialBalance();
+
+       
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($start_date);
@@ -141,7 +146,7 @@ class Bank
      */
     function ledgerReportOpeningBalanceByFnYearId($id, $ledger_id)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT SUM(debit - credit) AS balance FROM {$wpdb->prefix}erp_acct_opening_balances
         WHERE financial_year_id = %d AND ledger_id = %d AND type = 'ledger' GROUP BY ledger_id";
@@ -166,7 +171,7 @@ class Bank
      */
     function getSalesTaxReport($agency_id, $start_date, $end_date)
     {
-        global $wpdb;
+       
 
         // opening balance
         $sql1 = $wpdb->prepare(
@@ -279,7 +284,7 @@ class Bank
      */
     function getFilteredSalesTaxReport($args)
     {
-        global $wpdb;
+       
 
         if (empty($args['start_date']) || empty($args['end_date'])) {
             return [];
@@ -328,7 +333,7 @@ class Bank
      */
     function getIncomeStatement($args)
     {
-        global $wpdb;
+       
 
         $results = $this->getProfitLoss($args);
 
@@ -357,7 +362,10 @@ class Bank
      */
     function incomeStatementCalculateWithOpeningBalance($is_start_date, $data, $sql, $chart_id)
     {
-        global $wpdb;
+
+        $trialbal = new TrialBalance();
+
+       
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($is_start_date);
@@ -464,7 +472,7 @@ class Bank
      */
     function isOpeningBalanceByFnYearId($id, $chart_id)
     {
-        global $wpdb;
+       
 
         $where = '';
 
@@ -496,7 +504,9 @@ class Bank
      */
     function getBalanceSheet($args)
     {
-        global $wpdb;
+        $trialbal = new TrialBalance();
+
+       
 
         if (empty($args['start_date'])) {
             $args['start_date'] = date('Y-m-d', strtotime('first day of this month'));
@@ -694,7 +704,9 @@ class Bank
      */
     function balanceSheetCalculateWithOpeningBalance($bs_start_date, $data, $sql, $chart_id)
     {
-        global $wpdb;
+        $trialbal = new TrialBalance();
+
+       
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($bs_start_date);
@@ -806,7 +818,7 @@ class Bank
      */
     function bsOpeningBalanceByFnYearId($id, $chart_id)
     {
-        global $wpdb;
+       
 
         $where = '';
 
@@ -832,7 +844,9 @@ class Bank
      */
     function getProfitLoss($args)
     {
-        global $wpdb;
+        $trialbal = new TrialBalance();
+
+       
 
         if (empty($args['start_date'])) {
             $args['start_date'] = date('Y-m-d', strtotime('first day of january'));

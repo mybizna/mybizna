@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class AccountsController extends Controller
+class OpeningBalanceController extends Controller
 {
 
     /**
@@ -58,7 +58,7 @@ class AccountsController extends Controller
      */
     public function get_opening_balance($request)
     {
-        global $wpdb;
+       
 
         $id                = (int) $request['id'];
         $additional_fields = [];
@@ -101,7 +101,7 @@ class AccountsController extends Controller
      */
     public function get_opening_balance_count_by_fy($request)
     {
-        global $wpdb;
+       
 
         $id                = (int) $request['id'];
         $additional_fields = [];
@@ -135,7 +135,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_virtual_acct($id);
+        $item = $open_balances->getVirtualAcct($id);
 
         $response = rest_ensure_response($item);
 
@@ -158,7 +158,7 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $item = erp_acct_get_opening_balance_names();
+        $item = $open_balance->getOpeningBalanceNames();
 
         $response = rest_ensure_response($item);
 
@@ -224,7 +224,7 @@ class AccountsController extends Controller
 
         $acc_pay_rec = [];
 
-        $acc_pay_rec['invoice_acc']       = erp_acct_get_opb_invoice_account_details($request['start_date']);
+        $acc_pay_rec['invoice_acc']       = $open_balance->getOpbInvoiceAccountDetails($request['start_date']);
         $acc_pay_rec['bill_purchase_acc'] = $this->getOpbBillPurchaseAccountDetails($request['start_date']);
 
         $response = rest_ensure_response($acc_pay_rec);
@@ -244,18 +244,6 @@ class AccountsController extends Controller
     {
         $data = (array) $data;
 
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Opening Balance', 'erp'),
-                'old_value'     => '',
-                'new_value'     => '',
-                // translators: %1$s: amount, %2$s: id
-                'message'       => sprintf(__('A opening balance of %1$s has been created by %2$s', 'erp'), $data['amount'], get_current_user_id()),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**

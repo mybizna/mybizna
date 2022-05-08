@@ -2,7 +2,9 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+use Modules\Account\Classes\CommonFunc;
+
+class Taxes
 {
 
     /**
@@ -12,7 +14,7 @@ class Bank
      */
     function getAllTaxRates($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -66,7 +68,7 @@ class Bank
      */
     function getTaxRate($tax_no)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT
 
@@ -96,12 +98,12 @@ class Bank
 
         $row['tax_components'] = $taxes->formatTaxLineItems($tax_no);
 
-        for ($i = 0; $i < count($row['tax_components']); $i++) {
+        for ($i = 0; $i < count($row['tax_components']); $i++) { //
             $row['tax_components'][$i]['agency']   = null; // we'll fill that later from VUE
             $row['tax_components'][$i]['category'] = null; // we'll fill that later from VUE
 
-            $row['tax_components'][$i]['agency_name']  = erp_acct_get_tax_agency_by_id($row['tax_components'][$i]['agency_id']);
-            $row['tax_components'][$i]['tax_cat_name'] = erp_acct_get_tax_category_by_id($row['tax_components'][$i]['tax_cat_id']);
+            $row['tax_components'][$i]['agency_name']  = $tax_agencies->getTaxAgencyById($row['tax_components'][$i]['agency_id']);
+            $row['tax_components'][$i]['tax_cat_name'] = $tax_cats->getTaxCategoryById($row['tax_components'][$i]['tax_cat_id']);
         }
 
         return $row;
@@ -116,9 +118,9 @@ class Bank
      */
     function insertTaxRate($data)
     {
-        global $wpdb;
+       
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
@@ -129,7 +131,7 @@ class Bank
 
         foreach ($items as $item) {
             $result = $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_tax_cat_agency',
+                'erp_acct_tax_cat_agency',
                 [
                     'tax_id'         => $tax_id,
                     'component_name' => $item['component_name'],
@@ -161,16 +163,16 @@ class Bank
      */
     function updateTaxRate($data, $id)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_taxes',
+            'erp_acct_taxes',
             [
                 'tax_rate_id' => $tax_data['tax_rate_id'],
                 'tax_number'  => $tax_data['tax_number'],
@@ -184,14 +186,14 @@ class Bank
         );
 
         if (!empty($tax_data['default']) && $tax_data['default']) {
-            $results = $wpdb->get_results('UPDATE ' . $wpdb->prefix . 'erp_acct_taxes' . ' SET `default`=0');
+            $results = $wpdb->get_results('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
         }
 
         $items = $data['tax_components'];
 
         foreach ($items as $key => $item) {
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_tax_cat_agency',
+                'erp_acct_tax_cat_agency',
                 [
                     'component_name' => $item['component_name'],
                     'tax_cat_id'     => $item['tax_cat_id'],
@@ -219,20 +221,20 @@ class Bank
      */
     function quickEditTaxRate($data, $id)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
         if (!empty($tax_data['default']) && 1 === $tax_data['default']) {
-            $results = $wpdb->get_results('UPDATE ' . $wpdb->prefix . 'erp_acct_taxes' . ' SET `default`=0');
+            $results = $wpdb->get_results('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
         }
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_taxes',
+            'erp_acct_taxes',
             [
                 'tax_number' => $tax_data['tax_number'],
                 'default'    => $tax_data['default'],
@@ -257,16 +259,16 @@ class Bank
      */
     function addTaxRateLine($data)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
         $tax_data = $this->getFormattedTaxLineData($data);
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_tax_cat_agency',
+            'erp_acct_tax_cat_agency',
             [
                 'tax_id'         => $tax_data['tax_id'],
                 'component_name' => $tax_data['component_name'],
@@ -293,16 +295,16 @@ class Bank
      */
     function editTaxRateLine($data)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
         $tax_data = $this->getFormattedTaxLineData($data);
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_tax_cat_agency',
+            'erp_acct_tax_cat_agency',
             [
                 'component_name' => $tax_data['component_name'],
                 'tax_cat_id'     => $tax_data['tax_cat_id'],
@@ -329,7 +331,7 @@ class Bank
      */
     function deleteTaxRateLine($line_no)
     {
-        global $wpdb;
+       
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_tax_cat_agency', ['id' => $line_no]);
 
@@ -346,7 +348,7 @@ class Bank
      */
     function deleteTaxRate($tax_no)
     {
-        global $wpdb;
+       
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_taxes', ['id' => $tax_no]);
 
@@ -361,7 +363,7 @@ class Bank
      */
     function getTaxPayRecords($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -413,7 +415,7 @@ class Bank
      */
     function getTaxPayRecord($voucher_no)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row(
             $wpdb->prepare(
@@ -447,15 +449,16 @@ class Bank
      */
     function payTax($data)
     {
-        global $wpdb;
+       
+        $common = new CommonFunc();
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
-        $currency           = erp_get_currency(true);
+        $currency           = $common->getCurrency(true);
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_voucher_no',
+            'erp_acct_voucher_no',
             [
                 'type'       => 'tax_payment',
                 'currency'   => $currency,
@@ -471,7 +474,7 @@ class Bank
         $tax_data = $taxes->getFormattedTaxData($data);
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_tax_pay',
+            'erp_acct_tax_pay',
             [
                 'voucher_no'   => $voucher_no,
                 'trn_date'     => $tax_data['trn_date'],
@@ -499,7 +502,7 @@ class Bank
 
         // insert data into {$wpdb->prefix}erp_acct_tax_agency_details
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_tax_agency_details',
+            'erp_acct_tax_agency_details',
             [
                 'agency_id'   => $tax_data['agency_id'],
                 'trn_no'      => $voucher_no,
@@ -532,7 +535,7 @@ class Bank
      */
     function insertTaxPayDataIntoLedger($tax_data)
     {
-        global $wpdb;
+       
 
         if ('debit' === $tax_data['voucher_type']) {
             $debit  = 0;
@@ -544,7 +547,7 @@ class Bank
 
         // Insert amount in ledger_details
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $tax_data['ledger_id'],
                 'trn_no'      => $tax_data['voucher_no'],
@@ -569,7 +572,7 @@ class Bank
      */
     function formatTaxLineItems($tax = 'all')
     {
-        global $wpdb;
+       
 
         $sql = 'SELECT id as db_id, tax_id, component_name, agency_id, tax_cat_id, tax_rate';
 
@@ -655,7 +658,7 @@ class Bank
      */
     function taxSummary()
     {
-        global $wpdb;
+       
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -679,7 +682,7 @@ class Bank
      */
     function getDefaultTaxRateNameId()
     {
-        global $wpdb;
+       
 
         return $wpdb->get_var("SELECT id FROM {$wpdb->prefix}erp_acct_taxes WHERE `default` = 1");
     }
@@ -695,7 +698,7 @@ class Bank
      */
     function insertSyncedTax($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'system_id'   => null,
@@ -730,7 +733,7 @@ class Bank
      */
     function getSyncedTaxSystemId($sync_type, $sync_source, $sync_id = false, $sync_slug = false)
     {
-        global $wpdb;
+       
 
         $sql  = "SELECT system_id
             FROM {$wpdb->prefix}erp_acct_synced_taxes

@@ -5,8 +5,15 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
 
-class AccountsController extends Controller
+use Modules\Account\Classes\Bank;
+
+use Modules\Account\Classes\LedgerAccounts;
+
+use Modules\Account\Classes\Reports\TrialBalance;
+
+class LedgersController extends Controller
 {
     /**
      * Get all the ledgers of a particular chart_id
@@ -47,6 +54,7 @@ class AccountsController extends Controller
      */
     public function get_ledger_accounts_by_chart($request)
     {
+        $ledger = new LedgerAccounts();
         $id = $request['chart_id'];
 
         if (empty($id)) {
@@ -70,7 +78,8 @@ class AccountsController extends Controller
      */
     public function get_ledger_account($request)
     {
-        global $wpdb;
+        $ledger = new LedgerAccounts();
+       
         $items = [];
 
         $id = (int) $request['id'];
@@ -96,7 +105,8 @@ class AccountsController extends Controller
      */
     public function create_ledger_account($request)
     {
-        global $wpdb;
+        $ledger = new LedgerAccounts();
+       
 
         $exist = $wpdb->get_var($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_ledgers WHERE name = %s", $request['name']));
 
@@ -106,7 +116,7 @@ class AccountsController extends Controller
 
         $item = $this->prepare_item_for_database($request);
 
-        $result = erp_acct_insert_ledger($item);
+        $result = $ledger->insertLedger($item);
 
         $this->add_log((array) $result, 'add');
 
@@ -128,7 +138,8 @@ class AccountsController extends Controller
      */
     public function update_ledger_account($request)
     {
-        global $wpdb;
+        $ledger = new LedgerAccounts();
+       
 
         $id = (int) $request['id'];
 
@@ -162,7 +173,8 @@ class AccountsController extends Controller
      */
     public function delete_ledger_account($request)
     {
-        global $wpdb;
+        $ledger = new LedgerAccounts();
+       
 
         $id = (int) $request['id'];
 
@@ -170,7 +182,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $item = erp_acct_get_ledger($id);
+        $item = $ledger->getLedger($id);
 
         $wpdb->delete("{$wpdb->prefix}erp_acct_ledgers", ['id' => $id]);
 
@@ -188,7 +200,8 @@ class AccountsController extends Controller
      */
     public function get_chart_accounts($request)
     {
-        $accounts = erp_acct_get_all_charts();
+        $ledger = new LedgerAccounts();
+        $accounts = $ledger->getAllCharts();
 
         $response = rest_ensure_response($accounts);
 
@@ -206,6 +219,7 @@ class AccountsController extends Controller
      */
     public function get_bank_accounts($request)
     {
+        $bank = new Bank();
         $items = $bank->getBanks(true, false, false);
 
         if (empty($items)) {
@@ -236,6 +250,8 @@ class AccountsController extends Controller
      */
     public function get_cash_accounts($request)
     {
+        $trialbal = new TrialBalance();
+
         $args               = [];
         $args['start_date'] = date('Y-m-d');
 
@@ -274,6 +290,7 @@ class AccountsController extends Controller
      */
     public function get_ledger_categories($request)
     {
+        $ledger = new LedgerAccounts();
         $chart_id = absint($request['chart_id']);
 
         $categories = $ledger->getLedgerCategories($chart_id);
@@ -294,6 +311,7 @@ class AccountsController extends Controller
      */
     public function create_ledger_category($request)
     {
+        $ledger = new LedgerAccounts();
         $category = $ledger->createLedgerCategory($request);
 
         if (!$category) {
@@ -316,6 +334,7 @@ class AccountsController extends Controller
      */
     public function update_ledger_category($request)
     {
+        $ledger = new LedgerAccounts();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -340,6 +359,7 @@ class AccountsController extends Controller
      */
     public function delete_ledger_category($request)
     {
+        $ledger = new LedgerAccounts();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -362,10 +382,11 @@ class AccountsController extends Controller
      */
     public function add_log($data, $action, $old_data = [])
     {
+        $common = new CommonFunc();
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
-                $changes   = !empty($old_data) ? erp_get_array_diff($data, (array) $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff($data, (array) $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -373,18 +394,6 @@ class AccountsController extends Controller
             default:
                 $operation = 'created';
         }
-
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Ledger Account', 'erp'),
-                'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
-                'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('A ledger account named %1$s has been %2$s for %3$s', 'erp'), $data['name'], $operation, $people->getPeopleNameByPeopleId($data['people_id'])),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**
@@ -417,6 +426,7 @@ class AccountsController extends Controller
      */
     public function prepare_item_for_response($item, $request, $additional_fields = [])
     {
+        $ledger = new LedgerAccounts();
         $item = (object) $item;
 
         $data = [

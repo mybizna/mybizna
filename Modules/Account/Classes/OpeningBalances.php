@@ -2,7 +2,14 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+
+use Modules\Account\Classes\Reports\TrialBalance;
+
+use Modules\Account\Classes\People;
+use Modules\Account\Classes\TaxAgencies;
+use Modules\Account\Classes\LedgerAccounts;
+
+class OpenBalances
 {
 
     /**
@@ -12,7 +19,7 @@ class Bank
      */
     function getAllOpeningBalances($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -65,7 +72,7 @@ class Bank
      */
     function getOpeningBalance($year_id)
     {
-        global $wpdb;
+       
 
         $rows = $wpdb->get_results(
             $wpdb->prepare(
@@ -87,7 +94,7 @@ class Bank
      */
     function getVirtualAcct($year_id)
     {
-        global $wpdb;
+       
 
         $rows = $wpdb->get_results(
             $wpdb->prepare(
@@ -112,9 +119,9 @@ class Bank
      */
     function insertOpeningBalance($data)
     {
-        global $wpdb;
+       
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
@@ -138,7 +145,7 @@ class Bank
             foreach ($ledgers as $ledger) {
                 if ((isset($ledger['debit']) && (float) $ledger['debit'] > 0) || (isset($ledger['credit']) && (float) $ledger['credit'] > 0)) {
                     $wpdb->insert(
-                        $wpdb->prefix . 'erp_acct_opening_balances',
+                        'erp_acct_opening_balances',
                         [
                             'financial_year_id' => $year_id,
                             'ledger_id'         => $ledger['ledger_id'],
@@ -158,7 +165,7 @@ class Bank
             $this->insertObVirAccounts($opening_balance_data, $year_id);
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('opening_balance-exception', $e->getMessage());
@@ -175,12 +182,12 @@ class Bank
      */
     function insertObVirAccounts($data, $year_id)
     {
-        global $wpdb;
+       
 
         if (!empty($data['acct_rec'])) {
             foreach ($data['acct_rec'] as $acct_rec) {
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_opening_balances',
+                    'erp_acct_opening_balances',
                     [
                         'financial_year_id' => $year_id,
                         'ledger_id'         => $acct_rec['people']['id'],
@@ -199,7 +206,7 @@ class Bank
         if (!empty($data['acct_pay'])) {
             foreach ($data['acct_pay'] as $acct_pay) {
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_opening_balances',
+                    'erp_acct_opening_balances',
                     [
                         'financial_year_id' => $year_id,
                         'ledger_id'         => $acct_pay['people']['id'],
@@ -218,7 +225,7 @@ class Bank
         if (!empty($data['tax_pay'])) {
             foreach ($data['tax_pay'] as $tax_pay) {
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_opening_balances',
+                    'erp_acct_opening_balances',
                     [
                         'financial_year_id' => $year_id,
                         'ledger_id'         => $tax_pay['agency']['id'],
@@ -269,7 +276,7 @@ class Bank
      */
     function getOpeningBalanceNames()
     {
-        global $wpdb;
+       
 
         $rows = $wpdb->get_results("SELECT id, name, start_date, end_date FROM {$wpdb->prefix}erp_acct_financial_years", ARRAY_A);
 
@@ -286,7 +293,7 @@ class Bank
     function getStartEndDate($year_id)
     {
         $dates = [];
-        global $wpdb;
+       
 
         $rows = $wpdb->get_row($wpdb->prepare("SELECT start_date, end_date FROM {$wpdb->prefix}erp_acct_financial_years WHERE id = %d", $year_id), ARRAY_A);
 
@@ -301,7 +308,9 @@ class Bank
      */
     function getObVirtualAcct($year_id)
     {
-        global $wpdb;
+       
+        $people = new People();
+        $taxagencies = new TaxAgencies();
 
         $vir_ac['acct_receivable'] = $wpdb->get_results($wpdb->prepare("SELECT ledger_id as people_id, debit, credit from {$wpdb->prefix}erp_acct_opening_balances where financial_year_id = %d and credit=0 and type='people'", $year_id), ARRAY_A);
 
@@ -347,15 +356,17 @@ class Bank
      *
      * @return mixed
      */
-    function get_ledger_balance_with_opening_balance($ledger_id, $start_date, $end_date)
+    function getLedgerBalanceWithOpeningBalance($ledger_id, $start_date, $end_date)
     {
-        global $wpdb;
+       
+        $trialbal = new TrialBalance();
+        $ledger = new LedgerAccounts();
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = (float) erp_acct_ledger_report_opening_balance_by_fn_year_id($closest_fy_date['id'], $ledger_id);
+        $opening_balance = (float) $reports->ledgerReportOpeningBalanceByFnYearId($closest_fy_date['id'], $ledger_id);
 
         // should we go further calculation, check the diff
         if (erp_acct_has_date_diff($start_date, $closest_fy_date['start_date'])) {
@@ -393,7 +404,7 @@ class Bank
 
         $final_balance = $opening_balance + $res['balance'];
 
-        $l_data = erp_acct_get_ledger_by_id($ledger_id);
+        $l_data = $ledger->getLedger($ledger_id);
 
         if (empty($l_data)) {
             return [];
@@ -419,7 +430,7 @@ class Bank
      */
     function getOpbInvoiceAccountDetails($fy_start_date)
     {
-        global $wpdb;
+       
 
         // mainly ( debit - credit )
         $sql = "SELECT SUM(balance) AS amount
@@ -440,7 +451,7 @@ class Bank
      */
     function getOpbBillPurchaseAccountDetails($fy_start_date)
     {
-        global $wpdb;
+       
 
         /**
          *? Why only bills, not expense?
@@ -467,7 +478,7 @@ class Bank
      */
     function getDateBoundary()
     {
-        global $wpdb;
+       
 
         $result = $wpdb->get_row("SELECT MIN(start_date) as lower, MAX(end_date) as upper FROM {$wpdb->prefix}erp_acct_financial_years", ARRAY_A);
 
@@ -479,7 +490,7 @@ class Bank
      */
     function getCurrentFinancialYear($date = '')
     {
-        global $wpdb;
+       
 
         if (empty($date)) {
             $date = date('Y-m-d');

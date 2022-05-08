@@ -5,8 +5,9 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\LedgerAccounts;
 
-class AccountsController extends Controller
+class TaxesController extends Controller
 {
 
     /**
@@ -282,7 +283,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        erp_acct_delete_tax_rate_line($id);
+        $this->deleteTaxRateLine($id);
 
         return new WP_REST_Response(true, 204);
     }
@@ -502,17 +503,6 @@ class AccountsController extends Controller
             $message  = sprintf(__('A tax payment of %1$s has been %2$s', 'erp'), $data['amount'], $operation);
         }
 
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => $sub_comp,
-                'old_value'     => '',
-                'new_value'     => '',
-                'message'       => $message,
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**
@@ -681,6 +671,9 @@ class AccountsController extends Controller
      */
     public function prepare_tax_pay_response($item, $request, $additional_fields = [])
     {
+
+        $taxagencies = new TaxAgencies();
+        $ledger = new LedgerAccounts();
         $item = (object) $item;
 
         $data = [

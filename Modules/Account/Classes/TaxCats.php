@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+class TaxCats
 {
 
     /**
@@ -12,7 +12,7 @@ class Bank
      */
     function getAllTaxCats($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -65,9 +65,25 @@ class Bank
      */
     function getTaxCat($tax_no)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_categories WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
+
+        return $row;
+    }
+
+        /**
+     * Get an single tax category
+     *
+     * @param $tax_no
+     *
+     * @return mixed
+     */
+    function getTaxCategoryById($id)
+    {
+       
+
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_categories WHERE id = %d LIMIT 1", $id), ARRAY_A);
 
         return $row;
     }
@@ -81,16 +97,16 @@ class Bank
      */
     function insertTaxCat($data)
     {
-        global $wpdb;
+       
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_tax_categories',
+            'erp_acct_tax_categories',
             [
                 'name'        => $tax_data['name'],
                 'description' => $tax_data['description'],
@@ -116,16 +132,16 @@ class Bank
      */
     function updateTaxCat($data, $id)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_tax_categories',
+            'erp_acct_tax_categories',
             [
                 'name'        => $tax_data['name'],
                 'description' => $tax_data['description'],
@@ -150,7 +166,7 @@ class Bank
      */
     function deleteTaxCat($id)
     {
-        global $wpdb;
+       
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_tax_categories', ['id' => $id]);
 

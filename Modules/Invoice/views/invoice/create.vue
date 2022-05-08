@@ -253,7 +253,7 @@
                                     >
                                         <img
                                             :src="
-                                                erp_acct_assets +
+                                               mybizna_assets +
                                                 '/images/file-thumb.png'
                                             "
                                         />
@@ -406,7 +406,7 @@ export default {
             finalTotalAmount: 0,
             inv_title: "",
             inv_type: {},
-            erp_acct_assets: this.$mybizna_var.acct_assets,
+           mybizna_assets: this.$mybizna_var.acct_assets,
             form_errors: [],
         };
     },

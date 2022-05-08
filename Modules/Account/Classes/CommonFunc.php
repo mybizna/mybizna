@@ -1,10 +1,72 @@
 <?php
 
-namespace Modules\Account\Classes\Reports;
+namespace Modules\Account\Classes;
 
-class Bank
+use Modules\Account\Classes\People;
+
+class CommonFunc
 {
 
+    /**
+     * Get global currency
+     *
+     * @since 1.1.6
+     *
+     * @return string
+     */
+    function getCurrency($get_only_id = false)
+    {
+       
+
+        $usd = 148;
+
+        $currency_id = config('erp_currency', $usd);
+
+        if ($get_only_id) {
+            return $currency_id;
+        }
+
+        $currency_name = $wpdb->get_var($wpdb->prepare(
+            "SELECT name FROM {$wpdb->prefix}erp_acct_currency_info WHERE id = %d",
+            $currency_id
+        ));
+
+        return $currency_name;
+    }
+
+
+    /**
+     * Get different array from two array
+     *
+     * @since 1.7.2
+     *
+     * @param array $new_data
+     * @param array $old_data
+     *
+     * @return array
+     */
+    function getArrayDiff($new_data, $old_data, $is_seriazie = false)
+    {
+        $old_value   = $new_value   = [];
+        $changes_key = array_keys(array_diff_assoc($new_data, $old_data));
+
+        foreach ($changes_key as $key => $change_field_key) {
+            $old_value[$change_field_key] = $old_data[$change_field_key];
+            $new_value[$change_field_key] = $new_data[$change_field_key];
+        }
+
+        if (!$is_seriazie) {
+            return [
+                'new_value' => $new_value ? base64_encode($new_value)  : '',
+                'old_value' => $old_value ? base64_encode($old_value)  : '',
+            ];
+        } else {
+            return [
+                'new_value' => $new_value,
+                'old_value' => $old_value,
+            ];
+        }
+    }
     /**
      * Upload attachments
      *
@@ -47,13 +109,13 @@ class Bank
      */
     function getPayables($from, $to)
     {
-        global $wpdb;
+       
 
         $from_date = date('Y-m-d', strtotime($from));
         $to_date   = date('Y-m-d', strtotime($to));
 
-        $purchases             = $wpdb->prefix . 'erp_acct_purchase';
-        $purchase_acct_details = $wpdb->prefix . 'erp_acct_purchase_account_details';
+        $purchases             = 'erp_acct_purchase';
+        $purchase_acct_details = 'erp_acct_purchase_account_details';
 
         $purchase_query = $wpdb->prepare(
             "Select voucher_no, SUM(ad.debit - ad.credit) as due, due_date
@@ -66,8 +128,8 @@ class Bank
 
         $purchase_results = $wpdb->get_results($purchase_query, ARRAY_A);
 
-        $bills             = $wpdb->prefix . 'erp_acct_bills';
-        $bill_acct_details = $wpdb->prefix . 'erp_acct_bill_account_details';
+        $bills             = 'erp_acct_bills';
+        $bill_acct_details = 'erp_acct_bill_account_details';
         $bills_query       = $wpdb->prepare(
             "Select voucher_no, SUM(ad.debit - ad.credit) as due, due_date
         FROM $bills LEFT JOIN $bill_acct_details as ad
@@ -162,10 +224,10 @@ class Bank
      */
     function insertCheckData($check_data)
     {
-        global $wpdb;
+       
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_expense_checks',
+            'erp_acct_expense_checks',
             [
                 'trn_no'       => $check_data['voucher_no'],
                 'check_no'     => $check_data['check_no'],
@@ -192,10 +254,10 @@ class Bank
      */
     function updateCheckData($check_data, $check_no)
     {
-        global $wpdb;
+       
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_expense_checks',
+            'erp_acct_expense_checks',
             [
                 'trn_no'       => $check_data['voucher_no'],
                 'voucher_type' => $check_data['voucher_type'],
@@ -223,7 +285,7 @@ class Bank
      */
     function getPeopleInfoById($people_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT first_name, last_name, email FROM {$wpdb->prefix}erp_peoples WHERE id = %d LIMIT 1", $people_id));
 
@@ -239,7 +301,7 @@ class Bank
      */
     function getLedgerById($ledger_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name, slug, code FROM {$wpdb->prefix}erp_acct_ledgers WHERE id = %d LIMIT 1", $ledger_id));
 
@@ -258,7 +320,7 @@ class Bank
      */
     function getLedgerBy($field = 'id', $value = '')
     {
-        global $wpdb;
+       
 
         $field = sanitize_text_field($field);
         // validate fields
@@ -285,7 +347,7 @@ class Bank
      */
     function getProductTypeById($product_type_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_product_types WHERE id = %d LIMIT 1", $product_type_id));
 
@@ -301,7 +363,7 @@ class Bank
      */
     function getProductCategoryById($cat_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_product_categories WHERE id = %d LIMIT 1", $cat_id));
 
@@ -317,7 +379,7 @@ class Bank
      */
     function getTaxAgencyById($agency_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1", $agency_id));
 
@@ -333,7 +395,7 @@ class Bank
      */
     function getTaxCategoryById($cat_id)
     {
-        global $wpdb;
+       
 
         if (null !== $cat_id) {
             return $wpdb->get_var($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_tax_categories WHERE id = %d", $cat_id));
@@ -351,7 +413,7 @@ class Bank
      */
     function getTrnStatusById($trn_id)
     {
-        global $wpdb;
+       
 
         if (!$trn_id) {
             return 'pending';
@@ -371,7 +433,7 @@ class Bank
      */
     function getPaymentMethodById($method_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_payment_methods WHERE id = %d LIMIT 1", $method_id));
 
@@ -387,7 +449,7 @@ class Bank
      */
     function getPaymentMethodNameById($method_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_payment_methods WHERE id = %d LIMIT 1", $method_id));
 
@@ -403,7 +465,7 @@ class Bank
      */
     function getCheckTrnTypeById($trn_type_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_check_trn_tables WHERE id = %d LIMIT 1", $trn_type_id));
 
@@ -422,7 +484,7 @@ class Bank
      */
     function getTaxRateWithAgency($tax_id, $tax_cat_id)
     {
-        global $wpdb;
+       
 
         return $wpdb->get_results(
             $wpdb->prepare(
@@ -446,7 +508,7 @@ class Bank
      */
     function getInvoiceItemsAgencyWiseTaxRate($invoice_details_id)
     {
-        global $wpdb;
+       
 
         $result = $wpdb->get_results(
             $wpdb->prepare(
@@ -559,7 +621,7 @@ class Bank
      */
     function checkVoucherEditState($id)
     {
-        global $wpdb;
+       
 
         $res = $wpdb->get_var($wpdb->prepare("SELECT editable FROM {$wpdb->prefix}erp_acct_voucher_no WHERE id = %d", $id));
 
@@ -578,6 +640,8 @@ class Bank
      */
     function existPeople($email, $types = [])
     {
+
+        $people = new People();
         $people = $people->getPeopleBy('email', $email);
 
         // this $email belongs to nobody
@@ -607,7 +671,7 @@ class Bank
      */
     function trnStatusById($slug)
     {
-        global $wpdb;
+       
 
         return $wpdb->get_var($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_acct_trn_status_types WHERE slug = %s", $slug));
     }
@@ -619,7 +683,7 @@ class Bank
      */
     function getAllTrnStatuses()
     {
-        global $wpdb;
+       
 
         return $wpdb->get_results("SELECT id,type_name as name, slug FROM {$wpdb->prefix}erp_acct_trn_status_types", ARRAY_A);
     }
@@ -639,11 +703,13 @@ class Bank
      */
     function customerCreateFromCrm($customer_id, $data, $people_type)
     {
+
+        $people = new People();
         if ('contact' === $people_type || 'company' === $people_type) {
-            $customer_auto_import = (int) erp_get_option('customer_auto_import', false, 0);
-            $crm_user_type        = erp_get_option('crm_user_type', false, []); // Contact or Company
+            $customer_auto_import = (int) config('customer_auto_import', false, 0);
+            $crm_user_type        = config('crm_user_type', false, []); // Contact or Company
             // Check whether the email already exists in Accounting
-            $exists_people        =$this-> existPeople($data['email'], ['customer', 'vendor']);
+            $exists_people        = $this->existPeople($data['email'], ['customer', 'vendor']);
 
             if (!$exists_people && $customer_auto_import && count($crm_user_type)) {
                 // No need to add wordpress `user id` again
@@ -667,7 +733,7 @@ class Bank
      */
     function insertBankTransactionChargeIntoLedger($payment_data)
     {
-        global $wpdb;
+       
 
         if (1 === $payment_data['status'] || (isset($payment_data['trn_by']) && 4 === $payment_data['trn_by'])) {
             return;
@@ -682,7 +748,7 @@ class Bank
         }
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             array(
                 'ledger_id'   => $ledger_data['id'],
                 'trn_no'      => $payment_data['voucher_no'],
@@ -698,7 +764,7 @@ class Bank
         );
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             array(
                 'ledger_id'   => $payment_data['trn_by_ledger_id'],
                 'trn_no'      => $payment_data['voucher_no'],
@@ -712,5 +778,50 @@ class Bank
                 'updated_by'  => $payment_data['updated_by'],
             )
         );
+    }
+
+    /**
+     * Get State name by country and state code
+     *
+     * @since 1.0
+     *
+     * @param string $country
+     * @param string $state
+     *
+     * @return string
+     */
+    function getStateName($country, $state)
+    {
+        $load_cuntries_states = \WeDevs\ERP\Countries::instance();
+        $states               = $load_cuntries_states->states;
+
+        // Handle full state name
+        $full_state = ($country && $state && isset($states[$country][$state])) ? $states[$country][$state] : $state;
+
+        return $full_state;
+    }
+
+    /**
+     * Get Country name by country code
+     *
+     * @since 1.0
+     *
+     * @param string $code
+     *
+     * @return string
+     */
+    function getCountryName($country)
+    {
+        $load_cuntries_states = \WeDevs\ERP\Countries::instance();
+        $countries            = $load_cuntries_states->countries;
+
+        // Handle full country name
+        if ('-1' != $country) {
+            $full_country = (isset($countries[$country])) ? $countries[$country] : $country;
+        } else {
+            $full_country = '—';
+        }
+
+        return $full_country;
     }
 }

@@ -1,6 +1,10 @@
 <?php
 
-namespace Modules\Account\Classes\Reports;
+namespace Modules\Account\Classes;
+
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\People;
+use Modules\Account\Classes\Transactions;
 
 class Bills
 {
@@ -14,7 +18,7 @@ class Bills
      */
     function getBills($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -55,7 +59,7 @@ class Bills
      */
     function getBill($bill_no)
     {
-        global $wpdb;
+       
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -82,13 +86,13 @@ class Bills
             $bill_no
         );
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 
         $row['bill_details'] = $this->formatBillLineItems($bill_no);
-        $row['pdf_link']    = $this-> pdfAbsPathToUrl($bill_no);
+        $row['pdf_link']    = $this->pdfAbsPathToUrl($bill_no);
         return $row;
     }
 
@@ -101,7 +105,7 @@ class Bills
      */
     function formatBillLineItems($voucher_no)
     {
-        global $wpdb;
+       
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -120,8 +124,8 @@ class Bills
             $voucher_no
         );
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         return $wpdb->get_results($sql, ARRAY_A);
     }
@@ -135,9 +139,14 @@ class Bills
      */
     function insertBill($data)
     {
-        global $wpdb;
+       
 
-        $created_by = get_current_user_id();
+        $common = new CommonFunc();
+        $people = new People();
+        $trans = new Transactions();
+
+        $trans
+        $created_by =auth()->user()->id;
         $voucher_no = null;
         $draft      = 1;
 
@@ -145,13 +154,13 @@ class Bills
         $data['created_by'] = $created_by;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $created_by;
-        $currency           = erp_get_currency(true);
+        $currency           = $common->getCurrency(true);
 
         try {
             $wpdb->query('START TRANSACTION');
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_voucher_no',
+                'erp_acct_voucher_no',
                 [
                     'type'       => 'bill',
                     'currency'   => $currency,
@@ -169,7 +178,7 @@ class Bills
             $bill_data['trn_no'] = $voucher_no;
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_bills',
+                'erp_acct_bills',
                 [
                     'voucher_no'  => $bill_data['voucher_no'],
                     'vendor_id'   => $bill_data['vendor_id'],
@@ -191,7 +200,7 @@ class Bills
 
             foreach ($items as $key => $item) {
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_bill_details',
+                    'erp_acct_bill_details',
                     [
                         'trn_no'      => $voucher_no,
                         'ledger_id'   => $item['ledger_id'],
@@ -212,7 +221,7 @@ class Bills
             }
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_bill_account_details',
+                'erp_acct_bill_account_details',
                 [
                     'bill_no'     => $voucher_no,
                     'trn_no'      => $voucher_no,
@@ -232,7 +241,7 @@ class Bills
             do_action('erp_acct_after_bill_create', $data, $voucher_no);
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('bill-exception', $e->getMessage());
@@ -258,9 +267,10 @@ class Bills
      */
     function updateBill($data, $bill_id)
     {
-        global $wpdb;
+       
+        $common = new CommonFunc();
 
-        $user_id    = get_current_user_id();
+        $user_id    =auth()->user()->id;
         $draft      = 1;
         $voucher_no = null;
 
@@ -268,7 +278,7 @@ class Bills
         $data['created_by'] = $user_id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $user_id;
-        $currency           = erp_get_currency(true);
+        $currency           = $common->getCurrency(true);
 
         try {
             $wpdb->query('START TRANSACTION');
@@ -281,7 +291,7 @@ class Bills
 
                 // insert contra voucher
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_voucher_no',
+                    'erp_acct_voucher_no',
                     [
                         'type'       => 'bill',
                         'currency'   => $currency,
@@ -329,7 +339,7 @@ class Bills
                 foreach ($items as $key => $item) {
                     // insert contra `erp_acct_bill_details`
                     $wpdb->insert(
-                        $wpdb->prefix . 'erp_acct_bill_details',
+                        'erp_acct_bill_details',
                         [
                             'trn_no'      => $voucher_no,
                             'ledger_id'   => $item['ledger_id'],
@@ -346,7 +356,7 @@ class Bills
 
                 // insert contra `erp_acct_bill_account_details`
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_bill_account_details',
+                    'erp_acct_bill_account_details',
                     [
                         'bill_no'     => $bill_id,
                         'trn_no'      => $voucher_no,
@@ -369,7 +379,7 @@ class Bills
             }
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('bill-exception', $e->getMessage());
@@ -389,12 +399,12 @@ class Bills
      */
     function updateDraftBill($data, $bill_id)
     {
-        global $wpdb;
+       
 
         $bill_data = $this->getFormattedBillData($data, $bill_id);
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_bills',
+            'erp_acct_bills',
             [
                 'vendor_id'   => $bill_data['vendor_id'],
                 'vendor_name' => $bill_data['vendor_name'],
@@ -430,7 +440,7 @@ class Bills
 
         foreach ($items as $item) {
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_bill_details',
+                'erp_acct_bill_details',
                 [
                     'trn_no'      => $bill_id,
                     'ledger_id'   => $item['ledger_id'],
@@ -441,7 +451,6 @@ class Bills
                 ]
             );
         }
-
     }
 
     /**
@@ -453,14 +462,14 @@ class Bills
      */
     function voidBill($id)
     {
-        global $wpdb;
+       
 
         if (!$id) {
             return;
         }
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_bills',
+            'erp_acct_bills',
             [
                 'status' => 8,
             ],
@@ -469,7 +478,6 @@ class Bills
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_bill_account_details', ['bill_no' => $id]);
-
     }
 
     /**
@@ -520,7 +528,7 @@ class Bills
      */
     function insertBillDataIntoLedger($bill_data, $item_data)
     {
-        global $wpdb;
+       
 
         $draft = 1;
 
@@ -530,7 +538,7 @@ class Bills
 
         // Insert items amount in ledger_details
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $item_data['ledger_id'],
                 'trn_no'      => $bill_data['voucher_no'],
@@ -557,9 +565,9 @@ class Bills
      */
     function updateBillDataIntoLedger($bill_data, $bill_no, $item_data)
     {
-        global $wpdb;
+       
 
-        $user_id = get_current_user_id();
+        $user_id =auth()->user()->id;
 
         $bill_data['created_at'] = date('Y-m-d H:i:s');
         $bill_data['created_by'] = $user_id;
@@ -567,7 +575,7 @@ class Bills
         $bill_data['updated_by'] = $user_id;
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $item_data['ledger_id'],
                 'trn_no'      => $bill_no,
@@ -590,9 +598,9 @@ class Bills
      */
     function getBillCount()
     {
-        global $wpdb;
+       
 
-        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . $wpdb->prefix . 'erp_acct_bills');
+        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_bills');
 
         return $row->count;
     }
@@ -606,7 +614,7 @@ class Bills
      */
     function getDueBillsByPeople($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -658,7 +666,7 @@ class Bills
      */
     function getBillDue($bill_no)
     {
-        global $wpdb;
+       
 
         $result = $wpdb->get_row($wpdb->prepare("SELECT bill_no, SUM( ba.debit - ba.credit) as due FROM {$wpdb->prefix}erp_acct_bill_account_details as ba WHERE ba.bill_no = %d GROUP BY ba.bill_no", $bill_no), ARRAY_A);
 

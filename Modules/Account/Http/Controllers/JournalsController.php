@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class AccountsController extends Controller
+class JournalsController extends Controller
 {
 
     /**
@@ -86,9 +86,9 @@ class AccountsController extends Controller
      */
     public function get_next_journal_id($request)
     {
-        global $wpdb;
+       
 
-        $count      = $wpdb->get_row('SELECT count(*) FROM ' . $wpdb->prefix . 'erp_acct_journals', ARRAY_N);
+        $count      = $wpdb->get_row('SELECT count(*) FROM ' . 'erp_acct_journals', ARRAY_N);
         $item['id'] = $count['0'] + 1;
 
         $response = rest_ensure_response($item);
@@ -144,18 +144,6 @@ class AccountsController extends Controller
      */
     public function add_log($data, $action)
     {
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Journal', 'erp'),
-                'old_value'     => '',
-                'new_value'     => '',
-                // translators: %s: amount
-                'message'       => sprintf(__('An journal of %s has been created', 'erp'), $data['voucher_amount']),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**

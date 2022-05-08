@@ -5,8 +5,12 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\Transactions;
+use Modules\Account\Classes\Invoices;
 
-class AccountsController extends Controller
+
+class InvoicesController extends Controller
 {
 
     /**
@@ -18,6 +22,8 @@ class AccountsController extends Controller
      */
     public function get_invoices($request)
     {
+        $invoices = new Invoices();
+
         $args = [
             'number'     => $request['per_page'],
             'offset'     => ($request['per_page'] * ($request['page'] - 1)),
@@ -69,6 +75,8 @@ class AccountsController extends Controller
      */
     public function get_invoice($request)
     {
+        $trans = new Transactions();
+        $invoices = new Invoices();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -108,6 +116,7 @@ class AccountsController extends Controller
      */
     public function create_invoice($request)
     {
+        $invoices = new Invoices();
         $invoice_data = $this->prepare_item_for_database($request);
 
         $item_total          = 0;
@@ -158,6 +167,8 @@ class AccountsController extends Controller
      */
     public function update_invoice($request)
     {
+        $common = new CommonFunc();
+        $invoices = new Invoices();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -242,6 +253,7 @@ class AccountsController extends Controller
      */
     public function due_invoices($request)
     {
+        $invoices = new Invoices();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -292,6 +304,7 @@ class AccountsController extends Controller
      */
     public function get_overview_receivables($request)
     {
+        $invoices = new Invoices();
         $items    = $invoices->getRecievablesOverview();
         $response = rest_ensure_response($items);
 
@@ -330,11 +343,13 @@ class AccountsController extends Controller
      */
     public function add_log($id, $action, $old_data = [])
     {
+        $common = new CommonFunc();
+        $invoices = new Invoices();
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
                 $data      = $invoices->getInvoice($id);
-                $changes   = !empty($old_data) ? erp_get_array_diff((array) $data, (array) $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff((array) $data, (array) $old_data) : [];
                 unset($changes['pdf_link'], $changes['attachments'], $changes['line_items']);
                 break;
             case 'delete':
@@ -343,18 +358,6 @@ class AccountsController extends Controller
             default:
                 $operation = 'created';
         }
-
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Invoice', 'erp'),
-                'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
-                'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('An invoice of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, $people->getPeopleNameByPeopleId($data['customer_id'])),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**

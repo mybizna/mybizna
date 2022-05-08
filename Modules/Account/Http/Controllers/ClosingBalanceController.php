@@ -6,7 +6,10 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class Accounts extends Controller
+
+use Modules\Account\Classes\Reports\TrialBalance;
+
+class ClosingBalanceController extends Controller
 {
 
     /**
@@ -70,6 +73,8 @@ class Accounts extends Controller
      */
     public function get_closest_fn_year($request)
     {
+        $trialbal = new TrialBalance();
+
         $data     = $trialbal->getClosestFnYearDate(date('Y-m-d'));
         $response = rest_ensure_response($data);
 

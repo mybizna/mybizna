@@ -2,7 +2,13 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+use Modules\Account\Classes\CommonFunc;
+
+use Modules\Account\Classes\People;
+use Modules\Account\Classes\Invoices;
+use Modules\Account\Classes\Bank;
+
+class RecPayments
 {
     /**
      * Get all payments
@@ -11,7 +17,7 @@ class Bank
      */
     function getPayments($args = [])
     {
-        global $wpdb;
+
 
         $defaults = [
             'number'  => 20,
@@ -52,7 +58,7 @@ class Bank
      */
     function getPayment($invoice_no)
     {
-        global $wpdb;
+
 
         $sql = "SELECT
                 pay_inv.id,
@@ -84,13 +90,13 @@ class Bank
 
             WHERE pay_inv.voucher_no = {$invoice_no}";
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 
         $row['line_items'] = $this->formatPaymentLineItems($invoice_no);
-        $row['pdf_link']   = $this-> pdfAbsPathToUrl($invoice_no);
+        $row['pdf_link']   = $this->pdfAbsPathToUrl($invoice_no);
 
         return $row;
     }
@@ -104,13 +110,17 @@ class Bank
      */
     function insertPayment($data)
     {
-        global $wpdb;
 
-        $created_by         = get_current_user_id();
+        $common = new CommonFunc();
+        $people = new People();
+        $trans = new Transactions(); 
+        $bank = new Bank();
+
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
         $voucher_no         = null;
-        $currency           = erp_get_currency(true);
+        $currency           = $common->getCurrency(true);
 
         try {
             $wpdb->query('START TRANSACTION');
@@ -122,7 +132,7 @@ class Bank
             }
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_voucher_no',
+                'erp_acct_voucher_no',
                 [
                     'type'       => $trn_type,
                     'currency'   => $currency,
@@ -145,7 +155,7 @@ class Bank
             }
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_invoice_receipts',
+                'erp_acct_invoice_receipts',
                 [
                     'voucher_no'         => $voucher_no,
                     'customer_id'        => $payment_data['customer_id'],
@@ -175,7 +185,7 @@ class Bank
 
                 $payment_data['amount'] = $total;
 
-                $recpayments->insertPaymentLineItems($payment_data, $item, $voucher_no);
+                $this->insertPaymentLineItems($payment_data, $item, $voucher_no);
             }
 
             if (isset($payment_data['trn_by']) && 3 === $payment_data['trn_by']) {
@@ -202,7 +212,7 @@ class Bank
 
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('payment-exception', $e->getMessage());
@@ -212,7 +222,7 @@ class Bank
             $this->changeInvoiceStatus($item['invoice_no']);
         }
 
-        $payment = $recpayments->getPayment($voucher_no);
+        $payment = $this->getPayment($voucher_no);
 
         $payment['email'] = $people->getPeopleEmail($data['customer_id']);
 
@@ -233,15 +243,15 @@ class Bank
      */
     function insertPaymentLineItems($data, $item, $voucher_no)
     {
-        global $wpdb;
+
 
         $payment_data               = $this->getFormattedPaymentData($data, $voucher_no, $item['invoice_no']);
-        $created_by                 = get_current_user_id();
+        $created_by                 =auth()->user()->id;
         $payment_data['created_at'] = date('Y-m-d H:i:s');
         $payment_data['created_by'] = $created_by;
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_invoice_receipts_details',
+            'erp_acct_invoice_receipts_details',
             [
                 'voucher_no' => $voucher_no,
                 'invoice_no' => $item['invoice_no'],
@@ -267,7 +277,7 @@ class Bank
         }
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_invoice_account_details',
+            'erp_acct_invoice_account_details',
             [
                 'invoice_no'  => $item['invoice_no'],
                 'trn_no'      => $voucher_no,
@@ -297,9 +307,10 @@ class Bank
      */
     function updatePayment($data, $voucher_no)
     {
-        global $wpdb;
 
-        $updated_by         = get_current_user_id();
+        $common = new CommonFunc();
+
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -309,7 +320,7 @@ class Bank
             $payment_data = $this->getFormattedPaymentData($data, $voucher_no);
 
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_invoice_receipts',
+                'erp_acct_invoice_receipts',
                 [
                     'trn_date'         => $payment_data['trn_date'],
                     'particulars'      => $payment_data['particulars'],
@@ -336,7 +347,7 @@ class Bank
 
                 $payment_data['amount'] = $total;
 
-                erp_acct_update_payment_line_items($payment_data, $voucher_no, $invoice_no[$key]);
+                $this->updatePaymentLineItems($payment_data, $voucher_no, $invoice_no[$key]);
             }
 
             if (isset($payment_data['trn_by']) && 3 === $payment_data['trn_by']) {
@@ -344,7 +355,7 @@ class Bank
             }
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('payment-exception', $e->getMessage());
@@ -354,7 +365,7 @@ class Bank
             $this->changeInvoiceStatus($item['invoice_no']);
         }
 
-        return $recpayments->getPayment($voucher_no);
+        return $this->getPayment($voucher_no);
     }
 
     /**
@@ -369,12 +380,12 @@ class Bank
      */
     function updatePaymentLineItems($data, $invoice_no, $voucher_no)
     {
-        global $wpdb;
+
 
         $payment_data = $this->getFormattedPaymentData($data, $voucher_no, $invoice_no);
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_invoice_receipts_details',
+            'erp_acct_invoice_receipts_details',
             [
                 'voucher_no' => $voucher_no,
                 'amount'     => abs($payment_data['amount']),
@@ -402,7 +413,7 @@ class Bank
         }
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_invoice_account_details',
+            'erp_acct_invoice_account_details',
             [
                 'trn_no'      => $voucher_no,
                 'particulars' => $payment_data['particulars'],
@@ -435,6 +446,7 @@ class Bank
      */
     function getFormattedPaymentData($data, $voucher_no, $invoice_no = 0)
     {
+        $people = new People();
         $payment_data = [];
 
         // We can pass the name from view... to reduce query load
@@ -480,7 +492,7 @@ class Bank
      */
     function deletePayment($id)
     {
-        global $wpdb;
+
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_receipts', ['voucher_no' => $id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_receipts_details', ['voucher_no' => $id]);
@@ -496,14 +508,14 @@ class Bank
      */
     function voidPayment($id)
     {
-        global $wpdb;
+
 
         if (!$id) {
             return;
         }
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_invoice_receipts',
+            'erp_acct_invoice_receipts',
             [
                 'status' => 8,
             ],
@@ -523,13 +535,14 @@ class Bank
      */
     function changeInvoiceStatus($invoice_no)
     {
-        global $wpdb;
+
+        $invoices = new Invoices();
 
         $due = (float) $invoices->getInvoiceDue($invoice_no);
 
         if (0.00 === $due) {
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_invoices',
+                'erp_acct_invoices',
                 [
                     'status' => 4,
                 ],
@@ -537,7 +550,7 @@ class Bank
             );
         } else {
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_invoices',
+                'erp_acct_invoices',
                 [
                     'status' => 5,
                 ],
@@ -555,7 +568,7 @@ class Bank
      */
     function insertPaymentDataIntoLedger($payment_data)
     {
-        global $wpdb;
+
 
         if (1 === $payment_data['status'] || (isset($payment_data['trn_by']) && 4 === $payment_data['trn_by'])) {
             return;
@@ -572,7 +585,7 @@ class Bank
 
         // Insert amount in ledger_details
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $payment_data['trn_by_ledger_id'],
                 'trn_no'      => $payment_data['voucher_no'],
@@ -598,7 +611,7 @@ class Bank
      */
     function updatePaymentDataInLedger($payment_data, $invoice_no)
     {
-        global $wpdb;
+
 
         if (1 === $payment_data['status'] || (isset($payment_data['trn_by']) && 4 === $payment_data['trn_by'])) {
             return;
@@ -615,7 +628,7 @@ class Bank
 
         // Update amount in ledger_details
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $payment_data['trn_by_ledger_id'],
                 'particulars' => $payment_data['particulars'],
@@ -640,9 +653,9 @@ class Bank
      */
     function getPaymentCount()
     {
-        global $wpdb;
 
-        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . $wpdb->prefix . 'erp_acct_invoice_receipts');
+
+        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_invoice_receipts');
 
         return $row->count;
     }
@@ -656,7 +669,7 @@ class Bank
      */
     function formatPaymentLineItems($invoice = 'all')
     {
-        global $wpdb;
+
 
         $sql = 'SELECT inv_rec_detail.id, inv_rec_detail.voucher_no, inv_rec_detail.invoice_no, inv_rec_detail.amount, voucher.type ';
 

@@ -1,21 +1,31 @@
 <?php
 
 
-namespace Modules\Account\Classes\Reports;
+
+namespace Modules\Account\Classes;
+
+
+use Modules\Account\Classes\Reports\TrialBalance;
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\LedgerAccounts;
 
 class Bank
 {
 
+
     /**
      * Get all bank accounts
      *
-     * @param $data
-     *
-     * @return mixed
+     * @param boolean $show_balance If to show balance
+     * @param boolean $with_cash    If has cash
+     * @param boolean $no_bank      No Bank
+     * 
+     * @return array
      */
     function getBanks($show_balance = false, $with_cash = false, $no_bank = false)
     {
-        global $wpdb;
+        $trialbal = new TrialBalance();
+        $ledger = new LedgerAccounts();
 
         $args               = [];
         $args['start_date'] = date('Y-m-d');
@@ -24,7 +34,7 @@ class Bank
         $args['start_date'] = $closest_fy_date['start_date'];
         $args['end_date']   = $closest_fy_date['end_date'];
 
-        $ledgers   = $wpdb->prefix . 'erp_acct_ledgers';
+        $ledgers   = 'erp_acct_ledgers';
         $show_all  = false;
         $cash_only = false;
         $bank_only = false;
@@ -59,7 +69,7 @@ class Bank
         }
 
         $sub_query      = "SELECT id FROM $ledgers" . $where . $cash_ledger;
-        $ledger_details = $wpdb->prefix . 'erp_acct_ledger_details';
+        $ledger_details = 'erp_acct_ledger_details';
         $query          = "Select l.id, ld.ledger_id, l.code, l.name, SUM(ld.debit - ld.credit) as balance
               From $ledger_details as ld
               LEFT JOIN $ledgers as l ON l.id = ld.ledger_id
@@ -129,12 +139,12 @@ class Bank
     /**
      * Get all accounts to show in dashboard
      *
-     * @param $data
-     *
      * @return mixed
      */
     function getDashboardBanks()
     {
+        $trialbal = new TrialBalance();
+
         $args               = [];
         $args['start_date'] = date('Y-m-d');
 
@@ -156,13 +166,13 @@ class Bank
 
         $results[] = [
             'name'       => __('Cash at Bank', 'erp'),
-            'balance'    =>$trialbal->cashAtBank($args, 'balance'),
+            'balance'    => $trialbal->cashAtBank($args, 'balance'),
             'additional' => $trialbal->bankBalance($args, 'balance'),
         ];
 
         $results[] = [
             'name'       => __('Bank Loan', 'erp'),
-            'balance'    =>$trialbal->cashAtBank($args, 'loan'),
+            'balance'    => $trialbal->cashAtBank($args, 'loan'),
             'additional' => $trialbal->bankBalance($args, 'loan'),
         ];
 
@@ -172,13 +182,13 @@ class Bank
     /**
      * Get a single bank account
      *
-     * @param $bank_no
+     * @param int $bank_no Bank No
      *
      * @return mixed
      */
     function getBank($bank_no)
     {
-        global $wpdb;
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_cash_at_banks WHERE ledger_id = %d", $bank_no), ARRAY_A);
 
@@ -188,14 +198,13 @@ class Bank
     /**
      * Insert a bank account
      *
-     * @param $data
-     * @param $bank_id
+     * @param array $data sPassed Data
      *
      * @return int
      */
     function insertBank($data)
     {
-        global $wpdb;
+
 
         $bank_data = $this->getFormattedBankData($data);
 
@@ -203,14 +212,14 @@ class Bank
             $wpdb->query('START TRANSACTION');
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_cash_at_banks',
+                'erp_acct_cash_at_banks',
                 [
                     'ledger_id' => $bank_data['ledger_id'],
                 ]
             );
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('bank-account-exception', $e->getMessage());
@@ -222,19 +231,19 @@ class Bank
     /**
      * Delete a bank account
      *
-     * @param $id
+     * @param int $id Bank Id
      *
      * @return int
      */
     function deleteBank($id)
     {
-        global $wpdb;
+
 
         try {
             $wpdb->query('START TRANSACTION');
             $wpdb->delete($wpdb->prefix . 'erp_acct_cash_at_banks', ['ledger_id' => $id]);
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('bank-account-exception', $e->getMessage());
@@ -246,11 +255,11 @@ class Bank
     /**
      * Get formatted bank data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $bank_data Bank Data
      *
      * @return mixed
      */
+
     function getFormattedBankData($bank_data)
     {
         $bank_data['ledger_id'] = !empty($bank_data['ledger_id']) ? $bank_data['ledger_id'] : 0;
@@ -261,11 +270,13 @@ class Bank
     /**
      * Get balance of a single account
      *
-     * @param $ledger_id
+     * @param int $ledger_id ledger Id
+     * 
+     * @return mixed
      */
     function getSingleAccountBalance($ledger_id)
     {
-        global $wpdb;
+
 
         $result = $wpdb->get_row($wpdb->prepare("SELECT ledger_id, SUM(credit) - SUM(debit) AS 'balance' FROM {$wpdb->prefix}erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
 
@@ -273,13 +284,15 @@ class Bank
     }
 
     /**
-     * @param $ledger_id
+     * Get account debit credit
+     * 
+     * @param int $ledger_id Ledger Id
      *
      * @return array
      */
     function getAccountDebitCredit($ledger_id)
     {
-        global $wpdb;
+
         $dr_cr = [];
 
         $dr_cr['debit']  = $wpdb->get_var($wpdb->prepare("SELECT SUM(debit) FROM {$wpdb->prefix}erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id));
@@ -291,22 +304,26 @@ class Bank
     /**
      * Perform transfer amount between two account
      *
-     * @param $item
+     * @param array $item Record to transfer
+     * 
+     * @return mixed
      */
     function performTransfer($item)
     {
-        global $wpdb;
-        $created_by = get_current_user_id();
+
+
+        $common = new CommonFunc();
+        $created_by =auth()->user()->id;
         $created_at = date('Y-m-d');
         $updated_at = date('Y-m-d');
         $updated_by = $created_by;
-        $currency   = erp_get_currency(true);
+        $currency   = $common->getCurrency(true);
 
         try {
             $wpdb->query('START TRANSACTION');
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_voucher_no',
+                'erp_acct_voucher_no',
                 [
                     'type'       => 'transfer_voucher',
                     'currency'   => $currency,
@@ -321,7 +338,7 @@ class Bank
 
             // Inset transfer amount in ledger_details
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_ledger_details',
+                'erp_acct_ledger_details',
                 [
                     'ledger_id'   => $item['from_account_id'],
                     'trn_no'      => $voucher_no,
@@ -337,7 +354,7 @@ class Bank
             );
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_ledger_details',
+                'erp_acct_ledger_details',
                 [
                     'ledger_id'   => $item['to_account_id'],
                     'trn_no'      => $voucher_no,
@@ -353,7 +370,7 @@ class Bank
             );
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_transfer_voucher',
+                'erp_acct_transfer_voucher',
                 [
                     'voucher_no'  => $voucher_no,
                     'amount'      => $item['amount'],
@@ -369,7 +386,7 @@ class Bank
             );
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('transfer-exception', $e->getMessage());
@@ -378,16 +395,18 @@ class Bank
 
     /**
      * Sync dashboard account on transfer
+     * 
+     * @return mixed
      */
     function syncDashboardAccounts()
     {
-        global $wpdb;
+
 
         $accounts = $this->GetBanks(true, true, false);
 
         foreach ($accounts as $account) {
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_cash_at_banks',
+                'erp_acct_cash_at_banks',
                 [
                     'balance' => $account['balance'],
                 ],
@@ -400,6 +419,8 @@ class Bank
 
     /**
      * Get transferrable accounts
+     * 
+     * @return array
      */
     function getTransferAccounts($show_balance = false)
     {
@@ -411,13 +432,13 @@ class Bank
     /**
      * Get created Transfer voucher list
      *
-     * @param array $args
+     * @param array $args Vourchers Filters
      *
      * @return array
      */
     function getTransferVouchers($args = [])
     {
-        global $wpdb;
+
 
         $defaults = [
             'number'   => 20,
@@ -450,7 +471,7 @@ class Bank
      */
     function getSingleVoucher($id)
     {
-        global $wpdb;
+
 
         if (!$id) {
             return;
@@ -464,7 +485,7 @@ class Bank
     /**
      * Get balance by Ledger ID
      *
-     * @param $id array
+     * @param int $id Ledger Id
      *
      * @return array
      */
@@ -474,8 +495,8 @@ class Bank
             $id = "'" . implode("','", $id) . "'";
         }
 
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'erp_acct_ledger_details';
+
+        $table_name = 'erp_acct_ledger_details';
         $query      = "Select ld.ledger_id,SUM(ld.debit - ld.credit) as balance From $table_name as ld Where ld.ledger_id IN ($id) Group BY ld.ledger_id ";
         $result     = $wpdb->get_results($query, ARRAY_A);
 
@@ -484,8 +505,6 @@ class Bank
 
     /**
      * Get bank accounts dropdown with cash
-     *
-     * @param $id array
      *
      * @return array
      */

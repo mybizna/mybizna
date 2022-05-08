@@ -243,7 +243,7 @@
                                     >
                                         <img
                                             :src="
-                                                erp_acct_assets +
+                                               mybizna_assets +
                                                 '/images/file-thumb.png'
                                             "
                                         />
@@ -355,7 +355,7 @@ export default {
             isWorking: false,
             accts_by_chart: [],
             bank_accts: [],
-            erp_acct_assets: this.$mybizna_var.acct_assets /* global this.$mybizna_var */,
+           mybizna_assets: this.$mybizna_var.acct_assets /* global this.$mybizna_var */,
         };
     },
 

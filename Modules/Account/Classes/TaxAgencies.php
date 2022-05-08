@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+class TaxAgencies
 {
     /**
      * Get all tax agencies
@@ -11,7 +11,7 @@ class Bank
      */
     function getAllTaxAgencies($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -65,12 +65,26 @@ class Bank
      */
     function getTaxAgency($tax_no)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
 
         return $row;
-    }
+      /**
+     * Get an single tax agency
+     *
+     * @param $tax_no
+     *
+     * @return mixed
+     */
+    function getTaxAgencyById($id)
+    {
+       
+
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1", $id), ARRAY_A);
+
+        return $row;
+    }}
 
     /**
      * Insert tax agency
@@ -81,16 +95,16 @@ class Bank
      */
     function insertTaxAgency($data)
     {
-        global $wpdb;
+       
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_tax_agencies',
+            'erp_acct_tax_agencies',
             [
                 'name'       => $tax_data['agency_name'],
                 'created_at' => $tax_data['created_at'],
@@ -115,16 +129,16 @@ class Bank
      */
     function updateTaxAgency($data, $id)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_tax_agencies',
+            'erp_acct_tax_agencies',
             [
                 'name'       => $tax_data['agency_name'],
                 'updated_at' => $tax_data['updated_at'],
@@ -148,7 +162,7 @@ class Bank
      */
     function deleteTaxAgency($id)
     {
-        global $wpdb;
+       
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_tax_agencies', ['id' => $id]);
 
@@ -165,7 +179,7 @@ class Bank
      */
     function getTaxAgencyNameById($agency_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row(
             $wpdb->prepare(
@@ -185,9 +199,9 @@ class Bank
      *
      * @return mixed
      */
-    function erp_acct_get_agency_due($agency_id)
+    function getAgencyDue($agency_id)
     {
-        global $wpdb;
+       
 
         return $wpdb->get_var($wpdb->prepare("SELECT SUM( credit - debit ) as tax_due From {$wpdb->prefix}erp_acct_tax_agency_details WHERE agency_id = %d", $agency_id));
     }

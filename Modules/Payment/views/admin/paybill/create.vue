@@ -532,12 +532,12 @@ export default {
                         }
                     });
                 });
-                /* global erp_reimbursement_var */
+                /* globalmybizna_reimbursement_var */
             } else if (this.basic_fields.trn_by.id === "4") {
                 if (
-                    erp_reimbursement_var.erp_reimbursement_module !==
+                   mybizna_reimbursement_var.erp_reimbursement_module !==
                         "undefined" &&
-                    erp_reimbursement_var.erp_reimbursement_module === "1"
+                   mybizna_reimbursement_var.erp_reimbursement_module === "1"
                 ) {
                     window.axios
                         .get("/people-transactions/balances")

@@ -275,7 +275,7 @@
                                     >
                                         <img
                                             :src="
-                                                erp_acct_assets +
+                                               mybizna_assets +
                                                 '/images/file-thumb.png'
                                             "
                                         />
@@ -395,7 +395,7 @@ export default {
             attachments: [],
             transactionLines: [],
             finalTotalAmount: 0,
-            erp_acct_assets: this.$mybizna_var.acct_assets /* global this.$mybizna_var */,
+           mybizna_assets: this.$mybizna_var.acct_assets /* global this.$mybizna_var */,
             isWorking: false,
             purchase_title: "",
             purchase_order: 0,

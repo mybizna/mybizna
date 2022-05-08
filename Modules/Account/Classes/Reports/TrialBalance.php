@@ -19,7 +19,7 @@ class TrialBalance
      */
     function cashAtBank($args, $type)
     {
-        global $wpdb;
+       
 
         $balance = 0;
         $result  = 0;
@@ -57,7 +57,7 @@ class TrialBalance
      */
     function bankBalance($args, $type)
     {
-        global $wpdb;
+       
 
         $balance = null;
 
@@ -85,7 +85,7 @@ class TrialBalance
      */
     function salesTaxQuery($args, $type)
     {
-        global $wpdb;
+       
 
         if ('payable' === $type) {
             $having = 'HAVING balance < 0';
@@ -109,7 +109,7 @@ class TrialBalance
      */
     function getAccountReceivable($args)
     {
-        global $wpdb;
+       
 
         // mainly ( debit - credit )
         $sql = "SELECT SUM(balance) AS amount
@@ -130,7 +130,7 @@ class TrialBalance
      */
     function getAccountPayable($args)
     {
-        global $wpdb;
+       
 
         /**
          *? Why only bills, not expense?
@@ -161,7 +161,7 @@ class TrialBalance
      */
     function getOwnersEquity($args, $type)
     {
-        global $wpdb;
+       
 
         if ('capital' === $type) {
             $having = 'HAVING balance < 0';
@@ -210,7 +210,7 @@ class TrialBalance
      */
     function calculatePeopleBalance($sql, $start_date, $end_date)
     {
-        global $wpdb;
+       
 
         $balance = 0;
         $query   = $wpdb->get_var($wpdb->prepare($sql, $start_date, $end_date));
@@ -276,7 +276,7 @@ class TrialBalance
      */
     function getBalanceWithinLedgerDetailsAndTrialBalance($sql, $temp_data)
     {
-        global $wpdb;
+       
 
         $result = [];
 
@@ -317,7 +317,7 @@ class TrialBalance
      */
     function calcWithOpeningBalance($tb_start_date, $data, $sql)
     {
-        global $wpdb;
+       
 
         $result = [];
 
@@ -325,7 +325,7 @@ class TrialBalance
         $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance = erp_acct_opening_balance_by_fn_year_id($closest_fy_date['id']);
+        $opening_balance =$open_balance->openingBalanceByFnYearId($closest_fy_date['id']);
 
         $ledgers = $wpdb->get_results(
             "SELECT ledger.id, ledger.chart_id, ledger.name FROM {$wpdb->prefix}erp_acct_ledgers AS ledger
@@ -369,7 +369,7 @@ class TrialBalance
      */
     function bankCashCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
-        global $wpdb;
+       
 
         // get closest financial year id and start date
         $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
@@ -415,7 +415,7 @@ class TrialBalance
      */
     function bankBalanceCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
-        global $wpdb;
+       
 
         $chart_bank = 7;
 
@@ -455,7 +455,7 @@ class TrialBalance
      */
     function salesTaxCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
-        global $wpdb;
+       
 
         // get closest financial year id and start date
         $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
@@ -503,7 +503,7 @@ class TrialBalance
      */
     function peopleCalcWithOpeningBalance($tb_date, $data, $type, $sql1, $sql2 = null)
     {
-        global $wpdb;
+       
 
         // get closest financial year id and start date
         $closest_fy_date = $this->getClosestFnYearDate($tb_date['start_date']);
@@ -538,7 +538,7 @@ class TrialBalance
      */
     function calcWithPeopleAccountDetails($closest_fy_start_date, $tb_end_date, $type)
     {
-        global $wpdb;
+       
 
         if ('payable' === $type) {
             $having = 'HAVING balance < 0';
@@ -568,7 +568,7 @@ class TrialBalance
      */
     function ownersEquityCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
-        global $wpdb;
+       
 
         // get closest financial year id and start date
         $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
@@ -611,7 +611,7 @@ class TrialBalance
      */
     function getClosestFnYearDate($date)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT id, name, start_date, end_date FROM {$wpdb->prefix}erp_acct_financial_years WHERE start_date <= '%s' ORDER BY start_date DESC LIMIT 1";
 
@@ -628,7 +628,7 @@ class TrialBalance
      */
     function openingBalanceByFnYearId($id, $chart_id = null)
     {
-        global $wpdb;
+       
 
         $where = '';
 
@@ -655,7 +655,7 @@ class TrialBalance
      */
     function bankCashOpeningBalanceByFnYearId($id)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT SUM(opb.balance) AS balance FROM (SELECT SUM( debit - credit ) AS balance
             FROM {$wpdb->prefix}erp_acct_opening_balances WHERE financial_year_id = %d AND chart_id = 7
@@ -674,7 +674,7 @@ class TrialBalance
      */
     function salesTaxOpeningBalanceByFnYearId($id, $type)
     {
-        global $wpdb;
+       
 
         if ('payable' === $type) {
             $having = 'HAVING balance < 0';
@@ -699,7 +699,7 @@ class TrialBalance
      */
     function bankBalanceOpeningBalanceByFnYearId($id)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
         FROM {$wpdb->prefix}erp_acct_ledgers AS ledger
@@ -719,7 +719,7 @@ class TrialBalance
      */
     function ownersEquityOpeningBalanceByFnYearId($id, $type)
     {
-        global $wpdb;
+       
 
         if ('capital' === $type) {
             $having = 'HAVING balance < 0';
@@ -737,7 +737,7 @@ class TrialBalance
 
     function peopleOpeningBalanceByFnYearId($id, $type)
     {
-        global $wpdb;
+       
 
         if ('payable' === $type) {
             $having = 'HAVING balance < 0';
@@ -759,7 +759,7 @@ class TrialBalance
      */
     function getTrialBalance($args)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT ledger.id, ledger.chart_id, ledger.name, SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM {$wpdb->prefix}erp_acct_ledgers AS ledger

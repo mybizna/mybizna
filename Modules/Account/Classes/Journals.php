@@ -2,7 +2,9 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+use Modules\Account\Classes\CommonFunc;
+
+class Journals
 {
 
     /**
@@ -12,7 +14,7 @@ class Bank
      */
     function getAllJournals($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -81,7 +83,7 @@ class Bank
      */
     function getJournal($journal_no)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT
 
@@ -120,20 +122,20 @@ class Bank
      */
     function insertJournal($data)
     {
-        global $wpdb;
+       
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
         $voucher_no = null;
-        $currency   = erp_get_currency(true);
+        $currency   = $common->getCurrency(true);
 
         try {
             $wpdb->query('START TRANSACTION');
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_voucher_no',
+                'erp_acct_voucher_no',
                 [
                     'type'       => 'journal',
                     'currency'   => $currency,
@@ -149,7 +151,7 @@ class Bank
             $journal_data = $this->getFormattedJournalData($data, $voucher_no);
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_journals',
+                'erp_acct_journals',
                 [
                     'voucher_no'     => $voucher_no,
                     'trn_date'       => $journal_data['trn_date'],
@@ -168,7 +170,7 @@ class Bank
 
             foreach ($items as $key => $item) {
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_journal_details',
+                    'erp_acct_journal_details',
                     [
                         'trn_no'      => $voucher_no,
                         'ledger_id'   => $item['ledger_id'],
@@ -183,7 +185,7 @@ class Bank
                 );
 
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_ledger_details',
+                    'erp_acct_ledger_details',
                     [
                         'ledger_id'   => $item['ledger_id'],
                         'trn_no'      => $voucher_no,
@@ -200,7 +202,7 @@ class Bank
             }
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('journal-exception', $e->getMessage());
@@ -219,9 +221,9 @@ class Bank
      */
     function updateJournal($data, $journal_no)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -231,7 +233,7 @@ class Bank
             $journal_data = $journals->getFormattedJournalData($data, $journal_no);
 
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_journals',
+                'erp_acct_journals',
                 [
                     'trn_date'       => $journal_data['trn_date'],
                     'ref'            => $journal_data['ref'],
@@ -252,7 +254,7 @@ class Bank
 
             foreach ($items as $key => $item) {
                 $wpdb->update(
-                    $wpdb->prefix . 'erp_acct_journal_details',
+                    'erp_acct_journal_details',
                     [
                         'ledger_id'   => $item['ledger_id'],
                         'particulars' => empty($item['particulars']) ? $journal_data['particulars'] : $item['particulars'],
@@ -269,7 +271,7 @@ class Bank
                 );
 
                 $wpdb->update(
-                    $wpdb->prefix . 'erp_acct_ledger_details',
+                    'erp_acct_ledger_details',
                     [
                         'ledger_id'   => $item['ledger_id'],
                         'particulars' => empty($item['particulars']) ? $journal_data['particulars'] : $item['particulars'],
@@ -288,7 +290,7 @@ class Bank
             }
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('journal-exception', $e->getMessage());
@@ -336,7 +338,8 @@ class Bank
      */
     function formatJournalData($item, $journal_no)
     {
-        global $wpdb;
+       
+        $ledger = new LedgerAccounts();
 
         $sql = "SELECT
                 journal.id,

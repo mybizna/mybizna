@@ -2,7 +2,11 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\Bills;
+use Modules\Account\Classes\People;
+
+class PayBills
 {
     /**
      * Get all pay_bills
@@ -13,7 +17,7 @@ class Bank
      */
     function getPayBills($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -52,7 +56,7 @@ class Bank
      */
     function getPayBill($bill_no)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row(
             $wpdb->prepare(
@@ -77,7 +81,7 @@ class Bank
         );
 
         $row['bill_details'] = $this->formatPaybillLineItems($bill_no);
-        $row['pdf_link']    = $this-> pdfAbsPathToUrl($bill_no);
+        $row['pdf_link']    = $this->pdfAbsPathToUrl($bill_no);
 
         return $row;
     }
@@ -87,7 +91,7 @@ class Bank
      */
     function formatPaybillLineItems($voucher_no)
     {
-        global $wpdb;
+       
 
         return $wpdb->get_results(
             $wpdb->prepare(
@@ -115,22 +119,23 @@ class Bank
      */
     function insertPayBill($data)
     {
-        global $wpdb;
+        $people = new People();
+       
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $created_by;
 
         $voucher_no = null;
-        $currency   = erp_get_currency(true);
+        $currency   = $common->getCurrency(true);
 
         try {
             $wpdb->query('START TRANSACTION');
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_voucher_no',
+                'erp_acct_voucher_no',
                 [
                     'type'       => 'pay_bill',
                     'currency'   => $currency,
@@ -146,7 +151,7 @@ class Bank
             $pay_bill_data = $this->getFormattedPayBillData($data, $voucher_no);
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_pay_bill',
+                'erp_acct_pay_bill',
                 [
                     'voucher_no'       => $voucher_no,
                     'trn_date'         => $pay_bill_data['trn_date'],
@@ -170,7 +175,7 @@ class Bank
 
             foreach ($items as $key => $item) {
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_pay_bill_details',
+                    'erp_acct_pay_bill_details',
                     [
                         'voucher_no' => $voucher_no,
                         'bill_no'    => $item['voucher_no'],
@@ -191,7 +196,7 @@ class Bank
 
             foreach ($items as $key => $item) {
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_bill_account_details',
+                    'erp_acct_bill_account_details',
                     [
                         'bill_no'     => $item['voucher_no'],
                         'trn_no'      => $voucher_no,
@@ -220,7 +225,7 @@ class Bank
             do_action('erp_acct_after_pay_bill_create', $pay_bill_data, $voucher_no);
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('pay-bill-exception', $e->getMessage());
@@ -251,9 +256,9 @@ class Bank
      */
     function updatePayBill($data, $pay_bill_id)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -263,7 +268,7 @@ class Bank
             $pay_bill_data = $this->getFormattedPayBillData($data, $pay_bill_id);
 
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_pay_bill',
+                'erp_acct_pay_bill',
                 [
                     'bill_no'     => $pay_bill_data['bill_no'],
                     'trn_date'    => $pay_bill_data['trn_date'],
@@ -286,7 +291,7 @@ class Bank
 
             foreach ($items as $key => $item) {
                 $wpdb->update(
-                    $wpdb->prefix . 'erp_acct_pay_bill_details',
+                    'erp_acct_pay_bill_details',
                     [
                         'bill_no'    => $item['voucher_no'],
                         'amount'     => $item['amount'],
@@ -301,7 +306,7 @@ class Bank
                 );
 
                 $wpdb->update(
-                    $wpdb->prefix . 'erp_acct_bill_account_details',
+                    'erp_acct_bill_account_details',
                     [
                         'bill_no'     => $item['voucher_no'],
                         'particulars' => $pay_bill_data['particulars'],
@@ -321,7 +326,7 @@ class Bank
             $this->updatePayBillDataIntoLedger($pay_bill_data, $pay_bill_id);
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('bill-exception', $e->getMessage());
@@ -344,14 +349,14 @@ class Bank
      */
     function voidPayBill($id)
     {
-        global $wpdb;
+       
 
         if (!$id) {
             return;
         }
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_pay_bill',
+            'erp_acct_pay_bill',
             [
                 'status' => 8,
             ],
@@ -360,7 +365,6 @@ class Bank
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_bill_account_details', ['trn_no' => $id]);
-
     }
 
     /**
@@ -373,6 +377,7 @@ class Bank
      */
     function getFormattedPayBillData($data, $voucher_no)
     {
+        $people = new People();
         $pay_bill_data = [];
 
         $user_info = $people->getPeople($data['vendor_id']);
@@ -414,7 +419,7 @@ class Bank
      */
     function insertPayBillDataIntoLedger($pay_bill_data)
     {
-        global $wpdb;
+       
 
         if (1 === $pay_bill_data['status'] || (isset($pay_bill_data['trn_by']) && 4 === $pay_bill_data['trn_by'])) {
             return;
@@ -422,7 +427,7 @@ class Bank
 
         // Insert amount in ledger_details
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $pay_bill_data['trn_by_ledger_id'],
                 'trn_no'      => $pay_bill_data['trn_no'],
@@ -449,7 +454,7 @@ class Bank
      */
     function updatePayBillDataIntoLedger($pay_bill_data, $pay_bill_no)
     {
-        global $wpdb;
+       
 
         if (1 === $pay_bill_data['status'] || (isset($pay_bill_data['trn_by']) && 4 === $pay_bill_data['trn_by'])) {
             return;
@@ -457,7 +462,7 @@ class Bank
 
         // Update amount in ledger_details
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $pay_bill_data['trn_by_ledger_id'],
                 'particulars' => $pay_bill_data['particulars'],
@@ -482,9 +487,9 @@ class Bank
      */
     function getPayBillCount()
     {
-        global $wpdb;
+       
 
-        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . $wpdb->prefix . 'erp_acct_pay_bill');
+        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_pay_bill');
 
         return $row->count;
     }
@@ -498,13 +503,13 @@ class Bank
      */
     function changeBillStatus($bill_no)
     {
-        global $wpdb;
+        $bills = new Bills();
 
         $due = $bills->getBillDue($bill_no);
 
         if (0 == $due) {
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_bills',
+                'erp_acct_bills',
                 [
                     'status' => 4,
                 ],
@@ -512,7 +517,7 @@ class Bank
             );
         } else {
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_bills',
+                'erp_acct_bills',
                 [
                     'status' => 5,
                 ],

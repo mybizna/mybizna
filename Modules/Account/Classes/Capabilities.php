@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Classes\Reports;
 
-class Bank
+class Capabilities
 {
 
     /**
@@ -10,9 +10,9 @@ class Bank
      *
      * @return string
      */
-    function erp_ac_get_manager_role()
+    function getManagerRole()
     {
-        return apply_filters('erp_ac_get_manager_role', 'erp_ac_manager');
+        return apply_filters('ac_get_manager_role', 'erp_ac_manager');
     }
 
     /**
@@ -22,12 +22,12 @@ class Bank
      *
      * @return void
      */
-    function erp_ac_new_admin_as_manager($user_id)
+    function newAdminAsManager($user_id)
     {
         $user = get_user_by('id', $user_id);
 
         if ($user && in_array('administrator', $user->roles, true)) {
-            $user->add_role(erp_ac_get_manager_role());
+            $user->add_role($this->getManagerRole());
         }
     }
 
@@ -38,11 +38,11 @@ class Bank
      *
      * @return bool
      */
-    function erp_ac_is_current_user_manager()
+    function isCurrentUserManager()
     {
-        $current_user_role = erp_ac_get_user_role(get_current_user_id());
+        $current_user_role = $this->getUserRole(get_current_user_id());
 
-        if (erp_ac_get_manager_role() != $current_user_role) {
+        if ($this->getManagerRole() != $current_user_role) {
             return false;
         }
 
@@ -56,7 +56,7 @@ class Bank
      *
      * @return string
      */
-    function erp_ac_get_user_role($user_id = 0)
+    function getUserRole($user_id = 0)
     {
 
         // Validate user id
@@ -69,7 +69,7 @@ class Bank
             // Look for a ac role
             $roles = array_intersect(
                 array_values($user->roles),
-                array_keys(erp_ac_get_roles())
+                array_keys($this->getRoles())
             );
 
             // If there's a role in the array, use the first one. This isn't very
@@ -80,7 +80,7 @@ class Bank
             }
         }
 
-        return apply_filters('erp_ac_get_user_role', $role, $user_id, $user);
+        return apply_filters('get_user_role', $role, $user_id, $user);
     }
 
     /**
@@ -88,82 +88,82 @@ class Bank
      *
      * @return array
      */
-    function erp_ac_get_roles()
+    function getRoles()
     {
         $roles = [
-            erp_ac_get_manager_role() => [
+            $this->getManagerRole() => [
                 'name'         => __('Accounting Manager', 'erp'),
                 'public'       => false,
-                'capabilities' => erp_ac_get_caps_for_role(erp_ac_get_manager_role()),
+                'capabilities' => $this->getManagerRole(erp_ac_get_manager_role()),
             ],
         ];
 
-        return apply_filters('erp_ac_get_roles', $roles);
+        return apply_filters('get_roles', $roles);
     }
 
-    function erp_ac_get_caps_for_role($role = '')
+    function getCapsForRole($role = '')
     {
         $caps = [];
 
         // Which role are we looking for?
         switch ($role) {
 
-            case erp_ac_get_manager_role():
+            case $this->getManagerRole():
                 $caps = [
                     'read'                            => true,
-                    'erp_ac_view_dashboard'           => true,
-                    'erp_ac_view_customer'            => true,
-                    'erp_ac_view_single_customer'     => true,
-                    'erp_ac_view_other_customers'     => true,
-                    'erp_ac_create_customer'          => true,
-                    'erp_ac_edit_customer'            => true,
-                    'erp_ac_edit_other_customers'     => true,
-                    'erp_ac_delete_customer'          => true,
-                    'erp_ac_delete_other_customers'   => true,
-                    'erp_ac_view_vendor'              => true,
-                    'erp_ac_view_other_vendors'       => true,
-                    'erp_ac_create_vendor'            => true,
-                    'erp_ac_edit_vendor'              => true,
-                    'erp_ac_edit_other_vendors'       => true,
-                    'erp_ac_delete_vendor'            => true,
-                    'erp_ac_delete_other_vendors'     => true,
-                    'erp_ac_view_sale'                => true,
-                    'erp_ac_view_single_vendor'       => true,
-                    'erp_ac_view_other_sales'         => true,
-                    'erp_ac_view_sales_summary'       => true,
-                    'erp_ac_create_sales_payment'     => true,
-                    'erp_ac_publish_sales_payment'    => true,
-                    'erp_ac_create_sales_invoice'     => true,
-                    'erp_ac_publish_sales_invoice'    => true,
-                    'erp_ac_view_expense'             => true,
-                    'erp_ac_view_other_expenses'      => true,
-                    'erp_ac_view_expenses_summary'    => true,
-                    'erp_ac_create_expenses_voucher'  => true,
-                    'erp_ac_publish_expenses_voucher' => true,
-                    'erp_ac_create_expenses_credit'   => true,
-                    'erp_ac_publish_expenses_credit'  => true,
-                    'erp_ac_view_account_lists'       => true,
-                    'erp_ac_view_single_account'      => true,
-                    'erp_ac_create_account'           => true,
-                    'erp_ac_edit_account'             => true,
-                    'erp_ac_delete_account'           => true,
-                    'erp_ac_view_bank_accounts'       => true,
-                    'erp_ac_create_bank_transfer'     => true,
-                    'erp_ac_view_journal'             => true,
-                    'erp_ac_view_other_journals'      => true,
-                    'erp_ac_create_journal'           => true,
-                    'erp_ac_view_reports'             => true,
+                    'view_dashboard'           => true,
+                    'view_customer'            => true,
+                    'view_single_customer'     => true,
+                    'view_other_customers'     => true,
+                    'create_customer'          => true,
+                    'edit_customer'            => true,
+                    'edit_other_customers'     => true,
+                    'delete_customer'          => true,
+                    'delete_other_customers'   => true,
+                    'view_vendor'              => true,
+                    'view_other_vendors'       => true,
+                    'create_vendor'            => true,
+                    'edit_vendor'              => true,
+                    'edit_other_vendors'       => true,
+                    'delete_vendor'            => true,
+                    'delete_other_vendors'     => true,
+                    'view_sale'                => true,
+                    'view_single_vendor'       => true,
+                    'view_other_sales'         => true,
+                    'view_sales_summary'       => true,
+                    'create_sales_payment'     => true,
+                    'publish_sales_payment'    => true,
+                    'create_sales_invoice'     => true,
+                    'publish_sales_invoice'    => true,
+                    'view_expense'             => true,
+                    'view_other_expenses'      => true,
+                    'view_expenses_summary'    => true,
+                    'create_expenses_voucher'  => true,
+                    'publish_expenses_voucher' => true,
+                    'create_expenses_credit'   => true,
+                    'publish_expenses_credit'  => true,
+                    'view_account_lists'       => true,
+                    'view_single_account'      => true,
+                    'create_account'           => true,
+                    'edit_account'             => true,
+                    'delete_account'           => true,
+                    'view_bank_accounts'       => true,
+                    'create_bank_transfer'     => true,
+                    'view_journal'             => true,
+                    'view_other_journals'      => true,
+                    'create_journal'           => true,
+                    'view_reports'             => true,
                 ];
 
                 break;
         }
 
-        return apply_filters('erp_ac_get_caps_for_role', $caps, $role);
+        return apply_filters('get_caps_for_role', $caps, $role);
     }
 
-    function erp_acct_is_hr_current_user_manager()
+    function isHrCurrentUserManager()
     {
-        $current_user_hr_role = erp_hr_get_user_role(get_current_user_id());
+        $current_user_hr_role = true;
 
         if (erp_hr_get_manager_role() !== $current_user_hr_role) {
             return false;
@@ -173,12 +173,12 @@ class Bank
     }
 
     //Customer
-    function erp_ac_create_customer()
+    function createCustomer()
     {
-        return current_user_can('erp_ac_create_customer');
+        return current_user_can('create_customer');
     }
 
-    function erp_ac_current_user_can_edit_customer($created_by = false)
+    function userCanEditCustomer($created_by = false)
     {
         if (!current_user_can('erp_ac_edit_customer')) {
             return false;
@@ -188,7 +188,7 @@ class Bank
             return false;
         }
 
-        $user_id = get_current_user_id();
+        $user_id =auth()->user()->id;
 
         if ($created_by === $user_id) {
             return true;
@@ -201,17 +201,17 @@ class Bank
         return false;
     }
 
-    function erp_ac_current_user_can_view_single_customer()
+    function currentUserCanViewSingleCustomer()
     {
         return current_user_can('erp_ac_view_single_customer');
     }
 
-    function erp_ac_view_other_customers()
+    function viewOtherCustomers()
     {
         return current_user_can('erp_ac_view_other_customers');
     }
 
-    function erp_ac_current_user_can_delete_customer($created_by = false)
+    function currentUserCanDeleteCustomer($created_by = false)
     {
         if (!current_user_can('erp_ac_delete_customer')) {
             return false;
@@ -221,7 +221,7 @@ class Bank
             return false;
         }
 
-        $user_id = get_current_user_id();
+        $user_id =auth()->user()->id;
 
         if ($created_by === $user_id) {
             return true;
@@ -235,12 +235,12 @@ class Bank
     }
 
     //vendor
-    function erp_ac_create_vendor()
+    function createVendor()
     {
         return current_user_can('erp_ac_create_vendor');
     }
 
-    function erp_ac_current_user_can_edit_vendor($created_by = false)
+    function currentUserCanEditVendor($created_by = false)
     {
         if (!current_user_can('erp_ac_edit_vendor')) {
             return false;
@@ -250,7 +250,7 @@ class Bank
             return false;
         }
 
-        $user_id = get_current_user_id();
+        $user_id =auth()->user()->id;
 
         if ($created_by === $user_id) {
             return true;
@@ -263,17 +263,17 @@ class Bank
         return false;
     }
 
-    function erp_ac_current_user_can_view_single_vendor()
+    function currentUserCanViewSingleVendor()
     {
         return current_user_can('erp_ac_view_single_vendor');
     }
 
-    function erp_ac_view_other_vendors()
+    function viewOtherVendors()
     {
         return current_user_can('erp_ac_view_other_vendors');
     }
 
-    function erp_ac_current_user_can_delete_vendor($created_by = false)
+    function currentUserCanDeleteVendor($created_by = false)
     {
         if (!current_user_can('erp_ac_delete_vendor')) {
             return false;
@@ -283,7 +283,7 @@ class Bank
             return false;
         }
 
-        $user_id = get_current_user_id();
+        $user_id =auth()->user()->id;
 
         if ($created_by === $user_id) {
             return true;
@@ -296,112 +296,6 @@ class Bank
         return false;
     }
 
-    //sale
-    function erp_ac_view_other_sales()
-    {
-        return current_user_can('erp_ac_view_other_sales');
-    }
-
-    function erp_ac_view_sales_summary()
-    {
-        return current_user_can('erp_ac_view_sales_summary');
-    }
-
-    function erp_ac_create_sales_payment()
-    {
-        return current_user_can('erp_ac_create_sales_payment');
-    }
-
-    function erp_ac_publish_sales_payment()
-    {
-        return current_user_can('erp_ac_publish_sales_payment');
-    }
-
-    function erp_ac_create_sales_invoice()
-    {
-        return current_user_can('erp_ac_create_sales_invoice');
-    }
-
-    function erp_ac_publish_sales_invoice()
-    {
-        return current_user_can('erp_ac_publish_sales_invoice');
-    }
-
-    /**
-     * Check capability to view expenses created by other managers
-     *
-     * @return bool
-     *
-     * @since 1.2.0 Fix capability spelling
-     * @since 1.0.0
-     */
-    function erp_ac_view_other_expenses()
-    {
-        return current_user_can('erp_ac_view_other_expenses');
-    }
-
-    function erp_ac_view_expenses_summary()
-    {
-        return current_user_can('erp_ac_view_expenses_summary');
-    }
-
-    function erp_ac_create_expenses_voucher()
-    {
-        return current_user_can('erp_ac_create_expenses_voucher');
-    }
-
-    function erp_ac_publish_expenses_voucher()
-    {
-        return current_user_can('erp_ac_publish_expenses_voucher');
-    }
-
-    function erp_ac_create_expenses_credit()
-    {
-        return current_user_can('erp_ac_create_expenses_credit');
-    }
-
-    function erp_ac_publish_expenses_credit()
-    {
-        return current_user_can('erp_ac_publish_expenses_credit');
-    }
-
-    //accounts
-    function erp_ac_view_single_account()
-    {
-        return current_user_can('erp_ac_view_single_account');
-    }
-
-    function erp_ac_create_account()
-    {
-        return current_user_can('erp_ac_create_account');
-    }
-
-    function erp_ac_edit_account()
-    {
-        return current_user_can('erp_ac_edit_account');
-    }
-
-    function erp_ac_delete_account()
-    {
-        return current_user_can('erp_ac_delete_account');
-    }
-
-    //bank accounts
-    function erp_ac_create_bank_transfer()
-    {
-        return current_user_can('erp_ac_create_bank_transfer');
-    }
-
-    //journal
-    function erp_ac_create_journal()
-    {
-        return current_user_can('erp_ac_create_journal');
-    }
-
-    function erp_ac_view_other_journals()
-    {
-        return current_user_can('erp_ac_view_other_journals');
-    }
 
 
     /**
@@ -411,9 +305,9 @@ class Bank
      *
      * @return array
      */
-    function erp_ac_filter_editable_roles($all_roles = [])
+    function filterEditableRoles($all_roles = [])
     {
-        $roles = erp_ac_get_roles();
+        $roles = $this->getRoles();
 
         foreach ($roles as $ac_role_key => $ac_role) {
             if (isset($ac_role['public']) && false === $ac_role['public']) {

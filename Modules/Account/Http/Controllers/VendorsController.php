@@ -5,8 +5,10 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
 
-class AccountsController extends Controller
+
+class VendorsController extends Controller
 {
 
     /**
@@ -18,6 +20,7 @@ class AccountsController extends Controller
      */
     public function get_vendors($request)
     {
+        $people = new People();
         $args = [
             'number' => $request['per_page'],
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -74,6 +77,8 @@ class AccountsController extends Controller
      */
     public function get_vendor($request)
     {
+
+        $people = new People();
         $id   = (int) $request['id'];
         $item = $people->getPeople($id);
         $item = (array) $item;
@@ -119,6 +124,8 @@ class AccountsController extends Controller
      */
     public function create_vendor($request)
     {
+        $people = new People();
+        $common = new CommonFunc();
         if ($common->existPeople($request['email'])) {
             return new WP_Error('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
         }
@@ -151,6 +158,7 @@ class AccountsController extends Controller
      */
     public function update_vendor($request)
     {
+        $people = new People();
         $id = (int) $request['id'];
 
         $item = $people->getPeople($id);
@@ -190,6 +198,8 @@ class AccountsController extends Controller
      */
     public function delete_vendor($request)
     {
+
+        $people = new People();
         $id = (int) $request['id'];
 
         $exist = $people->checkAssociatedTranasaction($id);
@@ -225,6 +235,8 @@ class AccountsController extends Controller
      */
     public function bulk_delete_vendors($request)
     {
+
+        $people = new People();
         $ids = (string) $request['ids'];
 
         $data = [
@@ -264,6 +276,8 @@ class AccountsController extends Controller
      */
     public function get_transactions($request)
     {
+
+        $people = new People();
         $id                = (int) $request['id'];
         $args['people_id'] = $id;
 
@@ -281,6 +295,8 @@ class AccountsController extends Controller
      */
     public function filter_transactions($request)
     {
+
+        $people = new People();
         $id           = $request['id'];
         $start_date   = $request['start_date'];
         $end_date     = $request['end_date'];
@@ -304,6 +320,8 @@ class AccountsController extends Controller
      */
     public function get_vendor_products($request)
     {
+
+        $people = new People();
         $args = [
             'number' => !empty($request['number']) ? (int) $request['number'] : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -347,11 +365,12 @@ class AccountsController extends Controller
      */
     public function add_log($data, $action, $old_data = [])
     {
+        $common = new CommonFunc();
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
                 unset($data['photo_id'], $data['raw_data'], $data['type']);
-                $changes   = !empty($old_data) ? erp_get_array_diff($data, $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff($data, $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -359,18 +378,6 @@ class AccountsController extends Controller
             default:
                 $operation = 'created';
         }
-
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Vendor', 'erp'),
-                'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
-                'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => '<strong>' . $data['first_name'] . ' ' . $data['last_name'] . '</strong>' . sprintf(__(' vendor has been %s', 'erp'), $operation),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**
@@ -543,7 +550,7 @@ class AccountsController extends Controller
             'sale_price'        => $item->sale_price,
             'vendor_name'       => $item->vendor_name,
             'cat_name'          => $item->cat_name,
-            'tax_cat_name'      => erp_acct_get_tax_category_by_id($item->tax_cat_id),
+            'tax_cat_name'      => $tax_cats->getTaxCategoryById($item->tax_cat_id),
         ];
 
         $data = array_merge($data, $additional_fields);

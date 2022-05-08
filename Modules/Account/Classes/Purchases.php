@@ -2,7 +2,11 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+use Modules\Account\Classes\CommonFunc;
+
+use Modules\Account\Classes\People;
+
+class Purchases
 {
 
     /**
@@ -14,7 +18,7 @@ class Bank
      */
     function getPurchases($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -53,7 +57,7 @@ class Bank
      */
     function getPurchase($purchase_no)
     {
-        global $wpdb;
+       
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -86,14 +90,14 @@ class Bank
             $purchase_no
         );
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $row                = $wpdb->get_row($sql, ARRAY_A);
         $row['line_items']  = $this->formatPurchaseLineItems($purchase_no);
         $row['attachments'] = unserialize($row['attachments']);
         $row['total_due']   = $row['credit'] - $row['debit'];
-        $row['pdf_link']    = $this-> pdfAbsPathToUrl($purchase_no);
+        $row['pdf_link']    = $this->pdfAbsPathToUrl($purchase_no);
 
         return $row;
     }
@@ -107,7 +111,7 @@ class Bank
      */
     function formatPurchaseLineItems($voucher_no)
     {
-        global $wpdb;
+       
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -130,8 +134,8 @@ class Bank
             $voucher_no
         );
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $results = $wpdb->get_results($sql, ARRAY_A);
 
@@ -152,9 +156,12 @@ class Bank
      */
     function insertPurchase($data)
     {
-        global $wpdb;
+       
+        $common = new CommonFunc();
+        $people = new People();
+        $trans = new Transactions();
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $voucher_no         = null;
         $data['created_at'] = date('Y-m-d');
         $data['created_by'] = $created_by;
@@ -163,13 +170,13 @@ class Bank
 
         $purchase_type_order = 1;
         $draft               = 1;
-        $currency            = erp_get_currency(true);
+        $currency            = $common->getCurrency(true);
 
         try {
             $wpdb->query('START TRANSACTION');
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_voucher_no',
+                'erp_acct_voucher_no',
                 [
                     'type'       => 'purchase',
                     'currency'   => $currency,
@@ -186,7 +193,7 @@ class Bank
             $purchase_data = $this->getFormattedPurchaseData($data, $voucher_no);
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_purchase',
+                'erp_acct_purchase',
                 [
                     'voucher_no'      => $voucher_no,
                     'vendor_id'       => $purchase_data['vendor_id'],
@@ -233,7 +240,7 @@ class Bank
 
                     foreach ($tax_rate_agency as $tra) {
                         $wpdb->insert(
-                            $wpdb->prefix . 'erp_acct_purchase_details_tax',
+                            'erp_acct_purchase_details_tax',
                             [
                                 'invoice_details_id' => $details_id,
                                 'agency_id'          => $tra['agency_id'],
@@ -254,7 +261,7 @@ class Bank
 
             if ($purchase_type_order === $purchase_data['purchase_order'] || $draft === $purchase_data['status']) {
                 $wpdb->query('COMMIT');
-                $purchase_order          = $purchases->getPurchases($voucher_no);
+                $purchase_order          = $this->getPurchases($voucher_no);
                 $purchase_order['email'] = $email;
                 do_action('erp_acct_new_transaction_purchase_order', $voucher_no, $purchase_order);
 
@@ -262,7 +269,7 @@ class Bank
             }
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_purchase_account_details',
+                'erp_acct_purchase_account_details',
                 [
                     'purchase_no' => $purchase_no,
                     'trn_no'      => $voucher_no,
@@ -286,13 +293,13 @@ class Bank
             $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('purchase-exception', $e->getMessage());
         }
 
-        $purchase = $purchases->getPurchases($purchase_no);
+        $purchase = $this->getPurchases($purchase_no);
 
         $purchase['email'] = $email;
 
@@ -312,14 +319,16 @@ class Bank
      */
     function updatePurchase($purchase_data, $purchase_id)
     {
-        global $wpdb;
+       
+        $common = new CommonFunc();
+        $trans = new Transactions();
 
         if (1 === $purchase_data['purchase_order'] && $purchase_data['convert']) {
             $this->convertOrderToPurchase($purchase_data, $purchase_id);
             return;
         }
 
-        $user_id             = get_current_user_id();
+        $user_id             =auth()->user()->id;
         $purchase_type_order = 1;
         $draft               = 1;
         $voucher_no          = null;
@@ -328,7 +337,7 @@ class Bank
         $data['created_by'] = $user_id;
         $data['updated_at'] = date('Y-m-d');
         $data['updated_by'] = $user_id;
-        $currency           = erp_get_currency(true);
+        $currency           = $common->getCurrency(true);
 
         try {
             $wpdb->query('START TRANSACTION');
@@ -337,7 +346,7 @@ class Bank
                 $purchase_data = $this->getFormattedPurchaseData($purchase_data, $purchase_id);
 
                 $wpdb->update(
-                    $wpdb->prefix . 'erp_acct_purchase',
+                    'erp_acct_purchase',
                     [
                         'vendor_id'      => $purchase_data['vendor_id'],
                         'vendor_name'    => $purchase_data['vendor_name'],
@@ -380,7 +389,7 @@ class Bank
 
                 foreach ($items as $key => $item) {
                     $wpdb->update(
-                        $wpdb->prefix . 'erp_acct_purchase_details',
+                        'erp_acct_purchase_details',
                         [
                             'product_id' => $item['product_id'],
                             'qty'        => $item['qty'],
@@ -404,7 +413,7 @@ class Bank
 
                         foreach ($tax_rate_agency as $tra) {
                             $wpdb->insert(
-                                $wpdb->prefix . 'erp_acct_purchase_details_tax',
+                                'erp_acct_purchase_details_tax',
                                 [
                                     'invoice_details_id' => $details_id,
                                     'agency_id'          => $tra['agency_id'],
@@ -419,13 +428,13 @@ class Bank
 
                 $wpdb->query('COMMIT');
 
-                return $purchases->getPurchases($purchase_id);
+                return $this->getPurchases($purchase_id);
             } else {
                 // disable editing on old bill
                 $wpdb->update($wpdb->prefix . 'erp_acct_voucher_no', ['editable' => 0], ['id' => $purchase_id]);
                 // insert contra voucher
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_voucher_no',
+                    'erp_acct_voucher_no',
                     [
                         'type'       => 'purchase',
                         'currency'   => $currency,
@@ -439,7 +448,7 @@ class Bank
 
                 $voucher_no = $wpdb->insert_id;
 
-                $old_purchase = $purchases->getPurchases($purchase_id);
+                $old_purchase = $this->getPurchases($purchase_id);
 
                 // insert contra `erp_acct_purchase` (basically a duplication of row)
                 $wpdb->query($wpdb->prepare("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM {$wpdb->prefix}erp_acct_purchase WHERE voucher_no = %d", $purchase_id));
@@ -472,7 +481,7 @@ class Bank
 
                 foreach ($items as $key => $item) {
                     $wpdb->insert(
-                        $wpdb->prefix . 'erp_acct_purchase_details',
+                        'erp_acct_purchase_details',
                         [
                             'trn_no'     => $voucher_no,
                             'product_id' => $item['product_id'],
@@ -486,7 +495,7 @@ class Bank
                 }
 
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_purchase_account_details',
+                    'erp_acct_purchase_account_details',
                     [
                         'purchase_no' => $purchase_id,
                         'trn_no'      => $voucher_no,
@@ -510,14 +519,14 @@ class Bank
             }
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('purchase-exception', $e->getMessage());
         }
 
 
-        return $purchases->getPurchases($new_purchase['voucher_no']);
+        return $this->getPurchases($new_purchase['voucher_no']);
     }
 
     /**
@@ -530,9 +539,11 @@ class Bank
      */
     function convertOrderToPurchase($purchase_data, $purchase_id)
     {
-        global $wpdb;
+       
+        $people = new People();
+        $trans = new Transactions();
 
-        $user_id = get_current_user_id();
+        $user_id =auth()->user()->id;
 
         try {
             $wpdb->query('START TRANSACTION');
@@ -541,7 +552,7 @@ class Bank
 
             // purchase
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_purchase',
+                'erp_acct_purchase',
                 [
                     'vendor_id'      => $purchase_data['vendor_id'],
                     'vendor_name'    => $purchase_data['vendor_name'],
@@ -595,13 +606,13 @@ class Bank
             $trans->insertDataIntoPeopleTrnDetails($data, $purchase_id);
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('purchase-exception', $e->getMessage());
         }
 
-        $purchase = $purchases->getPurchases($purchase_id);
+        $purchase = $this->getPurchases($purchase_id);
 
         $purchase['email'] = $people->getPeopleEmail($purchase['vendor_id']);
 
@@ -620,14 +631,14 @@ class Bank
      */
     function voidPurchase($id)
     {
-        global $wpdb;
+       
 
         if (!$id) {
             return;
         }
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_purchase',
+            'erp_acct_purchase',
             [
                 'status' => 8,
             ],
@@ -636,7 +647,6 @@ class Bank
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_purchase_account_details', ['purchase_no' => $id]);
-
     }
 
     /**
@@ -649,6 +659,7 @@ class Bank
      */
     function getFormattedPurchaseData($data, $voucher_no)
     {
+        $people = new People();
         $user_info = $people->getPeople($data['vendor_id']);
 
         $purchase_data['voucher_no']      = isset($data['voucher_no']) ? $data['voucher_no'] : $voucher_no;
@@ -688,7 +699,7 @@ class Bank
      */
     function insertPurchaseDataIntoLedger($purchase_data)
     {
-        global $wpdb;
+       
 
         $ledger_map = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
         $purchase_ledger_id  = $ledger_map->get_ledger_id_by_slug('purchase');
@@ -701,7 +712,7 @@ class Bank
 
         // Insert amount in ledger_details
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $purchase_ledger_id,
                 'trn_no'      => $purchase_data['voucher_no'],
@@ -725,7 +736,7 @@ class Bank
 
             // Insert amount in ledger_details
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_ledger_details',
+                'erp_acct_ledger_details',
                 [
                     'ledger_id'   => $purchase_vat_ledger_id,
                     'trn_no'      => $purchase_data['voucher_no'],
@@ -752,7 +763,7 @@ class Bank
      */
     function updatePurchaseDataIntoLedger($purchase_data, $purchase_no)
     {
-        global $wpdb;
+       
 
         $ledger_map = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
         $ledger_id  = $ledger_map->get_ledger_id_by_slug('purchase');
@@ -783,9 +794,9 @@ class Bank
      */
     function getPurchaseCount()
     {
-        global $wpdb;
+       
 
-        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . $wpdb->prefix . 'erp_acct_purchase');
+        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_purchase');
 
         return $row->count;
     }
@@ -797,7 +808,7 @@ class Bank
      */
     function getDuePurchasesByVendor($args)
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -836,8 +847,8 @@ class Bank
             $args['order']
         );
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         if ($args['count']) {
             return $wpdb->get_var($query);
@@ -855,7 +866,7 @@ class Bank
      */
     function getPurchaseDue($purchase_no)
     {
-        global $wpdb;
+       
 
         $result = $wpdb->get_row($wpdb->prepare("SELECT purchase_no, SUM( debit - credit) as due FROM {$wpdb->prefix}erp_acct_purchase_account_details WHERE purchase_no = %d GROUP BY purchase_no", $purchase_no), ARRAY_A);
 

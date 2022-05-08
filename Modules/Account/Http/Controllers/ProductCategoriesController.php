@@ -6,6 +6,6 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class AccountsController extends Controller
+class ProductCategoriesController extends Controller
 {
 }

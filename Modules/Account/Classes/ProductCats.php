@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+class ProductCats
 {
 
     /**
@@ -12,13 +12,13 @@ class Bank
      */
     function getAllProductCats()
     {
-        global $wpdb;
+       
 
         $cache_key  = 'erp-get-product-categories';
         $categories = wp_cache_get($cache_key, 'erp-accounting');
 
         if (false === $categories) {
-            $categories = $wpdb->get_results('SELECT * FROM ' . $wpdb->prefix . 'erp_acct_product_categories', ARRAY_A);
+            $categories = $wpdb->get_results('SELECT * FROM ' . 'erp_acct_product_categories', ARRAY_A);
 
             wp_cache_set($cache_key, $categories, 'erp-accounting');
         }
@@ -35,7 +35,7 @@ class Bank
      */
     function getProductCat($product_cat_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_product_categories WHERE id = %d GROUP BY parent", $product_cat_id), ARRAY_A);
 
@@ -51,9 +51,9 @@ class Bank
      */
     function insertProductCat($data)
     {
-        global $wpdb;
+       
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
@@ -62,7 +62,7 @@ class Bank
             $product_cat_data = $this->getFormattedProductCatData($data);
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_product_categories',
+                'erp_acct_product_categories',
                 [
                     'name'       => $product_cat_data['name'],
                     'parent'     => isset($product_cat_data['parent']['id']) ? $product_cat_data['parent']['id'] : 0,
@@ -76,7 +76,7 @@ class Bank
             $product_cat_id = $wpdb->insert_id;
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('product-exception', $e->getMessage());
@@ -95,9 +95,9 @@ class Bank
      */
     function updateProductCat($data, $id)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -106,7 +106,7 @@ class Bank
             $product_cat_data = $this->getFormattedProductCatData($data);
 
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_product_categories',
+                'erp_acct_product_categories',
                 [
                     'name'       => $product_cat_data['name'],
                     'parent'     => $product_cat_data['parent'],
@@ -121,7 +121,7 @@ class Bank
             );
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('product-exception', $e->getMessage());
@@ -158,9 +158,9 @@ class Bank
      *
      * @return void
      */
-    function erp_acct_delete_product_cat($product_cat_id)
+    function deleteProductCat($product_cat_id)
     {
-        global $wpdb;
+       
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_product_categories', ['id' => $product_cat_id]);
 

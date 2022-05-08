@@ -4,9 +4,10 @@ namespace Modules\Account\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Illuminate\Routing\Controller;use Modules\Account\Classes\CommonFunc;
 
-class AccountsController extends Controller
+
+class TaxRateNamesController extends Controller
 {
 
     /**
@@ -211,10 +212,11 @@ class AccountsController extends Controller
      */
     public function add_log($data, $action, $old_data = [])
     {
+        $common = new CommonFunc();
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
-                $changes   = !empty($old_data) ? erp_get_array_diff($data, $old_data) : [];
+                $changes   = !empty($old_data) ?$common->getArrayDiff($data, $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -223,17 +225,6 @@ class AccountsController extends Controller
                 $operation = 'created';
         }
 
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Tax', 'erp'),
-                'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
-                'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => '<strong>' . $data['tax_rate_name'] . '</strong>' . sprintf(__(' tax zone has been %s', 'erp'), $operation),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**

@@ -1,7 +1,10 @@
 <?php
+
 namespace Modules\Account\Classes;
 
-class Bank
+use Modules\Account\Classes\CommonFunc;
+
+class Currencies
 {
     /**
      * Get all currencies
@@ -10,7 +13,7 @@ class Bank
      */
     function getAllCurrencies($count = false)
     {
-        global $wpdb;
+       
 
         if ($count) {
             return $wpdb->get_var("SELECT count(*) FROM {$wpdb->prefix}erp_acct_currency_info");
@@ -44,9 +47,10 @@ class Bank
      */
     function getCurrencySymbol()
     {
-        global $wpdb;
+       
+        $common = new CommonFunc();
 
-        $active_currency_id = erp_get_currency(true);
+        $active_currency_id = $common->getCurrency(true);
 
         return $wpdb->get_var(
             $wpdb->prepare(
@@ -65,7 +69,7 @@ class Bank
      */
     function getPriceFormat()
     {
-        $currency_pos = erp_get_option('erp_ac_currency_position', false, 'left');
+        $currency_pos = config('erp_ac_currency_position', false, 'left');
         $format       = '%s%v';
 
         switch ($currency_pos) {
@@ -98,7 +102,7 @@ class Bank
      */
     function getPriceFormatPhp()
     {
-        $currency_pos = erp_get_option('erp_ac_currency_position', false, 'left');
+        $currency_pos = config('erp_ac_currency_position', false, 'left');
         $format       = '%1$s%2$s';
 
         switch ($currency_pos) {
@@ -132,16 +136,17 @@ class Bank
      */
     function getPrice($main_price, $args = [])
     {
+        $common = new CommonFunc();
         extract(
             apply_filters(
                 'erp_acct_price_args',
                 wp_parse_args(
                     $args,
                     [
-                        'currency'           => erp_get_currency(),
-                        'decimal_separator'  => erp_get_option('erp_ac_de_separator', false, '.'),
-                        'thousand_separator' => erp_get_option('erp_ac_th_separator', false, ','),
-                        'decimals'           => absint(erp_get_option('erp_ac_nm_decimal', false, 2)),
+                        'currency'           => $common->getCurrency(),
+                        'decimal_separator'  => config('erp_ac_de_separator', false, '.'),
+                        'thousand_separator' => config('erp_ac_th_separator', false, ','),
+                        'decimals'           => absint(config('erp_ac_nm_decimal', false, 2)),
                         'price_format'       => $this->getPriceFormatPhp(),
                         'symbol'             => true,
                         'currency_symbol'    => $this->getCurrencySymbol(),

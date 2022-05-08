@@ -6,7 +6,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class AccountsController extends Controller
+use Modules\Account\Classes\People;
+
+class EmployeesController extends Controller
 {
     /**
      * Get a collection of employees
@@ -27,10 +29,10 @@ class AccountsController extends Controller
             's'           => ($request['s']) ? $request['s'] : '',
         ];
 
-        $items = erp_hr_get_employees($args);
+        $items = $hr->hrGetEmployees($args);
 
         $args['count'] = true;
-        $total_items   = erp_hr_get_employees($args);
+        $total_items   = $hr->hrGetEmployees($args);
         $total_items   = is_array($total_items) ? count($total_items) : $total_items;
 
         $formatted_items   = [];
@@ -61,6 +63,8 @@ class AccountsController extends Controller
      */
     public function get_employee($request)
     {
+
+        $people = new People();
         $people_id = (int) $request['id'];
         $user_id   = $people->getUserIdByPeopleId($people_id);
 
@@ -96,6 +100,7 @@ class AccountsController extends Controller
      */
     public function get_transactions($request)
     {
+        $people = new People();
         $args['people_id'] = (int) $request['id'];
 
         $transactions = $people->getPeopleTransactions($args);

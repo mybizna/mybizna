@@ -6,7 +6,11 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class Accounts extends Controller
+
+use Modules\Account\Classes\Reports\TrialBalance;
+use Modules\Account\Classes\Bank;
+
+class AccountsController extends Controller
 {
 
     /**
@@ -18,6 +22,7 @@ class Accounts extends Controller
      */
     public function get_accounts($request)
     {
+        $bank = new Bank();
         $items = $bank->getTransferAccounts(true);
 
         $formatted_items = [];
@@ -44,6 +49,7 @@ class Accounts extends Controller
      */
     public function get_account($request)
     {
+        $bank = new Bank();
         $id   = (int) $request['id'];
         $item = $bank->getBank($id);
 
@@ -66,6 +72,7 @@ class Accounts extends Controller
      */
     public function delete_account($request)
     {
+        $bank = new Bank();
         $id   = (int) $request['id'];
         $item = $bank->deleteBank($id);
 
@@ -88,6 +95,8 @@ class Accounts extends Controller
      */
     public function transfer_money($request)
     {
+        $trialbal = new TrialBalance();
+        $bank = new Bank();
         $item = $this->prepare_item_for_database($request);
 
         if (empty($item['from_account_id']) || empty($item['to_account_id'])) {
@@ -132,6 +141,7 @@ class Accounts extends Controller
      */
     public function get_transfer_list($request)
     {
+        $bank = new Bank();
         $args = [
             'order_by' => isset($request['order_by']) ? $request['order_by'] : 'id',
             'order'    => isset($request['order']) ? $request['order'] : 'DESC',
@@ -163,6 +173,8 @@ class Accounts extends Controller
      */
     public function get_single_transfer($request)
     {
+
+        $bank = new Bank();
         $id       = !empty($request['id']) ? intval($request['id']) : 0;
         $item     = $bank->getSingleVoucher($id);
         $accounts = $bank->getTransferAccounts();
@@ -182,6 +194,7 @@ class Accounts extends Controller
      */
     public function get_bank_accounts($request)
     {
+        $bank = new Bank();
         $items = $bank->getBanks(true, true, false);
 
         if (empty($items)) {
@@ -212,6 +225,7 @@ class Accounts extends Controller
      */
     public function get_cash_at_bank($request)
     {
+        $bank = new Bank();
         $formatted_items = [];
         $items           = $bank->getDashboardBanks();
 
@@ -240,18 +254,6 @@ class Accounts extends Controller
      */
     public function add_log($data, $action)
     {
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Transfer', 'erp'),
-                'old_value'     => '',
-                'new_value'     => '',
-                // translators: %1$s: amount, %2$s: id
-                'message'       => sprintf(__('%1$s has been transferred from %2$s to %3$s', 'erp'), $data['amount'], $ledger->getLedgerNameById($data['from_account_id']), $ledger->getLedgerNameById($data['to_account_id'])),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+class Products
 {
 
     /**
@@ -13,7 +13,7 @@ class Bank
 
     function getAllProducts($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -95,7 +95,7 @@ class Bank
      */
     function getProduct($product_id)
     {
-        global $wpdb;
+       
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -132,9 +132,9 @@ class Bank
      */
     function insertProduct($data)
     {
-        global $wpdb;
+       
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
         $product_id         = null;
@@ -152,11 +152,11 @@ class Bank
             );
 
             if ($product_check) {
-                throw new \Exception($product_data['name'] . ' ' . __('product already exists!', 'erp'));
+                throw new \\Exception($product_data['name'] . ' ' . __('product already exists!', 'erp'));
             }
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_products',
+                'erp_acct_products',
                 [
                     'name'            => $product_data['name'],
                     'product_type_id' => $product_data['product_type_id'],
@@ -175,7 +175,7 @@ class Bank
             $product_id = $wpdb->insert_id;
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
             return new WP_Error('duplicate-product', $e->getMessage(), array('status' => 400));
         }
@@ -195,9 +195,9 @@ class Bank
      */
     function updateProduct($data, $id)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -215,11 +215,11 @@ class Bank
             );
 
             if ($product_name_check) {
-                throw new \Exception($product_data['name'] . ' ' . __("Product name already exists!", "erp"));
+                throw new \\Exception($product_data['name'] . ' ' . __("Product name already exists!", "erp"));
             }
 
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_products',
+                'erp_acct_products',
                 [
                     'name'            => $product_data['name'],
                     'product_type_id' => $product_data['product_type_id'],
@@ -239,7 +239,7 @@ class Bank
             );
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_Error('duplicate-product', $e->getMessage(), array('status' => 400));
@@ -285,7 +285,7 @@ class Bank
      */
     function deleteProduct($product_id)
     {
-        global $wpdb;
+       
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_products', ['id' => $product_id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_product_details', ['product_id' => $product_id]);
@@ -305,7 +305,7 @@ class Bank
      */
     function getProductTypes()
     {
-        global $wpdb;
+       
 
         $types = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}erp_acct_product_types");
 
@@ -321,7 +321,7 @@ class Bank
      */
     function getProductTypeIdByProductId($product_id)
     {
-        global $wpdb;
+       
 
         $type_id = $wpdb->get_var($wpdb->prepare("SELECT product_type_id FROM {$wpdb->prefix}erp_acct_products WHERE id = %d", $product_id));
 
@@ -335,7 +335,7 @@ class Bank
      */
     function getVendorProducts($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -443,8 +443,8 @@ class Bank
         $processed_data  = '';
         $temp_type       = $data['type'];
         $update_existing = (int) $data['update_existing'] ? true : false;
-        $curr_date       = erp_current_datetime()->format('Y-m-d');
-        $user            = get_current_user_id();
+        $curr_date       = date('Y-m-d');
+        $user            =auth()->user()->id;
 
         if ($update_existing) {
             $temp_type = 'product_non_unique';
@@ -468,7 +468,7 @@ class Bank
                 $product_exists_id      = '';
                 $product_checked        = false;
 
-                global $wpdb;
+               
 
                 foreach ($data['fields'] as $key => $value) {
 
@@ -587,7 +587,7 @@ class Bank
      */
     function importProducts($data)
     {
-        global $wpdb;
+       
 
         if (!empty($data['items'])) {
             $inserted = $wpdb->query(
@@ -602,8 +602,8 @@ class Bank
         }
 
         if (!empty($data['update'])) {
-            $curr_date = erp_current_datetime()->format('Y-m-d');
-            $user      = get_current_user_id();
+            $curr_date = date('Y-m-d');
+            $user      =auth()->user()->id;
 
             foreach ($data['update'] as $id => $field_data) {
                 $field_data['updated_at'] = $curr_date;

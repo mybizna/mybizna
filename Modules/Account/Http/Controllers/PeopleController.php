@@ -5,8 +5,11 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\People;
 
-class AccountsController extends Controller
+
+class PeopleController extends Controller
 {
 
     /**
@@ -16,6 +19,7 @@ class AccountsController extends Controller
      */
     public function get_all_people($request)
     {
+        $people = new People();
         $args = [
             'number' => !empty($request['per_page']) ? $request['per_page'] : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -71,6 +75,9 @@ class AccountsController extends Controller
      */
     public function get_people($request)
     {
+
+        $people = new People();
+        $common = new CommonFunc();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -79,8 +86,8 @@ class AccountsController extends Controller
 
         $people = $people->getPeople($id);
 
-        $people->{'state'}   = erp_get_state_name($people->country, $people->state);
-        $people->{'country'} = erp_get_country_name($people->country);
+        $people->{'state'}   = $common->getStateName($people->country, $people->state);
+        $people->{'country'} = $common->getCountryName($people->country);
 
         return $people;
     }
@@ -94,7 +101,8 @@ class AccountsController extends Controller
      */
     public function get_people_address($request)
     {
-        global $wpdb;
+       
+        $people = new People();
 
         $id = (int) $request['id'];
 
@@ -119,7 +127,7 @@ class AccountsController extends Controller
         $id                = (int) $request['id'];
         $args['people_id'] = $id;
 
-        $transactions = erp_acct_get_people_opening_balance($args);
+        $transactions = $opening_balance->getPeopleOpeningBalance($args);
 
         return new WP_REST_Response($transactions, 200);
     }
@@ -133,6 +141,7 @@ class AccountsController extends Controller
      */
     public function check_people_email($request)
     {
+        $common = new CommonFunc();
         $res      = $common->existPeople($request['email'], ['customer', 'vendor', 'contact', 'company']);
 
         $response = rest_ensure_response($res);

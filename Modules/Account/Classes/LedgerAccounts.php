@@ -2,7 +2,11 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+
+use Modules\Account\Classes\Transactions;
+use Modules\Account\Classes\Reports\TrialBalance;
+
+class LedgerAccounts
 {
 
     /**
@@ -12,7 +16,7 @@ class Bank
      */
     function getAllCharts()
     {
-        global $wpdb;
+       
 
         $cache_key = 'erp-get-charts';
         $charts    = wp_cache_get($cache_key, 'erp-accounting');
@@ -35,7 +39,7 @@ class Bank
      */
     function getLedgerNameById($ledger_id)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT id, name  FROM {$wpdb->prefix}erp_acct_ledgers WHERE id = %d", $ledger_id));
 
@@ -47,7 +51,7 @@ class Bank
      */
     function getLedgerCategories($chart_id)
     {
-        global $wpdb;
+       
 
         $cache_key         = 'erp-get-ledger-categories';
         $ledger_categories = wp_cache_get($cache_key, 'erp-accounting');
@@ -66,7 +70,7 @@ class Bank
      */
     function createLedgerCategory($args)
     {
-        global $wpdb;
+       
 
         $exist = $wpdb->get_var($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_ledger_categories WHERE name = %s", $args['name']));
 
@@ -91,7 +95,7 @@ class Bank
      */
     function updateLedgerCategory($args)
     {
-        global $wpdb;
+       
 
         $exist = $wpdb->get_var($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_ledger_categories WHERE name = %s AND id <> %d", $args['name'], $args['id']));
 
@@ -117,7 +121,7 @@ class Bank
      */
     function deleteLedgerCategory($id)
     {
-        global $wpdb;
+       
 
         $parent_id = $wpdb->get_var($wpdb->prepare("SELECT parent_id FROM {$wpdb->prefix}erp_acct_ledger_categories WHERE id = %d", $id));
 
@@ -142,7 +146,7 @@ class Bank
      */
     function getLedgersByChartId($chart_id)
     {
-        global $wpdb;
+       
 
         $ledgers = $wpdb->get_results($wpdb->prepare("SELECT id, name FROM {$wpdb->prefix}erp_acct_ledgers WHERE chart_id = %d AND unused IS NULL", $chart_id), ARRAY_A);
 
@@ -162,7 +166,7 @@ class Bank
      */
     function getLedgerTrnCount($ledger_id)
     {
-        global $wpdb;
+       
 
         $ledger = $wpdb->get_row($wpdb->prepare("SELECT COUNT(*) as count FROM {$wpdb->prefix}erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
 
@@ -178,7 +182,7 @@ class Bank
      */
     function getLedgerBalance($ledger_id)
     {
-        global $wpdb;
+       
 
         $ledger = $wpdb->get_row($wpdb->prepare("SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance FROM {$wpdb->prefix}erp_acct_ledgers AS ledger LEFT JOIN {$wpdb->prefix}erp_acct_ledger_details as ld ON ledger.id = ld.ledger_id WHERE ledger.id = %d", $ledger_id), ARRAY_A);
 
@@ -198,7 +202,7 @@ class Bank
      */
     function getLedger($id)
     {
-        global $wpdb;
+       
 
         return $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_ledgers WHERE id = %d", $id));
     }
@@ -212,7 +216,7 @@ class Bank
      */
     function insertLedger($item)
     {
-        global $wpdb;
+       
 
         $wpdb->insert(
             "{$wpdb->prefix}erp_acct_ledgers",
@@ -238,7 +242,7 @@ class Bank
      */
     function updateLedger($item, $id)
     {
-        global $wpdb;
+       
 
         $wpdb->update(
             "{$wpdb->prefix}erp_acct_ledgers",
@@ -265,7 +269,7 @@ class Bank
      */
     function ledgerOpeningBalanceByFnYearId($id)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
         FROM {$wpdb->prefix}erp_acct_ledgers AS ledger
@@ -287,7 +291,8 @@ class Bank
      */
     function getLedgersWithBalances()
     {
-        global $wpdb;
+       
+        $trialbal = new TrialBalance();
 
         $today = date('Y-m-d');
 
@@ -322,7 +327,7 @@ class Bank
      */
     function ledgersOpeningBalanceByFnYearId($id)
     {
-        global $wpdb;
+       
 
         return $wpdb->get_results(
             $wpdb->prepare(
@@ -439,7 +444,7 @@ class Bank
      */
     function getLedgers()
     {
-        global $wpdb;
+       
 
         $ledgers = $wpdb->get_results("SELECT id, name FROM {$wpdb->prefix}erp_acct_ledgers WHERE unused IS NULL", ARRAY_A);
 

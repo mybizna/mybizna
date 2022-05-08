@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+class TaxRateNames
 {
 
     /**
@@ -12,7 +12,7 @@ class Bank
      */
     function getAllTaxRateNames($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -65,7 +65,7 @@ class Bank
      */
     function getTaxRateName($tax_no)
     {
-        global $wpdb;
+       
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_taxes WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
 
@@ -81,9 +81,9 @@ class Bank
      */
     function insertTaxRateName($data)
     {
-        global $wpdb;
+       
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
@@ -94,7 +94,7 @@ class Bank
         $tax_data = $taxratenames->getFormattedTaxRateNameData($data);
 
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_taxes',
+            'erp_acct_taxes',
             [
                 'tax_rate_name' => $tax_data['tax_rate_name'],
                 'tax_number'    => $tax_data['tax_number'],
@@ -119,9 +119,9 @@ class Bank
      */
     function updateTaxRateName($data, $id)
     {
-        global $wpdb;
+       
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -132,7 +132,7 @@ class Bank
         }
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_taxes',
+            'erp_acct_taxes',
             [
                 'tax_rate_name' => $tax_data['tax_rate_name'],
                 'tax_number'    => $tax_data['tax_number'],
@@ -158,7 +158,7 @@ class Bank
      */
     function deleteTaxRateName($id)
     {
-        global $wpdb;
+       
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_taxes', ['id' => $id]);
 

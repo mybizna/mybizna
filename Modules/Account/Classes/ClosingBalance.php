@@ -1,9 +1,11 @@
 <?php
 
 
-namespace Modules\Account\Classes\Reports;
+namespace Modules\Account\Classes;
 
-class Bank
+use Modules\Account\Classes\Reports\TrialBalance;
+
+class ClosingBalance
 {
     /**
      * Get closest next financial year
@@ -14,7 +16,7 @@ class Bank
      */
     function getClosestNextFnYear($date)
     {
-        global $wpdb;
+       
 
         return $wpdb->get_row($wpdb->prepare("SELECT id, start_date, end_date FROM {$wpdb->prefix}erp_acct_financial_years WHERE start_date > '%s' ORDER BY start_date ASC LIMIT 1", $date));
     }
@@ -34,7 +36,7 @@ class Bank
         $equity         = $balance_sheet['rows3'];
         $next_f_year_id = $args['f_year_id'];
 
-        global $wpdb;
+       
 
         // remove next financial year data if exists
         $wpdb->query(
@@ -88,7 +90,7 @@ class Bank
                             $credit = abs($liab['balance']);
                         }
 
-                       $this->insertIntoOpeningBalance(
+                        $this->insertIntoOpeningBalance(
                             $next_f_year_id,
                             $ledger['chart_id'],
                             $ledger['id'],
@@ -198,7 +200,7 @@ class Bank
         $tax_payable =  $this->salesTaxAgency($args, 'payable');
 
         foreach ($tax_payable as $payable_agency) {
-           $this-> insertIntoOpeningBalance(
+            $this->insertIntoOpeningBalance(
                 $next_f_year_id,
                 null,
                 $payable_agency['id'],
@@ -250,7 +252,7 @@ class Bank
      */
     function insertIntoOpeningBalance($f_year_id, $chart_id, $ledger_id, $type, $debit, $credit)
     {
-        global $wpdb;
+       
 
         $wpdb->insert(
             "{$wpdb->prefix}erp_acct_opening_balances",
@@ -262,7 +264,7 @@ class Bank
                 'debit'             => $debit,
                 'credit'            => $credit,
                 'created_at'        => date('Y-m-d H:i:s'),
-                'created_by'        => get_current_user_id(),
+                'created_by'        =>auth()->user()->id,
             ]
         );
     }
@@ -276,7 +278,7 @@ class Bank
      */
     function getAccountsReceivableBalanceWithPeople($args)
     {
-        global $wpdb;
+       
 
         // mainly ( debit - credit )
         $sql = "SELECT invoice.customer_id AS id, SUM( debit - credit ) AS balance
@@ -298,7 +300,7 @@ class Bank
      */
     function getAccountsPayableBalanceWithPeople($args)
     {
-        global $wpdb;
+       
 
         $bill_sql = "SELECT bill.vendor_id AS id, SUM( debit - credit ) AS balance
         FROM {$wpdb->prefix}erp_acct_bill_account_details AS bill_acd
@@ -334,7 +336,9 @@ class Bank
      */
     function peopleArCalcWithOpeningBalance($bs_start_date)
     {
-        global $wpdb;
+        $trialbal = new TrialBalance();
+
+       
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($bs_start_date);
@@ -344,7 +348,6 @@ class Bank
 
         // $merged = array_merge( $data, $opening_balance );
         return $this->getFormattedPeopleBalance($opening_balance);
-
     }
 
     /**
@@ -359,13 +362,14 @@ class Bank
      */
     function vendorApCalcWithOpeningBalance($bs_start_date)
     {
-        global $wpdb;
+       
+        $trialbal = new TrialBalance();
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($bs_start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance =$this->vendorSpOpeningBalanceByFnYearId($closest_fy_date['id']);
+        $opening_balance = $this->vendorSpOpeningBalanceByFnYearId($closest_fy_date['id']);
 
         // $merged = array_merge( $bill_data, $purchase_data, $opening_balance );
         return $this->getFormattedPeopleBalance($opening_balance);
@@ -380,7 +384,7 @@ class Bank
      */
     function customerArOpeningBalanceByFnYearId($id)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT ledger_id AS id, SUM( debit - credit ) AS balance
         FROM {$wpdb->prefix}erp_acct_opening_balances
@@ -398,7 +402,7 @@ class Bank
      */
     function vendorSpOpeningBalanceByFnYearId($id)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT ledger_id AS id, SUM( debit - credit ) AS balance
         FROM {$wpdb->prefix}erp_acct_opening_balances
@@ -446,7 +450,7 @@ class Bank
      */
     function salesTaxAgency($args, $type)
     {
-        global $wpdb;
+       
 
         if ('payable' === $type) {
             $having = 'HAVING balance < 0';
@@ -475,7 +479,8 @@ class Bank
      */
     function salesTaxAgencyWithOpeningBalance($bs_start_date, $data, $sql, $type)
     {
-        global $wpdb;
+       
+        $trialbal = new TrialBalance();
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($bs_start_date);
@@ -512,7 +517,7 @@ class Bank
      */
     function salesTaxAgencyOpeningBalanceByFnYearId($id, $type)
     {
-        global $wpdb;
+       
 
         if ('payable' === $type) {
             $having = 'HAVING balance < 0';

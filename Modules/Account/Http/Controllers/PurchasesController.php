@@ -5,8 +5,12 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\People;
+use Modules\Account\Classes\Purchases;
 
-class AccountsController extends Controller
+
+class PurchasesController extends Controller
 {
 
     /**
@@ -18,6 +22,7 @@ class AccountsController extends Controller
      */
     public function get_purchases($request)
     {
+        $purchases = new Purchases();
         $args = [
             'number' => (int) !empty($request['per_page']) ? intval($request['per_page']) : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -84,7 +89,7 @@ class AccountsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $puchase_data = erp_acct_get_due_purchases_by_vendor($args);
+        $puchase_data = $this->getDuePurchasesByVendor($args);
         $total_items  = count($puchase_data);
 
         foreach ($puchase_data as $item) {
@@ -119,6 +124,7 @@ class AccountsController extends Controller
      */
     public function get_purchase($request)
     {
+        $purchases = new Purchases();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -184,6 +190,9 @@ class AccountsController extends Controller
      */
     public function update_purchase($request)
     {
+        $common = new CommonFunc();
+        $purchases = new Purchases();
+        
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -259,10 +268,11 @@ class AccountsController extends Controller
      */
     public function add_log($data, $action, $old_data = [])
     {
+        $common = new CommonFunc();
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
-                $changes   = !empty($old_data) ? erp_get_array_diff($data, $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff($data, $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -270,18 +280,6 @@ class AccountsController extends Controller
             default:
                 $operation = 'created';
         }
-
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Purchase', 'erp'),
-                'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
-                'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('A purchase of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, $people->getPeopleNameByPeopleId($data['vendor_id'])),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**
@@ -365,6 +363,8 @@ class AccountsController extends Controller
      */
     public function prepare_item_for_response($item, $request, $additional_fields = [])
     {
+
+        $people = new People();
         $item = (object) $item;
 
         $data = [

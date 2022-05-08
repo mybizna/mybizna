@@ -5,8 +5,10 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\People;
 
-class AccountsController extends Controller
+class CustomersController extends Controller
 {
 
 
@@ -19,6 +21,7 @@ class AccountsController extends Controller
      */
     public function get_customers($request)
     {
+        $people = new People();
         $args = [
             'number' => $request['per_page'],
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -76,6 +79,8 @@ class AccountsController extends Controller
      */
     public function get_customer($request)
     {
+        $people = new People();
+
         $id   = (int) $request['id'];
         $item = $people->getPeople($id);
         $item = (array) $item;
@@ -121,6 +126,8 @@ class AccountsController extends Controller
      */
     public function create_customer($request)
     {
+        $people = new People();
+        $common = new CommonFunc();
         if ($common->existPeople($request['email'])) {
             return new WP_Error('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
         }
@@ -152,6 +159,7 @@ class AccountsController extends Controller
      */
     public function update_customer($request)
     {
+        $people = new People();
         $id = (int) $request['id'];
 
         $item = $people->getPeople($id);
@@ -188,6 +196,7 @@ class AccountsController extends Controller
      */
     public function delete_customer($request)
     {
+        $people = new People();
         $id = (int) $request['id'];
 
         $exist = $people->checkAssociatedTranasaction($id);
@@ -223,6 +232,7 @@ class AccountsController extends Controller
      */
     public function bulk_delete_customers($request)
     {
+        $people = new People();
         $ids = (string) $request['ids'];
 
         $data = [
@@ -299,6 +309,7 @@ class AccountsController extends Controller
      */
     public function filter_transactions($request)
     {
+        $people = new People();
         $id           = $request['id'];
         $start_date   = $request['start_date'];
         $end_date     = $request['end_date'];
@@ -324,11 +335,12 @@ class AccountsController extends Controller
      */
     public function add_log($data, $action, $old_data = [])
     {
+        $common = new CommonFunc();
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
                 unset($data['photo_id'], $data['raw_data'], $data['type']);
-                $changes   = !empty($old_data) ? erp_get_array_diff($data, $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff($data, $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -336,18 +348,6 @@ class AccountsController extends Controller
             default:
                 $operation = 'created';
         }
-
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Customer', 'erp'),
-                'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
-                'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => '<strong>' . $data['first_name'] . ' ' . $data['last_name'] . '</strong>' . sprintf(__(' customer has been %s', 'erp'), $operation),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**
@@ -451,6 +451,7 @@ class AccountsController extends Controller
      */
     public function prepare_item_for_response($item, $request, $additional_fields = [])
     {
+        $common = new CommonFunc();
         $item = (object) $item;
 
         $data = [
@@ -474,10 +475,10 @@ class AccountsController extends Controller
                 'street_2'     => $item->street_2,
                 'city'         => $item->city,
                 'state'        => $item->state,
-                'state_name'   => !empty($item->state) && !empty($item->country) ? erp_get_state_name($item->country, $item->state) : '',
+                'state_name'   => !empty($item->state) && !empty($item->country) ? $common->getStateName($item->country, $item->state) : '',
                 'postal_code'  => $item->postal_code,
                 'country'      => $item->country,
-                'country_name' => !empty($item->country) ? erp_get_country_name($item->country) : '',
+                'country_name' => !empty($item->country) ? $common->getCountryName($item->country) : '',
                 'email'        => $item->email,
                 'phone'        => $item->phone,
             ],

@@ -5,8 +5,10 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
 
-class AccountsController extends Controller
+
+class ProductsController extends Controller
 {
     /**
      * Get a collection of inventory_products
@@ -235,10 +237,11 @@ class AccountsController extends Controller
      */
     public function add_log($data, $action, $old_data = [])
     {
+        $common = new CommonFunc();
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
-                $changes   = !empty($old_data) ? erp_get_array_diff($data, $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff($data, $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -246,18 +249,6 @@ class AccountsController extends Controller
             default:
                 $operation = 'created';
         }
-
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Product', 'erp'),
-                'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
-                'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('<strong>%1$s</strong> product has been %2$s', 'erp'), $data['name'], $operation),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**
@@ -327,7 +318,7 @@ class AccountsController extends Controller
             'sale_price'        => $item->sale_price,
             'vendor_name'       => !empty($item->vendor_name) ? $item->vendor_name : '',
             'cat_name'          => !empty($item->cat_name) ? $item->cat_name : '',
-            'tax_cat_name'      => erp_acct_get_tax_category_by_id($item->tax_cat_id),
+            'tax_cat_name'      => $tax_cats->getTaxCategoryById($item->tax_cat_id),
         ];
 
         $data = array_merge($data, $additional_fields);

@@ -2,7 +2,12 @@
 
 namespace Modules\Account\Classes;
 
-class Bank
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\Transactions;
+use Modules\Account\Classes\People;
+use Modules\Account\Classes\Bank;
+
+class Expenses
 {
 
     /**
@@ -14,7 +19,7 @@ class Bank
      */
     function getExpenses($args = [])
     {
-        global $wpdb;
+       
 
         $defaults = [
             'number'  => 20,
@@ -37,8 +42,8 @@ class Bank
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
         $sql .= "FROM {$wpdb->prefix}erp_acct_expenses WHERE `trn_by_ledger_id` IS NOT NULL ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         if ($args['count']) {
             return $wpdb->get_var($sql);
@@ -58,7 +63,7 @@ class Bank
      */
     function getExpense($expense_no)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT
 
@@ -84,8 +89,8 @@ class Bank
 
             FROM {$wpdb->prefix}erp_acct_expenses AS expense WHERE expense.voucher_no = {$expense_no}";
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 
@@ -110,7 +115,7 @@ class Bank
      */
     function getCheck($expense_no)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT
 
@@ -141,8 +146,8 @@ class Bank
 
     WHERE expense.voucher_no = {$expense_no} AND expense.trn_by = 3";
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 
@@ -156,7 +161,7 @@ class Bank
      */
     function formatCheckLineItems($voucher_no)
     {
-        global $wpdb;
+       
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -188,7 +193,7 @@ class Bank
      */
     function formatExpenseLineItems($voucher_no)
     {
-        global $wpdb;
+       
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -216,16 +221,18 @@ class Bank
      */
     function insertExpense($data)
     {
-        global $wpdb;
+       
+        $common = new CommonFunc();
+        $people = new People();
 
-        $created_by         = get_current_user_id();
+        $created_by         =auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $created_by;
 
         $voucher_no = null;
-        $currency   = erp_get_currency(true);
+        $currency   = $common->getCurrency(true);
 
         try {
             $wpdb->query('START TRANSACTION');
@@ -237,7 +244,7 @@ class Bank
             }
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_voucher_no',
+                'erp_acct_voucher_no',
                 [
                     'type'       => $type,
                     'currency'   => $currency,
@@ -260,7 +267,7 @@ class Bank
 
 
             $wpdb->insert(
-                $wpdb->prefix . 'erp_acct_expenses',
+                'erp_acct_expenses',
                 [
                     'voucher_no'         => $expense_data['voucher_no'],
                     'people_id'          => $expense_data['people_id'],
@@ -289,7 +296,7 @@ class Bank
 
             foreach ($items as $key => $item) {
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_expense_details',
+                    'erp_acct_expense_details',
                     [
                         'trn_no'      => $voucher_no,
                         'ledger_id'   => $item['ledger_id'],
@@ -345,7 +352,7 @@ class Bank
             do_action('erp_acct_after_expense_create', $expense_data, $voucher_no);
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('expense-exception', $e->getMessage());
@@ -381,7 +388,7 @@ class Bank
      */
     function updateExpense($data, $expense_id)
     {
-        global $wpdb;
+       
 
         if ($data['convert']) {
             $expense->convertDraftToExpense($data, $expense_id);
@@ -389,7 +396,7 @@ class Bank
             return;
         }
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -399,7 +406,7 @@ class Bank
             $expense_data = $expense->getFormattedExpenseData($data, $expense_id);
 
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_expenses',
+                'erp_acct_expenses',
                 [
                     'people_id'        => $expense_data['people_id'],
                     'people_name'      => $expense_data['people_name'],
@@ -436,7 +443,7 @@ class Bank
 
             foreach ($items as $key => $item) {
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_expense_details',
+                    'erp_acct_expense_details',
                     [
                         'ledger_id'   => $item['ledger_id'],
                         'particulars' => $item['particulars'],
@@ -450,7 +457,7 @@ class Bank
             }
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('expense-exception', $e->getMessage());
@@ -470,9 +477,11 @@ class Bank
      */
     function convertDraftToExpense($data, $expense_id)
     {
-        global $wpdb;
+       
+        $common = new CommonFunc();
+        $people = new People();
 
-        $updated_by         = get_current_user_id();
+        $updated_by         =auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -488,7 +497,7 @@ class Bank
             $expense_data = $expense->getFormattedExpenseData($data, $expense_id);
 
             $wpdb->update(
-                $wpdb->prefix . 'erp_acct_expenses',
+                'erp_acct_expenses',
                 [
                     'people_id'        => $expense_data['people_id'],
                     'people_name'      => $expense_data['people_name'],
@@ -526,7 +535,7 @@ class Bank
 
             foreach ($items as $item) {
                 $wpdb->insert(
-                    $wpdb->prefix . 'erp_acct_expense_details',
+                    'erp_acct_expense_details',
                     [
                         'ledger_id'   => $item['ledger_id'],
                         'particulars' => $item['particulars'],
@@ -566,7 +575,7 @@ class Bank
             do_action('erp_acct_after_expense_create', $expense_data, $expense_id);
 
             $wpdb->query('COMMIT');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
 
             return new WP_error('expense-exception', $e->getMessage());
@@ -601,14 +610,14 @@ class Bank
      */
     function voidExpense($id)
     {
-        global $wpdb;
+       
 
         if (!$id) {
             return;
         }
 
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_expenses',
+            'erp_acct_expenses',
             [
                 'status' => 8,
             ],
@@ -617,7 +626,6 @@ class Bank
 
         $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
         $wpdb->delete($wpdb->prefix . 'erp_acct_expense_details', ['trn_no' => $id]);
-
     }
 
     /**
@@ -630,13 +638,14 @@ class Bank
      */
     function getFormattedExpenseData($data, $voucher_no)
     {
+        $people = new People();
         $expense_data = [];
 
         $people  = $people->getPeople($data['people_id']);
         $company = new \WeDevs\ERP\Company();
 
         $expense_data['voucher_no']       = !empty($voucher_no) ? $voucher_no : 0;
-        $expense_data['people_id']        = isset($data['people_id']) ? $data['people_id'] : get_current_user_id();
+        $expense_data['people_id']        = isset($data['people_id']) ? $data['people_id'] :auth()->user()->id;
         $expense_data['people_name']      = isset($people) ? $people->first_name . ' ' . $people->last_name : '';
         $expense_data['billing_address']  = isset($data['billing_address']) ? $data['billing_address'] : '';
         $expense_data['trn_date']         = isset($data['trn_date']) ? $data['trn_date'] : date('Y-m-d');
@@ -672,7 +681,7 @@ class Bank
      */
     function insertExpenseDataIntoLedger($expense_data, $item_data = [])
     {
-        global $wpdb;
+       
 
         $draft  = 1;
         $people = '4'; // from reimbursement
@@ -683,7 +692,7 @@ class Bank
 
         // Insert amount in ledger_details
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $item_data['ledger_id'],
                 'trn_no'      => $expense_data['voucher_no'],
@@ -710,7 +719,7 @@ class Bank
      */
     function updateExpenseDataIntoLedger($expense_data, $expense_no, $item_data = [])
     {
-        global $wpdb;
+       
 
         if (1 === $expense_data['status'] && (isset($expense_data['trn_by']) && 4 === $expense_data['trn_by'])) {
             return;
@@ -718,7 +727,7 @@ class Bank
 
         // Update amount in ledger_details
         $wpdb->update(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $item_data['ledger_id'],
                 'particulars' => $expense_data['particulars'],
@@ -745,7 +754,7 @@ class Bank
      */
     function insertSourceExpenseDataIntoLedger($expense_data)
     {
-        global $wpdb;
+       
 
         if (1 === $expense_data['status'] && (isset($expense_data['trn_by']) && 4 === $expense_data['trn_by'])) {
             return;
@@ -753,7 +762,7 @@ class Bank
 
         // Insert amount in ledger_details
         $wpdb->insert(
-            $wpdb->prefix . 'erp_acct_ledger_details',
+            'erp_acct_ledger_details',
             [
                 'ledger_id'   => $expense_data['trn_by_ledger_id'],
                 'trn_no'      => $expense_data['voucher_no'],
@@ -778,7 +787,7 @@ class Bank
      */
     function getCheckDataOfExpense($expense_no)
     {
-        global $wpdb;
+       
 
         $sql = "SELECT
                 cheque.bank,
@@ -797,8 +806,8 @@ class Bank
 
             WHERE cheque.trn_no = {$expense_no}";
 
-       //config()->set('database.connections.mysql.strict', false);
-//config()->set('database.connections.mysql.strict', true);
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
 
         $row = $wpdb->get_row($sql, ARRAY_A);
 

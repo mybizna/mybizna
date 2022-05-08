@@ -5,8 +5,13 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\LedgerAccounts;
+use Modules\Account\Classes\RecPayments;
+use Modules\Account\Classes\Purchases;
 
-class AccountsController extends Controller
+
+class PaymentController extends Controller
 {
 
     /**
@@ -18,6 +23,7 @@ class AccountsController extends Controller
      */
     public function get_payments($request)
     {
+        $recpayments = new RecPayments();
         $args = [
             'number' => isset($request['per_page']) ? $request['per_page'] : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -95,6 +101,7 @@ class AccountsController extends Controller
      */
     public function create_payment($request)
     {
+        $recpayments = new RecPayments();
         $additional_fields = [];
         $payment_data      = $this->prepare_item_for_database($request);
 
@@ -131,6 +138,7 @@ class AccountsController extends Controller
      */
     public function update_payment($request)
     {
+        $recpayments = new RecPayments();
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -181,7 +189,7 @@ class AccountsController extends Controller
             return new WP_Error('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        erp_acct_void_payment($id);
+        $payment->voidPayment($id);
 
         return new WP_REST_Response(true, 204);
     }
@@ -197,10 +205,11 @@ class AccountsController extends Controller
      */
     public function add_log($data, $action, $old_data = [])
     {
+        $common = new CommonFunc();
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
-                $changes   = !empty($old_data) ? erp_get_array_diff($data, $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff($data, $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -208,18 +217,6 @@ class AccountsController extends Controller
             default:
                 $operation = 'created';
         }
-
-        erp_log()->add(
-            [
-                'component'     => 'Accounting',
-                'sub_component' => __('Receive Payment', 'erp'),
-                'old_value'     => isset($changes['old_value']) ? $changes['old_value'] : '',
-                'new_value'     => isset($changes['new_value']) ? $changes['new_value'] : '',
-                'message'       => sprintf(__('An invoice payment of %1$s has been %2$s for %3$s', 'erp'), $data['amount'], $operation, $people->getPeopleNameByPeopleId($data['customer_id'])),
-                'changetype'    => $action,
-                'created_by'    => get_current_user_id(),
-            ]
-        );
     }
 
     /**
@@ -327,6 +324,8 @@ class AccountsController extends Controller
      */
     public function prepare_item_for_response($item, $request, $additional_fields = [])
     {
+        $common = new CommonFunc();
+        $ledger = new LedgerAccounts();
         $item = (object) $item;
 
         $data = [
@@ -341,7 +340,7 @@ class AccountsController extends Controller
             'account'               => $ledger->getLedgerNameById($item->trn_by_ledger_id),
             'line_items'            => $item->line_items,
             'attachments'           => maybe_unserialize($item->attachments),
-            'status'                => erp_acct_get_trn_status_by_id($item->status),
+            'status'                => $common->getTrnStatusById($item->status),
             'pdf_link'              => $item->pdf_link,
             'type'                  => !empty($item->type) ? $item->type : 'payment',
             'particulars'           => $item->particulars,
