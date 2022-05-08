@@ -10,6 +10,7 @@ use Modules\Account\Classes\LedgerAccounts;
 use Modules\Account\Classes\RecPayments;
 use Modules\Account\Classes\Purchases;
 
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {

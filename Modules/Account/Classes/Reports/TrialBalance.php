@@ -2,10 +2,9 @@
 
 namespace Modules\Account\Classes\Reports;
 
+use Illuminate\Support\Facades\DB;
 /**
- * ===================================================
  * Trial Balance
- * ===================================================
  */
 class TrialBalance
 {

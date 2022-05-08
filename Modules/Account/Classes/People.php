@@ -2,6 +2,8 @@
 
 namespace Modules\Account\Classes;
 
+use Illuminate\Support\Facades\DB;
+
 class People
 {
 
@@ -15,7 +17,7 @@ class People
      */
     function addEmployeeAsPeople($data, $update = false)
     {
-       
+
         $people_id = null;
 
         if ($this->isEmployeePeople($data['user_id'])) {
@@ -48,7 +50,7 @@ class People
                     'life_stage'    => '',
                     'contact_owner' => '',
                     'hash'          => '',
-                    'created_by'    =>auth()->user()->id,
+                    'created_by'    => auth()->user()->id,
                     'created'       => '',
                 ],
                 [
@@ -56,34 +58,34 @@ class People
                 ]
             );
         } else {
-            $wpdb->insert(
-                'erp_peoples',
-                [
-                    'user_id'       => $data['user_id'],
-                    'first_name'    => $data['personal']['first_name'],
-                    'last_name'     => $data['personal']['last_name'],
-                    'company'       => $company->name,
-                    'email'         => $data['user_email'],
-                    'phone'         => $data['personal']['phone'],
-                    'mobile'        => $data['personal']['mobile'],
-                    'other'         => '',
-                    'website'       => '',
-                    'fax'           => '',
-                    'notes'         => $data['personal']['description'],
-                    'street_1'      => $data['personal']['street_1'],
-                    'street_2'      => $data['personal']['street_2'],
-                    'city'          => $data['personal']['city'],
-                    'state'         => $data['personal']['state'],
-                    'postal_code'   => $data['personal']['postal_code'],
-                    'country'       => $data['personal']['country'],
-                    'currency'      => '',
-                    'life_stage'    => '',
-                    'contact_owner' => '',
-                    'hash'          => '',
-                    'created_by'    =>auth()->user()->id,
-                    'created'       => '',
-                ]
-            );
+            DB::table('erp_peoples')
+                ->insert(
+                    [
+                        'user_id'       => $data['user_id'],
+                        'first_name'    => $data['personal']['first_name'],
+                        'last_name'     => $data['personal']['last_name'],
+                        'company'       => $company->name,
+                        'email'         => $data['user_email'],
+                        'phone'         => $data['personal']['phone'],
+                        'mobile'        => $data['personal']['mobile'],
+                        'other'         => '',
+                        'website'       => '',
+                        'fax'           => '',
+                        'notes'         => $data['personal']['description'],
+                        'street_1'      => $data['personal']['street_1'],
+                        'street_2'      => $data['personal']['street_2'],
+                        'city'          => $data['personal']['city'],
+                        'state'         => $data['personal']['state'],
+                        'postal_code'   => $data['personal']['postal_code'],
+                        'country'       => $data['personal']['country'],
+                        'currency'      => '',
+                        'life_stage'    => '',
+                        'contact_owner' => '',
+                        'hash'          => '',
+                        'created_by'    => auth()->user()->id,
+                        'created'       => '',
+                    ]
+                );
 
             $people_id = $wpdb->insert_id;
         }
@@ -120,15 +122,14 @@ class People
         $id   = $this->insertPeopleDB($args);
 
         if (!is_wp_error($id)) {
-           
+
 
             $type_id = $this->getPeopleTypeIdByName($args['type']);
 
-            $wpdb->insert(
-                "{$wpdb->prefix}erp_people_type_relations",
-                ['people_id' => $id, 'people_types_id' => $type_id],
-                ['%d', '%d']
-            );
+            DB::table("erp_people_type_relations")
+                ->insert(
+                    ['people_id' => $id, 'people_types_id' => $type_id],
+                );
         }
 
         return $id;
@@ -144,7 +145,7 @@ class People
      */
     function peopleFilterTransaction($people_id, $args = [])
     {
-       
+
         $start_date = isset($args['start_date']) ? $args['start_date'] : '';
         $end_date   = isset($args['end_date']) ? $args['start_date'] : '';
 
@@ -162,7 +163,7 @@ class People
      */
     function getPeopleAddress($people_id)
     {
-       
+
 
         $row = [];
 
@@ -201,7 +202,7 @@ class People
      */
     function getPeopleTransactions($args = [])
     {
-       
+
 
         $defaults = [
             'number' => 20,
@@ -347,7 +348,7 @@ class People
      */
     function getPeoplePreviousBalance($args = [])
     {
-       
+
 
         $opening_balance_query     = $wpdb->prepare("SELECT SUM(debit - credit) AS opening_balance FROM {$wpdb->prefix}erp_acct_opening_balances where type = 'people' AND ledger_id = %d AND financial_year_id = %d", $args['people_id'], $args['financial_year_id']);
         $opening_balance_result    = $wpdb->get_row($opening_balance_query, ARRAY_A);
@@ -369,7 +370,7 @@ class People
      */
     function getPeopleTypeById($people_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT people_types_id FROM {$wpdb->prefix}erp_people_type_relations WHERE people_id = %d LIMIT 1", $people_id));
 
@@ -385,7 +386,7 @@ class People
      */
     function getPeopleTypeByTypeId($type_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_people_types WHERE id = %d LIMIT 1", $type_id));
 
@@ -403,7 +404,7 @@ class People
      */
     function getPeopleTypeIdByName($type_name)
     {
-       
+
 
         $row = $wpdb->get_row(
             $wpdb->prepare(
@@ -424,7 +425,7 @@ class People
      */
     function getPeopleIdByUserId($user_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_peoples WHERE user_id = %d LIMIT 1", $user_id));
 
@@ -438,7 +439,7 @@ class People
      */
     function getPeopleNameByPeopleId($people_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT first_name, last_name FROM {$wpdb->prefix}erp_peoples WHERE id = %d LIMIT 1", $people_id));
 
@@ -454,7 +455,7 @@ class People
      */
     function isEmployeePeople($user_id)
     {
-       
+
 
         if (!$user_id) {
             return false;
@@ -478,7 +479,7 @@ class People
      */
     function getUserIdByPeopleId($people_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT user_id FROM {$wpdb->prefix}erp_peoples WHERE id = %d LIMIT 1", $people_id));
 
@@ -490,7 +491,7 @@ class People
      */
     function getAccountingPeople($args = [])
     {
-       
+
 
         $defaults = [
             'type'       => 'all',
@@ -652,7 +653,7 @@ class People
      */
     function checkAssociatedTranasaction($people_id)
     {
-       
+
 
         return $wpdb->get_var(
             $wpdb->prepare(
@@ -676,7 +677,7 @@ class People
      */
     function getPeoples($args = [])
     {
-       
+
 
         $defaults = [
             'type'       => 'all',
@@ -695,7 +696,7 @@ class People
         ];
 
         $args                 = wp_parse_args($args, $defaults);
-        $args['crm_agent_id'] =get_current_user_id();
+        $args['crm_agent_id'] = get_current_user_id();
 
         $people_type  = is_array($args['type']) ? implode('-', $args['type'])       : $args['type'];
         $items        = false;
@@ -902,7 +903,6 @@ class People
             do_action('erp_after_delete_people', $people_id, $data);
             do_action("erp_acct_delete_{$data['type']}", $data);
         }
-
     }
 
     /**
@@ -949,7 +949,6 @@ class People
 
             do_action('erp_after_restoring_people', $people_id, $data);
         }
-
     }
 
     /**
@@ -1020,7 +1019,7 @@ class People
      */
     function getPeopleBy($field, $value)
     {
-       
+
 
         if (empty($field)) {
             return new WP_Error('no-field', __('No field provided', 'erp'));
@@ -1240,7 +1239,7 @@ class People
                 $user->user_email = '';
             }
 
-            $args['created_by'] =auth()->user()->id ?auth()->user()->id : 1;
+            $args['created_by'] = auth()->user()->id ? auth()->user()->id : 1;
             $args['hash']       = sha1(microtime() . 'erp-unique-hash-id' . $args['email']);
 
             $existing_people_by_email = \WeDevs\ERP\Framework\Models\People::where('email', $args['email'])->first();
@@ -1570,7 +1569,7 @@ class People
      */
     function getPeopleEmail($id)
     {
-       
+
 
         $sql = $wpdb->prepare("SELECT email FROM {$wpdb->prefix}erp_peoples WHERE id = %d", absint($id));
 
@@ -1588,7 +1587,7 @@ class People
      */
     function isPeopleTrashed($id)
     {
-       
+
 
         $trashed = $wpdb->get_var(
             $wpdb->prepare("SELECT deleted_at FROM {$wpdb->prefix}erp_people_type_relations WHERE people_id = %d", absint($id))

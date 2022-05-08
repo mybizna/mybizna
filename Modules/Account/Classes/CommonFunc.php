@@ -4,6 +4,8 @@ namespace Modules\Account\Classes;
 
 use Modules\Account\Classes\People;
 
+use Illuminate\Support\Facades\DB;
+
 class CommonFunc
 {
 
@@ -16,7 +18,7 @@ class CommonFunc
      */
     function getCurrency($get_only_id = false)
     {
-       
+
 
         $usd = 148;
 
@@ -109,7 +111,7 @@ class CommonFunc
      */
     function getPayables($from, $to)
     {
-       
+
 
         $from_date = date('Y-m-d', strtotime($from));
         $to_date   = date('Y-m-d', strtotime($to));
@@ -224,24 +226,24 @@ class CommonFunc
      */
     function insertCheckData($check_data)
     {
-       
 
-        $wpdb->insert(
-            'erp_acct_expense_checks',
-            [
-                'trn_no'       => $check_data['voucher_no'],
-                'check_no'     => $check_data['check_no'],
-                'voucher_type' => $check_data['voucher_type'],
-                'amount'       => $check_data['amount'],
-                'bank'         => $check_data['bank'],
-                'name'         => $check_data['name'],
-                'pay_to'       => $check_data['pay_to'],
-                'created_at'   => $check_data['created_at'],
-                'created_by'   => $check_data['created_by'],
-                'updated_at'   => $check_data['updated_at'],
-                'updated_by'   => $check_data['updated_by'],
-            ]
-        );
+
+        DB::table('erp_acct_expense_checks')
+            ->insert(
+                [
+                    'trn_no'       => $check_data['voucher_no'],
+                    'check_no'     => $check_data['check_no'],
+                    'voucher_type' => $check_data['voucher_type'],
+                    'amount'       => $check_data['amount'],
+                    'bank'         => $check_data['bank'],
+                    'name'         => $check_data['name'],
+                    'pay_to'       => $check_data['pay_to'],
+                    'created_at'   => $check_data['created_at'],
+                    'created_by'   => $check_data['created_by'],
+                    'updated_at'   => $check_data['updated_at'],
+                    'updated_by'   => $check_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -254,26 +256,26 @@ class CommonFunc
      */
     function updateCheckData($check_data, $check_no)
     {
-       
 
-        $wpdb->insert(
-            'erp_acct_expense_checks',
-            [
-                'trn_no'       => $check_data['voucher_no'],
-                'voucher_type' => $check_data['voucher_type'],
-                'amount'       => $check_data['amount'],
-                'bank'         => $check_data['bank'],
-                'name'         => $check_data['name'],
-                'pay_to'       => $check_data['pay_to'],
-                'created_at'   => $check_data['created_at'],
-                'created_by'   => $check_data['created_by'],
-                'updated_at'   => $check_data['updated_at'],
-                'updated_by'   => $check_data['updated_by'],
-            ],
-            [
-                'check_no' => $check_no,
-            ]
-        );
+
+        DB::table('erp_acct_expense_checks')
+            ->insert(
+                [
+                    'trn_no'       => $check_data['voucher_no'],
+                    'voucher_type' => $check_data['voucher_type'],
+                    'amount'       => $check_data['amount'],
+                    'bank'         => $check_data['bank'],
+                    'name'         => $check_data['name'],
+                    'pay_to'       => $check_data['pay_to'],
+                    'created_at'   => $check_data['created_at'],
+                    'created_by'   => $check_data['created_by'],
+                    'updated_at'   => $check_data['updated_at'],
+                    'updated_by'   => $check_data['updated_by'],
+                ],
+                [
+                    'check_no' => $check_no,
+                ]
+            );
     }
 
     /**
@@ -285,7 +287,7 @@ class CommonFunc
      */
     function getPeopleInfoById($people_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT first_name, last_name, email FROM {$wpdb->prefix}erp_peoples WHERE id = %d LIMIT 1", $people_id));
 
@@ -301,7 +303,7 @@ class CommonFunc
      */
     function getLedgerById($ledger_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name, slug, code FROM {$wpdb->prefix}erp_acct_ledgers WHERE id = %d LIMIT 1", $ledger_id));
 
@@ -320,7 +322,7 @@ class CommonFunc
      */
     function getLedgerBy($field = 'id', $value = '')
     {
-       
+
 
         $field = sanitize_text_field($field);
         // validate fields
@@ -347,7 +349,7 @@ class CommonFunc
      */
     function getProductTypeById($product_type_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_product_types WHERE id = %d LIMIT 1", $product_type_id));
 
@@ -363,7 +365,7 @@ class CommonFunc
      */
     function getProductCategoryById($cat_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_product_categories WHERE id = %d LIMIT 1", $cat_id));
 
@@ -379,7 +381,7 @@ class CommonFunc
      */
     function getTaxAgencyById($agency_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1", $agency_id));
 
@@ -395,7 +397,7 @@ class CommonFunc
      */
     function getTaxCategoryById($cat_id)
     {
-       
+
 
         if (null !== $cat_id) {
             return $wpdb->get_var($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_tax_categories WHERE id = %d", $cat_id));
@@ -413,7 +415,7 @@ class CommonFunc
      */
     function getTrnStatusById($trn_id)
     {
-       
+
 
         if (!$trn_id) {
             return 'pending';
@@ -433,7 +435,7 @@ class CommonFunc
      */
     function getPaymentMethodById($method_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_payment_methods WHERE id = %d LIMIT 1", $method_id));
 
@@ -449,7 +451,7 @@ class CommonFunc
      */
     function getPaymentMethodNameById($method_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_payment_methods WHERE id = %d LIMIT 1", $method_id));
 
@@ -465,7 +467,7 @@ class CommonFunc
      */
     function getCheckTrnTypeById($trn_type_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_check_trn_tables WHERE id = %d LIMIT 1", $trn_type_id));
 
@@ -484,7 +486,7 @@ class CommonFunc
      */
     function getTaxRateWithAgency($tax_id, $tax_cat_id)
     {
-       
+
 
         return $wpdb->get_results(
             $wpdb->prepare(
@@ -508,7 +510,7 @@ class CommonFunc
      */
     function getInvoiceItemsAgencyWiseTaxRate($invoice_details_id)
     {
-       
+
 
         $result = $wpdb->get_results(
             $wpdb->prepare(
@@ -621,7 +623,7 @@ class CommonFunc
      */
     function checkVoucherEditState($id)
     {
-       
+
 
         $res = $wpdb->get_var($wpdb->prepare("SELECT editable FROM {$wpdb->prefix}erp_acct_voucher_no WHERE id = %d", $id));
 
@@ -671,7 +673,7 @@ class CommonFunc
      */
     function trnStatusById($slug)
     {
-       
+
 
         return $wpdb->get_var($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_acct_trn_status_types WHERE slug = %s", $slug));
     }
@@ -683,7 +685,7 @@ class CommonFunc
      */
     function getAllTrnStatuses()
     {
-       
+
 
         return $wpdb->get_results("SELECT id,type_name as name, slug FROM {$wpdb->prefix}erp_acct_trn_status_types", ARRAY_A);
     }
@@ -733,7 +735,7 @@ class CommonFunc
      */
     function insertBankTransactionChargeIntoLedger($payment_data)
     {
-       
+
 
         if (1 === $payment_data['status'] || (isset($payment_data['trn_by']) && 4 === $payment_data['trn_by'])) {
             return;
@@ -747,37 +749,37 @@ class CommonFunc
             return;
         }
 
-        $wpdb->insert(
-            'erp_acct_ledger_details',
-            array(
-                'ledger_id'   => $ledger_data['id'],
-                'trn_no'      => $payment_data['voucher_no'],
-                'particulars' => $payment_data['particulars'],
-                'debit'       => $payment_data['bank_trn_charge'],
-                'credit'      => 0,
-                'trn_date'    => $payment_data['trn_date'],
-                'created_at'  => $payment_data['created_at'],
-                'created_by'  => $payment_data['created_by'],
-                'updated_at'  => $payment_data['updated_at'],
-                'updated_by'  => $payment_data['updated_by'],
-            )
-        );
+        DB::table('erp_acct_ledger_details')
+            ->insert(
+                array(
+                    'ledger_id'   => $ledger_data['id'],
+                    'trn_no'      => $payment_data['voucher_no'],
+                    'particulars' => $payment_data['particulars'],
+                    'debit'       => $payment_data['bank_trn_charge'],
+                    'credit'      => 0,
+                    'trn_date'    => $payment_data['trn_date'],
+                    'created_at'  => $payment_data['created_at'],
+                    'created_by'  => $payment_data['created_by'],
+                    'updated_at'  => $payment_data['updated_at'],
+                    'updated_by'  => $payment_data['updated_by'],
+                )
+            );
 
-        $wpdb->insert(
-            'erp_acct_ledger_details',
-            array(
-                'ledger_id'   => $payment_data['trn_by_ledger_id'],
-                'trn_no'      => $payment_data['voucher_no'],
-                'particulars' => $payment_data['particulars'],
-                'debit'       => 0,
-                'credit'      => $payment_data['bank_trn_charge'],
-                'trn_date'    => $payment_data['trn_date'],
-                'created_at'  => $payment_data['created_at'],
-                'created_by'  => $payment_data['created_by'],
-                'updated_at'  => $payment_data['updated_at'],
-                'updated_by'  => $payment_data['updated_by'],
-            )
-        );
+        DB::table('erp_acct_ledger_details')
+            ->insert(
+                array(
+                    'ledger_id'   => $payment_data['trn_by_ledger_id'],
+                    'trn_no'      => $payment_data['voucher_no'],
+                    'particulars' => $payment_data['particulars'],
+                    'debit'       => 0,
+                    'credit'      => $payment_data['bank_trn_charge'],
+                    'trn_date'    => $payment_data['trn_date'],
+                    'created_at'  => $payment_data['created_at'],
+                    'created_by'  => $payment_data['created_by'],
+                    'updated_at'  => $payment_data['updated_at'],
+                    'updated_by'  => $payment_data['updated_by'],
+                )
+            );
     }
 
     /**

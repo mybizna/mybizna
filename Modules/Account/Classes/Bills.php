@@ -6,6 +6,8 @@ use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\People;
 use Modules\Account\Classes\Transactions;
 
+use Illuminate\Support\Facades\DB;
+
 class Bills
 {
 
@@ -18,7 +20,7 @@ class Bills
      */
     function getBills($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -59,7 +61,7 @@ class Bills
      */
     function getBill($bill_no)
     {
-       
+
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -105,7 +107,7 @@ class Bills
      */
     function formatBillLineItems($voucher_no)
     {
-       
+
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -139,14 +141,14 @@ class Bills
      */
     function insertBill($data)
     {
-       
+
 
         $common = new CommonFunc();
         $people = new People();
         $trans = new Transactions();
 
-        $trans
-        $created_by =auth()->user()->id;
+        //$trans
+        $created_by = auth()->user()->id;
         $voucher_no = null;
         $draft      = 1;
 
@@ -159,57 +161,57 @@ class Bills
         try {
             $wpdb->query('START TRANSACTION');
 
-            $wpdb->insert(
-                'erp_acct_voucher_no',
-                [
-                    'type'       => 'bill',
-                    'currency'   => $currency,
-                    'editable'   => 1,
-                    'created_at' => $data['created_at'],
-                    'created_by' => $data['created_by'],
-                    'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : '',
-                    'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : '',
-                ]
-            );
+            DB::table('erp_acct_voucher_no')
+                ->insert(
+                    [
+                        'type'       => 'bill',
+                        'currency'   => $currency,
+                        'editable'   => 1,
+                        'created_at' => $data['created_at'],
+                        'created_by' => $data['created_by'],
+                        'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : '',
+                        'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : '',
+                    ]
+                );
 
             $voucher_no = $wpdb->insert_id;
 
             $bill_data           = $this->getFormattedBillData($data, $voucher_no);
             $bill_data['trn_no'] = $voucher_no;
 
-            $wpdb->insert(
-                'erp_acct_bills',
-                [
-                    'voucher_no'  => $bill_data['voucher_no'],
-                    'vendor_id'   => $bill_data['vendor_id'],
-                    'vendor_name' => $bill_data['vendor_name'],
-                    'address'     => $bill_data['billing_address'],
-                    'trn_date'    => $bill_data['trn_date'],
-                    'due_date'    => $bill_data['due_date'],
-                    'amount'      => $bill_data['amount'],
-                    'ref'         => $bill_data['ref'],
-                    'particulars' => $bill_data['particulars'],
-                    'status'      => $bill_data['status'],
-                    'attachments' => $bill_data['attachments'],
-                    'created_at'  => $bill_data['created_at'],
-                    'created_by'  => $bill_data['created_by'],
-                ]
-            );
-
-            $items = $bill_data['bill_details'];
-
-            foreach ($items as $key => $item) {
-                $wpdb->insert(
-                    'erp_acct_bill_details',
+            DB::table('erp_acct_bills')
+                ->insert(
                     [
-                        'trn_no'      => $voucher_no,
-                        'ledger_id'   => $item['ledger_id'],
-                        'particulars' => isset($item['description']) ? $item['description'] : '',
-                        'amount'      => $item['amount'],
+                        'voucher_no'  => $bill_data['voucher_no'],
+                        'vendor_id'   => $bill_data['vendor_id'],
+                        'vendor_name' => $bill_data['vendor_name'],
+                        'address'     => $bill_data['billing_address'],
+                        'trn_date'    => $bill_data['trn_date'],
+                        'due_date'    => $bill_data['due_date'],
+                        'amount'      => $bill_data['amount'],
+                        'ref'         => $bill_data['ref'],
+                        'particulars' => $bill_data['particulars'],
+                        'status'      => $bill_data['status'],
+                        'attachments' => $bill_data['attachments'],
                         'created_at'  => $bill_data['created_at'],
                         'created_by'  => $bill_data['created_by'],
                     ]
                 );
+
+            $items = $bill_data['bill_details'];
+
+            foreach ($items as $key => $item) {
+                DB::table('erp_acct_bill_details')
+                    ->insert(
+                        [
+                            'trn_no'      => $voucher_no,
+                            'ledger_id'   => $item['ledger_id'],
+                            'particulars' => isset($item['description']) ? $item['description'] : '',
+                            'amount'      => $item['amount'],
+                            'created_at'  => $bill_data['created_at'],
+                            'created_by'  => $bill_data['created_by'],
+                        ]
+                    );
 
                 $this->insertBillDataIntoLedger($bill_data, $item);
             }
@@ -220,19 +222,19 @@ class Bills
                 return $this->getBill($voucher_no);
             }
 
-            $wpdb->insert(
-                'erp_acct_bill_account_details',
-                [
-                    'bill_no'     => $voucher_no,
-                    'trn_no'      => $voucher_no,
-                    'trn_date'    => $bill_data['trn_date'],
-                    'particulars' => $bill_data['particulars'],
-                    'debit'       => 0,
-                    'credit'      => $bill_data['amount'],
-                    'created_at'  => $bill_data['created_at'],
-                    'created_by'  => $bill_data['created_by'],
-                ]
-            );
+            DB::table('erp_acct_bill_account_details')
+                ->insert(
+                    [
+                        'bill_no'     => $voucher_no,
+                        'trn_no'      => $voucher_no,
+                        'trn_date'    => $bill_data['trn_date'],
+                        'particulars' => $bill_data['particulars'],
+                        'debit'       => 0,
+                        'credit'      => $bill_data['amount'],
+                        'created_at'  => $bill_data['created_at'],
+                        'created_by'  => $bill_data['created_by'],
+                    ]
+                );
 
             $data['dr'] = 0;
             $data['cr'] = $bill_data['amount'];
@@ -267,10 +269,10 @@ class Bills
      */
     function updateBill($data, $bill_id)
     {
-       
+
         $common = new CommonFunc();
 
-        $user_id    =auth()->user()->id;
+        $user_id    = auth()->user()->id;
         $draft      = 1;
         $voucher_no = null;
 
@@ -287,21 +289,21 @@ class Bills
                 $this->updateDraftBill($data, $bill_id);
             } else {
                 // disable editing on old bill
-                $wpdb->update($wpdb->prefix . 'erp_acct_voucher_no', ['editable' => 0], ['id' => $bill_id]);
+                $wpdb->update('erp_acct_voucher_no', ['editable' => 0], ['id' => $bill_id]);
 
                 // insert contra voucher
-                $wpdb->insert(
-                    'erp_acct_voucher_no',
-                    [
-                        'type'       => 'bill',
-                        'currency'   => $currency,
-                        'editable'   => 0,
-                        'created_at' => $data['created_at'],
-                        'created_by' => $data['created_by'],
-                        'updated_at' => $data['updated_at'],
-                        'updated_by' => $data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_voucher_no')
+                    ->insert(
+                        [
+                            'type'       => 'bill',
+                            'currency'   => $currency,
+                            'editable'   => 0,
+                            'created_at' => $data['created_at'],
+                            'created_by' => $data['created_by'],
+                            'updated_at' => $data['updated_at'],
+                            'updated_by' => $data['updated_by'],
+                        ]
+                    );
 
                 $voucher_no = $wpdb->insert_id;
 
@@ -338,35 +340,35 @@ class Bills
 
                 foreach ($items as $key => $item) {
                     // insert contra `erp_acct_bill_details`
-                    $wpdb->insert(
-                        'erp_acct_bill_details',
-                        [
-                            'trn_no'      => $voucher_no,
-                            'ledger_id'   => $item['ledger_id'],
-                            'particulars' => isset($item['description']) ? $item['description'] : '',
-                            'amount'      => $item['amount'],
-                            'created_at'  => $data['created_at'],
-                            'created_by'  => $data['created_by'],
-                        ]
-                    );
+                    DB::table('erp_acct_bill_details')
+                        ->insert(
+                            [
+                                'trn_no'      => $voucher_no,
+                                'ledger_id'   => $item['ledger_id'],
+                                'particulars' => isset($item['description']) ? $item['description'] : '',
+                                'amount'      => $item['amount'],
+                                'created_at'  => $data['created_at'],
+                                'created_by'  => $data['created_by'],
+                            ]
+                        );
 
                     // insert contra `erp_acct_ledger_details`
                     $this->updateBillDataIntoLedger($old_bill, $voucher_no, $item);
                 }
 
                 // insert contra `erp_acct_bill_account_details`
-                $wpdb->insert(
-                    'erp_acct_bill_account_details',
-                    [
-                        'bill_no'     => $bill_id,
-                        'trn_no'      => $voucher_no,
-                        'trn_date'    => $old_bill['trn_date'],
-                        'particulars' => $old_bill['particulars'],
-                        'debit'       => $old_bill['amount'],
-                        'updated_at'  => $data['updated_at'],
-                        'updated_by'  => $data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_bill_account_details')
+                    ->insert(
+                        [
+                            'bill_no'     => $bill_id,
+                            'trn_no'      => $voucher_no,
+                            'trn_date'    => $old_bill['trn_date'],
+                            'particulars' => $old_bill['particulars'],
+                            'debit'       => $old_bill['amount'],
+                            'updated_at'  => $data['updated_at'],
+                            'updated_by'  => $data['updated_by'],
+                        ]
+                    );
 
                 // insert new bill with edited data
                 $new_bill = $this->insertBill($data);
@@ -399,7 +401,7 @@ class Bills
      */
     function updateDraftBill($data, $bill_id)
     {
-       
+
 
         $bill_data = $this->getFormattedBillData($data, $bill_id);
 
@@ -434,22 +436,22 @@ class Bills
 
         $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_bill_details', ['trn_no' => $bill_id]);
+        $wpdb->delete('erp_acct_bill_details', ['trn_no' => $bill_id]);
 
         $items = $bill_data['bill_details'];
 
         foreach ($items as $item) {
-            $wpdb->insert(
-                'erp_acct_bill_details',
-                [
-                    'trn_no'      => $bill_id,
-                    'ledger_id'   => $item['ledger_id'],
-                    'particulars' => isset($item['description']) ? $item['description'] : '',
-                    'amount'      => $item['amount'],
-                    'created_at'  => $bill_data['created_at'],
-                    'created_by'  => $bill_data['created_by'],
-                ]
-            );
+            DB::table('erp_acct_bill_details')
+                ->insert(
+                    [
+                        'trn_no'      => $bill_id,
+                        'ledger_id'   => $item['ledger_id'],
+                        'particulars' => isset($item['description']) ? $item['description'] : '',
+                        'amount'      => $item['amount'],
+                        'created_at'  => $bill_data['created_at'],
+                        'created_by'  => $bill_data['created_by'],
+                    ]
+                );
         }
     }
 
@@ -462,7 +464,7 @@ class Bills
      */
     function voidBill($id)
     {
-       
+
 
         if (!$id) {
             return;
@@ -476,8 +478,8 @@ class Bills
             ['voucher_no' => $id]
         );
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
-        $wpdb->delete($wpdb->prefix . 'erp_acct_bill_account_details', ['bill_no' => $id]);
+        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $id]);
+        $wpdb->delete('erp_acct_bill_account_details', ['bill_no' => $id]);
     }
 
     /**
@@ -528,7 +530,7 @@ class Bills
      */
     function insertBillDataIntoLedger($bill_data, $item_data)
     {
-       
+
 
         $draft = 1;
 
@@ -537,21 +539,21 @@ class Bills
         }
 
         // Insert items amount in ledger_details
-        $wpdb->insert(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $item_data['ledger_id'],
-                'trn_no'      => $bill_data['voucher_no'],
-                'particulars' => $bill_data['particulars'],
-                'debit'       => $item_data['amount'],
-                'credit'      => 0,
-                'trn_date'    => $bill_data['trn_date'],
-                'created_at'  => $bill_data['created_at'],
-                'created_by'  => $bill_data['created_by'],
-                'updated_at'  => $bill_data['updated_at'],
-                'updated_by'  => $bill_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->insert(
+                [
+                    'ledger_id'   => $item_data['ledger_id'],
+                    'trn_no'      => $bill_data['voucher_no'],
+                    'particulars' => $bill_data['particulars'],
+                    'debit'       => $item_data['amount'],
+                    'credit'      => 0,
+                    'trn_date'    => $bill_data['trn_date'],
+                    'created_at'  => $bill_data['created_at'],
+                    'created_by'  => $bill_data['created_by'],
+                    'updated_at'  => $bill_data['updated_at'],
+                    'updated_by'  => $bill_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -565,30 +567,30 @@ class Bills
      */
     function updateBillDataIntoLedger($bill_data, $bill_no, $item_data)
     {
-       
 
-        $user_id =auth()->user()->id;
+
+        $user_id = auth()->user()->id;
 
         $bill_data['created_at'] = date('Y-m-d H:i:s');
         $bill_data['created_by'] = $user_id;
         $bill_data['updated_at'] = date('Y-m-d H:i:s');
         $bill_data['updated_by'] = $user_id;
 
-        $wpdb->insert(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $item_data['ledger_id'],
-                'trn_no'      => $bill_no,
-                'particulars' => $bill_data['particulars'],
-                'debit'       => 0,
-                'credit'      => $item_data['amount'],
-                'trn_date'    => $bill_data['trn_date'],
-                'created_at'  => $bill_data['created_at'],
-                'created_by'  => $bill_data['created_by'],
-                'updated_at'  => $bill_data['updated_at'],
-                'updated_by'  => $bill_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->insert(
+                [
+                    'ledger_id'   => $item_data['ledger_id'],
+                    'trn_no'      => $bill_no,
+                    'particulars' => $bill_data['particulars'],
+                    'debit'       => 0,
+                    'credit'      => $item_data['amount'],
+                    'trn_date'    => $bill_data['trn_date'],
+                    'created_at'  => $bill_data['created_at'],
+                    'created_by'  => $bill_data['created_by'],
+                    'updated_at'  => $bill_data['updated_at'],
+                    'updated_by'  => $bill_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -598,7 +600,7 @@ class Bills
      */
     function getBillCount()
     {
-       
+
 
         $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_bills');
 
@@ -614,7 +616,7 @@ class Bills
      */
     function getDueBillsByPeople($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -666,7 +668,7 @@ class Bills
      */
     function getBillDue($bill_no)
     {
-       
+
 
         $result = $wpdb->get_row($wpdb->prepare("SELECT bill_no, SUM( ba.debit - ba.credit) as due FROM {$wpdb->prefix}erp_acct_bill_account_details as ba WHERE ba.bill_no = %d GROUP BY ba.bill_no", $bill_no), ARRAY_A);
 

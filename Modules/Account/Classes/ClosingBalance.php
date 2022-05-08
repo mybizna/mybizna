@@ -5,6 +5,8 @@ namespace Modules\Account\Classes;
 
 use Modules\Account\Classes\Reports\TrialBalance;
 
+use Illuminate\Support\Facades\DB;
+
 class ClosingBalance
 {
     /**
@@ -16,7 +18,7 @@ class ClosingBalance
      */
     function getClosestNextFnYear($date)
     {
-       
+
 
         return $wpdb->get_row($wpdb->prepare("SELECT id, start_date, end_date FROM {$wpdb->prefix}erp_acct_financial_years WHERE start_date > '%s' ORDER BY start_date ASC LIMIT 1", $date));
     }
@@ -36,7 +38,7 @@ class ClosingBalance
         $equity         = $balance_sheet['rows3'];
         $next_f_year_id = $args['f_year_id'];
 
-       
+
 
         // remove next financial year data if exists
         $wpdb->query(
@@ -252,21 +254,21 @@ class ClosingBalance
      */
     function insertIntoOpeningBalance($f_year_id, $chart_id, $ledger_id, $type, $debit, $credit)
     {
-       
 
-        $wpdb->insert(
-            "{$wpdb->prefix}erp_acct_opening_balances",
-            [
-                'financial_year_id' => $f_year_id,
-                'chart_id'          => $chart_id,
-                'ledger_id'         => $ledger_id,
-                'type'              => $type,
-                'debit'             => $debit,
-                'credit'            => $credit,
-                'created_at'        => date('Y-m-d H:i:s'),
-                'created_by'        =>auth()->user()->id,
-            ]
-        );
+
+        DB::table("erp_acct_opening_balances")
+            ->insert(
+                [
+                    'financial_year_id' => $f_year_id,
+                    'chart_id'          => $chart_id,
+                    'ledger_id'         => $ledger_id,
+                    'type'              => $type,
+                    'debit'             => $debit,
+                    'credit'            => $credit,
+                    'created_at'        => date('Y-m-d H:i:s'),
+                    'created_by'        => auth()->user()->id,
+                ]
+            );
     }
 
     /**
@@ -278,7 +280,7 @@ class ClosingBalance
      */
     function getAccountsReceivableBalanceWithPeople($args)
     {
-       
+
 
         // mainly ( debit - credit )
         $sql = "SELECT invoice.customer_id AS id, SUM( debit - credit ) AS balance
@@ -300,7 +302,7 @@ class ClosingBalance
      */
     function getAccountsPayableBalanceWithPeople($args)
     {
-       
+
 
         $bill_sql = "SELECT bill.vendor_id AS id, SUM( debit - credit ) AS balance
         FROM {$wpdb->prefix}erp_acct_bill_account_details AS bill_acd
@@ -338,7 +340,7 @@ class ClosingBalance
     {
         $trialbal = new TrialBalance();
 
-       
+
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($bs_start_date);
@@ -362,7 +364,7 @@ class ClosingBalance
      */
     function vendorApCalcWithOpeningBalance($bs_start_date)
     {
-       
+
         $trialbal = new TrialBalance();
 
         // get closest financial year id and start date
@@ -384,7 +386,7 @@ class ClosingBalance
      */
     function customerArOpeningBalanceByFnYearId($id)
     {
-       
+
 
         $sql = "SELECT ledger_id AS id, SUM( debit - credit ) AS balance
         FROM {$wpdb->prefix}erp_acct_opening_balances
@@ -402,7 +404,7 @@ class ClosingBalance
      */
     function vendorSpOpeningBalanceByFnYearId($id)
     {
-       
+
 
         $sql = "SELECT ledger_id AS id, SUM( debit - credit ) AS balance
         FROM {$wpdb->prefix}erp_acct_opening_balances
@@ -450,7 +452,7 @@ class ClosingBalance
      */
     function salesTaxAgency($args, $type)
     {
-       
+
 
         if ('payable' === $type) {
             $having = 'HAVING balance < 0';
@@ -479,7 +481,7 @@ class ClosingBalance
      */
     function salesTaxAgencyWithOpeningBalance($bs_start_date, $data, $sql, $type)
     {
-       
+
         $trialbal = new TrialBalance();
 
         // get closest financial year id and start date
@@ -517,7 +519,7 @@ class ClosingBalance
      */
     function salesTaxAgencyOpeningBalanceByFnYearId($id, $type)
     {
-       
+
 
         if ('payable' === $type) {
             $having = 'HAVING balance < 0';

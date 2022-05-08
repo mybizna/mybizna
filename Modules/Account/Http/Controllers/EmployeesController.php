@@ -8,6 +8,8 @@ use Illuminate\Routing\Controller;
 
 use Modules\Account\Classes\People;
 
+use Illuminate\Support\Facades\DB;
+
 class EmployeesController extends Controller
 {
     /**

@@ -2,6 +2,8 @@
 
 namespace Modules\Account\Classes;
 
+use Illuminate\Support\Facades\DB;
+
 class TaxRateNames
 {
 
@@ -12,7 +14,7 @@ class TaxRateNames
      */
     function getAllTaxRateNames($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -65,7 +67,7 @@ class TaxRateNames
      */
     function getTaxRateName($tax_no)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_taxes WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
 
@@ -81,9 +83,9 @@ class TaxRateNames
      */
     function insertTaxRateName($data)
     {
-       
 
-        $created_by         =auth()->user()->id;
+
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
@@ -93,18 +95,18 @@ class TaxRateNames
 
         $tax_data = $taxratenames->getFormattedTaxRateNameData($data);
 
-        $wpdb->insert(
-            'erp_acct_taxes',
-            [
-                'tax_rate_name' => $tax_data['tax_rate_name'],
-                'tax_number'    => $tax_data['tax_number'],
-                'default'       => $tax_data['default'],
-                'created_at'    => $tax_data['created_at'],
-                'created_by'    => $tax_data['created_by'],
-                'updated_at'    => $tax_data['updated_at'],
-                'updated_by'    => $tax_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_taxes')
+            ->insert(
+                [
+                    'tax_rate_name' => $tax_data['tax_rate_name'],
+                    'tax_number'    => $tax_data['tax_number'],
+                    'default'       => $tax_data['default'],
+                    'created_at'    => $tax_data['created_at'],
+                    'created_by'    => $tax_data['created_by'],
+                    'updated_at'    => $tax_data['updated_at'],
+                    'updated_by'    => $tax_data['updated_by'],
+                ]
+            );
 
 
         return $wpdb->insert_id;
@@ -119,9 +121,9 @@ class TaxRateNames
      */
     function updateTaxRateName($data, $id)
     {
-       
 
-        $updated_by         =auth()->user()->id;
+
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -158,9 +160,9 @@ class TaxRateNames
      */
     function deleteTaxRateName($id)
     {
-       
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_taxes', ['id' => $id]);
+
+        $wpdb->delete('erp_acct_taxes', ['id' => $id]);
 
 
         return $id;

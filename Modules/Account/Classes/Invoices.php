@@ -7,6 +7,8 @@ use Modules\Account\Classes\Transactions;
 use Modules\Account\Classes\People;
 use Modules\Account\Classes\LedgerAccounts;
 
+use Illuminate\Support\Facades\DB;
+
 class Invoices
 {
     /**
@@ -16,7 +18,7 @@ class Invoices
      */
     function getAllInvoices($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -70,7 +72,7 @@ class Invoices
      */
     function getInvoice($invoice_no)
     {
-       
+
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -135,7 +137,7 @@ class Invoices
      */
     function formatInvoiceLineItems($voucher_no)
     {
-       
+
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -191,11 +193,11 @@ class Invoices
      */
     function insertInvoice($data)
     {
-       
+
         $people = new People();
 
         $common = new CommonFunc();
-        $user_id =auth()->user()->id;
+        $user_id = auth()->user()->id;
 
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $user_id;
@@ -211,45 +213,45 @@ class Invoices
         try {
             $wpdb->query('START TRANSACTION');
 
-            $wpdb->insert(
-                'erp_acct_voucher_no',
-                [
-                    'type'       => 'invoice',
-                    'currency'   => $currency,
-                    'editable'   => 1,
-                    'created_at' => $data['created_at'],
-                    'created_by' => $data['created_by'],
-                ]
-            );
+            DB::table('erp_acct_voucher_no')
+                ->insert(
+                    [
+                        'type'       => 'invoice',
+                        'currency'   => $currency,
+                        'editable'   => 1,
+                        'created_at' => $data['created_at'],
+                        'created_by' => $data['created_by'],
+                    ]
+                );
 
             $voucher_no = $wpdb->insert_id;
 
             $invoice_data = $this->getFormattedInvoiceData($data, $voucher_no);
 
-            $wpdb->insert(
-                'erp_acct_invoices',
-                [
-                    'voucher_no'      => $invoice_data['voucher_no'],
-                    'customer_id'     => $invoice_data['customer_id'],
-                    'customer_name'   => $invoice_data['customer_name'],
-                    'trn_date'        => $invoice_data['trn_date'],
-                    'due_date'        => $invoice_data['due_date'],
-                    'billing_address' => $invoice_data['billing_address'],
-                    'amount'          => $invoice_data['amount'],
-                    'discount'        => $invoice_data['discount'],
-                    'discount_type'   => $invoice_data['discount_type'],
-                    'shipping'        => $invoice_data['shipping'],
-                    'shipping_tax'    => $invoice_data['shipping_tax'],
-                    'tax'             => $invoice_data['tax'],
-                    'tax_zone_id'     => $invoice_data['tax_rate_id'],
-                    'estimate'        => $invoice_data['estimate'],
-                    'attachments'     => $invoice_data['attachments'],
-                    'status'          => $invoice_data['status'],
-                    'particulars'     => $invoice_data['particulars'],
-                    'created_at'      => $invoice_data['created_at'],
-                    'created_by'      => $invoice_data['created_by'],
-                ]
-            );
+            DB::table('erp_acct_invoices')
+                ->insert(
+                    [
+                        'voucher_no'      => $invoice_data['voucher_no'],
+                        'customer_id'     => $invoice_data['customer_id'],
+                        'customer_name'   => $invoice_data['customer_name'],
+                        'trn_date'        => $invoice_data['trn_date'],
+                        'due_date'        => $invoice_data['due_date'],
+                        'billing_address' => $invoice_data['billing_address'],
+                        'amount'          => $invoice_data['amount'],
+                        'discount'        => $invoice_data['discount'],
+                        'discount_type'   => $invoice_data['discount_type'],
+                        'shipping'        => $invoice_data['shipping'],
+                        'shipping_tax'    => $invoice_data['shipping_tax'],
+                        'tax'             => $invoice_data['tax'],
+                        'tax_zone_id'     => $invoice_data['tax_rate_id'],
+                        'estimate'        => $invoice_data['estimate'],
+                        'attachments'     => $invoice_data['attachments'],
+                        'status'          => $invoice_data['status'],
+                        'particulars'     => $invoice_data['particulars'],
+                        'created_at'      => $invoice_data['created_at'],
+                        'created_by'      => $invoice_data['created_by'],
+                    ]
+                );
 
             $this->insertInvoiceDetailsAndTax($invoice_data, $voucher_no);
 
@@ -297,9 +299,9 @@ class Invoices
      */
     function insertInvoiceDetailsAndTax($invoice_data, $voucher_no, $contra = false)
     {
-       
 
-        $user_id =auth()->user()->id;
+
+        $user_id = auth()->user()->id;
 
         $invoice_data['created_at'] = date('Y-m-d');
         $invoice_data['created_by'] = $user_id;
@@ -316,22 +318,22 @@ class Invoices
             $sub_total = $item['qty'] * $item['unit_price'];
 
             // insert into invoice details
-            $wpdb->insert(
-                'erp_acct_invoice_details',
-                [
-                    'trn_no'         => $voucher_no,
-                    'product_id'     => $item['product_id'],
-                    'qty'            => $item['qty'],
-                    'unit_price'     => $item['unit_price'],
-                    'discount'       => $item['discount'],
-                    'tax'            => $item['tax'],
-                    'tax_cat_id'     => !empty($item['tax_cat_id']) ? $item['tax_cat_id'] : null,
-                    'item_total'     => $sub_total,
-                    'ecommerce_type' => !empty($item['ecommerce_type']) ? $item['ecommerce_type'] : null,
-                    'created_at'     => $invoice_data['created_at'],
-                    'created_by'     => $invoice_data['created_by'],
-                ]
-            );
+            DB::table('erp_acct_invoice_details')
+                ->insert(
+                    [
+                        'trn_no'         => $voucher_no,
+                        'product_id'     => $item['product_id'],
+                        'qty'            => $item['qty'],
+                        'unit_price'     => $item['unit_price'],
+                        'discount'       => $item['discount'],
+                        'tax'            => $item['tax'],
+                        'tax_cat_id'     => !empty($item['tax_cat_id']) ? $item['tax_cat_id'] : null,
+                        'item_total'     => $sub_total,
+                        'ecommerce_type' => !empty($item['ecommerce_type']) ? $item['ecommerce_type'] : null,
+                        'created_at'     => $invoice_data['created_at'],
+                        'created_by'     => $invoice_data['created_by'],
+                    ]
+                );
 
             $details_id = $wpdb->insert_id;
 
@@ -358,17 +360,17 @@ class Invoices
                     }
 
                     /*==== insert into invoice details tax ====*/
-                    $wpdb->insert(
-                        'erp_acct_invoice_details_tax',
-                        [
-                            'invoice_details_id' => $details_id,
-                            'agency_id'          => $rate_agency['agency_id'],
-                            'tax_rate'           => $rate_agency['tax_rate'],
-                            'tax_amount'         => $tax_amount,
-                            'created_at'         => $invoice_data['created_at'],
-                            'created_by'         => $invoice_data['created_by'],
-                        ]
-                    );
+                    DB::table('erp_acct_invoice_details_tax')
+                        ->insert(
+                            [
+                                'invoice_details_id' => $details_id,
+                                'agency_id'          => $rate_agency['agency_id'],
+                                'tax_rate'           => $rate_agency['tax_rate'],
+                                'tax_amount'         => $tax_amount,
+                                'created_at'         => $invoice_data['created_at'],
+                                'created_by'         => $invoice_data['created_by'],
+                            ]
+                        );
                 }
             }
         }
@@ -384,19 +386,19 @@ class Invoices
                     $credit = $tax_agency_detail;
                 }
 
-                $wpdb->insert(
-                    'erp_acct_tax_agency_details',
-                    [
-                        'agency_id'   => $agency_id,
-                        'trn_no'      => $voucher_no,
-                        'trn_date'    => $invoice_data['trn_date'],
-                        'particulars' => 'sales',
-                        'debit'       => $debit,
-                        'credit'      => $credit,
-                        'created_at'  => $invoice_data['created_at'],
-                        'created_by'  => $invoice_data['created_by'],
-                    ]
-                );
+                DB::table('erp_acct_tax_agency_details')
+                    ->insert(
+                        [
+                            'agency_id'   => $agency_id,
+                            'trn_no'      => $voucher_no,
+                            'trn_date'    => $invoice_data['trn_date'],
+                            'particulars' => 'sales',
+                            'debit'       => $debit,
+                            'credit'      => $credit,
+                            'created_at'  => $invoice_data['created_at'],
+                            'created_by'  => $invoice_data['created_by'],
+                        ]
+                    );
             }
         }
     }
@@ -411,9 +413,9 @@ class Invoices
      */
     function insertInvoiceAccountDetails($invoice_data, $voucher_no, $contra = false)
     {
-       
 
-        $user_id =auth()->user()->id;
+
+        $user_id = auth()->user()->id;
 
         $invoice_data['created_at'] = date('Y-m-d H:i:s');
         $invoice_data['created_by'] = $user_id;
@@ -430,21 +432,21 @@ class Invoices
             $credit     = 0;
         }
 
-        $wpdb->insert(
-            'erp_acct_invoice_account_details',
-            [
-                'invoice_no'  => $invoice_no,
-                'trn_no'      => $voucher_no,
-                'trn_date'    => $invoice_data['trn_date'],
-                'particulars' => '',
-                'debit'       => $debit,
-                'credit'      => $credit,
-                'created_at'  => $invoice_data['created_at'],
-                'created_by'  => $invoice_data['created_by'],
-                'updated_at'  => $invoice_data['created_at'],
-                'updated_by'  => $invoice_data['created_by'],
-            ]
-        );
+        DB::table('erp_acct_invoice_account_details')
+            ->insert(
+                [
+                    'invoice_no'  => $invoice_no,
+                    'trn_no'      => $voucher_no,
+                    'trn_date'    => $invoice_data['trn_date'],
+                    'particulars' => '',
+                    'debit'       => $debit,
+                    'credit'      => $credit,
+                    'created_at'  => $invoice_data['created_at'],
+                    'created_by'  => $invoice_data['created_by'],
+                    'updated_at'  => $invoice_data['created_at'],
+                    'updated_by'  => $invoice_data['created_by'],
+                ]
+            );
     }
 
     /**
@@ -457,7 +459,7 @@ class Invoices
      */
     function updateInvoice($data, $invoice_no)
     {
-       
+
 
         if (1 === $data['estimate'] && $data['convert']) {
             $this->convertEstimateToInvoice($data, $invoice_no);
@@ -465,7 +467,7 @@ class Invoices
             return;
         }
 
-        $user_id    =auth()->user()->id;
+        $user_id    = auth()->user()->id;
         $voucher_no = null;
 
         $data['created_at'] = date('Y-m-d H:i:s');
@@ -484,21 +486,21 @@ class Invoices
                 $this->updateDraftAndEstimate($data, $invoice_no);
             } else {
                 // disable editing on old invoice
-                $wpdb->update($wpdb->prefix . 'erp_acct_voucher_no', ['editable' => 0], ['id' => $invoice_no]);
+                $wpdb->update('erp_acct_voucher_no', ['editable' => 0], ['id' => $invoice_no]);
 
                 // insert contra voucher
-                $wpdb->insert(
-                    'erp_acct_voucher_no',
-                    [
-                        'type'       => 'invoice',
-                        'currency'   => $currency,
-                        'editable'   => 0,
-                        'created_at' => $data['created_at'],
-                        'created_by' => $data['created_by'],
-                        'updated_at' => $data['updated_at'],
-                        'updated_by' => $data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_voucher_no')
+                    ->insert(
+                        [
+                            'type'       => 'invoice',
+                            'currency'   => $currency,
+                            'editable'   => 0,
+                            'created_at' => $data['created_at'],
+                            'created_by' => $data['created_by'],
+                            'updated_at' => $data['updated_at'],
+                            'updated_by' => $data['updated_by'],
+                        ]
+                    );
 
                 $voucher_no = $wpdb->insert_id;
 
@@ -570,9 +572,9 @@ class Invoices
      */
     function convertEstimateToInvoice($data, $invoice_no)
     {
-       
 
-        $user_id  =auth()->user()->id;
+
+        $user_id  = auth()->user()->id;
 
         $data['created_at'] = date('Y-m-d');
         $data['created_by'] = $user_id;
@@ -609,7 +611,7 @@ class Invoices
                 ['voucher_no' => $invoice_no]
             );
 
-            $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_details', ['trn_no' => $invoice_no]);
+            $wpdb->delete('erp_acct_invoice_details', ['trn_no' => $invoice_no]);
 
             // insert data into invoice_details
             $this->insertInvoiceDetailsAndTax($invoice_data, $invoice_no);
@@ -650,11 +652,11 @@ class Invoices
      */
     function updateDraftAndEstimate($data, $invoice_no)
     {
-       
+
 
         $invoice_data = $this->getFormattedInvoiceData($data, $invoice_no);
 
-        $wpdb->update($wpdb->prefix . 'erp_acct_invoices', [
+        $wpdb->update('erp_acct_invoices', [
             'customer_id'     => $invoice_data['customer_id'],
             'customer_name'   => $invoice_data['customer_name'],
             'trn_date'        => $invoice_data['trn_date'],
@@ -681,7 +683,7 @@ class Invoices
      *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
      *? so, remove previous rows to insert new rows
      */
-        $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_details', ['trn_no' => $invoice_no]);
+        $wpdb->delete('erp_acct_invoice_details', ['trn_no' => $invoice_no]);
 
         $this->insertInvoiceDetailsAndTax($invoice_data, $invoice_no);
     }
@@ -750,7 +752,7 @@ class Invoices
      */
     function voidInvoice($invoice_no)
     {
-       
+
 
         if (!$invoice_no) {
             return;
@@ -764,8 +766,8 @@ class Invoices
             ['voucher_no' => $invoice_no]
         );
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $invoice_no]);
-        $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_account_details', ['invoice_no' => $invoice_no]);
+        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $invoice_no]);
+        $wpdb->delete('erp_acct_invoice_account_details', ['invoice_no' => $invoice_no]);
 
         $results = $wpdb->get_results(
             $wpdb->prepare(
@@ -781,10 +783,10 @@ class Invoices
         );
 
         foreach ($results as $result) {
-            $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_details_tax', ['id' => $result['id']]);
+            $wpdb->delete('erp_acct_invoice_details_tax', ['id' => $result['id']]);
         }
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_tax_agency_details', ['trn_no' => $invoice_no]);
+        $wpdb->delete('erp_acct_tax_agency_details', ['trn_no' => $invoice_no]);
     }
 
     /**
@@ -796,9 +798,9 @@ class Invoices
      */
     function insertInvoiceDataIntoLedger($invoice_data, $voucher_no = 0, $contra = false)
     {
-       
 
-        $user_id =auth()->user()->id;
+
+        $user_id = auth()->user()->id;
         $date    = date('Y-m-d H:i:s');
 
         $ledger_map = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
@@ -833,32 +835,14 @@ class Invoices
         }
 
         // insert amount in ledger_details
-        $wpdb->insert(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $sales_ledger_id,
-                'trn_no'      => $trn_no,
-                'particulars' => $invoice_data['particulars'],
-                'debit'       => $sales_debit,
-                'credit'      => $sales_credit,
-                'trn_date'    => $invoice_data['trn_date'],
-                'created_at'  => $date,
-                'created_by'  => $user_id,
-                'updated_at'  => $date,
-                'updated_by'  => $user_id,
-            ]
-        );
-
-        // insert discount in ledger_details
-        if ((float) $discount_debit > 0 || (float) $discount_credit > 0) {
-            $wpdb->insert(
-                'erp_acct_ledger_details',
+        DB::table('erp_acct_ledger_details')
+            ->insert(
                 [
-                    'ledger_id'   => $sales_discount_ledger_id,
+                    'ledger_id'   => $sales_ledger_id,
                     'trn_no'      => $trn_no,
                     'particulars' => $invoice_data['particulars'],
-                    'debit'       => $discount_debit,
-                    'credit'      => $discount_credit,
+                    'debit'       => $sales_debit,
+                    'credit'      => $sales_credit,
                     'trn_date'    => $invoice_data['trn_date'],
                     'created_at'  => $date,
                     'created_by'  => $user_id,
@@ -866,44 +850,62 @@ class Invoices
                     'updated_by'  => $user_id,
                 ]
             );
+
+        // insert discount in ledger_details
+        if ((float) $discount_debit > 0 || (float) $discount_credit > 0) {
+            DB::table('erp_acct_ledger_details')
+                ->insert(
+                    [
+                        'ledger_id'   => $sales_discount_ledger_id,
+                        'trn_no'      => $trn_no,
+                        'particulars' => $invoice_data['particulars'],
+                        'debit'       => $discount_debit,
+                        'credit'      => $discount_credit,
+                        'trn_date'    => $invoice_data['trn_date'],
+                        'created_at'  => $date,
+                        'created_by'  => $user_id,
+                        'updated_at'  => $date,
+                        'updated_by'  => $user_id,
+                    ]
+                );
         }
 
         // insert shipping in ledger_details
         if ((float) $shipment_debit > 0 || (float) $shipment_credit > 0) {
-            $wpdb->insert(
-                'erp_acct_ledger_details',
-                [
-                    'ledger_id'   => $sales_shipping_ledger_id,
-                    'trn_no'      => $trn_no,
-                    'particulars' => $invoice_data['particulars'],
-                    'debit'       => $shipment_debit,
-                    'credit'      => $shipment_credit,
-                    'trn_date'    => $invoice_data['trn_date'],
-                    'created_at'  => $date,
-                    'created_by'  => $user_id,
-                    'updated_at'  => $date,
-                    'updated_by'  => $user_id,
-                ]
-            );
+            DB::table('erp_acct_ledger_details')
+                ->insert(
+                    [
+                        'ledger_id'   => $sales_shipping_ledger_id,
+                        'trn_no'      => $trn_no,
+                        'particulars' => $invoice_data['particulars'],
+                        'debit'       => $shipment_debit,
+                        'credit'      => $shipment_credit,
+                        'trn_date'    => $invoice_data['trn_date'],
+                        'created_at'  => $date,
+                        'created_by'  => $user_id,
+                        'updated_at'  => $date,
+                        'updated_by'  => $user_id,
+                    ]
+                );
         }
 
         // insert shipping tax in ledger_details
         if ((float) $shipment_tax_debit > 0 || (float) $shipment_tax_credit > 0) {
-            $wpdb->insert(
-                'erp_acct_ledger_details',
-                [
-                    'ledger_id'   => $sales_shipping_tax_ledger_id,
-                    'trn_no'      => $trn_no,
-                    'particulars' => $invoice_data['particulars'],
-                    'debit'       => $shipment_tax_debit,
-                    'credit'      => $shipment_tax_credit,
-                    'trn_date'    => $invoice_data['trn_date'],
-                    'created_at'  => $date,
-                    'created_by'  => $user_id,
-                    'updated_at'  => $date,
-                    'updated_by'  => $user_id,
-                ]
-            );
+            DB::table('erp_acct_ledger_details')
+                ->insert(
+                    [
+                        'ledger_id'   => $sales_shipping_tax_ledger_id,
+                        'trn_no'      => $trn_no,
+                        'particulars' => $invoice_data['particulars'],
+                        'debit'       => $shipment_tax_debit,
+                        'credit'      => $shipment_tax_credit,
+                        'trn_date'    => $invoice_data['trn_date'],
+                        'created_at'  => $date,
+                        'created_by'  => $user_id,
+                        'updated_at'  => $date,
+                        'updated_by'  => $user_id,
+                    ]
+                );
         }
     }
 
@@ -916,7 +918,7 @@ class Invoices
      */
     function updateInvoiceDataInLedger($invoice_data, $invoice_no)
     {
-       
+
 
         // Update amount in ledger_details
         $wpdb->update(
@@ -956,7 +958,7 @@ class Invoices
      */
     function getInvoiceCount()
     {
-       
+
 
         $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_invoices');
 
@@ -970,7 +972,7 @@ class Invoices
      */
     function receivePaymentsFromCustomer($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -1023,7 +1025,7 @@ class Invoices
      */
     function getDuePayment($invoice_no)
     {
-       
+
 
         $result = $wpdb->get_row($wpdb->prepare("SELECT invoice_no, SUM( ia.debit - ia.credit) as due FROM {$wpdb->prefix}erp_acct_invoice_account_details as ia WHERE ia.invoice_no = %d GROUP BY ia.invoice_no", $invoice_no), ARRAY_A);
 
@@ -1040,7 +1042,7 @@ class Invoices
      */
     function getRecievables($from, $to)
     {
-       
+
 
         $from_date = date('Y-m-d', strtotime($from));
         $to_date   = date('Y-m-d', strtotime($to));
@@ -1131,7 +1133,7 @@ class Invoices
      */
     function getInvoiceDue($invoice_no)
     {
-       
+
 
         $result = $wpdb->get_row(
             $wpdb->prepare(
@@ -1158,7 +1160,7 @@ class Invoices
      */
     function getInvoiceTaxZone($invoice_no)
     {
-       
+
 
         $tax_zone = $wpdb->get_var(
             $wpdb->prepare(

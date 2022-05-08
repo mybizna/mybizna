@@ -4,6 +4,8 @@ namespace Modules\Account\Classes;
 
 use Modules\Account\Classes\CommonFunc;
 
+use Illuminate\Support\Facades\DB;
+
 class Currencies
 {
     /**

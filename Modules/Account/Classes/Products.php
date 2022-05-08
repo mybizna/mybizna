@@ -2,6 +2,8 @@
 
 namespace Modules\Account\Classes;
 
+use Illuminate\Support\Facades\DB;
+
 class Products
 {
 
@@ -155,9 +157,8 @@ class Products
                 throw new \\Exception($product_data['name'] . ' ' . __('product already exists!', 'erp'));
             }
 
-            $wpdb->insert(
-                'erp_acct_products',
-                [
+            DB::table('erp_acct_products')
+                ->insert( [
                     'name'            => $product_data['name'],
                     'product_type_id' => $product_data['product_type_id'],
                     'category_id'     => $product_data['category_id'],
@@ -287,8 +288,8 @@ class Products
     {
        
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_products', ['id' => $product_id]);
-        $wpdb->delete($wpdb->prefix . 'erp_acct_product_details', ['product_id' => $product_id]);
+        $wpdb->delete( 'erp_acct_products', ['id' => $product_id]);
+        $wpdb->delete( 'erp_acct_product_details', ['product_id' => $product_id]);
 
 
         do_action('erp_acct_after_change_product_list');

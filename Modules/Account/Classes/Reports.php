@@ -5,6 +5,8 @@ namespace Modules\Account\Classes;
 
 use Modules\Account\Classes\Reports\TrialBalance;
 
+use Illuminate\Support\Facades\DB;
+
 class Reports
 {
 
@@ -27,7 +29,7 @@ class Reports
     {
         $trialbal = new TrialBalance();
 
-       
+
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($start_date);
@@ -146,7 +148,7 @@ class Reports
      */
     function ledgerReportOpeningBalanceByFnYearId($id, $ledger_id)
     {
-       
+
 
         $sql = "SELECT SUM(debit - credit) AS balance FROM {$wpdb->prefix}erp_acct_opening_balances
         WHERE financial_year_id = %d AND ledger_id = %d AND type = 'ledger' GROUP BY ledger_id";
@@ -171,7 +173,7 @@ class Reports
      */
     function getSalesTaxReport($agency_id, $start_date, $end_date)
     {
-       
+
 
         // opening balance
         $sql1 = $wpdb->prepare(
@@ -284,7 +286,7 @@ class Reports
      */
     function getFilteredSalesTaxReport($args)
     {
-       
+
 
         if (empty($args['start_date']) || empty($args['end_date'])) {
             return [];
@@ -333,7 +335,7 @@ class Reports
      */
     function getIncomeStatement($args)
     {
-       
+
 
         $results = $this->getProfitLoss($args);
 
@@ -365,7 +367,7 @@ class Reports
 
         $trialbal = new TrialBalance();
 
-       
+
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($is_start_date);
@@ -472,7 +474,7 @@ class Reports
      */
     function isOpeningBalanceByFnYearId($id, $chart_id)
     {
-       
+
 
         $where = '';
 
@@ -506,7 +508,7 @@ class Reports
     {
         $trialbal = new TrialBalance();
 
-       
+
 
         if (empty($args['start_date'])) {
             $args['start_date'] = date('Y-m-d', strtotime('first day of this month'));
@@ -706,7 +708,7 @@ class Reports
     {
         $trialbal = new TrialBalance();
 
-       
+
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($bs_start_date);
@@ -818,7 +820,7 @@ class Reports
      */
     function bsOpeningBalanceByFnYearId($id, $chart_id)
     {
-       
+
 
         $where = '';
 
@@ -846,7 +848,7 @@ class Reports
     {
         $trialbal = new TrialBalance();
 
-       
+
 
         if (empty($args['start_date'])) {
             $args['start_date'] = date('Y-m-d', strtotime('first day of january'));

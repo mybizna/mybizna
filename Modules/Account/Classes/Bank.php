@@ -1,14 +1,20 @@
 <?php
 
-
+/**
+ * Bank Class
+ */
 
 namespace Modules\Account\Classes;
-
 
 use Modules\Account\Classes\Reports\TrialBalance;
 use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\LedgerAccounts;
 
+use Illuminate\Support\Facades\DB;
+
+/**
+ * Bank
+ */
 class Bank
 {
 
@@ -211,12 +217,12 @@ class Bank
         try {
             $wpdb->query('START TRANSACTION');
 
-            $wpdb->insert(
-                'erp_acct_cash_at_banks',
-                [
-                    'ledger_id' => $bank_data['ledger_id'],
-                ]
-            );
+            DB::table('erp_acct_cash_at_banks')
+                ->insert(
+                    [
+                        'ledger_id' => $bank_data['ledger_id'],
+                    ]
+                );
 
             $wpdb->query('COMMIT');
         } catch (\Exception $e) {
@@ -241,7 +247,7 @@ class Bank
 
         try {
             $wpdb->query('START TRANSACTION');
-            $wpdb->delete($wpdb->prefix . 'erp_acct_cash_at_banks', ['ledger_id' => $id]);
+            $wpdb->delete('erp_acct_cash_at_banks', ['ledger_id' => $id]);
             $wpdb->query('COMMIT');
         } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
@@ -313,7 +319,7 @@ class Bank
 
 
         $common = new CommonFunc();
-        $created_by =auth()->user()->id;
+        $created_by = auth()->user()->id;
         $created_at = date('Y-m-d');
         $updated_at = date('Y-m-d');
         $updated_by = $created_by;
@@ -322,68 +328,68 @@ class Bank
         try {
             $wpdb->query('START TRANSACTION');
 
-            $wpdb->insert(
-                'erp_acct_voucher_no',
-                [
-                    'type'       => 'transfer_voucher',
-                    'currency'   => $currency,
-                    'created_at' => $created_at,
-                    'created_by' => $created_by,
-                    'updated_at' => $updated_at,
-                    'updated_by' => $updated_by,
-                ]
-            );
+            DB::table('erp_acct_voucher_no')
+                ->insert(
+                    [
+                        'type'       => 'transfer_voucher',
+                        'currency'   => $currency,
+                        'created_at' => $created_at,
+                        'created_by' => $created_by,
+                        'updated_at' => $updated_at,
+                        'updated_by' => $updated_by,
+                    ]
+                );
 
             $voucher_no = $wpdb->insert_id;
 
             // Inset transfer amount in ledger_details
-            $wpdb->insert(
-                'erp_acct_ledger_details',
-                [
-                    'ledger_id'   => $item['from_account_id'],
-                    'trn_no'      => $voucher_no,
-                    'particulars' => $item['particulars'],
-                    'debit'       => 0,
-                    'credit'      => $item['amount'],
-                    'trn_date'    => $item['date'],
-                    'created_at'  => $created_at,
-                    'created_by'  => $created_by,
-                    'updated_at'  => $updated_at,
-                    'updated_by'  => $updated_by,
-                ]
-            );
+            DB::table('erp_acct_ledger_details')
+                ->insert(
+                    [
+                        'ledger_id'   => $item['from_account_id'],
+                        'trn_no'      => $voucher_no,
+                        'particulars' => $item['particulars'],
+                        'debit'       => 0,
+                        'credit'      => $item['amount'],
+                        'trn_date'    => $item['date'],
+                        'created_at'  => $created_at,
+                        'created_by'  => $created_by,
+                        'updated_at'  => $updated_at,
+                        'updated_by'  => $updated_by,
+                    ]
+                );
 
-            $wpdb->insert(
-                'erp_acct_ledger_details',
-                [
-                    'ledger_id'   => $item['to_account_id'],
-                    'trn_no'      => $voucher_no,
-                    'particulars' => $item['particulars'],
-                    'debit'       => $item['amount'],
-                    'credit'      => 0,
-                    'trn_date'    => $item['date'],
-                    'created_at'  => $created_at,
-                    'created_by'  => $created_by,
-                    'updated_at'  => $updated_at,
-                    'updated_by'  => $updated_by,
-                ]
-            );
+            DB::table('erp_acct_ledger_details')
+                ->insert(
+                    [
+                        'ledger_id'   => $item['to_account_id'],
+                        'trn_no'      => $voucher_no,
+                        'particulars' => $item['particulars'],
+                        'debit'       => $item['amount'],
+                        'credit'      => 0,
+                        'trn_date'    => $item['date'],
+                        'created_at'  => $created_at,
+                        'created_by'  => $created_by,
+                        'updated_at'  => $updated_at,
+                        'updated_by'  => $updated_by,
+                    ]
+                );
 
-            $wpdb->insert(
-                'erp_acct_transfer_voucher',
-                [
-                    'voucher_no'  => $voucher_no,
-                    'amount'      => $item['amount'],
-                    'ac_from'     => $item['from_account_id'],
-                    'ac_to'       => $item['to_account_id'],
-                    'particulars' => $item['particulars'],
-                    'trn_date'    => $item['date'],
-                    'created_at'  => $created_at,
-                    'created_by'  => $created_by,
-                    'updated_at'  => $updated_at,
-                    'updated_by'  => $updated_by,
-                ]
-            );
+            DB::table('erp_acct_transfer_voucher')
+                ->insert(
+                    [
+                        'voucher_no'  => $voucher_no,
+                        'amount'      => $item['amount'],
+                        'ac_from'     => $item['from_account_id'],
+                        'ac_to'       => $item['to_account_id'],
+                        'particulars' => $item['particulars'],
+                        'trn_date'    => $item['date'],
+                        'created_at'  => $created_at,
+                        'created_by'  => $created_by,
+                        'updated_at'  => $updated_at,
+                        'updated_by'  => $updated_by,
+                    ]
+                );
 
             $wpdb->query('COMMIT');
         } catch (\Exception $e) {

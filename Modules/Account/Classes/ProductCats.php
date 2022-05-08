@@ -2,6 +2,8 @@
 
 namespace Modules\Account\Classes;
 
+use Illuminate\Support\Facades\DB;
+
 class ProductCats
 {
 
@@ -12,7 +14,7 @@ class ProductCats
      */
     function getAllProductCats()
     {
-       
+
 
         $cache_key  = 'erp-get-product-categories';
         $categories = wp_cache_get($cache_key, 'erp-accounting');
@@ -35,7 +37,7 @@ class ProductCats
      */
     function getProductCat($product_cat_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_product_categories WHERE id = %d GROUP BY parent", $product_cat_id), ARRAY_A);
 
@@ -51,9 +53,9 @@ class ProductCats
      */
     function insertProductCat($data)
     {
-       
 
-        $created_by         =auth()->user()->id;
+
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
@@ -61,17 +63,17 @@ class ProductCats
             $wpdb->query('START TRANSACTION');
             $product_cat_data = $this->getFormattedProductCatData($data);
 
-            $wpdb->insert(
-                'erp_acct_product_categories',
-                [
-                    'name'       => $product_cat_data['name'],
-                    'parent'     => isset($product_cat_data['parent']['id']) ? $product_cat_data['parent']['id'] : 0,
-                    'created_at' => $product_cat_data['created_at'],
-                    'created_by' => $product_cat_data['created_by'],
-                    'updated_at' => $product_cat_data['updated_at'],
-                    'updated_by' => $product_cat_data['updated_by'],
-                ]
-            );
+            DB::table('erp_acct_product_categories')
+                ->insert(
+                    [
+                        'name'       => $product_cat_data['name'],
+                        'parent'     => isset($product_cat_data['parent']['id']) ? $product_cat_data['parent']['id'] : 0,
+                        'created_at' => $product_cat_data['created_at'],
+                        'created_by' => $product_cat_data['created_by'],
+                        'updated_at' => $product_cat_data['updated_at'],
+                        'updated_by' => $product_cat_data['updated_by'],
+                    ]
+                );
 
             $product_cat_id = $wpdb->insert_id;
 
@@ -95,9 +97,9 @@ class ProductCats
      */
     function updateProductCat($data, $id)
     {
-       
 
-        $updated_by         =auth()->user()->id;
+
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -160,9 +162,8 @@ class ProductCats
      */
     function deleteProductCat($product_cat_id)
     {
-       
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_product_categories', ['id' => $product_cat_id]);
 
+        $wpdb->delete('erp_acct_product_categories', ['id' => $product_cat_id]);
     }
 }

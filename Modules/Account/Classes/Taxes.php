@@ -4,6 +4,8 @@ namespace Modules\Account\Classes;
 
 use Modules\Account\Classes\CommonFunc;
 
+use Illuminate\Support\Facades\DB;
+
 class Taxes
 {
 
@@ -14,7 +16,7 @@ class Taxes
      */
     function getAllTaxRates($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -68,7 +70,7 @@ class Taxes
      */
     function getTaxRate($tax_no)
     {
-       
+
 
         $sql = "SELECT
 
@@ -118,9 +120,9 @@ class Taxes
      */
     function insertTaxRate($data)
     {
-       
 
-        $created_by         =auth()->user()->id;
+
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
@@ -130,20 +132,20 @@ class Taxes
         $inserted = [];
 
         foreach ($items as $item) {
-            $result = $wpdb->insert(
-                'erp_acct_tax_cat_agency',
-                [
-                    'tax_id'         => $tax_id,
-                    'component_name' => $item['component_name'],
-                    'tax_cat_id'     => $item['tax_category_id'],
-                    'agency_id'      => $item['agency_id'],
-                    'tax_rate'       => $item['tax_rate'],
-                    'created_at'     => $tax_data['created_at'],
-                    'created_by'     => $tax_data['created_by'],
-                    'updated_at'     => $tax_data['updated_at'],
-                    'updated_by'     => $tax_data['updated_by'],
-                ]
-            );
+            $result = DB::table('erp_acct_tax_cat_agency')
+                ->insert(
+                    [
+                        'tax_id'         => $tax_id,
+                        'component_name' => $item['component_name'],
+                        'tax_cat_id'     => $item['tax_category_id'],
+                        'agency_id'      => $item['agency_id'],
+                        'tax_rate'       => $item['tax_rate'],
+                        'created_at'     => $tax_data['created_at'],
+                        'created_by'     => $tax_data['created_by'],
+                        'updated_at'     => $tax_data['updated_at'],
+                        'updated_by'     => $tax_data['updated_by'],
+                    ]
+                );
 
             if (!is_wp_error($result)) {
                 $inserted[] = $wpdb->insert_id;
@@ -163,9 +165,9 @@ class Taxes
      */
     function updateTaxRate($data, $id)
     {
-       
 
-        $updated_by         =auth()->user()->id;
+
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -221,9 +223,9 @@ class Taxes
      */
     function quickEditTaxRate($data, $id)
     {
-       
 
-        $updated_by         =auth()->user()->id;
+
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -259,28 +261,28 @@ class Taxes
      */
     function addTaxRateLine($data)
     {
-       
 
-        $updated_by         =auth()->user()->id;
+
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
         $tax_data = $this->getFormattedTaxLineData($data);
 
-        $wpdb->insert(
-            'erp_acct_tax_cat_agency',
-            [
-                'tax_id'         => $tax_data['tax_id'],
-                'component_name' => $tax_data['component_name'],
-                'tax_cat_id'     => $tax_data['tax_cat_id'],
-                'agency_id'      => $tax_data['agency_id'],
-                'tax_rate'       => $tax_data['tax_rate'],
-                'created_at'     => $tax_data['created_at'],
-                'created_by'     => $tax_data['created_by'],
-                'updated_at'     => $tax_data['updated_at'],
-                'updated_by'     => $tax_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_tax_cat_agency')
+            ->insert(
+                [
+                    'tax_id'         => $tax_data['tax_id'],
+                    'component_name' => $tax_data['component_name'],
+                    'tax_cat_id'     => $tax_data['tax_cat_id'],
+                    'agency_id'      => $tax_data['agency_id'],
+                    'tax_rate'       => $tax_data['tax_rate'],
+                    'created_at'     => $tax_data['created_at'],
+                    'created_by'     => $tax_data['created_by'],
+                    'updated_at'     => $tax_data['updated_at'],
+                    'updated_by'     => $tax_data['updated_by'],
+                ]
+            );
 
 
         return $tax_data['tax_id'];
@@ -295,9 +297,9 @@ class Taxes
      */
     function editTaxRateLine($data)
     {
-       
 
-        $updated_by         =auth()->user()->id;
+
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -331,9 +333,9 @@ class Taxes
      */
     function deleteTaxRateLine($line_no)
     {
-       
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_tax_cat_agency', ['id' => $line_no]);
+
+        $wpdb->delete('erp_acct_tax_cat_agency', ['id' => $line_no]);
 
 
         return $line_no;
@@ -348,9 +350,9 @@ class Taxes
      */
     function deleteTaxRate($tax_no)
     {
-       
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_taxes', ['id' => $tax_no]);
+
+        $wpdb->delete('erp_acct_taxes', ['id' => $tax_no]);
 
 
         return $tax_no;
@@ -363,7 +365,7 @@ class Taxes
      */
     function getTaxPayRecords($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -415,7 +417,7 @@ class Taxes
      */
     function getTaxPayRecord($voucher_no)
     {
-       
+
 
         $row = $wpdb->get_row(
             $wpdb->prepare(
@@ -449,48 +451,48 @@ class Taxes
      */
     function payTax($data)
     {
-       
+
         $common = new CommonFunc();
 
-        $created_by         =auth()->user()->id;
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
         $currency           = $common->getCurrency(true);
 
-        $wpdb->insert(
-            'erp_acct_voucher_no',
-            [
-                'type'       => 'tax_payment',
-                'currency'   => $currency,
-                'created_at' => $data['created_at'],
-                'created_by' => $data['created_by'],
-                'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : null,
-                'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : null,
-            ]
-        );
+        DB::table('erp_acct_voucher_no')
+            ->insert(
+                [
+                    'type'       => 'tax_payment',
+                    'currency'   => $currency,
+                    'created_at' => $data['created_at'],
+                    'created_by' => $data['created_by'],
+                    'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : null,
+                    'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : null,
+                ]
+            );
 
         $voucher_no = $wpdb->insert_id;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        $wpdb->insert(
-            'erp_acct_tax_pay',
-            [
-                'voucher_no'   => $voucher_no,
-                'trn_date'     => $tax_data['trn_date'],
-                // translators: %s: voucher_no
-                'particulars'  => !empty($tax_data['particulars']) ? $tax_data['particulars'] : sprintf(__('Invoice created with voucher no %s', 'erp'), $voucher_no),
-                'amount'       => $tax_data['amount'],
-                'voucher_type' => $tax_data['voucher_type'],
-                'trn_by'       => $tax_data['trn_by'],
-                'agency_id'    => $tax_data['agency_id'],
-                'ledger_id'    => $tax_data['ledger_id'],
-                'created_at'   => $tax_data['created_at'],
-                'created_by'   => $tax_data['created_by'],
-                'updated_at'   => $tax_data['updated_at'],
-                'updated_by'   => $tax_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_tax_pay')
+            ->insert(
+                [
+                    'voucher_no'   => $voucher_no,
+                    'trn_date'     => $tax_data['trn_date'],
+                    // translators: %s: voucher_no
+                    'particulars'  => !empty($tax_data['particulars']) ? $tax_data['particulars'] : sprintf(__('Invoice created with voucher no %s', 'erp'), $voucher_no),
+                    'amount'       => $tax_data['amount'],
+                    'voucher_type' => $tax_data['voucher_type'],
+                    'trn_by'       => $tax_data['trn_by'],
+                    'agency_id'    => $tax_data['agency_id'],
+                    'ledger_id'    => $tax_data['ledger_id'],
+                    'created_at'   => $tax_data['created_at'],
+                    'created_by'   => $tax_data['created_by'],
+                    'updated_at'   => $tax_data['updated_at'],
+                    'updated_by'   => $tax_data['updated_by'],
+                ]
+            );
 
         if ('debit' === $tax_data['voucher_type']) {
             $debit  = $tax_data['amount'];
@@ -501,20 +503,20 @@ class Taxes
         }
 
         // insert data into {$wpdb->prefix}erp_acct_tax_agency_details
-        $wpdb->insert(
-            'erp_acct_tax_agency_details',
-            [
-                'agency_id'   => $tax_data['agency_id'],
-                'trn_no'      => $voucher_no,
-                'trn_date'    => $tax_data['trn_date'],
-                // translators: %s: voucher_no
-                'particulars' => !empty($tax_data['particulars']) ? $tax_data['particulars'] : sprintf(__('Invoice created with voucher no %s', 'erp'), $voucher_no),
-                'debit'       => $debit,
-                'credit'      => $credit,
-                'created_at'  => $tax_data['created_at'],
-                'created_by'  => $tax_data['created_by'],
-            ]
-        );
+        DB::table('erp_acct_tax_agency_details')
+            ->insert(
+                [
+                    'agency_id'   => $tax_data['agency_id'],
+                    'trn_no'      => $voucher_no,
+                    'trn_date'    => $tax_data['trn_date'],
+                    // translators: %s: voucher_no
+                    'particulars' => !empty($tax_data['particulars']) ? $tax_data['particulars'] : sprintf(__('Invoice created with voucher no %s', 'erp'), $voucher_no),
+                    'debit'       => $debit,
+                    'credit'      => $credit,
+                    'created_at'  => $tax_data['created_at'],
+                    'created_by'  => $tax_data['created_by'],
+                ]
+            );
 
         $tax_data['voucher_no'] = $voucher_no;
 
@@ -535,7 +537,7 @@ class Taxes
      */
     function insertTaxPayDataIntoLedger($tax_data)
     {
-       
+
 
         if ('debit' === $tax_data['voucher_type']) {
             $debit  = 0;
@@ -546,21 +548,21 @@ class Taxes
         }
 
         // Insert amount in ledger_details
-        $wpdb->insert(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $tax_data['ledger_id'],
-                'trn_no'      => $tax_data['voucher_no'],
-                'particulars' => $tax_data['particulars'],
-                'debit'       => $debit,
-                'credit'      => $credit,
-                'trn_date'    => $tax_data['trn_date'],
-                'created_at'  => $tax_data['created_at'],
-                'created_by'  => $tax_data['created_by'],
-                'updated_at'  => $tax_data['updated_at'],
-                'updated_by'  => $tax_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->insert(
+                [
+                    'ledger_id'   => $tax_data['ledger_id'],
+                    'trn_no'      => $tax_data['voucher_no'],
+                    'particulars' => $tax_data['particulars'],
+                    'debit'       => $debit,
+                    'credit'      => $credit,
+                    'trn_date'    => $tax_data['trn_date'],
+                    'created_at'  => $tax_data['created_at'],
+                    'created_by'  => $tax_data['created_by'],
+                    'updated_at'  => $tax_data['updated_at'],
+                    'updated_by'  => $tax_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -572,7 +574,7 @@ class Taxes
      */
     function formatTaxLineItems($tax = 'all')
     {
-       
+
 
         $sql = 'SELECT id as db_id, tax_id, component_name, agency_id, tax_cat_id, tax_rate';
 
@@ -658,7 +660,7 @@ class Taxes
      */
     function taxSummary()
     {
-       
+
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -682,7 +684,7 @@ class Taxes
      */
     function getDefaultTaxRateNameId()
     {
-       
+
 
         return $wpdb->get_var("SELECT id FROM {$wpdb->prefix}erp_acct_taxes WHERE `default` = 1");
     }
@@ -698,7 +700,7 @@ class Taxes
      */
     function insertSyncedTax($args = [])
     {
-       
+
 
         $defaults = [
             'system_id'   => null,
@@ -714,7 +716,7 @@ class Taxes
             return new \WP_Error('inconsistent-data', __('Inconsistent data provided', 'erp'));
         }
 
-        $inserted = $wpdb->insert("{$wpdb->prefix}erp_acct_synced_taxes", $args, ['%d', '%s', '%s', '%d', '%s']);
+        $inserted = DB::table("{$wpdb->prefix}erp_acct_synced_taxes", $args, ['%d', '%s', '%s', '%d', '%s']);
 
         return $inserted;
     }
@@ -733,7 +735,7 @@ class Taxes
      */
     function getSyncedTaxSystemId($sync_type, $sync_source, $sync_id = false, $sync_slug = false)
     {
-       
+
 
         $sql  = "SELECT system_id
             FROM {$wpdb->prefix}erp_acct_synced_taxes

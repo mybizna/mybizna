@@ -12,6 +12,8 @@ use Modules\Account\Classes\Purchases;
 use Modules\Account\Classes\PayPurchases;
 use Modules\Account\Classes\Bank;
 
+use Illuminate\Support\Facades\DB;
+
 class Transactions
 {
     /**
@@ -1768,21 +1770,21 @@ class Transactions
 
             $date = !empty($transaction['trn_date']) ? $transaction['trn_date'] : $transaction['date'];
 
-            $wpdb->insert(
-                'erp_acct_people_trn_details',
-                [
-                    'people_id'   => $people_id,
-                    'voucher_no'  => $voucher_no,
-                    'debit'       => $transaction['dr'],
-                    'credit'      => $transaction['cr'],
-                    'trn_date'    => $date,
-                    'particulars' => $transaction['particulars'],
-                    'created_at'  => $transaction['created_at'],
-                    'created_by'  => $transaction['created_by'],
-                    'updated_at'  => $transaction['updated_at'],
-                    'updated_by'  => $transaction['updated_by'],
-                ]
-            );
+            DB::table('erp_acct_people_trn_details')
+                ->insert(
+                    [
+                        'people_id'   => $people_id,
+                        'voucher_no'  => $voucher_no,
+                        'debit'       => $transaction['dr'],
+                        'credit'      => $transaction['cr'],
+                        'trn_date'    => $date,
+                        'particulars' => $transaction['particulars'],
+                        'created_at'  => $transaction['created_at'],
+                        'created_by'  => $transaction['created_by'],
+                        'updated_at'  => $transaction['updated_at'],
+                        'updated_by'  => $transaction['updated_by'],
+                    ]
+                );
         }
 
         /**

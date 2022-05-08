@@ -2,6 +2,9 @@
 
 namespace Modules\Account\Classes\Reports;
 
+use Illuminate\Support\Facades\DB;
+
+
 class Capabilities
 {
 

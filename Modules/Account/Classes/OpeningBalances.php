@@ -9,6 +9,9 @@ use Modules\Account\Classes\People;
 use Modules\Account\Classes\TaxAgencies;
 use Modules\Account\Classes\LedgerAccounts;
 
+
+use Illuminate\Support\Facades\DB;
+
 class OpenBalances
 {
 
@@ -19,7 +22,7 @@ class OpenBalances
      */
     function getAllOpeningBalances($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -72,7 +75,7 @@ class OpenBalances
      */
     function getOpeningBalance($year_id)
     {
-       
+
 
         $rows = $wpdb->get_results(
             $wpdb->prepare(
@@ -94,7 +97,7 @@ class OpenBalances
      */
     function getVirtualAcct($year_id)
     {
-       
+
 
         $rows = $wpdb->get_results(
             $wpdb->prepare(
@@ -119,9 +122,9 @@ class OpenBalances
      */
     function insertOpeningBalance($data)
     {
-       
 
-        $created_by         =auth()->user()->id;
+
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
@@ -144,21 +147,21 @@ class OpenBalances
 
             foreach ($ledgers as $ledger) {
                 if ((isset($ledger['debit']) && (float) $ledger['debit'] > 0) || (isset($ledger['credit']) && (float) $ledger['credit'] > 0)) {
-                    $wpdb->insert(
-                        'erp_acct_opening_balances',
-                        [
-                            'financial_year_id' => $year_id,
-                            'ledger_id'         => $ledger['ledger_id'],
-                            'chart_id'          => $ledger['chart_id'],
-                            'type'              => 'ledger',
-                            'debit'             => isset($ledger['debit']) ? $ledger['debit'] : 0,
-                            'credit'            => isset($ledger['credit']) ? $ledger['credit'] : 0,
-                            'created_at'        => $opening_balance_data['created_at'],
-                            'created_by'        => $opening_balance_data['created_by'],
-                            'updated_at'        => $opening_balance_data['updated_at'],
-                            'updated_by'        => $opening_balance_data['updated_by'],
-                        ]
-                    );
+                    DB::table('erp_acct_opening_balances')
+                        ->insert(
+                            [
+                                'financial_year_id' => $year_id,
+                                'ledger_id'         => $ledger['ledger_id'],
+                                'chart_id'          => $ledger['chart_id'],
+                                'type'              => 'ledger',
+                                'debit'             => isset($ledger['debit']) ? $ledger['debit'] : 0,
+                                'credit'            => isset($ledger['credit']) ? $ledger['credit'] : 0,
+                                'created_at'        => $opening_balance_data['created_at'],
+                                'created_by'        => $opening_balance_data['created_by'],
+                                'updated_at'        => $opening_balance_data['updated_at'],
+                                'updated_by'        => $opening_balance_data['updated_by'],
+                            ]
+                        );
                 }
             }
 
@@ -182,62 +185,62 @@ class OpenBalances
      */
     function insertObVirAccounts($data, $year_id)
     {
-       
+
 
         if (!empty($data['acct_rec'])) {
             foreach ($data['acct_rec'] as $acct_rec) {
-                $wpdb->insert(
-                    'erp_acct_opening_balances',
-                    [
-                        'financial_year_id' => $year_id,
-                        'ledger_id'         => $acct_rec['people']['id'],
-                        'type'              => 'people',
-                        'debit'             => $acct_rec['debit'],
-                        'credit'            => 0,
-                        'created_at'        => $data['created_at'],
-                        'created_by'        => $data['created_by'],
-                        'updated_at'        => $data['updated_at'],
-                        'updated_by'        => $data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_opening_balances')
+                    ->insert(
+                        [
+                            'financial_year_id' => $year_id,
+                            'ledger_id'         => $acct_rec['people']['id'],
+                            'type'              => 'people',
+                            'debit'             => $acct_rec['debit'],
+                            'credit'            => 0,
+                            'created_at'        => $data['created_at'],
+                            'created_by'        => $data['created_by'],
+                            'updated_at'        => $data['updated_at'],
+                            'updated_by'        => $data['updated_by'],
+                        ]
+                    );
             }
         }
 
         if (!empty($data['acct_pay'])) {
             foreach ($data['acct_pay'] as $acct_pay) {
-                $wpdb->insert(
-                    'erp_acct_opening_balances',
-                    [
-                        'financial_year_id' => $year_id,
-                        'ledger_id'         => $acct_pay['people']['id'],
-                        'type'              => 'people',
-                        'debit'             => 0,
-                        'credit'            => $acct_pay['credit'],
-                        'created_at'        => $data['created_at'],
-                        'created_by'        => $data['created_by'],
-                        'updated_at'        => $data['updated_at'],
-                        'updated_by'        => $data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_opening_balances')
+                    ->insert(
+                        [
+                            'financial_year_id' => $year_id,
+                            'ledger_id'         => $acct_pay['people']['id'],
+                            'type'              => 'people',
+                            'debit'             => 0,
+                            'credit'            => $acct_pay['credit'],
+                            'created_at'        => $data['created_at'],
+                            'created_by'        => $data['created_by'],
+                            'updated_at'        => $data['updated_at'],
+                            'updated_by'        => $data['updated_by'],
+                        ]
+                    );
             }
         }
 
         if (!empty($data['tax_pay'])) {
             foreach ($data['tax_pay'] as $tax_pay) {
-                $wpdb->insert(
-                    'erp_acct_opening_balances',
-                    [
-                        'financial_year_id' => $year_id,
-                        'ledger_id'         => $tax_pay['agency']['id'],
-                        'type'              => 'tax_agency',
-                        'debit'             => 0,
-                        'credit'            => $tax_pay['credit'],
-                        'created_at'        => $data['created_at'],
-                        'created_by'        => $data['created_by'],
-                        'updated_at'        => $data['updated_at'],
-                        'updated_by'        => $data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_opening_balances')
+                    ->insert(
+                        [
+                            'financial_year_id' => $year_id,
+                            'ledger_id'         => $tax_pay['agency']['id'],
+                            'type'              => 'tax_agency',
+                            'debit'             => 0,
+                            'credit'            => $tax_pay['credit'],
+                            'created_at'        => $data['created_at'],
+                            'created_by'        => $data['created_by'],
+                            'updated_at'        => $data['updated_at'],
+                            'updated_by'        => $data['updated_by'],
+                        ]
+                    );
             }
         }
     }
@@ -276,7 +279,7 @@ class OpenBalances
      */
     function getOpeningBalanceNames()
     {
-       
+
 
         $rows = $wpdb->get_results("SELECT id, name, start_date, end_date FROM {$wpdb->prefix}erp_acct_financial_years", ARRAY_A);
 
@@ -293,7 +296,7 @@ class OpenBalances
     function getStartEndDate($year_id)
     {
         $dates = [];
-       
+
 
         $rows = $wpdb->get_row($wpdb->prepare("SELECT start_date, end_date FROM {$wpdb->prefix}erp_acct_financial_years WHERE id = %d", $year_id), ARRAY_A);
 
@@ -308,7 +311,7 @@ class OpenBalances
      */
     function getObVirtualAcct($year_id)
     {
-       
+
         $people = new People();
         $taxagencies = new TaxAgencies();
 
@@ -358,7 +361,7 @@ class OpenBalances
      */
     function getLedgerBalanceWithOpeningBalance($ledger_id, $start_date, $end_date)
     {
-       
+
         $trialbal = new TrialBalance();
         $ledger = new LedgerAccounts();
 
@@ -430,7 +433,7 @@ class OpenBalances
      */
     function getOpbInvoiceAccountDetails($fy_start_date)
     {
-       
+
 
         // mainly ( debit - credit )
         $sql = "SELECT SUM(balance) AS amount
@@ -451,7 +454,7 @@ class OpenBalances
      */
     function getOpbBillPurchaseAccountDetails($fy_start_date)
     {
-       
+
 
         /**
          *? Why only bills, not expense?
@@ -478,7 +481,7 @@ class OpenBalances
      */
     function getDateBoundary()
     {
-       
+
 
         $result = $wpdb->get_row("SELECT MIN(start_date) as lower, MAX(end_date) as upper FROM {$wpdb->prefix}erp_acct_financial_years", ARRAY_A);
 
@@ -490,7 +493,7 @@ class OpenBalances
      */
     function getCurrentFinancialYear($date = '')
     {
-       
+
 
         if (empty($date)) {
             $date = date('Y-m-d');

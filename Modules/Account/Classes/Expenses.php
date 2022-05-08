@@ -7,6 +7,8 @@ use Modules\Account\Classes\Transactions;
 use Modules\Account\Classes\People;
 use Modules\Account\Classes\Bank;
 
+use Illuminate\Support\Facades\DB;
+
 class Expenses
 {
 
@@ -19,7 +21,7 @@ class Expenses
      */
     function getExpenses($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -63,7 +65,7 @@ class Expenses
      */
     function getExpense($expense_no)
     {
-       
+
 
         $sql = "SELECT
 
@@ -115,7 +117,7 @@ class Expenses
      */
     function getCheck($expense_no)
     {
-       
+
 
         $sql = "SELECT
 
@@ -161,7 +163,7 @@ class Expenses
      */
     function formatCheckLineItems($voucher_no)
     {
-       
+
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -193,7 +195,7 @@ class Expenses
      */
     function formatExpenseLineItems($voucher_no)
     {
-       
+
 
         $sql = $wpdb->prepare(
             "SELECT
@@ -221,11 +223,11 @@ class Expenses
      */
     function insertExpense($data)
     {
-       
+
         $common = new CommonFunc();
         $people = new People();
 
-        $created_by         =auth()->user()->id;
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
         $data['updated_at'] = date('Y-m-d H:i:s');
@@ -243,17 +245,17 @@ class Expenses
                 $type = 'check';
             }
 
-            $wpdb->insert(
-                'erp_acct_voucher_no',
-                [
-                    'type'       => $type,
-                    'currency'   => $currency,
-                    'created_at' => $data['created_at'],
-                    'created_by' => $data['created_by'],
-                    'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : '',
-                    'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : '',
-                ]
-            );
+            DB::table('erp_acct_voucher_no')
+                ->insert(
+                    [
+                        'type'       => $type,
+                        'currency'   => $currency,
+                        'created_at' => $data['created_at'],
+                        'created_by' => $data['created_by'],
+                        'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : '',
+                        'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : '',
+                    ]
+                );
 
             $voucher_no = $wpdb->insert_id;
 
@@ -266,48 +268,48 @@ class Expenses
             }
 
 
-            $wpdb->insert(
-                'erp_acct_expenses',
-                [
-                    'voucher_no'         => $expense_data['voucher_no'],
-                    'people_id'          => $expense_data['people_id'],
-                    'people_name'        => $expense_data['people_name'],
-                    'address'            => $expense_data['billing_address'],
-                    'trn_date'           => $expense_data['trn_date'],
-                    'amount'             => $expense_data['amount'],
-                    'transaction_charge' => $transaction_charge,
-                    'ref'                => $expense_data['ref'],
-                    'check_no'           => $expense_data['check_no'],
-                    'particulars'        => $expense_data['particulars'],
-                    'status'             => $expense_data['status'],
-                    'trn_by'             => $expense_data['trn_by'],
-                    'trn_by_ledger_id'   => $expense_data['trn_by_ledger_id'],
-                    'attachments'        => $expense_data['attachments'],
-                    'created_at'         => $expense_data['created_at'],
-                    'created_by'         => $expense_data['created_by'],
-                    'updated_at'         => $expense_data['updated_at'],
-                    'updated_by'         => $expense_data['updated_by'],
-                ]
-            );
+            DB::table('erp_acct_expenses')
+                ->insert(
+                    [
+                        'voucher_no'         => $expense_data['voucher_no'],
+                        'people_id'          => $expense_data['people_id'],
+                        'people_name'        => $expense_data['people_name'],
+                        'address'            => $expense_data['billing_address'],
+                        'trn_date'           => $expense_data['trn_date'],
+                        'amount'             => $expense_data['amount'],
+                        'transaction_charge' => $transaction_charge,
+                        'ref'                => $expense_data['ref'],
+                        'check_no'           => $expense_data['check_no'],
+                        'particulars'        => $expense_data['particulars'],
+                        'status'             => $expense_data['status'],
+                        'trn_by'             => $expense_data['trn_by'],
+                        'trn_by_ledger_id'   => $expense_data['trn_by_ledger_id'],
+                        'attachments'        => $expense_data['attachments'],
+                        'created_at'         => $expense_data['created_at'],
+                        'created_by'         => $expense_data['created_by'],
+                        'updated_at'         => $expense_data['updated_at'],
+                        'updated_by'         => $expense_data['updated_by'],
+                    ]
+                );
 
             $items = $expense_data['bill_details'];
 
 
 
             foreach ($items as $key => $item) {
-                $wpdb->insert(
-                    'erp_acct_expense_details',
-                    [
-                        'trn_no'      => $voucher_no,
-                        'ledger_id'   => $item['ledger_id'],
-                        'particulars' => !empty($item['particulars']) ? $item['particulars'] : '',
-                        'amount'      => $item['amount'],
-                        'created_at'  => $expense_data['created_at'],
-                        'created_by'  => $expense_data['created_by'],
-                        'updated_at'  => $expense_data['updated_at'],
-                        'updated_by'  => $expense_data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_expense_details')
+                    ->insert(
+                        [
+                            'trn_no'      => $voucher_no,
+                            'ledger_id'   => $item['ledger_id'],
+                            'particulars' => !empty($item['particulars']) ? $item['particulars'] : '',
+                            'amount'      => $item['amount'],
+                            'created_at'  => $expense_data['created_at'],
+                            'created_by'  => $expense_data['created_by'],
+                            'updated_at'  => $expense_data['updated_at'],
+                            'updated_by'  => $expense_data['updated_by'],
+                        ]
+                    );
 
                 $expense->insertExpenseDataIntoLedger($expense_data, $item);
             }
@@ -388,7 +390,7 @@ class Expenses
      */
     function updateExpense($data, $expense_id)
     {
-       
+
 
         if ($data['convert']) {
             $expense->convertDraftToExpense($data, $expense_id);
@@ -396,7 +398,7 @@ class Expenses
             return;
         }
 
-        $updated_by         =auth()->user()->id;
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -437,23 +439,23 @@ class Expenses
             $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_acct_expense_details WHERE trn_no = %d", $expense_id), ARRAY_A);
             $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
-            $wpdb->delete($wpdb->prefix . 'erp_acct_expense_details', ['trn_no' => $expense_id]);
+            $wpdb->delete('erp_acct_expense_details', ['trn_no' => $expense_id]);
 
             $items = $expense_data['bill_details'];
 
             foreach ($items as $key => $item) {
-                $wpdb->insert(
-                    'erp_acct_expense_details',
-                    [
-                        'ledger_id'   => $item['ledger_id'],
-                        'particulars' => $item['particulars'],
-                        'amount'      => $item['amount'],
-                        'created_at'  => $expense_data['created_at'],
-                        'created_by'  => $expense_data['created_by'],
-                        'updated_at'  => $expense_data['updated_at'],
-                        'updated_by'  => $expense_data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_expense_details')
+                    ->insert(
+                        [
+                            'ledger_id'   => $item['ledger_id'],
+                            'particulars' => $item['particulars'],
+                            'amount'      => $item['amount'],
+                            'created_at'  => $expense_data['created_at'],
+                            'created_by'  => $expense_data['created_by'],
+                            'updated_at'  => $expense_data['updated_at'],
+                            'updated_by'  => $expense_data['updated_by'],
+                        ]
+                    );
             }
 
             $wpdb->query('COMMIT');
@@ -477,11 +479,11 @@ class Expenses
      */
     function convertDraftToExpense($data, $expense_id)
     {
-       
+
         $common = new CommonFunc();
         $people = new People();
 
-        $updated_by         =auth()->user()->id;
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -529,24 +531,24 @@ class Expenses
             $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_acct_expense_details WHERE trn_no = %d", $expense_id), ARRAY_A);
             $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
-            $wpdb->delete($wpdb->prefix . 'erp_acct_expense_details', ['trn_no' => $expense_id]);
+            $wpdb->delete('erp_acct_expense_details', ['trn_no' => $expense_id]);
 
             $items = $expense_data['bill_details'];
 
             foreach ($items as $item) {
-                $wpdb->insert(
-                    'erp_acct_expense_details',
-                    [
-                        'ledger_id'   => $item['ledger_id'],
-                        'particulars' => $item['particulars'],
-                        'trn_no'      => $expense_id,
-                        'amount'      => $item['amount'],
-                        'created_at'  => $expense_data['created_at'],
-                        'created_by'  => $expense_data['created_by'],
-                        'updated_at'  => $expense_data['updated_at'],
-                        'updated_by'  => $expense_data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_expense_details')
+                    ->insert(
+                        [
+                            'ledger_id'   => $item['ledger_id'],
+                            'particulars' => $item['particulars'],
+                            'trn_no'      => $expense_id,
+                            'amount'      => $item['amount'],
+                            'created_at'  => $expense_data['created_at'],
+                            'created_by'  => $expense_data['created_by'],
+                            'updated_at'  => $expense_data['updated_at'],
+                            'updated_by'  => $expense_data['updated_by'],
+                        ]
+                    );
 
                 $expense->insertExpenseDataIntoLedger($expense_data, $item);
             }
@@ -610,7 +612,7 @@ class Expenses
      */
     function voidExpense($id)
     {
-       
+
 
         if (!$id) {
             return;
@@ -624,8 +626,8 @@ class Expenses
             ['voucher_no' => $id]
         );
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
-        $wpdb->delete($wpdb->prefix . 'erp_acct_expense_details', ['trn_no' => $id]);
+        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $id]);
+        $wpdb->delete('erp_acct_expense_details', ['trn_no' => $id]);
     }
 
     /**
@@ -645,7 +647,7 @@ class Expenses
         $company = new \WeDevs\ERP\Company();
 
         $expense_data['voucher_no']       = !empty($voucher_no) ? $voucher_no : 0;
-        $expense_data['people_id']        = isset($data['people_id']) ? $data['people_id'] :auth()->user()->id;
+        $expense_data['people_id']        = isset($data['people_id']) ? $data['people_id'] : auth()->user()->id;
         $expense_data['people_name']      = isset($people) ? $people->first_name . ' ' . $people->last_name : '';
         $expense_data['billing_address']  = isset($data['billing_address']) ? $data['billing_address'] : '';
         $expense_data['trn_date']         = isset($data['trn_date']) ? $data['trn_date'] : date('Y-m-d');
@@ -681,7 +683,7 @@ class Expenses
      */
     function insertExpenseDataIntoLedger($expense_data, $item_data = [])
     {
-       
+
 
         $draft  = 1;
         $people = '4'; // from reimbursement
@@ -691,21 +693,21 @@ class Expenses
         }
 
         // Insert amount in ledger_details
-        $wpdb->insert(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $item_data['ledger_id'],
-                'trn_no'      => $expense_data['voucher_no'],
-                'particulars' => $expense_data['particulars'],
-                'debit'       => $item_data['amount'],
-                'credit'      => 0,
-                'trn_date'    => $expense_data['trn_date'],
-                'created_at'  => $expense_data['created_at'],
-                'created_by'  => $expense_data['created_by'],
-                'updated_at'  => $expense_data['updated_at'],
-                'updated_by'  => $expense_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->insert(
+                [
+                    'ledger_id'   => $item_data['ledger_id'],
+                    'trn_no'      => $expense_data['voucher_no'],
+                    'particulars' => $expense_data['particulars'],
+                    'debit'       => $item_data['amount'],
+                    'credit'      => 0,
+                    'trn_date'    => $expense_data['trn_date'],
+                    'created_at'  => $expense_data['created_at'],
+                    'created_by'  => $expense_data['created_by'],
+                    'updated_at'  => $expense_data['updated_at'],
+                    'updated_by'  => $expense_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -719,7 +721,7 @@ class Expenses
      */
     function updateExpenseDataIntoLedger($expense_data, $expense_no, $item_data = [])
     {
-       
+
 
         if (1 === $expense_data['status'] && (isset($expense_data['trn_by']) && 4 === $expense_data['trn_by'])) {
             return;
@@ -754,28 +756,28 @@ class Expenses
      */
     function insertSourceExpenseDataIntoLedger($expense_data)
     {
-       
+
 
         if (1 === $expense_data['status'] && (isset($expense_data['trn_by']) && 4 === $expense_data['trn_by'])) {
             return;
         }
 
         // Insert amount in ledger_details
-        $wpdb->insert(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $expense_data['trn_by_ledger_id'],
-                'trn_no'      => $expense_data['voucher_no'],
-                'particulars' => $expense_data['particulars'],
-                'debit'       => 0,
-                'credit'      => $expense_data['amount'],
-                'trn_date'    => $expense_data['trn_date'],
-                'created_at'  => $expense_data['created_at'],
-                'created_by'  => $expense_data['created_by'],
-                'updated_at'  => $expense_data['updated_at'],
-                'updated_by'  => $expense_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->insert(
+                [
+                    'ledger_id'   => $expense_data['trn_by_ledger_id'],
+                    'trn_no'      => $expense_data['voucher_no'],
+                    'particulars' => $expense_data['particulars'],
+                    'debit'       => 0,
+                    'credit'      => $expense_data['amount'],
+                    'trn_date'    => $expense_data['trn_date'],
+                    'created_at'  => $expense_data['created_at'],
+                    'created_by'  => $expense_data['created_by'],
+                    'updated_at'  => $expense_data['updated_at'],
+                    'updated_by'  => $expense_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -787,7 +789,7 @@ class Expenses
      */
     function getCheckDataOfExpense($expense_no)
     {
-       
+
 
         $sql = "SELECT
                 cheque.bank,

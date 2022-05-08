@@ -8,6 +8,8 @@ use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\People;
 
+use Illuminate\Support\Facades\DB;
+
 class CustomersController extends Controller
 {
 

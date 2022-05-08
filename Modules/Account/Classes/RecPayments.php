@@ -8,6 +8,8 @@ use Modules\Account\Classes\People;
 use Modules\Account\Classes\Invoices;
 use Modules\Account\Classes\Bank;
 
+use Illuminate\Support\Facades\DB;
+
 class RecPayments
 {
     /**
@@ -113,10 +115,10 @@ class RecPayments
 
         $common = new CommonFunc();
         $people = new People();
-        $trans = new Transactions(); 
+        $trans = new Transactions();
         $bank = new Bank();
 
-        $created_by         =auth()->user()->id;
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
         $voucher_no         = null;
@@ -131,17 +133,17 @@ class RecPayments
                 $trn_type = 'payment';
             }
 
-            $wpdb->insert(
-                'erp_acct_voucher_no',
-                [
-                    'type'       => $trn_type,
-                    'currency'   => $currency,
-                    'created_at' => $data['created_at'],
-                    'created_by' => $data['created_by'],
-                    'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : '',
-                    'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : '',
-                ]
-            );
+            DB::table('erp_acct_voucher_no')
+                ->insert(
+                    [
+                        'type'       => $trn_type,
+                        'currency'   => $currency,
+                        'created_at' => $data['created_at'],
+                        'created_by' => $data['created_by'],
+                        'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : '',
+                        'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : '',
+                    ]
+                );
 
             $voucher_no = $wpdb->insert_id;
 
@@ -154,27 +156,27 @@ class RecPayments
                 $transaction_charge = (float) $payment_data['bank_trn_charge'];
             }
 
-            $wpdb->insert(
-                'erp_acct_invoice_receipts',
-                [
-                    'voucher_no'         => $voucher_no,
-                    'customer_id'        => $payment_data['customer_id'],
-                    'customer_name'      => $payment_data['customer_name'],
-                    'trn_date'           => $payment_data['trn_date'],
-                    'particulars'        => $payment_data['particulars'],
-                    'amount'             => abs(floatval($payment_data['amount'])),
-                    'transaction_charge' => $transaction_charge,
-                    'ref'                => $payment_data['ref'],
-                    'trn_by'             => $payment_data['trn_by'],
-                    'attachments'        => $payment_data['attachments'],
-                    'status'             => $payment_data['status'],
-                    'trn_by_ledger_id'   => $payment_data['trn_by_ledger_id'],
-                    'created_at'         => $payment_data['created_at'],
-                    'created_by'         => $payment_data['created_by'],
-                    'updated_at'         => $payment_data['updated_at'],
-                    'updated_by'         => $payment_data['updated_by'],
-                ]
-            );
+            DB::table('erp_acct_invoice_receipts')
+                ->insert(
+                    [
+                        'voucher_no'         => $voucher_no,
+                        'customer_id'        => $payment_data['customer_id'],
+                        'customer_name'      => $payment_data['customer_name'],
+                        'trn_date'           => $payment_data['trn_date'],
+                        'particulars'        => $payment_data['particulars'],
+                        'amount'             => abs(floatval($payment_data['amount'])),
+                        'transaction_charge' => $transaction_charge,
+                        'ref'                => $payment_data['ref'],
+                        'trn_by'             => $payment_data['trn_by'],
+                        'attachments'        => $payment_data['attachments'],
+                        'status'             => $payment_data['status'],
+                        'trn_by_ledger_id'   => $payment_data['trn_by_ledger_id'],
+                        'created_at'         => $payment_data['created_at'],
+                        'created_by'         => $payment_data['created_by'],
+                        'updated_at'         => $payment_data['updated_at'],
+                        'updated_by'         => $payment_data['updated_by'],
+                    ]
+                );
 
             $items = $payment_data['line_items'];
 
@@ -246,22 +248,22 @@ class RecPayments
 
 
         $payment_data               = $this->getFormattedPaymentData($data, $voucher_no, $item['invoice_no']);
-        $created_by                 =auth()->user()->id;
+        $created_by                 = auth()->user()->id;
         $payment_data['created_at'] = date('Y-m-d H:i:s');
         $payment_data['created_by'] = $created_by;
 
-        $wpdb->insert(
-            'erp_acct_invoice_receipts_details',
-            [
-                'voucher_no' => $voucher_no,
-                'invoice_no' => $item['invoice_no'],
-                'amount'     => abs($item['line_total']),
-                'created_at' => $payment_data['created_at'],
-                'created_by' => $payment_data['created_by'],
-                'updated_at' => $payment_data['updated_at'],
-                'updated_by' => $payment_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_invoice_receipts_details')
+            ->insert(
+                [
+                    'voucher_no' => $voucher_no,
+                    'invoice_no' => $item['invoice_no'],
+                    'amount'     => abs($item['line_total']),
+                    'created_at' => $payment_data['created_at'],
+                    'created_by' => $payment_data['created_by'],
+                    'updated_at' => $payment_data['updated_at'],
+                    'updated_by' => $payment_data['updated_by'],
+                ]
+            );
 
         if (1 === $payment_data['status']) {
             return;
@@ -276,21 +278,21 @@ class RecPayments
             $credit = $item['line_total'];
         }
 
-        $wpdb->insert(
-            'erp_acct_invoice_account_details',
-            [
-                'invoice_no'  => $item['invoice_no'],
-                'trn_no'      => $voucher_no,
-                'trn_date'    => $payment_data['trn_date'],
-                'particulars' => $payment_data['particulars'],
-                'debit'       => $debit,
-                'credit'      => $credit,
-                'created_at'  => $payment_data['created_at'],
-                'created_by'  => $payment_data['created_by'],
-                'updated_at'  => $payment_data['updated_at'],
-                'updated_by'  => $payment_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_invoice_account_details')
+            ->insert(
+                [
+                    'invoice_no'  => $item['invoice_no'],
+                    'trn_no'      => $voucher_no,
+                    'trn_date'    => $payment_data['trn_date'],
+                    'particulars' => $payment_data['particulars'],
+                    'debit'       => $debit,
+                    'credit'      => $credit,
+                    'created_at'  => $payment_data['created_at'],
+                    'created_by'  => $payment_data['created_by'],
+                    'updated_at'  => $payment_data['updated_at'],
+                    'updated_by'  => $payment_data['updated_by'],
+                ]
+            );
 
         $this->insertPaymentDataIntoLedger($payment_data);
 
@@ -310,7 +312,7 @@ class RecPayments
 
         $common = new CommonFunc();
 
-        $updated_by         =auth()->user()->id;
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -494,9 +496,9 @@ class RecPayments
     {
 
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_receipts', ['voucher_no' => $id]);
-        $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_receipts_details', ['voucher_no' => $id]);
-        $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_account_details', ['invoice_no' => $id]);
+        $wpdb->delete('erp_acct_invoice_receipts', ['voucher_no' => $id]);
+        $wpdb->delete('erp_acct_invoice_receipts_details', ['voucher_no' => $id]);
+        $wpdb->delete('erp_acct_invoice_account_details', ['invoice_no' => $id]);
     }
 
     /**
@@ -522,8 +524,8 @@ class RecPayments
             ['voucher_no' => $id]
         );
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
-        $wpdb->delete($wpdb->prefix . 'erp_acct_invoice_account_details', ['trn_no' => $id]);
+        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $id]);
+        $wpdb->delete('erp_acct_invoice_account_details', ['trn_no' => $id]);
     }
 
     /**
@@ -584,21 +586,21 @@ class RecPayments
         }
 
         // Insert amount in ledger_details
-        $wpdb->insert(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $payment_data['trn_by_ledger_id'],
-                'trn_no'      => $payment_data['voucher_no'],
-                'particulars' => $payment_data['particulars'],
-                'debit'       => $debit,
-                'credit'      => $credit,
-                'trn_date'    => $payment_data['trn_date'],
-                'created_at'  => $payment_data['created_at'],
-                'created_by'  => $payment_data['created_by'],
-                'updated_at'  => $payment_data['updated_at'],
-                'updated_by'  => $payment_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->insert(
+                [
+                    'ledger_id'   => $payment_data['trn_by_ledger_id'],
+                    'trn_no'      => $payment_data['voucher_no'],
+                    'particulars' => $payment_data['particulars'],
+                    'debit'       => $debit,
+                    'credit'      => $credit,
+                    'trn_date'    => $payment_data['trn_date'],
+                    'created_at'  => $payment_data['created_at'],
+                    'created_by'  => $payment_data['created_by'],
+                    'updated_at'  => $payment_data['updated_at'],
+                    'updated_by'  => $payment_data['updated_by'],
+                ]
+            );
     }
 
     /**

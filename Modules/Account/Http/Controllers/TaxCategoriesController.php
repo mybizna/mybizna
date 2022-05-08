@@ -4,8 +4,10 @@ namespace Modules\Account\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;use Modules\Account\Classes\CommonFunc;
+use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
 
+use Illuminate\Support\Facades\DB;
 
 class TaxCategoriesController extends Controller
 {
@@ -225,7 +227,7 @@ class TaxCategoriesController extends Controller
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
-                $changes   = !empty($old_data) ?$common->getArrayDiff($data, $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff($data, $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -233,7 +235,6 @@ class TaxCategoriesController extends Controller
             default:
                 $operation = 'created';
         }
-
     }
 
     /**

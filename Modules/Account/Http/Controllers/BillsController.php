@@ -9,6 +9,8 @@ use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\People;
 use Modules\Account\Classes\Bills;
 
+use Illuminate\Support\Facades\DB;
+
 class BillsController extends Controller
 {
     /**

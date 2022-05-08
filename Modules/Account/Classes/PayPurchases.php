@@ -8,6 +8,8 @@ use Modules\Account\Classes\People;
 use Modules\Account\Classes\Purchases;
 use Modules\Account\Classes\Bank;
 
+use Illuminate\Support\Facades\DB;
+
 class PayPurchases
 {
 
@@ -20,7 +22,7 @@ class PayPurchases
      */
     function getPayPurchases($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -59,7 +61,7 @@ class PayPurchases
      */
     function getPayPurchase($purchase_no)
     {
-       
+
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -99,7 +101,7 @@ class PayPurchases
      */
     function formatPayPurchaseLineItems($voucher_no)
     {
-       
+
 
         return $wpdb->get_results(
             $wpdb->prepare(
@@ -126,11 +128,11 @@ class PayPurchases
      */
     function insertPayPurchase($data)
     {
-       
+
         $people = new People();
         $bank = new Bank();
 
-        $created_by         =auth()->user()->id;
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
         $data['updated_at'] = date('Y-m-d H:i:s');
@@ -148,17 +150,17 @@ class PayPurchases
             }
 
             //create voucher
-            $wpdb->insert(
-                'erp_acct_voucher_no',
-                [
-                    'type'       => $trn_type,
-                    'currency'   => $currency,
-                    'created_at' => $data['created_at'],
-                    'created_by' => $data['created_by'],
-                    'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : date('Y-m-d'),
-                    'updated_by' => isset($data['updated_by']) ? $data['updated_by'] :auth()->user()->id,
-                ]
-            );
+            DB::table('erp_acct_voucher_no')
+                ->insert(
+                    [
+                        'type'       => $trn_type,
+                        'currency'   => $currency,
+                        'created_at' => $data['created_at'],
+                        'created_by' => $data['created_by'],
+                        'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : date('Y-m-d'),
+                        'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : auth()->user()->id,
+                    ]
+                );
 
             $voucher_no = $wpdb->insert_id;
 
@@ -171,43 +173,43 @@ class PayPurchases
                 $transaction_charge = (float)$pay_purchase_data['bank_trn_charge'];
             }
 
-            $wpdb->insert(
-                'erp_acct_pay_purchase',
-                [
-                    'voucher_no'         => $voucher_no,
-                    'vendor_id'          => $pay_purchase_data['vendor_id'],
-                    'vendor_name'        => $pay_purchase_data['vendor_name'],
-                    'trn_date'           => $pay_purchase_data['trn_date'],
-                    'ref'                => $pay_purchase_data['ref'],
-                    'amount'             => abs(floatval($pay_purchase_data['amount'])),
-                    'trn_by'             => $pay_purchase_data['trn_by'],
-                    'transaction_charge' => $transaction_charge,
-                    'trn_by_ledger_id'   => $pay_purchase_data['trn_by_ledger_id'],
-                    'particulars'        => $pay_purchase_data['particulars'],
-                    'attachments'        => $pay_purchase_data['attachments'],
-                    'status'             => $pay_purchase_data['status'],
-                    'created_at'         => $pay_purchase_data['created_at'],
-                    'created_by'         => $created_by,
-                    'updated_at'         => $pay_purchase_data['updated_at'],
-                    'updated_by'         => $pay_purchase_data['updated_by'],
-                ]
-            );
+            DB::table('erp_acct_pay_purchase')
+                ->insert(
+                    [
+                        'voucher_no'         => $voucher_no,
+                        'vendor_id'          => $pay_purchase_data['vendor_id'],
+                        'vendor_name'        => $pay_purchase_data['vendor_name'],
+                        'trn_date'           => $pay_purchase_data['trn_date'],
+                        'ref'                => $pay_purchase_data['ref'],
+                        'amount'             => abs(floatval($pay_purchase_data['amount'])),
+                        'trn_by'             => $pay_purchase_data['trn_by'],
+                        'transaction_charge' => $transaction_charge,
+                        'trn_by_ledger_id'   => $pay_purchase_data['trn_by_ledger_id'],
+                        'particulars'        => $pay_purchase_data['particulars'],
+                        'attachments'        => $pay_purchase_data['attachments'],
+                        'status'             => $pay_purchase_data['status'],
+                        'created_at'         => $pay_purchase_data['created_at'],
+                        'created_by'         => $created_by,
+                        'updated_at'         => $pay_purchase_data['updated_at'],
+                        'updated_by'         => $pay_purchase_data['updated_by'],
+                    ]
+                );
 
             $items = $pay_purchase_data['purchase_details'];
 
             foreach ($items as $key => $item) {
-                $wpdb->insert(
-                    'erp_acct_pay_purchase_details',
-                    [
-                        'voucher_no'  => $voucher_no,
-                        'purchase_no' => $item['voucher_no'],
-                        'amount'      => abs(floatval($item['line_total'])),
-                        'created_at'  => $pay_purchase_data['created_at'],
-                        'created_by'  => $created_by,
-                        'updated_at'  => $pay_purchase_data['updated_at'],
-                        'updated_by'  => $pay_purchase_data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_pay_purchase_details')
+                    ->insert(
+                        [
+                            'voucher_no'  => $voucher_no,
+                            'purchase_no' => $item['voucher_no'],
+                            'amount'      => abs(floatval($item['line_total'])),
+                            'created_at'  => $pay_purchase_data['created_at'],
+                            'created_by'  => $created_by,
+                            'updated_at'  => $pay_purchase_data['updated_at'],
+                            'updated_by'  => $pay_purchase_data['updated_by'],
+                        ]
+                    );
 
                 $this->insertPayPurchase($pay_purchase_data, $item);
             }
@@ -234,21 +236,21 @@ class PayPurchases
                     $credit  = floatval($item['line_total']);
                 }
 
-                $wpdb->insert(
-                    'erp_acct_purchase_account_details',
-                    [
-                        'purchase_no' => $item['voucher_no'],
-                        'trn_no'      => $voucher_no,
-                        'particulars' => $pay_purchase_data['particulars'],
-                        'trn_date'    => $pay_purchase_data['trn_date'],
-                        'debit'       => $debit,
-                        'credit'      => $credit,
-                        'created_at'  => $pay_purchase_data['created_at'],
-                        'created_by'  => $created_by,
-                        'updated_at'  => $pay_purchase_data['updated_at'],
-                        'updated_by'  => $pay_purchase_data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_purchase_account_details')
+                    ->insert(
+                        [
+                            'purchase_no' => $item['voucher_no'],
+                            'trn_no'      => $voucher_no,
+                            'particulars' => $pay_purchase_data['particulars'],
+                            'trn_date'    => $pay_purchase_data['trn_date'],
+                            'debit'       => $debit,
+                            'credit'      => $credit,
+                            'created_at'  => $pay_purchase_data['created_at'],
+                            'created_by'  => $created_by,
+                            'updated_at'  => $pay_purchase_data['updated_at'],
+                            'updated_by'  => $pay_purchase_data['updated_by'],
+                        ]
+                    );
             }
 
             if (isset($pay_purchase_data['trn_by']) && 3 === $pay_purchase_data['trn_by']) {
@@ -300,9 +302,9 @@ class PayPurchases
      */
     function updatePayPurchase($data, $pay_purchase_id)
     {
-       
 
-        $created_by =auth()->user()->id;
+
+        $created_by = auth()->user()->id;
 
         try {
             $wpdb->query('START TRANSACTION');
@@ -407,7 +409,7 @@ class PayPurchases
      */
     function voidPayPurchase($id)
     {
-       
+
 
         if (!$id) {
             return;
@@ -421,8 +423,8 @@ class PayPurchases
             ['voucher_no' => $id]
         );
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_ledger_details', ['trn_no' => $id]);
-        $wpdb->delete($wpdb->prefix . 'erp_acct_purchase_account_details', ['trn_no' => $id]);
+        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $id]);
+        $wpdb->delete('erp_acct_purchase_account_details', ['trn_no' => $id]);
     }
 
     /**
@@ -460,9 +462,9 @@ class PayPurchases
         $pay_purchase_data['bank']             = isset($data['bank']) ? $data['bank'] : '';
         $pay_purchase_data['voucher_type']     = isset($data['voucher_type']) ? $data['voucher_type'] : '';
         $pay_purchase_data['created_at']       = date('Y-m-d');
-        $pay_purchase_data['created_by']       = isset($data['created_by']) ? $data['created_by'] :auth()->user()->id;
+        $pay_purchase_data['created_by']       = isset($data['created_by']) ? $data['created_by'] : auth()->user()->id;
         $pay_purchase_data['updated_at']       = isset($data['updated_at']) ? $data['updated_at'] : date('Y-m-d');
-        $pay_purchase_data['updated_by']       = isset($data['updated_by']) ? $data['updated_by'] :auth()->user()->id;
+        $pay_purchase_data['updated_by']       = isset($data['updated_by']) ? $data['updated_by'] : auth()->user()->id;
 
         return $pay_purchase_data;
     }
@@ -477,7 +479,7 @@ class PayPurchases
      */
     function insertPayPurchaseDataIntoLedger($pay_purchase_data, $item_data)
     {
-       
+
 
         if (1 === $pay_purchase_data['status'] || (isset($pay_purchase_data['trn_by']) && 4 === $pay_purchase_data['trn_by'])) {
             return;
@@ -493,21 +495,21 @@ class PayPurchases
         }
 
         // Insert amount in ledger_details
-        $wpdb->insert(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $pay_purchase_data['trn_by_ledger_id'],
-                'trn_no'      => $pay_purchase_data['voucher_no'],
-                'particulars' => $pay_purchase_data['particulars'],
-                'debit'       => $debit,
-                'credit'      => $credit,
-                'trn_date'    => $pay_purchase_data['trn_date'],
-                'created_at'  => $pay_purchase_data['created_at'],
-                'created_by'  => $pay_purchase_data['created_by'],
-                'updated_at'  => $pay_purchase_data['updated_at'],
-                'updated_by'  => $pay_purchase_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->insert(
+                [
+                    'ledger_id'   => $pay_purchase_data['trn_by_ledger_id'],
+                    'trn_no'      => $pay_purchase_data['voucher_no'],
+                    'particulars' => $pay_purchase_data['particulars'],
+                    'debit'       => $debit,
+                    'credit'      => $credit,
+                    'trn_date'    => $pay_purchase_data['trn_date'],
+                    'created_at'  => $pay_purchase_data['created_at'],
+                    'created_by'  => $pay_purchase_data['created_by'],
+                    'updated_at'  => $pay_purchase_data['updated_at'],
+                    'updated_by'  => $pay_purchase_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -521,7 +523,7 @@ class PayPurchases
      */
     function updatePayPurchaseDataIntoLedger($pay_purchase_data, $pay_purchase_no, $item_data)
     {
-       
+
 
         if (1 === $pay_purchase_data['status'] || (isset($pay_purchase_data['trn_by']) && 4 === $pay_purchase_data['trn_by'])) {
             return;
@@ -563,7 +565,7 @@ class PayPurchases
      */
     function getPayPurchaseCount()
     {
-       
+
 
         $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_pay_purchase');
 

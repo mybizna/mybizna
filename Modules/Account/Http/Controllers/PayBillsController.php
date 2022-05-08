@@ -10,6 +10,8 @@ use Modules\Account\Classes\People;
 use Modules\Account\Classes\PayBills;
 
 
+use Illuminate\Support\Facades\DB;
+
 class PayBillsController extends Controller
 {
 

@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
 
-class TransactionssController extends Controller
+use Illuminate\Support\Facades\DB;
+
+class TransactionsController extends Controller
 {
 
     /**

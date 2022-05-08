@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
 
+use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {

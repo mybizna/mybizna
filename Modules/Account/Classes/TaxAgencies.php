@@ -2,6 +2,8 @@
 
 namespace Modules\Account\Classes;
 
+use Illuminate\Support\Facades\DB;
+
 class TaxAgencies
 {
     /**
@@ -11,7 +13,7 @@ class TaxAgencies
      */
     function getAllTaxAgencies($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -65,26 +67,27 @@ class TaxAgencies
      */
     function getTaxAgency($tax_no)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
 
         return $row;
-      /**
-     * Get an single tax agency
-     *
-     * @param $tax_no
-     *
-     * @return mixed
-     */
-    function getTaxAgencyById($id)
-    {
-       
+        /**
+         * Get an single tax agency
+         *
+         * @param $tax_no
+         *
+         * @return mixed
+         */
+        function getTaxAgencyById($id)
+        {
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1", $id), ARRAY_A);
 
-        return $row;
-    }}
+            $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1", $id), ARRAY_A);
+
+            return $row;
+        }
+    }
 
     /**
      * Insert tax agency
@@ -95,24 +98,24 @@ class TaxAgencies
      */
     function insertTaxAgency($data)
     {
-       
 
-        $created_by         =auth()->user()->id;
+
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        $wpdb->insert(
-            'erp_acct_tax_agencies',
-            [
-                'name'       => $tax_data['agency_name'],
-                'created_at' => $tax_data['created_at'],
-                'created_by' => $tax_data['created_by'],
-                'updated_at' => $tax_data['updated_at'],
-                'updated_by' => $tax_data['updated_by'],
-            ]
-        );
+        DB::table('erp_acct_tax_agencies')
+            ->insert(
+                [
+                    'name'       => $tax_data['agency_name'],
+                    'created_at' => $tax_data['created_at'],
+                    'created_by' => $tax_data['created_by'],
+                    'updated_at' => $tax_data['updated_at'],
+                    'updated_by' => $tax_data['updated_by'],
+                ]
+            );
 
         $tax_id = $wpdb->insert_id;
 
@@ -129,9 +132,9 @@ class TaxAgencies
      */
     function updateTaxAgency($data, $id)
     {
-       
 
-        $updated_by         =auth()->user()->id;
+
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -162,9 +165,9 @@ class TaxAgencies
      */
     function deleteTaxAgency($id)
     {
-       
 
-        $wpdb->delete($wpdb->prefix . 'erp_acct_tax_agencies', ['id' => $id]);
+
+        $wpdb->delete('erp_acct_tax_agencies', ['id' => $id]);
 
 
         return $id;
@@ -179,7 +182,7 @@ class TaxAgencies
      */
     function getTaxAgencyNameById($agency_id)
     {
-       
+
 
         $row = $wpdb->get_row(
             $wpdb->prepare(
@@ -201,7 +204,7 @@ class TaxAgencies
      */
     function getAgencyDue($agency_id)
     {
-       
+
 
         return $wpdb->get_var($wpdb->prepare("SELECT SUM( credit - debit ) as tax_due From {$wpdb->prefix}erp_acct_tax_agency_details WHERE agency_id = %d", $agency_id));
     }

@@ -9,6 +9,7 @@ use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\Transactions;
 use Modules\Account\Classes\Invoices;
 
+use Illuminate\Support\Facades\DB;
 
 class InvoicesController extends Controller
 {

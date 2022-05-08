@@ -6,6 +6,8 @@ namespace Modules\Account\Classes;
 use Modules\Account\Classes\Transactions;
 use Modules\Account\Classes\Reports\TrialBalance;
 
+use Illuminate\Support\Facades\DB;
+
 class LedgerAccounts
 {
 
@@ -16,7 +18,7 @@ class LedgerAccounts
      */
     function getAllCharts()
     {
-       
+
 
         $cache_key = 'erp-get-charts';
         $charts    = wp_cache_get($cache_key, 'erp-accounting');
@@ -39,7 +41,7 @@ class LedgerAccounts
      */
     function getLedgerNameById($ledger_id)
     {
-       
+
 
         $row = $wpdb->get_row($wpdb->prepare("SELECT id, name  FROM {$wpdb->prefix}erp_acct_ledgers WHERE id = %d", $ledger_id));
 
@@ -51,7 +53,7 @@ class LedgerAccounts
      */
     function getLedgerCategories($chart_id)
     {
-       
+
 
         $cache_key         = 'erp-get-ledger-categories';
         $ledger_categories = wp_cache_get($cache_key, 'erp-accounting');
@@ -70,18 +72,18 @@ class LedgerAccounts
      */
     function createLedgerCategory($args)
     {
-       
+
 
         $exist = $wpdb->get_var($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_ledger_categories WHERE name = %s", $args['name']));
 
         if (!$exist) {
-            $wpdb->insert(
-                "{$wpdb->prefix}erp_acct_ledger_categories",
-                [
-                    'name'      => $args['name'],
-                    'parent_id' => !empty($args['parent']) ? $args['parent'] : null,
-                ]
-            );
+            DB::table("erp_acct_ledger_categories")
+                ->insert(
+                    [
+                        'name'      => $args['name'],
+                        'parent_id' => !empty($args['parent']) ? $args['parent'] : null,
+                    ]
+                );
 
             return $wpdb->insert_id;
         }
@@ -95,7 +97,7 @@ class LedgerAccounts
      */
     function updateLedgerCategory($args)
     {
-       
+
 
         $exist = $wpdb->get_var($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_ledger_categories WHERE name = %s AND id <> %d", $args['name'], $args['id']));
 
@@ -121,7 +123,7 @@ class LedgerAccounts
      */
     function deleteLedgerCategory($id)
     {
-       
+
 
         $parent_id = $wpdb->get_var($wpdb->prepare("SELECT parent_id FROM {$wpdb->prefix}erp_acct_ledger_categories WHERE id = %d", $id));
 
@@ -146,7 +148,7 @@ class LedgerAccounts
      */
     function getLedgersByChartId($chart_id)
     {
-       
+
 
         $ledgers = $wpdb->get_results($wpdb->prepare("SELECT id, name FROM {$wpdb->prefix}erp_acct_ledgers WHERE chart_id = %d AND unused IS NULL", $chart_id), ARRAY_A);
 
@@ -166,7 +168,7 @@ class LedgerAccounts
      */
     function getLedgerTrnCount($ledger_id)
     {
-       
+
 
         $ledger = $wpdb->get_row($wpdb->prepare("SELECT COUNT(*) as count FROM {$wpdb->prefix}erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
 
@@ -182,7 +184,7 @@ class LedgerAccounts
      */
     function getLedgerBalance($ledger_id)
     {
-       
+
 
         $ledger = $wpdb->get_row($wpdb->prepare("SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance FROM {$wpdb->prefix}erp_acct_ledgers AS ledger LEFT JOIN {$wpdb->prefix}erp_acct_ledger_details as ld ON ledger.id = ld.ledger_id WHERE ledger.id = %d", $ledger_id), ARRAY_A);
 
@@ -202,7 +204,7 @@ class LedgerAccounts
      */
     function getLedger($id)
     {
-       
+
 
         return $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_ledgers WHERE id = %d", $id));
     }
@@ -216,18 +218,18 @@ class LedgerAccounts
      */
     function insertLedger($item)
     {
-       
 
-        $wpdb->insert(
-            "{$wpdb->prefix}erp_acct_ledgers",
-            [
-                'chart_id'    => $item['chart_id'],
-                'category_id' => $item['category_id'],
-                'name'        => $item['name'],
-                'slug'        => slugify($item['name']),
-                'code'        => $item['code'],
-            ]
-        );
+
+        DB::table("erp_acct_ledgers")
+            ->insert(
+                [
+                    'chart_id'    => $item['chart_id'],
+                    'category_id' => $item['category_id'],
+                    'name'        => $item['name'],
+                    'slug'        => slugify($item['name']),
+                    'code'        => $item['code'],
+                ]
+            );
 
         return $this->getLedger($wpdb->insert_id);
     }
@@ -242,7 +244,7 @@ class LedgerAccounts
      */
     function updateLedger($item, $id)
     {
-       
+
 
         $wpdb->update(
             "{$wpdb->prefix}erp_acct_ledgers",
@@ -269,7 +271,7 @@ class LedgerAccounts
      */
     function ledgerOpeningBalanceByFnYearId($id)
     {
-       
+
 
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
         FROM {$wpdb->prefix}erp_acct_ledgers AS ledger
@@ -291,7 +293,7 @@ class LedgerAccounts
      */
     function getLedgersWithBalances()
     {
-       
+
         $trialbal = new TrialBalance();
 
         $today = date('Y-m-d');
@@ -327,7 +329,7 @@ class LedgerAccounts
      */
     function ledgersOpeningBalanceByFnYearId($id)
     {
-       
+
 
         return $wpdb->get_results(
             $wpdb->prepare(
@@ -444,7 +446,7 @@ class LedgerAccounts
      */
     function getLedgers()
     {
-       
+
 
         $ledgers = $wpdb->get_results("SELECT id, name FROM {$wpdb->prefix}erp_acct_ledgers WHERE unused IS NULL", ARRAY_A);
 

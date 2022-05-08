@@ -13,6 +13,8 @@ use Modules\Account\Classes\LedgerAccounts;
 
 use Modules\Account\Classes\Reports\TrialBalance;
 
+use Illuminate\Support\Facades\DB;
+
 class LedgersController extends Controller
 {
     /**

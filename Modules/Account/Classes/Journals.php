@@ -4,6 +4,8 @@ namespace Modules\Account\Classes;
 
 use Modules\Account\Classes\CommonFunc;
 
+use Illuminate\Support\Facades\DB;
+
 class Journals
 {
 
@@ -14,7 +16,7 @@ class Journals
      */
     function getAllJournals($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -83,7 +85,7 @@ class Journals
      */
     function getJournal($journal_no)
     {
-       
+
 
         $sql = "SELECT
 
@@ -122,9 +124,9 @@ class Journals
      */
     function insertJournal($data)
     {
-       
 
-        $created_by         =auth()->user()->id;
+
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
@@ -134,71 +136,71 @@ class Journals
         try {
             $wpdb->query('START TRANSACTION');
 
-            $wpdb->insert(
-                'erp_acct_voucher_no',
-                [
-                    'type'       => 'journal',
-                    'currency'   => $currency,
-                    'created_at' => $data['created_at'],
-                    'created_by' => $data['created_by'],
-                    'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : '',
-                    'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : '',
-                ]
-            );
+            DB::table('erp_acct_voucher_no')
+                ->insert(
+                    [
+                        'type'       => 'journal',
+                        'currency'   => $currency,
+                        'created_at' => $data['created_at'],
+                        'created_by' => $data['created_by'],
+                        'updated_at' => isset($data['updated_at']) ? $data['updated_at'] : '',
+                        'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : '',
+                    ]
+                );
 
             $voucher_no = $wpdb->insert_id;
 
             $journal_data = $this->getFormattedJournalData($data, $voucher_no);
 
-            $wpdb->insert(
-                'erp_acct_journals',
-                [
-                    'voucher_no'     => $voucher_no,
-                    'trn_date'       => $journal_data['trn_date'],
-                    'ref'            => $journal_data['ref'],
-                    'voucher_amount' => $journal_data['voucher_amount'],
-                    'particulars'    => $journal_data['particulars'],
-                    'attachments'    => $journal_data['attachments'],
-                    'created_at'     => $journal_data['created_at'],
-                    'created_by'     => $journal_data['created_by'],
-                    'updated_at'     => $journal_data['updated_at'],
-                    'updated_by'     => $journal_data['updated_by'],
-                ]
-            );
+            DB::table('erp_acct_journals')
+                ->insert(
+                    [
+                        'voucher_no'     => $voucher_no,
+                        'trn_date'       => $journal_data['trn_date'],
+                        'ref'            => $journal_data['ref'],
+                        'voucher_amount' => $journal_data['voucher_amount'],
+                        'particulars'    => $journal_data['particulars'],
+                        'attachments'    => $journal_data['attachments'],
+                        'created_at'     => $journal_data['created_at'],
+                        'created_by'     => $journal_data['created_by'],
+                        'updated_at'     => $journal_data['updated_at'],
+                        'updated_by'     => $journal_data['updated_by'],
+                    ]
+                );
 
             $items = $journal_data['line_items'];
 
             foreach ($items as $key => $item) {
-                $wpdb->insert(
-                    'erp_acct_journal_details',
-                    [
-                        'trn_no'      => $voucher_no,
-                        'ledger_id'   => $item['ledger_id'],
-                        'particulars' => empty($item['particulars']) ? $journal_data['particulars'] : $item['particulars'],
-                        'debit'       => $item['debit'],
-                        'credit'      => $item['credit'],
-                        'created_at'  => $journal_data['created_at'],
-                        'created_by'  => $journal_data['created_by'],
-                        'updated_at'  => $journal_data['updated_at'],
-                        'updated_by'  => $journal_data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_journal_details')
+                    ->insert(
+                        [
+                            'trn_no'      => $voucher_no,
+                            'ledger_id'   => $item['ledger_id'],
+                            'particulars' => empty($item['particulars']) ? $journal_data['particulars'] : $item['particulars'],
+                            'debit'       => $item['debit'],
+                            'credit'      => $item['credit'],
+                            'created_at'  => $journal_data['created_at'],
+                            'created_by'  => $journal_data['created_by'],
+                            'updated_at'  => $journal_data['updated_at'],
+                            'updated_by'  => $journal_data['updated_by'],
+                        ]
+                    );
 
-                $wpdb->insert(
-                    'erp_acct_ledger_details',
-                    [
-                        'ledger_id'   => $item['ledger_id'],
-                        'trn_no'      => $voucher_no,
-                        'particulars' => empty($item['particulars']) ? $journal_data['particulars'] : $item['particulars'],
-                        'debit'       => $item['debit'],
-                        'credit'      => $item['credit'],
-                        'trn_date'    => $journal_data['trn_date'],
-                        'created_at'  => $journal_data['created_at'],
-                        'created_by'  => $journal_data['created_by'],
-                        'updated_at'  => $journal_data['updated_at'],
-                        'updated_by'  => $journal_data['updated_by'],
-                    ]
-                );
+                DB::table('erp_acct_ledger_details')
+                    ->insert(
+                        [
+                            'ledger_id'   => $item['ledger_id'],
+                            'trn_no'      => $voucher_no,
+                            'particulars' => empty($item['particulars']) ? $journal_data['particulars'] : $item['particulars'],
+                            'debit'       => $item['debit'],
+                            'credit'      => $item['credit'],
+                            'trn_date'    => $journal_data['trn_date'],
+                            'created_at'  => $journal_data['created_at'],
+                            'created_by'  => $journal_data['created_by'],
+                            'updated_at'  => $journal_data['updated_at'],
+                            'updated_by'  => $journal_data['updated_by'],
+                        ]
+                    );
             }
 
             $wpdb->query('COMMIT');
@@ -221,9 +223,9 @@ class Journals
      */
     function updateJournal($data, $journal_no)
     {
-       
 
-        $updated_by         =auth()->user()->id;
+
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -338,7 +340,7 @@ class Journals
      */
     function formatJournalData($item, $journal_no)
     {
-       
+
         $ledger = new LedgerAccounts();
 
         $sql = "SELECT

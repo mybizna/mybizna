@@ -9,6 +9,8 @@ use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\PayPurchases;
 
 
+use Illuminate\Support\Facades\DB;
+
 class PayPurchasesController extends Controller
 {
 

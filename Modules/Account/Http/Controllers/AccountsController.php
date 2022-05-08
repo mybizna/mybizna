@@ -10,6 +10,8 @@ use Illuminate\Routing\Controller;
 use Modules\Account\Classes\Reports\TrialBalance;
 use Modules\Account\Classes\Bank;
 
+use Illuminate\Support\Facades\DB;
+
 class AccountsController extends Controller
 {
 
