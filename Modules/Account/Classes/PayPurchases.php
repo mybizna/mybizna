@@ -33,7 +33,7 @@ class PayPurchases
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         $limit = '';
 
@@ -43,10 +43,10 @@ class PayPurchases
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM {$wpdb->prefix}erp_acct_pay_purchase ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM erp_acct_pay_purchase ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
-            return $wpdb->get_var($sql);
+            return DB::scalar($sql);
         }
 
         return $wpdb->get_results($sql, ARRAY_A);
@@ -83,7 +83,7 @@ class PayPurchases
                 pay_purchase.created_at,
                 pay_purchase.attachments,
                 pay_purchase.trn_by_ledger_id
-            FROM {$wpdb->prefix}erp_acct_pay_purchase AS pay_purchase
+            FROM erp_acct_pay_purchase AS pay_purchase
             WHERE pay_purchase.voucher_no = %d",
                 $purchase_no
             ),
@@ -105,10 +105,10 @@ class PayPurchases
 
         return $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT * FROM {$wpdb->prefix}erp_acct_pay_purchase AS pay_purchase
-            LEFT JOIN {$wpdb->prefix}erp_acct_pay_purchase_details AS pay_purchase_detail
+                "SELECT * FROM erp_acct_pay_purchase AS pay_purchase
+            LEFT JOIN erp_acct_pay_purchase_details AS pay_purchase_detail
             ON pay_purchase.voucher_no = pay_purchase_detail.voucher_no
-            LEFT JOIN {$wpdb->prefix}erp_acct_voucher_no AS voucher
+            LEFT JOIN erp_acct_voucher_no AS voucher
             ON pay_purchase_detail.voucher_no = voucher.id
             WHERE pay_purchase.voucher_no = %d",
                 $voucher_no
@@ -150,8 +150,8 @@ class PayPurchases
             }
 
             //create voucher
-            DB::table('erp_acct_voucher_no')
-                ->insert(
+           $voucher_no =  DB::table('erp_acct_voucher_no')
+                ->insertGetId(
                     [
                         'type'       => $trn_type,
                         'currency'   => $currency,
@@ -162,7 +162,6 @@ class PayPurchases
                     ]
                 );
 
-            $voucher_no = $wpdb->insert_id;
 
             $pay_purchase_data = $this->getFormattedPayPurchaseData($data, $voucher_no);
 

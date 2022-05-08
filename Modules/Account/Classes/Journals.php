@@ -27,7 +27,7 @@ class Journals
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         $journals    = $journals_count  = false;
 
@@ -53,7 +53,7 @@ class Journals
                 $sql .= ' journal.*';
             }
 
-            $sql .= " FROM {$wpdb->prefix}erp_acct_journals AS journal LEFT JOIN {$wpdb->prefix}erp_acct_journal_details AS journal_detail";
+            $sql .= " FROM erp_acct_journals AS journal LEFT JOIN erp_acct_journal_details AS journal_detail";
             $sql .= " ON journal.voucher_no = journal_detail.trn_no {$where} GROUP BY journal.voucher_no ORDER BY journal.{$args['orderby']} {$args['order']} {$limit}";
 
             if ($args['count']) {
@@ -61,11 +61,9 @@ class Journals
 
                 $journals_count = $wpdb->num_rows;
 
-                wp_cache_set($cache_key_count, $journals_count, 'erp-accounting');
             } else {
                 $journals = $wpdb->get_results($sql, ARRAY_A);
 
-                wp_cache_set($cache_key, $journals, 'erp-accounting');
             }
         }
 
@@ -101,8 +99,8 @@ class Journals
                 journal.updated_at,
                 journal.updated_by
 
-            FROM {$wpdb->prefix}erp_acct_journals as journal
-            LEFT JOIN {$wpdb->prefix}erp_acct_journal_details as journal_detail ON journal.voucher_no = journal_detail.trn_no
+            FROM erp_acct_journals as journal
+            LEFT JOIN erp_acct_journal_details as journal_detail ON journal.voucher_no = journal_detail.trn_no
             WHERE journal.voucher_no = {$journal_no} LIMIT 1";
 
         //config()->set('database.connections.mysql.strict', false);
@@ -136,8 +134,8 @@ class Journals
         try {
             $wpdb->query('START TRANSACTION');
 
-            DB::table('erp_acct_voucher_no')
-                ->insert(
+            $voucher_no =  DB::table('erp_acct_voucher_no')
+                ->insertGetId(
                     [
                         'type'       => 'journal',
                         'currency'   => $currency,
@@ -148,7 +146,6 @@ class Journals
                     ]
                 );
 
-            $voucher_no = $wpdb->insert_id;
 
             $journal_data = $this->getFormattedJournalData($data, $voucher_no);
 
@@ -351,8 +348,8 @@ class Journals
                 journal_detail.debit,
                 journal_detail.credit
 
-            FROM {$wpdb->prefix}erp_acct_journals as journal
-            LEFT JOIN {$wpdb->prefix}erp_acct_journal_details as journal_detail ON journal.voucher_no = journal_detail.trn_no
+            FROM erp_acct_journals as journal
+            LEFT JOIN erp_acct_journal_details as journal_detail ON journal.voucher_no = journal_detail.trn_no
             WHERE journal.voucher_no = {$journal_no}";
 
         //config()->set('database.connections.mysql.strict', false);

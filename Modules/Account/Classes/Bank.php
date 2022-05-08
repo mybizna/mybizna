@@ -196,7 +196,7 @@ class Bank
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_cash_at_banks WHERE ledger_id = %d", $bank_no), ARRAY_A);
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_cash_at_banks WHERE ledger_id = %d", $bank_no), ARRAY_A);
 
         return $row;
     }
@@ -284,7 +284,7 @@ class Bank
     {
 
 
-        $result = $wpdb->get_row($wpdb->prepare("SELECT ledger_id, SUM(credit) - SUM(debit) AS 'balance' FROM {$wpdb->prefix}erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
+        $result = $wpdb->get_row($wpdb->prepare("SELECT ledger_id, SUM(credit) - SUM(debit) AS 'balance' FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
 
         return $result;
     }
@@ -301,8 +301,8 @@ class Bank
 
         $dr_cr = [];
 
-        $dr_cr['debit']  = $wpdb->get_var($wpdb->prepare("SELECT SUM(debit) FROM {$wpdb->prefix}erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id));
-        $dr_cr['credit'] = $wpdb->get_var($wpdb->prepare("SELECT SUM(credit) FROM {$wpdb->prefix}erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id));
+        $dr_cr['debit']  = DB::scalar($wpdb->prepare("SELECT SUM(debit) FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id));
+        $dr_cr['credit'] = DB::scalar($wpdb->prepare("SELECT SUM(credit) FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id));
 
         return $dr_cr;
     }
@@ -328,8 +328,8 @@ class Bank
         try {
             $wpdb->query('START TRANSACTION');
 
-            DB::table('erp_acct_voucher_no')
-                ->insert(
+            $voucher_no =  DB::table('erp_acct_voucher_no')
+                ->insertGetId(
                     [
                         'type'       => 'transfer_voucher',
                         'currency'   => $currency,
@@ -340,7 +340,6 @@ class Bank
                     ]
                 );
 
-            $voucher_no = $wpdb->insert_id;
 
             // Inset transfer amount in ledger_details
             DB::table('erp_acct_ledger_details')
@@ -455,7 +454,7 @@ class Bank
             's'        => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         $limit = '';
 
@@ -463,7 +462,7 @@ class Bank
             $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
         }
 
-        $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_transfer_voucher ORDER BY %s %s %s", $args['order_by'], $args['order'], $limit), ARRAY_A);
+        $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM erp_acct_transfer_voucher ORDER BY %s %s %s", $args['order_by'], $args['order'], $limit), ARRAY_A);
 
         return $result;
     }
@@ -483,7 +482,7 @@ class Bank
             return;
         }
 
-        $result = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_transfer_voucher WHERE id = %d", $id));
+        $result = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_transfer_voucher WHERE id = %d", $id));
 
         return $result;
     }

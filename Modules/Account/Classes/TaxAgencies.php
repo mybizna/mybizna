@@ -24,31 +24,22 @@ class TaxAgencies
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
-        $tax_agencies_count  = $tax_agencies = false;
+        $limit = '';
 
-        if (false === $tax_agencies) {
+        if (-1 !== $args['number']) {
+            $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
+        }
 
-            $limit = '';
+        $sql  = 'SELECT';
+        $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
+        $sql .= "FROM erp_acct_tax_agencies ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
-            if (-1 !== $args['number']) {
-                $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
-            }
-
-            $sql  = 'SELECT';
-            $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-            $sql .= "FROM {$wpdb->prefix}erp_acct_tax_agencies ORDER BY {$args['orderby']} {$args['order']} {$limit}";
-
-            if ($args['count']) {
-                $tax_agencies_count = $wpdb->get_var($sql);
-
-                wp_cache_set($cache_key_count, $tax_agencies_count, 'erp-accounting');
-            } else {
-                $tax_agencies = $wpdb->get_results($sql, ARRAY_A);
-
-                wp_cache_set($cache_key, $tax_agencies, 'erp-accounting');
-            }
+        if ($args['count']) {
+            $tax_agencies_count = DB::scalar($sql);
+        } else {
+            $tax_agencies = $wpdb->get_results($sql, ARRAY_A);
         }
 
         if ($args['count']) {
@@ -69,7 +60,7 @@ class TaxAgencies
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
 
         return $row;
         /**
@@ -83,7 +74,7 @@ class TaxAgencies
         {
 
 
-            $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1", $id), ARRAY_A);
+            $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", $id), ARRAY_A);
 
             return $row;
         }
@@ -106,7 +97,7 @@ class TaxAgencies
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        DB::table('erp_acct_tax_agencies')
+        $tax_id = DB::table('erp_acct_tax_agencies')
             ->insert(
                 [
                     'name'       => $tax_data['agency_name'],
@@ -117,7 +108,6 @@ class TaxAgencies
                 ]
             );
 
-        $tax_id = $wpdb->insert_id;
 
 
         return $tax_id;
@@ -186,7 +176,7 @@ class TaxAgencies
 
         $row = $wpdb->get_row(
             $wpdb->prepare(
-                "SELECT name FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1",
+                "SELECT name FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1",
                 $agency_id
             ),
             ARRAY_A
@@ -206,6 +196,6 @@ class TaxAgencies
     {
 
 
-        return $wpdb->get_var($wpdb->prepare("SELECT SUM( credit - debit ) as tax_due From {$wpdb->prefix}erp_acct_tax_agency_details WHERE agency_id = %d", $agency_id));
+        return DB::scalar($wpdb->prepare("SELECT SUM( credit - debit ) as tax_due From erp_acct_tax_agency_details WHERE agency_id = %d", $agency_id));
     }
 }

@@ -110,7 +110,7 @@ class LedgersController extends Controller
         $ledger = new LedgerAccounts();
        
 
-        $exist = $wpdb->get_var($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_ledgers WHERE name = %s", $request['name']));
+        $exist = DB::scalar($wpdb->prepare("SELECT name FROM erp_acct_ledgers WHERE name = %s", $request['name']));
 
         if ($exist) {
             return new WP_Error('rest_ledger_name_already_exist', __('Name already exist.'), ['status' => 404]);
@@ -186,7 +186,7 @@ class LedgersController extends Controller
 
         $item = $ledger->getLedger($id);
 
-        $wpdb->delete("{$wpdb->prefix}erp_acct_ledgers", ['id' => $id]);
+        $wpdb->delete("erp_acct_ledgers", ['id' => $id]);
 
         $this->add_log($item, 'delete');
 

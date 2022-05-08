@@ -15,7 +15,7 @@ class Products
 
     function getAllProducts($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -26,23 +26,20 @@ class Products
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
-        $products_count  = $products = false;
+        $limit = '';
 
-        if (false === $products) {
-            $limit = '';
+        if (-1 !== $args['number']) {
+            $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
+        }
 
-            if (-1 !== $args['number']) {
-                $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
-            }
+        $sql = 'SELECT';
 
-            $sql = 'SELECT';
-
-            if ($args['count']) {
-                $sql .= ' COUNT( product.id ) as total_number';
-            } else {
-                $sql .= " product.id,
+        if ($args['count']) {
+            $sql .= ' COUNT( product.id ) as total_number';
+        } else {
+            $sql .= " product.id,
                     product.name,
                     product.product_type_id,
                     product.cost_price,
@@ -53,33 +50,29 @@ class Products
                     cat.id AS category_id,
                     cat.name AS cat_name,
                     product_type.name AS product_type_name";
-            }
+        }
 
-            $sql .= " FROM {$wpdb->prefix}erp_acct_products AS product
-            LEFT JOIN {$wpdb->prefix}erp_peoples AS people ON product.vendor = people.id
-            LEFT JOIN {$wpdb->prefix}erp_acct_product_categories AS cat ON product.category_id = cat.id
-            LEFT JOIN {$wpdb->prefix}erp_acct_product_types AS product_type ON product.product_type_id = product_type.id
+        $sql .= " FROM erp_acct_products AS product
+            LEFT JOIN erp_peoples AS people ON product.vendor = people.id
+            LEFT JOIN erp_acct_product_categories AS cat ON product.category_id = cat.id
+            LEFT JOIN erp_acct_product_types AS product_type ON product.product_type_id = product_type.id
             WHERE product.product_type_id<>3";
 
-            if (!empty($args['s'])) {
-                $sql .= " AND product.name LIKE '%{$args['s']}%'";
-            }
-
-            $sql .= " ORDER BY product.{$args['orderby']} {$args['order']} {$limit}";
-
-            //config()->set('database.connections.mysql.strict', false);
-            //config()->set('database.connections.mysql.strict', true);
-
-            if ($args['count']) {
-                $products_count = $wpdb->get_var($sql);
-
-                wp_cache_set($cache_key_count, $products_count, 'erp-accounting');
-            } else {
-                $products = $wpdb->get_results($sql, ARRAY_A);
-
-                wp_cache_set($cache_key, $products, 'erp-accounting');
-            }
+        if (!empty($args['s'])) {
+            $sql .= " AND product.name LIKE '%{$args['s']}%'";
         }
+
+        $sql .= " ORDER BY product.{$args['orderby']} {$args['order']} {$limit}";
+
+        //config()->set('database.connections.mysql.strict', false);
+        //config()->set('database.connections.mysql.strict', true);
+
+        if ($args['count']) {
+            $products_count = DB::scalar($sql);
+        } else {
+            $products = $wpdb->get_results($sql, ARRAY_A);
+        }
+
 
         if ($args['count']) {
             return $products_count;
@@ -97,7 +90,7 @@ class Products
      */
     function getProduct($product_id)
     {
-       
+
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -116,10 +109,10 @@ class Products
             cat.name AS cat_name,
             product_type.name AS product_type_name
 
-		FROM {$wpdb->prefix}erp_acct_products AS product
-		LEFT JOIN {$wpdb->prefix}erp_peoples AS people ON product.vendor = people.id
-		LEFT JOIN {$wpdb->prefix}erp_acct_product_categories AS cat ON product.category_id = cat.id
-        LEFT JOIN {$wpdb->prefix}erp_acct_product_types AS product_type ON product.product_type_id = product_type.id WHERE product.id = {$product_id} LIMIT 1",
+		FROM erp_acct_products AS product
+		LEFT JOIN erp_peoples AS people ON product.vendor = people.id
+		LEFT JOIN erp_acct_product_categories AS cat ON product.category_id = cat.id
+        LEFT JOIN erp_acct_product_types AS product_type ON product.product_type_id = product_type.id WHERE product.id = {$product_id} LIMIT 1",
             ARRAY_A
         );
 
@@ -134,9 +127,9 @@ class Products
      */
     function insertProduct($data)
     {
-       
 
-        $created_by         =auth()->user()->id;
+
+        $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
         $product_id         = null;
@@ -147,33 +140,33 @@ class Products
 
             $product_check =  $wpdb->get_row(
                 $wpdb->prepare(
-                    "SELECT * FROM {$wpdb->prefix}erp_acct_products where name = %s",
+                    "SELECT * FROM erp_acct_products where name = %s",
                     $product_data['name']
                 ),
                 OBJECT
             );
 
             if ($product_check) {
-                throw new \\Exception($product_data['name'] . ' ' . __('product already exists!', 'erp'));
+                throw new \Exception($product_data['name'] . ' ' . __('product already exists!', 'erp'));
             }
 
-            DB::table('erp_acct_products')
-                ->insert( [
-                    'name'            => $product_data['name'],
-                    'product_type_id' => $product_data['product_type_id'],
-                    'category_id'     => $product_data['category_id'],
-                    'tax_cat_id'      => $product_data['tax_cat_id'],
-                    'vendor'          => $product_data['vendor'],
-                    'cost_price'      => $product_data['cost_price'],
-                    'sale_price'      => $product_data['sale_price'],
-                    'created_at'      => $product_data['created_at'],
-                    'created_by'      => $product_data['created_by'],
-                    'updated_at'      => $product_data['updated_at'],
-                    'updated_by'      => $product_data['updated_by'],
-                ]
-            );
+            $product_id = DB::table('erp_acct_products')
+                ->insertGetId(
+                    [
+                        'name'            => $product_data['name'],
+                        'product_type_id' => $product_data['product_type_id'],
+                        'category_id'     => $product_data['category_id'],
+                        'tax_cat_id'      => $product_data['tax_cat_id'],
+                        'vendor'          => $product_data['vendor'],
+                        'cost_price'      => $product_data['cost_price'],
+                        'sale_price'      => $product_data['sale_price'],
+                        'created_at'      => $product_data['created_at'],
+                        'created_by'      => $product_data['created_by'],
+                        'updated_at'      => $product_data['updated_at'],
+                        'updated_by'      => $product_data['updated_by'],
+                    ]
+                );
 
-            $product_id = $wpdb->insert_id;
 
             $wpdb->query('COMMIT');
         } catch (\Exception $e) {
@@ -196,9 +189,9 @@ class Products
      */
     function updateProduct($data, $id)
     {
-       
 
-        $updated_by         =auth()->user()->id;
+
+        $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
@@ -208,7 +201,7 @@ class Products
 
             $product_name_check =  $wpdb->get_row(
                 $wpdb->prepare(
-                    "SELECT * FROM {$wpdb->prefix}erp_acct_products where name = %s AND id NOT IN(%d)",
+                    "SELECT * FROM erp_acct_products where name = %s AND id NOT IN(%d)",
                     $product_data['name'],
                     $id
                 ),
@@ -216,7 +209,7 @@ class Products
             );
 
             if ($product_name_check) {
-                throw new \\Exception($product_data['name'] . ' ' . __("Product name already exists!", "erp"));
+                throw new \Exception($product_data['name'] . ' ' . __("Product name already exists!", "erp"));
             }
 
             $wpdb->update(
@@ -286,10 +279,10 @@ class Products
      */
     function deleteProduct($product_id)
     {
-       
 
-        $wpdb->delete( 'erp_acct_products', ['id' => $product_id]);
-        $wpdb->delete( 'erp_acct_product_details', ['product_id' => $product_id]);
+
+        $wpdb->delete('erp_acct_products', ['id' => $product_id]);
+        $wpdb->delete('erp_acct_product_details', ['product_id' => $product_id]);
 
 
         do_action('erp_acct_after_change_product_list');
@@ -306,9 +299,9 @@ class Products
      */
     function getProductTypes()
     {
-       
 
-        $types = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}erp_acct_product_types");
+
+        $types = $wpdb->get_results("SELECT * FROM erp_acct_product_types");
 
         return apply_filters('erp_acct_product_types', $types);
     }
@@ -322,9 +315,9 @@ class Products
      */
     function getProductTypeIdByProductId($product_id)
     {
-       
 
-        $type_id = $wpdb->get_var($wpdb->prepare("SELECT product_type_id FROM {$wpdb->prefix}erp_acct_products WHERE id = %d", $product_id));
+
+        $type_id = DB::scalar($wpdb->prepare("SELECT product_type_id FROM erp_acct_products WHERE id = %d", $product_id));
 
         return $type_id;
     }
@@ -336,7 +329,7 @@ class Products
      */
     function getVendorProducts($args = [])
     {
-       
+
 
         $defaults = [
             'number'  => 20,
@@ -348,23 +341,20 @@ class Products
             'vendor'  => 0,
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
-        $products_vendor_count =  $products_vendor = false;
+        $limit = '';
 
-        if (false === $products_vendor) {
-            $limit = '';
+        if (-1 !== $args['number']) {
+            $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
+        }
 
-            if (-1 !== $args['number']) {
-                $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
-            }
+        $sql = 'SELECT';
 
-            $sql = 'SELECT';
-
-            if ($args['count']) {
-                $sql .= ' COUNT( product.id ) as total_number';
-            } else {
-                $sql .= " product.id,
+        if ($args['count']) {
+            $sql .= ' COUNT( product.id ) as total_number';
+        } else {
+            $sql .= " product.id,
                 product.name,
                 product.product_type_id,
                 product.cost_price,
@@ -375,24 +365,20 @@ class Products
                 cat.id AS category_id,
                 cat.name AS cat_name,
                 product_type.name AS product_type_name";
-            }
+        }
 
-            $sql .= " FROM {$wpdb->prefix}erp_acct_products AS product
-            LEFT JOIN {$wpdb->prefix}erp_peoples AS people ON product.vendor = people.id
-            LEFT JOIN {$wpdb->prefix}erp_acct_product_categories AS cat ON product.category_id = cat.id
-            LEFT JOIN {$wpdb->prefix}erp_acct_product_types AS product_type ON product.product_type_id = product_type.id
+        $sql .= " FROM erp_acct_products AS product
+            LEFT JOIN erp_peoples AS people ON product.vendor = people.id
+            LEFT JOIN erp_acct_product_categories AS cat ON product.category_id = cat.id
+            LEFT JOIN erp_acct_product_types AS product_type ON product.product_type_id = product_type.id
             WHERE people.id={$args['vendor']} AND product.product_type_id<>3 ORDER BY product.{$args['orderby']} {$args['order']} {$limit}";
 
-            if ($args['count']) {
-                $products_vendor_count = $wpdb->get_var($sql);
-
-                wp_cache_set($cache_key_count, $products_vendor_count, 'erp-accounting');
-            } else {
-                $products_vendor = $wpdb->get_results($sql, ARRAY_A);
-
-                wp_cache_set($cache_key, $products_vendor, 'erp-accounting');
-            }
+        if ($args['count']) {
+            $products_vendor_count = DB::scalar($sql);
+        } else {
+            $products_vendor = $wpdb->get_results($sql, ARRAY_A);
         }
+
 
         if ($args['count']) {
             return $products_vendor_count;
@@ -445,7 +431,7 @@ class Products
         $temp_type       = $data['type'];
         $update_existing = (int) $data['update_existing'] ? true : false;
         $curr_date       = date('Y-m-d');
-        $user            =auth()->user()->id;
+        $user            = auth()->user()->id;
 
         if ($update_existing) {
             $temp_type = 'product_non_unique';
@@ -469,7 +455,7 @@ class Products
                 $product_exists_id      = '';
                 $product_checked        = false;
 
-               
+
 
                 foreach ($data['fields'] as $key => $value) {
 
@@ -478,9 +464,9 @@ class Products
                         case 'category_id':
 
                             if (!empty($line[$value])) {
-                                $valid_value = $wpdb->get_var(
+                                $valid_value = DB::scalar(
                                     "SELECT id
-                                FROM {$wpdb->prefix}erp_acct_product_categories
+                                FROM erp_acct_product_categories
                                 WHERE id = {$line[$value]}"
                                 );
                             }
@@ -490,9 +476,9 @@ class Products
                         case 'product_type_id':
 
                             if (!empty($line[$value])) {
-                                $valid_value = $wpdb->get_var(
+                                $valid_value = DB::scalar(
                                     "SELECT id
-                                FROM {$wpdb->prefix}erp_acct_product_types
+                                FROM erp_acct_product_types
                                 WHERE id = {$line[$value]}"
                                 );
                             }
@@ -502,9 +488,9 @@ class Products
                         case 'tax_cat_id':
 
                             if (!empty($line[$value])) {
-                                $valid_value = $wpdb->get_var(
+                                $valid_value = DB::scalar(
                                     "SELECT id
-                                FROM {$wpdb->prefix}erp_acct_tax_categories
+                                FROM erp_acct_tax_categories
                                 WHERE id = {$line[$value]}"
                                 );
                             }
@@ -514,10 +500,10 @@ class Products
                         case 'vendor':
 
                             if (!empty($line[$value])) {
-                                $valid_value = $wpdb->get_var(
+                                $valid_value = DB::scalar(
                                     "SELECT people.id
-                                FROM {$wpdb->prefix}erp_peoples AS people
-                                LEFT JOIN {$wpdb->prefix}erp_people_type_relations AS rel
+                                FROM erp_peoples AS people
+                                LEFT JOIN erp_people_type_relations AS rel
                                 ON people.id = rel.people_id
                                 WHERE people.id = {$line[$value]}
                                 AND rel.people_types_id = 4"
@@ -539,9 +525,9 @@ class Products
                         );
 
                     if ($update_existing && !$product_checked && 'name' === $key) {
-                        $product_exists_id =  $wpdb->get_var(
+                        $product_exists_id =  DB::scalar(
                             $wpdb->prepare(
-                                "SELECT id FROM {$wpdb->prefix}erp_acct_products where name = %s",
+                                "SELECT id FROM erp_acct_products where name = %s",
                                 $value
                             )
                         );
@@ -588,11 +574,11 @@ class Products
      */
     function importProducts($data)
     {
-       
+
 
         if (!empty($data['items'])) {
             $inserted = $wpdb->query(
-                "INSERT INTO {$wpdb->prefix}erp_acct_products
+                "INSERT INTO erp_acct_products
             (name, product_type_id, category_id, cost_price, sale_price, vendor, tax_cat_id, created_by, created_at)
             VALUES {$data['items']}"
             );
@@ -604,13 +590,13 @@ class Products
 
         if (!empty($data['update'])) {
             $curr_date = date('Y-m-d');
-            $user      =auth()->user()->id;
+            $user      = auth()->user()->id;
 
             foreach ($data['update'] as $id => $field_data) {
                 $field_data['updated_at'] = $curr_date;
                 $field_data['updated_by'] = $user;
 
-                $wpdb->update("{$wpdb->prefix}erp_acct_products", $field_data, ['id' => $id]);
+                $wpdb->update("erp_acct_products", $field_data, ['id' => $id]);
             }
         }
 

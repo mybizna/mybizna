@@ -15,13 +15,13 @@ class Currencies
      */
     function getAllCurrencies($count = false)
     {
-       
+
 
         if ($count) {
-            return $wpdb->get_var("SELECT count(*) FROM {$wpdb->prefix}erp_acct_currency_info");
+            return DB::scalar("SELECT count(*) FROM erp_acct_currency_info");
         }
 
-        return $wpdb->get_results("SELECT id, name, sign FROM {$wpdb->prefix}erp_acct_currency_info", ARRAY_A);
+        return $wpdb->get_results("SELECT id, name, sign FROM erp_acct_currency_info", ARRAY_A);
     }
 
     /**
@@ -49,14 +49,14 @@ class Currencies
      */
     function getCurrencySymbol()
     {
-       
+
         $common = new CommonFunc();
 
         $active_currency_id = $common->getCurrency(true);
 
-        return $wpdb->get_var(
+        return DB::scalar(
             $wpdb->prepare(
-                "SELECT sign FROM {$wpdb->prefix}erp_acct_currency_info WHERE id = %d",
+                "SELECT sign FROM erp_acct_currency_info WHERE id = %d",
                 absint($active_currency_id)
             )
         );
@@ -143,7 +143,7 @@ class Currencies
             apply_filters(
                 'erp_acct_price_args',
                 wp_parse_args(
-                    $args,
+
                     [
                         'currency'           => $common->getCurrency(),
                         'decimal_separator'  => config('erp_ac_de_separator', false, '.'),
@@ -152,7 +152,8 @@ class Currencies
                         'price_format'       => $this->getPriceFormatPhp(),
                         'symbol'             => true,
                         'currency_symbol'    => $this->getCurrencySymbol(),
-                    ]
+                    ],
+                    $args,
                 )
             )
         );

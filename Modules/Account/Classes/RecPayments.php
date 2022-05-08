@@ -30,7 +30,7 @@ class RecPayments
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         $limit = '';
 
@@ -40,10 +40,10 @@ class RecPayments
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM {$wpdb->prefix}erp_acct_invoice_receipts ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM erp_acct_invoice_receipts ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
-            return $wpdb->get_var($sql);
+            return DB::scalar($sql);
         }
 
         $payment_data = $wpdb->get_results($sql, ARRAY_A);
@@ -85,10 +85,10 @@ class RecPayments
                 ledger_detail.debit,
                 ledger_detail.credit
 
-            from {$wpdb->prefix}erp_acct_invoice_receipts as pay_inv
+            from erp_acct_invoice_receipts as pay_inv
 
-            LEFT JOIN {$wpdb->prefix}erp_acct_invoice_receipts_details as pay_inv_detail ON pay_inv.voucher_no = pay_inv_detail.voucher_no
-            LEFT JOIN {$wpdb->prefix}erp_acct_ledger_details as ledger_detail ON pay_inv.voucher_no = ledger_detail.trn_no
+            LEFT JOIN erp_acct_invoice_receipts_details as pay_inv_detail ON pay_inv.voucher_no = pay_inv_detail.voucher_no
+            LEFT JOIN erp_acct_ledger_details as ledger_detail ON pay_inv.voucher_no = ledger_detail.trn_no
 
             WHERE pay_inv.voucher_no = {$invoice_no}";
 
@@ -133,8 +133,8 @@ class RecPayments
                 $trn_type = 'payment';
             }
 
-            DB::table('erp_acct_voucher_no')
-                ->insert(
+           $voucher_no =  DB::table('erp_acct_voucher_no')
+                ->insertGetId(
                     [
                         'type'       => $trn_type,
                         'currency'   => $currency,
@@ -145,7 +145,6 @@ class RecPayments
                     ]
                 );
 
-            $voucher_no = $wpdb->insert_id;
 
             $payment_data = $this->getFormattedPaymentData($data, $voucher_no);
 
@@ -680,8 +679,8 @@ class RecPayments
         } else {
             $invoice_sql = 'WHERE voucher_no = ' . $invoice;
         }
-        $sql .= "FROM {$wpdb->prefix}erp_acct_invoice_receipts_details AS inv_rec_detail
-            LEFT JOIN {$wpdb->prefix}erp_acct_voucher_no AS voucher
+        $sql .= "FROM erp_acct_invoice_receipts_details AS inv_rec_detail
+            LEFT JOIN erp_acct_voucher_no AS voucher
             ON inv_rec_detail.voucher_no = voucher.id
             {$invoice_sql}";
 

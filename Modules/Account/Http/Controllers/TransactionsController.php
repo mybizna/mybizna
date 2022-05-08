@@ -45,7 +45,7 @@ class TransactionsController extends Controller
     {
        
 
-        $statuses = $wpdb->get_results("SELECT id, type_name as name, slug FROM {$wpdb->prefix}erp_acct_trn_status_types", ARRAY_A);
+        $statuses = $wpdb->get_results("SELECT id, type_name as name, slug FROM erp_acct_trn_status_types", ARRAY_A);
 
         $response = rest_ensure_response($statuses);
 
@@ -387,7 +387,7 @@ class TransactionsController extends Controller
     {
        
 
-        $rows = $wpdb->get_results("SELECT id, name FROM {$wpdb->prefix}erp_acct_payment_methods", ARRAY_A);
+        $rows = $wpdb->get_results("SELECT id, name FROM erp_acct_payment_methods", ARRAY_A);
 
         return apply_filters('erp_acct_pay_methods', $rows);
     }

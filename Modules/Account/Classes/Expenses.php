@@ -32,7 +32,7 @@ class Expenses
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         $limit = '';
 
@@ -42,13 +42,13 @@ class Expenses
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM {$wpdb->prefix}erp_acct_expenses WHERE `trn_by_ledger_id` IS NOT NULL ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM erp_acct_expenses WHERE `trn_by_ledger_id` IS NOT NULL ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
         if ($args['count']) {
-            return $wpdb->get_var($sql);
+            return DB::scalar($sql);
         }
 
         $rows = $wpdb->get_results($sql, ARRAY_A);
@@ -89,7 +89,7 @@ class Expenses
                 expense.updated_at,
                 expense.updated_by
 
-            FROM {$wpdb->prefix}erp_acct_expenses AS expense WHERE expense.voucher_no = {$expense_no}";
+            FROM erp_acct_expenses AS expense WHERE expense.voucher_no = {$expense_no}";
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -142,9 +142,9 @@ class Expenses
     ledg_detail.debit,
     ledg_detail.credit
 
-    FROM {$wpdb->prefix}erp_acct_expenses AS expense
+    FROM erp_acct_expenses AS expense
 
-    LEFT JOIN {$wpdb->prefix}erp_acct_ledger_details AS ledg_detail ON expense.voucher_no = ledg_detail.trn_no
+    LEFT JOIN erp_acct_ledger_details AS ledg_detail ON expense.voucher_no = ledg_detail.trn_no
 
     WHERE expense.voucher_no = {$expense_no} AND expense.trn_by = 3";
 
@@ -179,9 +179,9 @@ class Expenses
 
         ledger.name AS ledger_name
 
-        FROM {$wpdb->prefix}erp_acct_expenses AS expense
-        LEFT JOIN {$wpdb->prefix}erp_acct_expense_details AS expense_detail ON expense_detail.trn_no = expense.voucher_no
-        LEFT JOIN {$wpdb->prefix}erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id
+        FROM erp_acct_expenses AS expense
+        LEFT JOIN erp_acct_expense_details AS expense_detail ON expense_detail.trn_no = expense.voucher_no
+        LEFT JOIN erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id
 
         WHERE expense.voucher_no={$voucher_no} AND expense.trn_by = 3",
             $voucher_no
@@ -206,8 +206,8 @@ class Expenses
         expense_detail.particulars,
         expense_detail.amount
 
-        FROM {$wpdb->prefix}erp_acct_expenses AS expense
-        LEFT JOIN {$wpdb->prefix}erp_acct_expense_details AS expense_detail ON expense.voucher_no = expense_detail.trn_no LEFT JOIN {$wpdb->prefix}erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id WHERE expense.voucher_no = %d",
+        FROM erp_acct_expenses AS expense
+        LEFT JOIN erp_acct_expense_details AS expense_detail ON expense.voucher_no = expense_detail.trn_no LEFT JOIN erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id WHERE expense.voucher_no = %d",
             $voucher_no
         );
 
@@ -245,8 +245,8 @@ class Expenses
                 $type = 'check';
             }
 
-            DB::table('erp_acct_voucher_no')
-                ->insert(
+            $voucher_no =  DB::table('erp_acct_voucher_no')
+                ->insertGetId(
                     [
                         'type'       => $type,
                         'currency'   => $currency,
@@ -257,7 +257,6 @@ class Expenses
                     ]
                 );
 
-            $voucher_no = $wpdb->insert_id;
 
             $expense_data = $expense->getFormattedExpenseData($data, $voucher_no);
 
@@ -436,7 +435,7 @@ class Expenses
              *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
              *? so, remove previous rows and insert new rows
              */
-            $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_acct_expense_details WHERE trn_no = %d", $expense_id), ARRAY_A);
+            $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM erp_acct_expense_details WHERE trn_no = %d", $expense_id), ARRAY_A);
             $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
             $wpdb->delete('erp_acct_expense_details', ['trn_no' => $expense_id]);
@@ -528,7 +527,7 @@ class Expenses
              *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
              *? so, remove previous rows and insert new rows
              */
-            $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_acct_expense_details WHERE trn_no = %d", $expense_id), ARRAY_A);
+            $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM erp_acct_expense_details WHERE trn_no = %d", $expense_id), ARRAY_A);
             $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
             $wpdb->delete('erp_acct_expense_details', ['trn_no' => $expense_id]);
@@ -803,8 +802,8 @@ class Expenses
                 ledg_detail.debit,
                 ledg_detail.credit
 
-            FROM {$wpdb->prefix}erp_acct_expense_checks AS cheque
-            LEFT JOIN {$wpdb->prefix}erp_acct_ledger_details AS ledg_detail ON cheque.trn_no = ledg_detail.trn_no
+            FROM erp_acct_expense_checks AS cheque
+            LEFT JOIN erp_acct_ledger_details AS ledg_detail ON cheque.trn_no = ledg_detail.trn_no
 
             WHERE cheque.trn_no = {$expense_no}";
 

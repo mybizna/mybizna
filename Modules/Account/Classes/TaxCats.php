@@ -25,31 +25,24 @@ class TaxCats
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
-        $tax_cats_count  = $tax_cats     = false;
+        $limit = '';
 
-        if (false === $tax_cats) {
-            $limit = '';
-
-            if (-1 !== $args['number']) {
-                $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
-            }
-
-            $sql  = 'SELECT';
-            $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-            $sql .= "FROM {$wpdb->prefix}erp_acct_tax_categories ORDER BY {$args['orderby']} {$args['order']} {$limit}";
-
-            if ($args['count']) {
-                $tax_cats_count = $wpdb->get_var($sql);
-
-                wp_cache_set($cache_key_count, $tax_cats_count, 'erp-accounting');
-            } else {
-                $tax_cats = $wpdb->get_results($sql, ARRAY_A);
-
-                wp_cache_set($cache_key, $tax_cats, 'erp-accounting');
-            }
+        if (-1 !== $args['number']) {
+            $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
         }
+
+        $sql  = 'SELECT';
+        $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
+        $sql .= "FROM erp_acct_tax_categories ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+
+        if ($args['count']) {
+            $tax_cats_count = DB::scalar($sql);
+        } else {
+            $tax_cats = $wpdb->get_results($sql, ARRAY_A);
+        }
+
 
         if ($args['count']) {
             return $tax_cats_count;
@@ -69,7 +62,7 @@ class TaxCats
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_categories WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
 
         return $row;
     }
@@ -85,7 +78,7 @@ class TaxCats
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_tax_categories WHERE id = %d LIMIT 1", $id), ARRAY_A);
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", $id), ARRAY_A);
 
         return $row;
     }
@@ -107,8 +100,8 @@ class TaxCats
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        DB::table('erp_acct_tax_categories')
-            ->insert(
+        $tax_id =  DB::table('erp_acct_tax_categories')
+            ->insertGetId(
                 [
                     'name'        => $tax_data['name'],
                     'description' => $tax_data['description'],
@@ -119,7 +112,7 @@ class TaxCats
                 ]
             );
 
-        $tax_id = $wpdb->insert_id;
+       $wpdb->insert_id;
 
 
         return $tax_id;

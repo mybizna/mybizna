@@ -31,7 +31,7 @@ class Bills
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         $limit = '';
 
@@ -41,10 +41,10 @@ class Bills
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM {$wpdb->prefix}erp_acct_bills WHERE `trn_by_ledger_id` IS NULL ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM erp_acct_bills WHERE `trn_by_ledger_id` IS NULL ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
-            return $wpdb->get_var($sql);
+            return DB::scalar($sql);
         }
 
         $rows = $wpdb->get_results($sql, ARRAY_A);
@@ -81,9 +81,9 @@ class Bills
             bill.created_at,
             bill.attachments
 
-        FROM {$wpdb->prefix}erp_acct_bills AS bill
-        LEFT JOIN {$wpdb->prefix}erp_acct_voucher_no as voucher ON bill.voucher_no = voucher.id
-        LEFT JOIN {$wpdb->prefix}erp_acct_bill_account_details AS b_ac_detail ON bill.voucher_no = b_ac_detail.trn_no
+        FROM erp_acct_bills AS bill
+        LEFT JOIN erp_acct_voucher_no as voucher ON bill.voucher_no = voucher.id
+        LEFT JOIN erp_acct_bill_account_details AS b_ac_detail ON bill.voucher_no = b_ac_detail.trn_no
         WHERE bill.voucher_no = %d",
             $bill_no
         );
@@ -119,9 +119,9 @@ class Bills
 
             ledger.name AS ledger_name
 
-        FROM {$wpdb->prefix}erp_acct_bills AS bill
-        LEFT JOIN {$wpdb->prefix}erp_acct_bill_details AS b_detail ON bill.voucher_no = b_detail.trn_no
-        LEFT JOIN {$wpdb->prefix}erp_acct_ledgers AS ledger ON ledger.id = b_detail.ledger_id
+        FROM erp_acct_bills AS bill
+        LEFT JOIN erp_acct_bill_details AS b_detail ON bill.voucher_no = b_detail.trn_no
+        LEFT JOIN erp_acct_ledgers AS ledger ON ledger.id = b_detail.ledger_id
         WHERE bill.voucher_no = %d",
             $voucher_no
         );
@@ -161,8 +161,8 @@ class Bills
         try {
             $wpdb->query('START TRANSACTION');
 
-            DB::table('erp_acct_voucher_no')
-                ->insert(
+            $voucher_no = DB::table('erp_acct_voucher_no')
+                ->insertGetId(
                     [
                         'type'       => 'bill',
                         'currency'   => $currency,
@@ -174,7 +174,6 @@ class Bills
                     ]
                 );
 
-            $voucher_no = $wpdb->insert_id;
 
             $bill_data           = $this->getFormattedBillData($data, $voucher_no);
             $bill_data['trn_no'] = $voucher_no;
@@ -292,8 +291,8 @@ class Bills
                 $wpdb->update('erp_acct_voucher_no', ['editable' => 0], ['id' => $bill_id]);
 
                 // insert contra voucher
-                DB::table('erp_acct_voucher_no')
-                    ->insert(
+                $voucher_no = DB::table('erp_acct_voucher_no')
+                    ->insertGetId(
                         [
                             'type'       => 'bill',
                             'currency'   => $currency,
@@ -305,12 +304,11 @@ class Bills
                         ]
                     );
 
-                $voucher_no = $wpdb->insert_id;
 
                 $old_bill = $this->getBill($bill_id);
 
                 // insert contra `erp_acct_bills` (basically a duplication of row)
-                $wpdb->query($wpdb->prepare("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM {$wpdb->prefix}erp_acct_bills WHERE voucher_no = %d", $bill_id));
+                $wpdb->query($wpdb->prepare("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_bills WHERE voucher_no = %d", $bill_id));
                 $wpdb->query(
                     $wpdb->prepare(
                         "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
@@ -320,14 +318,14 @@ class Bills
                         $data['created_at']
                     )
                 );
-                $wpdb->query("INSERT INTO {$wpdb->prefix}erp_acct_bills SELECT * FROM acct_tmptable");
+                $wpdb->query("INSERT INTO erp_acct_bills SELECT * FROM acct_tmptable");
                 $wpdb->query('DROP TABLE acct_tmptable');
 
                 // change bill status and other things
                 $status_closed = 7;
                 $wpdb->query(
                     $wpdb->prepare(
-                        "UPDATE {$wpdb->prefix}erp_acct_bills SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
+                        "UPDATE erp_acct_bills SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
                         $status_closed,
                         $data['updated_at'],
                         $user_id,
@@ -432,7 +430,7 @@ class Bills
          *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
          *? so, remove previous rows and insert new rows
          */
-        $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_acct_bill_details WHERE trn_no = %d", $bill_id), ARRAY_A);
+        $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM erp_acct_bill_details WHERE trn_no = %d", $bill_id), ARRAY_A);
 
         $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
@@ -627,7 +625,7 @@ class Bills
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         $limit = '';
 
@@ -635,8 +633,8 @@ class Bills
             $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
         }
 
-        $bills            = "{$wpdb->prefix}erp_acct_bills";
-        $bill_act_details = "{$wpdb->prefix}erp_acct_bill_account_details";
+        $bills            = "erp_acct_bills";
+        $bill_act_details = "erp_acct_bill_account_details";
         $items            = $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
 
         $query = $wpdb->prepare(
@@ -653,7 +651,7 @@ class Bills
         );
 
         if ($args['count']) {
-            return $wpdb->get_var($query);
+            return DB::scalar($query);
         }
 
         return $wpdb->get_results($query, ARRAY_A);
@@ -670,7 +668,7 @@ class Bills
     {
 
 
-        $result = $wpdb->get_row($wpdb->prepare("SELECT bill_no, SUM( ba.debit - ba.credit) as due FROM {$wpdb->prefix}erp_acct_bill_account_details as ba WHERE ba.bill_no = %d GROUP BY ba.bill_no", $bill_no), ARRAY_A);
+        $result = $wpdb->get_row($wpdb->prepare("SELECT bill_no, SUM( ba.debit - ba.credit) as due FROM erp_acct_bill_account_details as ba WHERE ba.bill_no = %d GROUP BY ba.bill_no", $bill_no), ARRAY_A);
 
         return $result['due'];
     }

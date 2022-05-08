@@ -58,8 +58,8 @@ class People
                 ]
             );
         } else {
-            DB::table('erp_peoples')
-                ->insert(
+            $people_id = DB::table('erp_peoples')
+                ->insertGetId(
                     [
                         'user_id'       => $data['user_id'],
                         'first_name'    => $data['personal']['first_name'],
@@ -87,7 +87,6 @@ class People
                     ]
                 );
 
-            $people_id = $wpdb->insert_id;
         }
 
 
@@ -118,7 +117,7 @@ class People
             }
         }
 
-        $args = wp_parse_args($args, (array) $people);
+        $args = wp_parse_args((array) $people, $args);
         $id   = $this->insertPeopleDB($args);
 
         if (!is_wp_error($id)) {
@@ -149,7 +148,7 @@ class People
         $start_date = isset($args['start_date']) ? $args['start_date'] : '';
         $end_date   = isset($args['end_date']) ? $args['start_date'] : '';
 
-        $rows = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}erp_acct_people_account_details WHERE trn_date >= '{$start_date}' AND trn_date <= '{$end_date}' AND people_id = {$people_id}", ARRAY_A);
+        $rows = $wpdb->get_results("SELECT * FROM erp_acct_people_account_details WHERE trn_date >= '{$start_date}' AND trn_date <= '{$end_date}' AND people_id = {$people_id}", ARRAY_A);
 
         return $rows;
     }
@@ -169,7 +168,7 @@ class People
 
         $row = $wpdb->get_row(
             $wpdb->prepare(
-                "SELECT street_1, street_2, city, state, postal_code, country FROM {$wpdb->prefix}erp_peoples WHERE id = %d",
+                "SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d",
                 $people_id
             ),
             ARRAY_A
@@ -212,7 +211,7 @@ class People
             's'      => '',
         ];
 
-        $args           = wp_parse_args($args, $defaults);
+        $args           = array_merge($defaults, $args);
         $limit          = '';
         $where          = '';
         $fy_start_date  = !empty($args['start_date']) ? $args['start_date'] : date('Y-m-d');
@@ -255,8 +254,8 @@ class People
             people.created_at';
         }
 
-        $sql .= " FROM {$wpdb->prefix}erp_acct_voucher_no AS voucher
-        INNER JOIN {$wpdb->prefix}erp_acct_people_trn_details AS people ON voucher.id = people.voucher_no
+        $sql .= " FROM erp_acct_voucher_no AS voucher
+        INNER JOIN erp_acct_people_trn_details AS people ON voucher.id = people.voucher_no
         {$where} ORDER BY people.trn_date {$args['order']} {$limit}";
 
         if ($args['count']) {
@@ -350,11 +349,11 @@ class People
     {
 
 
-        $opening_balance_query     = $wpdb->prepare("SELECT SUM(debit - credit) AS opening_balance FROM {$wpdb->prefix}erp_acct_opening_balances where type = 'people' AND ledger_id = %d AND financial_year_id = %d", $args['people_id'], $args['financial_year_id']);
+        $opening_balance_query     = $wpdb->prepare("SELECT SUM(debit - credit) AS opening_balance FROM erp_acct_opening_balances where type = 'people' AND ledger_id = %d AND financial_year_id = %d", $args['people_id'], $args['financial_year_id']);
         $opening_balance_result    = $wpdb->get_row($opening_balance_query, ARRAY_A);
         $opening_balance           =  isset($opening_balance_result['opening_balance']) ? $opening_balance_result['opening_balance'] : 0;
 
-        $people_transaction_query  =  $wpdb->prepare("SELECT SUM(debit - credit) AS balance FROM {$wpdb->prefix}erp_acct_people_trn_details where   people_id = %d AND trn_date BETWEEN %s AND %s", $args['people_id'], $args['start_date'], $args['end_date']);
+        $people_transaction_query  =  $wpdb->prepare("SELECT SUM(debit - credit) AS balance FROM erp_acct_people_trn_details where   people_id = %d AND trn_date BETWEEN %s AND %s", $args['people_id'], $args['start_date'], $args['end_date']);
         $people_transaction_result = $wpdb->get_row($people_transaction_query, ARRAY_A);
         $balance                   =  isset($people_transaction_result['balance']) ? $people_transaction_result['balance'] : 0;
 
@@ -372,7 +371,7 @@ class People
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT people_types_id FROM {$wpdb->prefix}erp_people_type_relations WHERE people_id = %d LIMIT 1", $people_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT people_types_id FROM erp_people_type_relations WHERE people_id = %d LIMIT 1", $people_id));
 
         return $this->getPeopleTypeByTypeId($row->people_types_id);
     }
@@ -388,7 +387,7 @@ class People
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_people_types WHERE id = %d LIMIT 1", $type_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM erp_people_types WHERE id = %d LIMIT 1", $type_id));
 
         return $row->name;
     }
@@ -409,7 +408,7 @@ class People
         $row = $wpdb->get_row(
             $wpdb->prepare(
                 "SELECT id
-            FROM {$wpdb->prefix}erp_people_types
+            FROM erp_people_types
             WHERE name = %s LIMIT 1",
                 $type_name
             )
@@ -427,7 +426,7 @@ class People
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_peoples WHERE user_id = %d LIMIT 1", $user_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT id FROM erp_peoples WHERE user_id = %d LIMIT 1", $user_id));
 
         return $row->id;
     }
@@ -441,7 +440,7 @@ class People
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT first_name, last_name FROM {$wpdb->prefix}erp_peoples WHERE id = %d LIMIT 1", $people_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT first_name, last_name FROM erp_peoples WHERE id = %d LIMIT 1", $people_id));
 
         return $row->first_name . ' ' . $row->last_name;
     }
@@ -461,7 +460,7 @@ class People
             return false;
         }
 
-        $res = $wpdb->get_var($wpdb->prepare("SELECT COUNT(1) FROM {$wpdb->prefix}erp_peoples WHERE user_id = %d", $user_id));
+        $res = DB::scalar($wpdb->prepare("SELECT COUNT(1) FROM erp_peoples WHERE user_id = %d", $user_id));
 
         if ('1' === $res) {
             return true;
@@ -481,7 +480,7 @@ class People
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT user_id FROM {$wpdb->prefix}erp_peoples WHERE id = %d LIMIT 1", $people_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT user_id FROM erp_peoples WHERE id = %d LIMIT 1", $people_id));
 
         return $row->user_id;
     }
@@ -508,11 +507,10 @@ class People
             's'          => '',
             'no_object'  => false,
         ];
-        $args     = wp_parse_args($args, $defaults);
+        $args     = array_merge($defaults, $args);
 
         $people_type = is_array($args['type']) ? implode('-', $args['type']) : $args['type'];
 
-        $items        = false;
 
 
         $pep_tb      = 'erp_peoples';
@@ -520,127 +518,124 @@ class People
         $types_tb    = 'erp_people_types';
         $type_rel_tb = 'erp_people_type_relations';
 
-        if (false === $items) {
-            extract($args);
+        extract($args);
 
-            $sql         = [];
-            $trashed_sql = $trashed ? '`deleted_at` is not null' : '`deleted_at` is null';
+        $sql         = [];
+        $trashed_sql = $trashed ? '`deleted_at` is not null' : '`deleted_at` is null';
 
-            if (is_array($type)) {
-                $type_sql = "and `name` IN ( '" . implode("','", $type) . "' )";
-            } else {
-                $type_sql = ('all' !== $type) ? "and `name` = '" . $type . "'" : '';
-            }
+        if (is_array($type)) {
+            $type_sql = "and `name` IN ( '" . implode("','", $type) . "' )";
+        } else {
+            $type_sql = ('all' !== $type) ? "and `name` = '" . $type . "'" : '';
+        }
 
-            $wrapper_select = 'SELECT people.*, ';
+        $wrapper_select = 'SELECT people.*, ';
 
-            $sql['select'][] = "GROUP_CONCAT( DISTINCT t.name SEPARATOR ',') AS types";
-            $sql['join'][]   = "LEFT JOIN $type_rel_tb AS r ON people.id = r.people_id LEFT JOIN $types_tb AS t ON r.people_types_id = t.id";
-            $sql_from_tb     = "FROM $pep_tb AS people";
-            $sql_people_type = "where ( select count(*) from $types_tb
+        $sql['select'][] = "GROUP_CONCAT( DISTINCT t.name SEPARATOR ',') AS types";
+        $sql['join'][]   = "LEFT JOIN $type_rel_tb AS r ON people.id = r.people_id LEFT JOIN $types_tb AS t ON r.people_types_id = t.id";
+        $sql_from_tb     = "FROM $pep_tb AS people";
+        $sql_people_type = "where ( select count(*) from $types_tb
             inner join  $type_rel_tb
                 on $types_tb.`id` = $type_rel_tb.`people_types_id`
                 where $type_rel_tb.`people_id` = people.`id` $type_sql and $trashed_sql
           ) >= 1";
-            $sql['where']    = [''];
+        $sql['where']    = [''];
 
-            $sql_group_by = 'GROUP BY `people`.`id`';
-            $sql_order_by = "ORDER BY $orderby $order";
+        $sql_group_by = 'GROUP BY `people`.`id`';
+        $sql_order_by = "ORDER BY $orderby $order";
 
-            // Check if want all data without any pagination
-            $sql_limit = ('-1' !== $number && !$count) ? "LIMIT $number OFFSET $offset" : '';
+        // Check if want all data without any pagination
+        $sql_limit = ('-1' !== $number && !$count) ? "LIMIT $number OFFSET $offset" : '';
 
-            if ($meta_query) {
-                $sql['join'][] = "LEFT JOIN $pepmeta_tb as people_meta on people.id = people_meta.`erp_people_id`";
+        if ($meta_query) {
+            $sql['join'][] = "LEFT JOIN $pepmeta_tb as people_meta on people.id = people_meta.`erp_people_id`";
 
-                $meta_key   = isset($meta_query['meta_key']) ? $meta_query['meta_key'] : '';
-                $meta_value = isset($meta_query['meta_value']) ? $meta_query['meta_value'] : '';
-                $compare    = isset($meta_query['compare']) ? $meta_query['compare'] : '=';
+            $meta_key   = isset($meta_query['meta_key']) ? $meta_query['meta_key'] : '';
+            $meta_value = isset($meta_query['meta_value']) ? $meta_query['meta_value'] : '';
+            $compare    = isset($meta_query['compare']) ? $meta_query['compare'] : '=';
 
-                $sql['where'][] = "AND people_meta.meta_key='$meta_key' and people_meta.meta_value='$meta_value'";
-            }
+            $sql['where'][] = "AND people_meta.meta_key='$meta_key' and people_meta.meta_value='$meta_value'";
+        }
 
-            // Check if the row want to search
-            if (!empty($s)) {
-                $search_like = '%' . $wpdb->esc_like($s) . '%';
-                $words       = explode(' ', $s);
+        // Check if the row want to search
+        if (!empty($s)) {
+            $search_like = '%' . $wpdb->esc_like($s) . '%';
+            $words       = explode(' ', $s);
 
-                if ($type == 'customer' || $type == 'vendor') {
-                    if (defined('DOING_AJAX') && DOING_AJAX) {
-                        if ($type === 'customer') {
-                            $sql['where'][] = $wpdb->prepare(
-                                'AND ( people.first_name ) LIKE %s OR ' .
-                                    '( people.last_name ) LIKE %s',
-                                [$search_like, $search_like]
-                            );
-                        } else {
-                            $sql['where'][] = $wpdb->prepare('AND ( people.company ) LIKE %s', [$search_like]);
-                        }
-                    } else {
+            if ($type == 'customer' || $type == 'vendor') {
+                if (defined('DOING_AJAX') && DOING_AJAX) {
+                    if ($type === 'customer') {
                         $sql['where'][] = $wpdb->prepare(
                             'AND ( people.first_name ) LIKE %s OR ' .
-                                '( people.last_name ) LIKE %s OR ' .
-                                '( people.email ) LIKE %s OR ' .
-                                '( people.company ) LIKE %s',
-                            [$search_like, $search_like, $search_like, $search_like]
+                                '( people.last_name ) LIKE %s',
+                            [$search_like, $search_like]
                         );
+                    } else {
+                        $sql['where'][] = $wpdb->prepare('AND ( people.company ) LIKE %s', [$search_like]);
                     }
-                } elseif (is_array($type)) {
+                } else {
                     $sql['where'][] = $wpdb->prepare(
                         'AND ( people.first_name ) LIKE %s OR ' .
-                            '( people.last_name ) LIKE %s',
-                        [$search_like, $search_like]
+                            '( people.last_name ) LIKE %s OR ' .
+                            '( people.email ) LIKE %s OR ' .
+                            '( people.company ) LIKE %s',
+                        [$search_like, $search_like, $search_like, $search_like]
                     );
                 }
-            }
-
-            // Check if args count true, then return total count customer according to above filter
-            if ($count) {
-                $sql_order_by   = '';
-                $sql_group_by   = '';
-                $wrapper_select = 'SELECT COUNT( DISTINCT people.id ) as total_number';
-                unset($sql['select'][0]);
-            }
-
-            $sql = apply_filters('get_people_pre_query', $sql, $args);
-
-            $post_where_queries = '';
-
-            if (!empty($sql['post_where_queries'])) {
-                $post_where_queries = 'AND ( 1 = 1 '
-                    . implode(' ', $sql['post_where_queries'])
-                    . ' )';
-            }
-
-            $final_query = $wrapper_select . ' '
-                . implode(' ', $sql['select']) . ' '
-                . $sql_from_tb . ' '
-                . implode(' ', $sql['join']) . ' '
-                . $sql_people_type . ' '
-                . 'AND ( 1=1 '
-                . implode(' ', $sql['where']) . ' '
-                . ' )'
-                . $post_where_queries
-                . $sql_group_by . ' '
-                . $sql_order_by . ' '
-                . $sql_limit;
-
-            if ($count) {
-                // Only filtered total count of people
-                $items = $wpdb->get_var(apply_filters('get_people_total_count_query', $final_query, $args));
-            } else {
-                // Fetch results from people table
-                $results = $wpdb->get_results(apply_filters('get_people_total_query', $final_query, $args), ARRAY_A);
-                array_walk(
-                    $results,
-                    function (&$results) {
-                        $results['types'] = explode(',', $results['types']);
-                    }
+            } elseif (is_array($type)) {
+                $sql['where'][] = $wpdb->prepare(
+                    'AND ( people.first_name ) LIKE %s OR ' .
+                        '( people.last_name ) LIKE %s',
+                    [$search_like, $search_like]
                 );
-
-                $items = ($no_object) ? $results : (object)$results;
             }
-            wp_cache_set($cache_key, $items, 'erp');
+        }
+
+        // Check if args count true, then return total count customer according to above filter
+        if ($count) {
+            $sql_order_by   = '';
+            $sql_group_by   = '';
+            $wrapper_select = 'SELECT COUNT( DISTINCT people.id ) as total_number';
+            unset($sql['select'][0]);
+        }
+
+        $sql = apply_filters('get_people_pre_query', $sql, $args);
+
+        $post_where_queries = '';
+
+        if (!empty($sql['post_where_queries'])) {
+            $post_where_queries = 'AND ( 1 = 1 '
+                . implode(' ', $sql['post_where_queries'])
+                . ' )';
+        }
+
+        $final_query = $wrapper_select . ' '
+            . implode(' ', $sql['select']) . ' '
+            . $sql_from_tb . ' '
+            . implode(' ', $sql['join']) . ' '
+            . $sql_people_type . ' '
+            . 'AND ( 1=1 '
+            . implode(' ', $sql['where']) . ' '
+            . ' )'
+            . $post_where_queries
+            . $sql_group_by . ' '
+            . $sql_order_by . ' '
+            . $sql_limit;
+
+        if ($count) {
+            // Only filtered total count of people
+            $items = DB::scalar(apply_filters('get_people_total_count_query', $final_query, $args));
+        } else {
+            // Fetch results from people table
+            $results = $wpdb->get_results(apply_filters('get_people_total_query', $final_query, $args), ARRAY_A);
+            array_walk(
+                $results,
+                function (&$results) {
+                    $results['types'] = explode(',', $results['types']);
+                }
+            );
+
+            $items = ($no_object) ? $results : (object)$results;
         }
 
         return $items;
@@ -655,9 +650,9 @@ class People
     {
 
 
-        return $wpdb->get_var(
+        return DB::scalar(
             $wpdb->prepare(
-                "SELECT id FROM {$wpdb->prefix}erp_acct_people_trn_details WHERE people_id = %d",
+                "SELECT id FROM erp_acct_people_trn_details WHERE people_id = %d",
                 $people_id
             )
         );
@@ -695,7 +690,7 @@ class People
             'no_object'  => false,
         ];
 
-        $args                 = wp_parse_args($args, $defaults);
+        $args                 = array_merge($defaults, $args);
         $args['crm_agent_id'] = get_current_user_id();
 
         $people_type  = is_array($args['type']) ? implode('-', $args['type'])       : $args['type'];
@@ -705,140 +700,137 @@ class People
         $types_tb     = 'erp_people_types';
         $type_rel_tb  = 'erp_people_type_relations';
 
-        if (false === $items) {
-            extract($args);
+        extract($args);
 
-            $sql         = [];
-            $trashed_sql = $trashed ? '`deleted_at` is not null' : '`deleted_at` is null';
+        $sql         = [];
+        $trashed_sql = $trashed ? '`deleted_at` is not null' : '`deleted_at` is null';
 
-            if (is_array($type)) {
-                $type_sql = "and `name` IN ( '" . implode("','", $type) . "' )";
-            } else {
-                $type_sql = ($type !== 'all') ? "and `name` = '" . $type . "'" : '';
-            }
+        if (is_array($type)) {
+            $type_sql = "and `name` IN ( '" . implode("','", $type) . "' )";
+        } else {
+            $type_sql = ($type !== 'all') ? "and `name` = '" . $type . "'" : '';
+        }
 
-            $wrapper_select = 'SELECT people.*, ';
+        $wrapper_select = 'SELECT people.*, ';
 
-            $sql['select'][] = "GROUP_CONCAT( DISTINCT t.name SEPARATOR ',') AS types";
-            $sql['join'][]   = "LEFT JOIN $type_rel_tb AS r ON people.id = r.people_id LEFT JOIN $types_tb AS t ON r.people_types_id = t.id";
-            $sql_from_tb     = "FROM $pep_tb AS people";
-            $sql_people_type = "where ( select count(*) from $types_tb
+        $sql['select'][] = "GROUP_CONCAT( DISTINCT t.name SEPARATOR ',') AS types";
+        $sql['join'][]   = "LEFT JOIN $type_rel_tb AS r ON people.id = r.people_id LEFT JOIN $types_tb AS t ON r.people_types_id = t.id";
+        $sql_from_tb     = "FROM $pep_tb AS people";
+        $sql_people_type = "where ( select count(*) from $types_tb
             inner join  $type_rel_tb
                 on $types_tb.`id` = $type_rel_tb.`people_types_id`
                 where $type_rel_tb.`people_id` = people.`id` $type_sql and $trashed_sql
           ) >= 1";
-            $sql['where']    = [''];
+        $sql['where']    = [''];
 
-            $sql_group_by = 'GROUP BY `people`.`id`';
-            $sql_order_by = "ORDER BY $orderby $order";
+        $sql_group_by = 'GROUP BY `people`.`id`';
+        $sql_order_by = "ORDER BY $orderby $order";
 
-            // Check if want all data without any pagination
-            $sql_limit = ($number != '-1' && !$count) ? "LIMIT $number OFFSET $offset" : '';
+        // Check if want all data without any pagination
+        $sql_limit = ($number != '-1' && !$count) ? "LIMIT $number OFFSET $offset" : '';
 
-            if ($meta_query) {
-                $sql['join'][] = "LEFT JOIN $pepmeta_tb as people_meta on people.id = people_meta.`erp_people_id`";
+        if ($meta_query) {
+            $sql['join'][] = "LEFT JOIN $pepmeta_tb as people_meta on people.id = people_meta.`erp_people_id`";
 
-                $meta_key   = isset($meta_query['meta_key']) ? $meta_query['meta_key'] : '';
-                $meta_value = isset($meta_query['meta_value']) ? $meta_query['meta_value'] : '';
-                $compare    = isset($meta_query['compare']) ? $meta_query['compare'] : '=';
+            $meta_key   = isset($meta_query['meta_key']) ? $meta_query['meta_key'] : '';
+            $meta_value = isset($meta_query['meta_value']) ? $meta_query['meta_value'] : '';
+            $compare    = isset($meta_query['compare']) ? $meta_query['compare'] : '=';
 
-                $sql['where'][] = "AND people_meta.meta_key='$meta_key' and people_meta.meta_value='$meta_value'";
-            }
+            $sql['where'][] = "AND people_meta.meta_key='$meta_key' and people_meta.meta_value='$meta_value'";
+        }
 
-            if (!empty($life_stage)) {
-                $sql['where'][] = "AND people.life_stage='$life_stage'";
-            }
+        if (!empty($life_stage)) {
+            $sql['where'][] = "AND people.life_stage='$life_stage'";
+        }
 
-            if (!empty($contact_owner)) {
-                $sql['where'][] = "AND people.contact_owner='$contact_owner'";
-            }
+        if (!empty($contact_owner)) {
+            $sql['where'][] = "AND people.contact_owner='$contact_owner'";
+        }
 
 
-            // Check if the row want to search
-            if (!empty($s)) {
-                $search_like = '%' . $wpdb->esc_like($s) . '%';
-                $words       = explode(' ', $s);
+        // Check if the row want to search
+        if (!empty($s)) {
+            $search_like = '%' . $wpdb->esc_like($s) . '%';
+            $words       = explode(' ', $s);
 
-                if ($type === 'contact') {
-                    $args['erpadvancefilter'] = 'first_name[]=~' . implode('&or&first_name[]=~', $words)
-                        . '&or&last_name[]=~' . implode('&or&last_name[]=~', $words)
-                        . '&or&email[]=~' . implode('&or&email[]=~', $words);
-                } elseif ($type === 'company') {
-                    $args['erpadvancefilter'] = 'company[]=~' . implode('&or&company[]=~', $words)
-                        . '&or&email[]=~' . implode('&or&email[]=~', $words);
-                } elseif (is_array($type)) {
-                    $sql['where'][] = $wpdb->prepare(
-                        'AND ( people.first_name ) LIKE %s OR ' .
-                            '( people.last_name ) LIKE %s',
-                        [$search_like, $search_like]
-                    );
-                } elseif ($type === 'customer' || $type === 'vendor') {
-                    if (defined('DOING_AJAX') && DOING_AJAX) {
-                        if ($type === 'customer') {
-                            $sql['where'][] = $wpdb->prepare(
-                                'AND ( people.first_name ) LIKE %s OR ' .
-                                    '( people.last_name ) LIKE %s',
-                                [$search_like, $search_like]
-                            );
-                        } else {
-                            $sql['where'][] = $wpdb->prepare('AND ( people.company ) LIKE %s', [$search_like]);
-                        }
-                    } else {
+            if ($type === 'contact') {
+                $args['erpadvancefilter'] = 'first_name[]=~' . implode('&or&first_name[]=~', $words)
+                    . '&or&last_name[]=~' . implode('&or&last_name[]=~', $words)
+                    . '&or&email[]=~' . implode('&or&email[]=~', $words);
+            } elseif ($type === 'company') {
+                $args['erpadvancefilter'] = 'company[]=~' . implode('&or&company[]=~', $words)
+                    . '&or&email[]=~' . implode('&or&email[]=~', $words);
+            } elseif (is_array($type)) {
+                $sql['where'][] = $wpdb->prepare(
+                    'AND ( people.first_name ) LIKE %s OR ' .
+                        '( people.last_name ) LIKE %s',
+                    [$search_like, $search_like]
+                );
+            } elseif ($type === 'customer' || $type === 'vendor') {
+                if (defined('DOING_AJAX') && DOING_AJAX) {
+                    if ($type === 'customer') {
                         $sql['where'][] = $wpdb->prepare(
                             'AND ( people.first_name ) LIKE %s OR ' .
-                                '( people.last_name ) LIKE %s OR ' .
-                                '( people.email ) LIKE %s OR ' .
-                                '( people.company ) LIKE %s',
-                            [$search_like, $search_like, $search_like, $search_like]
+                                '( people.last_name ) LIKE %s',
+                            [$search_like, $search_like]
                         );
+                    } else {
+                        $sql['where'][] = $wpdb->prepare('AND ( people.company ) LIKE %s', [$search_like]);
                     }
+                } else {
+                    $sql['where'][] = $wpdb->prepare(
+                        'AND ( people.first_name ) LIKE %s OR ' .
+                            '( people.last_name ) LIKE %s OR ' .
+                            '( people.email ) LIKE %s OR ' .
+                            '( people.company ) LIKE %s',
+                        [$search_like, $search_like, $search_like, $search_like]
+                    );
                 }
             }
+        }
 
-            // Check if args count true, then return total count customer according to above filter
-            if ($count) {
-                $sql_order_by   = '';
-                $sql_group_by   = '';
-                $wrapper_select = 'SELECT COUNT( DISTINCT people.id ) as total_number';
-                unset($sql['select'][0]);
-            }
+        // Check if args count true, then return total count customer according to above filter
+        if ($count) {
+            $sql_order_by   = '';
+            $sql_group_by   = '';
+            $wrapper_select = 'SELECT COUNT( DISTINCT people.id ) as total_number';
+            unset($sql['select'][0]);
+        }
 
-            $sql = apply_filters('get_people_pre_query', $sql, $args);
+        $sql = apply_filters('get_people_pre_query', $sql, $args);
 
-            $post_where_queries = '';
+        $post_where_queries = '';
 
-            if (!empty($sql['post_where_queries'])) {
-                $post_where_queries = 'AND ( 1 = 1 '
-                    . implode(' ', $sql['post_where_queries'])
-                    . ' )';
-            }
+        if (!empty($sql['post_where_queries'])) {
+            $post_where_queries = 'AND ( 1 = 1 '
+                . implode(' ', $sql['post_where_queries'])
+                . ' )';
+        }
 
-            $final_query = $wrapper_select . ' '
-                . implode(' ', $sql['select']) . ' '
-                . $sql_from_tb . ' '
-                . implode(' ', $sql['join']) . ' '
-                . $sql_people_type . ' '
-                . 'AND ( 1=1 '
-                . implode(' ', $sql['where']) . ' '
-                . ' )'
-                . $post_where_queries
-                . $sql_group_by . ' '
-                . $sql_order_by . ' '
-                . $sql_limit;
+        $final_query = $wrapper_select . ' '
+            . implode(' ', $sql['select']) . ' '
+            . $sql_from_tb . ' '
+            . implode(' ', $sql['join']) . ' '
+            . $sql_people_type . ' '
+            . 'AND ( 1=1 '
+            . implode(' ', $sql['where']) . ' '
+            . ' )'
+            . $post_where_queries
+            . $sql_group_by . ' '
+            . $sql_order_by . ' '
+            . $sql_limit;
 
-            if ($count) {
-                // Only filtered total count of people
-                $items = $wpdb->get_var(apply_filters('get_people_total_count_query', $final_query, $args));
-            } else {
-                // Fetch results from people table
-                $results = $wpdb->get_results(apply_filters('get_people_total_query', $final_query, $args), ARRAY_A);
-                array_walk($results, function (&$results) {
-                    $results['types'] = explode(',', $results['types']);
-                });
+        if ($count) {
+            // Only filtered total count of people
+            $items = DB::scalar(apply_filters('get_people_total_count_query', $final_query, $args));
+        } else {
+            // Fetch results from people table
+            $results = $wpdb->get_results(apply_filters('get_people_total_query', $final_query, $args), ARRAY_A);
+            array_walk($results, function (&$results) {
+                $results['types'] = explode(',', $results['types']);
+            });
 
-                $items = ($no_object) ? $results : (object)$results;
-            }
-            wp_cache_set($cache_key, $items, 'erp');
+            $items = ($no_object) ? $results : (object)$results;
         }
 
         return $items;
@@ -983,14 +975,7 @@ class People
      */
     function getPeoplesCount($type = 'contact')
     {
-        $cache_key = 'erp-people-count-' . $type;
-        $count     = wp_cache_get($cache_key, 'erp');
-
-        if (false === $count) {
-            $count = WeDevs\ERP\Framework\Models\People::type($type)->count();
-
-            wp_cache_set($cache_key, $count, 'erp');
-        }
+        $count = WeDevs\ERP\Framework\Models\People::type($type)->count();
 
         return intval($count);
     }
@@ -1029,42 +1014,37 @@ class People
             return new WP_Error('no-value', __('No value provided', 'erp'));
         }
 
-        $cache_key = 'erp-people-by-' . md5(serialize($value));
-        $people    = wp_cache_get($cache_key, 'erp');
 
-        if (false === $people) {
-            $sql = 'SELECT people.*, ';
-            $sql .= "GROUP_CONCAT(DISTINCT p_types.name) as types
-        FROM {$wpdb->prefix}erp_peoples as people
-        LEFT JOIN {$wpdb->prefix}erp_people_type_relations as p_types_rel on p_types_rel.people_id = people.id
-        LEFT JOIN {$wpdb->prefix}erp_people_types as p_types on p_types.id = p_types_rel.people_types_id
+        $sql = 'SELECT people.*, ';
+        $sql .= "GROUP_CONCAT(DISTINCT p_types.name) as types
+        FROM erp_peoples as people
+        LEFT JOIN erp_people_type_relations as p_types_rel on p_types_rel.people_id = people.id
+        LEFT JOIN erp_people_types as p_types on p_types.id = p_types_rel.people_types_id
         ";
 
-            if (is_array($value)) {
-                $separeted_values = "'" . implode("','", $value) . "'";
-                $sql .= " WHERE `people`.$field IN ( $separeted_values )";
-            } else {
-                $sql .= " WHERE `people`.$field = '$value'";
-            }
-
-            $sql .= ' GROUP BY people.id ';
-
-            $results = $wpdb->get_results($sql);
-
-            $results = array_map(function ($item) {
-                $item->types = explode(',', $item->types);
-
-                return $item;
-            }, $results);
-
-            if (is_array($value)) {
-                $people = (object)$results;
-            } else {
-                $people = (!empty($results)) ? $results[0] : false;
-            }
-
-            wp_cache_set($cache_key, $people, 'erp');
+        if (is_array($value)) {
+            $separeted_values = "'" . implode("','", $value) . "'";
+            $sql .= " WHERE `people`.$field IN ( $separeted_values )";
+        } else {
+            $sql .= " WHERE `people`.$field = '$value'";
         }
+
+        $sql .= ' GROUP BY people.id ';
+
+        $results = $wpdb->get_results($sql);
+
+        $results = array_map(function ($item) {
+            $item->types = explode(',', $item->types);
+
+            return $item;
+        }, $results);
+
+        if (is_array($value)) {
+            $people = (object)$results;
+        } else {
+            $people = (!empty($results)) ? $results[0] : false;
+        }
+
 
         return $people;
     }
@@ -1117,7 +1097,7 @@ class People
             'type'          => '',
         ];
 
-        $args           = wp_parse_args($args, $defaults);
+        $args           = array_merge($defaults, $args);
         $errors         = [];
         $unchanged_data = [];
         $people_type    = $args['type'];
@@ -1571,9 +1551,9 @@ class People
     {
 
 
-        $sql = $wpdb->prepare("SELECT email FROM {$wpdb->prefix}erp_peoples WHERE id = %d", absint($id));
+        $sql = $wpdb->prepare("SELECT email FROM erp_peoples WHERE id = %d", absint($id));
 
-        return $wpdb->get_var($sql);
+        return DB::scalar($sql);
     }
 
     /**
@@ -1589,8 +1569,8 @@ class People
     {
 
 
-        $trashed = $wpdb->get_var(
-            $wpdb->prepare("SELECT deleted_at FROM {$wpdb->prefix}erp_people_type_relations WHERE people_id = %d", absint($id))
+        $trashed = DB::scalar(
+            $wpdb->prepare("SELECT deleted_at FROM erp_people_type_relations WHERE people_id = %d", absint($id))
         );
 
         if ($trashed) {

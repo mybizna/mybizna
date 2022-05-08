@@ -28,8 +28,8 @@ class CommonFunc
             return $currency_id;
         }
 
-        $currency_name = $wpdb->get_var($wpdb->prepare(
-            "SELECT name FROM {$wpdb->prefix}erp_acct_currency_info WHERE id = %d",
+        $currency_name = DB::scalar($wpdb->prepare(
+            "SELECT name FROM erp_acct_currency_info WHERE id = %d",
             $currency_id
         ));
 
@@ -289,7 +289,7 @@ class CommonFunc
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT first_name, last_name, email FROM {$wpdb->prefix}erp_peoples WHERE id = %d LIMIT 1", $people_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT first_name, last_name, email FROM erp_peoples WHERE id = %d LIMIT 1", $people_id));
 
         return $row;
     }
@@ -305,7 +305,7 @@ class CommonFunc
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT name, slug, code FROM {$wpdb->prefix}erp_acct_ledgers WHERE id = %d LIMIT 1", $ledger_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT name, slug, code FROM erp_acct_ledgers WHERE id = %d LIMIT 1", $ledger_id));
 
         return $row;
     }
@@ -335,7 +335,7 @@ class CommonFunc
         }
 
         return $wpdb->get_row(
-            $wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_ledgers WHERE $field = %s LIMIT 1", $value),
+            $wpdb->prepare("SELECT * FROM erp_acct_ledgers WHERE $field = %s LIMIT 1", $value),
             ARRAY_A
         );
     }
@@ -351,7 +351,7 @@ class CommonFunc
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_product_types WHERE id = %d LIMIT 1", $product_type_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM erp_acct_product_types WHERE id = %d LIMIT 1", $product_type_id));
 
         return $row;
     }
@@ -367,7 +367,7 @@ class CommonFunc
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_product_categories WHERE id = %d LIMIT 1", $cat_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM erp_acct_product_categories WHERE id = %d LIMIT 1", $cat_id));
 
         return $row;
     }
@@ -383,7 +383,7 @@ class CommonFunc
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_tax_agencies WHERE id = %d LIMIT 1", $agency_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", $agency_id));
 
         return $row->name;
     }
@@ -400,7 +400,7 @@ class CommonFunc
 
 
         if (null !== $cat_id) {
-            return $wpdb->get_var($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_tax_categories WHERE id = %d", $cat_id));
+            return DB::scalar($wpdb->prepare("SELECT name FROM erp_acct_tax_categories WHERE id = %d", $cat_id));
         }
 
         return '';
@@ -421,7 +421,7 @@ class CommonFunc
             return 'pending';
         }
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT type_name FROM {$wpdb->prefix}erp_acct_trn_status_types WHERE id = %d", $trn_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT type_name FROM erp_acct_trn_status_types WHERE id = %d", $trn_id));
 
         return ucfirst(str_replace('_', ' ', $row->type_name));
     }
@@ -437,7 +437,7 @@ class CommonFunc
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_payment_methods WHERE id = %d LIMIT 1", $method_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM erp_acct_payment_methods WHERE id = %d LIMIT 1", $method_id));
 
         return $row;
     }
@@ -453,7 +453,7 @@ class CommonFunc
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_payment_methods WHERE id = %d LIMIT 1", $method_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM erp_acct_payment_methods WHERE id = %d LIMIT 1", $method_id));
 
         return $row->name;
     }
@@ -469,7 +469,7 @@ class CommonFunc
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}erp_acct_check_trn_tables WHERE id = %d LIMIT 1", $trn_type_id));
+        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM erp_acct_check_trn_tables WHERE id = %d LIMIT 1", $trn_type_id));
 
         return $row;
     }
@@ -491,7 +491,7 @@ class CommonFunc
         return $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT agency_id, tax_rate
-            FROM {$wpdb->prefix}erp_acct_tax_cat_agency
+            FROM erp_acct_tax_cat_agency
             where tax_id = %d and tax_cat_id = %d",
                 [$tax_id, $tax_cat_id]
             ),
@@ -515,7 +515,7 @@ class CommonFunc
         $result = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT agency_id, tax_rate
-            FROM {$wpdb->prefix}erp_acct_invoice_details_tax
+            FROM erp_acct_invoice_details_tax
             WHERE invoice_details_id = %d",
                 $invoice_details_id
             ),
@@ -625,7 +625,7 @@ class CommonFunc
     {
 
 
-        $res = $wpdb->get_var($wpdb->prepare("SELECT editable FROM {$wpdb->prefix}erp_acct_voucher_no WHERE id = %d", $id));
+        $res = DB::scalar($wpdb->prepare("SELECT editable FROM erp_acct_voucher_no WHERE id = %d", $id));
 
         return !empty($res) ? true : false;
     }
@@ -675,7 +675,7 @@ class CommonFunc
     {
 
 
-        return $wpdb->get_var($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_acct_trn_status_types WHERE slug = %s", $slug));
+        return DB::scalar($wpdb->prepare("SELECT id FROM erp_acct_trn_status_types WHERE slug = %s", $slug));
     }
 
     /**
@@ -687,7 +687,7 @@ class CommonFunc
     {
 
 
-        return $wpdb->get_results("SELECT id,type_name as name, slug FROM {$wpdb->prefix}erp_acct_trn_status_types", ARRAY_A);
+        return $wpdb->get_results("SELECT id,type_name as name, slug FROM erp_acct_trn_status_types", ARRAY_A);
     }
 
 

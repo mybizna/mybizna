@@ -25,30 +25,22 @@ class TaxRateNames
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
-        $tax_rates_count  = $tax_rates    =  false;
+        $limit = '';
 
-        if (false === $tax_rates) {
-            $limit = '';
+        if (-1 !== $args['number']) {
+            $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
+        }
 
-            if (-1 !== $args['number']) {
-                $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
-            }
+        $sql  = 'SELECT';
+        $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
+        $sql .= "FROM erp_acct_taxes ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
-            $sql  = 'SELECT';
-            $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-            $sql .= "FROM {$wpdb->prefix}erp_acct_taxes ORDER BY {$args['orderby']} {$args['order']} {$limit}";
-
-            if ($args['count']) {
-                $tax_rates_count = $wpdb->get_var($sql);
-
-                wp_cache_set($cache_key_count, $tax_rates_count, 'erp-accounting');
-            } else {
-                $tax_rates = $wpdb->get_results($sql, ARRAY_A);
-
-                wp_cache_set($cache_key, $tax_rates, 'erp-accounting');
-            }
+        if ($args['count']) {
+            $tax_rates_count = DB::scalar($sql);
+        } else {
+            $tax_rates = $wpdb->get_results($sql, ARRAY_A);
         }
 
         if ($args['count']) {
@@ -69,7 +61,7 @@ class TaxRateNames
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_taxes WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_taxes WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
 
         return $row;
     }
@@ -90,13 +82,13 @@ class TaxRateNames
         $data['created_by'] = $created_by;
 
         if (!empty($data['default'])) {
-            $wpdb->query("UPDATE {$wpdb->prefix}erp_acct_taxes SET `default` = 0");
+            $wpdb->query("UPDATE erp_acct_taxes SET `default` = 0");
         }
 
         $tax_data = $taxratenames->getFormattedTaxRateNameData($data);
 
-        DB::table('erp_acct_taxes')
-            ->insert(
+        return DB::table('erp_acct_taxes')
+            ->insertGetId(
                 [
                     'tax_rate_name' => $tax_data['tax_rate_name'],
                     'tax_number'    => $tax_data['tax_number'],
@@ -109,7 +101,6 @@ class TaxRateNames
             );
 
 
-        return $wpdb->insert_id;
     }
 
     /**
@@ -130,7 +121,7 @@ class TaxRateNames
         $tax_data = $taxratenames->getFormattedTaxRateNameData($data);
 
         if (!empty($tax_data['default'])) {
-            $wpdb->query("UPDATE {$wpdb->prefix}erp_acct_taxes SET `default` = 0");
+            $wpdb->query("UPDATE erp_acct_taxes SET `default` = 0");
         }
 
         $wpdb->update(

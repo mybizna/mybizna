@@ -27,31 +27,22 @@ class Taxes
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
-        $tax_rates_count  = $tax_rates    = false;
+        $limit = '';
 
+        if (-1 !== $args['number']) {
+            $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
+        }
 
-        if (false === $tax_rates) {
-            $limit = '';
+        $sql  = 'SELECT';
+        $sql .= $args['count'] ? ' COUNT( DISTINCT tax.id ) as total_number ' : ' DISTINCT tax.id, tax.tax_rate_name, tax.tax_number, tax.default ';
+        $sql .= "FROM erp_acct_taxes AS tax INNER JOIN erp_acct_tax_cat_agency as cat_agency on tax.id = cat_agency.tax_id ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
-            if (-1 !== $args['number']) {
-                $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
-            }
-
-            $sql  = 'SELECT';
-            $sql .= $args['count'] ? ' COUNT( DISTINCT tax.id ) as total_number ' : ' DISTINCT tax.id, tax.tax_rate_name, tax.tax_number, tax.default ';
-            $sql .= "FROM {$wpdb->prefix}erp_acct_taxes AS tax INNER JOIN {$wpdb->prefix}erp_acct_tax_cat_agency as cat_agency on tax.id = cat_agency.tax_id ORDER BY {$args['orderby']} {$args['order']} {$limit}";
-
-            if ($args['count']) {
-                $tax_rates_count = $wpdb->get_var($sql);
-
-                wp_cache_set($cache_key_count, $tax_rates_count, 'erp-accounting');
-            } else {
-                $tax_rates = $wpdb->get_results($sql, ARRAY_A);
-
-                wp_cache_set($cache_key, $tax_rates, 'erp-accounting');
-            }
+        if ($args['count']) {
+            $tax_rates_count = DB::scalar($sql);
+        } else {
+            $tax_rates = $wpdb->get_results($sql, ARRAY_A);
         }
 
         if ($args['count']) {
@@ -88,8 +79,8 @@ class Taxes
                 tax_item.agency_id,
                 tax_item.tax_cat_id
 
-            FROM {$wpdb->prefix}erp_acct_taxes AS tax
-            LEFT JOIN {$wpdb->prefix}erp_acct_tax_cat_agency AS tax_item ON tax.id = tax_item.tax_id
+            FROM erp_acct_taxes AS tax
+            LEFT JOIN erp_acct_tax_cat_agency AS tax_item ON tax.id = tax_item.tax_id
 
             WHERE tax.id = {$tax_no} LIMIT 1";
 
@@ -132,8 +123,8 @@ class Taxes
         $inserted = [];
 
         foreach ($items as $item) {
-            $result = DB::table('erp_acct_tax_cat_agency')
-                ->insert(
+            $id = DB::table('erp_acct_tax_cat_agency')
+                ->insertGetId(
                     [
                         'tax_id'         => $tax_id,
                         'component_name' => $item['component_name'],
@@ -147,8 +138,8 @@ class Taxes
                     ]
                 );
 
-            if (!is_wp_error($result)) {
-                $inserted[] = $wpdb->insert_id;
+            if (!is_wp_error($id)) {
+                $inserted[] = $id;
             }
         }
 
@@ -376,31 +367,23 @@ class Taxes
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
-        $tax_pay_count   = $tax_pay      = false;
 
-        if (false === $tax_pay) {
+        $limit = '';
 
-            $limit = '';
+        if (-1 !== $args['number']) {
+            $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
+        }
 
-            if (-1 !== $args['number']) {
-                $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
-            }
+        $sql  = 'SELECT';
+        $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
+        $sql .= "FROM erp_acct_tax_pay ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
-            $sql  = 'SELECT';
-            $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-            $sql .= "FROM {$wpdb->prefix}erp_acct_tax_pay ORDER BY {$args['orderby']} {$args['order']} {$limit}";
-
-            if ($args['count']) {
-                $tax_pay_count = $wpdb->get_var($sql);
-
-                wp_cache_set($cache_key_count, $tax_pay_count, 'erp-accounting');
-            } else {
-                $tax_pay = $wpdb->get_results($sql, ARRAY_A);
-
-                wp_cache_set($cache_key, $tax_pay, 'erp-accounting');
-            }
+        if ($args['count']) {
+            $tax_pay_count = DB::scalar($sql);
+        } else {
+            $tax_pay = $wpdb->get_results($sql, ARRAY_A);
         }
 
         if ($args['count']) {
@@ -432,7 +415,7 @@ class Taxes
             tax.agency_id,
             tax.ledger_id,
             tax.created_at
-            FROM {$wpdb->prefix}erp_acct_tax_pay AS tax
+            FROM erp_acct_tax_pay AS tax
             WHERE tax.voucher_no = %d LIMIT 1",
                 $voucher_no
             ),
@@ -459,8 +442,8 @@ class Taxes
         $data['created_by'] = $created_by;
         $currency           = $common->getCurrency(true);
 
-        DB::table('erp_acct_voucher_no')
-            ->insert(
+        $voucher_no = DB::table('erp_acct_voucher_no')
+            ->insertGetId(
                 [
                     'type'       => 'tax_payment',
                     'currency'   => $currency,
@@ -470,8 +453,6 @@ class Taxes
                     'updated_by' => isset($data['updated_by']) ? $data['updated_by'] : null,
                 ]
             );
-
-        $voucher_no = $wpdb->insert_id;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
@@ -502,7 +483,7 @@ class Taxes
             $credit = $tax_data['amount'];
         }
 
-        // insert data into {$wpdb->prefix}erp_acct_tax_agency_details
+        // insert data into erp_acct_tax_agency_details
         DB::table('erp_acct_tax_agency_details')
             ->insert(
                 [
@@ -583,7 +564,7 @@ class Taxes
         } else {
             $tax_sql = 'WHERE tax_id = ' . $tax;
         }
-        $sql .= " FROM {$wpdb->prefix}erp_acct_tax_cat_agency {$tax_sql} ORDER BY tax_id";
+        $sql .= " FROM erp_acct_tax_cat_agency {$tax_sql} ORDER BY tax_id";
 
         $results = $wpdb->get_results($sql, ARRAY_A);
 
@@ -672,8 +653,8 @@ class Taxes
         tax.default,
         tca.tax_cat_id,
         sum(tca.tax_rate) AS tax_rate
-        FROM {$wpdb->prefix}erp_acct_tax_cat_agency AS tca
-        INNER JOIN {$wpdb->prefix}erp_acct_taxes AS tax ON tax.id = tca.tax_id
+        FROM erp_acct_tax_cat_agency AS tca
+        INNER JOIN erp_acct_taxes AS tax ON tax.id = tca.tax_id
         GROUP BY tca.tax_cat_id, tax.id order by tax_cat_id",
             ARRAY_A
         );
@@ -686,7 +667,7 @@ class Taxes
     {
 
 
-        return $wpdb->get_var("SELECT id FROM {$wpdb->prefix}erp_acct_taxes WHERE `default` = 1");
+        return DB::scalar("SELECT id FROM erp_acct_taxes WHERE `default` = 1");
     }
 
     /**
@@ -710,13 +691,13 @@ class Taxes
             'sync_slug'   => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         if (empty($args['system_id']) || (empty($args['sync_slug']) && empty($args['sync_id']))) {
             return new \WP_Error('inconsistent-data', __('Inconsistent data provided', 'erp'));
         }
 
-        $inserted = DB::table("{$wpdb->prefix}erp_acct_synced_taxes", $args, ['%d', '%s', '%s', '%d', '%s']);
+        $inserted = DB::table("erp_acct_synced_taxes", $args, ['%d', '%s', '%s', '%d', '%s']);
 
         return $inserted;
     }
@@ -738,7 +719,7 @@ class Taxes
 
 
         $sql  = "SELECT system_id
-            FROM {$wpdb->prefix}erp_acct_synced_taxes
+            FROM erp_acct_synced_taxes
             WHERE sync_type = %s
             AND sync_source = %s";
 
@@ -754,7 +735,7 @@ class Taxes
             $args[] = $sync_slug;
         }
 
-        $system_id = $wpdb->get_var($wpdb->prepare($sql, $args));
+        $system_id = DB::scalar($wpdb->prepare($sql, $args));
 
         return !is_wp_error($system_id) ? (int) $system_id : null;
     }

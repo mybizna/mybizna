@@ -30,7 +30,7 @@ class PayBills
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         $limit = '';
 
@@ -40,10 +40,10 @@ class PayBills
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM {$wpdb->prefix}erp_acct_pay_bill ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM erp_acct_pay_bill ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
-            return $wpdb->get_var($sql);
+            return DB::scalar($sql);
         }
 
         return $wpdb->get_results($sql, ARRAY_A);
@@ -75,7 +75,7 @@ class PayBills
             pay_bill.created_at,
             pay_bill.attachments,
             pay_bill.status
-            FROM {$wpdb->prefix}erp_acct_pay_bill AS pay_bill
+            FROM erp_acct_pay_bill AS pay_bill
             WHERE pay_bill.voucher_no = %d",
                 $bill_no
             ),
@@ -101,8 +101,8 @@ class PayBills
             pay_bill_detail.voucher_no,
             pay_bill_detail.bill_no,
             pay_bill_detail.amount
-            FROM {$wpdb->prefix}erp_acct_pay_bill AS pay_bill
-            LEFT JOIN {$wpdb->prefix}erp_acct_pay_bill_details as pay_bill_detail ON pay_bill.voucher_no = pay_bill_detail.voucher_no
+            FROM erp_acct_pay_bill AS pay_bill
+            LEFT JOIN erp_acct_pay_bill_details as pay_bill_detail ON pay_bill.voucher_no = pay_bill_detail.voucher_no
             WHERE pay_bill.voucher_no = %d",
                 $voucher_no
             ),
@@ -136,8 +136,8 @@ class PayBills
         try {
             $wpdb->query('START TRANSACTION');
 
-            DB::table('erp_acct_voucher_no')
-                ->insert(
+            $voucher_no = DB::table('erp_acct_voucher_no')
+                ->insertGetId(
                     [
                         'type'       => 'pay_bill',
                         'currency'   => $currency,
@@ -148,7 +148,6 @@ class PayBills
                     ]
                 );
 
-            $voucher_no = $wpdb->insert_id;
 
             $pay_bill_data = $this->getFormattedPayBillData($data, $voucher_no);
 

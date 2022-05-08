@@ -15,15 +15,8 @@ class ProductCats
     function getAllProductCats()
     {
 
+        $categories = $wpdb->get_results('SELECT * FROM ' . 'erp_acct_product_categories', ARRAY_A);
 
-        $cache_key  = 'erp-get-product-categories';
-        $categories = wp_cache_get($cache_key, 'erp-accounting');
-
-        if (false === $categories) {
-            $categories = $wpdb->get_results('SELECT * FROM ' . 'erp_acct_product_categories', ARRAY_A);
-
-            wp_cache_set($cache_key, $categories, 'erp-accounting');
-        }
 
         return $categories;
     }
@@ -39,7 +32,7 @@ class ProductCats
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}erp_acct_product_categories WHERE id = %d GROUP BY parent", $product_cat_id), ARRAY_A);
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_product_categories WHERE id = %d GROUP BY parent", $product_cat_id), ARRAY_A);
 
         return $row;
     }
@@ -63,8 +56,8 @@ class ProductCats
             $wpdb->query('START TRANSACTION');
             $product_cat_data = $this->getFormattedProductCatData($data);
 
-            DB::table('erp_acct_product_categories')
-                ->insert(
+            $product_cat_id =  DB::table('erp_acct_product_categories')
+                ->insertGetId(
                     [
                         'name'       => $product_cat_data['name'],
                         'parent'     => isset($product_cat_data['parent']['id']) ? $product_cat_data['parent']['id'] : 0,
@@ -75,7 +68,6 @@ class ProductCats
                     ]
                 );
 
-            $product_cat_id = $wpdb->insert_id;
 
             $wpdb->query('COMMIT');
         } catch (\Exception $e) {

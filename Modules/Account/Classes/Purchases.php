@@ -31,7 +31,7 @@ class Purchases
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         $limit = '';
 
@@ -41,10 +41,10 @@ class Purchases
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM {$wpdb->prefix}erp_acct_purchase ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM erp_acct_purchase ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
-            return $wpdb->get_var($sql);
+            return DB::scalar($sql);
         }
 
         return $wpdb->get_results($sql, ARRAY_A);
@@ -85,9 +85,9 @@ class Purchases
             purchase_acc_detail.debit,
             purchase_acc_detail.credit
 
-        FROM {$wpdb->prefix}erp_acct_purchase AS purchase
-        LEFT JOIN {$wpdb->prefix}erp_acct_voucher_no as voucher ON purchase.voucher_no = voucher.id
-        LEFT JOIN {$wpdb->prefix}erp_acct_purchase_account_details AS purchase_acc_detail ON purchase.voucher_no = purchase_acc_detail.trn_no
+        FROM erp_acct_purchase AS purchase
+        LEFT JOIN erp_acct_voucher_no as voucher ON purchase.voucher_no = voucher.id
+        LEFT JOIN erp_acct_purchase_account_details AS purchase_acc_detail ON purchase.voucher_no = purchase_acc_detail.trn_no
         WHERE purchase.voucher_no = %d",
             $purchase_no
         );
@@ -129,9 +129,9 @@ class Purchases
             product.cost_price,
             product.sale_price as unit_price
 
-        FROM {$wpdb->prefix}erp_acct_purchase AS purchase
-        LEFT JOIN {$wpdb->prefix}erp_acct_purchase_details AS purchase_detail ON purchase.voucher_no = purchase_detail.trn_no
-        LEFT JOIN {$wpdb->prefix}erp_acct_products AS product ON purchase_detail.product_id = product.id
+        FROM erp_acct_purchase AS purchase
+        LEFT JOIN erp_acct_purchase_details AS purchase_detail ON purchase.voucher_no = purchase_detail.trn_no
+        LEFT JOIN erp_acct_products AS product ON purchase_detail.product_id = product.id
         WHERE purchase.voucher_no = %d",
             $voucher_no
         );
@@ -177,8 +177,8 @@ class Purchases
         try {
             $wpdb->query('START TRANSACTION');
 
-            DB::table('erp_acct_voucher_no')
-                ->insert(
+            $voucher_no    =DB::table('erp_acct_voucher_no')
+                ->insertGetId(
                     [
                         'type'       => 'purchase',
                         'currency'   => $currency,
@@ -190,7 +190,6 @@ class Purchases
                     ]
                 );
 
-            $voucher_no    = $wpdb->insert_id;
             $purchase_no   = $voucher_no;
             $purchase_data = $this->getFormattedPurchaseData($data, $voucher_no);
 
@@ -221,7 +220,8 @@ class Purchases
             $items = $data['line_items'];
 
             foreach ($items as $item) {
-                DB::table('erp_acct_purchase_details', [
+               $details_id = DB::table('erp_acct_purchase_details')
+               ->insertGetId() [
                     'trn_no'     => $voucher_no,
                     'product_id' => $item['product_id'],
                     'qty'        => $item['qty'],
@@ -235,7 +235,6 @@ class Purchases
                     'updated_by' => $purchase_data['updated_by'],
                 ]);
 
-                $details_id = $wpdb->insert_id;
 
                 if (isset($purchase_data['tax_rate'])) {
                     $tax_rate_agency = $common->getTaxRateWithAgency($purchase_data['tax_rate']['id'], $item['tax_cat_id']);
@@ -379,13 +378,13 @@ class Purchases
                  *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
                  *? so, remove previous rows and insert new rows
                  */
-                $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}erp_acct_purchase_details WHERE trn_no = %s", $purchase_id), ARRAY_A);
+                $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM erp_acct_purchase_details WHERE trn_no = %s", $purchase_id), ARRAY_A);
 
                 $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
                 $wpdb->delete('erp_acct_purchase_details', ['trn_no' => $purchase_id]);
 
-                $wpdb->query("DELETE FROM {$wpdb->prefix}erp_acct_purchase_details_tax WHERE invoice_details_id IN($prev_detail_ids)"); // delete previous tax data
+                $wpdb->query("DELETE FROM erp_acct_purchase_details_tax WHERE invoice_details_id IN($prev_detail_ids)"); // delete previous tax data
 
                 $items = $purchase_data['purchase_details'];
 
@@ -435,8 +434,8 @@ class Purchases
                 // disable editing on old bill
                 $wpdb->update('erp_acct_voucher_no', ['editable' => 0], ['id' => $purchase_id]);
                 // insert contra voucher
-                DB::table('erp_acct_voucher_no')
-                    ->insert(
+               $voucher_no =  DB::table('erp_acct_voucher_no')
+                    ->insertGetId(
                         [
                             'type'       => 'purchase',
                             'currency'   => $currency,
@@ -448,12 +447,11 @@ class Purchases
                         ]
                     );
 
-                $voucher_no = $wpdb->insert_id;
 
                 $old_purchase = $this->getPurchases($purchase_id);
 
                 // insert contra `erp_acct_purchase` (basically a duplication of row)
-                $wpdb->query($wpdb->prepare("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM {$wpdb->prefix}erp_acct_purchase WHERE voucher_no = %d", $purchase_id));
+                $wpdb->query($wpdb->prepare("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_purchase WHERE voucher_no = %d", $purchase_id));
                 $wpdb->query(
                     $wpdb->prepare(
                         "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
@@ -463,14 +461,14 @@ class Purchases
                         $data['created_at']
                     )
                 );
-                $wpdb->query("INSERT INTO {$wpdb->prefix}erp_acct_purchase SELECT * FROM acct_tmptable");
+                $wpdb->query("INSERT INTO erp_acct_purchase SELECT * FROM acct_tmptable");
                 $wpdb->query('DROP TABLE acct_tmptable');
 
                 // change purchase status and other things
                 $status_closed = 7;
                 $wpdb->query(
                     $wpdb->prepare(
-                        "UPDATE {$wpdb->prefix}erp_acct_purchase SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
+                        "UPDATE erp_acct_purchase SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
                         $status_closed,
                         $data['updated_at'],
                         $user_id,
@@ -821,7 +819,7 @@ class Purchases
             's'       => '',
         ];
 
-        $args = wp_parse_args($args, $defaults);
+        $args = array_merge($defaults, $args);
 
         $limit = '';
 
@@ -829,8 +827,8 @@ class Purchases
             $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
         }
 
-        $purchases            = "{$wpdb->prefix}erp_acct_purchase";
-        $purchase_act_details = "{$wpdb->prefix}erp_acct_purchase_account_details";
+        $purchases            = "erp_acct_purchase";
+        $purchase_act_details = "erp_acct_purchase_account_details";
         $items                = $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
 
         $query = $wpdb->prepare(
@@ -853,7 +851,7 @@ class Purchases
         //config()->set('database.connections.mysql.strict', true);
 
         if ($args['count']) {
-            return $wpdb->get_var($query);
+            return DB::scalar($query);
         }
 
         return $wpdb->get_results($query, ARRAY_A);
@@ -870,7 +868,7 @@ class Purchases
     {
 
 
-        $result = $wpdb->get_row($wpdb->prepare("SELECT purchase_no, SUM( debit - credit) as due FROM {$wpdb->prefix}erp_acct_purchase_account_details WHERE purchase_no = %d GROUP BY purchase_no", $purchase_no), ARRAY_A);
+        $result = $wpdb->get_row($wpdb->prepare("SELECT purchase_no, SUM( debit - credit) as due FROM erp_acct_purchase_account_details WHERE purchase_no = %d GROUP BY purchase_no", $purchase_no), ARRAY_A);
 
         return $result['due'];
     }
