@@ -81,7 +81,7 @@ class LedgersController extends Controller
     public function get_ledger_account($request)
     {
         $ledger = new LedgerAccounts();
-       
+
         $items = [];
 
         $id = (int) $request['id'];
@@ -108,7 +108,7 @@ class LedgersController extends Controller
     public function create_ledger_account($request)
     {
         $ledger = new LedgerAccounts();
-       
+
 
         $exist = DB::scalar($wpdb->prepare("SELECT name FROM erp_acct_ledgers WHERE name = %s", $request['name']));
 
@@ -141,7 +141,7 @@ class LedgersController extends Controller
     public function update_ledger_account($request)
     {
         $ledger = new LedgerAccounts();
-       
+
 
         $id = (int) $request['id'];
 
@@ -176,7 +176,7 @@ class LedgersController extends Controller
     public function delete_ledger_account($request)
     {
         $ledger = new LedgerAccounts();
-       
+
 
         $id = (int) $request['id'];
 
@@ -186,7 +186,7 @@ class LedgersController extends Controller
 
         $item = $ledger->getLedger($id);
 
-        $wpdb->delete("erp_acct_ledgers", ['id' => $id]);
+        DB::table("erp_acct_ledgers")->where([['id' => $id]])->delete();
 
         $this->add_log($item, 'delete');
 

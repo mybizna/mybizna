@@ -51,7 +51,7 @@ class Expenses
             return DB::scalar($sql);
         }
 
-        $rows = $wpdb->get_results($sql, ARRAY_A);
+        $rows = DB::select($sql);
 
         return $rows;
     }
@@ -94,7 +94,10 @@ class Expenses
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = $wpdb->get_row($sql, ARRAY_A);
+        $row = DB::select($sql, ARRAY_A);
+
+        $row = (!empty($row)) ? $row[0] : null;
+
 
         $row['bill_details'] = $this->formatExpenseLineItems($expense_no);
         $row['pdf_link']    = $this->pdfAbsPathToUrl($expense_no);
@@ -151,7 +154,9 @@ class Expenses
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = $wpdb->get_row($sql, ARRAY_A);
+        $row = DB::select($sql, ARRAY_A);
+
+        $row = (!empty($row)) ? $row[0] : null;
 
         $row['bill_details'] = $this->formatCheckLineItems($expense_no);
 
@@ -187,7 +192,7 @@ class Expenses
             $voucher_no
         );
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -211,7 +216,7 @@ class Expenses
             $voucher_no
         );
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -406,27 +411,25 @@ class Expenses
 
             $expense_data = $expense->getFormattedExpenseData($data, $expense_id);
 
-            $wpdb->update(
-                'erp_acct_expenses',
-                [
-                    'people_id'        => $expense_data['people_id'],
-                    'people_name'      => $expense_data['people_name'],
-                    'address'          => $expense_data['billing_address'],
-                    'trn_date'         => $expense_data['trn_date'],
-                    'amount'           => $expense_data['amount'],
-                    'ref'              => $expense_data['ref'],
-                    'check_no'         => $expense_data['check_no'],
-                    'particulars'      => $expense_data['particulars'],
-                    'trn_by'           => $expense_data['trn_by'],
-                    'trn_by_ledger_id' => $expense_data['trn_by_ledger_id'],
-                    'attachments'      => $expense_data['attachments'],
-                    'updated_at'       => $expense_data['updated_at'],
-                    'updated_by'       => $expense_data['updated_by'],
-                ],
-                [
-                    'voucher_no' => $expense_id,
-                ]
-            );
+            DB::table('erp_acct_expenses')
+                ->where('voucher_no', $expense_id)
+                ->update(
+                    [
+                        'people_id'        => $expense_data['people_id'],
+                        'people_name'      => $expense_data['people_name'],
+                        'address'          => $expense_data['billing_address'],
+                        'trn_date'         => $expense_data['trn_date'],
+                        'amount'           => $expense_data['amount'],
+                        'ref'              => $expense_data['ref'],
+                        'check_no'         => $expense_data['check_no'],
+                        'particulars'      => $expense_data['particulars'],
+                        'trn_by'           => $expense_data['trn_by'],
+                        'trn_by_ledger_id' => $expense_data['trn_by_ledger_id'],
+                        'attachments'      => $expense_data['attachments'],
+                        'updated_at'       => $expense_data['updated_at'],
+                        'updated_by'       => $expense_data['updated_by'],
+                    ]
+                );
 
             /**
              *? We can't update `expense_details` directly
@@ -435,10 +438,10 @@ class Expenses
              *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
              *? so, remove previous rows and insert new rows
              */
-            $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM erp_acct_expense_details WHERE trn_no = %d", $expense_id), ARRAY_A);
+            $prev_detail_ids = DB::select("SELECT id FROM erp_acct_expense_details WHERE trn_no = {$expense_id}");
             $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
-            $wpdb->delete('erp_acct_expense_details', ['trn_no' => $expense_id]);
+            DB::table('erp_acct_expense_details')->where([['trn_no' => $expense_id]])->delete();
 
             $items = $expense_data['bill_details'];
 
@@ -497,28 +500,26 @@ class Expenses
 
             $expense_data = $expense->getFormattedExpenseData($data, $expense_id);
 
-            $wpdb->update(
-                'erp_acct_expenses',
-                [
-                    'people_id'        => $expense_data['people_id'],
-                    'people_name'      => $expense_data['people_name'],
-                    'address'          => $expense_data['billing_address'],
-                    'trn_date'         => $expense_data['trn_date'],
-                    'amount'           => $expense_data['amount'],
-                    'ref'              => $expense_data['ref'],
-                    'check_no'         => $expense_data['check_no'],
-                    'status'           => $expense_data['status'],
-                    'particulars'      => $expense_data['particulars'],
-                    'trn_by'           => $expense_data['trn_by'],
-                    'trn_by_ledger_id' => $expense_data['trn_by_ledger_id'],
-                    'attachments'      => $expense_data['attachments'],
-                    'updated_at'       => $expense_data['updated_at'],
-                    'updated_by'       => $expense_data['updated_by'],
-                ],
-                [
-                    'voucher_no' => $expense_id,
-                ]
-            );
+            DB::table('erp_acct_expenses')
+                ->where('voucher_no', $expense_id)
+                ->update(
+                    [
+                        'people_id'        => $expense_data['people_id'],
+                        'people_name'      => $expense_data['people_name'],
+                        'address'          => $expense_data['billing_address'],
+                        'trn_date'         => $expense_data['trn_date'],
+                        'amount'           => $expense_data['amount'],
+                        'ref'              => $expense_data['ref'],
+                        'check_no'         => $expense_data['check_no'],
+                        'status'           => $expense_data['status'],
+                        'particulars'      => $expense_data['particulars'],
+                        'trn_by'           => $expense_data['trn_by'],
+                        'trn_by_ledger_id' => $expense_data['trn_by_ledger_id'],
+                        'attachments'      => $expense_data['attachments'],
+                        'updated_at'       => $expense_data['updated_at'],
+                        'updated_by'       => $expense_data['updated_by'],
+                    ]
+                );
 
             /**
              *? We can't update `expense_details` directly
@@ -527,10 +528,10 @@ class Expenses
              *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
              *? so, remove previous rows and insert new rows
              */
-            $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM erp_acct_expense_details WHERE trn_no = %d", $expense_id), ARRAY_A);
+            $prev_detail_ids = DB::select("SELECT id FROM erp_acct_expense_details WHERE trn_no = {$expense_id}");
             $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
-            $wpdb->delete('erp_acct_expense_details', ['trn_no' => $expense_id]);
+            DB::table('erp_acct_expense_details')->where([['trn_no' => $expense_id]])->delete();
 
             $items = $expense_data['bill_details'];
 
@@ -617,16 +618,16 @@ class Expenses
             return;
         }
 
-        $wpdb->update(
-            'erp_acct_expenses',
-            [
-                'status' => 8,
-            ],
-            ['voucher_no' => $id]
-        );
+        DB::table('erp_acct_expenses')
+            ->where('voucher_no', $id)
+            ->update(
+                [
+                    'status' => 8,
+                ]
+            );
 
-        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $id]);
-        $wpdb->delete('erp_acct_expense_details', ['trn_no' => $id]);
+        DB::table('erp_acct_ledger_details')->where( [['trn_no' => $id]])->delete();
+        DB::table('erp_acct_expense_details')->where( [['trn_no' => $id]])->delete();
     }
 
     /**
@@ -727,23 +728,21 @@ class Expenses
         }
 
         // Update amount in ledger_details
-        $wpdb->update(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $item_data['ledger_id'],
-                'particulars' => $expense_data['particulars'],
-                'debit'       => $item_data['amount'],
-                'credit'      => 0,
-                'trn_date'    => $expense_data['trn_date'],
-                'created_at'  => $expense_data['created_at'],
-                'created_by'  => $expense_data['created_by'],
-                'updated_at'  => $expense_data['updated_at'],
-                'updated_by'  => $expense_data['updated_by'],
-            ],
-            [
-                'trn_no' => $expense_no,
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->where('trn_no', $expense_no)
+            ->update(
+                [
+                    'ledger_id'   => $item_data['ledger_id'],
+                    'particulars' => $expense_data['particulars'],
+                    'debit'       => $item_data['amount'],
+                    'credit'      => 0,
+                    'trn_date'    => $expense_data['trn_date'],
+                    'created_at'  => $expense_data['created_at'],
+                    'created_by'  => $expense_data['created_by'],
+                    'updated_at'  => $expense_data['updated_at'],
+                    'updated_by'  => $expense_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -810,7 +809,10 @@ class Expenses
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = $wpdb->get_row($sql, ARRAY_A);
+        $row = DB::select($sql, ARRAY_A);
+
+        $row = (!empty($row)) ? $row[0] : null;
+
 
         return $row;
     }

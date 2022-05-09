@@ -46,7 +46,7 @@ class RecPayments
             return DB::scalar($sql);
         }
 
-        $payment_data = $wpdb->get_results($sql, ARRAY_A);
+        $payment_data = DB::select($sql, ARRAY_A);
 
         return $payment_data;
     }
@@ -95,7 +95,8 @@ class RecPayments
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = $wpdb->get_row($sql, ARRAY_A);
+        $row = DB::select($sql, ARRAY_A);
+        $row = (!empty($row)) ? $row[0] : null;
 
         $row['line_items'] = $this->formatPaymentLineItems($invoice_no);
         $row['pdf_link']   = $this->pdfAbsPathToUrl($invoice_no);
@@ -133,7 +134,7 @@ class RecPayments
                 $trn_type = 'payment';
             }
 
-           $voucher_no =  DB::table('erp_acct_voucher_no')
+            $voucher_no =  DB::table('erp_acct_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => $trn_type,
@@ -320,23 +321,21 @@ class RecPayments
 
             $payment_data = $this->getFormattedPaymentData($data, $voucher_no);
 
-            $wpdb->update(
-                'erp_acct_invoice_receipts',
-                [
-                    'trn_date'         => $payment_data['trn_date'],
-                    'particulars'      => $payment_data['particulars'],
-                    'amount'           => $payment_data['amount'],
-                    'trn_by'           => $payment_data['trn_by'],
-                    'trn_by_ledger_id' => $payment_data['trn_by_ledger_id'],
-                    'created_at'       => $payment_data['created_at'],
-                    'created_by'       => $payment_data['created_by'],
-                    'updated_at'       => $payment_data['updated_at'],
-                    'updated_by'       => $payment_data['updated_by'],
-                ],
-                [
-                    'voucher_no' => $voucher_no,
-                ]
-            );
+            DB::table('erp_acct_invoice_receipts')
+                ->where('voucher_no', $voucher_no)
+                ->update(
+                    [
+                        'trn_date'         => $payment_data['trn_date'],
+                        'particulars'      => $payment_data['particulars'],
+                        'amount'           => $payment_data['amount'],
+                        'trn_by'           => $payment_data['trn_by'],
+                        'trn_by_ledger_id' => $payment_data['trn_by_ledger_id'],
+                        'created_at'       => $payment_data['created_at'],
+                        'created_by'       => $payment_data['created_by'],
+                        'updated_at'       => $payment_data['updated_at'],
+                        'updated_by'       => $payment_data['updated_by'],
+                    ]
+                );
 
             $items = $payment_data['line_items'];
 
@@ -385,20 +384,18 @@ class RecPayments
 
         $payment_data = $this->getFormattedPaymentData($data, $voucher_no, $invoice_no);
 
-        $wpdb->update(
-            'erp_acct_invoice_receipts_details',
-            [
-                'voucher_no' => $voucher_no,
-                'amount'     => abs($payment_data['amount']),
-                'created_at' => $payment_data['created_at'],
-                'created_by' => $payment_data['created_by'],
-                'updated_at' => $payment_data['updated_at'],
-                'updated_by' => $payment_data['updated_by'],
-            ],
-            [
-                'invoice_no' => $invoice_no,
-            ]
-        );
+        DB::table('erp_acct_invoice_receipts_details')
+            ->where('invoice_no', $invoice_no)
+            ->update(
+                [
+                    'voucher_no' => $voucher_no,
+                    'amount'     => abs($payment_data['amount']),
+                    'created_at' => $payment_data['created_at'],
+                    'created_by' => $payment_data['created_by'],
+                    'updated_at' => $payment_data['updated_at'],
+                    'updated_by' => $payment_data['updated_by'],
+                ]
+            );
 
         if (1 === $payment_data['status']) {
             return;
@@ -413,23 +410,21 @@ class RecPayments
             $credit  = $payment_data['amount'];
         }
 
-        $wpdb->update(
-            'erp_acct_invoice_account_details',
-            [
-                'trn_no'      => $voucher_no,
-                'particulars' => $payment_data['particulars'],
-                'trn_date'    => $payment_data['trn_date'],
-                'debit'       => $debit,
-                'credit'      => $credit,
-                'created_at'  => $payment_data['created_at'],
-                'created_by'  => $payment_data['created_by'],
-                'updated_at'  => $payment_data['updated_at'],
-                'updated_by'  => $payment_data['updated_by'],
-            ],
-            [
-                'invoice_no' => $invoice_no,
-            ]
-        );
+        DB::table('erp_acct_invoice_account_details')
+            ->where('invoice_no', $invoice_no)
+            ->update(
+                [
+                    'trn_no'      => $voucher_no,
+                    'particulars' => $payment_data['particulars'],
+                    'trn_date'    => $payment_data['trn_date'],
+                    'debit'       => $debit,
+                    'credit'      => $credit,
+                    'created_at'  => $payment_data['created_at'],
+                    'created_by'  => $payment_data['created_by'],
+                    'updated_at'  => $payment_data['updated_at'],
+                    'updated_by'  => $payment_data['updated_by'],
+                ]
+            );
 
         $this->insertPaymentDataIntoLedger($payment_data);
 
@@ -495,9 +490,9 @@ class RecPayments
     {
 
 
-        $wpdb->delete('erp_acct_invoice_receipts', ['voucher_no' => $id]);
-        $wpdb->delete('erp_acct_invoice_receipts_details', ['voucher_no' => $id]);
-        $wpdb->delete('erp_acct_invoice_account_details', ['invoice_no' => $id]);
+        DB::table('erp_acct_invoice_receipts')->where([['voucher_no' => $id]])->delete();
+        DB::table('erp_acct_invoice_receipts_details')->where([['voucher_no' => $id]])->delete();
+        DB::table('erp_acct_invoice_account_details')->where([['invoice_no' => $id]])->delete();
     }
 
     /**
@@ -515,16 +510,16 @@ class RecPayments
             return;
         }
 
-        $wpdb->update(
-            'erp_acct_invoice_receipts',
-            [
-                'status' => 8,
-            ],
-            ['voucher_no' => $id]
-        );
+        DB::table('erp_acct_invoice_receipts')
+            ->where('voucher_no', $id)
+            ->update(
+                [
+                    'status' => 8,
+                ]
+            );
 
-        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $id]);
-        $wpdb->delete('erp_acct_invoice_account_details', ['trn_no' => $id]);
+        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
+        DB::table('erp_acct_invoice_account_details')->where([['trn_no' => $id]])->delete();
     }
 
     /**
@@ -542,21 +537,21 @@ class RecPayments
         $due = (float) $invoices->getInvoiceDue($invoice_no);
 
         if (0.00 === $due) {
-            $wpdb->update(
-                'erp_acct_invoices',
-                [
-                    'status' => 4,
-                ],
-                ['voucher_no' => $invoice_no]
-            );
+            DB::table('erp_acct_invoices')
+                ->where('voucher_no', $invoice_no)
+                ->update(
+                    [
+                        'status' => 4,
+                    ]
+                );
         } else {
-            $wpdb->update(
-                'erp_acct_invoices',
-                [
-                    'status' => 5,
-                ],
-                ['voucher_no' => $invoice_no]
-            );
+            DB::table('erp_acct_invoices')
+                ->where('voucher_no', $invoice_no)
+                ->update(
+                    [
+                        'status' => 5,
+                    ]
+                );
         }
     }
 
@@ -628,22 +623,21 @@ class RecPayments
         }
 
         // Update amount in ledger_details
-        $wpdb->update(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $payment_data['trn_by_ledger_id'],
-                'particulars' => $payment_data['particulars'],
-                'debit'       => $debit,
-                'credit'      => $credit,
-                'trn_date'    => $payment_data['trn_date'],
-                'created_at'  => $payment_data['created_at'],
-                'created_by'  => $payment_data['created_by'],
-                'updated_at'  => $payment_data['updated_at'],
-                'updated_by'  => $payment_data['updated_by'],
-            ],
-            [
-                'trn_no' => $invoice_no,
-            ]
+        DB::table(('erp_acct_ledger_details')
+                ->where('trn_no', $invoice_no)
+                ->update(
+                    [
+                        'ledger_id'   => $payment_data['trn_by_ledger_id'],
+                        'particulars' => $payment_data['particulars'],
+                        'debit'       => $debit,
+                        'credit'      => $credit,
+                        'trn_date'    => $payment_data['trn_date'],
+                        'created_at'  => $payment_data['created_at'],
+                        'created_by'  => $payment_data['created_by'],
+                        'updated_at'  => $payment_data['updated_at'],
+                        'updated_by'  => $payment_data['updated_by'],
+                    ]
+                )
         );
     }
 
@@ -656,8 +650,8 @@ class RecPayments
     {
 
 
-        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_invoice_receipts');
-
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_invoice_receipts');
+        $row = (!empty($row)) ? $row[0] : null;
         return $row->count;
     }
 
@@ -684,6 +678,6 @@ class RecPayments
             ON inv_rec_detail.voucher_no = voucher.id
             {$invoice_sql}";
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return DB::select($sql, ARRAY_A);
     }
 }

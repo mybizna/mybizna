@@ -57,13 +57,11 @@ class Journals
             $sql .= " ON journal.voucher_no = journal_detail.trn_no {$where} GROUP BY journal.voucher_no ORDER BY journal.{$args['orderby']} {$args['order']} {$limit}";
 
             if ($args['count']) {
-                $wpdb->get_results($sql);
+                DB::select($sql);
 
                 $journals_count = $wpdb->num_rows;
-
             } else {
-                $journals = $wpdb->get_results($sql, ARRAY_A);
-
+                $journals = DB::select($sql);
             }
         }
 
@@ -106,7 +104,9 @@ class Journals
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row                = $wpdb->get_row($sql, ARRAY_A);
+        $row                = DB::select($sql, ARRAY_A);
+       
+        $row = (!empty($row)) ? $row[0] : null;
         $rows               = $row;
         $rows['line_items'] = $this->formatJournalData($row, $journal_no);
 
@@ -231,61 +231,55 @@ class Journals
 
             $journal_data = $journals->getFormattedJournalData($data, $journal_no);
 
-            $wpdb->update(
-                'erp_acct_journals',
-                [
-                    'trn_date'       => $journal_data['trn_date'],
-                    'ref'            => $journal_data['ref'],
-                    'voucher_amount' => $journal_data['voucher_amount'],
-                    'particulars'    => $journal_data['particulars'],
-                    'attachments'    => $journal_data['attachments'],
-                    'created_at'     => $journal_data['created_at'],
-                    'created_by'     => $journal_data['created_by'],
-                    'updated_at'     => $journal_data['updated_at'],
-                    'updated_by'     => $journal_data['updated_by'],
-                ],
-                [
-                    'voucher_no' => $journal_no,
-                ]
-            );
+            DB::table('erp_acct_journals')
+                ->where('voucher_no', $journal_no)
+                ->update(
+                    [
+                        'trn_date'       => $journal_data['trn_date'],
+                        'ref'            => $journal_data['ref'],
+                        'voucher_amount' => $journal_data['voucher_amount'],
+                        'particulars'    => $journal_data['particulars'],
+                        'attachments'    => $journal_data['attachments'],
+                        'created_at'     => $journal_data['created_at'],
+                        'created_by'     => $journal_data['created_by'],
+                        'updated_at'     => $journal_data['updated_at'],
+                        'updated_by'     => $journal_data['updated_by'],
+                    ]
+                );
 
             $items = $journal_data['line_items'];
 
             foreach ($items as $key => $item) {
-                $wpdb->update(
-                    'erp_acct_journal_details',
-                    [
-                        'ledger_id'   => $item['ledger_id'],
-                        'particulars' => empty($item['particulars']) ? $journal_data['particulars'] : $item['particulars'],
-                        'debit'       => $item['debit'],
-                        'credit'      => $item['credit'],
-                        'created_at'  => $journal_data['created_at'],
-                        'created_by'  => $journal_data['created_by'],
-                        'updated_at'  => $journal_data['updated_at'],
-                        'updated_by'  => $journal_data['updated_by'],
-                    ],
-                    [
-                        'trn_no' => $journal_no,
-                    ]
-                );
+                DB::table('erp_acct_journal_details')
+                    ->where('trn_no', $journal_no)
+                    ->update(
+                        [
+                            'ledger_id'   => $item['ledger_id'],
+                            'particulars' => empty($item['particulars']) ? $journal_data['particulars'] : $item['particulars'],
+                            'debit'       => $item['debit'],
+                            'credit'      => $item['credit'],
+                            'created_at'  => $journal_data['created_at'],
+                            'created_by'  => $journal_data['created_by'],
+                            'updated_at'  => $journal_data['updated_at'],
+                            'updated_by'  => $journal_data['updated_by'],
+                        ]
+                    );
 
-                $wpdb->update(
-                    'erp_acct_ledger_details',
-                    [
-                        'ledger_id'   => $item['ledger_id'],
-                        'particulars' => empty($item['particulars']) ? $journal_data['particulars'] : $item['particulars'],
-                        'debit'       => $item['debit'],
-                        'credit'      => $item['credit'],
-                        'trn_date'    => $journal_data['trn_date'],
-                        'created_at'  => $journal_data['created_at'],
-                        'created_by'  => $journal_data['created_by'],
-                        'updated_at'  => $journal_data['updated_at'],
-                        'updated_by'  => $journal_data['updated_by'],
-                    ],
-                    [
-                        'trn_no' => $journal_no,
-                    ]
-                );
+                DB::table('erp_acct_ledger_details')
+                    ->where('trn_no', $journal_no)
+                    ->update(
+                        [
+                            'ledger_id'   => $item['ledger_id'],
+                            'particulars' => empty($item['particulars']) ? $journal_data['particulars'] : $item['particulars'],
+                            'debit'       => $item['debit'],
+                            'credit'      => $item['credit'],
+                            'trn_date'    => $journal_data['trn_date'],
+                            'created_at'  => $journal_data['created_at'],
+                            'created_by'  => $journal_data['created_by'],
+                            'updated_at'  => $journal_data['updated_at'],
+                            'updated_by'  => $journal_data['updated_by'],
+                        ]
+                    );
             }
 
             $wpdb->query('COMMIT');
@@ -355,7 +349,7 @@ class Journals
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $rows       = $wpdb->get_results($sql, ARRAY_A);
+        $rows       = DB::select($sql);
         $line_items = [];
 
         foreach ($rows as $key => $item) {

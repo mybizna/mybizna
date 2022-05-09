@@ -20,12 +20,7 @@ class LedgerAccounts
     {
 
 
-        $cache_key = 'erp-get-charts';
-        $charts    = wp_cache_get($cache_key, 'erp-accounting');
-
-        if (false === $charts) {
-            $charts = $wpdb->get_results("SELECT id, name AS label FROM erp_acct_chart_of_accounts", ARRAY_A);
-        }
+            $charts = DB::select("SELECT id, name AS label FROM erp_acct_chart_of_accounts");
 
         return $charts;
     }
@@ -41,8 +36,8 @@ class LedgerAccounts
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT id, name  FROM erp_acct_ledgers WHERE id = %d", $ledger_id));
-
+        $row = DB::select($wpdb->prepare("SELECT id, name  FROM erp_acct_ledgers WHERE id = %d", $ledger_id));
+        $row = (!empty($row)) ? $row[0] : null;
         return $row->name;
     }
 
@@ -53,7 +48,7 @@ class LedgerAccounts
     {
 
 
-        $ledger_categories = $wpdb->get_results($wpdb->prepare("SELECT id, name AS label, chart_id, parent_id, system FROM erp_acct_ledger_categories WHERE chart_id = %d", $chart_id), ARRAY_A);
+        $ledger_categories = DB::select("SELECT id, name AS label, chart_id, parent_id, system FROM erp_acct_ledger_categories WHERE chart_id = {$chart_id}");
 
 
         return $ledger_categories;
@@ -69,7 +64,7 @@ class LedgerAccounts
         $exist = DB::scalar($wpdb->prepare("SELECT name FROM erp_acct_ledger_categories WHERE name = %s", $args['name']));
 
         if (!$exist) {
-            $id =DB::table("erp_acct_ledger_categories")
+            $id = DB::table("erp_acct_ledger_categories")
                 ->insertGetId(
                     [
                         'name'      => $args['name'],
@@ -94,16 +89,17 @@ class LedgerAccounts
         $exist = DB::scalar($wpdb->prepare("SELECT name FROM erp_acct_ledger_categories WHERE name = %s AND id <> %d", $args['name'], $args['id']));
 
         if (!$exist) {
-            return $wpdb->update(
-                "erp_acct_ledger_categories",
-                [
+            return DB::table("erp_acct_ledger_categories")
+                ->where('id', $args['id'])
+                ->update(
+                    [
                     'name'      => $args['name'],
                     'parent_id' => !empty($args['parent']) ? $args['parent'] : null,
-                ],
-                ['id' => $args['id']],
-                ['%s', '%d'],
-                ['%d']
+                ]
             );
+
+
+
         }
 
 
@@ -121,16 +117,13 @@ class LedgerAccounts
 
         $table = "erp_acct_ledger_categories";
 
-        $wpdb->update(
-            $table,
-            ['parent_id' => $parent_id],
-            ['parent_id' => $id],
-            ['%s'],
-            ['%d']
-        );
+        DB::table($table)
+        ->where('parent_id', $id        )
+            ->update(['parent_id' => $parent_id])
+            ;
 
 
-        return $wpdb->delete($table, ['id' => $id]);
+        return DB::table($table)->where([['id' => $id]])->delete();
     }
 
     /**
@@ -142,7 +135,7 @@ class LedgerAccounts
     {
 
 
-        $ledgers = $wpdb->get_results($wpdb->prepare("SELECT id, name FROM erp_acct_ledgers WHERE chart_id = %d AND unused IS NULL", $chart_id), ARRAY_A);
+        $ledgers = DB::select("SELECT id, name FROM erp_acct_ledgers WHERE chart_id = {$chart_id} AND unused IS NULL");
 
         for ($i = 0; $i < count($ledgers); $i++) {
             $ledgers[$i]['balance'] = $this->getLedgerBalance($ledgers[$i]['id']);
@@ -162,7 +155,9 @@ class LedgerAccounts
     {
 
 
-        $ledger = $wpdb->get_row($wpdb->prepare("SELECT COUNT(*) as count FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
+        $ledger = DB::select($wpdb->prepare("SELECT COUNT(*) as count FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
+
+        $ledger = (!empty($ledger)) ? $ledger[0] : null;
 
         return $ledger['count'];
     }
@@ -178,7 +173,8 @@ class LedgerAccounts
     {
 
 
-        $ledger = $wpdb->get_row($wpdb->prepare("SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_ledger_details as ld ON ledger.id = ld.ledger_id WHERE ledger.id = %d", $ledger_id), ARRAY_A);
+        $ledger = DB::select($wpdb->prepare("SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_ledger_details as ld ON ledger.id = ld.ledger_id WHERE ledger.id = %d", $ledger_id), ARRAY_A);
+        $ledger = (!empty($ledger)) ? $ledger[0] : null;
 
         return $ledger['balance'];
     }
@@ -198,7 +194,10 @@ class LedgerAccounts
     {
 
 
-        return $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_ledgers WHERE id = %d", $id));
+        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_ledgers WHERE id = %d", $id));
+        $row = (!empty($row)) ? $row[0] : null;
+
+        return $row;
     }
 
     /**
@@ -210,7 +209,7 @@ class LedgerAccounts
      */
     function insertLedger($item)
     {
-
+        $common = CommonFunc();
 
         $id = DB::table("erp_acct_ledgers")
             ->insertGetId(
@@ -218,7 +217,7 @@ class LedgerAccounts
                     'chart_id'    => $item['chart_id'],
                     'category_id' => $item['category_id'],
                     'name'        => $item['name'],
-                    'slug'        => slugify($item['name']),
+                    'slug'        => $common->slugify($item['name']),
                     'code'        => $item['code'],
                 ]
             );
@@ -238,17 +237,17 @@ class LedgerAccounts
     {
 
 
-        $wpdb->update(
-            "erp_acct_ledgers",
-            [
+        DB::table("erp_acct_ledgers")
+        ->where('id', $id)
+            ->update(
+                [
                 'chart_id'    => $item['chart_id'],
                 'category_id' => $item['category_id'],
                 'name'        => $item['name'],
-                'slug'        => slugify($item['name']),
+                'slug'        => $common->($item['name']),
                 'code'        => $item['code'],
-            ],
-            ['id' => $id]
-        );
+            ]
+            );
 
         return $this->getLedger($id);
     }
@@ -268,9 +267,9 @@ class LedgerAccounts
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
         FROM erp_acct_ledgers AS ledger
         LEFT JOIN erp_acct_opening_balances AS opb ON ledger.id = opb.ledger_id
-        WHERE opb.financial_year_id = %d AND opb.type = 'ledger' GROUP BY opb.ledger_id";
+        WHERE opb.financial_year_id = {$id} AND opb.type = 'ledger' GROUP BY opb.ledger_id";
 
-        return $wpdb->get_results($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -290,10 +289,9 @@ class LedgerAccounts
 
         $today = date('Y-m-d');
 
-        $ledgers = $wpdb->get_results(
+        $ledgers = DB::select(
             "SELECT ledger.id, ledger.chart_id, ledger.category_id, ledger.name, ledger.slug, ledger.code, ledger.system, chart_of_account.name as account_name FROM erp_acct_ledgers AS ledger
-        LEFT JOIN erp_acct_chart_of_accounts AS chart_of_account ON ledger.chart_id = chart_of_account.id WHERE ledger.unused IS NULL",
-            ARRAY_A
+        LEFT JOIN erp_acct_chart_of_accounts AS chart_of_account ON ledger.chart_id = chart_of_account.id WHERE ledger.unused IS NULL"
         );
 
         // get closest financial year id and start date
@@ -305,9 +303,9 @@ class LedgerAccounts
         $sql2 = "SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance
         FROM erp_acct_ledgers AS ledger
         LEFT JOIN erp_acct_ledger_details as ld ON ledger.id = ld.ledger_id
-        AND ld.trn_date BETWEEN '%s' AND '%s' GROUP BY ld.ledger_id";
+        AND ld.trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$today}' GROUP BY ld.ledger_id";
 
-        $data = $wpdb->get_results($wpdb->prepare($sql2, $closest_fy_date['start_date'], $today), ARRAY_A);
+        $data = DB::select($sql2);
 
         return $this->ledgerBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
     }
@@ -323,7 +321,7 @@ class LedgerAccounts
     {
 
 
-        return $wpdb->get_results(
+        return DB::select(
             $wpdb->prepare(
                 "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_opening_balances AS opb ON ledger.id = opb.ledger_id WHERE opb.financial_year_id = %d opb.type = 'ledger' GROUP BY opb.ledger_id",
                 $id
@@ -440,7 +438,7 @@ class LedgerAccounts
     {
 
 
-        $ledgers = $wpdb->get_results("SELECT id, name FROM erp_acct_ledgers WHERE unused IS NULL", ARRAY_A);
+        $ledgers = DB::select("SELECT id, name FROM erp_acct_ledgers WHERE unused IS NULL", ARRAY_A);
 
         return $ledgers;
     }

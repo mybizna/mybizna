@@ -42,7 +42,7 @@ class Taxes
         if ($args['count']) {
             $tax_rates_count = DB::scalar($sql);
         } else {
-            $tax_rates = $wpdb->get_results($sql, ARRAY_A);
+            $tax_rates = DB::select($sql, ARRAY_A);
         }
 
         if ($args['count']) {
@@ -87,8 +87,8 @@ class Taxes
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = $wpdb->get_row($sql, ARRAY_A);
-
+        $row = DB::select($sql, ARRAY_A);
+        $row = (!empty($row)) ? $row[0] : null;
         $row['tax_components'] = $taxes->formatTaxLineItems($tax_no);
 
         for ($i = 0; $i < count($row['tax_components']); $i++) { //
@@ -164,41 +164,37 @@ class Taxes
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        $wpdb->update(
-            'erp_acct_taxes',
-            [
-                'tax_rate_id' => $tax_data['tax_rate_id'],
-                'tax_number'  => $tax_data['tax_number'],
-                'default'     => $tax_data['default'],
-                'updated_at'  => $tax_data['updated_at'],
-                'updated_by'  => $tax_data['updated_by'],
-            ],
-            [
-                'id' => $id,
-            ]
-        );
+        DB::table('erp_acct_taxes')
+            ->where('id', $id)
+            ->update(
+                [
+                    'tax_rate_id' => $tax_data['tax_rate_id'],
+                    'tax_number'  => $tax_data['tax_number'],
+                    'default'     => $tax_data['default'],
+                    'updated_at'  => $tax_data['updated_at'],
+                    'updated_by'  => $tax_data['updated_by'],
+                ]
+            );
 
         if (!empty($tax_data['default']) && $tax_data['default']) {
-            $results = $wpdb->get_results('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
+            $results = DB::select('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
         }
 
         $items = $data['tax_components'];
 
         foreach ($items as $key => $item) {
-            $wpdb->update(
-                'erp_acct_tax_cat_agency',
-                [
-                    'component_name' => $item['component_name'],
-                    'tax_cat_id'     => $item['tax_cat_id'],
-                    'agency_id'      => $item['agency_id'],
-                    'tax_rate'       => $item['tax_rate'],
-                    'updated_at'     => $tax_data['updated_at'],
-                    'updated_by'     => $tax_data['updated_by'],
-                ],
-                [
-                    'tax_id' => $id,
-                ]
-            );
+            DB::table('erp_acct_tax_cat_agency')
+                ->where('tax_id', $id)
+                ->update(
+                    [
+                        'component_name' => $item['component_name'],
+                        'tax_cat_id'     => $item['tax_cat_id'],
+                        'agency_id'      => $item['agency_id'],
+                        'tax_rate'       => $item['tax_rate'],
+                        'updated_at'     => $tax_data['updated_at'],
+                        'updated_by'     => $tax_data['updated_by'],
+                    ]
+                );
         }
 
 
@@ -223,21 +219,20 @@ class Taxes
         $tax_data = $taxes->getFormattedTaxData($data);
 
         if (!empty($tax_data['default']) && 1 === $tax_data['default']) {
-            $results = $wpdb->get_results('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
+            $results = DB::select('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
         }
 
-        $wpdb->update(
-            'erp_acct_taxes',
-            [
-                'tax_number' => $tax_data['tax_number'],
-                'default'    => $tax_data['default'],
-                'updated_at' => $tax_data['updated_at'],
-                'updated_by' => $tax_data['updated_by'],
-            ],
-            [
-                'id' => $id,
-            ]
-        );
+        DB::table('erp_acct_taxes')
+
+            ->where('id', $id)
+            ->update(
+                [
+                    'tax_number' => $tax_data['tax_number'],
+                    'default'    => $tax_data['default'],
+                    'updated_at' => $tax_data['updated_at'],
+                    'updated_by' => $tax_data['updated_by'],
+                ]
+            );
 
 
         return $id;
@@ -296,20 +291,18 @@ class Taxes
 
         $tax_data = $this->getFormattedTaxLineData($data);
 
-        $wpdb->update(
-            'erp_acct_tax_cat_agency',
-            [
-                'component_name' => $tax_data['component_name'],
-                'tax_cat_id'     => $tax_data['tax_cat_id'],
-                'agency_id'      => $tax_data['agency_id'],
-                'tax_rate'       => $tax_data['tax_rate'],
-                'updated_at'     => $tax_data['updated_at'],
-                'updated_by'     => $tax_data['updated_by'],
-            ],
-            [
-                'id' => $tax_data['db_id'],
-            ]
-        );
+        DB::table('erp_acct_tax_cat_agency')
+            ->where('id', $tax_data['db_id'])
+            ->update(
+                [
+                    'component_name' => $tax_data['component_name'],
+                    'tax_cat_id'     => $tax_data['tax_cat_id'],
+                    'agency_id'      => $tax_data['agency_id'],
+                    'tax_rate'       => $tax_data['tax_rate'],
+                    'updated_at'     => $tax_data['updated_at'],
+                    'updated_by'     => $tax_data['updated_by'],
+                ]
+            );
 
 
         return $tax_data['db_id'];
@@ -326,7 +319,7 @@ class Taxes
     {
 
 
-        $wpdb->delete('erp_acct_tax_cat_agency', ['id' => $line_no]);
+        DB::table('erp_acct_tax_cat_agency')->where([['id' => $line_no]])->delete();
 
 
         return $line_no;
@@ -343,7 +336,7 @@ class Taxes
     {
 
 
-        $wpdb->delete('erp_acct_taxes', ['id' => $tax_no]);
+        DB::table('erp_acct_taxes')->where([['id' => $tax_no]])->delete();
 
 
         return $tax_no;
@@ -383,7 +376,7 @@ class Taxes
         if ($args['count']) {
             $tax_pay_count = DB::scalar($sql);
         } else {
-            $tax_pay = $wpdb->get_results($sql, ARRAY_A);
+            $tax_pay = DB::select($sql, ARRAY_A);
         }
 
         if ($args['count']) {
@@ -402,7 +395,7 @@ class Taxes
     {
 
 
-        $row = $wpdb->get_row(
+        $row = DB::select(
             $wpdb->prepare(
                 "SELECT
             tax.id,
@@ -421,6 +414,8 @@ class Taxes
             ),
             ARRAY_A
         );
+
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
     }
@@ -566,7 +561,7 @@ class Taxes
         }
         $sql .= " FROM erp_acct_tax_cat_agency {$tax_sql} ORDER BY tax_id";
 
-        $results = $wpdb->get_results($sql, ARRAY_A);
+        $results = DB::select($sql, ARRAY_A);
 
         return $results;
     }
@@ -646,7 +641,7 @@ class Taxes
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        return $wpdb->get_results(
+        return DB::select(
             "SELECT
         tax.id AS tax_rate_id,
         tax.tax_rate_name,

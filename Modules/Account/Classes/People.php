@@ -27,36 +27,34 @@ class People
         $company = new \WeDevs\ERP\Company();
 
         if ($update) {
-            $wpdb->update(
-                'erp_peoples',
-                [
-                    'first_name'    => $data['personal']['first_name'],
-                    'last_name'     => $data['personal']['last_name'],
-                    'company'       => $company->name,
-                    'email'         => $data['user_email'],
-                    'phone'         => $data['personal']['phone'],
-                    'mobile'        => $data['personal']['mobile'],
-                    'other'         => '',
-                    'website'       => '',
-                    'fax'           => '',
-                    'notes'         => $data['personal']['description'],
-                    'street_1'      => $data['personal']['street_1'],
-                    'street_2'      => $data['personal']['street_2'],
-                    'city'          => $data['personal']['city'],
-                    'state'         => $data['personal']['state'],
-                    'postal_code'   => $data['personal']['postal_code'],
-                    'country'       => $data['personal']['country'],
-                    'currency'      => '',
-                    'life_stage'    => '',
-                    'contact_owner' => '',
-                    'hash'          => '',
-                    'created_by'    => auth()->user()->id,
-                    'created'       => '',
-                ],
-                [
-                    'user_id' => $data['user_id'],
-                ]
-            );
+            DB::table('erp_peoples')
+                ->where('user_id', $data['user_id'])
+                ->update(
+                    [
+                        'first_name'    => $data['personal']['first_name'],
+                        'last_name'     => $data['personal']['last_name'],
+                        'company'       => $company->name,
+                        'email'         => $data['user_email'],
+                        'phone'         => $data['personal']['phone'],
+                        'mobile'        => $data['personal']['mobile'],
+                        'other'         => '',
+                        'website'       => '',
+                        'fax'           => '',
+                        'notes'         => $data['personal']['description'],
+                        'street_1'      => $data['personal']['street_1'],
+                        'street_2'      => $data['personal']['street_2'],
+                        'city'          => $data['personal']['city'],
+                        'state'         => $data['personal']['state'],
+                        'postal_code'   => $data['personal']['postal_code'],
+                        'country'       => $data['personal']['country'],
+                        'currency'      => '',
+                        'life_stage'    => '',
+                        'contact_owner' => '',
+                        'hash'          => '',
+                        'created_by'    => auth()->user()->id,
+                        'created'       => '',
+                    ]
+                );
         } else {
             $people_id = DB::table('erp_peoples')
                 ->insertGetId(
@@ -86,7 +84,6 @@ class People
                         'created'       => '',
                     ]
                 );
-
         }
 
 
@@ -148,7 +145,7 @@ class People
         $start_date = isset($args['start_date']) ? $args['start_date'] : '';
         $end_date   = isset($args['end_date']) ? $args['start_date'] : '';
 
-        $rows = $wpdb->get_results("SELECT * FROM erp_acct_people_account_details WHERE trn_date >= '{$start_date}' AND trn_date <= '{$end_date}' AND people_id = {$people_id}", ARRAY_A);
+        $rows = DB::select("SELECT * FROM erp_acct_people_account_details WHERE trn_date >= '{$start_date}' AND trn_date <= '{$end_date}' AND people_id = {$people_id}", ARRAY_A);
 
         return $rows;
     }
@@ -166,13 +163,15 @@ class People
 
         $row = [];
 
-        $row = $wpdb->get_row(
+        $row = DB::select(
             $wpdb->prepare(
                 "SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d",
                 $people_id
             ),
             ARRAY_A
         );
+
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
     }
@@ -259,13 +258,13 @@ class People
         {$where} ORDER BY people.trn_date {$args['order']} {$limit}";
 
         if ($args['count']) {
-            $wpdb->get_results($sql);
+            DB::select($sql);
 
             return $wpdb->num_rows;
         }
 
 
-        $results = $wpdb->get_results($sql, ARRAY_A);
+        $results = DB::select($sql, ARRAY_A);
 
         $previous_balance_data  = [
             'start_date'        => $financial_year['start_date'],
@@ -350,11 +349,13 @@ class People
 
 
         $opening_balance_query     = $wpdb->prepare("SELECT SUM(debit - credit) AS opening_balance FROM erp_acct_opening_balances where type = 'people' AND ledger_id = %d AND financial_year_id = %d", $args['people_id'], $args['financial_year_id']);
-        $opening_balance_result    = $wpdb->get_row($opening_balance_query, ARRAY_A);
+        $opening_balance_result    = DB::select($opening_balance_query, ARRAY_A);
+        $opening_balance_result = (!empty($opening_balance_result)) ? $opening_balance_result[0] : null;
         $opening_balance           =  isset($opening_balance_result['opening_balance']) ? $opening_balance_result['opening_balance'] : 0;
 
         $people_transaction_query  =  $wpdb->prepare("SELECT SUM(debit - credit) AS balance FROM erp_acct_people_trn_details where   people_id = %d AND trn_date BETWEEN %s AND %s", $args['people_id'], $args['start_date'], $args['end_date']);
-        $people_transaction_result = $wpdb->get_row($people_transaction_query, ARRAY_A);
+        $people_transaction_result = DB::select($people_transaction_query, ARRAY_A);
+        $people_transaction_result = (!empty($people_transaction_result)) ? $people_transaction_result[0] : null;
         $balance                   =  isset($people_transaction_result['balance']) ? $people_transaction_result['balance'] : 0;
 
         return ($balance + $opening_balance);
@@ -371,8 +372,8 @@ class People
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT people_types_id FROM erp_people_type_relations WHERE people_id = %d LIMIT 1", $people_id));
-
+        $row = DB::select($wpdb->prepare("SELECT people_types_id FROM erp_people_type_relations WHERE people_id = %d LIMIT 1", $people_id));
+        $row = (!empty($row)) ? $row[0] : null;
         return $this->getPeopleTypeByTypeId($row->people_types_id);
     }
 
@@ -387,8 +388,8 @@ class People
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT name FROM erp_people_types WHERE id = %d LIMIT 1", $type_id));
-
+        $row = DB::select($wpdb->prepare("SELECT name FROM erp_people_types WHERE id = %d LIMIT 1", $type_id));
+        $row = (!empty($row)) ? $row[0] : null;
         return $row->name;
     }
 
@@ -405,7 +406,7 @@ class People
     {
 
 
-        $row = $wpdb->get_row(
+        $row = DB::select(
             $wpdb->prepare(
                 "SELECT id
             FROM erp_people_types
@@ -413,6 +414,8 @@ class People
                 $type_name
             )
         );
+
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row->id;
     }
@@ -426,7 +429,8 @@ class People
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT id FROM erp_peoples WHERE user_id = %d LIMIT 1", $user_id));
+        $row = DB::select($wpdb->prepare("SELECT id FROM erp_peoples WHERE user_id = %d LIMIT 1", $user_id));
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row->id;
     }
@@ -440,7 +444,8 @@ class People
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT first_name, last_name FROM erp_peoples WHERE id = %d LIMIT 1", $people_id));
+        $row = DB::select($wpdb->prepare("SELECT first_name, last_name FROM erp_peoples WHERE id = %d LIMIT 1", $people_id));
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row->first_name . ' ' . $row->last_name;
     }
@@ -480,7 +485,8 @@ class People
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT user_id FROM erp_peoples WHERE id = %d LIMIT 1", $people_id));
+        $row = DB::select($wpdb->prepare("SELECT user_id FROM erp_peoples WHERE id = %d LIMIT 1", $people_id));
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row->user_id;
     }
@@ -627,7 +633,7 @@ class People
             $items = DB::scalar(apply_filters('get_people_total_count_query', $final_query, $args));
         } else {
             // Fetch results from people table
-            $results = $wpdb->get_results(apply_filters('get_people_total_query', $final_query, $args), ARRAY_A);
+            $results = DB::select(apply_filters('get_people_total_query', $final_query, $args), ARRAY_A);
             array_walk(
                 $results,
                 function (&$results) {
@@ -825,7 +831,7 @@ class People
             $items = DB::scalar(apply_filters('get_people_total_count_query', $final_query, $args));
         } else {
             // Fetch results from people table
-            $results = $wpdb->get_results(apply_filters('get_people_total_query', $final_query, $args), ARRAY_A);
+            $results = DB::select(apply_filters('get_people_total_query', $final_query, $args), ARRAY_A);
             array_walk($results, function (&$results) {
                 $results['types'] = explode(',', $results['types']);
             });
@@ -1031,7 +1037,7 @@ class People
 
         $sql .= ' GROUP BY people.id ';
 
-        $results = $wpdb->get_results($sql);
+        $results = DB::select($sql);
 
         $results = array_map(function ($item) {
             $item->types = explode(',', $item->types);

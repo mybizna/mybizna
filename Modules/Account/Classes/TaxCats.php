@@ -40,7 +40,7 @@ class TaxCats
         if ($args['count']) {
             $tax_cats_count = DB::scalar($sql);
         } else {
-            $tax_cats = $wpdb->get_results($sql, ARRAY_A);
+            $tax_cats = DB::select($sql, ARRAY_A);
         }
 
 
@@ -62,8 +62,8 @@ class TaxCats
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
-
+        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
+$row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
 
@@ -78,8 +78,8 @@ class TaxCats
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", $id), ARRAY_A);
-
+        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", $id), ARRAY_A);
+        $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
 
@@ -112,7 +112,6 @@ class TaxCats
                 ]
             );
 
-       $wpdb->insert_id;
 
 
         return $tax_id;
@@ -135,18 +134,16 @@ class TaxCats
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        $wpdb->update(
-            'erp_acct_tax_categories',
-            [
-                'name'        => $tax_data['name'],
-                'description' => $tax_data['description'],
-                'updated_at'  => $tax_data['updated_at'],
-                'updated_by'  => $tax_data['updated_by'],
-            ],
-            [
-                'id' => $id,
-            ]
-        );
+        DB::table('erp_acct_tax_categories')
+            ->where('id', $id)
+            ->update(
+                [
+                    'name'        => $tax_data['name'],
+                    'description' => $tax_data['description'],
+                    'updated_at'  => $tax_data['updated_at'],
+                    'updated_by'  => $tax_data['updated_by'],
+                ]
+            );
 
 
         return $id;
@@ -163,7 +160,7 @@ class TaxCats
     {
 
 
-        $wpdb->delete('erp_acct_tax_categories', ['id' => $id]);
+        DB::table('erp_acct_tax_categories')->where([['id' => $id]])->delete();
 
 
         return $id;

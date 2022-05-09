@@ -20,7 +20,9 @@ class ClosingBalance
     {
 
 
-        return $wpdb->get_row($wpdb->prepare("SELECT id, start_date, end_date FROM erp_acct_financial_years WHERE start_date > '%s' ORDER BY start_date ASC LIMIT 1", $date));
+        $result = DB::select($wpdb->prepare("SELECT id, start_date, end_date FROM erp_acct_financial_years WHERE start_date > '%s' ORDER BY start_date ASC LIMIT 1", $date));
+
+        $result = (!empty($result)) ? $result[0] : null;
     }
 
     /**
@@ -53,7 +55,7 @@ class ClosingBalance
 
         // ledgers
         $sql     = "SELECT id, chart_id, name, slug FROM erp_acct_ledgers";
-        $ledgers = $wpdb->get_results($sql, ARRAY_A);
+        $ledgers = DB::select($sql);
 
         foreach ($ledgers as $ledger) {
             // assets
@@ -286,9 +288,9 @@ class ClosingBalance
         $sql = "SELECT invoice.customer_id AS id, SUM( debit - credit ) AS balance
         FROM erp_acct_invoice_account_details AS invoice_acd
         LEFT JOIN erp_acct_invoices AS invoice ON invoice_acd.invoice_no = invoice.voucher_no
-        WHERE invoice_acd.trn_date BETWEEN '%s' AND '%s' GROUP BY invoice_acd.invoice_no HAVING balance > 0";
+        WHERE invoice_acd.trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}' GROUP BY invoice_acd.invoice_no HAVING balance > 0";
 
-        $data = $wpdb->get_results($wpdb->prepare($sql, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data = DB::select($sql);
 
         return $this->peopleArCalcWithOpeningBalance($args['start_date'], $data, $sql);
     }
@@ -307,15 +309,15 @@ class ClosingBalance
         $bill_sql = "SELECT bill.vendor_id AS id, SUM( debit - credit ) AS balance
         FROM erp_acct_bill_account_details AS bill_acd
         LEFT JOIN erp_acct_bills AS bill ON bill_acd.bill_no = bill.voucher_no
-        WHERE bill_acd.trn_date BETWEEN '%s' AND '%s' GROUP BY bill_acd.bill_no HAVING balance < 0";
+        WHERE bill_acd.trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}' GROUP BY bill_acd.bill_no HAVING balance < 0";
 
         $purchase_sql = "SELECT purchase.vendor_id AS id, SUM( debit - credit ) AS balance
         FROM erp_acct_purchase_account_details AS purchase_acd
         LEFT JOIN erp_acct_purchase AS purchase ON purchase_acd.purchase_no = purchase.voucher_no
-        WHERE purchase_acd.trn_date BETWEEN '%s' AND '%s' GROUP BY purchase_acd.purchase_no HAVING balance < 0";
+        WHERE purchase_acd.trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}' GROUP BY purchase_acd.purchase_no HAVING balance < 0";
 
-        $bill_data     = $wpdb->get_results($wpdb->prepare($bill_sql, $args['start_date'], $args['end_date']), ARRAY_A);
-        $purchase_data = $wpdb->get_results($wpdb->prepare($purchase_sql, $args['start_date'], $args['end_date']), ARRAY_A);
+        $bill_data     = DB::select($bill_sql);
+        $purchase_data = DB::select($purchase_sql);
 
         return $this->vendorApCalcWithOpeningBalance(
             $args['start_date'],
@@ -390,9 +392,9 @@ class ClosingBalance
 
         $sql = "SELECT ledger_id AS id, SUM( debit - credit ) AS balance
         FROM erp_acct_opening_balances
-        WHERE financial_year_id = %d AND type = 'people' GROUP BY ledger_id HAVING balance > 0";
+        WHERE financial_year_id = {$id} AND type = 'people' GROUP BY ledger_id HAVING balance > 0";
 
-        return $wpdb->get_results($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -408,9 +410,9 @@ class ClosingBalance
 
         $sql = "SELECT ledger_id AS id, SUM( debit - credit ) AS balance
         FROM erp_acct_opening_balances
-        WHERE financial_year_id = %d AND type = 'people' GROUP BY ledger_id HAVING balance < 0";
+        WHERE financial_year_id = {$id} AND type = 'people' GROUP BY ledger_id HAVING balance < 0";
 
-        return $wpdb->get_results($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -461,12 +463,12 @@ class ClosingBalance
         }
 
         $sql = "SELECT agency_id AS id, SUM( debit - credit ) AS balance FROM erp_acct_tax_agency_details
-        WHERE trn_date BETWEEN '%s' AND '%s'
+        WHERE trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}'
         GROUP BY agency_id {$having}";
 
-        $data = $wpdb->get_results($wpdb->prepare($sql, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data = DB::select($sql);
 
-        return $this->salesTaxAgencyWithOpeningBalance($args['start_date'], $data, $sql, $type);
+        return $this->salesTaxAgencyWithOpeningBalance($args['start_date'], $data, $sql, $type, $having);
     }
 
     /**
@@ -479,7 +481,7 @@ class ClosingBalance
      *
      * @return float
      */
-    function salesTaxAgencyWithOpeningBalance($bs_start_date, $data, $sql, $type)
+    function salesTaxAgencyWithOpeningBalance($bs_start_date, $data, $sql, $type, $having)
     {
 
         $trialbal = new TrialBalance();
@@ -500,11 +502,16 @@ class ClosingBalance
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($bs_start_date)));
         }
 
+
+        $sql = "SELECT agency_id AS id, SUM( debit - credit ) AS balance FROM erp_acct_tax_agency_details
+        WHERE trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_tb_start}'
+        GROUP BY agency_id {$having}";
+
         // get agency details data between
         //     `financial year start date`
         // and
         //     `previous date from trial balance start date`
-        $agency_details_balance = $wpdb->get_results($wpdb->prepare($sql, $closest_fy_date['start_date'], $prev_date_of_tb_start), ARRAY_A);
+        $agency_details_balance = DB::select($sql);
 
         $merged = array_merge($result, $agency_details_balance);
 
@@ -531,6 +538,6 @@ class ClosingBalance
             FROM erp_acct_opening_balances
             WHERE type = 'tax_agency' GROUP BY ledger_id {$having}";
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return DB::select($sql);
     }
 }

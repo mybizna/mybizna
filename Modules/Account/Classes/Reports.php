@@ -69,7 +69,7 @@ class Reports
 
         $wpdb->query("SET SESSION sql_mode='';");
 
-        $details = $wpdb->get_results($sql2, ARRAY_A);
+        $details = DB::select($sql2, ARRAY_A);
 
         $total_debit  = 0;
         $total_credit = 0;
@@ -188,7 +188,7 @@ class Reports
         $opening_balance    = (float) $db_opening_balance;
 
         // agency details
-        $details = $wpdb->get_results($wpdb->prepare("SELECT trn_no, particulars, debit, credit, trn_date, created_at FROM erp_acct_tax_agency_details WHERE agency_id = %d AND trn_date BETWEEN '%s' AND '%s'", $agency_id, $start_date, $end_date), ARRAY_A);
+        $details = DB::select($wpdb->prepare("SELECT trn_no, particulars, debit, credit, trn_date, created_at FROM erp_acct_tax_agency_details WHERE agency_id = %d AND trn_date BETWEEN '%s' AND '%s'", $agency_id, $start_date, $end_date), ARRAY_A);
 
         $total_debit  = 0;
         $total_credit = 0;
@@ -315,7 +315,7 @@ class Reports
             $sql['where'] .= " AND inv.tax > 0";
         }
 
-        return $wpdb->get_results(
+        return DB::select(
             $wpdb->prepare(
                 "SELECT {$sql['select']} FROM {$sql['from']} WHERE {$sql['where']} {$sql['extra']}",
                 $values
@@ -375,7 +375,7 @@ class Reports
         // get opening balance data within that(^) financial year
         $opening_balance = $this->isOpeningBalanceByFnYearId($closest_fy_date['id'], $chart_id);
 
-        $ledgers   = $wpdb->get_results($wpdb->prepare("SELECT ledger.id, ledger.name FROM erp_acct_ledgers AS ledger WHERE ledger.chart_id = %d", $chart_id), ARRAY_A);
+        $ledgers   = DB::select($wpdb->prepare("SELECT ledger.id, ledger.name FROM erp_acct_ledgers AS ledger WHERE ledger.chart_id = %d", $chart_id), ARRAY_A);
         $temp_data = $this->getIsBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
         $result    = [];
 
@@ -400,7 +400,7 @@ class Reports
         }
 
         // get ledger details data between `financial year start date` and `previous date from balance sheet start date`
-        $ledger_details = $wpdb->get_results(
+        $ledger_details = DB::select(
             $wpdb->prepare($sql, $closest_fy_date['start_date'], $is_date),
             ARRAY_A
         );
@@ -488,7 +488,7 @@ class Reports
         WHERE opb.financial_year_id = %d {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
         GROUP BY opb.ledger_id";
 
-        return $wpdb->get_results($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($wpdb->prepare($sql, $id), ARRAY_A);
     }
 
     /**
@@ -547,9 +547,9 @@ class Reports
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=3 AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '%s' AND '%s'
         GROUP BY ledger_detail.ledger_id";
 
-        $data1 = $wpdb->get_results($wpdb->prepare($sql1, $args['start_date'], $args['end_date']), ARRAY_A);
-        $data2 = $wpdb->get_results($wpdb->prepare($sql2, $args['start_date'], $args['end_date']), ARRAY_A);
-        $data3 = $wpdb->get_results($wpdb->prepare($sql3, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data1 = DB::select($wpdb->prepare($sql1, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data2 = DB::select($wpdb->prepare($sql2, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data3 = DB::select($wpdb->prepare($sql3, $args['start_date'], $args['end_date']), ARRAY_A);
 
         $results['rows1'] = $this->balanceSheetCalculateWithOpeningBalance($args['start_date'], $data1, $sql1, 1);
         $results['rows2'] = $this->balanceSheetCalculateWithOpeningBalance($args['start_date'], $data2, $sql2, 2);
@@ -721,7 +721,7 @@ class Reports
         FROM erp_acct_ledgers AS ledger
         WHERE ledger.chart_id={$chart_id} AND ledger.slug <> 'owner_s_equity'";
 
-        $ledgers   = $wpdb->get_results($ledger_sql, ARRAY_A);
+        $ledgers   = DB::select($ledger_sql, ARRAY_A);
         $temp_data = $this->getBsBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
         $result    = [];
 
@@ -746,7 +746,7 @@ class Reports
         }
 
         // get ledger details data between `financial year start date` and `previous date from balance sheet start date`
-        $ledger_details = $wpdb->get_results(
+        $ledger_details = DB::select(
             $wpdb->prepare($sql, $closest_fy_date['start_date'], $bs_date),
             ARRAY_A
         );
@@ -834,7 +834,7 @@ class Reports
         WHERE opb.financial_year_id = %d {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
         GROUP BY opb.ledger_id";
 
-        return $wpdb->get_results($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($wpdb->prepare($sql, $id), ARRAY_A);
     }
 
     /**
@@ -882,8 +882,8 @@ class Reports
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=5 AND ledger_detail.trn_date BETWEEN '%s' AND '%s'
         GROUP BY ledger_detail.ledger_id";
 
-        $data1 = $wpdb->get_results($wpdb->prepare($sql1, $args['start_date'], $args['end_date']), ARRAY_A);
-        $data2 = $wpdb->get_results($wpdb->prepare($sql2, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data1 = DB::select($wpdb->prepare($sql1, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data2 = DB::select($wpdb->prepare($sql2, $args['start_date'], $args['end_date']), ARRAY_A);
 
         $results['rows1'] = $this->incomeStatementCalculateWithOpeningBalance($args['start_date'], $data1, $sql1, 4);
         $results['rows2'] = $this->incomeStatementCalculateWithOpeningBalance($args['start_date'], $data2, $sql2, 5);

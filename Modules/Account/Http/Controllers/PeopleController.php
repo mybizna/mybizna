@@ -102,7 +102,7 @@ class PeopleController extends Controller
      */
     public function get_people_address($request)
     {
-       
+
         $people = new People();
 
         $id = (int) $request['id'];
@@ -111,7 +111,8 @@ class PeopleController extends Controller
             return new WP_Error('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d", $id), ARRAY_A);
+        $row = DB::select($wpdb->prepare("SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d", $id), ARRAY_A);
+        $row = (!empty($row)) ? $row[0] : null;
 
         return new WP_REST_Response($people->formatPeopleAddress($row), 200);
     }

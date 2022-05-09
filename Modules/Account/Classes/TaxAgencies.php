@@ -39,7 +39,7 @@ class TaxAgencies
         if ($args['count']) {
             $tax_agencies_count = DB::scalar($sql);
         } else {
-            $tax_agencies = $wpdb->get_results($sql, ARRAY_A);
+            $tax_agencies = DB::select($sql, ARRAY_A);
         }
 
         if ($args['count']) {
@@ -60,25 +60,26 @@ class TaxAgencies
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
-
+        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
+        $row = (!empty($row)) ? $row[0] : null;
         return $row;
-        /**
-         * Get an single tax agency
-         *
-         * @param $tax_no
-         *
-         * @return mixed
-         */
-        function getTaxAgencyById($id)
-        {
-
-
-            $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", $id), ARRAY_A);
-
-            return $row;
-        }
     }
+    /**
+     * Get an single tax agency
+     *
+     * @param $tax_no
+     *
+     * @return mixed
+     */
+    function getTaxAgencyById($id)
+    {
+
+
+        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", $id), ARRAY_A);
+        $row = (!empty($row)) ? $row[0] : null;
+        return $row;
+    }
+
 
     /**
      * Insert tax agency
@@ -130,17 +131,15 @@ class TaxAgencies
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        $wpdb->update(
-            'erp_acct_tax_agencies',
-            [
-                'name'       => $tax_data['agency_name'],
-                'updated_at' => $tax_data['updated_at'],
-                'updated_by' => $tax_data['updated_by'],
-            ],
-            [
-                'id' => $id,
-            ]
-        );
+        DB::table('erp_acct_tax_agencies')
+            ->where('id', $id)
+            ->update(
+                [
+                    'name'       => $tax_data['agency_name'],
+                    'updated_at' => $tax_data['updated_at'],
+                    'updated_by' => $tax_data['updated_by'],
+                ]
+            );
 
 
         return $id;
@@ -157,7 +156,7 @@ class TaxAgencies
     {
 
 
-        $wpdb->delete('erp_acct_tax_agencies', ['id' => $id]);
+        DB::table('erp_acct_tax_agencies')->where([['id' => $id]])->delete();
 
 
         return $id;
@@ -174,13 +173,14 @@ class TaxAgencies
     {
 
 
-        $row = $wpdb->get_row(
+        $row = DB::select(
             $wpdb->prepare(
                 "SELECT name FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1",
                 $agency_id
             ),
             ARRAY_A
         );
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row['name'];
     }

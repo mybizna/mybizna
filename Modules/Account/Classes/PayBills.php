@@ -46,7 +46,7 @@ class PayBills
             return DB::scalar($sql);
         }
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return DB::select($sql, ARRAY_A);
     }
 
     /**
@@ -60,7 +60,7 @@ class PayBills
     {
 
 
-        $row = $wpdb->get_row(
+        $row = DB::select(
             $wpdb->prepare(
                 "SELECT
             pay_bill.id,
@@ -82,6 +82,8 @@ class PayBills
             ARRAY_A
         );
 
+        $row = (!empty($row)) ? $row[0] : null;
+
         $row['bill_details'] = $this->formatPaybillLineItems($bill_no);
         $row['pdf_link']    = $this->pdfAbsPathToUrl($bill_no);
 
@@ -95,7 +97,7 @@ class PayBills
     {
 
 
-        return $wpdb->get_results(
+        return DB::select(
             $wpdb->prepare(
                 "SELECT pay_bill_detail.id,
             pay_bill_detail.voucher_no,
@@ -122,6 +124,7 @@ class PayBills
     function insertPayBill($data)
     {
         $people = new People();
+        $common = new CommonFunc();
 
 
         $created_by         = auth()->user()->id;
@@ -268,60 +271,54 @@ class PayBills
 
             $pay_bill_data = $this->getFormattedPayBillData($data, $pay_bill_id);
 
-            $wpdb->update(
-                'erp_acct_pay_bill',
-                [
-                    'bill_no'     => $pay_bill_data['bill_no'],
-                    'trn_date'    => $pay_bill_data['trn_date'],
-                    'amount'      => $pay_bill_data['amount'],
-                    'type'        => $pay_bill_data['type'],
-                    'particulars' => $pay_bill_data['particulars'],
-                    'attachments' => $pay_bill_data['attachments'],
-                    'status'      => $pay_bill_data['status'],
-                    'created_at'  => $pay_bill_data['created_at'],
-                    'created_by'  => $pay_bill_data['created_by'],
-                    'updated_at'  => $pay_bill_data['updated_at'],
-                    'updated_by'  => $pay_bill_data['updated_by'],
-                ],
-                [
-                    'voucher_no' => $pay_bill_id,
-                ]
-            );
-
-            $items = $pay_bill_data['bill_details'];
-
-            foreach ($items as $key => $item) {
-                $wpdb->update(
-                    'erp_acct_pay_bill_details',
+            DB::table('erp_acct_pay_bill')
+                ->where('voucher_no', $pay_bill_id)
+                ->update(
                     [
-                        'bill_no'    => $item['voucher_no'],
-                        'amount'     => $item['amount'],
-                        'created_at' => $pay_bill_data['created_at'],
-                        'created_by' => $pay_bill_data['created_by'],
-                        'updated_at' => $pay_bill_data['updated_at'],
-                        'updated_by' => $pay_bill_data['updated_by'],
-                    ],
-                    [
-                        'voucher_no' => $pay_bill_id,
-                    ]
-                );
-
-                $wpdb->update(
-                    'erp_acct_bill_account_details',
-                    [
-                        'bill_no'     => $item['voucher_no'],
+                        'bill_no'     => $pay_bill_data['bill_no'],
+                        'trn_date'    => $pay_bill_data['trn_date'],
+                        'amount'      => $pay_bill_data['amount'],
+                        'type'        => $pay_bill_data['type'],
                         'particulars' => $pay_bill_data['particulars'],
-                        'debit'       => 0,
-                        'credit'      => $item['amount'],
+                        'attachments' => $pay_bill_data['attachments'],
+                        'status'      => $pay_bill_data['status'],
                         'created_at'  => $pay_bill_data['created_at'],
                         'created_by'  => $pay_bill_data['created_by'],
                         'updated_at'  => $pay_bill_data['updated_at'],
                         'updated_by'  => $pay_bill_data['updated_by'],
-                    ],
-                    [
-                        'trn_no' => $pay_bill_id,
                     ]
                 );
+
+            $items = $pay_bill_data['bill_details'];
+
+            foreach ($items as $key => $item) {
+                DB::table('erp_acct_pay_bill_details')
+                    ->where('voucher_no', $pay_bill_id)
+                    ->update(
+                        [
+                            'bill_no'    => $item['voucher_no'],
+                            'amount'     => $item['amount'],
+                            'created_at' => $pay_bill_data['created_at'],
+                            'created_by' => $pay_bill_data['created_by'],
+                            'updated_at' => $pay_bill_data['updated_at'],
+                            'updated_by' => $pay_bill_data['updated_by'],
+                        ]
+                    );
+
+                DB::table('erp_acct_bill_account_details')
+                    ->where('trn_no', $pay_bill_id)
+                    ->update(
+                        [
+                            'bill_no'     => $item['voucher_no'],
+                            'particulars' => $pay_bill_data['particulars'],
+                            'debit'       => 0,
+                            'credit'      => $item['amount'],
+                            'created_at'  => $pay_bill_data['created_at'],
+                            'created_by'  => $pay_bill_data['created_by'],
+                            'updated_at'  => $pay_bill_data['updated_at'],
+                            'updated_by'  => $pay_bill_data['updated_by'],
+                        ]
+                    );
             }
 
             $this->updatePayBillDataIntoLedger($pay_bill_data, $pay_bill_id);
@@ -356,16 +353,16 @@ class PayBills
             return;
         }
 
-        $wpdb->update(
-            'erp_acct_pay_bill',
-            [
-                'status' => 8,
-            ],
-            ['voucher_no' => $id]
-        );
+        DB::table('erp_acct_pay_bill')
+            ->where('voucher_no', $id)
+            ->update(
+                [
+                    'status' => 8,
+                ]
+            );
 
-        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $id]);
-        $wpdb->delete('erp_acct_bill_account_details', ['trn_no' => $id]);
+        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
+        DB::table('erp_acct_bill_account_details')->where([['trn_no' => $id]])->delete();
     }
 
     /**
@@ -462,23 +459,21 @@ class PayBills
         }
 
         // Update amount in ledger_details
-        $wpdb->update(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $pay_bill_data['trn_by_ledger_id'],
-                'particulars' => $pay_bill_data['particulars'],
-                'debit'       => 0,
-                'credit'      => $pay_bill_data['amount'],
-                'trn_date'    => $pay_bill_data['trn_date'],
-                'created_at'  => $pay_bill_data['created_at'],
-                'created_by'  => $pay_bill_data['created_by'],
-                'updated_at'  => $pay_bill_data['updated_at'],
-                'updated_by'  => $pay_bill_data['updated_by'],
-            ],
-            [
-                'trn_no' => $pay_bill_no,
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->where('trn_no', $pay_bill_no)
+            ->update(
+                [
+                    'ledger_id'   => $pay_bill_data['trn_by_ledger_id'],
+                    'particulars' => $pay_bill_data['particulars'],
+                    'debit'       => 0,
+                    'credit'      => $pay_bill_data['amount'],
+                    'trn_date'    => $pay_bill_data['trn_date'],
+                    'created_at'  => $pay_bill_data['created_at'],
+                    'created_by'  => $pay_bill_data['created_by'],
+                    'updated_at'  => $pay_bill_data['updated_at'],
+                    'updated_by'  => $pay_bill_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -490,8 +485,8 @@ class PayBills
     {
 
 
-        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_pay_bill');
-
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_pay_bill');
+        $row = (!empty($row)) ? $row[0] : null;
         return $row->count;
     }
 
@@ -509,21 +504,21 @@ class PayBills
         $due = $bills->getBillDue($bill_no);
 
         if (0 == $due) {
-            $wpdb->update(
-                'erp_acct_bills',
-                [
-                    'status' => 4,
-                ],
-                ['voucher_no' => $bill_no]
-            );
+            DB::table('erp_acct_bills')
+                ->where('voucher_no', $bill_no)
+                ->update(
+                    [
+                        'status' => 4,
+                    ]
+                );
         } else {
-            $wpdb->update(
-                'erp_acct_bills',
-                [
-                    'status' => 5,
-                ],
-                ['voucher_no' => $bill_no]
-            );
+            DB::table('erp_acct_bills')
+                ->where('voucher_no', $bill_no)
+                ->update(
+                    [
+                        'status' => 5,
+                    ]
+                );
         }
     }
 }

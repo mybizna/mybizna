@@ -60,7 +60,7 @@ class Invoices
             return DB::scalar($sql);
         }
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -113,7 +113,10 @@ class Invoices
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = $wpdb->get_row($sql, ARRAY_A);
+        $row = DB::select($sql, ARRAY_A);
+
+        $row = (!empty($row)) ? $row[0] : null;
+
 
         $row['line_items']  = $this->formatInvoiceLineItems($invoice_no);
 
@@ -167,7 +170,7 @@ class Invoices
             $voucher_no
         );
 
-        $results = $wpdb->get_results($sql, ARRAY_A);
+        $results = DB::select($sql);
 
         if (!empty(reset($results)['ecommerce_type'])) {
             // product name should not fetch form `erp_acct_products`
@@ -484,7 +487,9 @@ class Invoices
                 $this->updateDraftAndEstimate($data, $invoice_no);
             } else {
                 // disable editing on old invoice
-                $wpdb->update('erp_acct_voucher_no', ['editable' => 0], ['id' => $invoice_no]);
+                DB::table('erp_acct_voucher_no')
+                    ->where('id', $invoice_no)
+                    ->update(['editable' => 0]);
 
                 // insert contra voucher
                 $voucher_no =  DB::table('erp_acct_voucher_no')
@@ -584,31 +589,31 @@ class Invoices
 
             $invoice_data = $this->getFormattedInvoiceData($data, $invoice_no);
 
-            $wpdb->update(
-                'erp_acct_invoices',
-                [
-                    'customer_id'     => $invoice_data['customer_id'],
-                    'customer_name'   => $invoice_data['customer_name'],
-                    'trn_date'        => $invoice_data['trn_date'],
-                    'due_date'        => $invoice_data['due_date'],
-                    'billing_address' => $invoice_data['billing_address'],
-                    'amount'          => $invoice_data['amount'],
-                    'discount'        => $invoice_data['discount'],
-                    'discount_type'   => $invoice_data['discount_type'],
-                    'shipping'        => $invoice_data['shipping'],
-                    'shipping_tax'    => $invoice_data['shipping_tax'],
-                    'tax'             => $invoice_data['tax'],
-                    'estimate'        => false,
-                    'attachments'     => $invoice_data['attachments'],
-                    'status'          => 2,
-                    'particulars'     => $invoice_data['particulars'],
-                    'created_at'      => $invoice_data['created_at'],
-                    'created_by'      => $invoice_data['created_by'],
-                ],
-                ['voucher_no' => $invoice_no]
-            );
+            DB::table('erp_acct_invoices')
+                ->where('voucher_no', $invoice_no)
+                ->update(
+                    [
+                        'customer_id'     => $invoice_data['customer_id'],
+                        'customer_name'   => $invoice_data['customer_name'],
+                        'trn_date'        => $invoice_data['trn_date'],
+                        'due_date'        => $invoice_data['due_date'],
+                        'billing_address' => $invoice_data['billing_address'],
+                        'amount'          => $invoice_data['amount'],
+                        'discount'        => $invoice_data['discount'],
+                        'discount_type'   => $invoice_data['discount_type'],
+                        'shipping'        => $invoice_data['shipping'],
+                        'shipping_tax'    => $invoice_data['shipping_tax'],
+                        'tax'             => $invoice_data['tax'],
+                        'estimate'        => false,
+                        'attachments'     => $invoice_data['attachments'],
+                        'status'          => 2,
+                        'particulars'     => $invoice_data['particulars'],
+                        'created_at'      => $invoice_data['created_at'],
+                        'created_by'      => $invoice_data['created_by'],
+                    ]
+                );
 
-            $wpdb->delete('erp_acct_invoice_details', ['trn_no' => $invoice_no]);
+            DB::table('erp_acct_invoice_details')->where([['trn_no' => $invoice_no]])->delete();
 
             // insert data into invoice_details
             $this->insertInvoiceDetailsAndTax($invoice_data, $invoice_no);
@@ -653,25 +658,29 @@ class Invoices
 
         $invoice_data = $this->getFormattedInvoiceData($data, $invoice_no);
 
-        $wpdb->update('erp_acct_invoices', [
-            'customer_id'     => $invoice_data['customer_id'],
-            'customer_name'   => $invoice_data['customer_name'],
-            'trn_date'        => $invoice_data['trn_date'],
-            'due_date'        => $invoice_data['due_date'],
-            'billing_address' => $invoice_data['billing_address'],
-            'amount'          => $invoice_data['amount'],
-            'discount'        => $invoice_data['discount'],
-            'discount_type'   => $invoice_data['discount_type'],
-            'shipping'        => $invoice_data['shipping'],
-            'shipping_tax'    => $invoice_data['shipping_tax'],
-            'tax'             => $invoice_data['tax'],
-            'estimate'        => $invoice_data['estimate'],
-            'attachments'     => $invoice_data['attachments'],
-            'status'          => $invoice_data['status'],
-            'particulars'     => $invoice_data['particulars'],
-            'updated_at'      => $invoice_data['updated_at'],
-            'updated_by'      => $invoice_data['updated_by'],
-        ], ['voucher_no' => $invoice_no]);
+        DB::table('erp_acct_invoices')
+            ->where('voucher_no', $invoice_no)
+            ->update(
+                [
+                    'customer_id'     => $invoice_data['customer_id'],
+                    'customer_name'   => $invoice_data['customer_name'],
+                    'trn_date'        => $invoice_data['trn_date'],
+                    'due_date'        => $invoice_data['due_date'],
+                    'billing_address' => $invoice_data['billing_address'],
+                    'amount'          => $invoice_data['amount'],
+                    'discount'        => $invoice_data['discount'],
+                    'discount_type'   => $invoice_data['discount_type'],
+                    'shipping'        => $invoice_data['shipping'],
+                    'shipping_tax'    => $invoice_data['shipping_tax'],
+                    'tax'             => $invoice_data['tax'],
+                    'estimate'        => $invoice_data['estimate'],
+                    'attachments'     => $invoice_data['attachments'],
+                    'status'          => $invoice_data['status'],
+                    'particulars'     => $invoice_data['particulars'],
+                    'updated_at'      => $invoice_data['updated_at'],
+                    'updated_by'      => $invoice_data['updated_by'],
+                ]
+            );
 
         /*
      *? We can't update `invoice_details` directly
@@ -680,7 +689,7 @@ class Invoices
      *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
      *? so, remove previous rows to insert new rows
      */
-        $wpdb->delete('erp_acct_invoice_details', ['trn_no' => $invoice_no]);
+        DB::table('erp_acct_invoice_details')->where([['trn_no' => $invoice_no]])->delete();
 
         $this->insertInvoiceDetailsAndTax($invoice_data, $invoice_no);
     }
@@ -755,35 +764,31 @@ class Invoices
             return;
         }
 
-        $wpdb->update(
-            'erp_acct_invoices',
-            [
-                'status' => 8,
-            ],
-            ['voucher_no' => $invoice_no]
-        );
+        DB::table('erp_acct_invoices')
+            ->where('voucher_no', $invoice_no)
+            ->update(
+                [
+                    'status' => 8,
+                ]
+            );
 
-        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $invoice_no]);
-        $wpdb->delete('erp_acct_invoice_account_details', ['invoice_no' => $invoice_no]);
+        DB::table('erp_acct_ledger_details')->where([['trn_no' => $invoice_no]])->delete();
+        DB::table('erp_acct_invoice_account_details')->where([['invoice_no' => $invoice_no]])->delete();
 
-        $results = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT
+        $results = DB::select(
+            "SELECT
             inv_detail_tax.id
             FROM erp_acct_invoice_details_tax as inv_detail_tax
             LEFT JOIN erp_acct_invoice_details as inv_detail ON inv_detail_tax.invoice_details_id = inv_detail.id
             LEFT JOIN erp_acct_invoices as invoice ON inv_detail.trn_no = invoice.voucher_no
-            WHERE inv_detail.trn_no = %d",
-                $invoice_no
-            ),
-            ARRAY_A
+            WHERE inv_detail.trn_no = {$invoice_no}"
         );
 
         foreach ($results as $result) {
-            $wpdb->delete('erp_acct_invoice_details_tax', ['id' => $result['id']]);
+            DB::table('erp_acct_invoice_details_tax')->where([['id' => $result['id']]])->delete();
         }
 
-        $wpdb->delete('erp_acct_tax_agency_details', ['trn_no' => $invoice_no]);
+        DB::table('erp_acct_tax_agency_details')->where([['trn_no' => $invoice_no]])->delete();
     }
 
     /**
@@ -918,34 +923,30 @@ class Invoices
 
 
         // Update amount in ledger_details
-        $wpdb->update(
-            'erp_acct_ledger_details',
-            [
-                'particulars' => $invoice_data['particulars'],
-                'credit'      => $invoice_data['amount'],
-                'trn_date'    => $invoice_data['trn_date'],
-                'updated_at'  => $invoice_data['updated_at'],
-                'updated_by'  => $invoice_data['updated_by'],
-            ],
-            [
-                'trn_no' => $invoice_no,
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->where('trn_no', $invoice_no)
+            ->update(
+                [
+                    'particulars' => $invoice_data['particulars'],
+                    'credit'      => $invoice_data['amount'],
+                    'trn_date'    => $invoice_data['trn_date'],
+                    'updated_at'  => $invoice_data['updated_at'],
+                    'updated_by'  => $invoice_data['updated_by'],
+                ]
+            );
 
         // Update discount in ledger_details
-        $wpdb->update(
-            'erp_acct_ledger_details',
-            [
-                'particulars' => $invoice_data['particulars'],
-                'debit'       => $invoice_data['discount'],
-                'trn_date'    => $invoice_data['trn_date'],
-                'updated_at'  => $invoice_data['updated_at'],
-                'updated_by'  => $invoice_data['updated_by'],
-            ],
-            [
-                'trn_no' => $invoice_no,
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->where('trn_no', $invoice_no)
+            ->update(
+                [
+                    'particulars' => $invoice_data['particulars'],
+                    'debit'       => $invoice_data['discount'],
+                    'trn_date'    => $invoice_data['trn_date'],
+                    'updated_at'  => $invoice_data['updated_at'],
+                    'updated_by'  => $invoice_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -957,7 +958,9 @@ class Invoices
     {
 
 
-        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_invoices');
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_invoices');
+
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row->count;
     }
@@ -1010,7 +1013,7 @@ class Invoices
             return DB::scalar($query);
         }
 
-        return $wpdb->get_results($query, ARRAY_A);
+        return DB::select($query);
     }
 
     /**
@@ -1024,7 +1027,10 @@ class Invoices
     {
 
 
-        $result = $wpdb->get_row($wpdb->prepare("SELECT invoice_no, SUM( ia.debit - ia.credit) as due FROM erp_acct_invoice_account_details as ia WHERE ia.invoice_no = %d GROUP BY ia.invoice_no", $invoice_no), ARRAY_A);
+        $result = DB::select($wpdb->prepare("SELECT invoice_no, SUM( ia.debit - ia.credit) as due FROM erp_acct_invoice_account_details as ia WHERE ia.invoice_no = %d GROUP BY ia.invoice_no", $invoice_no), ARRAY_A);
+
+        $result = (!empty($result)) ? $result[0] : null;
+
 
         return $result['due'];
     }
@@ -1056,7 +1062,7 @@ class Invoices
             $to_date
         );
 
-        $results = $wpdb->get_results($query, ARRAY_A);
+        $results = DB::select($query);
 
         return $results;
     }
@@ -1132,7 +1138,7 @@ class Invoices
     {
 
 
-        $result = $wpdb->get_row(
+        $result = DB::select(
             $wpdb->prepare(
                 "SELECT ia.invoice_no, SUM( ia.debit - ia.credit) as due
             FROM erp_acct_invoice_account_details as ia
@@ -1142,6 +1148,8 @@ class Invoices
             ),
             ARRAY_A
         );
+
+        $result = (!empty($result)) ? $result[0] : null;
 
         return $result['due'];
     }

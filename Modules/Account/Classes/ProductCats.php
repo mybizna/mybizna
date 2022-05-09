@@ -15,7 +15,7 @@ class ProductCats
     function getAllProductCats()
     {
 
-        $categories = $wpdb->get_results('SELECT * FROM ' . 'erp_acct_product_categories', ARRAY_A);
+        $categories = DB::select('SELECT * FROM ' . 'erp_acct_product_categories', ARRAY_A);
 
 
         return $categories;
@@ -32,8 +32,8 @@ class ProductCats
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_product_categories WHERE id = %d GROUP BY parent", $product_cat_id), ARRAY_A);
-
+        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_product_categories WHERE id = %d GROUP BY parent", $product_cat_id), ARRAY_A);
+        $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
 
@@ -99,20 +99,18 @@ class ProductCats
             $wpdb->query('START TRANSACTION');
             $product_cat_data = $this->getFormattedProductCatData($data);
 
-            $wpdb->update(
-                'erp_acct_product_categories',
-                [
-                    'name'       => $product_cat_data['name'],
-                    'parent'     => $product_cat_data['parent'],
-                    'created_at' => $product_cat_data['created_at'],
-                    'created_by' => $product_cat_data['created_by'],
-                    'updated_at' => $product_cat_data['updated_at'],
-                    'updated_by' => $product_cat_data['updated_by'],
-                ],
-                [
-                    'id' => $id,
-                ]
-            );
+            DB::table('erp_acct_product_categories')
+                ->where('id', $id)
+                ->update(
+                    [
+                        'name'       => $product_cat_data['name'],
+                        'parent'     => $product_cat_data['parent'],
+                        'created_at' => $product_cat_data['created_at'],
+                        'created_by' => $product_cat_data['created_by'],
+                        'updated_at' => $product_cat_data['updated_at'],
+                        'updated_by' => $product_cat_data['updated_by'],
+                    ]
+                );
 
             $wpdb->query('COMMIT');
         } catch (\Exception $e) {
@@ -156,6 +154,6 @@ class ProductCats
     {
 
 
-        $wpdb->delete('erp_acct_product_categories', ['id' => $product_cat_id]);
+        DB::table('erp_acct_product_categories')->where([['id' => $product_cat_id]])->delete();
     }
 }

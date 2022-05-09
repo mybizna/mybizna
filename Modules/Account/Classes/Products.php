@@ -70,7 +70,7 @@ class Products
         if ($args['count']) {
             $products_count = DB::scalar($sql);
         } else {
-            $products = $wpdb->get_results($sql, ARRAY_A);
+            $products = DB::select($sql, ARRAY_A);
         }
 
 
@@ -95,7 +95,7 @@ class Products
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = $wpdb->get_row(
+        $row = DB::select(
             "SELECT
             product.id,
             product.name,
@@ -115,6 +115,8 @@ class Products
         LEFT JOIN erp_acct_product_types AS product_type ON product.product_type_id = product_type.id WHERE product.id = {$product_id} LIMIT 1",
             ARRAY_A
         );
+
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
     }
@@ -138,13 +140,16 @@ class Products
             $wpdb->query('START TRANSACTION');
             $product_data = $products->getFormattedProductData($data);
 
-            $product_check =  $wpdb->get_row(
+            $product_check =  DB::select(
                 $wpdb->prepare(
                     "SELECT * FROM erp_acct_products where name = %s",
                     $product_data['name']
                 ),
                 OBJECT
             );
+
+
+        $product_check = (!empty($product_check)) ? $product_check[0] : null;
 
             if ($product_check) {
                 throw new \Exception($product_data['name'] . ' ' . __('product already exists!', 'erp'));
@@ -199,7 +204,7 @@ class Products
             $wpdb->query('START TRANSACTION');
             $product_data = $products->getFormattedProductData($data);
 
-            $product_name_check =  $wpdb->get_row(
+            $product_name_check =  DB::select(
                 $wpdb->prepare(
                     "SELECT * FROM erp_acct_products where name = %s AND id NOT IN(%d)",
                     $product_data['name'],
@@ -208,29 +213,30 @@ class Products
                 OBJECT
             );
 
+            $product_name_check = (!empty($product_name_check)) ? $product_name_check[0] : null;
+
+
             if ($product_name_check) {
                 throw new \Exception($product_data['name'] . ' ' . __("Product name already exists!", "erp"));
             }
 
-            $wpdb->update(
-                'erp_acct_products',
-                [
-                    'name'            => $product_data['name'],
-                    'product_type_id' => $product_data['product_type_id'],
-                    'category_id'     => $product_data['category_id'],
-                    'tax_cat_id'      => $product_data['tax_cat_id'],
-                    'vendor'          => $product_data['vendor'],
-                    'cost_price'      => $product_data['cost_price'],
-                    'sale_price'      => $product_data['sale_price'],
-                    'created_at'      => $product_data['updated_at'],
-                    'created_by'      => $product_data['updated_by'],
-                    'updated_at'      => $product_data['updated_at'],
-                    'updated_by'      => $product_data['updated_by'],
-                ],
-                [
-                    'id' => $id,
-                ]
-            );
+            DB::table('erp_acct_products')
+                ->where('id', $id)
+                ->update(
+                    [
+                        'name'            => $product_data['name'],
+                        'product_type_id' => $product_data['product_type_id'],
+                        'category_id'     => $product_data['category_id'],
+                        'tax_cat_id'      => $product_data['tax_cat_id'],
+                        'vendor'          => $product_data['vendor'],
+                        'cost_price'      => $product_data['cost_price'],
+                        'sale_price'      => $product_data['sale_price'],
+                        'created_at'      => $product_data['updated_at'],
+                        'created_by'      => $product_data['updated_by'],
+                        'updated_at'      => $product_data['updated_at'],
+                        'updated_by'      => $product_data['updated_by'],
+                    ]
+                );
 
             $wpdb->query('COMMIT');
         } catch (\Exception $e) {
@@ -281,8 +287,8 @@ class Products
     {
 
 
-        $wpdb->delete('erp_acct_products', ['id' => $product_id]);
-        $wpdb->delete('erp_acct_product_details', ['product_id' => $product_id]);
+        DB::table('erp_acct_products')->where([['id' => $product_id]])->delete();
+        DB::table('erp_acct_product_details')->where([['product_id' => $product_id]])->delete();
 
 
         do_action('erp_acct_after_change_product_list');
@@ -301,7 +307,7 @@ class Products
     {
 
 
-        $types = $wpdb->get_results("SELECT * FROM erp_acct_product_types");
+        $types = DB::select("SELECT * FROM erp_acct_product_types");
 
         return apply_filters('erp_acct_product_types', $types);
     }
@@ -376,7 +382,7 @@ class Products
         if ($args['count']) {
             $products_vendor_count = DB::scalar($sql);
         } else {
-            $products_vendor = $wpdb->get_results($sql, ARRAY_A);
+            $products_vendor = DB::select($sql, ARRAY_A);
         }
 
 
@@ -596,7 +602,7 @@ class Products
                 $field_data['updated_at'] = $curr_date;
                 $field_data['updated_by'] = $user;
 
-                $wpdb->update("erp_acct_products", $field_data, ['id' => $id]);
+                DB::table("erp_acct_products")->where('id', $id)->update($field_data);
             }
         }
 

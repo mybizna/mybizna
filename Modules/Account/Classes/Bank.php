@@ -25,7 +25,7 @@ class Bank
      * @param boolean $show_balance If to show balance
      * @param boolean $with_cash    If has cash
      * @param boolean $no_bank      No Bank
-     * 
+     *
      * @return array
      */
     function getBanks($show_balance = false, $with_cash = false, $no_bank = false)
@@ -69,7 +69,7 @@ class Bank
 
         if (!$show_balance) {
             $query   = "SELECT * FROM $ledgers" . $where . $cash_ledger;
-            $results = $wpdb->get_results($query, ARRAY_A);
+            $results = DB::select($query);
 
             return $results;
         }
@@ -82,7 +82,7 @@ class Bank
               Where ld.ledger_id IN ($sub_query)
               Group BY ld.ledger_id";
 
-        $temp_accts = $wpdb->get_results($query, ARRAY_A);
+        $temp_accts = DB::select($query);
 
         if ($with_cash) {
             // little hack to solve -> opening_balance cash entry with no ledger_details cash entry
@@ -195,10 +195,9 @@ class Bank
     function getBank($bank_no)
     {
 
+        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_cash_at_banks WHERE ledger_id = %d", $bank_no), ARRAY_A);
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_cash_at_banks WHERE ledger_id = %d", $bank_no), ARRAY_A);
-
-        return $row;
+        return (!empty($row)) ? $row[0] : null;
     }
 
     /**
@@ -247,7 +246,7 @@ class Bank
 
         try {
             $wpdb->query('START TRANSACTION');
-            $wpdb->delete('erp_acct_cash_at_banks', ['ledger_id' => $id]);
+            DB::table('erp_acct_cash_at_banks')->where([['ledger_id' => $id]])->delete();
             $wpdb->query('COMMIT');
         } catch (\Exception $e) {
             $wpdb->query('ROLLBACK');
@@ -277,21 +276,21 @@ class Bank
      * Get balance of a single account
      *
      * @param int $ledger_id ledger Id
-     * 
+     *
      * @return mixed
      */
     function getSingleAccountBalance($ledger_id)
     {
 
 
-        $result = $wpdb->get_row($wpdb->prepare("SELECT ledger_id, SUM(credit) - SUM(debit) AS 'balance' FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
+        $result = DB::select($wpdb->prepare("SELECT ledger_id, SUM(credit) - SUM(debit) AS 'balance' FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
 
-        return $result;
+        return  (!empty($result)) ? $result[0] : null;
     }
 
     /**
      * Get account debit credit
-     * 
+     *
      * @param int $ledger_id Ledger Id
      *
      * @return array
@@ -311,7 +310,7 @@ class Bank
      * Perform transfer amount between two account
      *
      * @param array $item Record to transfer
-     * 
+     *
      * @return mixed
      */
     function performTransfer($item)
@@ -400,7 +399,7 @@ class Bank
 
     /**
      * Sync dashboard account on transfer
-     * 
+     *
      * @return mixed
      */
     function syncDashboardAccounts()
@@ -410,21 +409,24 @@ class Bank
         $accounts = $this->GetBanks(true, true, false);
 
         foreach ($accounts as $account) {
-            $wpdb->update(
-                'erp_acct_cash_at_banks',
-                [
-                    'balance' => $account['balance'],
-                ],
-                [
-                    'ledger_id' => $account['ledger_id'],
-                ]
-            );
+            DB::table('erp_acct_cash_at_banks')
+
+                ->where(
+                    [
+                        'ledger_id' => $account['ledger_id'],
+                    ]
+                )
+                ->update(
+                    [
+                        'balance' => $account['balance'],
+                    ]
+                );
         }
     }
 
     /**
      * Get transferrable accounts
-     * 
+     *
      * @return array
      */
     function getTransferAccounts($show_balance = false)
@@ -462,7 +464,7 @@ class Bank
             $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
         }
 
-        $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM erp_acct_transfer_voucher ORDER BY %s %s %s", $args['order_by'], $args['order'], $limit), ARRAY_A);
+        $result = DB::select("SELECT * FROM erp_acct_transfer_voucher ORDER BY {$args['order_by']} {$args['order']} {$limit}");
 
         return $result;
     }
@@ -482,9 +484,9 @@ class Bank
             return;
         }
 
-        $result = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_transfer_voucher WHERE id = %d", $id));
+        $result = DB::select($wpdb->prepare("SELECT * FROM erp_acct_transfer_voucher WHERE id = %d", $id));
 
-        return $result;
+        return (!empty($result)) ? $result[0] : null;
     }
 
     /**
@@ -503,7 +505,7 @@ class Bank
 
         $table_name = 'erp_acct_ledger_details';
         $query      = "Select ld.ledger_id,SUM(ld.debit - ld.credit) as balance From $table_name as ld Where ld.ledger_id IN ($id) Group BY ld.ledger_id ";
-        $result     = $wpdb->get_results($query, ARRAY_A);
+        $result     = DB::select($query);
 
         return $result;
     }

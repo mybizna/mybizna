@@ -40,7 +40,7 @@ class TaxRateNames
         if ($args['count']) {
             $tax_rates_count = DB::scalar($sql);
         } else {
-            $tax_rates = $wpdb->get_results($sql, ARRAY_A);
+            $tax_rates = DB::select($sql, ARRAY_A);
         }
 
         if ($args['count']) {
@@ -61,8 +61,8 @@ class TaxRateNames
     {
 
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM erp_acct_taxes WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
-
+        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_taxes WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
+        $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
 
@@ -99,8 +99,6 @@ class TaxRateNames
                     'updated_by'    => $tax_data['updated_by'],
                 ]
             );
-
-
     }
 
     /**
@@ -124,19 +122,17 @@ class TaxRateNames
             $wpdb->query("UPDATE erp_acct_taxes SET `default` = 0");
         }
 
-        $wpdb->update(
-            'erp_acct_taxes',
-            [
-                'tax_rate_name' => $tax_data['tax_rate_name'],
-                'tax_number'    => $tax_data['tax_number'],
-                'default'       => $tax_data['default'],
-                'updated_at'    => $tax_data['updated_at'],
-                'updated_by'    => $tax_data['updated_by'],
-            ],
-            [
-                'id' => $id,
-            ]
-        );
+        DB::table('erp_acct_taxes')
+            ->where('id', $id)
+            ->update(
+                [
+                    'tax_rate_name' => $tax_data['tax_rate_name'],
+                    'tax_number'    => $tax_data['tax_number'],
+                    'default'       => $tax_data['default'],
+                    'updated_at'    => $tax_data['updated_at'],
+                    'updated_by'    => $tax_data['updated_by'],
+                ]
+            );
 
 
         return $id;
@@ -153,7 +149,7 @@ class TaxRateNames
     {
 
 
-        $wpdb->delete('erp_acct_taxes', ['id' => $id]);
+        DB::table('erp_acct_taxes')->where([['id' => $id]])->delete();
 
 
         return $id;

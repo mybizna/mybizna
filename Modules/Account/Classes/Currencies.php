@@ -21,7 +21,7 @@ class Currencies
             return DB::scalar("SELECT count(*) FROM erp_acct_currency_info");
         }
 
-        return $wpdb->get_results("SELECT id, name, sign FROM erp_acct_currency_info", ARRAY_A);
+        return DB::select("SELECT id, name, sign FROM erp_acct_currency_info");
     }
 
     /**

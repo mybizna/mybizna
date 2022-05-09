@@ -47,7 +47,7 @@ class Bills
             return DB::scalar($sql);
         }
 
-        $rows = $wpdb->get_results($sql, ARRAY_A);
+        $rows = DB::select($sql);
 
         return $rows;
     }
@@ -91,7 +91,8 @@ class Bills
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = $wpdb->get_row($sql, ARRAY_A);
+        $row = DB::select($sql, ARRAY_A);
+        $row = (!empty($row)) ? $row[0] : null;
 
         $row['bill_details'] = $this->formatBillLineItems($bill_no);
         $row['pdf_link']    = $this->pdfAbsPathToUrl($bill_no);
@@ -129,7 +130,7 @@ class Bills
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -288,7 +289,9 @@ class Bills
                 $this->updateDraftBill($data, $bill_id);
             } else {
                 // disable editing on old bill
-                $wpdb->update('erp_acct_voucher_no', ['editable' => 0], ['id' => $bill_id]);
+                DB::table('erp_acct_voucher_no')
+                    ->where(['id' => $bill_id])
+                    ->update(['editable' => 0]);
 
                 // insert contra voucher
                 $voucher_no = DB::table('erp_acct_voucher_no')
@@ -403,25 +406,24 @@ class Bills
 
         $bill_data = $this->getFormattedBillData($data, $bill_id);
 
-        $wpdb->update(
-            'erp_acct_bills',
-            [
-                'vendor_id'   => $bill_data['vendor_id'],
-                'vendor_name' => $bill_data['vendor_name'],
-                'address'     => $bill_data['billing_address'],
-                'trn_date'    => $bill_data['trn_date'],
-                'due_date'    => $bill_data['due_date'],
-                'amount'      => $bill_data['amount'],
-                'ref'         => $bill_data['ref'],
-                'particulars' => $bill_data['particulars'],
-                'attachments' => $bill_data['attachments'],
-                'updated_at'  => $bill_data['updated_at'],
-                'updated_by'  => $bill_data['updated_by'],
-            ],
-            [
-                'voucher_no' => $bill_id,
-            ]
-        );
+        DB::table('erp_acct_bills')
+            ->where('voucher_no', $bill_id)
+            ->update(
+                [
+                    'vendor_id'   => $bill_data['vendor_id'],
+                    'vendor_name' => $bill_data['vendor_name'],
+                    'address'     => $bill_data['billing_address'],
+                    'trn_date'    => $bill_data['trn_date'],
+                    'due_date'    => $bill_data['due_date'],
+                    'amount'      => $bill_data['amount'],
+                    'ref'         => $bill_data['ref'],
+                    'particulars' => $bill_data['particulars'],
+                    'attachments' => $bill_data['attachments'],
+                    'updated_at'  => $bill_data['updated_at'],
+                    'updated_by'  => $bill_data['updated_by'],
+                ]
+            );
+
 
         /**
          *? We can't update `bill_details` directly
@@ -430,11 +432,11 @@ class Bills
          *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
          *? so, remove previous rows and insert new rows
          */
-        $prev_detail_ids = $wpdb->get_results($wpdb->prepare("SELECT id FROM erp_acct_bill_details WHERE trn_no = %d", $bill_id), ARRAY_A);
+        $prev_detail_ids = DB::select("SELECT id FROM erp_acct_bill_details WHERE trn_no = {$bill_id}");
 
         $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
-        $wpdb->delete('erp_acct_bill_details', ['trn_no' => $bill_id]);
+        DB::table('erp_acct_bill_details')->where([['trn_no' => $bill_id]])->delete();
 
         $items = $bill_data['bill_details'];
 
@@ -468,16 +470,16 @@ class Bills
             return;
         }
 
-        $wpdb->update(
-            'erp_acct_bills',
-            [
-                'status' => 8,
-            ],
-            ['voucher_no' => $id]
-        );
+        DB::table('erp_acct_bills')
+            ->where('voucher_no', $id)
+            ->update(
+                [
+                    'status' => 8,
+                ]
+            );
 
-        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $id]);
-        $wpdb->delete('erp_acct_bill_account_details', ['bill_no' => $id]);
+        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
+        DB::table('erp_acct_bill_account_details')->where([['bill_no' => $id]])->delete();
     }
 
     /**
@@ -600,7 +602,8 @@ class Bills
     {
 
 
-        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_bills');
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_bills');
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row->count;
     }
@@ -654,7 +657,7 @@ class Bills
             return DB::scalar($query);
         }
 
-        return $wpdb->get_results($query, ARRAY_A);
+        return DB::select($query);
     }
 
     /**
@@ -668,7 +671,8 @@ class Bills
     {
 
 
-        $result = $wpdb->get_row($wpdb->prepare("SELECT bill_no, SUM( ba.debit - ba.credit) as due FROM erp_acct_bill_account_details as ba WHERE ba.bill_no = %d GROUP BY ba.bill_no", $bill_no), ARRAY_A);
+        $result = DB::select($wpdb->prepare("SELECT bill_no, SUM( ba.debit - ba.credit) as due FROM erp_acct_bill_account_details as ba WHERE ba.bill_no = %d GROUP BY ba.bill_no", $bill_no), ARRAY_A);
+        $result = (!empty($result)) ? $result[0] : null;
 
         return $result['due'];
     }

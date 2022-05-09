@@ -49,7 +49,7 @@ class PayPurchases
             return DB::scalar($sql);
         }
 
-        return $wpdb->get_results($sql, ARRAY_A);
+        return DB::select($sql, ARRAY_A);
     }
 
     /**
@@ -66,7 +66,7 @@ class PayPurchases
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = $wpdb->get_row(
+        $row = DB::select(
             $wpdb->prepare(
                 "SELECT
                 pay_purchase.id,
@@ -90,6 +90,8 @@ class PayPurchases
             ARRAY_A
         );
 
+        $row = (!empty($row)) ? $row[0] : null;
+
         $row['purchase_details'] = $this->formatPayPurchaseLineItems($purchase_no);
         $row['pdf_link']    = $this->pdfAbsPathToUrl($purchase_no);
 
@@ -103,7 +105,7 @@ class PayPurchases
     {
 
 
-        return $wpdb->get_results(
+        return DB::select(
             $wpdb->prepare(
                 "SELECT * FROM erp_acct_pay_purchase AS pay_purchase
             LEFT JOIN erp_acct_pay_purchase_details AS pay_purchase_detail
@@ -131,6 +133,7 @@ class PayPurchases
 
         $people = new People();
         $bank = new Bank();
+        $common = new CommonFunc();
 
         $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
@@ -150,7 +153,7 @@ class PayPurchases
             }
 
             //create voucher
-           $voucher_no =  DB::table('erp_acct_voucher_no')
+            $voucher_no =  DB::table('erp_acct_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => $trn_type,
@@ -310,41 +313,37 @@ class PayPurchases
 
             $pay_purchase_data = $this->getFormattedPayPurchaseData($data, $pay_purchase_id);
 
-            $wpdb->update(
-                'erp_acct_pay_purchase',
-                [
-                    'trn_date'    => $pay_purchase_data['trn_date'],
-                    'amount'      => abs($pay_purchase_data['amount']),
-                    'trn_by'      => $pay_purchase_data['trn_by'],
-                    'particulars' => $pay_purchase_data['particulars'],
-                    'attachments' => $pay_purchase_data['attachments'],
-                    'created_at'  => $pay_purchase_data['created_at'],
-                    'created_by'  => $created_by,
-                    'updated_at'  => $pay_purchase_data['updated_at'],
-                    'updated_by'  => $pay_purchase_data['updated_by'],
-                ],
-                [
-                    'voucher_no' => $pay_purchase_id,
-                ]
-            );
-
-            $items = $pay_purchase_data['purchase_details'];
-
-            foreach ($items as $key => $item) {
-                $wpdb->update(
-                    'erp_acct_pay_purchase_details',
+            DB::table('erp_acct_pay_purchase')
+                ->where('voucher_no', $pay_purchase_id)
+                ->update(
                     [
-                        'purchase_no' => $item['voucher_no'],
-                        'amount'      => abs($item['amount']),
+                        'trn_date'    => $pay_purchase_data['trn_date'],
+                        'amount'      => abs($pay_purchase_data['amount']),
+                        'trn_by'      => $pay_purchase_data['trn_by'],
+                        'particulars' => $pay_purchase_data['particulars'],
+                        'attachments' => $pay_purchase_data['attachments'],
                         'created_at'  => $pay_purchase_data['created_at'],
                         'created_by'  => $created_by,
                         'updated_at'  => $pay_purchase_data['updated_at'],
                         'updated_by'  => $pay_purchase_data['updated_by'],
-                    ],
-                    [
-                        'voucher_no' => $pay_purchase_id,
                     ]
                 );
+
+            $items = $pay_purchase_data['purchase_details'];
+
+            foreach ($items as $key => $item) {
+                DB::table('erp_acct_pay_purchase_details')
+                    ->where('voucher_no', $pay_purchase_id)
+                    ->update(
+                        [
+                            'purchase_no' => $item['voucher_no'],
+                            'amount'      => abs($item['amount']),
+                            'created_at'  => $pay_purchase_data['created_at'],
+                            'created_by'  => $created_by,
+                            'updated_at'  => $pay_purchase_data['updated_at'],
+                            'updated_by'  => $pay_purchase_data['updated_by'],
+                        ]
+                    );
 
                 $this->updatePayPurchaseDataIntoLedger($pay_purchase_data, $pay_purchase_id, $item);
             }
@@ -365,23 +364,21 @@ class PayPurchases
                     $credit  = floatval($item['amount']);
                 }
 
-                $wpdb->update(
-                    'erp_acct_purchase_account_details',
-                    [
-                        'trn_no'      => $pay_purchase_id,
-                        'particulars' => $pay_purchase_data['particulars'],
-                        'debit'       => $debit,
-                        'credit'      => $credit,
-                        'trn_date'    => $pay_purchase_data['trn_date'],
-                        'created_at'  => $pay_purchase_data['created_at'],
-                        'created_by'  => $created_by,
-                        'updated_at'  => $pay_purchase_data['updated_at'],
-                        'updated_by'  => $pay_purchase_data['updated_by'],
-                    ],
-                    [
-                        'purchase_no' => $item['voucher_no'],
-                    ]
-                );
+                DB::table('erp_acct_purchase_account_details')
+                    ->where('purchase_no', $item['voucher_no'])
+                    ->update(
+                        [
+                            'trn_no'      => $pay_purchase_id,
+                            'particulars' => $pay_purchase_data['particulars'],
+                            'debit'       => $debit,
+                            'credit'      => $credit,
+                            'trn_date'    => $pay_purchase_data['trn_date'],
+                            'created_at'  => $pay_purchase_data['created_at'],
+                            'created_by'  => $created_by,
+                            'updated_at'  => $pay_purchase_data['updated_at'],
+                            'updated_by'  => $pay_purchase_data['updated_by'],
+                        ]
+                    );
             }
 
             $wpdb->query('COMMIT');
@@ -408,22 +405,18 @@ class PayPurchases
      */
     function voidPayPurchase($id)
     {
-
-
         if (!$id) {
             return;
         }
 
-        $wpdb->update(
-            'erp_acct_pay_purchase',
-            [
-                'status' => 8,
-            ],
-            ['voucher_no' => $id]
-        );
+        DB::table('erp_acct_pay_purchase')
+            ->where('voucher_no', $id)
+            ->update(
+                ['status' => 8]
+            );
 
-        $wpdb->delete('erp_acct_ledger_details', ['trn_no' => $id]);
-        $wpdb->delete('erp_acct_purchase_account_details', ['trn_no' => $id]);
+        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
+        DB::table('erp_acct_purchase_account_details')->where([['trn_no' => $id]])->delete();
     }
 
     /**
@@ -538,23 +531,25 @@ class PayPurchases
         }
 
         // Update amount in ledger_details
-        $wpdb->update(
-            'erp_acct_ledger_details',
-            [
-                'ledger_id'   => $pay_purchase_data['trn_by_ledger_id'],
-                'particulars' => $pay_purchase_data['particulars'],
-                'debit'       => $debit,
-                'credit'      => $credit,
-                'trn_date'    => $pay_purchase_data['trn_date'],
-                'created_at'  => $pay_purchase_data['created_at'],
-                'created_by'  => $pay_purchase_data['created_by'],
-                'updated_at'  => $pay_purchase_data['updated_at'],
-                'updated_by'  => $pay_purchase_data['updated_by'],
-            ],
-            [
-                'trn_no' => $pay_purchase_no,
-            ]
-        );
+        DB::table('erp_acct_ledger_details')
+            ->where(
+                [
+                    'trn_no' => $pay_purchase_no,
+                ]
+            )
+            ->update(
+                [
+                    'ledger_id'   => $pay_purchase_data['trn_by_ledger_id'],
+                    'particulars' => $pay_purchase_data['particulars'],
+                    'debit'       => $debit,
+                    'credit'      => $credit,
+                    'trn_date'    => $pay_purchase_data['trn_date'],
+                    'created_at'  => $pay_purchase_data['created_at'],
+                    'created_by'  => $pay_purchase_data['created_by'],
+                    'updated_at'  => $pay_purchase_data['updated_at'],
+                    'updated_by'  => $pay_purchase_data['updated_by'],
+                ]
+            );
     }
 
     /**
@@ -566,7 +561,8 @@ class PayPurchases
     {
 
 
-        $row = $wpdb->get_row('SELECT COUNT(*) as count FROM ' . 'erp_acct_pay_purchase');
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_pay_purchase');
+        $row = (!empty($row)) ? $row[0] : null;
 
         return $row->count;
     }
@@ -585,21 +581,21 @@ class PayPurchases
         $due = $purchases->getPurchaseDue($purchase_no);
 
         if (0 == $due) {
-            $wpdb->update(
-                'erp_acct_purchase',
-                [
-                    'status' => 4,
-                ],
-                ['voucher_no' => $purchase_no]
-            );
+            DB::table('erp_acct_purchase')
+                ->where('voucher_no', $purchase_no)
+                ->update(
+                    [
+                        'status' => 4,
+                    ]
+                );
         } else {
-            $wpdb->update(
-                'erp_acct_purchase',
-                [
-                    'status' => 5,
-                ],
-                ['voucher_no' => $purchase_no]
-            );
+            DB::table('erp_acct_purchase')
+                ->where('voucher_no', $purchase_no)
+                ->update(
+                    [
+                        'status' => 5,
+                    ]
+                );
         }
     }
 }

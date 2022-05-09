@@ -88,9 +88,11 @@ class JournalsController extends Controller
      */
     public function get_next_journal_id($request)
     {
-       
 
-        $count      = $wpdb->get_row('SELECT count(*) FROM ' . 'erp_acct_journals', ARRAY_N);
+
+        $count      = DB::select('SELECT count(*) FROM ' . 'erp_acct_journals', ARRAY_N);
+        $count = (!empty($count)) ? $count[0] : null;
+
         $item['id'] = $count['0'] + 1;
 
         $response = rest_ensure_response($item);
