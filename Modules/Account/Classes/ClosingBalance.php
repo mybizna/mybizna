@@ -20,7 +20,7 @@ class ClosingBalance
     {
 
 
-        $result = DB::select($wpdb->prepare("SELECT id, start_date, end_date FROM erp_acct_financial_years WHERE start_date > '%s' ORDER BY start_date ASC LIMIT 1", $date));
+        $result = DB::select("SELECT id, start_date, end_date FROM erp_acct_financial_years WHERE start_date > '?' ORDER BY start_date ASC LIMIT 1", [$date]);
 
         $result = (!empty($result)) ? $result[0] : null;
     }
@@ -44,11 +44,10 @@ class ClosingBalance
 
         // remove next financial year data if exists
         $wpdb->query(
-            $wpdb->prepare(
-                "DELETE FROM erp_acct_opening_balances
+            "DELETE FROM erp_acct_opening_balances
     WHERE financial_year_id = %d",
-                $next_f_year_id
-            )
+            [$next_f_year_id]
+
         );
 
         $ledger_map = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();

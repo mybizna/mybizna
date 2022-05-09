@@ -170,7 +170,7 @@ class Expenses
     {
 
 
-        $sql = $wpdb->prepare(
+        $sql =
             "SELECT
         expense.id,
         expense.voucher_no,
@@ -188,9 +188,7 @@ class Expenses
         LEFT JOIN erp_acct_expense_details AS expense_detail ON expense_detail.trn_no = expense.voucher_no
         LEFT JOIN erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id
 
-        WHERE expense.voucher_no={$voucher_no} AND expense.trn_by = 3",
-            $voucher_no
-        );
+        WHERE expense.voucher_no={$voucher_no} AND expense.trn_by = 3"
 
         return DB::select($sql);
     }
@@ -202,7 +200,7 @@ class Expenses
     {
 
 
-        $sql = $wpdb->prepare(
+        $sql =
             "SELECT
         expense_detail.id,
         expense_detail.ledger_id,
@@ -212,9 +210,9 @@ class Expenses
         expense_detail.amount
 
         FROM erp_acct_expenses AS expense
-        LEFT JOIN erp_acct_expense_details AS expense_detail ON expense.voucher_no = expense_detail.trn_no LEFT JOIN erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id WHERE expense.voucher_no = %d",
-            $voucher_no
-        );
+        LEFT JOIN erp_acct_expense_details AS expense_detail ON expense.voucher_no = expense_detail.trn_no LEFT JOIN erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id WHERE expense.voucher_no = {$voucher_no}",
+
+
 
         return DB::select($sql);
     }

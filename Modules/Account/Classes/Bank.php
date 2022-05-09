@@ -195,7 +195,7 @@ class Bank
     function getBank($bank_no)
     {
 
-        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_cash_at_banks WHERE ledger_id = %d", $bank_no), ARRAY_A);
+        $row = DB::select("SELECT * FROM erp_acct_cash_at_banks WHERE ledger_id = {$bank_no}");
 
         return (!empty($row)) ? $row[0] : null;
     }
@@ -283,7 +283,7 @@ class Bank
     {
 
 
-        $result = DB::select($wpdb->prepare("SELECT ledger_id, SUM(credit) - SUM(debit) AS 'balance' FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
+        $result = DB::select("SELECT ledger_id, SUM(credit) - SUM(debit) AS 'balance' FROM erp_acct_ledger_details WHERE ledger_id = {$ledger_id}");
 
         return  (!empty($result)) ? $result[0] : null;
     }
@@ -300,8 +300,8 @@ class Bank
 
         $dr_cr = [];
 
-        $dr_cr['debit']  = DB::scalar($wpdb->prepare("SELECT SUM(debit) FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id));
-        $dr_cr['credit'] = DB::scalar($wpdb->prepare("SELECT SUM(credit) FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id));
+        $dr_cr['debit']  = DB::scalar("SELECT SUM(debit) FROM erp_acct_ledger_details WHERE ledger_id = {$ledger_id}");
+        $dr_cr['credit'] = DB::scalar("SELECT SUM(credit) FROM erp_acct_ledger_details WHERE ledger_id = {$ledger_id}");
 
         return $dr_cr;
     }
@@ -484,7 +484,7 @@ class Bank
             return;
         }
 
-        $result = DB::select($wpdb->prepare("SELECT * FROM erp_acct_transfer_voucher WHERE id = %d", $id));
+        $result = DB::select("SELECT * FROM erp_acct_transfer_voucher WHERE id = {$id}");
 
         return (!empty($result)) ? $result[0] : null;
     }

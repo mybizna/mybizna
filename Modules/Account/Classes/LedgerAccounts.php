@@ -36,7 +36,7 @@ class LedgerAccounts
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT id, name  FROM erp_acct_ledgers WHERE id = %d", $ledger_id));
+        $row = DB::select("SELECT id, name  FROM erp_acct_ledgers WHERE id = %d", [$ledger_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row->name;
     }
@@ -61,7 +61,7 @@ class LedgerAccounts
     {
 
 
-        $exist = DB::scalar($wpdb->prepare("SELECT name FROM erp_acct_ledger_categories WHERE name = %s", $args['name']));
+        $exist = DB::scalar("SELECT name FROM erp_acct_ledger_categories WHERE name = %s", [$args['name']]);
 
         if (!$exist) {
             $id = DB::table("erp_acct_ledger_categories")
@@ -86,7 +86,7 @@ class LedgerAccounts
     {
 
 
-        $exist = DB::scalar($wpdb->prepare("SELECT name FROM erp_acct_ledger_categories WHERE name = %s AND id <> %d", $args['name'], $args['id']));
+        $exist = DB::scalar("SELECT name FROM erp_acct_ledger_categories WHERE name = %s AND id <> %d", [$args['name'], $args['id']]);
 
         if (!$exist) {
             return DB::table("erp_acct_ledger_categories")
@@ -113,7 +113,7 @@ class LedgerAccounts
     {
 
 
-        $parent_id = DB::scalar($wpdb->prepare("SELECT parent_id FROM erp_acct_ledger_categories WHERE id = %d", $id));
+        $parent_id = DB::scalar("SELECT parent_id FROM erp_acct_ledger_categories WHERE id = %d", [$id]);
 
         $table = "erp_acct_ledger_categories";
 
@@ -155,7 +155,7 @@ class LedgerAccounts
     {
 
 
-        $ledger = DB::select($wpdb->prepare("SELECT COUNT(*) as count FROM erp_acct_ledger_details WHERE ledger_id = %d", $ledger_id), ARRAY_A);
+        $ledger = DB::select("SELECT COUNT(*) as count FROM erp_acct_ledger_details WHERE ledger_id = %d", [$ledger_id]);
 
         $ledger = (!empty($ledger)) ? $ledger[0] : null;
 
@@ -173,7 +173,7 @@ class LedgerAccounts
     {
 
 
-        $ledger = DB::select($wpdb->prepare("SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_ledger_details as ld ON ledger.id = ld.ledger_id WHERE ledger.id = %d", $ledger_id), ARRAY_A);
+        $ledger = DB::select("SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_ledger_details as ld ON ledger.id = ld.ledger_id WHERE ledger.id = %d", [$ledger_id]);
         $ledger = (!empty($ledger)) ? $ledger[0] : null;
 
         return $ledger['balance'];
@@ -194,7 +194,7 @@ class LedgerAccounts
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_ledgers WHERE id = %d", $id));
+        $row = DB::select("SELECT * FROM erp_acct_ledgers WHERE id = %d", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -322,11 +322,8 @@ class LedgerAccounts
 
 
         return DB::select(
-            $wpdb->prepare(
                 "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_opening_balances AS opb ON ledger.id = opb.ledger_id WHERE opb.financial_year_id = %d opb.type = 'ledger' GROUP BY opb.ledger_id",
-                $id
-            ),
-            ARRAY_A
+                [$id]
         );
     }
 

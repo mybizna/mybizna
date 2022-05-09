@@ -396,8 +396,8 @@ class Taxes
 
 
         $row = DB::select(
-            $wpdb->prepare(
-                "SELECT
+
+            "SELECT
             tax.id,
             tax.voucher_no,
             tax.particulars,
@@ -410,9 +410,7 @@ class Taxes
             tax.created_at
             FROM erp_acct_tax_pay AS tax
             WHERE tax.voucher_no = %d LIMIT 1",
-                $voucher_no
-            ),
-            ARRAY_A
+            [$voucher_no]
         );
 
         $row = (!empty($row)) ? $row[0] : null;
@@ -730,7 +728,7 @@ class Taxes
             $args[] = $sync_slug;
         }
 
-        $system_id = DB::scalar($wpdb->prepare($sql, $args));
+        $system_id = DB::scalar($sql, $args);
 
         return !is_wp_error($system_id) ? (int) $system_id : null;
     }

@@ -111,7 +111,7 @@ class PeopleController extends Controller
             return new WP_Error('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $row = DB::select($wpdb->prepare("SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d", $id), ARRAY_A);
+        $row = DB::select("SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return new WP_REST_Response($people->formatPeopleAddress($row), 200);

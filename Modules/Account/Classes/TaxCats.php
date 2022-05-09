@@ -62,7 +62,7 @@ class TaxCats
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
+        $row = DB::select("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", [$tax_no]);
 $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -78,7 +78,7 @@ $row = (!empty($row)) ? $row[0] : null;
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", $id), ARRAY_A);
+        $row = DB::select("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }

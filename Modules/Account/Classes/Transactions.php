@@ -479,7 +479,7 @@ class Transactions
               AND ld.trn_date BETWEEN %s AND %s
               Group By Month(ld.trn_date)";
 
-        $results = DB::select($wpdb->prepare($query, $chart_id, $start_date, $end_date), ARRAY_A);
+        $results = DB::select($query, [$chart_id, $start_date, $end_date]);
 
         return $results;
     }
@@ -568,7 +568,7 @@ class Transactions
               AND ld.trn_date BETWEEN %s AND %s
               Group By ld.trn_date";
 
-        $results = DB::select($wpdb->prepare($query, $chart_id, $start_date, $end_date), ARRAY_A);
+        $results = DB::select($query, [$chart_id, $start_date, $end_date]);
 
         return $results;
     }
@@ -1600,7 +1600,7 @@ class Transactions
         {
 
 
-            return DB::scalar($wpdb->prepare("SELECT type FROM erp_acct_voucher_no WHERE id = %d", $voucher_no));
+            return DB::scalar("SELECT type FROM erp_acct_voucher_no WHERE id = %d", [$voucher_no]);
         }
 
         /**

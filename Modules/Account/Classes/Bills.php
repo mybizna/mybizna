@@ -63,7 +63,7 @@ class Bills
     {
 
 
-        $sql = $wpdb->prepare(
+        $sql =
             "SELECT
 
             voucher.editable,
@@ -84,9 +84,7 @@ class Bills
         FROM erp_acct_bills AS bill
         LEFT JOIN erp_acct_voucher_no as voucher ON bill.voucher_no = voucher.id
         LEFT JOIN erp_acct_bill_account_details AS b_ac_detail ON bill.voucher_no = b_ac_detail.trn_no
-        WHERE bill.voucher_no = %d",
-            $bill_no
-        );
+        WHERE bill.voucher_no = {$bill_no}";
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -110,7 +108,7 @@ class Bills
     {
 
 
-        $sql = $wpdb->prepare(
+        $sql =
             "SELECT
             b_detail.id,
             b_detail.trn_no,
@@ -123,9 +121,7 @@ class Bills
         FROM erp_acct_bills AS bill
         LEFT JOIN erp_acct_bill_details AS b_detail ON bill.voucher_no = b_detail.trn_no
         LEFT JOIN erp_acct_ledgers AS ledger ON ledger.id = b_detail.ledger_id
-        WHERE bill.voucher_no = %d",
-            $voucher_no
-        );
+        WHERE bill.voucher_no = { $voucher_no}";
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -311,15 +307,9 @@ class Bills
                 $old_bill = $this->getBill($bill_id);
 
                 // insert contra `erp_acct_bills` (basically a duplication of row)
-                $wpdb->query($wpdb->prepare("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_bills WHERE voucher_no = %d", $bill_id));
+                $wpdb->query("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_bills WHERE voucher_no ={$bill_id}");
                 $wpdb->query(
-                    $wpdb->prepare(
-                        "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
-                        0,
-                        $voucher_no,
-                        $bill_id,
-                        $data['created_at']
-                    )
+                    "UPDATE acct_tmptable SET id = 0, voucher_no = {$voucher_no}, particulars = 'Contra entry for voucher no \#{$bill_id}', created_at = '{$data['created_at']}'"
                 );
                 $wpdb->query("INSERT INTO erp_acct_bills SELECT * FROM acct_tmptable");
                 $wpdb->query('DROP TABLE acct_tmptable');
@@ -327,14 +317,15 @@ class Bills
                 // change bill status and other things
                 $status_closed = 7;
                 $wpdb->query(
-                    $wpdb->prepare(
-                        "UPDATE erp_acct_bills SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
+                    "UPDATE erp_acct_bills SET status = ?, updated_at ='?', updated_by = ? WHERE voucher_no IN (?, ?)",
+                    [
                         $status_closed,
                         $data['updated_at'],
                         $user_id,
                         $bill_id,
                         $voucher_no
-                    )
+                    ]
+
                 );
 
                 $items = $old_bill['bill_details'];
@@ -640,18 +631,16 @@ class Bills
         $bill_act_details = "erp_acct_bill_account_details";
         $items            = $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
 
-        $query = $wpdb->prepare(
+        $query =
             "SELECT $items FROM $bills as bill INNER JOIN (
             SELECT bill_no, ABS(SUM( ba.debit - ba.credit)) as due
             FROM $bill_act_details as ba
             GROUP BY ba.bill_no HAVING due > 0 ) as bs
             ON bill.voucher_no = bs.bill_no
-            WHERE bill.vendor_id = %d AND bill.status != 1
-            ORDER BY %s %s $limit",
-            $args['people_id'],
-            $args['orderby'],
-            $args['order']
-        );
+            WHERE bill.vendor_id = {$args['people_id']} AND bill.status != 1
+            ORDER BY {$args['orderby']} {$args['order']} $limit"
+
+        ;
 
         if ($args['count']) {
             return DB::scalar($query);
@@ -671,7 +660,7 @@ class Bills
     {
 
 
-        $result = DB::select($wpdb->prepare("SELECT bill_no, SUM( ba.debit - ba.credit) as due FROM erp_acct_bill_account_details as ba WHERE ba.bill_no = %d GROUP BY ba.bill_no", $bill_no), ARRAY_A);
+        $result = DB::select("SELECT bill_no, SUM( ba.debit - ba.credit) as due FROM erp_acct_bill_account_details as ba WHERE ba.bill_no = ? GROUP BY ba.bill_no", [$bill_no]);
         $result = (!empty($result)) ? $result[0] : null;
 
         return $result['due'];

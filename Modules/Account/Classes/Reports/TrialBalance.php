@@ -25,7 +25,7 @@ class TrialBalance
 
         $chart_bank = 7;
 
-        $sql1       = $wpdb->prepare("SELECT group_concat(id) FROM erp_acct_ledgers where chart_id = %d", $chart_bank);
+        $sql1       = "SELECT group_concat(id) FROM erp_acct_ledgers where chart_id = ". $chart_bank;
         $ledger_ids = implode(',', explode(',', DB::scalar($sql1))); // e.g. 4, 5
 
         if ($ledger_ids) {
@@ -33,7 +33,7 @@ class TrialBalance
         FROM erp_acct_ledger_details WHERE ledger_id IN ({$ledger_ids}) AND trn_date BETWEEN '%s' AND '%s'
         GROUP BY ledger_id) AS ledger_details";
 
-            $data = DB::scalar($wpdb->prepare($sql2, $args['start_date'], $args['end_date']));
+            $data = DB::scalar($sql2, [$args['start_date'], $args['end_date']]);
 
             $balance = $this->bankCashCalcWithOpeningBalance($args['start_date'], $data, $sql2, $type);
         }
@@ -65,9 +65,9 @@ class TrialBalance
         $sql = "SELECT ledger.id, ledger.name, SUM( debit - credit ) AS balance
         FROM erp_acct_ledgers AS ledger
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id
-        WHERE ledger.chart_id = %d AND trn_date BETWEEN '%s' AND '%s' GROUP BY ledger.id";
+        WHERE ledger.chart_id = {$chart_bank} AND trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}' GROUP BY ledger.id";
 
-        $data = DB::select($wpdb->prepare($sql, $chart_bank, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data = DB::select($sql);
 
         $balance = $this->bankBalanceCalcWithOpeningBalance($args['start_date'], $data, $sql, $type);
 
@@ -96,7 +96,7 @@ class TrialBalance
         FROM ( SELECT SUM( debit - credit ) AS balance FROM erp_acct_tax_agency_details
         WHERE trn_date BETWEEN '%s' AND '%s' GROUP BY agency_id {$having} ) AS get_amount";
 
-        $data = DB::scalar($wpdb->prepare($sql, $args['start_date'], $args['end_date']));
+        $data = DB::scalar($sql, [$args['start_date'], $args['end_date']]);
 
         return $this->salesTaxCalcWithOpeningBalance($args['start_date'], $data, $sql, $type);
     }
@@ -117,7 +117,7 @@ class TrialBalance
             GROUP BY invoice_no HAVING balance <> 0 )
         AS get_amount";
 
-        $data = DB::scalar($wpdb->prepare($sql, $args['start_date'], $args['end_date']));
+        $data = DB::scalar($sql, [$args['start_date'], $args['end_date']]);
 
         return $this->salesTaxCalcWithOpeningBalance($args, $data, 'receivable', $sql);
     }
@@ -145,8 +145,8 @@ class TrialBalance
         GROUP BY purchase_no HAVING balance <> 0 )
         AS get_amount";
 
-        $bill_amount     = DB::scalar($wpdb->prepare($bill_sql, $args['end_date']));
-        $purchase_amount = DB::scalar($wpdb->prepare($purchase_sql, $args['end_date']));
+        $bill_amount     = DB::scalar($bill_sql, [$args['end_date']]);
+        $purchase_amount = DB::scalar($purchase_sql, [$args['end_date']]);
 
         $data = (float) $bill_amount + (float) $purchase_amount;
 
@@ -173,7 +173,7 @@ class TrialBalance
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id
         WHERE ledger.slug = 'owner_s_equity' AND trn_date BETWEEN '%s' AND '%s' GROUP BY ledger.id {$having}";
 
-        $data = DB::scalar($wpdb->prepare($sql, $args['start_date'], $args['end_date']));
+        $data = DB::scalar($sql, [$args['start_date'], $args['end_date']]);
 
         return $this->ownersEquityCalcWithOpeningBalance($args['start_date'], $data, $sql, $type);
     }
@@ -212,7 +212,7 @@ class TrialBalance
 
 
         $balance = 0;
-        $query   = DB::scalar($wpdb->prepare($sql, $start_date, $end_date));
+        $query   = DB::scalar($sql, [$start_date, $end_date]);
 
         if ($query) {
             $balance += (float) $query;
@@ -279,7 +279,7 @@ class TrialBalance
 
         $result = [];
 
-        $ledger_details = DB::select($sql, ARRAY_A);
+        $ledger_details = DB::select($sql);
 
         if (!empty($temp_data)) {
             foreach ($temp_data as $temp) {
@@ -341,15 +341,13 @@ class TrialBalance
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($tb_start_date)));
         }
 
-        $sql = $wpdb->prepare(
+        $sql =
             "SELECT
         ledger.id, ledger.name, SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM erp_acct_ledgers AS ledger
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id
-        WHERE ledger.chart_id NOT IN ( 4, 5, 7 ) AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '%s' AND '%s' GROUP BY ledger_detail.ledger_id",
-            $closest_fy_date['start_date'],
-            $prev_date_of_tb_start
-        );
+        WHERE ledger.chart_id NOT IN ( 4, 5, 7 ) AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_tb_start}' GROUP BY ledger_detail.ledger_id",
+        ;
 
         $result = $this->getBalanceWithinLedgerDetailsAndTrialBalance($sql, $temp_data);
 
@@ -393,7 +391,7 @@ class TrialBalance
         //     `financial year start date`
         // and
         //     `previous date from trial balance start date`
-        $ledger_details_balance = DB::scalar($wpdb->prepare($sql, $closest_fy_date['start_date'], $prev_date_of_tb_start));
+        $ledger_details_balance = DB::scalar($sql, [$closest_fy_date['start_date'], $prev_date_of_tb_start]);
 
         if ($ledger_details_balance) {
             $balance += (float) $ledger_details_balance;
@@ -435,7 +433,12 @@ class TrialBalance
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($tb_start_date)));
         }
 
-        $sql = $wpdb->prepare($sql, $chart_bank, $closest_fy_date['start_date'], $prev_date_of_tb_start);
+        $sql = "SELECT ledger.id, ledger.name, SUM( debit - credit ) AS balance
+        FROM erp_acct_ledgers AS ledger
+        LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id
+        WHERE ledger.chart_id = {$chart_bank} AND trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_tb_start}' GROUP BY ledger.id";
+
+
 
         $result = $this->getBalanceWithinLedgerDetailsAndTrialBalance($sql, $temp_data);
 
@@ -479,7 +482,7 @@ class TrialBalance
         //     `financial year start date`
         // and
         //     `previous date from trial balance start date`
-        $ledger_details_balance = DB::scalar($wpdb->prepare($sql, $closest_fy_date['start_date'], $prev_date_of_tb_start));
+        $ledger_details_balance = DB::scalar($sql, [$closest_fy_date['start_date'], $prev_date_of_tb_start]);
 
         if ($ledger_details_balance) {
             $balance += (float) $ledger_details_balance;
@@ -552,7 +555,7 @@ class TrialBalance
                 GROUP BY people_id {$having} )
             AS get_amount";
 
-        return DB::scalar($wpdb->prepare($sql, $closest_fy_start_date, $tb_end_date));
+        return DB::scalar($sql, [$closest_fy_start_date, $tb_end_date]);
     }
 
     /**
@@ -592,7 +595,7 @@ class TrialBalance
         //     `financial year start date`
         // and
         //     `previous date from trial balance start date`
-        $ledger_details_balance = DB::scalar($wpdb->prepare($sql, $closest_fy_date['start_date'], $prev_date_of_tb_start));
+        $ledger_details_balance = DB::scalar(($sql, [$closest_fy_date['start_date'], $prev_date_of_tb_start]);
 
         if ($ledger_details_balance) {
             $balance += (float) $ledger_details_balance;
@@ -614,7 +617,7 @@ class TrialBalance
 
         $sql = "SELECT id, name, start_date, end_date FROM erp_acct_financial_years WHERE start_date <= '%s' ORDER BY start_date DESC LIMIT 1";
 
-        return DB::select($wpdb->prepare($sql, $date), ARRAY_A);
+        return DB::select($sql, [$date]);
     }
 
     /**
@@ -632,7 +635,7 @@ class TrialBalance
         $where = '';
 
         if ($chart_id) {
-            $where = $wpdb->prepare('AND ledger.chart_id = %d', $chart_id);
+            $where = 'AND ledger.chart_id = %d'. $chart_id;
         }
 
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
@@ -641,7 +644,7 @@ class TrialBalance
         WHERE opb.financial_year_id = %d {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
         GROUP BY opb.ledger_id";
 
-        return DB::select($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($sql, [$id]);
     }
 
     /**
@@ -660,7 +663,7 @@ class TrialBalance
             FROM erp_acct_opening_balances WHERE financial_year_id = %d AND chart_id = 7
             GROUP BY ledger_id) AS opb";
 
-        return DB::select($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($sql, [$id]);
     }
 
     /**
@@ -685,7 +688,7 @@ class TrialBalance
             FROM erp_acct_opening_balances
             WHERE financial_year_id = %d AND type = 'tax_agency' GROUP BY ledger_id {$having} ) AS opb";
 
-        return DB::select($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($sql,[$id]);
     }
 
     /**
@@ -705,7 +708,7 @@ class TrialBalance
         LEFT JOIN erp_acct_opening_balances AS opb ON ledger.id = opb.ledger_id
         WHERE opb.financial_year_id = %d AND ledger.chart_id = 7 GROUP BY opb.ledger_id";
 
-        return DB::select($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($sql, [$id]);
     }
 
     /**
@@ -731,7 +734,7 @@ class TrialBalance
         LEFT JOIN erp_acct_opening_balances AS opb ON ledger.id = opb.ledger_id
         WHERE opb.financial_year_id = %d AND opb.type = 'ledger' AND ledger.slug = 'owner_s_equity' {$having}";
 
-        return DB::scalar($wpdb->prepare($sql, $id));
+        return DB::scalar($sql, [$id]);
     }
 
     function peopleOpeningBalanceByFnYearId($id, $type)
@@ -748,7 +751,7 @@ class TrialBalance
         FROM erp_acct_opening_balances
         WHERE financial_year_id = %d AND type = 'people' GROUP BY ledger_id {$having} ) AS opb";
 
-        return DB::scalar($wpdb->prepare($sql, $id));
+        return DB::scalar($sql, [$id]);
     }
 
     /**
@@ -765,7 +768,7 @@ class TrialBalance
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id
         WHERE ledger.chart_id <> 7 AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '%s' AND '%s' GROUP BY ledger_detail.ledger_id";
 
-        $data = DB::select($wpdb->prepare($sql, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data = DB::select($sql, [$args['start_date'], $args['end_date']]);
 
         // All calculated DB results are inside `rows` key
         $results['rows'] = $this->calcWithOpeningBalance($args['start_date'], $data, $sql);

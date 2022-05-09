@@ -74,7 +74,7 @@ class Invoices
     {
 
 
-        $sql = $wpdb->prepare(
+        $sql =
             "SELECT
 
             voucher.editable,
@@ -106,9 +106,7 @@ class Invoices
         FROM erp_acct_invoices as invoice
         LEFT JOIN erp_acct_voucher_no as voucher ON invoice.voucher_no = voucher.id
         LEFT JOIN erp_acct_invoice_account_details as inv_acc_detail ON invoice.voucher_no = inv_acc_detail.trn_no
-        WHERE invoice.voucher_no = %d",
-            $invoice_no
-        );
+        WHERE invoice.voucher_no = {$invoice_no}";
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -142,7 +140,7 @@ class Invoices
     {
 
 
-        $sql = $wpdb->prepare(
+        $sql =
             "SELECT
         inv_detail.product_id,
         inv_detail.qty,
@@ -166,9 +164,7 @@ class Invoices
         LEFT JOIN erp_acct_invoice_details as inv_detail ON invoice.voucher_no = inv_detail.trn_no
         LEFT JOIN erp_acct_invoice_details_tax as inv_detail_tax ON inv_detail.id = inv_detail_tax.invoice_details_id
         LEFT JOIN erp_acct_products as product ON inv_detail.product_id = product.id
-        WHERE invoice.voucher_no = %d GROUP BY inv_detail.id",
-            $voucher_no
-        );
+        WHERE invoice.voucher_no = {$voucher_no} GROUP BY inv_detail.id";
 
         $results = DB::select($sql);
 
@@ -509,15 +505,16 @@ class Invoices
                 $old_invoice = $this->getInvoice($invoice_no);
 
                 // insert contra `erp_acct_invoices` (basically a duplication of row)
-                $wpdb->query($wpdb->prepare("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_invoices WHERE voucher_no = %d", $invoice_no));
+                $wpdb->query("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_invoices WHERE voucher_no = %d", [$invoice_no]);
                 $wpdb->query(
-                    $wpdb->prepare(
-                        "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
+
+                    "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
+                    [
                         0,
                         $voucher_no,
                         $invoice_no,
                         $data['created_at']
-                    )
+                    ]
                 );
                 $wpdb->query("INSERT INTO erp_acct_invoices SELECT * FROM acct_tmptable");
                 $wpdb->query('DROP TABLE acct_tmptable');
@@ -525,14 +522,14 @@ class Invoices
                 // change invoice status and other things
                 $status_closed = 7;
                 $wpdb->query(
-                    $wpdb->prepare(
-                        "UPDATE erp_acct_invoices SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
+                    "UPDATE erp_acct_invoices SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
+                    [
                         $status_closed,
                         $data['updated_at'],
                         $user_id,
                         $invoice_no,
                         $voucher_no
-                    )
+                    ]
                 );
 
                 // insert contra `erp_acct_invoice_details` AND `erp_acct_invoice_details_tax`
@@ -995,19 +992,15 @@ class Invoices
         $invoice_act_details = "erp_acct_invoice_account_details";
         $items               = $args['count'] ? ' COUNT( id ) as total_number ' : ' id, voucher_no, due_date, (amount + tax - discount) as amount, invs.due as due ';
 
-        $query = $wpdb->prepare(
+        $query =
             "SELECT $items FROM $invoices as invoice INNER JOIN
         (SELECT invoice_no, SUM( ia.debit - ia.credit) as due
         FROM $invoice_act_details as ia
         GROUP BY ia.invoice_no
         HAVING due <> 0) as invs
         ON invoice.voucher_no = invs.invoice_no
-        WHERE invoice.customer_id = %d AND invoice.status != 1 AND invoice.estimate != 1
-        ORDER BY %s %s $limit",
-            $args['people_id'],
-            $args['orderby'],
-            $args['order']
-        );
+        WHERE invoice.customer_id = {$args['people_id']} AND invoice.status != 1 AND invoice.estimate != 1
+        ORDER BY {$args['orderby']} {$args['order']} $limit";
 
         if ($args['count']) {
             return DB::scalar($query);
@@ -1027,7 +1020,7 @@ class Invoices
     {
 
 
-        $result = DB::select($wpdb->prepare("SELECT invoice_no, SUM( ia.debit - ia.credit) as due FROM erp_acct_invoice_account_details as ia WHERE ia.invoice_no = %d GROUP BY ia.invoice_no", $invoice_no), ARRAY_A);
+        $result = DB::select("SELECT invoice_no, SUM( ia.debit - ia.credit) as due FROM erp_acct_invoice_account_details as ia WHERE ia.invoice_no = %d GROUP BY ia.invoice_no", [$invoice_no]);
 
         $result = (!empty($result)) ? $result[0] : null;
 
@@ -1053,14 +1046,11 @@ class Invoices
         $invoices              = 'erp_acct_invoices';
         $invoices_acct_details = 'erp_acct_invoice_account_details';
 
-        $query = $wpdb->prepare(
+        $query =
             "Select voucher_no, SUM(ad.debit - ad.credit) as due, due_date
         FROM $invoices LEFT JOIN $invoices_acct_details as ad
         ON ad.invoice_no = voucher_no  where due_date
-        BETWEEN %s and %s Group BY voucher_no Having due > 0 ",
-            $from_date,
-            $to_date
-        );
+        BETWEEN {$from_date} and {$to_date} Group BY voucher_no Having due > 0 ";
 
         $results = DB::select($query);
 
@@ -1139,14 +1129,11 @@ class Invoices
 
 
         $result = DB::select(
-            $wpdb->prepare(
-                "SELECT ia.invoice_no, SUM( ia.debit - ia.credit) as due
+            "SELECT ia.invoice_no, SUM( ia.debit - ia.credit) as due
             FROM erp_acct_invoice_account_details as ia
             WHERE ia.invoice_no = %d
             GROUP BY ia.invoice_no",
-                $invoice_no
-            ),
-            ARRAY_A
+            [$invoice_no]
         );
 
         $result = (!empty($result)) ? $result[0] : null;
@@ -1168,10 +1155,8 @@ class Invoices
 
 
         $tax_zone = DB::scalar(
-            $wpdb->prepare(
-                "SELECT tax_zone_id FROM erp_acct_invoices WHERE voucher_no = %d",
-                [(int) $invoice_no]
-            )
+            "SELECT tax_zone_id FROM erp_acct_invoices WHERE voucher_no = %d",
+            [(int) $invoice_no]
         );
 
         return $tax_zone;

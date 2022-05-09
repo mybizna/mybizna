@@ -60,7 +60,7 @@ class TaxAgencies
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", $tax_no), ARRAY_A);
+        $row = DB::select("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", [$tax_no]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -75,7 +75,7 @@ class TaxAgencies
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", $id), ARRAY_A);
+        $row = DB::select("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -174,11 +174,8 @@ class TaxAgencies
 
 
         $row = DB::select(
-            $wpdb->prepare(
                 "SELECT name FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1",
-                $agency_id
-            ),
-            ARRAY_A
+                [$agency_id]
         );
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -196,6 +193,6 @@ class TaxAgencies
     {
 
 
-        return DB::scalar($wpdb->prepare("SELECT SUM( credit - debit ) as tax_due From erp_acct_tax_agency_details WHERE agency_id = %d", $agency_id));
+        return DB::scalar("SELECT SUM( credit - debit ) as tax_due From erp_acct_tax_agency_details WHERE agency_id = %d", [$agency_id]);
     }
 }

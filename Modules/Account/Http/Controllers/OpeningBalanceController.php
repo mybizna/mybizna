@@ -112,7 +112,7 @@ class OpeningBalanceController extends Controller
             return new WP_Error('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
         }
 
-        $result = DB::select($wpdb->prepare("select count(*) as num from erp_acct_opening_balances where financial_year_id = %d", $id));
+        $result = DB::select("select count(*) as num from erp_acct_opening_balances where financial_year_id = %d", [$id]);
         $result = (!empty($result)) ? $result[0] : null;
 
         $response = rest_ensure_response($result->num);

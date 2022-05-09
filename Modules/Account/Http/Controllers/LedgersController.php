@@ -110,7 +110,7 @@ class LedgersController extends Controller
         $ledger = new LedgerAccounts();
 
 
-        $exist = DB::scalar($wpdb->prepare("SELECT name FROM erp_acct_ledgers WHERE name = %s", $request['name']));
+        $exist = DB::scalar("SELECT name FROM erp_acct_ledgers WHERE name = %s", [$request['name']]);
 
         if ($exist) {
             return new WP_Error('rest_ledger_name_already_exist', __('Name already exist.'), ['status' => 404]);

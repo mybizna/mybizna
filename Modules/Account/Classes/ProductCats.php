@@ -32,7 +32,7 @@ class ProductCats
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT * FROM erp_acct_product_categories WHERE id = %d GROUP BY parent", $product_cat_id), ARRAY_A);
+        $row = DB::select("SELECT * FROM erp_acct_product_categories WHERE id = %d GROUP BY parent", [$product_cat_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }

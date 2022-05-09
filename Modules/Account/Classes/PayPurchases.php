@@ -67,7 +67,7 @@ class PayPurchases
         //config()->set('database.connections.mysql.strict', true);
 
         $row = DB::select(
-            $wpdb->prepare(
+
                 "SELECT
                 pay_purchase.id,
                 pay_purchase.voucher_no,
@@ -85,9 +85,7 @@ class PayPurchases
                 pay_purchase.trn_by_ledger_id
             FROM erp_acct_pay_purchase AS pay_purchase
             WHERE pay_purchase.voucher_no = %d",
-                $purchase_no
-            ),
-            ARRAY_A
+                [$purchase_no]
         );
 
         $row = (!empty($row)) ? $row[0] : null;
@@ -106,16 +104,13 @@ class PayPurchases
 
 
         return DB::select(
-            $wpdb->prepare(
                 "SELECT * FROM erp_acct_pay_purchase AS pay_purchase
             LEFT JOIN erp_acct_pay_purchase_details AS pay_purchase_detail
             ON pay_purchase.voucher_no = pay_purchase_detail.voucher_no
             LEFT JOIN erp_acct_voucher_no AS voucher
             ON pay_purchase_detail.voucher_no = voucher.id
             WHERE pay_purchase.voucher_no = %d",
-                $voucher_no
-            ),
-            ARRAY_A
+                [$voucher_no]
         );
     }
 

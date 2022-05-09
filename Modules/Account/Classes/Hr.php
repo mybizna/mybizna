@@ -16,16 +16,15 @@ class Hr
      */
     public function hrGetEmployees()
     {
-       
+
 
         $employee_tbl = 'erp_hr_employees';
 
-        $query = $wpdb->prepare(
+        $query =
             "select $employee_tbl.user_id from $employee_tbl
             left join {$wpdb->users} on $employee_tbl.user_id = {$wpdb->users}.ID
-            where $employee_tbl.status != %s or $employee_tbl.deleted_at is not null",
-            ['active']
-        );
+            where $employee_tbl.status != 'active' or $employee_tbl.deleted_at is not null",
+
 
         return $wpdb->get_col($query);
     }

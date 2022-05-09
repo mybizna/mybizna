@@ -164,11 +164,8 @@ class People
         $row = [];
 
         $row = DB::select(
-            $wpdb->prepare(
                 "SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d",
-                $people_id
-            ),
-            ARRAY_A
+                [$people_id]
         );
 
         $row = (!empty($row)) ? $row[0] : null;
@@ -348,13 +345,13 @@ class People
     {
 
 
-        $opening_balance_query     = $wpdb->prepare("SELECT SUM(debit - credit) AS opening_balance FROM erp_acct_opening_balances where type = 'people' AND ledger_id = %d AND financial_year_id = %d", $args['people_id'], $args['financial_year_id']);
-        $opening_balance_result    = DB::select($opening_balance_query, ARRAY_A);
+        $opening_balance_query     = "SELECT SUM(debit - credit) AS opening_balance FROM erp_acct_opening_balances where type = 'people' AND ledger_id = %d AND financial_year_id = %d";
+        $opening_balance_result    = DB::select($opening_balance_query, [ $args['people_id'], $args['financial_year_id']]);
         $opening_balance_result = (!empty($opening_balance_result)) ? $opening_balance_result[0] : null;
         $opening_balance           =  isset($opening_balance_result['opening_balance']) ? $opening_balance_result['opening_balance'] : 0;
 
-        $people_transaction_query  =  $wpdb->prepare("SELECT SUM(debit - credit) AS balance FROM erp_acct_people_trn_details where   people_id = %d AND trn_date BETWEEN %s AND %s", $args['people_id'], $args['start_date'], $args['end_date']);
-        $people_transaction_result = DB::select($people_transaction_query, ARRAY_A);
+        $people_transaction_query  =  "SELECT SUM(debit - credit) AS balance FROM erp_acct_people_trn_details where   people_id = %d AND trn_date BETWEEN %s AND %s";
+        $people_transaction_result = DB::select($people_transaction_query, [$args['people_id'], $args['start_date'], $args['end_date']]);
         $people_transaction_result = (!empty($people_transaction_result)) ? $people_transaction_result[0] : null;
         $balance                   =  isset($people_transaction_result['balance']) ? $people_transaction_result['balance'] : 0;
 
@@ -372,7 +369,7 @@ class People
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT people_types_id FROM erp_people_type_relations WHERE people_id = %d LIMIT 1", $people_id));
+        $row = DB::select("SELECT people_types_id FROM erp_people_type_relations WHERE people_id = %d LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $this->getPeopleTypeByTypeId($row->people_types_id);
     }
@@ -388,7 +385,7 @@ class People
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT name FROM erp_people_types WHERE id = %d LIMIT 1", $type_id));
+        $row = DB::select("SELECT name FROM erp_people_types WHERE id = %d LIMIT 1", [$type_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row->name;
     }
@@ -407,12 +404,10 @@ class People
 
 
         $row = DB::select(
-            $wpdb->prepare(
                 "SELECT id
             FROM erp_people_types
             WHERE name = %s LIMIT 1",
-                $type_name
-            )
+                [$type_name]
         );
 
         $row = (!empty($row)) ? $row[0] : null;
@@ -429,7 +424,7 @@ class People
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT id FROM erp_peoples WHERE user_id = %d LIMIT 1", $user_id));
+        $row = DB::select("SELECT id FROM erp_peoples WHERE user_id = %d LIMIT 1", [$user_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->id;
@@ -444,7 +439,7 @@ class People
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT first_name, last_name FROM erp_peoples WHERE id = %d LIMIT 1", $people_id));
+        $row = DB::select("SELECT first_name, last_name FROM erp_peoples WHERE id = %d LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->first_name . ' ' . $row->last_name;
@@ -465,7 +460,7 @@ class People
             return false;
         }
 
-        $res = DB::scalar($wpdb->prepare("SELECT COUNT(1) FROM erp_peoples WHERE user_id = %d", $user_id));
+        $res = DB::scalar(("SELECT COUNT(1) FROM erp_peoples WHERE user_id = %d", [$user_id]);
 
         if ('1' === $res) {
             return true;
@@ -485,7 +480,7 @@ class People
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT user_id FROM erp_peoples WHERE id = %d LIMIT 1", $people_id));
+        $row = DB::select("SELECT user_id FROM erp_peoples WHERE id = %d LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->user_id;
@@ -571,29 +566,24 @@ class People
             if ($type == 'customer' || $type == 'vendor') {
                 if (defined('DOING_AJAX') && DOING_AJAX) {
                     if ($type === 'customer') {
-                        $sql['where'][] = $wpdb->prepare(
-                            'AND ( people.first_name ) LIKE %s OR ' .
-                                '( people.last_name ) LIKE %s',
-                            [$search_like, $search_like]
-                        );
+                        $sql['where'][] =
+                            'AND ( people.first_name ) LIKE '.$search_like.' OR ' .
+                                '( people.last_name ) LIKE '.$search_like;
+
                     } else {
-                        $sql['where'][] = $wpdb->prepare('AND ( people.company ) LIKE %s', [$search_like]);
+                        $sql['where'][] = 'AND ( people.company ) LIKE '.$search_like;
                     }
                 } else {
-                    $sql['where'][] = $wpdb->prepare(
-                        'AND ( people.first_name ) LIKE %s OR ' .
-                            '( people.last_name ) LIKE %s OR ' .
-                            '( people.email ) LIKE %s OR ' .
-                            '( people.company ) LIKE %s',
-                        [$search_like, $search_like, $search_like, $search_like]
-                    );
+                    $sql['where'][] =
+                        'AND ( people.first_name ) LIKE '.$search_like.' OR ' .
+                            '( people.last_name ) LIKE '.$search_like.' OR ' .
+                            '( people.email ) LIKE '.$search_like.' OR ' .
+                            '( people.company ) LIKE '.$search_like
                 }
             } elseif (is_array($type)) {
-                $sql['where'][] = $wpdb->prepare(
-                    'AND ( people.first_name ) LIKE %s OR ' .
-                        '( people.last_name ) LIKE %s',
-                    [$search_like, $search_like]
-                );
+                $sql['where'][] =
+                    'AND ( people.first_name ) LIKE '.$search_like.' OR ' .
+                        '( people.last_name ) LIKE '.$search_like,
             }
         }
 
@@ -657,10 +647,9 @@ class People
 
 
         return DB::scalar(
-            $wpdb->prepare(
                 "SELECT id FROM erp_acct_people_trn_details WHERE people_id = %d",
-                $people_id
-            )
+                [$people_id]
+
         );
     }
 
@@ -767,29 +756,24 @@ class People
                 $args['erpadvancefilter'] = 'company[]=~' . implode('&or&company[]=~', $words)
                     . '&or&email[]=~' . implode('&or&email[]=~', $words);
             } elseif (is_array($type)) {
-                $sql['where'][] = $wpdb->prepare(
-                    'AND ( people.first_name ) LIKE %s OR ' .
-                        '( people.last_name ) LIKE %s',
-                    [$search_like, $search_like]
-                );
+                $sql['where'][] =
+                    'AND ( people.first_name ) LIKE '.$search_like.' OR ' .
+                        '( people.last_name ) LIKE '.$search_like
             } elseif ($type === 'customer' || $type === 'vendor') {
                 if (defined('DOING_AJAX') && DOING_AJAX) {
                     if ($type === 'customer') {
-                        $sql['where'][] = $wpdb->prepare(
-                            'AND ( people.first_name ) LIKE %s OR ' .
-                                '( people.last_name ) LIKE %s',
-                            [$search_like, $search_like]
-                        );
+                        $sql['where'][] =
+                            'AND ( people.first_name ) LIKE '.$search_like.' OR ' .
+                                '( people.last_name ) LIKE '.$search_like
                     } else {
-                        $sql['where'][] = $wpdb->prepare('AND ( people.company ) LIKE %s', [$search_like]);
+                        $sql['where'][] = 'AND ( people.company ) LIKE '.$search_like;
                     }
                 } else {
-                    $sql['where'][] = $wpdb->prepare(
-                        'AND ( people.first_name ) LIKE %s OR ' .
-                            '( people.last_name ) LIKE %s OR ' .
-                            '( people.email ) LIKE %s OR ' .
-                            '( people.company ) LIKE %s',
-                        [$search_like, $search_like, $search_like, $search_like]
+                    $sql['where'][] =
+                        'AND ( people.first_name ) LIKE '.$search_like.' OR ' .
+                            '( people.last_name ) LIKE '.$search_like.' OR ' .
+                            '( people.email ) LIKE '.$search_like.' OR ' .
+                            '( people.company ) LIKE '.$search_like
                     );
                 }
             }
@@ -1557,7 +1541,7 @@ class People
     {
 
 
-        $sql = $wpdb->prepare("SELECT email FROM erp_peoples WHERE id = %d", absint($id));
+        $sql = "SELECT email FROM erp_peoples WHERE id = " .absint($id);
 
         return DB::scalar($sql);
     }
@@ -1576,7 +1560,7 @@ class People
 
 
         $trashed = DB::scalar(
-            $wpdb->prepare("SELECT deleted_at FROM erp_people_type_relations WHERE people_id = %d", absint($id))
+            "SELECT deleted_at FROM erp_people_type_relations WHERE people_id = %d", [absint($id)]
         );
 
         if ($trashed) {

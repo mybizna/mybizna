@@ -55,10 +55,8 @@ class Currencies
         $active_currency_id = $common->getCurrency(true);
 
         return DB::scalar(
-            $wpdb->prepare(
-                "SELECT sign FROM erp_acct_currency_info WHERE id = %d",
-                absint($active_currency_id)
-            )
+            "SELECT sign FROM erp_acct_currency_info WHERE id = %d",
+            [absint($active_currency_id)]
         );
     }
 

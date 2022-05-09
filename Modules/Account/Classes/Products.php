@@ -141,15 +141,13 @@ class Products
             $product_data = $products->getFormattedProductData($data);
 
             $product_check =  DB::select(
-                $wpdb->prepare(
-                    "SELECT * FROM erp_acct_products where name = %s",
-                    $product_data['name']
-                ),
-                OBJECT
+
+                "SELECT * FROM erp_acct_products where name = %s",
+                [$product_data['name']]
             );
 
 
-        $product_check = (!empty($product_check)) ? $product_check[0] : null;
+            $product_check = (!empty($product_check)) ? $product_check[0] : null;
 
             if ($product_check) {
                 throw new \Exception($product_data['name'] . ' ' . __('product already exists!', 'erp'));
@@ -205,12 +203,9 @@ class Products
             $product_data = $products->getFormattedProductData($data);
 
             $product_name_check =  DB::select(
-                $wpdb->prepare(
                     "SELECT * FROM erp_acct_products where name = %s AND id NOT IN(%d)",
-                    $product_data['name'],
-                    $id
-                ),
-                OBJECT
+                    [$product_data['name'],
+                    $id]
             );
 
             $product_name_check = (!empty($product_name_check)) ? $product_name_check[0] : null;
@@ -323,7 +318,7 @@ class Products
     {
 
 
-        $type_id = DB::scalar($wpdb->prepare("SELECT product_type_id FROM erp_acct_products WHERE id = %d", $product_id));
+        $type_id = DB::scalar("SELECT product_type_id FROM erp_acct_products WHERE id = %d", [$product_id]);
 
         return $type_id;
     }
@@ -532,10 +527,8 @@ class Products
 
                     if ($update_existing && !$product_checked && 'name' === $key) {
                         $product_exists_id =  DB::scalar(
-                            $wpdb->prepare(
                                 "SELECT id FROM erp_acct_products where name = %s",
-                                $value
-                            )
+                                [$value]
                         );
 
                         $product_checked = true;

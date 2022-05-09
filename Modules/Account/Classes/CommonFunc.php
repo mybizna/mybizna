@@ -28,10 +28,10 @@ class CommonFunc
             return $currency_id;
         }
 
-        $currency_name = DB::scalar($wpdb->prepare(
+        $currency_name = DB::scalar(
             "SELECT name FROM erp_acct_currency_info WHERE id = %d",
-            $currency_id
-        ));
+            [$currency_id]
+        );
 
         return $currency_name;
     }
@@ -281,7 +281,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT first_name, last_name, email FROM erp_peoples WHERE id = %d LIMIT 1", $people_id));
+        $row = DB::select("SELECT first_name, last_name, email FROM erp_peoples WHERE id = %d LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -298,7 +298,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT name, slug, code FROM erp_acct_ledgers WHERE id = %d LIMIT 1", $ledger_id));
+        $row = DB::select("SELECT name, slug, code FROM erp_acct_ledgers WHERE id = %d LIMIT 1", [$ledger_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -329,8 +329,8 @@ class CommonFunc
         }
 
         $row = DB::select(
-            $wpdb->prepare("SELECT * FROM erp_acct_ledgers WHERE $field = %s LIMIT 1", $value),
-            ARRAY_A
+            "SELECT * FROM erp_acct_ledgers WHERE $field = %s LIMIT 1",
+            [$value]
         );
 
         $row = (!empty($row)) ? $row[0] : null;
@@ -348,8 +348,7 @@ class CommonFunc
     function getProductTypeById($product_type_id)
     {
 
-
-        $row = DB::select($wpdb->prepare("SELECT name FROM erp_acct_product_types WHERE id = %d LIMIT 1", $product_type_id));
+        $row = DB::select("SELECT name FROM erp_acct_product_types WHERE id = %d LIMIT 1", [$product_type_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -366,7 +365,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT name FROM erp_acct_product_categories WHERE id = %d LIMIT 1", $cat_id));
+        $row = DB::select("SELECT name FROM erp_acct_product_categories WHERE id = %d LIMIT 1", [$cat_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -383,7 +382,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT name FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", $agency_id));
+        $row = DB::select("SELECT name FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", [$agency_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->name;
@@ -401,7 +400,7 @@ class CommonFunc
 
 
         if (null !== $cat_id) {
-            return DB::scalar($wpdb->prepare("SELECT name FROM erp_acct_tax_categories WHERE id = %d", $cat_id));
+            return DB::scalar("SELECT name FROM erp_acct_tax_categories WHERE id = %d", [$cat_id]);
         }
 
         return '';
@@ -422,7 +421,7 @@ class CommonFunc
             return 'pending';
         }
 
-        $row = DB::select($wpdb->prepare("SELECT type_name FROM erp_acct_trn_status_types WHERE id = %d", $trn_id));
+        $row = DB::select("SELECT type_name FROM erp_acct_trn_status_types WHERE id = %d", [$trn_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -440,7 +439,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT name FROM erp_acct_payment_methods WHERE id = %d LIMIT 1", $method_id));
+        $row = DB::select("SELECT name FROM erp_acct_payment_methods WHERE id = %d LIMIT 1", [$method_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -458,7 +457,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT name FROM erp_acct_payment_methods WHERE id = %d LIMIT 1", $method_id));
+        $row = DB::select("SELECT name FROM erp_acct_payment_methods WHERE id = %d LIMIT 1", [$method_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -476,7 +475,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select($wpdb->prepare("SELECT name FROM erp_acct_check_trn_tables WHERE id = %d LIMIT 1", $trn_type_id));
+        $row = DB::select("SELECT name FROM erp_acct_check_trn_tables WHERE id = %d LIMIT 1", [$trn_type_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -624,7 +623,7 @@ class CommonFunc
      */
     function checkVoucherEditState($id)
     {
-        $res = DB::scalar($wpdb->prepare("SELECT editable FROM erp_acct_voucher_no WHERE id = %d", $id));
+        $res = DB::scalar("SELECT editable FROM erp_acct_voucher_no WHERE id = %d", [$id]);
 
         return !empty($res) ? true : false;
     }
@@ -674,7 +673,7 @@ class CommonFunc
     {
 
 
-        return DB::scalar($wpdb->prepare("SELECT id FROM erp_acct_trn_status_types WHERE slug = %s", $slug));
+        return DB::scalar("SELECT id FROM erp_acct_trn_status_types WHERE slug = %s", [$slug]);
     }
 
     /**

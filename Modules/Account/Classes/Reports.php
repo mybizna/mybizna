@@ -41,35 +41,38 @@ class Reports
         if (erp_acct_has_date_diff($start_date, $closest_fy_date['start_date'])) {
             $prev_date_of_start = date('Y-m-d', strtotime('-1 day', strtotime($start_date)));
 
-            $sql1 = $wpdb->prepare(
+            $sql1 =
                 "SELECT SUM(debit - credit) AS balance
             FROM erp_acct_ledger_details
-            WHERE ledger_id = %d AND trn_date BETWEEN '%s' AND '%s' ORDER BY trn_date ASC",
-                $ledger_id,
-                $closest_fy_date['start_date'],
-                $prev_date_of_start
-            );
+            WHERE ledger_id = %d AND trn_date BETWEEN '%s' AND '%s' ORDER BY trn_date ASC";
 
-            $prev_ledger_details = DB::scalar($sql1);
+            $prev_ledger_details = DB::scalar(
+                $sql1,
+                [
+                    $ledger_id,
+                    $closest_fy_date['start_date'],
+                    $prev_date_of_start
+                ]
+            );
             $opening_balance += (float) $prev_ledger_details;
         }
 
         $raw_opening_balance = $opening_balance;
 
         // ledger details
-        $sql2 = $wpdb->prepare(
+        $sql2 =
             "SELECT
         trn_no, particulars, debit, credit, trn_date, created_at
         FROM erp_acct_ledger_details
-        WHERE ledger_id = %d AND trn_date BETWEEN '%s' AND '%s' ORDER BY trn_date ASC",
-            $ledger_id,
-            $start_date,
-            $end_date
-        );
+        WHERE ledger_id = %d AND trn_date BETWEEN '%s' AND '%s' ORDER BY trn_date ASC";
 
         $wpdb->query("SET SESSION sql_mode='';");
 
-        $details = DB::select($sql2, ARRAY_A);
+        $details = DB::select($sql2, [
+            $ledger_id,
+            $start_date,
+            $end_date
+        ]);
 
         $total_debit  = 0;
         $total_credit = 0;
@@ -153,7 +156,7 @@ class Reports
         $sql = "SELECT SUM(debit - credit) AS balance FROM erp_acct_opening_balances
         WHERE financial_year_id = %d AND ledger_id = %d AND type = 'ledger' GROUP BY ledger_id";
 
-        return DB::scalar($wpdb->prepare($sql, $id, $ledger_id));
+        return DB::scalar($sql, [$id, $ledger_id]);
     }
 
     /**
@@ -176,19 +179,16 @@ class Reports
 
 
         // opening balance
-        $sql1 = $wpdb->prepare(
+        $sql1 =
             "SELECT SUM(debit - credit) AS opening_balance
         FROM erp_acct_tax_agency_details
-        WHERE agency_id = %d AND trn_date < '%s'",
-            $agency_id,
-            $start_date
-        );
+        WHERE agency_id = {$agency_id} AND trn_date < '{$start_date}'";
 
         $db_opening_balance = DB::scalar($sql1);
         $opening_balance    = (float) $db_opening_balance;
 
         // agency details
-        $details = DB::select($wpdb->prepare("SELECT trn_no, particulars, debit, credit, trn_date, created_at FROM erp_acct_tax_agency_details WHERE agency_id = %d AND trn_date BETWEEN '%s' AND '%s'", $agency_id, $start_date, $end_date), ARRAY_A);
+        $details = DB::select("SELECT trn_no, particulars, debit, credit, trn_date, created_at FROM erp_acct_tax_agency_details WHERE agency_id = %d AND trn_date BETWEEN '%s' AND '%s'", [$agency_id, $start_date, $end_date]);
 
         $total_debit  = 0;
         $total_credit = 0;
@@ -316,11 +316,8 @@ class Reports
         }
 
         return DB::select(
-            $wpdb->prepare(
                 "SELECT {$sql['select']} FROM {$sql['from']} WHERE {$sql['where']} {$sql['extra']}",
-                $values
-            ),
-            ARRAY_A
+                [$values]
         );
     }
 
@@ -375,7 +372,7 @@ class Reports
         // get opening balance data within that(^) financial year
         $opening_balance = $this->isOpeningBalanceByFnYearId($closest_fy_date['id'], $chart_id);
 
-        $ledgers   = DB::select($wpdb->prepare("SELECT ledger.id, ledger.name FROM erp_acct_ledgers AS ledger WHERE ledger.chart_id = %d", $chart_id), ARRAY_A);
+        $ledgers   = DB::select("SELECT ledger.id, ledger.name FROM erp_acct_ledgers AS ledger WHERE ledger.chart_id = %d", [$chart_id]);
         $temp_data = $this->getIsBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
         $result    = [];
 
@@ -401,8 +398,7 @@ class Reports
 
         // get ledger details data between `financial year start date` and `previous date from balance sheet start date`
         $ledger_details = DB::select(
-            $wpdb->prepare($sql, $closest_fy_date['start_date'], $is_date),
-            ARRAY_A
+            $sql, [$closest_fy_date['start_date'], $is_date),
         );
 
         foreach ($temp_data as $temp) {
@@ -479,7 +475,7 @@ class Reports
         $where = '';
 
         if ($chart_id) {
-            $where = $wpdb->prepare('AND ledger.chart_id = %d', $chart_id);
+            $where = 'AND ledger.chart_id = ' . $chart_id;
         }
 
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
@@ -488,7 +484,7 @@ class Reports
         WHERE opb.financial_year_id = %d {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
         GROUP BY opb.ledger_id";
 
-        return DB::select($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($sql, [$id]);
     }
 
     /**
@@ -547,9 +543,9 @@ class Reports
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=3 AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '%s' AND '%s'
         GROUP BY ledger_detail.ledger_id";
 
-        $data1 = DB::select($wpdb->prepare($sql1, $args['start_date'], $args['end_date']), ARRAY_A);
-        $data2 = DB::select($wpdb->prepare($sql2, $args['start_date'], $args['end_date']), ARRAY_A);
-        $data3 = DB::select($wpdb->prepare($sql3, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data1 = DB::select($sql1, [$args['start_date'], $args['end_date']]);
+        $data2 = DB::select($sql2, [$args['start_date'], $args['end_date']]);
+        $data3 = DB::select($sql3, [$args['start_date'], $args['end_date']]);
 
         $results['rows1'] = $this->balanceSheetCalculateWithOpeningBalance($args['start_date'], $data1, $sql1, 1);
         $results['rows2'] = $this->balanceSheetCalculateWithOpeningBalance($args['start_date'], $data2, $sql2, 2);
@@ -747,8 +743,7 @@ class Reports
 
         // get ledger details data between `financial year start date` and `previous date from balance sheet start date`
         $ledger_details = DB::select(
-            $wpdb->prepare($sql, $closest_fy_date['start_date'], $bs_date),
-            ARRAY_A
+            $sql, [$closest_fy_date['start_date'], $bs_date]
         );
 
         foreach ($temp_data as $temp) {
@@ -825,7 +820,7 @@ class Reports
         $where = '';
 
         if ($chart_id) {
-            $where = $wpdb->prepare('AND ledger.chart_id = %d', $chart_id);
+            $where = 'AND ledger.chart_id = '.$chart_id;
         }
 
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
@@ -834,7 +829,7 @@ class Reports
         WHERE opb.financial_year_id = %d {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
         GROUP BY opb.ledger_id";
 
-        return DB::select($wpdb->prepare($sql, $id), ARRAY_A);
+        return DB::select($sql, [$id]);
     }
 
     /**
@@ -882,8 +877,8 @@ class Reports
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=5 AND ledger_detail.trn_date BETWEEN '%s' AND '%s'
         GROUP BY ledger_detail.ledger_id";
 
-        $data1 = DB::select($wpdb->prepare($sql1, $args['start_date'], $args['end_date']), ARRAY_A);
-        $data2 = DB::select($wpdb->prepare($sql2, $args['start_date'], $args['end_date']), ARRAY_A);
+        $data1 = DB::select($sql1, [$args['start_date'], $args['end_date']);
+        $data2 = DB::select($sql2, [$args['start_date'], $args['end_date']);
 
         $results['rows1'] = $this->incomeStatementCalculateWithOpeningBalance($args['start_date'], $data1, $sql1, 4);
         $results['rows2'] = $this->incomeStatementCalculateWithOpeningBalance($args['start_date'], $data2, $sql2, 5);

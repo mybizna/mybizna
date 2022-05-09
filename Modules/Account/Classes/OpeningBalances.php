@@ -78,11 +78,8 @@ class OpenBalances
 
 
         $rows = DB::select(
-            $wpdb->prepare(
-                "SELECT ob.id, ob.financial_year_id, ob.ledger_id, ledger.name, ob.chart_id, ob.debit, ob.credit FROM erp_acct_opening_balances as ob LEFT JOIN erp_acct_ledgers as ledger ON ledger.id = ob.ledger_id WHERE financial_year_id = %d AND ob.type = 'ledger'",
-                $year_id
-            ),
-            ARRAY_A
+            "SELECT ob.id, ob.financial_year_id, ob.ledger_id, ledger.name, ob.chart_id, ob.debit, ob.credit FROM erp_acct_opening_balances as ob LEFT JOIN erp_acct_ledgers as ledger ON ledger.id = ob.ledger_id WHERE financial_year_id = %d AND ob.type = 'ledger'",
+            [$year_id]
         );
 
         return $rows;
@@ -100,12 +97,9 @@ class OpenBalances
 
 
         $rows = DB::select(
-            $wpdb->prepare(
-                "SELECT ob.id, ob.financial_year_id, ob.ledger_id, ob.type, ob.debit, ob.credit
+            "SELECT ob.id, ob.financial_year_id, ob.ledger_id, ob.type, ob.debit, ob.credit
             FROM erp_acct_opening_balances as ob WHERE financial_year_id = %d AND ob.type <> 'ledger'",
-                $year_id
-            ),
-            ARRAY_A
+            [$year_id]
         );
 
         $rows = $this->getOpbInvoiceAccountDetails($year_id);
@@ -143,7 +137,7 @@ class OpenBalances
 
             $year_id = $opening_balance_data['year'];
 
-            $wpdb->query($wpdb->prepare("DELETE FROM erp_acct_opening_balances WHERE financial_year_id = %d", $year_id));
+            $wpdb->query("DELETE FROM erp_acct_opening_balances WHERE financial_year_id = %d", [$year_id]);
 
             foreach ($ledgers as $ledger) {
                 if ((isset($ledger['debit']) && (float) $ledger['debit'] > 0) || (isset($ledger['credit']) && (float) $ledger['credit'] > 0)) {
@@ -298,7 +292,7 @@ class OpenBalances
         $dates = [];
 
 
-        $rows = DB::select($wpdb->prepare("SELECT start_date, end_date FROM erp_acct_financial_years WHERE id = %d", $year_id), ARRAY_A);
+        $rows = DB::select("SELECT start_date, end_date FROM erp_acct_financial_years WHERE id = %d", [$year_id]);
         $rows = (!empty($rows)) ? $rows[0] : null;
 
 
@@ -317,11 +311,11 @@ class OpenBalances
         $people = new People();
         $taxagencies = new TaxAgencies();
 
-        $vir_ac['acct_receivable'] = DB::select($wpdb->prepare("SELECT ledger_id as people_id, debit, credit from erp_acct_opening_balances where financial_year_id = %d and credit=0 and type='people'", $year_id), ARRAY_A);
+        $vir_ac['acct_receivable'] = DB::select("SELECT ledger_id as people_id, debit, credit from erp_acct_opening_balances where financial_year_id = %d and credit=0 and type='people'", [$year_id]);
 
-        $vir_ac['acct_payable'] = DB::select($wpdb->prepare("SELECT ledger_id as people_id, debit, credit from erp_acct_opening_balances where financial_year_id = %d and debit=0 and type='people'", $year_id), ARRAY_A);
+        $vir_ac['acct_payable'] = DB::select("SELECT ledger_id as people_id, debit, credit from erp_acct_opening_balances where financial_year_id = %d and debit=0 and type='people'", [$year_id]);
 
-        $vir_ac['tax_payable'] = DB::select($wpdb->prepare("SELECT ledger_id as agency_id, debit, credit from erp_acct_opening_balances where financial_year_id = %d and debit=0 and type='tax_agency'", $year_id), ARRAY_A);
+        $vir_ac['tax_payable'] = DB::select("SELECT ledger_id as agency_id, debit, credit from erp_acct_opening_balances where financial_year_id = %d and debit=0 and type='tax_agency'", [$year_id]);
 
         for ($i = 0; $i < count($vir_ac['acct_payable']); $i++) {
             if (empty($vir_ac['acct_payable'][$i]['people_id'])) {
@@ -377,29 +371,23 @@ class OpenBalances
         if (erp_acct_has_date_diff($start_date, $closest_fy_date['start_date'])) {
             $prev_date_of_start = date('Y-m-d', strtotime('-1 day', strtotime($start_date)));
 
-            $sql1 = $wpdb->prepare(
+            $sql1 =
                 "SELECT SUM(debit - credit) AS balance
             FROM erp_acct_ledger_details
-            WHERE ledger_id = %d AND trn_date BETWEEN '%s' AND '%s'",
-                $ledger_id,
-                $closest_fy_date['start_date'],
-                $prev_date_of_start
-            );
+            WHERE ledger_id = {$ledger_id} AND trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_start}'",
+            ;
 
             $prev_ledger_details = DB::scalar($sql1);
             $opening_balance += (float) $prev_ledger_details;
         }
 
         // ledger details
-        $sql2 = $wpdb->prepare(
+        $sql2 =
             "SELECT
         SUM(debit-credit) as balance
         FROM erp_acct_ledger_details
-        WHERE ledger_id = %d AND trn_date BETWEEN '%s' AND '%s'",
-            $ledger_id,
-            $start_date,
-            $end_date
-        );
+        WHERE ledger_id = {$ledger_id} AND trn_date BETWEEN '{$start_date}' AND '{$end_date}'"
+        ;
 
         $res = DB::select($sql2, ARRAY_A);
         $res = (!empty($res)) ? $res[0] : null;
@@ -441,11 +429,11 @@ class OpenBalances
         // mainly ( debit - credit )
         $sql = "SELECT SUM(balance) AS amount
         FROM ( SELECT SUM( debit - credit ) AS balance
-            FROM erp_acct_invoice_account_details WHERE trn_date < '%s'
+            FROM erp_acct_invoice_account_details WHERE trn_date < '{$fy_start_date}'
             GROUP BY invoice_no HAVING balance > 0 )
         AS get_amount";
 
-        return (float) DB::scalar($wpdb->prepare($sql, $fy_start_date));
+        return (float) DB::scalar($sql);
     }
 
     /**
@@ -473,8 +461,8 @@ class OpenBalances
         GROUP BY purchase_no HAVING balance < 0 )
         AS get_amount";
 
-        $bill_amount     = DB::scalar($wpdb->prepare($bill_sql, $fy_start_date));
-        $purchase_amount = DB::scalar($wpdb->prepare($purchase_sql, $fy_start_date));
+        $bill_amount     = DB::scalar($bill_sql, [$fy_start_date]);
+        $purchase_amount = DB::scalar($purchase_sql, [$fy_start_date]);
 
         return abs((float) $bill_amount + (float) $purchase_amount);
     }
@@ -503,7 +491,7 @@ class OpenBalances
             $date = date('Y-m-d');
         }
 
-        $result = DB::select($wpdb->prepare("SELECT id,name,start_date,end_date FROM erp_acct_financial_years WHERE '%s' between start_date AND end_date", $date));
+        $result = DB::select("SELECT id,name,start_date,end_date FROM erp_acct_financial_years WHERE '%s' between start_date AND end_date", [$date]);
 
         $result = (!empty($result)) ? $result[0] : null;
 
