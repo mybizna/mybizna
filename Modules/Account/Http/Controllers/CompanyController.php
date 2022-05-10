@@ -13,11 +13,11 @@ class AccountsController extends Controller
     /**
      * Get a company logo
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_company($request)
+    public function get_company()
     {
         $company = new \WeDevs\ERP\Company();
 
@@ -30,7 +30,7 @@ class AccountsController extends Controller
             $url   = $image[0];
         }
 
-        $response = rest_ensure_response(
+        return response()->json(
             [
                 'logo'    => $url,
                 'name'    => $company->name,
@@ -38,9 +38,9 @@ class AccountsController extends Controller
             ]
         );
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**

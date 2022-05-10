@@ -14,6 +14,8 @@ class RecPayments
 {
     /**
      * Get all payments
+     * 
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -54,7 +56,7 @@ class RecPayments
     /**
      * Get a single payment
      *
-     * @param $invoice_no
+     * @param int $invoice_no Invoice Number
      *
      * @return mixed
      */
@@ -107,7 +109,7 @@ class RecPayments
     /**
      * Insert payment info
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -126,7 +128,7 @@ class RecPayments
         $currency           = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             if (floatval($data['amount']) < 0) {
                 $trn_type = 'return_payment';
@@ -213,11 +215,12 @@ class RecPayments
             do_action('erp_acct_after_payment_create', $payment_data, $voucher_no);
 
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('payment-exception', $e->getMessage());
+            messageBag()->add('payment-exception', $e->getMessage());
+            return;
         }
 
         foreach ($items as $key => $item) {
@@ -236,10 +239,9 @@ class RecPayments
     /**
      * Insert payment line items
      *
-     * @param $data
-     * @param $invoice_no
-     * @param $voucher_no
-     * @param $due
+     * @param array  $data       Data
+     * @param object $item       Item
+     * @param int    $voucher_no Voucher Number
      *
      * @return int
      */
@@ -302,8 +304,8 @@ class RecPayments
     /**
      * Update payment data
      *
-     * @param $data
-     * @param $invoice_no
+     * @param string $data       Data Filter
+     * @param int    $voucher_no Voucher Number
      *
      * @return mixed
      */
@@ -317,7 +319,7 @@ class RecPayments
         $data['updated_by'] = $updated_by;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $payment_data = $this->getFormattedPaymentData($data, $voucher_no);
 
@@ -354,11 +356,12 @@ class RecPayments
                 $common->insertCheckData($payment_data);
             }
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('payment-exception', $e->getMessage());
+            messageBag()->add('payment-exception', $e->getMessage());
+            return;
         }
 
         foreach ($items as $key => $item) {
@@ -371,10 +374,9 @@ class RecPayments
     /**
      * Insert payment line items
      *
-     * @param $data
-     * @param $invoice_no
-     * @param $voucher_no
-     * @param $due
+     * @param array $data       Data Fiter
+     * @param int   $invoice_no Invoice Number
+     * @param int   $voucher_no Voucher Number
      *
      * @return int
      */
@@ -434,9 +436,9 @@ class RecPayments
     /**
      * Get formatted payment data
      *
-     * @param $data
-     * @param $voucher_no
-     * @param $invoice_no
+     * @param array $data       Data Filter
+     * @param int   $voucher_no Voucher Number
+     * @param int   $invoice_no Invoice Number
      *
      * @return mixed
      */
@@ -482,7 +484,7 @@ class RecPayments
     /**
      * Delete a payment
      *
-     * @param $id
+     * @param int $id Id
      *
      * @return void
      */
@@ -498,7 +500,7 @@ class RecPayments
     /**
      * Void a payment
      *
-     * @param $id
+     * @param int $id Id
      *
      * @return void
      */
@@ -525,7 +527,7 @@ class RecPayments
     /**
      * Update invoice status after a payment
      *
-     * @param $invoice_no
+     * @param int $invoice_no Invoice Number
      *
      * @return void
      */
@@ -558,7 +560,7 @@ class RecPayments
     /**
      * Insert Payment/s data into ledger
      *
-     * @param array $payment_data
+     * @param array $payment_data Data Filter
      *
      * @return mixed
      */
@@ -600,8 +602,8 @@ class RecPayments
     /**
      * Update Payment/s data into ledger
      *
-     * @param array $payment_data
-     * @param int   $invoice_no
+     * @param array $payment_data Data Filter
+     * @param int   $invoice_no   Invoice Number
      *
      * @return mixed
      */
@@ -658,7 +660,7 @@ class RecPayments
     /**
      * Format payment line items
      *
-     * @param string $invoice
+     * @param string $invoice Invoice String
      *
      * @return array
      */

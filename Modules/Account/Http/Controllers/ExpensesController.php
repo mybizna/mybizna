@@ -14,11 +14,11 @@ class ExpensesController extends Controller
     /**
      * Get a collection of expenses
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_expenses($request)
+    public function get_expenses(Request $request)
     {
         $args = [
             'number' => isset($request['per_page']) ? $request['per_page'] : 20,
@@ -52,22 +52,17 @@ class ExpensesController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
-
-        $response->set_status(200);
-
-        return $response;
+        return response()->json($formatted_items);
     }
 
     /**
      * Get a expense
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_expense($request)
+    public function get_expense(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -84,21 +79,17 @@ class ExpensesController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $data     = $this->prepare_item_for_response($expense_data, $request, $additional_fields);
-        $response = rest_ensure_response($data);
-
-        $response->set_status(200);
-
-        return $response;
+        return response()->json($data);
     }
 
     /**
      * Get a check
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_check($request)
+    public function get_check(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -115,21 +106,17 @@ class ExpensesController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $data     = $this->prepare_item_for_response($expense_data, $request, $additional_fields);
-        $response = rest_ensure_response($data);
-
-        $response->set_status(200);
-
-        return $response;
+        return response()->json($data);
     }
 
     /**
      * Create a expense
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function create_expense($request)
+    public function create_expense(Request $request)
     {
         $expense_data = $this->prepare_item_for_database($request);
 
@@ -154,20 +141,18 @@ class ExpensesController extends Controller
 
         $expense_data = $this->prepare_item_for_response($expense, $request, $additional_fields);
 
-        $response = rest_ensure_response($expense_data);
+        return response()->json($expense_data);
         $response->set_status(201);
-
-        return $response;
     }
 
     /**
      * Update a expense
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function update_expense($request)
+    public function update_expense(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -201,20 +186,17 @@ class ExpensesController extends Controller
 
         $expense_data = $this->prepare_item_for_response($expense_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($expense_data);
-        $response->set_status(200);
-
-        return $response;
+        return response()->json($expense_data);
     }
 
     /**
      * Void a expense
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function void_expense($request)
+    public function void_expense(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -255,11 +237,11 @@ class ExpensesController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -354,12 +336,12 @@ class ExpensesController extends Controller
      * Prepare a single user output for response
      *
      * @param array|object    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -387,12 +369,8 @@ class ExpensesController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**

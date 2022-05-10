@@ -17,11 +17,11 @@ class CustomersController extends Controller
     /**
      * Get a collection of customers
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_customers($request)
+    public function get_customers(Request $request)
     {
         $people = new People();
         $args = [
@@ -64,22 +64,21 @@ class CustomersController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a specific customer
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_customer($request)
+    public function get_customer(Request $request)
     {
         $people = new People();
 
@@ -112,21 +111,21 @@ class CustomersController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
         $item                           = $this->prepare_item_for_response($item, $request, $additional_fields);
-        $response                       = rest_ensure_response($item);
+        
+        return response()->json($item);
 
-        $response->set_status(200);
+        
 
-        return $response;
     }
 
     /**
      * Create a customer
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function create_customer($request)
+    public function create_customer(Request $request)
     {
         $people = new People();
         $common = new CommonFunc();
@@ -146,20 +145,19 @@ class CustomersController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $response = $this->prepare_item_for_response($customer, $request, $additional_fields);
-        $response = rest_ensure_response($response);
-        $response->set_status(201);
+        return response()->json($response);
 
-        return $response;
+        
     }
 
     /**
      * Update a customer
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function update_customer($request)
+    public function update_customer(Request $request)
     {
         $people = new People();
         $id = (int) $request['id'];
@@ -183,20 +181,20 @@ class CustomersController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $response = $this->prepare_item_for_response($customer, $request, $additional_fields);
-        $response = rest_ensure_response($response);
-        $response->set_status(200);
+        return response()->json($response);
+        
 
-        return $response;
+        
     }
 
     /**
      * Delete a customer
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function delete_customer($request)
+    public function delete_customer(Request $request)
     {
         $people = new People();
         $id = (int) $request['id'];
@@ -228,11 +226,11 @@ class CustomersController extends Controller
     /**
      * Bulk Delete customers
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function bulk_delete_customers($request)
+    public function bulk_delete_customers(Request $request)
     {
         $people = new People();
         $ids = (string) $request['ids'];
@@ -268,11 +266,11 @@ class CustomersController extends Controller
     /**
      * Get a collection of transactions
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_transactions($request)
+    public function get_transactions(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -288,7 +286,7 @@ class CustomersController extends Controller
      *
      * @return object
      */
-    public function get_countries($request)
+    public function get_countries(Request $request)
     {
         $country  = \WeDevs\ERP\Countries::instance();
         $c        = $country->get_countries();
@@ -297,9 +295,9 @@ class CustomersController extends Controller
             'country' => $c,
             'state'   => $state,
         ];
-        $response = rest_ensure_response($response);
+        return response()->json($response);
 
-        return $response;
+        
     }
 
     /**
@@ -321,9 +319,8 @@ class CustomersController extends Controller
             'end_date'   => $end_date,
         ];
         $transactions = $people->getPeopleTransactions($args);
-        $response     = rest_ensure_response($transactions);
+        return response()->json($transactions);
 
-        return $response;
     }
 
     /**
@@ -355,11 +352,11 @@ class CustomersController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
         // required arguments.
@@ -446,12 +443,12 @@ class CustomersController extends Controller
      * Prepare a single user output for response
      *
      * @param array|object    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $common = new CommonFunc();
         $item = (object) $item;
@@ -488,12 +485,8 @@ class CustomersController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**

@@ -12,7 +12,7 @@ class ClosingBalance
     /**
      * Get closest next financial year
      *
-     * @param string $date
+     * @param string $date Date
      *
      * @return void
      */
@@ -28,7 +28,7 @@ class ClosingBalance
     /**
      * Close balance sheet now
      *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return void
      */
@@ -244,12 +244,12 @@ class ClosingBalance
     /**
      * Insert closing balance data into opening balance
      *
-     * @param int    $f_year_id
-     * @param int    $chart_id
-     * @param int    $ledger_id
-     * @param string $type
-     * @param int    $debit
-     * @param int    $credit
+     * @param int    $f_year_id Financial Year Id
+     * @param int    $chart_id  Chart Id
+     * @param int    $ledger_id Ledger Id
+     * @param string $type      Type
+     * @param int    $debit     Debit
+     * @param int    $credit    Credit
      *
      * @return void
      */
@@ -275,7 +275,7 @@ class ClosingBalance
     /**
      * Get accounts receivable balance with people
      *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return array
      */
@@ -297,7 +297,7 @@ class ClosingBalance
     /**
      * Get accounts payable balance with people
      *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return array
      */
@@ -330,10 +330,7 @@ class ClosingBalance
     /**
      * Get people account receivable calculate with opening balance within financial year date range
      *
-     * @param string $bs_start_date
-     * @param float  $data          => account details data on balance sheet date range
-     * @param string $sql
-     * @param string $type
+     * @param string $bs_start_date Start Date
      *
      * @return array
      */
@@ -356,10 +353,7 @@ class ClosingBalance
     /**
      * Get people account payable calculate with opening balance within financial year date range
      *
-     * @param string $bs_start_date
-     * @param float  $data          => account details data on balance sheet date range
-     * @param string $sql
-     * @param string $type
+     * @param string $bs_start_date Start Date
      *
      * @return array
      */
@@ -381,7 +375,7 @@ class ClosingBalance
     /**
      * People accounts receivable from opening balance
      *
-     * @param int $id
+     * @param int $id Financial Year Id
      *
      * @return void
      */
@@ -399,7 +393,7 @@ class ClosingBalance
     /**
      * People accounts payable from opening balance
      *
-     * @param int $id
+     * @param int $id Financial Year Id
      *
      * @return void
      */
@@ -417,8 +411,7 @@ class ClosingBalance
     /**
      * Accounts receivable array merge
      *
-     * @param array $arr1
-     * @param array $arr2
+     * @param array $arr Data Filter
      *
      * @return array
      */
@@ -446,8 +439,8 @@ class ClosingBalance
     /**
      * Sales tax agency with closing balance
      *
-     * @param array $args
-     * @param array $type
+     * @param array $args Data Filter
+     * @param array $type Type
      *
      * @return float
      */
@@ -473,10 +466,11 @@ class ClosingBalance
     /**
      * Get sales tax payable calculate with opening balance within financial year date range
      *
-     * @param string $bs_start_date
+     * @param string $bs_start_date Start Date
      * @param float  $data          => agency details data on trial balance date range
-     * @param string $sql
-     * @param string $type
+     * @param string $sql           Sql
+     * @param string $type          Type
+     * @param array  $having        Having
      *
      * @return float
      */
@@ -518,8 +512,10 @@ class ClosingBalance
     }
 
     /**
-     * @param int    $id
-     * @param string $type
+     * Sale Tax Agency Opening Balance By Financial Year Id
+     *
+     * @param int    $id   Financial Year Id
+     * @param string $type Type
      *
      * @return void
      */

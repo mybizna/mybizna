@@ -15,7 +15,7 @@ class Expenses
     /**
      * Get all expenses
      *
-     * @param $data
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -59,7 +59,7 @@ class Expenses
     /**
      * Get a single expense
      *
-     * @param $expense_no
+     * @param int $expense_no Expense Number
      *
      * @return mixed
      */
@@ -114,7 +114,7 @@ class Expenses
     /**
      * Get a single check
      *
-     * @param $expense_no
+     * @param int $expense_no Expense Number
      *
      * @return mixed
      */
@@ -165,6 +165,10 @@ class Expenses
 
     /**
      * Format check line items
+     *
+     * @param int $voucher_no Voucher Number
+     *
+     * @return array
      */
     function formatCheckLineItems($voucher_no)
     {
@@ -195,6 +199,10 @@ class Expenses
 
     /**
      * Format expense line items
+     *
+     * @param int $voucher_no Voucher Number
+     *
+     * @return array
      */
     function formatExpenseLineItems($voucher_no)
     {
@@ -220,7 +228,7 @@ class Expenses
     /**
      * Insert a expense
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -240,7 +248,7 @@ class Expenses
         $currency   = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $type = 'expense';
 
@@ -323,7 +331,7 @@ class Expenses
             }
 
             if (1 === $expense_data['status']) {
-                $wpdb->query('COMMIT');
+                DB::commit();
 
                 if ('check' === $type) {
                     return $expense->getCheck($voucher_no);
@@ -355,11 +363,12 @@ class Expenses
 
             do_action('erp_acct_after_expense_create', $expense_data, $voucher_no);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('expense-exception', $e->getMessage());
+            messageBag()->add('expense-exception', $e->getMessage());
+            return;
         }
 
         $email = $people->getPeopleEmail($expense_data['people_id']);
@@ -385,8 +394,8 @@ class Expenses
     /**
      * Update a expense
      *
-     * @param $data
-     * @param $expense_id
+     * @param array $data       Data Filter
+     * @param int   $expense_id Expense Id
      *
      * @return mixed
      */
@@ -405,7 +414,7 @@ class Expenses
         $data['updated_by'] = $updated_by;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $expense_data = $expense->getFormattedExpenseData($data, $expense_id);
 
@@ -458,11 +467,12 @@ class Expenses
                     );
             }
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('expense-exception', $e->getMessage());
+            messageBag()->add('expense-exception', $e->getMessage());
+            return;
         }
 
 
@@ -472,8 +482,8 @@ class Expenses
     /**
      * Convert draft to expense
      *
-     * @param array $data
-     * @param int   $expense_id
+     * @param array $data       Data Filter
+     * @param int   $expense_id Expense Id
      *
      * @return array
      */
@@ -488,7 +498,7 @@ class Expenses
         $data['updated_by'] = $updated_by;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $type = 'expense';
 
@@ -574,11 +584,12 @@ class Expenses
 
             do_action('erp_acct_after_expense_create', $expense_data, $expense_id);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('expense-exception', $e->getMessage());
+            messageBag()->add('expense-exception', $e->getMessage());
+            return;
         }
 
         $email = $people->getPeopleEmail($expense_data['people_id']);
@@ -604,7 +615,7 @@ class Expenses
     /**
      * Void a expense
      *
-     * @param $id
+     * @param int $id Id
      *
      * @return void
      */
@@ -631,8 +642,8 @@ class Expenses
     /**
      * Get formatted expense data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data       Data Filter
+     * @param int   $voucher_no Voucher Number
      *
      * @return mixed
      */
@@ -674,8 +685,8 @@ class Expenses
     /**
      * Insert expense/s data into ledger
      *
-     * @param array $expense_data
-     * @param array $item_data
+     * @param array $expense_data Data filter
+     * @param array $item_data    Data filter
      *
      * @return mixed
      */
@@ -711,9 +722,9 @@ class Expenses
     /**
      * Update expense/s data into ledger
      *
-     * @param array $expense_data
-     * @param array $expense_no
-     * @param array $item_data
+     * @param array $expense_data Data Filter
+     * @param array $expense_no   Expense Number
+     * @param array $item_data    Item Data
      *
      * @return mixed
      */
@@ -746,7 +757,7 @@ class Expenses
     /**
      * Insert Expense from account data into ledger
      *
-     * @param array $expense_data
+     * @param array $expense_data Expense Data
      *
      * @return void
      */
@@ -779,7 +790,7 @@ class Expenses
     /**
      * Get check data of a expense
      *
-     * @param $expense_no
+     * @param int $expense_no Expense Number
      *
      * @return mixed
      */

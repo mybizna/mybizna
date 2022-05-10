@@ -12,7 +12,7 @@ class CommonFunc
     /**
      * Get global currency
      *
-     * @since 1.1.6
+     * @param array $get_only_id Get Only Id
      *
      * @return string
      */
@@ -40,10 +40,9 @@ class CommonFunc
     /**
      * Get different array from two array
      *
-     * @since 1.7.2
-     *
-     * @param array $new_data
-     * @param array $old_data
+     * @param array $new_data    New Data
+     * @param array $old_data    Old Data
+     * @param array $is_seriazie Serialize
      *
      * @return array
      */
@@ -71,6 +70,8 @@ class CommonFunc
     }
     /**
      * Upload attachments
+     *
+     * @param array $files File
      *
      * @return array
      */
@@ -104,8 +105,8 @@ class CommonFunc
     /**
      * Get payable data for given month
      *
-     * @param $from
-     * @param $to
+     * @param string $from From
+     * @param string $to   To
      *
      * @return array|object|null
      */
@@ -212,7 +213,7 @@ class CommonFunc
     /**
      * Insert check data
      *
-     * @param array $check_data
+     * @param array $check_data Check Data
      *
      * @return void
      */
@@ -241,8 +242,8 @@ class CommonFunc
     /**
      * Update check data
      *
-     * @param array $check_data
-     * @param $check_no
+     * @param array $check_data Check Data
+     * @param int   $check_no   Check Number
      *
      * @return void
      */
@@ -273,7 +274,7 @@ class CommonFunc
     /**
      * Get people name, email by id
      *
-     * @param $people_id
+     * @param int $people_id People Id
      *
      * @return array
      */
@@ -290,7 +291,7 @@ class CommonFunc
     /**
      * Get ledger name, slug by id
      *
-     * @param $ledger_id
+     * @param int $ledger_id Ledger Id
      *
      * @return array
      */
@@ -307,10 +308,8 @@ class CommonFunc
     /**
      * Get sing ledger row data by id, slug or code
      *
-     * @since 1.6.3
-     *
-     * @param $field string id, code or slug field name to search by
-     * @param $value string $field value to search
+     * @param string $field string id, code or slug field name to search by
+     * @param string $value string $field value to search
      *
      * @return array
      */
@@ -341,7 +340,7 @@ class CommonFunc
     /**
      * Get product type by id
      *
-     * @param $product_type_id
+     * @param int $product_type_id Product Type Id
      *
      * @return array
      */
@@ -357,7 +356,7 @@ class CommonFunc
     /**
      * Get product category by id
      *
-     * @param $cat_id
+     * @param int $cat_id Cat Id
      *
      * @return array
      */
@@ -374,7 +373,7 @@ class CommonFunc
     /**
      * Get tax agency name by id
      *
-     * @param $agency_id
+     * @param int $agency_id Agency Id
      *
      * @return array
      */
@@ -391,7 +390,7 @@ class CommonFunc
     /**
      * Get tax category by id
      *
-     * @param $cat_id
+     * @param int $cat_id Cat Id
      *
      * @return array
      */
@@ -409,7 +408,7 @@ class CommonFunc
     /**
      * Get transaction status by id
      *
-     * @param $trn_id
+     * @param int $trn_id Transaction Id
      *
      * @return string
      */
@@ -431,7 +430,7 @@ class CommonFunc
     /**
      * Get payment method by id
      *
-     * @param $trn_id
+     * @param int $method_id Method Id
      *
      * @return array
      */
@@ -449,7 +448,7 @@ class CommonFunc
     /**
      * Get payment method by id
      *
-     * @param $trn_id
+     * @param int $method_id Method Id
      *
      * @return string
      */
@@ -467,7 +466,7 @@ class CommonFunc
     /**
      * Get check transaction type by id
      *
-     * @param $trn_id
+     * @param int $trn_type_id Transaction Type Id
      *
      * @return array
      */
@@ -485,10 +484,8 @@ class CommonFunc
     /**
      * Retrieves tax category with agency
      *
-     * @since 1.10.0
-     *
-     * @param int $tax_id
-     * @param int $tax_cat_id
+     * @param int $tax_id     Tax Id
+     * @param int $tax_cat_id Tax Cat Id
      *
      * @return array
      */
@@ -506,9 +503,7 @@ class CommonFunc
     /**
      * Retrieves agency wise tax rate for invoice items
      *
-     * @since 1.10.0
-     *
-     * @param int|string $invoice_details_id
+     * @param int|string $invoice_details_id Invoice Detail Id
      *
      * @return array
      */
@@ -605,6 +600,10 @@ class CommonFunc
 
     /**
      * Change a string to slug
+     *
+     * @param int $str String to slugify
+     *
+     * @return string
      */
     function slugify($str)
     {
@@ -617,7 +616,7 @@ class CommonFunc
     /**
      * Check voucher edit state
      *
-     * @param int $id
+     * @param int $id Voucher Id
      *
      * @return bool
      */
@@ -631,10 +630,8 @@ class CommonFunc
     /**
      * Check if people exists in given types
      *
-     * @since 1.8.4
-     *
-     * @param string $email
-     * @param array $types
+     * @param string $email Person Email
+     * @param array $types People Type
      *
      * @return bool
      */
@@ -665,7 +662,7 @@ class CommonFunc
     /**
      * Get transaction id by status slug
      *
-     * @param string $slug
+     * @param string $slug Status Slug
      *
      * @return int
      */
@@ -691,9 +688,6 @@ class CommonFunc
 
     /**
      * Auto create customer when creating CRM contact/company
-     *
-     * @since 1.2.7
-     * @since 1.10.3 Removed an unused parameter $customer
      *
      * @param int|string $customer_id ID of the people that has been created
      * @param array      $data        Data of the newly created people
@@ -727,7 +721,7 @@ class CommonFunc
     /**
      * Insert Payment/s data into "Bank Transaction Charge"
      *
-     * @param array $payment_data
+     * @param array $payment_data Payment Data Filter
      *
      * @return mixed
      */
@@ -783,10 +777,8 @@ class CommonFunc
     /**
      * Get State name by country and state code
      *
-     * @since 1.0
-     *
-     * @param string $country
-     * @param string $state
+     * @param string $country Country
+     * @param string $state   State
      *
      * @return string
      */
@@ -804,9 +796,7 @@ class CommonFunc
     /**
      * Get Country name by country code
      *
-     * @since 1.0
-     *
-     * @param string $code
+     * @param string $country Code
      *
      * @return string
      */

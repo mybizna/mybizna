@@ -9,6 +9,8 @@ class Products
 
     /**
      * Get all products
+     * 
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -84,7 +86,7 @@ class Products
     /**
      * Get an single product
      *
-     * @param $product_no
+     * @param int $product_id Product Id
      *
      * @return mixed
      */
@@ -124,7 +126,8 @@ class Products
     /**
      * Insert product data
      *
-     * @param $data
+     * @param array $data Data Filter
+     * 
      * @return WP_Error | integer
      */
     function insertProduct($data)
@@ -137,7 +140,7 @@ class Products
         $product_id         = null;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
             $product_data = $products->getFormattedProductData($data);
 
             $product_check =  DB::select(
@@ -171,9 +174,9 @@ class Products
                 );
 
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
             return new WP_Error('duplicate-product', $e->getMessage(), array('status' => 400));
         }
 
@@ -186,7 +189,7 @@ class Products
     /**
      * Update product data
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return WP_Error | Object
      */
@@ -199,13 +202,15 @@ class Products
         $data['updated_by'] = $updated_by;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
             $product_data = $products->getFormattedProductData($data);
 
             $product_name_check =  DB::select(
-                    "SELECT * FROM erp_acct_products where name = %s AND id NOT IN(%d)",
-                    [$product_data['name'],
-                    $id]
+                "SELECT * FROM erp_acct_products where name = %s AND id NOT IN(%d)",
+                [
+                    $product_data['name'],
+                    $id
+                ]
             );
 
             $product_name_check = (!empty($product_name_check)) ? $product_name_check[0] : null;
@@ -233,9 +238,9 @@ class Products
                     ]
                 );
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
             return new WP_Error('duplicate-product', $e->getMessage(), array('status' => 400));
         }
@@ -249,8 +254,7 @@ class Products
     /**
      * Get formatted product data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -274,7 +278,7 @@ class Products
     /**
      * Delete an product
      *
-     * @param $product_no
+     * @param int $product_id Product Id
      *
      * @return int
      */
@@ -294,8 +298,6 @@ class Products
     /**
      * Get product types
      *
-     * @param $product_id
-     *
      * @return int
      */
     function getProductTypes()
@@ -310,7 +312,7 @@ class Products
     /**
      * Get product type id by product id
      *
-     * @param $product_id
+     * @param Int $product_id Product Id
      *
      * @return int
      */
@@ -325,6 +327,8 @@ class Products
 
     /**
      * Get all products of a vendor
+     * 
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -391,9 +395,7 @@ class Products
     /**
      * Validates csv data for importing
      *
-     * @since 1.9.0
-     *
-     * @param array $data
+     * @param array $data Data Filter
      *
      * @return array|WP_Error
      */
@@ -527,8 +529,8 @@ class Products
 
                     if ($update_existing && !$product_checked && 'name' === $key) {
                         $product_exists_id =  DB::scalar(
-                                "SELECT id FROM erp_acct_products where name = %s",
-                                [$value]
+                            "SELECT id FROM erp_acct_products where name = %s",
+                            [$value]
                         );
 
                         $product_checked = true;
@@ -565,9 +567,7 @@ class Products
     /**
      * Imports products from csv
      *
-     * @since 1.9.0
-     *
-     * @param array $data
+     * @param array $data Data Filter
      *
      * @return int|WP_Error
      */

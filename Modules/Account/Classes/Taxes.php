@@ -11,6 +11,8 @@ class Taxes
 
     /**
      * Get all taxes
+     * 
+     * @param array $args Tax Rates
      *
      * @return mixed
      */
@@ -55,7 +57,7 @@ class Taxes
     /**
      * Get an single tax
      *
-     * @param $tax_no
+     * @param int $tax_no Tax Number
      *
      * @return mixed
      */
@@ -105,7 +107,7 @@ class Taxes
     /**
      * Insert tax data
      *
-     * @param $data
+     * @param array $data Data
      *
      * @return array
      */
@@ -150,7 +152,7 @@ class Taxes
     /**
      * Update tax data
      *
-     * @param $data
+     * @param array $data Data
      *
      * @return int
      */
@@ -204,7 +206,7 @@ class Taxes
     /**
      * Update tax data
      *
-     * @param $data
+     * @param int $data Data
      *
      * @return int
      */
@@ -241,7 +243,7 @@ class Taxes
     /**
      * Add line item of a tax rate
      *
-     * @param $data
+     * @param int $data Data
      *
      * @return int
      */
@@ -277,7 +279,7 @@ class Taxes
     /**
      * Update line item of a tax rate
      *
-     * @param $data
+     * @param array $data Filter Data
      *
      * @return int
      */
@@ -311,7 +313,7 @@ class Taxes
     /**
      * Delete an tax rate line
      *
-     * @param $line_no
+     * @param int $line_no Line Number
      *
      * @return int
      */
@@ -328,7 +330,7 @@ class Taxes
     /**
      * Delete an tax
      *
-     * @param $tax_no
+     * @param int $tax_no Tax Number
      *
      * @return int
      */
@@ -344,6 +346,8 @@ class Taxes
 
     /**
      * Get all tax payments
+     * 
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -389,6 +393,8 @@ class Taxes
     /**
      * Get a single tax payment
      *
+     * @param int $voucher_no Voucher Number
+     * 
      * @return mixed
      */
     function getTaxPayRecord($voucher_no)
@@ -421,7 +427,7 @@ class Taxes
     /**
      * Make a tax payment
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return array
      */
@@ -505,7 +511,7 @@ class Taxes
     /**
      * Insert Tax pay data into ledger
      *
-     * @param array $invoice_data
+     * @param array $tax_data Tax Data
      *
      * @return mixed
      */
@@ -542,7 +548,7 @@ class Taxes
     /**
      * Format payment line items
      *
-     * @param string $tax
+     * @param string $tax Tax Criteria
      *
      * @return array
      */
@@ -567,8 +573,7 @@ class Taxes
     /**
      * Get formatted tax data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data Filter Data
      *
      * @return mixed
      */
@@ -605,8 +610,7 @@ class Taxes
     /**
      * Get formatted tax data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -631,6 +635,8 @@ class Taxes
 
     /**
      * Tax summary
+     * 
+     * @return void
      */
     function taxSummary()
     {
@@ -655,6 +661,8 @@ class Taxes
 
     /**
      * Get default tax rate name id
+     * 
+     * @return void
      */
     function getDefaultTaxRateNameId()
     {
@@ -666,9 +674,7 @@ class Taxes
     /**
      * Inserts synced tax data
      *
-     * @since 1.10.0
-     *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return int|string|\WP_Error
      */
@@ -698,12 +704,10 @@ class Taxes
     /**
      * Retrieves system id of synced tax data
      *
-     * @since 1.10.0
-     *
-     * @param string $sync_type
-     * @param string $sync_source
-     * @param int|string $sync_id
-     * @param string $sync_slug
+     * @param string     $sync_type   Sync Type
+     * @param string     $sync_source Sync Source Type
+     * @param int|string $sync_id     sync Id
+     * @param string     $sync_slug   Sync Slug
      *
      * @return int|null
      */

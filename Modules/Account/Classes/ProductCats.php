@@ -24,7 +24,7 @@ class ProductCats
     /**
      * Get an single product
      *
-     * @param $product_cat_no
+     * @param int $product_cat_id Product Cat ID
      *
      * @return mixed
      */
@@ -40,7 +40,7 @@ class ProductCats
     /**
      * Insert product data
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return int
      */
@@ -53,7 +53,7 @@ class ProductCats
         $data['created_by'] = $created_by;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
             $product_cat_data = $this->getFormattedProductCatData($data);
 
             $product_cat_id =  DB::table('erp_acct_product_categories')
@@ -69,11 +69,12 @@ class ProductCats
                 );
 
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('product-exception', $e->getMessage());
+            messageBag()->add('product-exception', $e->getMessage());
+            return;
         }
 
 
@@ -83,7 +84,8 @@ class ProductCats
     /**
      * Update product data
      *
-     * @param $data
+     * @param array $data Data Filter
+     * @param array $id   Id
      *
      * @return int
      */
@@ -96,7 +98,7 @@ class ProductCats
         $data['updated_by'] = $updated_by;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
             $product_cat_data = $this->getFormattedProductCatData($data);
 
             DB::table('erp_acct_product_categories')
@@ -112,11 +114,12 @@ class ProductCats
                     ]
                 );
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('product-exception', $e->getMessage());
+            messageBag()->add('product-exception', $e->getMessage());
+            return;
         }
 
 
@@ -126,8 +129,7 @@ class ProductCats
     /**
      * Get formatted product data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -146,7 +148,7 @@ class ProductCats
     /**
      * Delete an product
      *
-     * @param $product_cat_no
+     * @param int $product_cat_id Product Cat Id
      *
      * @return void
      */

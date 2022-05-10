@@ -9,6 +9,8 @@ class TaxCats
 
     /**
      * Get all tax categories
+     * 
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -54,7 +56,7 @@ class TaxCats
     /**
      * Get an single tax category
      *
-     * @param $tax_no
+     * @param int $tax_no Tax No
      *
      * @return mixed
      */
@@ -70,7 +72,7 @@ $row = (!empty($row)) ? $row[0] : null;
     /**
      * Get an single tax category
      *
-     * @param $tax_no
+     * @param int $id Tax No
      *
      * @return mixed
      */
@@ -86,7 +88,7 @@ $row = (!empty($row)) ? $row[0] : null;
     /**
      * Insert tax category data
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return int
      */
@@ -120,7 +122,8 @@ $row = (!empty($row)) ? $row[0] : null;
     /**
      * Update tax category
      *
-     * @param $data
+     * @param array $data Data Filter
+     * @param int   $id   Id
      *
      * @return int
      */
@@ -152,7 +155,7 @@ $row = (!empty($row)) ? $row[0] : null;
     /**
      * Delete a tax category
      *
-     * @param $tax_no
+     * @param int $id Tax Category ID 
      *
      * @return int
      */

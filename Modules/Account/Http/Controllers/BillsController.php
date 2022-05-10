@@ -16,11 +16,11 @@ class BillsController extends Controller
     /**
      * Get a collection of bills
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_bills($request)
+    public function get_bills(Request $request)
     {
 
         $bills = new Bills();
@@ -56,22 +56,19 @@ class BillsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
-
-        return $response;
+        
     }
 
     /**
      * Get a bill
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_bill($request)
+    public function get_bill(Request $request)
     {
         $bills = new Bills();
         $id = (int) $request['id'];
@@ -86,21 +83,21 @@ class BillsController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
         $data            = $this->prepare_item_for_response($bill_data, $request, $additional_fields);
         $formatted_items = $this->prepare_response_for_collection($data);
-        $response        = rest_ensure_response($formatted_items);
 
-        $response->set_status(200);
+        return  response()->json($formatted_items);
 
-        return $response;
+
+        
     }
 
     /**
      * Create a bill
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function create_bill($request)
+    public function create_bill(Request $request)
     {
         $bills = new Bills();
         $bill_data = $this->prepare_item_for_database($request);
@@ -126,20 +123,19 @@ class BillsController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $bill_data = $this->prepare_item_for_response($bill, $request, $additional_fields);
-        $response = rest_ensure_response($bill_data);
-        $response->set_status(201);
+        return response()->json($bill_data);
 
-        return $response;
+        
     }
 
     /**
      * Update a bill
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function update_bill($request)
+    public function update_bill(Request $request)
     {
         $common = new CommonFunc();
         $bills = new Bills();
@@ -180,23 +176,22 @@ class BillsController extends Controller
 
         $bill_data = $this->prepare_item_for_response($bill, $request, $additional_fields);
 
-        $response = rest_ensure_response($bill_data);
-        $response->set_status(200);
+        return response()->json($bill_data);
 
-        return $response;
+        
     }
 
     /**
      * Void a bill
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function void_bill($request)
+    public function void_bill(Request $request)
     {
         $bills = new Bills();
-        
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -211,11 +206,11 @@ class BillsController extends Controller
     /**
      * Get a collection of bills with due of a people
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function due_bills($request)
+    public function due_bills(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -256,30 +251,26 @@ class BillsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
-
-        return $response;
+        
     }
 
     /**
      * Get Dashboard Payable segments
      *
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return mixed|WP_REST_Response
+     * @return mixed|\Illuminate\Http\Response
      */
-    public function get_overview_payables($request)
+    public function get_overview_payables(Request $request)
     {
         $common = new CommonFunc();
         $items    = $common->getPayables();
-        $response = rest_ensure_response($items);
+        return response()->json($items);
 
-        $response->set_status(200);
 
-        return $response;
+        
     }
 
     /**
@@ -310,11 +301,11 @@ class BillsController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -379,12 +370,12 @@ class BillsController extends Controller
      * Prepare a single user output for response
      *
      * @param array|object    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $people = new People();
         $item = (object) $item;
@@ -411,12 +402,9 @@ class BillsController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
 
-        return $response;
+        return $data;
     }
 
     /**

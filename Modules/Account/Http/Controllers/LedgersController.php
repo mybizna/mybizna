@@ -20,11 +20,11 @@ class LedgersController extends Controller
     /**
      * Get all the ledgers of a particular chart_id
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_all_ledger_accounts($request)
+    public function get_all_ledger_accounts(Request $request)
     {
         $formatted_items   = [];
         $additional_fields = [];
@@ -39,22 +39,21 @@ class LedgersController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, count($ledgers));
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get all the ledgers of a particular chart_id
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_ledger_accounts_by_chart($request)
+    public function get_ledger_accounts_by_chart(Request $request)
     {
         $ledger = new LedgerAccounts();
         $id = $request['chart_id'];
@@ -65,20 +64,20 @@ class LedgersController extends Controller
 
         $items = $ledger->getLedgersByChartId($id);
 
-        $response = rest_ensure_response($items);
-        $response->set_status(200);
+        return response()->json($items);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a specific ledger
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_ledger_account($request)
+    public function get_ledger_account(Request $request)
     {
         $ledger = new LedgerAccounts();
 
@@ -93,19 +92,19 @@ class LedgersController extends Controller
         $item = $ledger->getLedger($id);
 
         $result   = $this->prepare_item_for_response($item, $request);
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        return $response;
+        
     }
 
     /**
      * Create an ledger
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function create_ledger_account($request)
+    public function create_ledger_account(Request $request)
     {
         $ledger = new LedgerAccounts();
 
@@ -124,21 +123,21 @@ class LedgersController extends Controller
 
         $request->set_param('context', 'edit');
         $response = $this->prepare_item_for_response($result, $request);
-        $response = rest_ensure_response($response);
-        $response->set_status(200);
+        return response()->json($response);
+        
         //$response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $result['id'] ) ) );
 
-        return $response;
+        
     }
 
     /**
      * Update an ledger
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function update_ledger_account($request)
+    public function update_ledger_account(Request $request)
     {
         $ledger = new LedgerAccounts();
 
@@ -159,21 +158,21 @@ class LedgersController extends Controller
 
         $request->set_param('context', 'edit');
         $response = $this->prepare_item_for_response($result, $request);
-        $response = rest_ensure_response($response);
+        return response()->json($response);
         $response->set_status(201);
         $response->header('Location', rest_url(sprintf('/%s/%s/%d', $this->namespace, $this->rest_base, $id)));
 
-        return $response;
+        
     }
 
     /**
      * Delete an account
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function delete_ledger_account($request)
+    public function delete_ledger_account(Request $request)
     {
         $ledger = new LedgerAccounts();
 
@@ -200,26 +199,26 @@ class LedgersController extends Controller
      *
      * @return WP_ERROR|WP_REST_REQUEST
      */
-    public function get_chart_accounts($request)
+    public function get_chart_accounts(Request $request)
     {
         $ledger = new LedgerAccounts();
         $accounts = $ledger->getAllCharts();
 
-        $response = rest_ensure_response($accounts);
+        return response()->json($accounts);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a collection of bank accounts
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_bank_accounts($request)
+    public function get_bank_accounts(Request $request)
     {
         $bank = new Bank();
         $items = $bank->getBanks(true, false, false);
@@ -237,20 +236,19 @@ class LedgersController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, 0);
+        return response()->json($formatted_items);
 
-        return $response;
+        
     }
 
     /**
      * Get cash accounts
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_cash_accounts($request)
+    public function get_cash_accounts(Request $request)
     {
         $trialbal = new TrialBalance();
 
@@ -277,10 +275,9 @@ class LedgersController extends Controller
         $additional_fields = [];
         $data              = $this->prepare_bank_item_for_response($item, $request, $additional_fields);
 
-        $response = rest_ensure_response($data);
-        $response = $this->format_collection_response($response, $request, 0);
+        return response()->json($data);
 
-        return $response;
+        
     }
 
     /**
@@ -290,18 +287,18 @@ class LedgersController extends Controller
      *
      * @return WP_ERROR|WP_REST_REQUEST
      */
-    public function get_ledger_categories($request)
+    public function get_ledger_categories(Request $request)
     {
         $ledger = new LedgerAccounts();
         $chart_id = absint($request['chart_id']);
 
         $categories = $ledger->getLedgerCategories($chart_id);
 
-        $response = rest_ensure_response($categories);
+        return response()->json($categories);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
@@ -311,7 +308,7 @@ class LedgersController extends Controller
      *
      * @return WP_ERROR|WP_REST_REQUEST
      */
-    public function create_ledger_category($request)
+    public function create_ledger_category(Request $request)
     {
         $ledger = new LedgerAccounts();
         $category = $ledger->createLedgerCategory($request);
@@ -320,11 +317,11 @@ class LedgersController extends Controller
             return new WP_Error('rest_ledger_already_exist', __('Category already exist.'), ['status' => 404]);
         }
 
-        $response = rest_ensure_response($category);
+        return response()->json($category);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
@@ -334,7 +331,7 @@ class LedgersController extends Controller
      *
      * @return WP_ERROR|WP_REST_REQUEST
      */
-    public function update_ledger_category($request)
+    public function update_ledger_category(Request $request)
     {
         $ledger = new LedgerAccounts();
         $id = (int) $request['id'];
@@ -349,17 +346,17 @@ class LedgersController extends Controller
             return new WP_Error('rest_ledger_already_exist', __('Category already exist.'), ['status' => 404]);
         }
 
-        $response = rest_ensure_response($category);
+        return response()->json($category);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Remove category
      */
-    public function delete_ledger_category($request)
+    public function delete_ledger_category(Request $request)
     {
         $ledger = new LedgerAccounts();
         $id = (int) $request['id'];
@@ -401,11 +398,11 @@ class LedgersController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -421,12 +418,12 @@ class LedgersController extends Controller
      * Prepare a single user output for response
      *
      * @param object          $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $ledger = new LedgerAccounts();
         $item = (object) $item;
@@ -445,50 +442,48 @@ class LedgersController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        return $response;
+        return $data;
     }
 
     /**
      * Prepare a single user output for response
      *
      * @param object          $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_ledger_for_response($item, $request, $additional_fields = [])
+    public function prepare_ledger_for_response($item, Request $request, $additional_fields = [])
     {
         $item = (array) $item;
 
         $data = array_merge($item, $additional_fields);
 
         // Wrap the data in a response object
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
-        return $response;
+        
     }
 
     /**
      * @param $item
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      * @param $additional_fields
      *
-     * @return mixed|WP_REST_Response
+     * @return mixed|\Illuminate\Http\Response
      */
-    public function prepare_bank_item_for_response($item, $request, $additional_fields)
+    public function prepare_bank_item_for_response($item, Request $request, $additional_fields)
     {
         $item = (array) $item;
 
         $data = array_merge($item, $additional_fields);
 
         // Wrap the data in a response object
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
-        return $response;
+        
     }
 
     /**

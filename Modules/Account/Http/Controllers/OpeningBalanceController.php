@@ -14,11 +14,11 @@ class OpeningBalanceController extends Controller
     /**
      * Get a collection of opening_balances
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_opening_balances($request)
+    public function get_opening_balances(Request $request)
     {
         $args['number'] = !empty($request['per_page']) ? $request['per_page'] : 20;
         $args['offset'] = ($request['per_page'] * ($request['page'] - 1));
@@ -43,22 +43,21 @@ class OpeningBalanceController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get opening balances of a year
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_opening_balance($request)
+    public function get_opening_balance(Request $request)
     {
 
 
@@ -86,22 +85,21 @@ class OpeningBalanceController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, count($ledgers));
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get number of entries of a financial year
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_opening_balance_count_by_fy($request)
+    public function get_opening_balance_count_by_fy(Request $request)
     {
 
 
@@ -115,21 +113,21 @@ class OpeningBalanceController extends Controller
         $result = DB::select("select count(*) as num from erp_acct_opening_balances where financial_year_id = %d", [$id]);
         $result = (!empty($result)) ? $result[0] : null;
 
-        $response = rest_ensure_response($result->num);
+        return response()->json($result->num);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a virtual accounts of a year
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_virtual_accts_by_year($request)
+    public function get_virtual_accts_by_year(Request $request)
     {
         $id                = (int) $request['id'];
         $additional_fields = [];
@@ -140,21 +138,21 @@ class OpeningBalanceController extends Controller
 
         $item = $open_balances->getVirtualAcct($id);
 
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a collection of opening_balance_names
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_opening_balance_names($request)
+    public function get_opening_balance_names(Request $request)
     {
         $additional_fields = [];
 
@@ -163,21 +161,21 @@ class OpeningBalanceController extends Controller
 
         $item = $open_balance->getOpeningBalanceNames();
 
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Create a opening_balance
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function create_opening_balance($request)
+    public function create_opening_balance(Request $request)
     {
         $opening_balance_data = $this->prepare_item_for_database($request);
 
@@ -204,21 +202,21 @@ class OpeningBalanceController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $response = $this->prepare_item_for_response($opening_balance, $request, $additional_fields);
-        $response = rest_ensure_response($response);
+        return response()->json($response);
 
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Get account payable & receivable
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_acc_payable_receivable($request)
+    public function get_acc_payable_receivable(Request $request)
     {
         $additional_fields = [];
 
@@ -230,11 +228,11 @@ class OpeningBalanceController extends Controller
         $acc_pay_rec['invoice_acc']       = $open_balance->getOpbInvoiceAccountDetails($request['start_date']);
         $acc_pay_rec['bill_purchase_acc'] = $this->getOpbBillPurchaseAccountDetails($request['start_date']);
 
-        $response = rest_ensure_response($acc_pay_rec);
+        return response()->json($acc_pay_rec);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
@@ -252,11 +250,11 @@ class OpeningBalanceController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -291,23 +289,19 @@ class OpeningBalanceController extends Controller
      * Prepare output for response
      *
      * @param array|object    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $item = (array) $item;
 
         $data = array_merge($item, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**

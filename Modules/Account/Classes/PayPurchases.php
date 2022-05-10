@@ -16,7 +16,7 @@ class PayPurchases
     /**
      * Get all pay_purchases
      *
-     * @param $data
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -55,7 +55,7 @@ class PayPurchases
     /**
      * Get a pay_purchase
      *
-     * @param $purchase_no
+     * @param int $purchase_no Purchase Number
      *
      * @return mixed
      */
@@ -98,6 +98,10 @@ class PayPurchases
 
     /**
      * Format pay purchase line items
+     *
+     * @param int $voucher_no Voucher Number
+     *
+     * @return array
      */
     function formatPayPurchaseLineItems($voucher_no)
     {
@@ -117,9 +121,7 @@ class PayPurchases
     /**
      * Insert a pay_purchase
      *
-     * @param $data
-     * @param $pay_purchase_id
-     * @param $due
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -139,7 +141,7 @@ class PayPurchases
         $currency           = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             if (floatval($data['amount']) < 0) {
                 $trn_type = 'pay_purchase';
@@ -218,7 +220,7 @@ class PayPurchases
 
 
             if (1 === $pay_purchase_data['status']) {
-                $wpdb->query('COMMIT');
+                DB::commit();
 
                 return $this->getPayPurchase($voucher_no);
             }
@@ -267,11 +269,12 @@ class PayPurchases
 
             do_action('erp_acct_after_pay_purchase_create', $pay_purchase_data, $voucher_no);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('pay-purchase-exception', $e->getMessage());
+            messageBag()->add('pay-purchase-exception', $e->getMessage());
+            return;
         }
 
         foreach ($items as $item) {
@@ -291,9 +294,8 @@ class PayPurchases
     /**
      * Update a pay_purchase
      *
-     * @param $data
-     * @param $pay_purchase_id
-     * @param $due
+     * @param array $data            Data Filter
+     * @param int   $pay_purchase_id Pay Purchase ID
      *
      * @return mixed
      */
@@ -304,7 +306,7 @@ class PayPurchases
         $created_by = auth()->user()->id;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $pay_purchase_data = $this->getFormattedPayPurchaseData($data, $pay_purchase_id);
 
@@ -344,7 +346,7 @@ class PayPurchases
             }
 
             if (1 === $pay_purchase_data['status']) {
-                $wpdb->query('COMMIT');
+                DB::commit();
 
                 return $this->getPayPurchase($pay_purchase_id);
             }
@@ -376,11 +378,12 @@ class PayPurchases
                     );
             }
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('pay-purchase-exception', $e->getMessage());
+            messageBag()->add('pay-purchase-exception', $e->getMessage());
+            return;
         }
 
         foreach ($items as $item) {
@@ -394,7 +397,7 @@ class PayPurchases
     /**
      * Void a pay_purchase
      *
-     * @param $id
+     * @param int $id ID
      *
      * @return void
      */
@@ -417,8 +420,8 @@ class PayPurchases
     /**
      * Get formatted pay_purchase data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data       Data Filter
+     * @param int   $voucher_no Voucher Number
      *
      * @return mixed
      */
@@ -459,8 +462,8 @@ class PayPurchases
     /**
      * Insert pay_purchase/s data into ledger
      *
-     * @param array $pay_purchase_data
-     * @param array $item_data
+     * @param array $pay_purchase_data Pay Purchase Data
+     * @param array $item_data         Item Data
      *
      * @return mixed
      */
@@ -502,9 +505,9 @@ class PayPurchases
     /**
      * Update pay_purchase/s data into ledger
      *
-     * @param array $pay_purchase_data
-     *                                 * @param array $pay_purchase_no
-     * @param array $item_data
+     * @param array $pay_purchase_data Pay Purchase Data
+     * @param array $pay_purchase_no   Pay Purchase No
+     * @param array $item_data         Item data
      *
      * @return mixed
      */
@@ -565,7 +568,7 @@ class PayPurchases
     /**
      * Update purchase status after a payment
      *
-     * @param $purchase_no
+     * @param int $purchase_no Purchase Number
      *
      * @return void
      */

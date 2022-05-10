@@ -19,9 +19,9 @@ class Reports
     /**
      * get ledger report
      *
-     * @param int    $ledger_id
-     * @param string $start_date
-     * @param string $end_date
+     * @param int    $ledger_id  Ledger Id 
+     * @param string $start_date Start Date
+     * @param string $end_date   End Date
      *
      * @return mixed
      */
@@ -144,8 +144,8 @@ class Reports
     /**
      * Ledger report opening balance helper
      *
-     * @param $id
-     * @param $ledger_id
+     * @param int $id        Id
+     * @param int $ledger_id Ledger Id
      *
      * @return string|null
      */
@@ -166,11 +166,11 @@ class Reports
      */
 
     /**
-     * get sales tax report
+     * Get sales tax report
      *
-     * @param int    $agency_id
-     * @param string $start_date
-     * @param string $end_date
+     * @param int    $agency_id  Agency Id
+     * @param string $start_date Start Date
+     * @param string $end_date   End Date
      *
      * @return mixed
      */
@@ -278,9 +278,7 @@ class Reports
     /**
      * Generates filter wise sales tax report
      *
-     * @since 1.10.0
-     *
-     * @param array $args
+     * @param array $args Sales Tax Filter
      *
      * @return array
      */
@@ -329,6 +327,10 @@ class Reports
 
     /**
      * Get income statement
+     * 
+     * @param array $args Income Statement Filter
+     * 
+     * @return array
      */
     function getIncomeStatement($args)
     {
@@ -352,10 +354,10 @@ class Reports
     /**
      * Income statement with opening balance helper
      *
-     * @param $bs_start_date
-     * @param $data
-     * @param $sql
-     * @param $chart_id
+     * @param boolean $is_start_date Start Date
+     * @param array   $data          Data
+     * @param string  $sql           SQL
+     * @param int     $chart_id      Chart ID
      *
      * @return array
      */
@@ -423,9 +425,9 @@ class Reports
     /**
      * Get income statement ledger balance with opening balance
      *
-     * @param array $ledgers
-     * @param array $data
-     * @param array $opening_balance
+     * @param array $ledgers         Ledger List
+     * @param array $data            Data
+     * @param array $opening_balance Opening Balance
      *
      * @return array
      */
@@ -463,8 +465,8 @@ class Reports
     /**
      * Get income statement opening balance data by financial year id
      *
-     * @param int $id
-     * @param int $chart_id ( optional )
+     * @param int $id       Id
+     * @param int $chart_id Chart Id ( optional )
      *
      * @return array
      */
@@ -496,7 +498,7 @@ class Reports
     /**
      * Get balance sheet
      *
-     * @param $args
+     * @param array $args Balance Sheet Filter
      *
      * @return mixed
      */
@@ -693,11 +695,11 @@ class Reports
     /**
      * Balance sheet with opening balance helper
      *
-     * @param $bs_start_date
-     * @param $data
-     * @param $sql
-     * @param $chart_id
-     *
+     * @param boolean $bs_start_date Start Date
+     * @param array   $data          Data
+     * @param string  $sql           Sql
+     * @param int     $chart_id      Chart Id
+     * 
      * @return array
      */
     function balanceSheetCalculateWithOpeningBalance($bs_start_date, $data, $sql, $chart_id)
@@ -768,9 +770,9 @@ class Reports
     /**
      * Get ledger balance with opening balance
      *
-     * @param array $ledgers
-     * @param array $data
-     * @param array $opening_balance
+     * @param array $ledgers         Ledger
+     * @param array $data            Data
+     * @param array $opening_balance Opening Balance
      *
      * @return array
      */
@@ -808,8 +810,8 @@ class Reports
     /**
      * Get opening balance data by financial year id
      *
-     * @param int $id
-     * @param int $chart_id ( optional )
+     * @param int $id       Id
+     * @param int $chart_id Chart Id ( optional )
      *
      * @return array
      */
@@ -835,7 +837,7 @@ class Reports
     /**
      * Get profit-loss
      *
-     * @param $args
+     * @param array $args Profit Loss Filter
      *
      * @return array
      */

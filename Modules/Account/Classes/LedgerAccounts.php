@@ -28,7 +28,7 @@ class LedgerAccounts
     /**
      * Get Ledger name by id
      *
-     * @param $ledger_id
+     * @param int $ledger_id Ledger Id
      *
      * @return mixed
      */
@@ -43,6 +43,10 @@ class LedgerAccounts
 
     /**
      * Get ledger categories
+     *
+     * @param int $chart_id Chart Id
+     *
+     * @return array
      */
     function getLedgerCategories($chart_id)
     {
@@ -56,6 +60,10 @@ class LedgerAccounts
 
     /**
      * Create ledger category
+     *
+     * @param array $args Data Filter
+     *
+     * @return array
      */
     function createLedgerCategory($args)
     {
@@ -81,6 +89,10 @@ class LedgerAccounts
 
     /**
      * Update ledger category
+     *
+     * @param array $args Data Filter
+     *
+     * @return array
      */
     function updateLedgerCategory($args)
     {
@@ -108,8 +120,13 @@ class LedgerAccounts
 
     /**
      * Remove ledger category
+     *
+     * @param array $id        Id
+     * @param array $parent_id Default Parent Id
+     *
+     * @return array
      */
-    function deleteLedgerCategory($id)
+    function deleteLedgerCategory($id,$parent_id='')
     {
 
 
@@ -127,7 +144,9 @@ class LedgerAccounts
     }
 
     /**
-     * @param $chart_id
+     * Get Ledgers By Chart Id
+     *
+     * @param int $chart_id Chart Id
      *
      * @return array|object|null
      */
@@ -147,7 +166,7 @@ class LedgerAccounts
     /**
      * Get ledger transaction count
      *
-     * @param $ledger_id
+     * @param int $ledger_id Ledger Id
      *
      * @return mixed
      */
@@ -165,7 +184,7 @@ class LedgerAccounts
     /**
      * Get ledger balance
      *
-     * @param $ledger_id
+     * @param int $ledger_id Ledger Id
      *
      * @return mixed
      */
@@ -186,7 +205,7 @@ class LedgerAccounts
     /**
      * Get a ledger by id
      *
-     * @param $id
+     * @param int $id Id
      *
      * @return array|object|void|null
      */
@@ -203,7 +222,7 @@ class LedgerAccounts
     /**
      * Insert a ledger
      *
-     * @param $item
+     * @param array $item Item
      *
      * @return array|object|void|null
      */
@@ -228,8 +247,8 @@ class LedgerAccounts
     /**
      * Update a ledger
      *
-     * @param $item
-     * @param $id
+     * @param array $item Item
+     * @param int   $id   Id
      *
      * @return array|object|void|null
      */
@@ -255,8 +274,7 @@ class LedgerAccounts
     /**
      * Get ledger opening balance data by financial year id
      *
-     * @param int $id
-     * @param int $chart_id ( optional )
+     * @param int $id Chart Id
      *
      * @return string
      */
@@ -313,7 +331,7 @@ class LedgerAccounts
     /**
      * Ledgers opening balance
      *
-     * @param int $id
+     * @param int $id Year Id
      *
      * @return void
      */
@@ -324,7 +342,7 @@ class LedgerAccounts
         return DB::select(
                 "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_opening_balances AS opb ON ledger.id = opb.ledger_id WHERE opb.financial_year_id = %d opb.type = 'ledger' GROUP BY opb.ledger_id",
                 [$id]
-        );
+         );
     }
 
     /**
@@ -383,7 +401,7 @@ class LedgerAccounts
     /**
      * Get chart of account id by slug
      *
-     * @param string $key
+     * @param string $key Key
      *
      * @return int
      */
@@ -426,8 +444,6 @@ class LedgerAccounts
 
     /**
      * Get ledgers
-     *
-     * @param $chart_id
      *
      * @return array|object|null
      */

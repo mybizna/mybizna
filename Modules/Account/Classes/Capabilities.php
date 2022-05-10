@@ -21,7 +21,7 @@ class Capabilities
     /**
      * When a new administrator is created, make him HR Manager by default
      *
-     * @param int $user_id
+     * @param int $user_id User id
      *
      * @return void
      */
@@ -37,13 +37,11 @@ class Capabilities
     /**
      * Check is current user is accounting manager
      *
-     * @since 1.8.5
-     *
      * @return bool
      */
     function isCurrentUserManager()
     {
-        $current_user_role = $this->getUserRole(get_current_user_id());
+        $current_user_role = $this->getUserRole(auth()->user()->id);
 
         if ($this->getManagerRole() != $current_user_role) {
             return false;
@@ -55,7 +53,7 @@ class Capabilities
     /**
      * Return a user's HR role
      *
-     * @param int $user_id
+     * @param int $user_id User Id
      *
      * @return string
      */
@@ -104,6 +102,15 @@ class Capabilities
         return apply_filters('get_roles', $roles);
     }
 
+
+
+    /**
+     * Get Caps For Role.
+     *
+     * @param mixed $role Role
+     *
+     * @return void
+     */
     function getCapsForRole($role = '')
     {
         $caps = [];
@@ -164,6 +171,11 @@ class Capabilities
         return apply_filters('get_caps_for_role', $caps, $role);
     }
 
+    /**
+     * Check if HR current user manager.
+     *
+     * @return void
+     */
     function isHrCurrentUserManager()
     {
         $current_user_hr_role = true;
@@ -175,12 +187,23 @@ class Capabilities
         return true;
     }
 
-    //Customer
+    /**
+     * Create Customer
+     *
+     * @return void
+     */
     function createCustomer()
     {
         return current_user_can('create_customer');
     }
 
+    /**
+     * User Can Edit Customer.
+     *
+     * @param mixed $created_by Created By
+     *
+     * @return void
+     */
     function userCanEditCustomer($created_by = false)
     {
         if (!current_user_can('erp_ac_edit_customer')) {
@@ -204,16 +227,33 @@ class Capabilities
         return false;
     }
 
+    /**
+     * Current User Can View Single Customer
+     *
+     * @return void
+     */
     function currentUserCanViewSingleCustomer()
     {
         return current_user_can('erp_ac_view_single_customer');
     }
 
+    /**
+     * View Other Customers
+     *
+     * @return void
+     */
     function viewOtherCustomers()
     {
         return current_user_can('erp_ac_view_other_customers');
     }
 
+    /**
+     * Current User Can Delete Customer
+     *
+     * @param mixed $created_by Created By
+     *
+     * @return void
+     */
     function currentUserCanDeleteCustomer($created_by = false)
     {
         if (!current_user_can('erp_ac_delete_customer')) {
@@ -237,12 +277,23 @@ class Capabilities
         return false;
     }
 
-    //vendor
+    /**
+     * Create Vendor
+     *
+     * @return void
+     */
     function createVendor()
     {
         return current_user_can('erp_ac_create_vendor');
     }
 
+    /**
+     * Current User Can Edit Vendor
+     *
+     * @param mixed $created_by Created By
+     *
+     * @return void
+     */
     function currentUserCanEditVendor($created_by = false)
     {
         if (!current_user_can('erp_ac_edit_vendor')) {
@@ -266,16 +317,33 @@ class Capabilities
         return false;
     }
 
+    /**
+     * Current User Can View Single Vendor
+     *
+     * @return void
+     */
     function currentUserCanViewSingleVendor()
     {
         return current_user_can('erp_ac_view_single_vendor');
     }
 
+    /**
+     * View Other Vendors
+     *
+     * @return void
+     */
     function viewOtherVendors()
     {
         return current_user_can('erp_ac_view_other_vendors');
     }
 
+    /**
+     * Current User Can Delete Vender
+     *
+     * @param mixed $created_by Created By
+     *
+     * @return void
+     */
     function currentUserCanDeleteVendor($created_by = false)
     {
         if (!current_user_can('erp_ac_delete_vendor')) {

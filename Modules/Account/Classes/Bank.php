@@ -122,7 +122,8 @@ class Bank
         $banks = $ledger->getLedgersByChartId(7);
 
         if ($bank_only && empty($banks)) {
-            return new WP_Error('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
+              messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'));
+            return false;
         }
 
         foreach ($banks as $bank) {
@@ -214,7 +215,7 @@ class Bank
         $bank_data = $this->getFormattedBankData($data);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             DB::table('erp_acct_cash_at_banks')
                 ->insert(
@@ -223,11 +224,11 @@ class Bank
                     ]
                 );
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('bank-account-exception', $e->getMessage());
+            return messageBag()->add('bank-account-exception', $e->getMessage());
         }
 
         return $bank_data['ledger_id'];
@@ -245,13 +246,14 @@ class Bank
 
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
             DB::table('erp_acct_cash_at_banks')->where([['ledger_id' => $id]])->delete();
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('bank-account-exception', $e->getMessage());
+            messageBag()->add('bank-account-exception', $e->getMessage());
+            return;
         }
 
         return $id;
@@ -325,7 +327,7 @@ class Bank
         $currency   = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $voucher_no =  DB::table('erp_acct_voucher_no')
                 ->insertGetId(
@@ -389,11 +391,12 @@ class Bank
                     ]
                 );
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('transfer-exception', $e->getMessage());
+            messageBag()->add('transfer-exception', $e->getMessage());
+            return;
         }
     }
 
@@ -427,6 +430,8 @@ class Bank
     /**
      * Get transferrable accounts
      *
+     * @param boolean $show_balance Show Balance
+     * 
      * @return array
      */
     function getTransferAccounts($show_balance = false)

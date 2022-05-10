@@ -15,11 +15,11 @@ class TaxesController extends Controller
     /**
      * Get a collection of taxes
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_tax_rates($request)
+    public function get_tax_rates(Request $request)
     {
         $args = [
             'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
@@ -55,22 +55,21 @@ class TaxesController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get an tax
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_tax_rate($request)
+    public function get_tax_rate(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -84,21 +83,21 @@ class TaxesController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $item     = $this->prepare_item_for_response($item, $request, $additional_fields);
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Create an tax
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function create_tax_rate($request)
+    public function create_tax_rate(Request $request)
     {
         $item_rates = [];
 
@@ -123,20 +122,20 @@ class TaxesController extends Controller
 
         $tax_data = $this->prepare_item_for_response($tax_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($tax_data);
+        return response()->json($tax_data);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Update a tax rate
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function update_tax_rate($request)
+    public function update_tax_rate(Request $request)
     {
         $id         = (int) $request['id'];
         $item_rates = [];
@@ -166,20 +165,20 @@ class TaxesController extends Controller
 
         $tax_data = $this->prepare_item_for_response($tax_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($tax_data);
+        return response()->json($tax_data);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Quick Edit a tax rate
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function quick_edit_tax_rate($request)
+    public function quick_edit_tax_rate(Request $request)
     {
         $id         = (int) $request['id'];
         $item_rates = [];
@@ -203,20 +202,20 @@ class TaxesController extends Controller
 
         $tax_data = $this->prepare_item_for_response($tax_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($tax_data);
+        return response()->json($tax_data);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Add component of a tax rate
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function line_add_tax_rate($request)
+    public function line_add_tax_rate(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -233,20 +232,20 @@ class TaxesController extends Controller
 
         $tax_data = $this->prepare_tax_line_for_response($tax_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($tax_data);
-        $response->set_status(200);
+        return response()->json($tax_data);
+        
 
-        return $response;
+        
     }
 
     /**
      * Update component of a tax rate
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function line_edit_tax_rate($request)
+    public function line_edit_tax_rate(Request $request)
     {
         $id         = (int) $request['id'];
         $item_rates = [];
@@ -264,20 +263,20 @@ class TaxesController extends Controller
 
         $tax_data = $this->prepare_tax_line_for_response($tax_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($tax_data);
+        return response()->json($tax_data);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Update component of a tax rate
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function line_delete_tax_rate($request)
+    public function line_delete_tax_rate(Request $request)
     {
         $id = (int) $request['db_id'];
 
@@ -293,11 +292,11 @@ class TaxesController extends Controller
     /**
      * Delete an tax
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function delete_tax_rate($request)
+    public function delete_tax_rate(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -317,11 +316,11 @@ class TaxesController extends Controller
     /**
      * Get all tax payment records
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function get_tax_records($request)
+    public function get_tax_records(Request $request)
     {
         $args = [
             'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
@@ -357,22 +356,21 @@ class TaxesController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a tax payment
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_tax_pay_record($request)
+    public function get_tax_pay_record(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -386,21 +384,21 @@ class TaxesController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $item     = $this->prepare_tax_pay_response($item, $request, $additional_fields);
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Make a tax payment
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function pay_tax($request)
+    public function pay_tax(Request $request)
     {
         $tax_data = $this->prepare_item_for_database($request);
 
@@ -417,16 +415,16 @@ class TaxesController extends Controller
 
         $tax_data = $this->prepare_tax_pay_response($tax_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($tax_data);
+        return response()->json($tax_data);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Tax summary
      */
-    public function get_tax_summary($request)
+    public function get_tax_summary(Request $request)
     {
         $formatted_items   = [];
         $additional_fields = [];
@@ -441,11 +439,11 @@ class TaxesController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
@@ -455,7 +453,7 @@ class TaxesController extends Controller
      *
      * @return object
      */
-    public function bulk_delete($request)
+    public function bulk_delete(Request $request)
     {
         $ids = $request['ids'];
         $ids = explode(',', $ids);
@@ -510,11 +508,11 @@ class TaxesController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -572,11 +570,11 @@ class TaxesController extends Controller
     /**
      * Prepare a line item of a single tax rate create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_line_item_for_database($request)
+    protected function prepare_line_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -615,12 +613,12 @@ class TaxesController extends Controller
      * Prepare a single tax rate output for response
      *
      * @param array           $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request,  $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -633,45 +631,41 @@ class TaxesController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**
      * Prepare a tax rate line item output for response
      *
      * @param array           $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_tax_line_for_response($item, $request, $additional_fields = [])
+    public function prepare_tax_line_for_response($item, Request $request, $additional_fields = [])
     {
         $data = array_merge($item, $additional_fields);
 
         // Wrap the data in a response object
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
         $response = $this->add_links($response, $item, $additional_fields);
 
-        return $response;
+        
     }
 
     /**
      * Prepare a single tax payment output for response
      *
      * @param array           $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_tax_pay_response($item, $request, $additional_fields = [])
+    public function prepare_tax_pay_response($item, Request $request, $additional_fields = [])
     {
 
         $taxagencies = new TaxAgencies();
@@ -694,23 +688,23 @@ class TaxesController extends Controller
         $data = array_merge($data, $additional_fields);
 
         // Wrap the data in a response object
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
         $response = $this->add_links($response, $item, $additional_fields);
 
-        return $response;
+        
     }
 
     /**
      * Prepare tax summary output for response
      *
      * @param array           $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_tax_summary_response($item, $request, $additional_fields = [])
+    public function prepare_tax_summary_response($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -727,11 +721,11 @@ class TaxesController extends Controller
         $data = array_merge($data, $additional_fields);
 
         // Wrap the data in a response object
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
         $response = $this->add_links($response, $item, $additional_fields);
 
-        return $response;
+        
     }
 
     /**

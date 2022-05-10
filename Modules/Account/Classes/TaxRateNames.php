@@ -9,7 +9,9 @@ class TaxRateNames
 
     /**
      * Get all tax rate names
-     *
+     * 
+     * @param array $args Tax Rate Name
+     * 
      * @return mixed
      */
     function getAllTaxRateNames($args = [])
@@ -53,7 +55,7 @@ class TaxRateNames
     /**
      * Get an single tax rate name
      *
-     * @param $tax_no
+     * @param int $tax_no Tax Number
      *
      * @return mixed
      */
@@ -69,7 +71,7 @@ class TaxRateNames
     /**
      * Insert tax rate name
      *
-     * @param $data
+     * @param array $data Data
      *
      * @return int
      */
@@ -104,7 +106,8 @@ class TaxRateNames
     /**
      * Update tax rate name
      *
-     * @param $data
+     * @param array $data Data
+     * @param array $id   ID
      *
      * @return int
      */
@@ -141,7 +144,7 @@ class TaxRateNames
     /**
      * Delete an tax rate name
      *
-     * @param $tax_no
+     * @param int $id Id
      *
      * @return int
      */
@@ -158,7 +161,7 @@ class TaxRateNames
     /**
      * Get formatted tax rate name data
      *
-     * @param $data
+     * @param array $data Data
      *
      * @return mixed
      */

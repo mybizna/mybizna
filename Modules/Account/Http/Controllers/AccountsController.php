@@ -18,11 +18,11 @@ class AccountsController extends Controller
     /**
      * Get a collection of accounts
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_accounts($request)
+    public function get_accounts(Request $request)
     {
         $bank = new Bank();
         $items = $bank->getTransferAccounts(true);
@@ -36,20 +36,19 @@ class AccountsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, 0);
+        return response()->json($formatted_items);
 
-        return $response;
+        
     }
 
     /**
      * Get a specific account
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_account($request)
+    public function get_account(Request $request)
     {
         $bank = new Bank();
         $id   = (int) $request['id'];
@@ -60,19 +59,19 @@ class AccountsController extends Controller
         }
 
         $item     = $this->prepare_item_for_response($item, $request, []);
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        return $response;
+        
     }
 
     /**
      * Delete a specific account
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function delete_account($request)
+    public function delete_account(Request $request)
     {
         $bank = new Bank();
         $id   = (int) $request['id'];
@@ -83,19 +82,19 @@ class AccountsController extends Controller
         }
 
         $item     = $this->prepare_item_for_response($item, $request, []);
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        return $response;
+        
     }
 
     /**
      * Transfer money from one account to another
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function transfer_money($request)
+    public function transfer_money(Request $request)
     {
         $trialbal = new TrialBalance();
         $bank = new Bank();
@@ -123,7 +122,7 @@ class AccountsController extends Controller
         //     return new WP_Error( 'rest_transfer_insufficient_funds', __( 'Not enough money on selected transfer source.' ), [ 'status' => 400 ] );
         // }
 
-        $id = $bank->performTransfer($item);
+        $id = $bank->performTransfer(Request $request);
 
         if (is_wp_error($id)) {
             return $id;
@@ -137,11 +136,11 @@ class AccountsController extends Controller
     /**
      * Get a list of transfers
      *
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return mixed|object|WP_REST_Response
+     * @return mixed|object|\Illuminate\Http\Response
      */
-    public function get_transfer_list($request)
+    public function get_transfer_list(Request $request)
     {
         $bank = new Bank();
         $args = [
@@ -164,16 +163,15 @@ class AccountsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, 0);
+        return response()->json($formatted_items);
 
-        return $response;
+        
     }
 
     /**
      * Get single voucher
      */
-    public function get_single_transfer($request)
+    public function get_single_transfer(Request $request)
     {
 
         $bank = new Bank();
@@ -182,19 +180,19 @@ class AccountsController extends Controller
         $accounts = $bank->getTransferAccounts();
         $accounts = wp_list_pluck($accounts, 'name', 'id');
         $data     = $this->prepare_list_item_for_response($item, $request, [], $accounts);
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
-        return $response;
+        
     }
 
     /**
      * Get a collection of bank accounts
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_bank_accounts($request)
+    public function get_bank_accounts(Request $request)
     {
         $bank = new Bank();
         $items = $bank->getBanks(true, true, false);
@@ -212,20 +210,19 @@ class AccountsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, 0);
+        return response()->json($formatted_items);
 
-        return $response;
+        
     }
 
     /**
      * Get dashboard bank accounts
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_cash_at_bank($request)
+    public function get_cash_at_bank(Request $request)
     {
         $bank = new Bank();
         $formatted_items = [];
@@ -242,10 +239,9 @@ class AccountsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, 0);
+        return response()->json($formatted_items);
 
-        return $response;
+        
     }
 
     /**
@@ -261,11 +257,11 @@ class AccountsController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -282,12 +278,12 @@ class AccountsController extends Controller
      * Prepare a single account output for response
      *
      * @param object          $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request,  $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -307,22 +303,20 @@ class AccountsController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        return $response;
+        return $data;
     }
 
     /**
      * Prepare a single dashboard output for response
      *
      * @param object          $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_dashboard_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_dashboard_item_for_response($item, Request $request, $additional_fields = [])
     {
         if (isset($request['include'])) {
             $include_params = explode(',', str_replace(' ', '', $request['include']));
@@ -335,20 +329,20 @@ class AccountsController extends Controller
         $data = array_merge((array) $item, $additional_fields);
 
         // Wrap the data in a response object
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
-        return $response;
+        
     }
 
     /**
      * @param $item
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      * @param $additional_fields
      * @param $accounts
      *
-     * @return mixed|WP_REST_Response
+     * @return mixed|\Illuminate\Http\Response
      */
-    public function prepare_list_item_for_response($item, $request, $additional_fields, $accounts)
+    public function prepare_list_item_for_response($item, Request $request,  $additional_fields, $accounts)
     {
         $item = (object) $item;
 
@@ -375,26 +369,26 @@ class AccountsController extends Controller
         $data = array_merge($data, $additional_fields);
 
         // Wrap the data in a response object
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
-        return $response;
+        
     }
 
     /**
      * @param $item
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      * @param $additional_fields
      *
-     * @return mixed|WP_REST_Response
+     * @return mixed|\Illuminate\Http\Response
      */
-    public function prepare_bank_item_for_response($item, $request, $additional_fields)
+    public function prepare_bank_item_for_response($item, Request $request, $additional_fields)
     {
         $data = array_merge($item, $additional_fields);
 
         // Wrap the data in a response object
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
-        return $response;
+        
     }
 
     /**

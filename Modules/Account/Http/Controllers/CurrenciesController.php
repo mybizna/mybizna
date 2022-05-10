@@ -14,11 +14,11 @@ class CurrenciesController extends Controller
     /**
      * Get a collection of currencies
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_currencies( $request ) {
+    public function get_currencies( Request $request ) {
         $additional_fields = [];
 
         $additional_fields['namespace'] = $this->namespace;
@@ -34,24 +34,21 @@ class CurrenciesController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection( $data );
         }
 
-        $response = rest_ensure_response( $formatted_items );
-        $response = $this->format_collection_response( $response, $request, $total_items );
+        return response()->json( $formatted_items );
 
-        $response->set_status( 200 );
-
-        return $response;
+        
     }
 
     /**
      * Prepare output for response
      *
      * @param object          $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response( $item, $request, $additional_fields = [] ) {
+    public function prepare_item_for_response( $item, Request $request, $additional_fields = [] ) {
         $item = (object) $item;
 
         $data = [
@@ -62,12 +59,8 @@ class CurrenciesController extends Controller
 
         $data = array_merge( $data, $additional_fields );
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response( $data );
 
-        $response = $this->add_links( $response, $item, $additional_fields );
-
-        return $response;
+        return $data;
     }
 
     /**

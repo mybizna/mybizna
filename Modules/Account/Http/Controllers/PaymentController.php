@@ -18,11 +18,11 @@ class PaymentController extends Controller
     /**
      * Get a collection of payments
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_payments($request)
+    public function get_payments(Request $request)
     {
         $recpayments = new RecPayments();
         $args = [
@@ -57,22 +57,21 @@ class PaymentController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $payment_count);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a payment
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_payment($request)
+    public function get_payment(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -86,21 +85,21 @@ class PaymentController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $item     = $this->prepare_item_for_response($item, $request, $additional_fields);
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Create a payment
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function create_payment($request)
+    public function create_payment(Request $request)
     {
         $recpayments = new RecPayments();
         $additional_fields = [];
@@ -124,20 +123,20 @@ class PaymentController extends Controller
 
         $payment_data = $this->prepare_item_for_response($payment_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($payment_data);
+        return response()->json($payment_data);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Update a payment
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function update_payment($request)
+    public function update_payment(Request $request)
     {
         $recpayments = new RecPayments();
         $id = (int) $request['id'];
@@ -168,21 +167,21 @@ class PaymentController extends Controller
 
         $payment_response = $this->prepare_item_for_response($payment_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($payment_response);
+        return response()->json($payment_response);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Void a payment
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function void_payment($request)
+    public function void_payment(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -223,11 +222,11 @@ class PaymentController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -318,12 +317,12 @@ class PaymentController extends Controller
      * Prepare a single user output for response
      *
      * @param array|object    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $common = new CommonFunc();
         $ledger = new LedgerAccounts();
@@ -350,12 +349,8 @@ class PaymentController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**

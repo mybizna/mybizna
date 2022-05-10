@@ -14,7 +14,7 @@ class Bills
     /**
      * Get all bills
      *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -55,7 +55,7 @@ class Bills
     /**
      * Get a single bill
      *
-     * @param $bill_no
+     * @param int $bill_no Bill No
      *
      * @return mixed
      */
@@ -100,7 +100,7 @@ class Bills
     /**
      * Format bill line items
      *
-     * @param $voucher_no
+     * @param int $voucher_no Voucher Number
      *
      * @return array|object|null
      */
@@ -132,7 +132,7 @@ class Bills
     /**
      * Insert a bill
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -156,7 +156,7 @@ class Bills
         $currency           = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $voucher_no = DB::table('erp_acct_voucher_no')
                 ->insertGetId(
@@ -213,7 +213,7 @@ class Bills
             }
 
             if ($draft === $bill_data['status']) {
-                $wpdb->query('COMMIT');
+                DB::commit();
 
                 return $this->getBill($voucher_no);
             }
@@ -238,11 +238,12 @@ class Bills
 
             do_action('erp_acct_after_bill_create', $data, $voucher_no);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('bill-exception', $e->getMessage());
+            messageBag()->add('bill-exception', $e->getMessage());
+            return;
         }
 
         $bill = $this->getBill($voucher_no);
@@ -258,8 +259,8 @@ class Bills
     /**
      * Update a bill
      *
-     * @param $data
-     * @param $bill_id
+     * @param array $data    Data Filter
+     * @param int   $bill_id Bill Id
      *
      * @return mixed
      */
@@ -279,7 +280,7 @@ class Bills
         $currency           = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             if ($draft === $data['status']) {
                 $this->updateDraftBill($data, $bill_id);
@@ -372,11 +373,12 @@ class Bills
                 $trans->updateDataIntoPeopleTrnDetails($data, $old_bill['voucher_no']);
             }
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('bill-exception', $e->getMessage());
+            messageBag()->add('bill-exception', $e->getMessage());
+            return;
         }
 
 
@@ -386,8 +388,8 @@ class Bills
     /**
      * Make bill draft on update
      *
-     * @param $data
-     * @param $bill_id
+     * @param array $data    Data Filter
+     * @param int   $bill_id Bill Id
      *
      * @return void
      */
@@ -449,7 +451,7 @@ class Bills
     /**
      * Void a bill
      *
-     * @param $id
+     * @param int $id Id
      *
      * @return void
      */
@@ -476,8 +478,8 @@ class Bills
     /**
      * Get formatted bill data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data       Data  Filter
+     * @param int   $voucher_no Voucher Number
      *
      * @return mixed
      */
@@ -514,8 +516,8 @@ class Bills
     /**
      * Insert bill/s data into ledger
      *
-     * @param array $bill_data
-     * @param array $item_data
+     * @param array $bill_data Bill Data Filter
+     * @param array $item_data Item Data Filter
      *
      * @return mixed
      */
@@ -550,9 +552,9 @@ class Bills
     /**
      * Update bill/s data into ledger
      *
-     * @param array $bill_data
-     * @param array $bill_no
-     * @param array $item_data
+     * @param array $bill_data Bill Data Filter
+     * @param array $bill_no   Bill Number
+     * @param array $item_data Item Data Filter
      *
      * @return mixed
      */
@@ -602,7 +604,7 @@ class Bills
     /**
      * Get bills with due of a people
      *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -652,7 +654,7 @@ class Bills
     /**
      * Get due of a bill
      *
-     * @param $bill_no
+     * @param int $bill_no Bill No
      *
      * @return int
      */

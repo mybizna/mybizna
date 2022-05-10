@@ -15,11 +15,11 @@ class TransactionsController extends Controller
     /**
      * Get transactions type
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_transaction_type($request)
+    public function get_transaction_type(Request $request)
     {
         $trans = new Transactions();
         $trans = new Transactions();
@@ -27,41 +27,41 @@ class TransactionsController extends Controller
 
         $voucher_type = $trans->getTransactionType($voucher_no);
 
-        $response = rest_ensure_response($voucher_type);
+        return response()->json($voucher_type);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get transaction statuses
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_trn_statuses($request)
+    public function get_trn_statuses(Request $request)
     {
-       
+
 
         $statuses = DB::select("SELECT id, type_name as name, slug FROM erp_acct_trn_status_types", ARRAY_A);
 
-        $response = rest_ensure_response($statuses);
+        return response()->json($statuses);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get sales transactions
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_sales($request)
+    public function get_sales(Request $request)
     {
         $args = [
             'number'     => empty($request['per_page']) ? 20 : (int) $request['per_page'],
@@ -99,18 +99,17 @@ class TransactionsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Chart status
      */
-    public function get_sales_chart_status($request)
+    public function get_sales_chart_status(Request $request)
     {
         $trans = new Transactions();
         $args = [
@@ -120,17 +119,17 @@ class TransactionsController extends Controller
 
         $chart_status = $trans->getSalesChartStatus($args);
 
-        $response = rest_ensure_response($chart_status);
+        return response()->json($chart_status);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Chart payment
      */
-    public function get_sales_chart_payment($request)
+    public function get_sales_chart_payment(Request $request)
     {
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
@@ -139,39 +138,39 @@ class TransactionsController extends Controller
 
         $chart_payment = $thtransis->getSalesChartPayment($args);
 
-        $response = rest_ensure_response($chart_payment);
+        return response()->json($chart_payment);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get Dashboard Income Expense Overview data
      *
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return mixed|WP_REST_Response
+     * @return mixed|\Illuminate\Http\Response
      */
-    public function get_income_expense_overview($request)
+    public function get_income_expense_overview(Request $request)
     {
         $data = $this->getIncomeExpenseChartData();
 
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get expense chart stauts data
      *
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return mixed|WP_REST_Response
+     * @return mixed|\Illuminate\Http\Response
      */
-    public function get_expense_chart_data($request)
+    public function get_expense_chart_data(Request $request)
     {
         $trans = new Transactions();
         $args = [
@@ -186,21 +185,21 @@ class TransactionsController extends Controller
 
         $chart_payment['payable'] = $bill_payment['payable'] + $expense_payment['payable'];
 
-        $response = rest_ensure_response($chart_payment);
+        return response()->json($chart_payment);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get expense Chart status
      *
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return mixed|WP_REST_Response
+     * @return mixed|\Illuminate\Http\Response
      */
-    public function get_expense_chart_status($request)
+    public function get_expense_chart_status(Request $request)
     {
         $trans = new Transactions();
         $args = [
@@ -220,21 +219,21 @@ class TransactionsController extends Controller
             }
         }
 
-        $response = rest_ensure_response($chart_statuses);
+        return response()->json($chart_statuses);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get Expense transactions
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_expenses($request)
+    public function get_expenses(Request $request)
     {
         $trans = new Transactions();
         $args = [
@@ -271,22 +270,21 @@ class TransactionsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get Purchase chart stauts data
      *
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return mixed|WP_REST_Response
+     * @return mixed|\Illuminate\Http\Response
      */
-    public function get_purchase_chart_data($request)
+    public function get_purchase_chart_data(Request $request)
     {
         $trans = new Transactions();
         $args = [
@@ -296,21 +294,21 @@ class TransactionsController extends Controller
 
         $chart_payment = $trans->getPurchaseChartData($args);
 
-        $response = rest_ensure_response($chart_payment);
+        return response()->json($chart_payment);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get Purchase Chart status
      *
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return mixed|WP_REST_Response
+     * @return mixed|\Illuminate\Http\Response
      */
-    public function get_purchase_chart_status($request)
+    public function get_purchase_chart_status(Request $request)
     {
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
@@ -319,21 +317,21 @@ class TransactionsController extends Controller
 
         $chart_status = $this->getPurchaseChartStatus($args);
 
-        $response = rest_ensure_response($chart_status);
+        return response()->json($chart_status);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get Purchase transactions
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_purchases($request)
+    public function get_purchases(Request $request)
     {
         $trans = new Transactions();
         $args = [
@@ -370,12 +368,11 @@ class TransactionsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
@@ -385,7 +382,7 @@ class TransactionsController extends Controller
      */
     public function get_payment_methods()
     {
-       
+
 
         $rows = DB::select("SELECT id, name FROM erp_acct_payment_methods", ARRAY_A);
 
@@ -402,21 +399,21 @@ class TransactionsController extends Controller
 
         $response = $trans>getTransactionType($id);
 
-        $response = rest_ensure_response($response);
-        $response->set_status(200);
+        return response()->json($response);
+        
 
-        return $response;
+        
     }
 
     /**
      * Prepare a single user output for response
      *
      * @param object|array    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      * @return object $response Response data.
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $common = new CommonFunc();
         $status = null;
@@ -462,18 +459,14 @@ class TransactionsController extends Controller
 
         $data = array_merge($item, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**
      * Send mail with attachment
      *
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      *
      * @return array|mixed|object
      */
@@ -499,7 +492,7 @@ class TransactionsController extends Controller
             $response['message'] = 'mail sent successfully.';
         }
 
-        return $response;
+        
     }
 
     /**
@@ -523,11 +516,11 @@ class TransactionsController extends Controller
         $chart_payment['paid']    = $bill_payment['paid'] + $expense_payment['paid'] + $sales_payment['received'] + $purchase_payment['paid'];
         $chart_payment['payable'] = $bill_payment['payable'] + $expense_payment['payable'] + $sales_payment['outstanding'] + $purchase_payment['payable'];
 
-        $response = rest_ensure_response($chart_payment);
+        return response()->json($chart_payment);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
@@ -596,10 +589,10 @@ class TransactionsController extends Controller
             $k++;
         }
 
-        $response = rest_ensure_response($statuses);
+        return response()->json($statuses);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 }

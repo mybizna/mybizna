@@ -12,7 +12,8 @@ class TrialBalance
     /**
      * Trial balance helper
      *
-     * @param array $args
+     * @param array  $args Data Filter
+     * @param string $type Type
      *
      * @return int
      */
@@ -50,7 +51,8 @@ class TrialBalance
     /**
      * Trial balance helper
      *
-     * @param array $args
+     * @param array  $args Data Filter
+     * @param string $type Type
      *
      * @return mixed
      */
@@ -77,8 +79,8 @@ class TrialBalance
     /**
      * Trial balance helper
      *
-     * @param array  $args
-     * @param string $type
+     * @param array  $args Data Filter
+     * @param string $type Type
      *
      * @return int
      */
@@ -103,8 +105,11 @@ class TrialBalance
 
     /**
      * Trial balance helper
-     *
      * Get account receivable
+     *
+     * @param array $args Data Filter
+     *
+     * @return array
      */
     function getAccountReceivable($args)
     {
@@ -124,8 +129,11 @@ class TrialBalance
 
     /**
      * Trial balance helper
-     *
      * Get account payble
+     *
+     * @param array $args Data Filter
+     *
+     * @return array
      */
     function getAccountPayable($args)
     {
@@ -157,6 +165,11 @@ class TrialBalance
      * Trial balance helper
      *
      * Get owners equity
+     *
+     * @param array $args Data Filter
+     * @param array $type Type
+     *
+     * @return array
      */
     function getOwnersEquity($args, $type)
     {
@@ -181,8 +194,8 @@ class TrialBalance
     /**
      * Check if date has min 2 days difference ( Trial balance helper )
      *
-     * @param string $date1
-     * @param string $date2
+     * @param string $date1 Date
+     * @param string $date2 Date
      *
      * @return bool
      */
@@ -201,9 +214,9 @@ class TrialBalance
     /**
      * Calculate extra account receivable/payable
      *
-     * @param string $sql
-     * @param string $start_date
-     * @param string $end_date
+     * @param string $sql        Sql
+     * @param string $start_date Start Date
+     * @param string $end_date   End Date
      *
      * @return float
      */
@@ -224,9 +237,9 @@ class TrialBalance
     /**
      * Get ledger balance with opening balance
      *
-     * @param array $ledgers
-     * @param array $data
-     * @param array $opening_balance
+     * @param array $ledgers         Ledgers
+     * @param array $data            Data Filter
+     * @param array $opening_balance Opening Balance
      *
      * @return array
      */
@@ -266,10 +279,13 @@ class TrialBalance
     }
 
     /**
-     * get ledger details data between
+     * Get ledger details data between
      * `financial year start date`
      * and
      * `previous date from trial balance start date`
+     *
+     * @param string $sql       Sql
+     * @param array  $temp_data Temp Data
      *
      * @return array
      */
@@ -308,9 +324,9 @@ class TrialBalance
     /**
      * Get trial balance calculate with opening balance within financial year date range
      *
-     * @param string $tb_start_date
+     * @param string $tb_start_date Start Date
      * @param array  $data          => ledger details data on trial balance date range
-     * @param string $sql
+     * @param string $sql           SQL
      *
      * @return array
      */
@@ -357,10 +373,10 @@ class TrialBalance
     /**
      * Get trial balance cash at bank calculate with opening balance within financial year date range
      *
-     * @param string $tb_start_date
+     * @param string $tb_start_date Start Date
      * @param array  $data          => ledger details data on trial balance date range
-     * @param string $sql
-     * @param string $type
+     * @param string $sql           Sql
+     * @param string $type          Type
      *
      * @return float
      */
@@ -403,10 +419,10 @@ class TrialBalance
     /**
      * Get trial balance bank balance calculate with opening balance within financial year date range
      *
-     * @param string $tb_start_date
+     * @param string $tb_start_date Start Date
      * @param array  $data          => ledger details data on trial balance date range
-     * @param string $sql
-     * @param string $type
+     * @param string $sql           Sql
+     * @param string $type          Type
      *
      * @return array
      */
@@ -448,10 +464,10 @@ class TrialBalance
     /**
      * Get trial balance sales tax calculate with opening balance within financial year date range
      *
-     * @param string $tb_start_date
+     * @param string $tb_start_date Start Date
      * @param float  $data          => ledger details data on trial balance date range
-     * @param string $sql
-     * @param string $type
+     * @param string $sql           Sql
+     * @param string $type          Type
      *
      * @return float
      */
@@ -496,10 +512,10 @@ class TrialBalance
      * calculate with opening balance within financial year date range
      * and with people account details data
      *
-     * @param string $tb_start_date
+     * @param string $tb_start_date Start Date
      * @param float  $data          => ledger details data on trial balance date range
-     * @param string $sql
-     * @param string $type
+     * @param string $sql           Sql
+     * @param string $type          Type
      *
      * @return float
      */
@@ -532,9 +548,9 @@ class TrialBalance
     /**
      * Calculate people balance from people account details
      *
-     * @param string $tb_end_date
-     * @param string $closest_fy_start_date
-     * @param string $type
+     * @param string $closest_fy_start_date Financial Start Date
+     * @param string $tb_end_date           End Date
+     * @param string $type                  Type
      *
      * @return void
      */
@@ -561,10 +577,10 @@ class TrialBalance
     /**
      * Get trial balance owners equity calculate with opening balance within financial year date range
      *
-     * @param string $tb_start_date
+     * @param string $tb_start_date Start Date
      * @param float  $data          => ledger details data on trial balance date range
-     * @param string $sql
-     * @param string $type
+     * @param string $sql           Sql
+     * @param string $type          Type
      *
      * @return float
      */
@@ -607,7 +623,7 @@ class TrialBalance
     /**
      * Get closest date from financial year
      *
-     * @param string $date
+     * @param string $date Start Date
      *
      * @return string
      */
@@ -623,8 +639,8 @@ class TrialBalance
     /**
      * Get opening balance data by financial year id
      *
-     * @param int $id
-     * @param int $chart_id ( optional )
+     * @param int $id       Financial Year Id
+     * @param int $chart_id Chart Id ( optional )
      *
      * @return string
      */
@@ -650,8 +666,7 @@ class TrialBalance
     /**
      * Get bank opening balance data by financial year id
      *
-     * @param int    $id
-     * @param string $type
+     * @param int $id Financial Year id
      *
      * @return array
      */
@@ -669,8 +684,8 @@ class TrialBalance
     /**
      * Get bank opening balance data by financial year id
      *
-     * @param int    $id
-     * @param string $type
+     * @param int    $id   Financial Year Id
+     * @param string $type Type
      *
      * @return array
      */
@@ -694,8 +709,7 @@ class TrialBalance
     /**
      * Get bank balance opening balance data by financial year id
      *
-     * @param int    $id
-     * @param string $type
+     * @param int    $id   Financial Year Id
      *
      * @return array
      */
@@ -714,8 +728,8 @@ class TrialBalance
     /**
      * Get bank balance opening balance data by financial year id
      *
-     * @param int    $id
-     * @param string $type
+     * @param int    $id   Financial Year Id
+     * @param string $type Type
      *
      * @return mixed
      */
@@ -737,6 +751,14 @@ class TrialBalance
         return DB::scalar($sql, [$id]);
     }
 
+    /**
+     * People Opening balance by financial year id
+     *
+     * @param mixed $id   Financial Year Id
+     * @param mixed $type Type
+     *
+     * @return void
+     */
     function peopleOpeningBalanceByFnYearId($id, $type)
     {
 
@@ -756,6 +778,8 @@ class TrialBalance
 
     /**
      * Get trial balance
+     *
+     * @param array $args Data Filter
      *
      * @return mixed
      */

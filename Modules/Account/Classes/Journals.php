@@ -12,6 +12,8 @@ class Journals
     /**
      * Get all journals
      *
+     * @param array $args Data Filter
+     *
      * @return mixed
      */
     function getAllJournals($args = [])
@@ -75,7 +77,7 @@ class Journals
     /**
      * Get an single journal
      *
-     * @param $journal_no
+     * @param int $journal_no JNumber
      *
      * @return mixed
      */
@@ -105,7 +107,7 @@ class Journals
         //config()->set('database.connections.mysql.strict', true);
 
         $row                = DB::select($sql, ARRAY_A);
-       
+
         $row = (!empty($row)) ? $row[0] : null;
         $rows               = $row;
         $rows['line_items'] = $this->formatJournalData($row, $journal_no);
@@ -116,7 +118,7 @@ class Journals
     /**
      * Insert journal data
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -132,7 +134,7 @@ class Journals
         $currency   = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $voucher_no =  DB::table('erp_acct_voucher_no')
                 ->insertGetId(
@@ -200,11 +202,12 @@ class Journals
                     );
             }
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('journal-exception', $e->getMessage());
+            messageBag()->add('journal-exception', $e->getMessage());
+            return;
         }
 
 
@@ -227,7 +230,7 @@ class Journals
         $data['updated_by'] = $updated_by;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $journal_data = $journals->getFormattedJournalData($data, $journal_no);
 
@@ -282,11 +285,12 @@ class Journals
                     );
             }
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('journal-exception', $e->getMessage());
+            messageBag()->add('journal-exception', $e->getMessage());
+            return;
         }
 
 
@@ -296,8 +300,8 @@ class Journals
     /**
      * Get formatted journal data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data       Data Filter
+     * @param int   $voucher_no Voucher Number
      *
      * @return mixed
      */
@@ -324,8 +328,8 @@ class Journals
     /**
      *  Format journal data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $item       Data Filter
+     * @param int   $journal_no Voucher Number
      *
      * @return mixed
      */

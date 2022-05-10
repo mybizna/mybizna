@@ -15,11 +15,11 @@ class EmployeesController extends Controller
     /**
      * Get a collection of employees
      *
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return mixed|object|WP_REST_Response
+     * @return mixed|object|\Illuminate\Http\Response
      */
-    public function get_employees($request)
+    public function get_employees(Request $request)
     {
         $args = [
             'number'      => $request['per_page'],
@@ -49,21 +49,21 @@ class EmployeesController extends Controller
             $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
-        $response->set_status(200);
+        
+        return response()->json($formatted_items);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a specific employee
      *
-     * @param \WP_REST_Request $request
+     * @param \\Illuminate\Http\Request $request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_employee($request)
+    public function get_employee(Request $request)
     {
 
         $people = new People();
@@ -86,21 +86,21 @@ class EmployeesController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $item     = $this->prepare_employee_item_for_response($item, $request, $additional_fields);
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a collection of transactions
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_transactions($request)
+    public function get_transactions(Request $request)
     {
         $people = new People();
         $args['people_id'] = (int) $request['id'];
@@ -114,12 +114,12 @@ class EmployeesController extends Controller
      * Prepare a single user output for response
      *
      * @param array|object          $item
-     * @param \WP_REST_Request|null $request
+     * @param \\Illuminate\Http\Request|null $request
      * @param array                 $additional_fields
      *
-     * @return mixed|object|WP_REST_Response
+     * @return mixed|object|\Illuminate\Http\Response
      */
-    public function prepare_item_for_response($item, $request = null, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request = null, $additional_fields = [])
     {
         $item     = $item->data;
         $employee = new \WeDevs\ERP\HRM\Employee($item['user_id']);
@@ -131,41 +131,37 @@ class EmployeesController extends Controller
         $data['department']  = $employee->get_department('view');
         $data['designation'] = $employee->get_designation('view');
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**
      * Prepare a single employee output for response
      *
      * @param array|object          $item
-     * @param \WP_REST_Request|null $request
+     * @param \\Illuminate\Http\Request|null $request
      * @param array                 $additional_fields
      *
-     * @return mixed|object|WP_REST_Response
+     * @return mixed|object|\Illuminate\Http\Response
      */
-    public function prepare_employee_item_for_response($item, $request = null, $additional_fields = [])
+    public function prepare_employee_item_for_response($item, Request $request = null, $additional_fields = [])
     {
         // Wrap the data in a response object
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
         $response = $this->add_links($response, $item, $additional_fields);
 
-        return $response;
+        
     }
 
     /**
      * Prepare a single item for create or update
      *
-     * @param \WP_REST_Request $request request object
+     * @param \\Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    public function prepare_item_for_database($request)
+    public function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
         $company       = new \WeDevs\ERP\Company();

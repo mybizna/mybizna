@@ -14,11 +14,11 @@ class JournalsController extends Controller
     /**
      * Get a collection of journals
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_journals($request)
+    public function get_journals(Request $request)
     {
         $args['number'] = !empty($request['per_page']) ? $request['per_page'] : 20;
         $args['offset'] = ($request['per_page'] * ($request['page'] - 1));
@@ -43,22 +43,21 @@ class JournalsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a specific journal
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_journal($request)
+    public function get_journal(Request $request)
     {
         $id                = (int) $request['id'];
         $additional_fields = [];
@@ -74,19 +73,19 @@ class JournalsController extends Controller
 
         $item = $this->prepare_item_for_response($item, $request, $additional_fields);
 
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        return $response;
+        
     }
 
     /**
      * Get a next journal id
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_next_journal_id($request)
+    public function get_next_journal_id(Request $request)
     {
 
 
@@ -95,19 +94,19 @@ class JournalsController extends Controller
 
         $item['id'] = $count['0'] + 1;
 
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        return $response;
+        
     }
 
     /**
      * Create a journal
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function create_journal($request)
+    public function create_journal(Request $request)
     {
         $trans_data = $this->prepare_item_for_database($request);
 
@@ -133,11 +132,11 @@ class JournalsController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $response = $this->prepare_item_for_response($journal, $request, $additional_fields);
-        $response = rest_ensure_response($response);
+        return response()->json($response);
 
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
@@ -153,11 +152,11 @@ class JournalsController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -192,12 +191,12 @@ class JournalsController extends Controller
      * Prepare a single user output for response
      *
      * @param object          $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -223,12 +222,7 @@ class JournalsController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
-
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**

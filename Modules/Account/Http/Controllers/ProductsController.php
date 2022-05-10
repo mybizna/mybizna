@@ -14,11 +14,11 @@ class ProductsController extends Controller
     /**
      * Get a collection of inventory_products
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_inventory_products($request)
+    public function get_inventory_products(Request $request)
     {
         $args = [
             'number' => !empty($request['number']) ? (int) $request['number'] : 20,
@@ -45,21 +45,20 @@ class ProductsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
-        $response->set_status(200);
+        return response()->json($formatted_items);
 
-        return $response;
+
+        
     }
 
     /**
      * Get a specific inventory product
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_inventory_product($request)
+    public function get_inventory_product(Request $request)
     {
         $id   = (int) $request['id'];
         $item = $products->getAllProducts($id);
@@ -71,21 +70,21 @@ class ProductsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
         $item                           = $this->prepare_item_for_response($item, $request, $additional_fields);
-        $response                       = rest_ensure_response($item);
+        return response()->json($item);
 
-        $response->set_status(200);
 
-        return $response;
+
+        
     }
 
     /**
      * Create an inventory product
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function create_inventory_product($request)
+    public function create_inventory_product(Request $request)
     {
         $item  = $this->prepare_item_for_database($request);
 
@@ -103,20 +102,20 @@ class ProductsController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $response = $this->prepare_item_for_response($item, $request, $additional_fields);
-        $response = rest_ensure_response($response);
+        return response()->json($response);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Update an inventory product
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function update_inventory_product($request)
+    public function update_inventory_product(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -142,20 +141,20 @@ class ProductsController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $response = $this->prepare_item_for_response($item, $request, $additional_fields);
-        $response = rest_ensure_response($response);
-        $response->set_status(200);
+        return response()->json($response);
 
-        return $response;
+
+        
     }
 
     /**
      * Delete an inventory product
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function delete_inventory_product($request)
+    public function delete_inventory_product(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -171,11 +170,11 @@ class ProductsController extends Controller
     /**
      * Validates csv file data for products
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function validate_csv_data($request)
+    public function validate_csv_data(Request $request)
     {
         $args = [
             'csv_file'        => !empty($_FILES['csv_file'])         ? $_FILES['csv_file']         : '',
@@ -194,20 +193,20 @@ class ProductsController extends Controller
             return $data;
         }
 
-        $response = rest_ensure_response($data);
-        $response->set_status(200);
+        return response()->json($data);
 
-        return $response;
+
+        
     }
 
     /**
      * Import products from csv
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function import_products($request)
+    public function import_products(Request $request)
     {
         $args = [
             'items'  => !empty($request['items'])  ? $request['items']   : '',
@@ -221,10 +220,10 @@ class ProductsController extends Controller
             return $imported;
         }
 
-        $response = rest_ensure_response($imported);
+        return response()->json($imported);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
@@ -255,11 +254,11 @@ class ProductsController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
         // required arguments.
@@ -298,12 +297,12 @@ class ProductsController extends Controller
      * Prepare a single user output for response
      *
      * @param array|object    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -324,12 +323,8 @@ class ProductsController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**
@@ -471,9 +466,9 @@ class ProductsController extends Controller
     public function get_product_types()
     {
         $types    = $products->getProductTypes();
-        $response = rest_ensure_response($types);
+        return response()->json($types);
 
-        return $response;
+        
     }
 
     /**
@@ -483,7 +478,7 @@ class ProductsController extends Controller
      *
      * @return object
      */
-    public function bulk_delete($request)
+    public function bulk_delete(Request $request)
     {
         $ids = $request['ids'];
         $ids = explode(',', $ids);

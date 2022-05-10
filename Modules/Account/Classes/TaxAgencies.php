@@ -8,6 +8,8 @@ class TaxAgencies
 {
     /**
      * Get all tax agencies
+     * 
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -52,7 +54,7 @@ class TaxAgencies
     /**
      * Get an single tax agency
      *
-     * @param $tax_no
+     * @param int $tax_no Tax Number Filter
      *
      * @return mixed
      */
@@ -67,7 +69,7 @@ class TaxAgencies
     /**
      * Get an single tax agency
      *
-     * @param $tax_no
+     * @param int $id ID
      *
      * @return mixed
      */
@@ -84,7 +86,7 @@ class TaxAgencies
     /**
      * Insert tax agency
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return int
      */
@@ -117,7 +119,8 @@ class TaxAgencies
     /**
      * Update tax agency
      *
-     * @param $data
+     * @param array $data Data
+     * @param int   $id   ID
      *
      * @return int
      */
@@ -148,7 +151,7 @@ class TaxAgencies
     /**
      * Delete an tax agency
      *
-     * @param $tax_no
+     * @param int $id Tax Agency Id
      *
      * @return int
      */
@@ -165,7 +168,7 @@ class TaxAgencies
     /**
      * Get an single tax agency name
      *
-     * @param $tax_no
+     * @param int $agency_id Agency Id
      *
      * @return mixed
      */
@@ -174,8 +177,8 @@ class TaxAgencies
 
 
         $row = DB::select(
-                "SELECT name FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1",
-                [$agency_id]
+            "SELECT name FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1",
+            [$agency_id]
         );
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -185,14 +188,12 @@ class TaxAgencies
     /**
      * Get agency due amount
      *
-     * @param int $agency_id
+     * @param int $agency_id Agency Id
      *
      * @return mixed
      */
     function getAgencyDue($agency_id)
     {
-
-
         return DB::scalar("SELECT SUM( credit - debit ) as tax_due From erp_acct_tax_agency_details WHERE agency_id = %d", [$agency_id]);
     }
 }

@@ -17,11 +17,11 @@ class InvoicesController extends Controller
     /**
      * Get a collection of invoices
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_invoices($request)
+    public function get_invoices(Request $request)
     {
         $invoices = new Invoices();
 
@@ -59,22 +59,22 @@ class InvoicesController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
 
-        return $response;
+        
+
+        
     }
 
     /**
      * Get an invoice
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_invoice($request)
+    public function get_invoice(Request $request)
     {
         $trans = new Transactions();
         $invoices = new Invoices();
@@ -101,21 +101,21 @@ class InvoicesController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
         $item                           = $this->prepare_item_for_response($item, $request, $additional_fields);
-        $response                       = rest_ensure_response($item);
+       
+        return response()->json($item);
 
-        $response->set_status(200);
+        
 
-        return $response;
     }
 
     /**
      * Create an invoice
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function create_invoice($request)
+    public function create_invoice(Request $request)
     {
         $invoices = new Invoices();
         $invoice_data = $this->prepare_item_for_database($request);
@@ -153,20 +153,20 @@ class InvoicesController extends Controller
 
         $invoice_data = $this->prepare_item_for_response($invoice_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($invoice_data);
+        return response()->json($invoice_data);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Update an invoice
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function update_invoice($request)
+    public function update_invoice(Request $request)
     {
         $common = new CommonFunc();
         $invoices = new Invoices();
@@ -219,20 +219,20 @@ class InvoicesController extends Controller
 
         $invoice_data = $this->prepare_item_for_response($invoice_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($invoice_data);
+        return response()->json($invoice_data);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Void an invoice
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function void_invoice($request)
+    public function void_invoice(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -248,11 +248,11 @@ class InvoicesController extends Controller
     /**
      * Get a collection of invoices with due of a customer
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function due_invoices($request)
+    public function due_invoices(Request $request)
     {
         $invoices = new Invoices();
         $id = (int) $request['id'];
@@ -288,49 +288,48 @@ class InvoicesController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get Dashboard Recievables segments
      *
-     * @param $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return mixed|WP_REST_Response
+     * @return mixed|\Illuminate\Http\Response
      */
-    public function get_overview_receivables($request)
+    public function get_overview_receivables(Request $request)
     {
         $invoices = new Invoices();
         $items    = $invoices->getRecievablesOverview();
-        $response = rest_ensure_response($items);
+        return response()->json($items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Upload attachment for invoice
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function upload_attachments($request)
+    public function upload_attachments(Request $request)
     {
         $file = $_FILES['attachments'];
 
         $movefiles = $account->uploadAttachments($file);
 
-        $response = rest_ensure_response($movefiles);
-        $response->set_status(200);
+        return response()->json($movefiles);
+        
 
-        return $response;
+        
     }
 
     /**
@@ -364,11 +363,11 @@ class InvoicesController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -433,21 +432,17 @@ class InvoicesController extends Controller
      * Prepare a single user output for response
      *
      * @param object|array    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $data = array_merge($item, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**

@@ -11,6 +11,8 @@ class Currencies
     /**
      * Get all currencies
      *
+     * @param boolean $count COunt
+     *
      * @return mixed
      */
     function getAllCurrencies($count = false)
@@ -129,8 +131,8 @@ class Currencies
     /**
      * Format the price with a currency symbol.
      *
-     * @param float $price
-     * @param array $args  (default: array())
+     * @param float $main_price Prices
+     * @param array $args       Data Filter (default: array())
      *
      * @return string
      */

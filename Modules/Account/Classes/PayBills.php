@@ -13,7 +13,7 @@ class PayBills
     /**
      * Get all pay_bills
      *
-     * @param $data
+     * @param array $args Data FIlter
      *
      * @return mixed
      */
@@ -52,7 +52,7 @@ class PayBills
     /**
      * Get a pay_bill
      *
-     * @param $bill_no
+     * @param int $bill_no Bill No
      *
      * @return mixed
      */
@@ -89,6 +89,10 @@ class PayBills
 
     /**
      * Format pay bill line items
+     *
+     * @param array $voucher_no Voucher No
+     *
+     * @return array
      */
     function formatPaybillLineItems($voucher_no)
     {
@@ -109,9 +113,7 @@ class PayBills
     /**
      * Insert a pay_bill
      *
-     * @param $data
-     * @param $pay_bill_id
-     * @param $due
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -131,7 +133,7 @@ class PayBills
         $currency   = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $voucher_no = DB::table('erp_acct_voucher_no')
                 ->insertGetId(
@@ -186,7 +188,7 @@ class PayBills
                     );
 
                 if (1 === $pay_bill_data['status']) {
-                    $wpdb->query('COMMIT');
+                    DB::commit();
 
                     return $this->getPayBill($voucher_no);
                 }
@@ -222,11 +224,12 @@ class PayBills
 
             do_action('erp_acct_after_pay_bill_create', $pay_bill_data, $voucher_no);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('pay-bill-exception', $e->getMessage());
+            messageBag()->add('pay-bill-exception', $e->getMessage());
+            return;
         }
 
         foreach ($items as $item) {
@@ -246,9 +249,8 @@ class PayBills
     /**
      * Update a pay_bill
      *
-     * @param $data
-     * @param $pay_bill_id
-     * @param $due
+     * @param array $data        Data Filter
+     * @param int   $pay_bill_id Pay Bill Id
      *
      * @return mixed
      */
@@ -261,7 +263,7 @@ class PayBills
         $data['updated_by'] = $updated_by;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $pay_bill_data = $this->getFormattedPayBillData($data, $pay_bill_id);
 
@@ -317,11 +319,12 @@ class PayBills
 
             $this->updatePayBillDataIntoLedger($pay_bill_data, $pay_bill_id);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('bill-exception', $e->getMessage());
+            messageBag()->add('bill-exception', $e->getMessage());
+            return;
         }
 
         foreach ($items as $item) {
@@ -335,7 +338,7 @@ class PayBills
     /**
      * Void a pay_bill
      *
-     * @param $id
+     * @param int $id Id
      *
      * @return void
      */
@@ -362,8 +365,8 @@ class PayBills
     /**
      * Get formatted pay_bill data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data       Data Filter
+     * @param int   $voucher_no Voucher Number
      *
      * @return mixed
      */
@@ -404,8 +407,7 @@ class PayBills
     /**
      * Insert pay_bill/s data into ledger
      *
-     * @param array $pay_bill_data
-     * @param array $item_data
+     * @param array $pay_bill_data Pay Bill Data
      *
      * @return mixed
      */
@@ -438,9 +440,8 @@ class PayBills
     /**
      * Update pay_bill/s data into ledger
      *
-     * @param array $pay_bill_data
-     *                             * @param array $pay_bill_no
-     * @param array $item_data
+     * @param array $pay_bill_data Pay Bill Data
+     * @param int   $pay_bill_no   Pay Bill Number
      *
      * @return mixed
      */
@@ -487,7 +488,7 @@ class PayBills
     /**
      * Update bill status after a payment
      *
-     * @param $bill_no
+     * @param int $bill_no Bill Number
      *
      * @return void
      */

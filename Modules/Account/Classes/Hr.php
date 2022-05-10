@@ -10,8 +10,6 @@ class Hr
     /**
      * This method will count active users of hrm
      *
-     * @since 1.6.4
-     *
      * @return int
      */
     public function hrGetEmployees()

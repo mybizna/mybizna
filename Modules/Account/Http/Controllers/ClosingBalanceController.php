@@ -16,11 +16,11 @@ class ClosingBalanceController extends Controller
     /**
      * Close balancesheet
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function close_balancesheet($request)
+    public function close_balancesheet(Request $request)
     {
         if (empty($request['start_date'])) {
             return new WP_Error('rest_invalid_date', __('Start date missing.'), ['status' => 404]);
@@ -37,50 +37,47 @@ class ClosingBalanceController extends Controller
         ];
 
         $data     = $cbalance->closeBalanceSheetNow($args);
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get next financial year
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_next_fn_year($request)
+    public function get_next_fn_year(Request $request)
     {
         if (empty($request['date'])) {
             return new WP_Error('rest_invalid_date', __('Invalid resource date.'), ['status' => 404]);
         }
 
         $data     = $cbalance->getClosestNextFnYear($request['date']);
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
-        $response->set_status(200);
-
-        return $response;
+        
     }
 
     /**
      * Get current financial year
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_closest_fn_year($request)
+    public function get_closest_fn_year(Request $request)
     {
         $trialbal = new TrialBalance();
 
         $data     = $trialbal->getClosestFnYearDate(date('Y-m-d'));
-        $response = rest_ensure_response($data);
+        return response()->json($data);
 
-        $response->set_status(200);
 
-        return $response;
+        
     }
 }

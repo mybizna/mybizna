@@ -14,7 +14,7 @@ class Purchases
     /**
      * Get all purchases
      *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -53,7 +53,7 @@ class Purchases
     /**
      * Get a purchase
      *
-     * @param $purchase_no
+     * @param int $purchase_no Purchase Number
      *
      * @return mixed
      */
@@ -106,7 +106,7 @@ class Purchases
     /**
      * Purchase items detail
      *
-     * @param $voucher_no
+     * @param int $voucher_no Voucher Number
      *
      * @return array|object|null
      */
@@ -149,7 +149,7 @@ class Purchases
     /**
      * Insert a purchase
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -172,7 +172,7 @@ class Purchases
         $currency            = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $voucher_no    = DB::table('erp_acct_voucher_no')
                 ->insertGetId(
@@ -260,7 +260,7 @@ class Purchases
             $email = $people->getPeopleEmail($purchase_data['vendor_id']);
 
             if ($purchase_type_order === $purchase_data['purchase_order'] || $draft === $purchase_data['status']) {
-                $wpdb->query('COMMIT');
+                DB::commit();
                 $purchase_order          = $this->getPurchases($voucher_no);
                 $purchase_order['email'] = $email;
                 do_action('erp_acct_new_transaction_purchase_order', $voucher_no, $purchase_order);
@@ -292,11 +292,12 @@ class Purchases
 
             $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('purchase-exception', $e->getMessage());
+            messageBag()->add('purchase-exception', $e->getMessage());
+            return;
         }
 
         $purchase = $this->getPurchases($purchase_no);
@@ -312,8 +313,8 @@ class Purchases
     /**
      * Update a purchase
      *
-     * @param $purchase_data
-     * @param $purchase_id
+     * @param array $purchase_data Purchase Data
+     * @param int   $purchase_id   Purchase ID
      *
      * @return mixed
      */
@@ -340,7 +341,7 @@ class Purchases
         $currency           = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             if ($purchase_type_order === $purchase_data['purchase_order'] || $draft === $purchase_data['status']) {
                 $purchase_data = $this->getFormattedPurchaseData($purchase_data, $purchase_id);
@@ -422,7 +423,7 @@ class Purchases
                     }
                 }
 
-                $wpdb->query('COMMIT');
+                DB::commit();
 
                 return $this->getPurchases($purchase_id);
             } else {
@@ -515,11 +516,12 @@ class Purchases
                 $trans->updateDataIntoPeopleTrnDetails($data, $old_purchase['voucher_no']);
             }
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('purchase-exception', $e->getMessage());
+            messageBag()->add('purchase-exception', $e->getMessage());
+            return;
         }
 
 
@@ -529,8 +531,8 @@ class Purchases
     /**
      * Convert order to purchase
      *
-     * @param array $purchase_data
-     * @param int   $purchase_id
+     * @param array $purchase_data Purchase Data
+     * @param int   $purchase_id   Purchase Id
      *
      * @return array
      */
@@ -543,7 +545,7 @@ class Purchases
         $user_id = auth()->user()->id;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $purchase_data = $this->getFormattedPurchaseData($purchase_data, $purchase_id);
 
@@ -602,11 +604,12 @@ class Purchases
             $data['vendor_id'] = $purchase_data['vendor_id'];
             $trans->insertDataIntoPeopleTrnDetails($data, $purchase_id);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('purchase-exception', $e->getMessage());
+            messageBag()->add('purchase-exception', $e->getMessage());
+            return;
         }
 
         $purchase = $this->getPurchases($purchase_id);
@@ -622,7 +625,7 @@ class Purchases
     /**
      * Void a purchase
      *
-     * @param $id
+     * @param int $id Id
      *
      * @return void
      */
@@ -649,8 +652,8 @@ class Purchases
     /**
      * Get formatted purchase data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data       Data Filter
+     * @param int   $voucher_no Voucher Number
      *
      * @return mixed
      */
@@ -690,7 +693,7 @@ class Purchases
     /**
      * Insert purchase/s data into ledger
      *
-     * @param array $purchase_data
+     * @param array $purchase_data Purchase Data Filter
      *
      * @return mixed
      */
@@ -753,8 +756,8 @@ class Purchases
     /**
      * Update purchase/s data into ledger
      *
-     * @param array $purchase_data
-     * @param array $purchase_no
+     * @param array $purchase_data Purchase Data Filter
+     * @param array $purchase_no   Purchase Number
      *
      * @return mixed
      */
@@ -804,6 +807,8 @@ class Purchases
     /**
      * Get due purchases by vendor
      *
+     * @param array $args Data Filter
+     * 
      * @return mixed
      */
     function getDuePurchasesByVendor($args)
@@ -856,7 +861,7 @@ class Purchases
     /**
      * Get due of a purchase
      *
-     * @param $purchase_no
+     * @param int $purchase_no Purchase Number
      *
      * @return int
      */

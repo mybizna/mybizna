@@ -18,6 +18,8 @@ class OpenBalances
     /**
      * Get all opening_balances
      *
+     * @param array $args Data Filter
+     *
      * @return mixed
      */
     function getAllOpeningBalances($args = [])
@@ -69,7 +71,7 @@ class OpenBalances
     /**
      * Get opening_balances of a year
      *
-     * @param $year_id
+     * @param int $year_id Year Id
      *
      * @return mixed
      */
@@ -88,7 +90,7 @@ class OpenBalances
     /**
      * Get virtual accounts of a year
      *
-     * @param $year_id
+     * @param int $year_id Year Id
      *
      * @return mixed
      */
@@ -110,7 +112,7 @@ class OpenBalances
     /**
      * Insert opening_balance data
      *
-     * @param $data
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -123,7 +125,7 @@ class OpenBalances
         $data['created_by'] = $created_by;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $opening_balance_data = $this->getFormattedOpeningBalanceData($data);
 
@@ -161,11 +163,12 @@ class OpenBalances
 
             $this->insertObVirAccounts($opening_balance_data, $year_id);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('opening_balance-exception', $e->getMessage());
+            messageBag()->add('opening_balance-exception', $e->getMessage());
+            return;
         }
 
         return $this->getOpeningBalance($year_id);
@@ -174,8 +177,10 @@ class OpenBalances
     /**
      * Insert virtual accounts data
      *
-     * @param $data
-     * @param $year_id
+     * @param array $data    Data Filter
+     * @param int   $year_id Year Id
+     *
+     * @return void
      */
     function insertObVirAccounts($data, $year_id)
     {
@@ -242,8 +247,7 @@ class OpenBalances
     /**
      * Get formatted opening_balance data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data Data Filter
      *
      * @return mixed
      */
@@ -283,7 +287,7 @@ class OpenBalances
     /**
      * Get opening balance date ranges
      *
-     * @param $ob_name
+     * @param int $year_id Year Id
      *
      * @return array
      */
@@ -304,6 +308,10 @@ class OpenBalances
 
     /**
      * Get virtual accts summary for opening balance
+     *
+     * @param int $year_id Year Id
+     *
+     * @return void
      */
     function getObVirtualAcct($year_id)
     {
@@ -350,8 +358,9 @@ class OpenBalances
     /**
      * Get balance with opening balance of a ledger
      *
-     * @param $ledger_id
-     * @param array $args
+     * @param int      $ledger_id  Ledger Id
+     * @param datetime $start_date Start Date
+     * @param datetime $end_date   End Date
      *
      * @return mixed
      */
@@ -418,7 +427,7 @@ class OpenBalances
     /**
      * Get opening balance invoice account details
      *
-     * @param string $fy_start_date
+     * @param string $fy_start_date Year Date
      *
      * @return int
      */
@@ -439,7 +448,7 @@ class OpenBalances
     /**
      * Get opening balance bill & purchase
      *
-     * @param string $fy_start_date
+     * @param string $fy_start_date Start Date
      *
      * @return int
      */
@@ -468,7 +477,9 @@ class OpenBalances
     }
 
     /**
-     *Get lower and upper bound of financial years
+     * Get lower and upper bound of financial years
+     *
+     * @return array
      */
     function getDateBoundary()
     {
@@ -482,6 +493,10 @@ class OpenBalances
 
     /**
      * Get current financial year
+     *
+     * @param datetime $date Date
+     *
+     * @return array
      */
     function getCurrentFinancialYear($date = '')
     {

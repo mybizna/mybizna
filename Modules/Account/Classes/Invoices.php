@@ -14,6 +14,8 @@ class Invoices
     /**
      * Get all invoices
      *
+     * @param array $args Data Filter
+     *
      * @return mixed
      */
     function getAllInvoices($args = [])
@@ -66,7 +68,7 @@ class Invoices
     /**
      * Get an single invoice
      *
-     * @param $invoice_no
+     * @param int $invoice_no Invoices Number
      *
      * @return mixed
      */
@@ -135,6 +137,10 @@ class Invoices
 
     /**
      * Get formatted line items
+     *
+     * @param array $voucher_no Voucher Number
+     *
+     * @return array
      */
     function formatInvoiceLineItems($voucher_no)
     {
@@ -186,7 +192,7 @@ class Invoices
     /**
      * Insert invoice data
      *
-     * @param $data
+     * @param arrray $data Data Filter
      *
      * @return int
      */
@@ -210,7 +216,7 @@ class Invoices
         $email         = $people->getPeopleEmail($data['customer_id']);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $voucher_no =  DB::table('erp_acct_voucher_no')
                 ->insertGetId(
@@ -254,7 +260,7 @@ class Invoices
             $this->insertInvoiceDetailsAndTax($invoice_data, $voucher_no);
 
             if ($estimate_type === $invoice_data['estimate'] || $draft === $invoice_data['status']) {
-                $wpdb->query('COMMIT');
+                DB::commit();
                 $estimate          = $this->getInvoice($voucher_no);
                 $estimate['email'] = $email;
                 do_action('erp_acct_new_transaction_estimate', $voucher_no, $estimate);
@@ -271,9 +277,9 @@ class Invoices
             $data['cr'] = 0;
             $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
             return new WP_Error('invoice-exception', $e->getMessage());
         }
@@ -290,8 +296,9 @@ class Invoices
     /**
      * Insert line items and details on invoice create
      *
-     * @param array $invoice_data
-     * @param int   $voucher_no
+     * @param array   $invoice_data Data Filter
+     * @param int     $voucher_no   Voucher Number
+     * @param boolean $contra       Contra
      *
      * @return void
      */
@@ -403,8 +410,9 @@ class Invoices
     /**
      * Insert invoice account details
      *
-     * @param array $invoice_data
-     * @param int   $voucher_no
+     * @param array   $invoice_data Invoice Data
+     * @param int     $voucher_no   Voucher Number
+     * @param boolean $contra       Contra
      *
      * @return void
      */
@@ -449,8 +457,8 @@ class Invoices
     /**
      * Update invoice data
      *
-     * @param $data
-     * @param $invoice_no
+     * @param array $data       Data Filter
+     * @param int   $invoice_no Invoice Number
      *
      * @return int
      */
@@ -477,7 +485,7 @@ class Invoices
         $currency      = $common->getCurrency(true);
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             if ($estimate_type === $data['estimate'] || $draft === $data['status']) {
                 $this->updateDraftAndEstimate($data, $invoice_no);
@@ -551,11 +559,12 @@ class Invoices
                 $trans->updateDataIntoPeopleTrnDetails($data, $old_invoice['voucher_no']);
             }
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('invoice-exception', $e->getMessage());
+            messageBag()->add('invoice-exception', $e->getMessage());
+            return;
         }
 
         return $this->getInvoice($new_invoice['voucher_no']);
@@ -564,8 +573,8 @@ class Invoices
     /**
      * Convert estimate to invoice
      *
-     * @param array $data
-     * @param int   $invoice_no
+     * @param array $data       Data Filter
+     * @param int   $invoice_no Invoice Number
      *
      * @return array
      */
@@ -582,7 +591,7 @@ class Invoices
         $data['estimate']   = 0;
 
         try {
-            $wpdb->query('START TRANSACTION');
+            DB::beginTransaction();
 
             $invoice_data = $this->getFormattedInvoiceData($data, $invoice_no);
 
@@ -625,11 +634,12 @@ class Invoices
             $data['cr'] = 0;
             $trans->insertDataIntoPeopleTrnDetails($data, $invoice_no);
 
-            $wpdb->query('COMMIT');
+            DB::commit();
         } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
+            DB::rollback();
 
-            return new WP_error('invoice-exception', $e->getMessage());
+            messageBag()->add('invoice-exception', $e->getMessage());
+            return;
         }
 
         $invoice = $this->getInvoice($invoice_no);
@@ -644,8 +654,8 @@ class Invoices
     /**
      * Update draft & estimate
      *
-     * @param array $data
-     * @param int   $invoice_no
+     * @param array $data       Data Filter
+     * @param int   $invoice_no Invoice Number
      *
      * @return void
      */
@@ -694,8 +704,8 @@ class Invoices
     /**
      * Get formatted invoice data
      *
-     * @param $data
-     * @param $voucher_no
+     * @param array $data       Data Filter
+     * @param int   $voucher_no Voucher Number
      *
      * @return mixed
      */
@@ -749,7 +759,7 @@ class Invoices
     /**
      * Void an invoice
      *
-     * @param $invoice_no
+     * @param int $invoice_no Invoice Number
      *
      * @return void
      */
@@ -791,7 +801,9 @@ class Invoices
     /**
      * Insert invoice/s data into ledger
      *
-     * @param array $invoice_data
+     * @param array   $invoice_data Invoice Data
+     * @param int     $voucher_no   Voucher Number
+     * @param boolean $contra       Contra
      *
      * @return mixed
      */
@@ -911,7 +923,8 @@ class Invoices
     /**
      * Update invoice/s data into ledger
      *
-     * @param array $invoice_data
+     * @param array $invoice_data Invoice Data
+     * @param int   $invoice_no   Invoice Number
      *
      * @return mixed
      */
@@ -965,6 +978,8 @@ class Invoices
     /**
      * Receive payments with due from a customer
      *
+     * @param array $args Data Filter
+     *
      * @return mixed
      */
     function receivePaymentsFromCustomer($args = [])
@@ -1012,7 +1027,7 @@ class Invoices
     /**
      * Get due of a bill
      *
-     * @param $bill_no
+     * @param int $invoice_no Invoice Number
      *
      * @return int
      */
@@ -1031,8 +1046,8 @@ class Invoices
     /**
      * Get recievables from given date
      *
-     * @param $from String
-     * @param $to   String
+     * @param string $from From
+     * @param string $to   To
      *
      * @return array|object|null
      */
@@ -1059,6 +1074,8 @@ class Invoices
 
     /**
      * Get Dashboard Overview details
+     *
+     * @return array
      */
     function getRecievablesOverview()
     {
@@ -1120,7 +1137,7 @@ class Invoices
     /**
      * Get due of an invoice
      *
-     * @param $invoice_no
+     * @param int $invoice_no Invoice Number
      *
      * @return int
      */
@@ -1144,9 +1161,7 @@ class Invoices
     /**
      * Retrieves tax zone of an invoice
      *
-     * @since 1.8.0
-     *
-     * @param [type] $invoice_no
+     * @param int $invoice_no Invoice Number
      *
      * @return int|string
      */

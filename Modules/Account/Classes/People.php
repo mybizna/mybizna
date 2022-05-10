@@ -10,8 +10,8 @@ class People
     /**
      * Insert employee data as people
      *
-     * @param $data
-     * @param $update
+     * @param array   $data   Data Filter
+     * @param boolean $update Update
      *
      * @return int
      */
@@ -93,9 +93,7 @@ class People
     /**
      * Inserts accounting people
      *
-     * @since 1.8.5
-     *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -134,8 +132,8 @@ class People
     /**
      * Get transaction by date
      *
-     * @param int   $people_id
-     * @param array $args
+     * @param int   $people_id People Id
+     * @param array $args      Data Filter
      *
      * @return array
      */
@@ -153,7 +151,7 @@ class People
     /**
      * Get address of a people
      *
-     * @param $people_id
+     * @param int $people_id People Id
      *
      * @return mixed
      */
@@ -175,6 +173,10 @@ class People
 
     /**
      * Format people address
+     *
+     * @param array $address Address
+     *
+     * @return mixed
      */
     function formatPeopleAddress($address = [])
     {
@@ -192,6 +194,8 @@ class People
 
     /**
      * Get all transactions
+     *
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -337,7 +341,7 @@ class People
     /**
      * Get opening balance
      *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return mixed
      */
@@ -361,7 +365,7 @@ class People
     /**
      * Get People type by people id
      *
-     * @param $people_id
+     * @param int $people_id People Id
      *
      * @return mixed
      */
@@ -377,7 +381,7 @@ class People
     /**
      * Get people type by type id
      *
-     * @param $type_id
+     * @param int $type_id Type Id
      *
      * @return mixed
      */
@@ -393,9 +397,7 @@ class People
     /**
      * Get people type name by type id
      *
-     * @since 1.8.5
-     *
-     * @param $type_name
+     * @param int $type_name Type Name
      *
      * @return int|string
      */
@@ -418,6 +420,8 @@ class People
     /**
      * Get people id by user id
      *
+     * @param array $user_id User Id
+     *
      * @return mixed
      */
     function getPeopleIdByUserId($user_id)
@@ -432,6 +436,8 @@ class People
 
     /**
      * Get people id by people_id
+     *
+     * @param int $people_id People ID
      *
      * @return mixed
      */
@@ -448,7 +454,7 @@ class People
     /**
      * Checks if an employee is people
      *
-     * @param $user_id
+     * @param int $user_id User Id
      *
      * @return bool
      */
@@ -472,7 +478,7 @@ class People
     /**
      * Get $user_id by $people_id
      *
-     * @param $people_id
+     * @param int $people_id People Id
      *
      * @return mixed
      */
@@ -488,6 +494,10 @@ class People
 
     /**
      * Get Customer or Vendors
+     *
+     * @param array $args Data Filter
+     *
+     * @return array
      */
     function getAccountingPeople($args = [])
     {
@@ -640,7 +650,9 @@ class People
     /**
      * Check if transaction associated with this people
      *
-     * @param int $id
+     * @param int $people_id People Id
+     *
+     * @return array
      */
     function checkAssociatedTranasaction($people_id)
     {
@@ -657,11 +669,7 @@ class People
     /**
      * Get all peoples
      *
-     * @since 1.0
-     * @since 1.1.14 Add `post_where_queries`
-     * @since 1.2.2  Use `erpadvancefilter` filter for $arg['s'] filter
-     *
-     * @param $args array
+     * @param array $args Data Filter
      *
      * @return array
      */
@@ -686,7 +694,7 @@ class People
         ];
 
         $args                 = array_merge($defaults, $args);
-        $args['crm_agent_id'] = get_current_user_id();
+        $args['crm_agent_id'] = auth()->user()->id;
 
         $people_type  = is_array($args['type']) ? implode('-', $args['type'])       : $args['type'];
         $items        = false;
@@ -829,9 +837,7 @@ class People
     /**
      * People data delete
      *
-     * @since 1.0
-     *
-     * @param array $data
+     * @param array $data Data Filter
      *
      * @return void
      */
@@ -890,9 +896,7 @@ class People
     /**
      * People Restore
      *
-     * @since 1.0
-     *
-     * @param array $data
+     * @param array $data Data Filter
      *
      * @return void
      */
@@ -936,9 +940,7 @@ class People
     /**
      * Get users as array
      *
-     * @since 1.0
-     *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return array
      */
@@ -957,9 +959,7 @@ class People
     /**
      * Fetch people count from database
      *
-     * @since 1.0
-     *
-     * @param string $type
+     * @param string $type Type
      *
      * @return int
      */
@@ -973,9 +973,7 @@ class People
     /**
      * Fetch a single people from database
      *
-     * @since 1.0
-     *
-     * @param int $id
+     * @param int $id Id
      *
      * @return array
      */
@@ -987,8 +985,8 @@ class People
     /**
      * Retrieve people info by a given field
      *
-     * @param string $field
-     * @param mixed  $value
+     * @param string $field Field
+     * @param mixed  $value Value
      *
      * @return object
      */
@@ -1042,14 +1040,8 @@ class People
     /**
      * Insert a new people
      *
-     * @since 1.0.0
-     * @since 1.2.2  Insert people hash key if not exists one
-     * @since 1.2.7  contact_owner, life_stage, hash brought to main table
-     * @since 1.2.7  Assign first name as company name for accounting customer search
-     * @since 1.3.13 Pass $people_type in create and update people hooks
-     * @since 1.6.7 Added validation for almost all input fields
-     *
-     * @param array $args insert_people
+     * @param array $args          Data Filter
+     * @param array $return_object Is Return Object
      *
      * @return mixed integer on success, false otherwise
      */
@@ -1352,8 +1344,6 @@ class People
     /**
      * Add meta data field to a people.
      *
-     * @since 1.0
-     *
      * @param int    $people_id  people id
      * @param string $meta_key   metadata name
      * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
@@ -1369,8 +1359,6 @@ class People
 
     /**
      * Retrieve people meta field for a people.
-     *
-     * @since 1.0
      *
      * @param int    $people_id people id
      * @param string $key       Optional. The meta key to retrieve. By default, returns
@@ -1393,8 +1381,6 @@ class People
      *
      * If the meta field for the people does not exist, it will be added.
      *
-     * @since 1.0
-     *
      * @param int    $people_id  people id
      * @param string $meta_key   metadata key
      * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
@@ -1416,8 +1402,6 @@ class People
      * value, will keep from removing duplicate metadata with the same key. It also
      * allows removing all metadata matching key, if needed.
      *
-     * @since 1.0
-     *
      * @param int    $people_id  people id
      * @param string $meta_key   metadata name
      * @param mixed  $meta_value Optional. Metadata value. Must be serializable if
@@ -1432,8 +1416,6 @@ class People
 
     /**
      * Get people all main db fields
-     *
-     * @since 1.1.7
      *
      * @return array
      */
@@ -1469,9 +1451,7 @@ class People
      *
      * Convert one people type to another or convert wp user to erp people
      *
-     * @since 1.1.12
-     *
-     * @param array $args
+     * @param array $args Data Filter
      *
      * @return int|object people_id on success and WP_Error object on fail
      */
@@ -1531,9 +1511,7 @@ class People
      *
      * Get people email by id
      *
-     * @since 1.4.7
-     *
-     * @param array $id
+     * @param array $id ID
      *
      * @return string
      */
@@ -1549,9 +1527,7 @@ class People
     /**
      * Checks a people is trashed or not
      *
-     * @since 1.7.1
-     *
-     * @param int $id
+     * @param int $id ID
      *
      * @return bool
      */

@@ -18,7 +18,7 @@ class PeopleController extends Controller
      *
      * @return array
      */
-    public function get_all_people($request)
+    public function get_all_people(Request $request)
     {
         $people = new People();
         $args = [
@@ -59,12 +59,11 @@ class PeopleController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
@@ -74,7 +73,7 @@ class PeopleController extends Controller
      *
      * @return string
      */
-    public function get_people($request)
+    public function get_people(Request $request)
     {
 
         $people = new People();
@@ -100,7 +99,7 @@ class PeopleController extends Controller
      *
      * @return string
      */
-    public function get_people_address($request)
+    public function get_people_address(Request $request)
     {
 
         $people = new People();
@@ -120,11 +119,11 @@ class PeopleController extends Controller
     /**
      * Get opening balance of a people in a date range
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_opening_balance($request)
+    public function get_opening_balance(Request $request)
     {
         $id                = (int) $request['id'];
         $args['people_id'] = $id;
@@ -137,29 +136,29 @@ class PeopleController extends Controller
     /**
      * Check people email existance
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function check_people_email($request)
+    public function check_people_email(Request $request)
     {
         $common = new CommonFunc();
         $res      = $common->existPeople($request['email'], ['customer', 'vendor', 'contact', 'company']);
 
-        $response = rest_ensure_response($res);
-        $response->set_status(200);
+        return response()->json($res);
+        
 
-        return $response;
+        
     }
 
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
         // required arguments.
@@ -241,12 +240,12 @@ class PeopleController extends Controller
      * Prepare a single user output for response
      *
      * @param array|object    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -279,12 +278,8 @@ class PeopleController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**

@@ -19,7 +19,7 @@ class Transactions
     /**
      * Get all sales transactions
      *
-     * @param array $args
+     * @param array $args Transaction Filters
      *
      * @return mixed
      */
@@ -122,7 +122,7 @@ class Transactions
     /**
      * Get sales chart status
      *
-     * @param array $args
+     * @param array $args Status Filter
      *
      * @return array|object|null
      */
@@ -151,7 +151,7 @@ class Transactions
     /**
      * Get sales chart payment
      *
-     * @param array $args
+     * @param array $args Payment Filter
      *
      * @return array|object|void|null
      */
@@ -184,7 +184,7 @@ class Transactions
     /**
      * Get bill chart data
      *
-     * @param array $args
+     * @param array $args Bill Chart Filter
      *
      * @return array|object|null
      */
@@ -217,7 +217,7 @@ class Transactions
     /**
      * Get bill chart status
      *
-     * @param array $args
+     * @param array $args Bill Chart filter
      *
      * @return array|object|null
      */
@@ -248,7 +248,7 @@ class Transactions
     /**
      * Get expense chart data
      *
-     * @param array $args
+     * @param array $args Purchase Chart Filter
      *
      * @return array|object|null
      */
@@ -282,7 +282,7 @@ class Transactions
     /**
      * Get expense chart status
      *
-     * @param array $args
+     * @param array $args Expense Chart Filter
      *
      * @return array|object|null
      */
@@ -315,7 +315,7 @@ class Transactions
     /**
      * Get expense chart data
      *
-     * @param array $args
+     * @param array $args Expenses Chart Filter
      *
      * @return array|object|null
      */
@@ -347,7 +347,7 @@ class Transactions
     /**
      * Get expense chart status
      *
-     * @param array $args
+     * @param array $args Expense Chart Filter
      *
      * @return array|object|null
      */
@@ -457,9 +457,9 @@ class Transactions
     /**
      * Get Balance amount for given chart of account in time range
      *
-     * @param $start_date
-     * @param $end_date
-     * @param $chart_id
+     * @param datetime $start_date Start Date
+     * @param datetime $end_date   End Date
+     * @param int      $chart_id   Chart Id
      *
      * @return array|object|null
      */
@@ -487,7 +487,7 @@ class Transactions
     /**
      * Format Monthly result to Yearly data
      *
-     * @param $result
+     * @param array $result Result
      *
      * @return array
      */
@@ -531,8 +531,8 @@ class Transactions
     /**
      * Get Balance amount for given chart of account in time range
      *
-     * @param $chart_id
-     * @param string $month
+     * @param int    $chart_id Chart ID
+     * @param string $month    Month
      *
      * @return array|object|null
      */
@@ -576,7 +576,7 @@ class Transactions
     /**
      * Format Daily result to Yearly data
      *
-     * @param $result
+     * @param array $result Result
      *
      * @return array
      */
@@ -603,7 +603,7 @@ class Transactions
     /**
      * Get all Expenses
      *
-     * @param array $args
+     * @param array $args Expense Transaction Filter
      *
      * @return mixed
      */
@@ -716,7 +716,7 @@ class Transactions
     /**
      * Get all Purchases
      *
-     * @param array $args
+     * @param array $args Purchase Transactions Filter
      *
      * @return mixed
      */
@@ -820,6 +820,8 @@ class Transactions
     /**
      * Generate transaction pdf by voucher_no
      *
+     * @param int $voucher_no Voucher Number
+     * 
      * @return void
      */
     function generateTransactionPdf($voucher_no)
@@ -855,10 +857,10 @@ class Transactions
     /**
      * Generate pdf
      *
-     * @param $request
-     * @param $transaction
-     * @param string $file_name
-     * @param string $output_method
+     * @param object $request       Request
+     * @param int    $transaction   Transactions
+     * @param string $file_name     File Name
+     * @param string $output_method Output Method
      *
      * @return bool
      */
@@ -1447,10 +1449,10 @@ class Transactions
     /**
      * Generate and send pdf
      *
-     * @param $request
-     * @param $transaction
-     * @param $file_name
-     * @param string $output_method
+     * @param object $request       Request
+     * @param int    $transaction   Transaction
+     * @param string $file_name     File Name
+     * @param string $output_method Output Method
      *
      * @return bool
      */
@@ -1486,8 +1488,8 @@ class Transactions
     /**
      * Generate PDF and Send to Email on Transaction
      *
-     * @param $voucher_no
-     * @param $transaction
+     * @param int    $voucher_no  Voucher Number
+     * @param object $transaction Transaction
      *
      * @return bool
      */
@@ -1567,9 +1569,10 @@ class Transactions
     /**
      * Send accounting emails to receivers
      *
-     * @param $receiver
-     * @param $pdf
-     * @param $type
+     * @param string $receiver   Receiver
+     * @param string $pdf_file   Pdf file
+     * @param string $email_type Email Type
+     * @param string $voucher_no Voucher Number
      *
      * @return bool
      */
@@ -1592,7 +1595,7 @@ class Transactions
         /**
          * Get voucher type by id
          *
-         * @param $voucher_no
+         * @param int $voucher_no Voucher Number
          *
          * @return string|null
          */
@@ -1677,10 +1680,10 @@ class Transactions
         /**
          * Varify transaction hash
          *
-         * @param $transaction_id
-         * @param string $transaction_type
-         * @param string $hash_to_verify
-         * @param string $algo
+         * @param int    $transaction_id   Transaction ID
+         * @param string $transaction_type Transaction Type
+         * @param string $hash_to_verify   Hash To Verify
+         * @param string $algo             Algo
          *
          * @return bool
          */
@@ -1701,9 +1704,9 @@ class Transactions
         /**
          * Get unique transaction hash for sharing
          *
-         * @param $transaction_id
-         * @param string $transaction_type
-         * @param string $algo
+         * @param int    $transaction_id   Transaction ID
+         * @param string $transaction_type Transaction Type
+         * @param string $algo             Algo
          *
          * @return string
          */
@@ -1722,7 +1725,7 @@ class Transactions
         /**
          * Get pdf file name
          *
-         * @param $voucher_no
+         * @param int $voucher_no Voucher Number
          *
          * @return string
          */
@@ -1742,8 +1745,10 @@ class Transactions
         /**
          * Insert data into `erp_acct_people_trn_details` table
          *
-         * @param $voucher_no
-         * @param $transaction
+         * @param object $transaction Transaction
+         * @param int    $voucher_no  Voucher Number
+         * 
+         * @return void
          */
         function insertDataIntoPeopleTrnDetails($transaction, $voucher_no)
         {
@@ -1783,8 +1788,10 @@ class Transactions
         /**
          * Update data into `erp_acct_people_trn_details` table
          *
-         * @param $transaction
-         * @param $voucher_no
+         * @param object $transaction Transaction
+         * @param int    $voucher_no  Voucher Number
+         * 
+         * @return void
          */
         function updateDataIntoPeopleTrnDetails($transaction, $voucher_no)
         {
@@ -1796,7 +1803,7 @@ class Transactions
         /**
          * Return url from a absolute path
          *
-         * @param $voucher_no
+         * @param int $voucher_no Voucher Number
          *
          * @return string
          */
@@ -1811,9 +1818,7 @@ class Transactions
         /**
          * Get formatted transaction status for pdf voucher
          *
-         * @since 1.8.0
-         *
-         * @param int|string $trn_status
+         * @param int|string $trn_status Transaction Status
          *
          * @return $string
          */
@@ -1838,9 +1843,7 @@ class Transactions
         /**
          * Formats amount with currency in appropriate form.
          *
-         * @since 1.10.4
-         *
-         * @param int|float|string $amount
+         * @param int|float|string $amount Amount
          *
          * @return string
          */

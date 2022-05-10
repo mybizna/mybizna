@@ -17,11 +17,11 @@ class PayPurchasesController extends Controller
     /**
      * Get a collection of pay_purchases
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_pay_purchases($request)
+    public function get_pay_purchases(Request $request)
     {
         $args = [
             'number' => (int) isset($request['per_page']) ? $request['per_page'] : 20,
@@ -55,22 +55,21 @@ class PayPurchasesController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a pay_purchase
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_pay_purchase($request)
+    public function get_pay_purchase(Request $request)
     {
         $pay_purchases = new PayPurchases();
 
@@ -87,21 +86,21 @@ class PayPurchasesController extends Controller
 
         $item = $this->prepare_item_for_response($item, $request, $additional_fields);
 
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Create a pay_purchase
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function create_pay_purchase($request)
+    public function create_pay_purchase(Request $request)
     {
         $additional_fields = [];
         $pay_purchase_data = $this->prepare_item_for_database($request);
@@ -124,21 +123,21 @@ class PayPurchasesController extends Controller
 
         $pay_purchase_data = $this->prepare_item_for_response($pay_purchase_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($pay_purchase_data);
+        return response()->json($pay_purchase_data);
 
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Update a pay_purchase
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function update_pay_purchase($request)
+    public function update_pay_purchase(Request $request)
     {
         $pay_purchases = new PayPurchases();
 
@@ -165,20 +164,19 @@ class PayPurchasesController extends Controller
 
         $this->add_log($pay_purchase_data, 'edit', $old_data);
 
-        $response = rest_ensure_response($pay_purchase_data);
-        $response = $this->format_collection_response($response, $request, 1);
+        return response()->json($pay_purchase_data);
 
-        return $response;
+        
     }
 
     /**
      * Void a pay_purchase
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function void_pay_purchase($request)
+    public function void_pay_purchase(Request $request)
     {
         $pay_purchases = new PayPurchases();
 
@@ -223,11 +221,11 @@ class PayPurchasesController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -306,12 +304,12 @@ class PayPurchasesController extends Controller
      * Prepare a single user output for response
      *
      * @param array|object    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $common = new CommonFunc();
         $item = (object) $item;
@@ -335,12 +333,8 @@ class PayPurchasesController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**

@@ -15,11 +15,11 @@ class VendorsController extends Controller
     /**
      * Get a collection of vendors
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_vendors($request)
+    public function get_vendors(Request $request)
     {
         $people = new People();
         $args = [
@@ -62,21 +62,17 @@ class VendorsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
-        $response->set_status(200);
-
-        return $response;
+        return response()->json($formatted_items);
     }
 
     /**
      * Get a specific vendor
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_vendor($request)
+    public function get_vendor(Request $request)
     {
 
         $people = new People();
@@ -109,21 +105,17 @@ class VendorsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
         $item                           = $this->prepare_item_for_response($item, $request, $additional_fields);
-        $response                       = rest_ensure_response($item);
-
-        $response->set_status(200);
-
-        return $response;
+        return response()->json($item);
     }
 
     /**
      * Create a vendor
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function create_vendor($request)
+    public function create_vendor(Request $request)
     {
         $people = new People();
         $common = new CommonFunc();
@@ -144,20 +136,18 @@ class VendorsController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $response = $this->prepare_item_for_response($vendor, $request, $additional_fields);
-        $response = rest_ensure_response($response);
+        return response()->json($response);
         $response->set_status(201);
-
-        return $response;
     }
 
     /**
      * Update a vendor
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function update_vendor($request)
+    public function update_vendor(Request $request)
     {
         $people = new People();
         $id = (int) $request['id'];
@@ -184,20 +174,17 @@ class VendorsController extends Controller
 
         $vendor   = $people->getPeople($id);
         $response = $this->prepare_item_for_response($vendor, $request, $additional_fields);
-        $response = rest_ensure_response($response);
-        $response->set_status(200);
-
-        return $response;
+        return response()->json($response);
     }
 
     /**
      * Delete a vendor
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function delete_vendor($request)
+    public function delete_vendor(Request $request)
     {
 
         $people = new People();
@@ -230,11 +217,11 @@ class VendorsController extends Controller
     /**
      * Delete Selected vendors
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function bulk_delete_vendors($request)
+    public function bulk_delete_vendors(Request $request)
     {
 
         $people = new People();
@@ -271,11 +258,11 @@ class VendorsController extends Controller
     /**
      * Get a collection of transactions
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_transactions($request)
+    public function get_transactions(Request $request)
     {
 
         $people = new People();
@@ -294,7 +281,7 @@ class VendorsController extends Controller
      *
      * @return array
      */
-    public function filter_transactions($request)
+    public function filter_transactions(Request $request)
     {
 
         $people = new People();
@@ -307,19 +294,18 @@ class VendorsController extends Controller
             'end_date'   => $end_date,
         ];
         $transactions = $people->getPeopleTransactions($args);
-        $response     = rest_ensure_response($transactions);
 
-        return $response;
+        return response()->json($transactions);
     }
 
     /**
      * Get products of a vendor
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_vendor_products($request)
+    public function get_vendor_products(Request $request)
     {
 
         $people = new People();
@@ -348,11 +334,7 @@ class VendorsController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
-        $response->set_status(200);
-
-        return $response;
+        return response()->json($formatted_items);
     }
 
     /**
@@ -384,11 +366,11 @@ class VendorsController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -479,12 +461,12 @@ class VendorsController extends Controller
      * Prepare a single user output for response
      *
      * @param array | object  $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -518,24 +500,20 @@ class VendorsController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**
      * Prepare a single user output for response
      *
      * @param array|object    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_product_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_product_item_for_response($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -557,11 +535,7 @@ class VendorsController extends Controller
         $data = array_merge($data, $additional_fields);
 
         // Wrap the data in a response object
-        $response = rest_ensure_response($data);
-
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return response()->json($data);
     }
 
     /**

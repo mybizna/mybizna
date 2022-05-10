@@ -17,11 +17,11 @@ class PurchasesController extends Controller
     /**
      * Get a collection of purchases
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_purchases($request)
+    public function get_purchases(Request $request)
     {
         $purchases = new Purchases();
         $args = [
@@ -56,22 +56,21 @@ class PurchasesController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a collection of purchases with due of a vendor
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function due_purchases($request)
+    public function due_purchases(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -108,22 +107,21 @@ class PurchasesController extends Controller
             $formatted_items[] = $this->prepare_response_for_collection($data);
         }
 
-        $response = rest_ensure_response($formatted_items);
-        $response = $this->format_collection_response($response, $request, $total_items);
+        return response()->json($formatted_items);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Get a purchase
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function get_purchase($request)
+    public function get_purchase(Request $request)
     {
         $purchases = new Purchases();
         $id = (int) $request['id'];
@@ -138,21 +136,21 @@ class PurchasesController extends Controller
         $additional_fields['rest_base'] = $this->rest_base;
 
         $item     = $this->prepare_item_for_response($item, $request, $additional_fields);
-        $response = rest_ensure_response($item);
+        return response()->json($item);
 
-        $response->set_status(200);
+        
 
-        return $response;
+        
     }
 
     /**
      * Create a purchase
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function create_purchase($request)
+    public function create_purchase(Request $request)
     {
         $purchase_data  = $this->prepare_item_for_database($request);
         $items          = $request['line_items'];
@@ -176,24 +174,24 @@ class PurchasesController extends Controller
 
         $purchase_data = $this->prepare_item_for_response($purchase_data, $request, $additional_fields);
 
-        $response = rest_ensure_response($purchase_data);
+        return response()->json($purchase_data);
         $response->set_status(201);
 
-        return $response;
+        
     }
 
     /**
      * Update a purchase
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Response
+     * @return \Illuminate\Http\Response
      */
-    public function update_purchase($request)
+    public function update_purchase(Request $request)
     {
         $common = new CommonFunc();
         $purchases = new Purchases();
-        
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -232,20 +230,20 @@ class PurchasesController extends Controller
 
         $purchase_data = $this->prepare_item_for_response($purchase, $request, $additional_fields);
 
-        $response = rest_ensure_response($purchase_data);
-        $response->set_status(200);
+        return response()->json($purchase_data);
+        
 
-        return $response;
+        
     }
 
     /**
      * Void a purchase
      *
-     * @param WP_REST_Request $request
+     * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|WP_REST_Request
+     * @return WP_Error|\Illuminate\Http\Request
      */
-    public function void_purchase($request)
+    public function void_purchase(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -286,11 +284,11 @@ class PurchasesController extends Controller
     /**
      * Prepare a single item for create or update
      *
-     * @param WP_REST_Request $request request object
+     * @param \Illuminate\Http\Request $request request object
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database($request)
+    protected function prepare_item_for_database(Request $request)
     {
         $prepared_item = [];
 
@@ -357,12 +355,12 @@ class PurchasesController extends Controller
      * Prepare a single user output for response
      *
      * @param array|object    $item
-     * @param WP_REST_Request $request           request object
+     * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
     {
 
         $people = new People();
@@ -394,12 +392,8 @@ class PurchasesController extends Controller
 
         $data = array_merge($data, $additional_fields);
 
-        // Wrap the data in a response object
-        $response = rest_ensure_response($data);
 
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        return $response;
+        return $data;
     }
 
     /**
