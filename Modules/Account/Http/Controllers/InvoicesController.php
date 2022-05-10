@@ -81,7 +81,8 @@ class InvoicesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $invoices->getInvoice($id);
@@ -173,13 +174,15 @@ class InvoicesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
-            return new WP_Error('rest_invoice_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
+            messageBag()->add('rest_invoice_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
+            return ;
         }
 
         $invoice_data = $this->prepare_item_for_database($request);
@@ -230,14 +233,15 @@ class InvoicesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function void_invoice(Request $request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $this->voidInvoice($id);
@@ -258,7 +262,8 @@ class InvoicesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $args = [
@@ -318,7 +323,7 @@ class InvoicesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function upload_attachments(Request $request)
     {

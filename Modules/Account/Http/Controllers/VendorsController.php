@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\People;
 
 use Illuminate\Support\Facades\DB;
 
@@ -81,7 +82,8 @@ class VendorsController extends Controller
         $item = (array) $item;
 
         if (empty($id) || empty($item['id'])) {
-            return new WP_Error('rest_vendor_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_vendor_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $photo_id = $people->peopleGetMeta($id, 'photo_id', true);
@@ -113,14 +115,14 @@ class VendorsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function create_vendor(Request $request)
     {
         $people = new People();
         $common = new CommonFunc();
         if ($common->existPeople($request['email'])) {
-            return new WP_Error('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
+            messageBag()->add('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
         }
 
         $item = $this->prepare_item_for_database($request);
@@ -145,7 +147,7 @@ class VendorsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function update_vendor(Request $request)
     {
@@ -155,7 +157,7 @@ class VendorsController extends Controller
         $item = $people->getPeople($id);
 
         if (!$item) {
-            return new WP_Error('rest_vendor_invalid_id', __('Invalid resource id.'), ['status' => 400]);
+            messageBag()->add('rest_vendor_invalid_id', __('Invalid resource id.'), ['status' => 400]);
         }
 
         $old_data = (array) $item;
@@ -182,7 +184,7 @@ class VendorsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function delete_vendor(Request $request)
     {
@@ -193,9 +195,8 @@ class VendorsController extends Controller
         $exist = $people->checkAssociatedTranasaction($id);
 
         if ($exist) {
-            $error = new WP_Error('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+             messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
-            wp_send_json_error($error);
         }
 
         $data = [
@@ -219,7 +220,7 @@ class VendorsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function bulk_delete_vendors(Request $request)
     {
@@ -237,9 +238,9 @@ class VendorsController extends Controller
             $exist = $people->checkAssociatedTranasaction($id);
 
             if ($exist) {
-                $error = new WP_Error('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+                 messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
-                wp_send_json_error($error);
+               return false;
             }
 
             $vendors[] = (array) $people->getPeople((int) $id);

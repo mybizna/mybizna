@@ -67,7 +67,8 @@ class ExpensesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $expense_data       = $expense->getExpense($id);
@@ -94,7 +95,8 @@ class ExpensesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_check_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_check_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $expense_data       = $expense->getCheck($id);
@@ -157,7 +159,8 @@ class ExpensesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $expense_data = $this->prepare_item_for_database($request);
@@ -194,14 +197,15 @@ class ExpensesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function void_expense(Request $request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $this->voidExpense($id);

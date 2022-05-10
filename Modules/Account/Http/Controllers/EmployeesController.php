@@ -74,7 +74,8 @@ class EmployeesController extends Controller
         $item     = (array) $people->getPeople($people_id);
 
         if (empty($item['id'])) {
-            return new WP_Error('rest_employee_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_employee_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item['designation']  = $employee->get_designation('view');

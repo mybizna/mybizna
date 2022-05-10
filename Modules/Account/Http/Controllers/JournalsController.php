@@ -63,7 +63,8 @@ class JournalsController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            return new WP_Error('rest_journal_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_journal_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $journal->updateInvoice($id);
@@ -104,7 +105,7 @@ class JournalsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function create_journal(Request $request)
     {

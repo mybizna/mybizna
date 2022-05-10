@@ -394,7 +394,8 @@ class TransactionsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_voucher_type_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_voucher_type_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $response = $trans>getTransactionType($id);
@@ -476,7 +477,8 @@ class TransactionsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_trn_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_trn_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $response = [

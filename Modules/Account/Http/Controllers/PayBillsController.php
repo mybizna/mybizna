@@ -76,7 +76,8 @@ class PayBillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $paybills->getPayBill($id);
@@ -143,7 +144,8 @@ class PayBillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $pay_bill_data = $this->prepare_item_for_database($request);
@@ -182,7 +184,7 @@ class PayBillsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function void_pay_bill(Request $request)
     {
@@ -190,7 +192,8 @@ class PayBillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $old_data = $paybills->getPayBill($id);

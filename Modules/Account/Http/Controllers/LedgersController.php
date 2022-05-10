@@ -59,7 +59,8 @@ class LedgersController extends Controller
         $id = $request['chart_id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_empty_chart_id', __('Chart ID is Empty.'), ['status' => 400]);
+            messageBag()->add('rest_empty_chart_id', __('Chart ID is Empty.'), ['status' => 400]);
+            return ;
         }
 
         $items = $ledger->getLedgersByChartId($id);
@@ -86,7 +87,8 @@ class LedgersController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $ledger->getLedger($id);
@@ -102,7 +104,7 @@ class LedgersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function create_ledger_account(Request $request)
     {
@@ -112,7 +114,8 @@ class LedgersController extends Controller
         $exist = DB::scalar("SELECT name FROM erp_acct_ledgers WHERE name = %s", [$request['name']]);
 
         if ($exist) {
-            return new WP_Error('rest_ledger_name_already_exist', __('Name already exist.'), ['status' => 404]);
+            messageBag()->add('rest_ledger_name_already_exist', __('Name already exist.'), ['status' => 404]);
+            return ;
         }
 
         $item = $this->prepare_item_for_database($request);
@@ -135,7 +138,7 @@ class LedgersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function update_ledger_account(Request $request)
     {
@@ -145,7 +148,8 @@ class LedgersController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $this->prepare_item_for_database($request);
@@ -170,7 +174,7 @@ class LedgersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function delete_ledger_account(Request $request)
     {
@@ -180,7 +184,8 @@ class LedgersController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $ledger->getLedger($id);
@@ -224,7 +229,8 @@ class LedgersController extends Controller
         $items = $bank->getBanks(true, false, false);
 
         if (empty($items)) {
-            return new WP_Error('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
+            messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
+            return ;
         }
 
         $formatted_items = [];
@@ -314,7 +320,8 @@ class LedgersController extends Controller
         $category = $ledger->createLedgerCategory($request);
 
         if (!$category) {
-            return new WP_Error('rest_ledger_already_exist', __('Category already exist.'), ['status' => 404]);
+            messageBag()->add('rest_ledger_already_exist', __('Category already exist.'), ['status' => 404]);
+            return ;
         }
 
         return response()->json($category);
@@ -337,13 +344,15 @@ class LedgersController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_ledger_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $category = $ledger->updateLedgerCategory($request);
 
         if (!$category) {
-            return new WP_Error('rest_ledger_already_exist', __('Category already exist.'), ['status' => 404]);
+            messageBag()->add('rest_ledger_already_exist', __('Category already exist.'), ['status' => 404]);
+            return ;
         }
 
         return response()->json($category);
@@ -362,7 +371,8 @@ class LedgersController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $ledger->deleteLedgerCategory($id);

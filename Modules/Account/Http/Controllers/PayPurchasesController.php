@@ -76,7 +76,8 @@ class PayPurchasesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $pay_purchases->getPayPurchase($id);
@@ -144,7 +145,8 @@ class PayPurchasesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $pay_purchase_data = $this->prepare_item_for_database($request);
@@ -174,7 +176,7 @@ class PayPurchasesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function void_pay_purchase(Request $request)
     {
@@ -183,7 +185,8 @@ class PayPurchasesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $pay_purchases->getPayPurchase($id);

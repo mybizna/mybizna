@@ -65,7 +65,8 @@ class OpeningBalanceController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            return new WP_Error('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $ledgers = $obalance->getAllOpeningBalances($id);
@@ -107,7 +108,8 @@ class OpeningBalanceController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            return new WP_Error('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $result = DB::select("select count(*) as num from erp_acct_opening_balances where financial_year_id = %d", [$id]);
@@ -133,7 +135,8 @@ class OpeningBalanceController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            return new WP_Error('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $open_balances->getVirtualAcct($id);
@@ -173,7 +176,7 @@ class OpeningBalanceController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function create_opening_balance(Request $request)
     {
@@ -189,7 +192,8 @@ class OpeningBalanceController extends Controller
         $total_cr = (isset($request['total_dr']) ? $request['total_dr'] : 0);
 
         if ($total_dr !== $total_cr) {
-            return new WP_Error('rest_opening_balance_invalid_amount', __('Summation of debit and credit must be equal.'), ['status' => 400]);
+            messageBag()->add('rest_opening_balance_invalid_amount', __('Summation of debit and credit must be equal.'), ['status' => 400]);
+            return ;
         }
 
         $opening_balance_data['amount'] = $total_dr;

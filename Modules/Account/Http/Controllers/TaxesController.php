@@ -74,7 +74,8 @@ class TaxesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $taxes->getTaxRate($id);
@@ -141,7 +142,8 @@ class TaxesController extends Controller
         $item_rates = [];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $tax_data = $this->prepare_item_for_database($request);
@@ -184,7 +186,8 @@ class TaxesController extends Controller
         $item_rates = [];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $tax_data = $this->prepare_item_for_database($request);
@@ -220,7 +223,8 @@ class TaxesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $tax_data = $this->prepare_line_item_for_database($request);
@@ -251,7 +255,8 @@ class TaxesController extends Controller
         $item_rates = [];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $tax_data = $this->prepare_line_item_for_database($request);
@@ -281,7 +286,8 @@ class TaxesController extends Controller
         $id = (int) $request['db_id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $this->deleteTaxRateLine($id);
@@ -294,14 +300,15 @@ class TaxesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function delete_tax_rate(Request $request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $taxes->getTaxRate($id);
@@ -318,7 +325,7 @@ class TaxesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function get_tax_records(Request $request)
     {
@@ -375,7 +382,8 @@ class TaxesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_pay_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_pay_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $taxes->getTaxPayRecord($id);
@@ -396,7 +404,7 @@ class TaxesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function pay_tax(Request $request)
     {

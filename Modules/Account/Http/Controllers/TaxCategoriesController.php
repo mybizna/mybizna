@@ -74,7 +74,8 @@ class TaxCategoriesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $taxcats->getTaxCat($id);
@@ -130,7 +131,8 @@ class TaxCategoriesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $tax_data = $this->prepare_item_for_database($request);
@@ -172,7 +174,8 @@ class TaxCategoriesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $taxcats->getTaxCat($id);

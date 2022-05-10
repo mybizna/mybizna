@@ -74,7 +74,8 @@ class BillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $bill_data = $bills->getBill($id);
@@ -142,13 +143,15 @@ class BillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
-            return new WP_Error('rest_bill_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
+            messageBag()->add('rest_bill_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
+            return ;
         }
 
         $bill_data = $this->prepare_item_for_database($request);
@@ -186,7 +189,7 @@ class BillsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function void_bill(Request $request)
     {
@@ -195,7 +198,8 @@ class BillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $bills->voidBill($id);
@@ -215,7 +219,8 @@ class BillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $args = [

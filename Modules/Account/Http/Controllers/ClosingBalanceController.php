@@ -23,11 +23,13 @@ class ClosingBalanceController extends Controller
     public function close_balancesheet(Request $request)
     {
         if (empty($request['start_date'])) {
-            return new WP_Error('rest_invalid_date', __('Start date missing.'), ['status' => 404]);
+            messageBag()->add('rest_invalid_date', __('Start date missing.'), ['status' => 404]);
+            return ;
         }
 
         if (empty($request['end_date'])) {
-            return new WP_Error('rest_invalid_date', __('End date missing.'), ['status' => 404]);
+            messageBag()->add('rest_invalid_date', __('End date missing.'), ['status' => 404]);
+            return ;
         }
 
         $args = [
@@ -54,7 +56,8 @@ class ClosingBalanceController extends Controller
     public function get_next_fn_year(Request $request)
     {
         if (empty($request['date'])) {
-            return new WP_Error('rest_invalid_date', __('Invalid resource date.'), ['status' => 404]);
+            messageBag()->add('rest_invalid_date', __('Invalid resource date.'), ['status' => 404]);
+            return ;
         }
 
         $data     = $cbalance->getClosestNextFnYear($request['date']);

@@ -81,7 +81,8 @@ class PeopleController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $people = $people->getPeople($id);
@@ -107,7 +108,8 @@ class PeopleController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $row = DB::select("SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d", [$id]);

@@ -55,7 +55,8 @@ class AccountsController extends Controller
         $item = $bank->getBank($id);
 
         if (empty($id) || empty($item->id)) {
-            return new WP_Error('rest_bank_account_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_bank_account_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+        return ;
         }
 
         $item     = $this->prepare_item_for_response($item, $request, []);
@@ -78,7 +79,8 @@ class AccountsController extends Controller
         $item = $bank->deleteBank($id);
 
         if (empty($id) || empty($item->id)) {
-            return new WP_Error('rest_bank_account_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_bank_account_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item     = $this->prepare_item_for_response($item, $request, []);
@@ -92,7 +94,7 @@ class AccountsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function transfer_money(Request $request)
     {
@@ -101,7 +103,8 @@ class AccountsController extends Controller
         $item = $this->prepare_item_for_database($request);
 
         if (empty($item['from_account_id']) || empty($item['to_account_id'])) {
-            return new WP_Error('rest_transfer_invalid_accounts', __('Both accounts should be present.'), ['status' => 400]);
+            messageBag()->add('rest_transfer_invalid_accounts', __('Both accounts should be present.'), ['status' => 400]);
+            return ;
         }
         $args               = [];
         $args['start_date'] = date('Y-m-d');
@@ -113,13 +116,14 @@ class AccountsController extends Controller
         $ledger_details = get_ledger_balance_with_opening_balance($item['from_account_id'], $args['start_date'], $args['end_date']);
 
         if (empty($ledger_details)) {
-            return new WP_Error('rest_transfer_invalid_account', __('Something Went Wrong! Account not found.'), ['status' => 400]);
+            messageBag()->add('rest_transfer_invalid_account', __('Something Went Wrong! Account not found.'), ['status' => 400]);
+            return ;
         }
 
         $from_balance = $ledger_details['balance'];
 
         // if ( $from_balance < $item['amount'] ) {
-        //     return new WP_Error( 'rest_transfer_insufficient_funds', __( 'Not enough money on selected transfer source.' ), [ 'status' => 400 ] );
+        //     messageBag()->add( 'rest_transfer_insufficient_funds', __( 'Not enough money on selected transfer source.' ), [ 'status' => 400 ] );
         // }
 
         $id = $bank->performTransfer(Request $request);
@@ -198,7 +202,8 @@ class AccountsController extends Controller
         $items = $bank->getBanks(true, true, false);
 
         if (empty($items)) {
-            return new WP_Error('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
+            messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
+            return ;
         }
 
         $formatted_items = [];
@@ -229,7 +234,8 @@ class AccountsController extends Controller
         $items           = $bank->getDashboardBanks();
 
         if (empty($items)) {
-            return new WP_Error('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
+            messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
+            return ;
         }
 
         foreach ($items as $item) {

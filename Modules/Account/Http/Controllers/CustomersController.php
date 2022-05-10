@@ -87,7 +87,8 @@ class CustomersController extends Controller
         $item = (array) $item;
 
         if (empty($id) || empty($item['id'])) {
-            return new WP_Error('rest_customer_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_customer_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $photo_id = $people->peopleGetMeta($id, 'photo_id', true);
@@ -123,14 +124,15 @@ class CustomersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function create_customer(Request $request)
     {
         $people = new People();
         $common = new CommonFunc();
         if ($common->existPeople($request['email'])) {
-            return new WP_Error('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
+            messageBag()->add('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
+            return ;
         }
 
         $item = $this->prepare_item_for_database($request);
@@ -155,7 +157,7 @@ class CustomersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function update_customer(Request $request)
     {
@@ -165,7 +167,8 @@ class CustomersController extends Controller
         $item = $people->getPeople($id);
 
         if (!$item) {
-            return new WP_Error('rest_customer_invalid_id', __('Invalid resource id.'), ['status' => 400]);
+            messageBag()->add('rest_customer_invalid_id', __('Invalid resource id.'), ['status' => 400]);
+            return ;
         }
 
         $item = $this->prepare_item_for_database($request);
@@ -192,7 +195,7 @@ class CustomersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function delete_customer(Request $request)
     {
@@ -202,9 +205,9 @@ class CustomersController extends Controller
         $exist = $people->checkAssociatedTranasaction($id);
 
         if ($exist) {
-            $error = new WP_Error('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+             messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
-            wp_send_json_error($error);
+            return false;
         }
 
         $data = [
@@ -228,7 +231,7 @@ class CustomersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function bulk_delete_customers(Request $request)
     {
@@ -245,9 +248,9 @@ class CustomersController extends Controller
             $exist = $people->checkAssociatedTranasaction($id);
 
             if ($exist) {
-                $error = new WP_Error('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+                 messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
-                wp_send_json_error($error);
+                return false;
             }
 
             $customers[] = (array) $people->getPeople((int) $id);

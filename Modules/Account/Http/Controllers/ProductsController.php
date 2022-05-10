@@ -64,7 +64,9 @@ class ProductsController extends Controller
         $item = $products->getAllProducts($id);
 
         if (empty($id)) {
-            return new WP_Error('rest_inventory_product_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_inventory_product_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
+
         }
 
         $additional_fields['namespace'] = $this->namespace;
@@ -82,7 +84,7 @@ class ProductsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function create_inventory_product(Request $request)
     {
@@ -113,14 +115,15 @@ class ProductsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function update_inventory_product(Request $request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            return new WP_Error('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            return ;
         }
 
         $item = $this->prepare_item_for_database($request);
@@ -152,7 +155,7 @@ class ProductsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return WP_Error|\Illuminate\Http\Request
+     * @return messageBag()->add|\Illuminate\Http\Request
      */
     public function delete_inventory_product(Request $request)
     {
