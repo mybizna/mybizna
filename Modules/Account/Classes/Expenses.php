@@ -6,6 +6,7 @@ use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\Transactions;
 use Modules\Account\Classes\People;
 use Modules\Account\Classes\Bank;
+use Modules\Account\Classes\Company;
 
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +20,7 @@ class Expenses
      *
      * @return mixed
      */
-    function getExpenses($args = [])
+    public function getExpenses($args = [])
     {
 
 
@@ -63,7 +64,7 @@ class Expenses
      *
      * @return mixed
      */
-    function getExpense($expense_no)
+    public function getExpense($expense_no)
     {
 
 
@@ -94,7 +95,7 @@ class Expenses
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = DB::select($sql, ARRAY_A);
+        $row = DB::select($sql);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -118,7 +119,7 @@ class Expenses
      *
      * @return mixed
      */
-    function getCheck($expense_no)
+    public function getCheck($expense_no)
     {
 
 
@@ -154,7 +155,7 @@ class Expenses
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = DB::select($sql, ARRAY_A);
+        $row = DB::select($sql);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -170,7 +171,7 @@ class Expenses
      *
      * @return array
      */
-    function formatCheckLineItems($voucher_no)
+    public function formatCheckLineItems($voucher_no)
     {
 
 
@@ -192,7 +193,7 @@ class Expenses
         LEFT JOIN erp_acct_expense_details AS expense_detail ON expense_detail.trn_no = expense.voucher_no
         LEFT JOIN erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id
 
-        WHERE expense.voucher_no={$voucher_no} AND expense.trn_by = 3"
+        WHERE expense.voucher_no={$voucher_no} AND expense.trn_by = 3";
 
         return DB::select($sql);
     }
@@ -204,7 +205,7 @@ class Expenses
      *
      * @return array
      */
-    function formatExpenseLineItems($voucher_no)
+    public function formatExpenseLineItems($voucher_no)
     {
 
 
@@ -218,7 +219,7 @@ class Expenses
         expense_detail.amount
 
         FROM erp_acct_expenses AS expense
-        LEFT JOIN erp_acct_expense_details AS expense_detail ON expense.voucher_no = expense_detail.trn_no LEFT JOIN erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id WHERE expense.voucher_no = {$voucher_no}",
+        LEFT JOIN erp_acct_expense_details AS expense_detail ON expense.voucher_no = expense_detail.trn_no LEFT JOIN erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id WHERE expense.voucher_no = {$voucher_no}";
 
 
 
@@ -232,7 +233,7 @@ class Expenses
      *
      * @return mixed
      */
-    function insertExpense($data)
+    public function insertExpense($data)
     {
 
         $common = new CommonFunc();
@@ -399,7 +400,7 @@ class Expenses
      *
      * @return mixed
      */
-    function updateExpense($data, $expense_id)
+    public function updateExpense($data, $expense_id)
     {
 
 
@@ -487,7 +488,7 @@ class Expenses
      *
      * @return array
      */
-    function convertDraftToExpense($data, $expense_id)
+    public function convertDraftToExpense($data, $expense_id)
     {
 
         $common = new CommonFunc();
@@ -619,7 +620,7 @@ class Expenses
      *
      * @return void
      */
-    function voidExpense($id)
+    public function voidExpense($id)
     {
 
 
@@ -635,8 +636,8 @@ class Expenses
                 ]
             );
 
-        DB::table('erp_acct_ledger_details')->where( [['trn_no' => $id]])->delete();
-        DB::table('erp_acct_expense_details')->where( [['trn_no' => $id]])->delete();
+        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
+        DB::table('erp_acct_expense_details')->where([['trn_no' => $id]])->delete();
     }
 
     /**
@@ -647,13 +648,13 @@ class Expenses
      *
      * @return mixed
      */
-    function getFormattedExpenseData($data, $voucher_no)
+    public function getFormattedExpenseData($data, $voucher_no)
     {
-        $people = new People();
+        $people_obj = new People();
         $expense_data = [];
 
-        $people  = $people->getPeople($data['people_id']);
-        $company = new \WeDevs\ERP\Company();
+        $people  = $people_obj->getPeople($data['people_id']);
+        $company = new Company();
 
         $expense_data['voucher_no']       = !empty($voucher_no) ? $voucher_no : 0;
         $expense_data['people_id']        = isset($data['people_id']) ? $data['people_id'] : auth()->user()->id;
@@ -690,7 +691,7 @@ class Expenses
      *
      * @return mixed
      */
-    function insertExpenseDataIntoLedger($expense_data, $item_data = [])
+    public function insertExpenseDataIntoLedger($expense_data, $item_data = [])
     {
 
 
@@ -728,7 +729,7 @@ class Expenses
      *
      * @return mixed
      */
-    function updateExpenseDataIntoLedger($expense_data, $expense_no, $item_data = [])
+    public function updateExpenseDataIntoLedger($expense_data, $expense_no, $item_data = [])
     {
 
 
@@ -761,7 +762,7 @@ class Expenses
      *
      * @return void
      */
-    function insertSourceExpenseDataIntoLedger($expense_data)
+    public function insertSourceExpenseDataIntoLedger($expense_data)
     {
 
 
@@ -794,7 +795,7 @@ class Expenses
      *
      * @return mixed
      */
-    function getCheckDataOfExpense($expense_no)
+    public function getCheckDataOfExpense($expense_no)
     {
 
 
@@ -818,7 +819,7 @@ class Expenses
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = DB::select($sql, ARRAY_A);
+        $row = DB::select($sql);
 
         $row = (!empty($row)) ? $row[0] : null;
 

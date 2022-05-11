@@ -4,6 +4,7 @@
 namespace Modules\Account\Classes;
 
 use Modules\Account\Classes\Reports\TrialBalance;
+use Modules\Account\Classes\FinalAccounts;
 
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,7 @@ class ClosingBalance
      *
      * @return void
      */
-    function getClosestNextFnYear($date)
+    public function getClosestNextFnYear($date)
     {
 
 
@@ -32,8 +33,10 @@ class ClosingBalance
      *
      * @return void
      */
-    function closeBalanceSheetNow($args)
+    public function closeBalanceSheetNow($args)
     {
+        $reports = new Reports();
+
         $balance_sheet  = $reports->getBalanceSheet($args);
         $assets         = $balance_sheet['rows1'];
         $liability      = $balance_sheet['rows2'];
@@ -43,14 +46,11 @@ class ClosingBalance
 
 
         // remove next financial year data if exists
-        $wpdb->query(
+        DB::delete(
             "DELETE FROM erp_acct_opening_balances
     WHERE financial_year_id = %d",
             [$next_f_year_id]
-
         );
-
-        $ledger_map = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
 
         // ledgers
         $sql     = "SELECT id, chart_id, name, slug FROM erp_acct_ledgers";
@@ -106,7 +106,7 @@ class ClosingBalance
             } // liability loop
 
             // equity
-            $owners_equity_id = $ledger_map->get_ledger_id_by_slug('owner_s_equity');
+            $owners_equity_id = get_ledger_id_by_slug('owner_s_equity');
 
             foreach ($equity as $eqt) {
                 if (!empty($eqt['id']) && $owners_equity_id !== $eqt['id']) {
@@ -133,7 +133,7 @@ class ClosingBalance
         } // ledger loop
 
         $chart_id_bank  = 7;
-        $final_accounts = new \WeDevs\ERP\Accounting\Includes\Classes\Final_Accounts($args);
+        $final_accounts = new FinalAccounts($args);
 
         foreach ($final_accounts->cash_at_bank_breakdowns as $cash_at_bank) {
             $this->insertIntoOpeningBalance(
@@ -213,7 +213,7 @@ class ClosingBalance
             );
         }
 
-        $owners_equity_ledger = $ledger_map->get_ledger_id_by_slug('owner_s_equity');
+        $owners_equity_ledger = get_ledger_id_by_slug('owner_s_equity');
         $chart_equity_id      = 3;
 
         if (0 === $balance_sheet['owners_equity']) {
@@ -253,7 +253,7 @@ class ClosingBalance
      *
      * @return void
      */
-    function insertIntoOpeningBalance($f_year_id, $chart_id, $ledger_id, $type, $debit, $credit)
+    public function insertIntoOpeningBalance($f_year_id, $chart_id, $ledger_id, $type, $debit, $credit)
     {
 
 
@@ -279,7 +279,7 @@ class ClosingBalance
      *
      * @return array
      */
-    function getAccountsReceivableBalanceWithPeople($args)
+    public function getAccountsReceivableBalanceWithPeople($args)
     {
 
 
@@ -301,7 +301,7 @@ class ClosingBalance
      *
      * @return array
      */
-    function getAccountsPayableBalanceWithPeople($args)
+    public function getAccountsPayableBalanceWithPeople($args)
     {
 
 
@@ -334,7 +334,7 @@ class ClosingBalance
      *
      * @return array
      */
-    function peopleArCalcWithOpeningBalance($bs_start_date)
+    public function peopleArCalcWithOpeningBalance($bs_start_date)
     {
         $trialbal = new TrialBalance();
 
@@ -357,7 +357,7 @@ class ClosingBalance
      *
      * @return array
      */
-    function vendorApCalcWithOpeningBalance($bs_start_date)
+    public function vendorApCalcWithOpeningBalance($bs_start_date)
     {
 
         $trialbal = new TrialBalance();
@@ -379,7 +379,7 @@ class ClosingBalance
      *
      * @return void
      */
-    function customerArOpeningBalanceByFnYearId($id)
+    public function customerArOpeningBalanceByFnYearId($id)
     {
 
 
@@ -397,7 +397,7 @@ class ClosingBalance
      *
      * @return void
      */
-    function vendorSpOpeningBalanceByFnYearId($id)
+    public function vendorSpOpeningBalanceByFnYearId($id)
     {
 
 
@@ -415,7 +415,7 @@ class ClosingBalance
      *
      * @return array
      */
-    function getFormattedPeopleBalance($arr)
+    public function getFormattedPeopleBalance($arr)
     {
         $temp = [];
 
@@ -444,7 +444,7 @@ class ClosingBalance
      *
      * @return float
      */
-    function salesTaxAgency($args, $type)
+    public function salesTaxAgency($args, $type)
     {
 
 
@@ -474,7 +474,7 @@ class ClosingBalance
      *
      * @return float
      */
-    function salesTaxAgencyWithOpeningBalance($bs_start_date, $data, $sql, $type, $having)
+    public function salesTaxAgencyWithOpeningBalance($bs_start_date, $data, $sql, $type, $having)
     {
 
         $trialbal = new TrialBalance();
@@ -519,7 +519,7 @@ class ClosingBalance
      *
      * @return void
      */
-    function salesTaxAgencyOpeningBalanceByFnYearId($id, $type)
+    public function salesTaxAgencyOpeningBalanceByFnYearId($id, $type)
     {
 
 

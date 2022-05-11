@@ -19,7 +19,7 @@ class RecPayments
      *
      * @return mixed
      */
-    function getPayments($args = [])
+    public function getPayments($args = [])
     {
 
 
@@ -48,7 +48,7 @@ class RecPayments
             return DB::scalar($sql);
         }
 
-        $payment_data = DB::select($sql, ARRAY_A);
+        $payment_data = DB::select($sql);
 
         return $payment_data;
     }
@@ -60,7 +60,7 @@ class RecPayments
      *
      * @return mixed
      */
-    function getPayment($invoice_no)
+    public function getPayment($invoice_no)
     {
 
 
@@ -97,7 +97,7 @@ class RecPayments
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = DB::select($sql, ARRAY_A);
+        $row = DB::select($sql);
         $row = (!empty($row)) ? $row[0] : null;
 
         $row['line_items'] = $this->formatPaymentLineItems($invoice_no);
@@ -113,7 +113,7 @@ class RecPayments
      *
      * @return mixed
      */
-    function insertPayment($data)
+    public function insertPayment($data)
     {
 
         $common = new CommonFunc();
@@ -245,7 +245,7 @@ class RecPayments
      *
      * @return int
      */
-    function insertPaymentLineItems($data, $item, $voucher_no)
+    public function insertPaymentLineItems($data, $item, $voucher_no)
     {
 
 
@@ -309,7 +309,7 @@ class RecPayments
      *
      * @return mixed
      */
-    function updatePayment($data, $voucher_no)
+    public function updatePayment($data, $voucher_no)
     {
 
         $common = new CommonFunc();
@@ -380,7 +380,7 @@ class RecPayments
      *
      * @return int
      */
-    function updatePaymentLineItems($data, $invoice_no, $voucher_no)
+    public function updatePaymentLineItems($data, $invoice_no, $voucher_no)
     {
 
 
@@ -442,14 +442,14 @@ class RecPayments
      *
      * @return mixed
      */
-    function getFormattedPaymentData($data, $voucher_no, $invoice_no = 0)
+    public function getFormattedPaymentData($data, $voucher_no, $invoice_no = 0)
     {
         $people = new People();
         $payment_data = [];
 
         // We can pass the name from view... to reduce query load
         $user_info = $people->getPeople($data['customer_id']);
-        $company   = new \WeDevs\ERP\Company();
+        $company   = new Company();
 
         $payment_data['voucher_no']       = !empty($voucher_no) ? $voucher_no : 0;
         $payment_data['invoice_no']       = !empty($invoice_no) ? $invoice_no : 0;
@@ -488,7 +488,7 @@ class RecPayments
      *
      * @return void
      */
-    function deletePayment($id)
+    public function deletePayment($id)
     {
 
 
@@ -504,7 +504,7 @@ class RecPayments
      *
      * @return void
      */
-    function voidPayment($id)
+    public function voidPayment($id)
     {
 
 
@@ -531,7 +531,7 @@ class RecPayments
      *
      * @return void
      */
-    function changeInvoiceStatus($invoice_no)
+    public function changeInvoiceStatus($invoice_no)
     {
 
         $invoices = new Invoices();
@@ -564,7 +564,7 @@ class RecPayments
      *
      * @return mixed
      */
-    function insertPaymentDataIntoLedger($payment_data)
+    public function insertPaymentDataIntoLedger($payment_data)
     {
 
 
@@ -607,7 +607,7 @@ class RecPayments
      *
      * @return mixed
      */
-    function updatePaymentDataInLedger($payment_data, $invoice_no)
+    public function updatePaymentDataInLedger($payment_data, $invoice_no)
     {
 
 
@@ -648,7 +648,7 @@ class RecPayments
      *
      * @return int
      */
-    function getPaymentCount()
+    public function getPaymentCount()
     {
 
 
@@ -664,7 +664,7 @@ class RecPayments
      *
      * @return array
      */
-    function formatPaymentLineItems($invoice = 'all')
+    public function formatPaymentLineItems($invoice = 'all')
     {
 
 
@@ -680,6 +680,6 @@ class RecPayments
             ON inv_rec_detail.voucher_no = voucher.id
             {$invoice_sql}";
 
-        return DB::select($sql, ARRAY_A);
+        return DB::select($sql);
     }
 }

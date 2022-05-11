@@ -18,7 +18,7 @@ class PeopleController extends Controller
      *
      * @return array
      */
-    public function get_all_people(Request $request)
+    public function getAllPeople(Request $request)
     {
         $people = new People();
         $args = [
@@ -55,8 +55,8 @@ class PeopleController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -73,7 +73,7 @@ class PeopleController extends Controller
      *
      * @return string
      */
-    public function get_people(Request $request)
+    public function getPeople(Request $request)
     {
 
         $people = new People();
@@ -100,7 +100,7 @@ class PeopleController extends Controller
      *
      * @return string
      */
-    public function get_people_address(Request $request)
+    public function getPeopleAddress(Request $request)
     {
 
         $people = new People();
@@ -115,7 +115,8 @@ class PeopleController extends Controller
         $row = DB::select("SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
 
-        return new WP_REST_Response($people->formatPeopleAddress($row), 200);
+        return response()->json($people->formatPeopleAddress($row));
+
     }
 
     /**
@@ -125,14 +126,14 @@ class PeopleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_opening_balance(Request $request)
+    public function getOpeningBalance(Request $request)
     {
         $id                = (int) $request['id'];
         $args['people_id'] = $id;
 
         $transactions = $opening_balance->getPeopleOpeningBalance($args);
 
-        return new WP_REST_Response($transactions, 200);
+        return response()->json($transactions);
     }
 
     /**
@@ -142,7 +143,7 @@ class PeopleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function check_people_email(Request $request)
+    public function checkPeopleEmail(Request $request)
     {
         $common = new CommonFunc();
         $res      = $common->existPeople($request['email'], ['customer', 'vendor', 'contact', 'company']);
@@ -160,7 +161,7 @@ class PeopleController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
         // required arguments.
@@ -247,7 +248,7 @@ class PeopleController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -289,7 +290,7 @@ class PeopleController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

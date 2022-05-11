@@ -18,7 +18,7 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_expenses(Request $request)
+    public function getExpenses(Request $request)
     {
         $args = [
             'number' => isset($request['per_page']) ? $request['per_page'] : 20,
@@ -48,8 +48,8 @@ class ExpensesController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -62,7 +62,7 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_expense(Request $request)
+    public function getExpense(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -79,7 +79,7 @@ class ExpensesController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $data     = $this->prepare_item_for_response($expense_data, $request, $additional_fields);
+        $data     = $this->prepareItemForResponse($expense_data, $request, $additional_fields);
         return response()->json($data);
     }
 
@@ -90,7 +90,7 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_check(Request $request)
+    public function getCheck(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -107,7 +107,7 @@ class ExpensesController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $data     = $this->prepare_item_for_response($expense_data, $request, $additional_fields);
+        $data     = $this->prepareItemForResponse($expense_data, $request, $additional_fields);
         return response()->json($data);
     }
 
@@ -118,9 +118,9 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_expense(Request $request)
+    public function createExpense(Request $request)
     {
-        $expense_data = $this->prepare_item_for_database($request);
+        $expense_data = $this->prepareItemFDatabase($request);
 
         $item_amount       = [];
         $item_total        = [];
@@ -136,15 +136,15 @@ class ExpensesController extends Controller
         $expense_data['amount']      = array_sum($item_total);
 
         $expense = $expenses->insertExpense($expense_data);
-        $this->add_log((array) $expense, 'add');
+        $this->addLog((array) $expense, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $expense_data = $this->prepare_item_for_response($expense, $request, $additional_fields);
+        $expense_data = $this->prepareItemForResponse($expense, $request, $additional_fields);
 
         return response()->json($expense_data);
-        $response->set_status(201);
+
     }
 
     /**
@@ -154,7 +154,7 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update_expense(Request $request)
+    public function updateExpense(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -163,7 +163,7 @@ class ExpensesController extends Controller
             return ;
         }
 
-        $expense_data = $this->prepare_item_for_database($request);
+        $expense_data = $this->prepareItemFDatabase($request);
 
         $item_amount       = [];
         $item_total        = [];
@@ -181,13 +181,13 @@ class ExpensesController extends Controller
         $old_data   = $expense->getExpense($id);
         $expense_id = $this->updateExpense($expense_data, $id);
 
-        $this->add_log($expense_data, 'edit', $old_data);
+        $this->addLog($expense_data, 'edit', $old_data);
 
         $expense_data['id']             = $expense_id;
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $expense_data = $this->prepare_item_for_response($expense_data, $request, $additional_fields);
+        $expense_data = $this->prepareItemForResponse($expense_data, $request, $additional_fields);
 
         return response()->json($expense_data);
     }
@@ -199,7 +199,7 @@ class ExpensesController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function void_expense(Request $request)
+    public function voidExpense(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -210,7 +210,7 @@ class ExpensesController extends Controller
 
         $this->voidExpense($id);
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});;
     }
 
     /**
@@ -222,7 +222,7 @@ class ExpensesController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
         switch ($action) {
@@ -245,7 +245,7 @@ class ExpensesController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -345,7 +345,7 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -382,7 +382,7 @@ class ExpensesController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

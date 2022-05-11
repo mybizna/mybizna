@@ -2,7 +2,12 @@
 
 namespace Modules\Account\Classes\Reports;
 
+use Modules\Account\Classes\OpenBalances;
+use Modules\Account\Classes\Reports;
+use Modules\Account\Classes\FinalAccounts;
+
 use Illuminate\Support\Facades\DB;
+
 /**
  * Trial Balance
  */
@@ -17,7 +22,7 @@ class TrialBalance
      *
      * @return int
      */
-    function cashAtBank($args, $type)
+    public function cashAtBank($args, $type)
     {
 
 
@@ -56,7 +61,7 @@ class TrialBalance
      *
      * @return mixed
      */
-    function bankBalance($args, $type)
+    public function bankBalance($args, $type)
     {
 
 
@@ -84,7 +89,7 @@ class TrialBalance
      *
      * @return int
      */
-    function salesTaxQuery($args, $type)
+    public function salesTaxQuery($args, $type)
     {
 
 
@@ -111,7 +116,7 @@ class TrialBalance
      *
      * @return array
      */
-    function getAccountReceivable($args)
+    public function getAccountReceivable($args)
     {
 
 
@@ -135,7 +140,7 @@ class TrialBalance
      *
      * @return array
      */
-    function getAccountPayable($args)
+    public function getAccountPayable($args)
     {
 
 
@@ -171,7 +176,7 @@ class TrialBalance
      *
      * @return array
      */
-    function getOwnersEquity($args, $type)
+    public function getOwnersEquity($args, $type)
     {
 
 
@@ -199,7 +204,7 @@ class TrialBalance
      *
      * @return bool
      */
-    function hasDateDiff($date1, $date2)
+    public function hasDateDiff($date1, $date2)
     {
         $interval = date_diff(date_create($date1), date_create($date2));
 
@@ -220,7 +225,7 @@ class TrialBalance
      *
      * @return float
      */
-    function calculatePeopleBalance($sql, $start_date, $end_date)
+    public function calculatePeopleBalance($sql, $start_date, $end_date)
     {
 
 
@@ -243,7 +248,7 @@ class TrialBalance
      *
      * @return array
      */
-    function getBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
+    public function getBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
     {
         $temp_data = [];
 
@@ -289,7 +294,7 @@ class TrialBalance
      *
      * @return array
      */
-    function getBalanceWithinLedgerDetailsAndTrialBalance($sql, $temp_data)
+    public function getBalanceWithinLedgerDetailsAndTrialBalance($sql, $temp_data)
     {
 
 
@@ -330,9 +335,10 @@ class TrialBalance
      *
      * @return array
      */
-    function calcWithOpeningBalance($tb_start_date, $data, $sql)
+    public function calcWithOpeningBalance($tb_start_date, $data, $sql)
     {
 
+        $open_balance = new OpenBalances();
 
         $result = [];
 
@@ -340,12 +346,11 @@ class TrialBalance
         $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance =$open_balance->openingBalanceByFnYearId($closest_fy_date['id']);
+        $opening_balance =$this->openingBalanceByFnYearId($closest_fy_date['id']);
 
         $ledgers = DB::select(
             "SELECT ledger.id, ledger.chart_id, ledger.name FROM erp_acct_ledgers AS ledger
-                WHERE ledger.chart_id <> 7 AND ledger.slug <> 'owner_s_equity'",
-            ARRAY_A
+                WHERE ledger.chart_id <> 7 AND ledger.slug <> 'owner_s_equity'"
         );
 
         $temp_data = $this->getBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
@@ -357,12 +362,10 @@ class TrialBalance
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($tb_start_date)));
         }
 
-        $sql =
-            "SELECT
-        ledger.id, ledger.name, SUM(ledger_detail.debit - ledger_detail.credit) AS balance
+        $sql ="SELECT  ledger.id, ledger.name, SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM erp_acct_ledgers AS ledger
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id
-        WHERE ledger.chart_id NOT IN ( 4, 5, 7 ) AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_tb_start}' GROUP BY ledger_detail.ledger_id",
+        WHERE ledger.chart_id NOT IN ( 4, 5, 7 ) AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_tb_start}' GROUP BY ledger_detail.ledger_id"
         ;
 
         $result = $this->getBalanceWithinLedgerDetailsAndTrialBalance($sql, $temp_data);
@@ -380,7 +383,7 @@ class TrialBalance
      *
      * @return float
      */
-    function bankCashCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
+    public function bankCashCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
 
 
@@ -426,7 +429,7 @@ class TrialBalance
      *
      * @return array
      */
-    function bankBalanceCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
+    public function bankBalanceCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
 
 
@@ -438,7 +441,7 @@ class TrialBalance
         // get opening balance data within that(^) financial year
         $opening_balance = $this->bankBalanceOpeningBalanceByFnYearId($closest_fy_date['id']);
 
-        $ledgers = DB::select("SELECT ledger.id, ledger.chart_id, ledger.name FROM erp_acct_ledgers AS ledger WHERE ledger.chart_id = 7", ARRAY_A);
+        $ledgers = DB::select("SELECT ledger.id, ledger.chart_id, ledger.name FROM erp_acct_ledgers AS ledger WHERE ledger.chart_id = 7");
 
         $temp_data = $this->getBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
 
@@ -471,7 +474,7 @@ class TrialBalance
      *
      * @return float
      */
-    function salesTaxCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
+    public function salesTaxCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
 
 
@@ -519,7 +522,7 @@ class TrialBalance
      *
      * @return float
      */
-    function peopleCalcWithOpeningBalance($tb_date, $data, $type, $sql1, $sql2 = null)
+    public function peopleCalcWithOpeningBalance($tb_date, $data, $type, $sql1, $sql2 = null)
     {
 
 
@@ -554,7 +557,7 @@ class TrialBalance
      *
      * @return void
      */
-    function calcWithPeopleAccountDetails($closest_fy_start_date, $tb_end_date, $type)
+    public function calcWithPeopleAccountDetails($closest_fy_start_date, $tb_end_date, $type)
     {
 
 
@@ -584,7 +587,7 @@ class TrialBalance
      *
      * @return float
      */
-    function ownersEquityCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
+    public function ownersEquityCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
 
 
@@ -611,7 +614,7 @@ class TrialBalance
         //     `financial year start date`
         // and
         //     `previous date from trial balance start date`
-        $ledger_details_balance = DB::scalar(($sql, [$closest_fy_date['start_date'], $prev_date_of_tb_start]);
+        $ledger_details_balance = DB::scalar($sql, [$closest_fy_date['start_date'], $prev_date_of_tb_start]);
 
         if ($ledger_details_balance) {
             $balance += (float) $ledger_details_balance;
@@ -627,7 +630,7 @@ class TrialBalance
      *
      * @return string
      */
-    function getClosestFnYearDate($date)
+    public function getClosestFnYearDate($date)
     {
 
 
@@ -644,7 +647,7 @@ class TrialBalance
      *
      * @return string
      */
-    function openingBalanceByFnYearId($id, $chart_id = null)
+    public function openingBalanceByFnYearId($id, $chart_id = null)
     {
 
 
@@ -670,7 +673,7 @@ class TrialBalance
      *
      * @return array
      */
-    function bankCashOpeningBalanceByFnYearId($id)
+    public function bankCashOpeningBalanceByFnYearId($id)
     {
 
 
@@ -689,7 +692,7 @@ class TrialBalance
      *
      * @return array
      */
-    function salesTaxOpeningBalanceByFnYearId($id, $type)
+    public function salesTaxOpeningBalanceByFnYearId($id, $type)
     {
 
 
@@ -713,7 +716,7 @@ class TrialBalance
      *
      * @return array
      */
-    function bankBalanceOpeningBalanceByFnYearId($id)
+    public function bankBalanceOpeningBalanceByFnYearId($id)
     {
 
 
@@ -733,7 +736,7 @@ class TrialBalance
      *
      * @return mixed
      */
-    function ownersEquityOpeningBalanceByFnYearId($id, $type)
+    public function ownersEquityOpeningBalanceByFnYearId($id, $type)
     {
 
 
@@ -759,7 +762,7 @@ class TrialBalance
      *
      * @return void
      */
-    function peopleOpeningBalanceByFnYearId($id, $type)
+    public function peopleOpeningBalanceByFnYearId($id, $type)
     {
 
 
@@ -783,9 +786,9 @@ class TrialBalance
      *
      * @return mixed
      */
-    function getTrialBalance($args)
+    public function getTrialBalance($args)
     {
-
+        $reports = new Reports();
 
         $sql = "SELECT ledger.id, ledger.chart_id, ledger.name, SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM erp_acct_ledgers AS ledger
@@ -800,7 +803,7 @@ class TrialBalance
         /*
      * Let's create some virtual ledgers
      */
-        $final_accounts    = new \WeDevs\ERP\Accounting\Includes\Classes\Final_Accounts($args);
+        $final_accounts    = new FinalAccounts($args);
 
         $results['rows'][] = [
             'chart_id'   => '1',

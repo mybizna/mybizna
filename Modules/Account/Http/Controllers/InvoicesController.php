@@ -21,7 +21,7 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_invoices(Request $request)
+    public function getInvoices(Request $request)
     {
         $invoices = new Invoices();
 
@@ -55,16 +55,11 @@ class InvoicesController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
-
-
-        
-
-        
     }
 
     /**
@@ -74,7 +69,7 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_invoice(Request $request)
+    public function getInvoice(Request $request)
     {
         $trans = new Transactions();
         $invoices = new Invoices();
@@ -82,7 +77,7 @@ class InvoicesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $invoices->getInvoice($id);
@@ -101,12 +96,9 @@ class InvoicesController extends Controller
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
-        $item                           = $this->prepare_item_for_response($item, $request, $additional_fields);
-       
+        $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
+
         return response()->json($item);
-
-        
-
     }
 
     /**
@@ -116,10 +108,10 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_invoice(Request $request)
+    public function createInvoice(Request $request)
     {
         $invoices = new Invoices();
-        $invoice_data = $this->prepare_item_for_database($request);
+        $invoice_data = $this->prepareItemFDatabase($request);
 
         $item_total          = 0;
         $item_discount_total = 0;
@@ -150,14 +142,11 @@ class InvoicesController extends Controller
 
         $invoice_data['id'] = $invoice_id;
 
-        $this->add_log($invoice_data, 'add');
+        $this->addLog($invoice_data, 'add');
 
-        $invoice_data = $this->prepare_item_for_response($invoice_data, $request, $additional_fields);
+        $invoice_data = $this->prepareItemForResponse($invoice_data, $request, $additional_fields);
 
         return response()->json($invoice_data);
-        $response->set_status(201);
-
-        
     }
 
     /**
@@ -167,7 +156,7 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update_invoice(Request $request)
+    public function updateInvoice(Request $request)
     {
         $common = new CommonFunc();
         $invoices = new Invoices();
@@ -175,17 +164,17 @@ class InvoicesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
             messageBag()->add('rest_invoice_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
-            return ;
+            return;
         }
 
-        $invoice_data = $this->prepare_item_for_database($request);
+        $invoice_data = $this->prepareItemFDatabase($request);
 
         $item_total          = 0;
         $item_discount_total = 0;
@@ -216,16 +205,13 @@ class InvoicesController extends Controller
 
         $invoice_id = $invoices->updateInvoice($invoice_data, $id);
 
-        $this->add_log($id, 'edit', $old_data);
+        $this->addLog($id, 'edit', $old_data);
 
         $invoice_data['id'] = $invoice_id;
 
-        $invoice_data = $this->prepare_item_for_response($invoice_data, $request, $additional_fields);
+        $invoice_data = $this->prepareItemForResponse($invoice_data, $request, $additional_fields);
 
         return response()->json($invoice_data);
-        $response->set_status(201);
-
-        
     }
 
     /**
@@ -235,18 +221,18 @@ class InvoicesController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function void_invoice(Request $request)
+    public function voidInvoice(Request $request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $this->voidInvoice($id);
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});;
     }
 
     /**
@@ -256,14 +242,14 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function due_invoices(Request $request)
+    public function dueInvoices(Request $request)
     {
         $invoices = new Invoices();
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $args = [
@@ -289,15 +275,11 @@ class InvoicesController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -307,15 +289,11 @@ class InvoicesController extends Controller
      *
      * @return mixed|\Illuminate\Http\Response
      */
-    public function get_overview_receivables(Request $request)
+    public function getOverviewReceivables(Request $request)
     {
         $invoices = new Invoices();
         $items    = $invoices->getRecievablesOverview();
         return response()->json($items);
-
-        
-
-        
     }
 
     /**
@@ -325,16 +303,13 @@ class InvoicesController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function upload_attachments(Request $request)
+    public function uploadAttachments(Request $request)
     {
         $file = $_FILES['attachments'];
 
         $movefiles = $account->uploadAttachments($file);
 
         return response()->json($movefiles);
-        
-
-        
     }
 
     /**
@@ -346,7 +321,7 @@ class InvoicesController extends Controller
      *
      * @return void
      */
-    public function add_log($id, $action, $old_data = [])
+    public function addLog($id, $action, $old_data = [])
     {
         $common = new CommonFunc();
         $invoices = new Invoices();
@@ -372,7 +347,7 @@ class InvoicesController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -442,7 +417,7 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $data = array_merge($item, $additional_fields);
 
@@ -455,7 +430,7 @@ class InvoicesController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

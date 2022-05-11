@@ -18,7 +18,7 @@ class TaxRateNamesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_tax_rate_names(Request $request)
+    public function getTaxRateNames(Request $request)
     {
         $args = [
             'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
@@ -50,8 +50,8 @@ class TaxRateNamesController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -68,7 +68,7 @@ class TaxRateNamesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_tax_rate_name(Request $request)
+    public function getTaxRateName(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -82,7 +82,7 @@ class TaxRateNamesController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $item     = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
 
         
@@ -97,23 +97,23 @@ class TaxRateNamesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_tax_rate_name(Request $request)
+    public function createTaxRateName(Request $request)
     {
-        $tax_data = $this->prepare_item_for_database($request);
+        $tax_data = $this->prepareItemFDatabase($request);
 
         $tax_id = $taxratenames->insertTaxRateName($tax_data);
 
         $tax_data['id'] = $tax_id;
 
-        $this->add_log($tax_data, 'add');
+        $this->addLog($tax_data, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data = $this->prepare_item_for_response($tax_data, $request, $additional_fields);
+        $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-        $response->set_status(201);
+        
 
         
     }
@@ -125,7 +125,7 @@ class TaxRateNamesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update_tax_rate_name(Request $request)
+    public function updateTaxRateName(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -134,20 +134,20 @@ class TaxRateNamesController extends Controller
             return ;
         }
 
-        $tax_data = $this->prepare_item_for_database($request);
+        $tax_data = $this->prepareItemFDatabase($request);
         $old_data = $taxratenames->getTaxRateName($id);
         $tax_id   = $taxratenames->updateTaxRateName($tax_data, $id);
 
-        $this->add_log($tax_data, 'edit', $old_data);
+        $this->addLog($tax_data, 'edit', $old_data);
 
         $tax_data['id']                 = $tax_id;
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data = $this->prepare_item_for_response($tax_data, $request, $additional_fields);
+        $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-        $response->set_status(201);
+        
 
         
     }
@@ -159,7 +159,7 @@ class TaxRateNamesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function delete_tax_rate_name(Request $request)
+    public function deleteTaxRateName(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -172,9 +172,9 @@ class TaxRateNamesController extends Controller
 
         $taxratenames->deleteTaxRateName($id);
 
-        $this->add_log($item, 'delete');
+        $this->addLog($item, 'delete');
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -184,7 +184,7 @@ class TaxRateNamesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function bulk_delete(Request $request)
+    public function bulkDelete(Request $request)
     {
         $ids = $request['ids'];
         $ids = explode(',', $ids);
@@ -198,10 +198,10 @@ class TaxRateNamesController extends Controller
 
             $taxratenames->deleteTaxRateName($id);
 
-            $this->add_log($item, 'delete');
+            $this->addLog($item, 'delete');
         }
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -213,7 +213,7 @@ class TaxRateNamesController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
         switch ($action) {
@@ -237,7 +237,7 @@ class TaxRateNamesController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -265,7 +265,7 @@ class TaxRateNamesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request,  $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request,  $additional_fields = [])
     {
         $data = array_merge($item, $additional_fields);
 
@@ -278,7 +278,7 @@ class TaxRateNamesController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

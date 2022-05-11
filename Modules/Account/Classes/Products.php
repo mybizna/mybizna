@@ -9,13 +9,13 @@ class Products
 
     /**
      * Get all products
-     * 
+     *
      * @param array $args Data Filter
      *
      * @return mixed
      */
 
-    function getAllProducts($args = [])
+    public function getAllProducts($args = [])
     {
 
 
@@ -72,7 +72,7 @@ class Products
         if ($args['count']) {
             $products_count = DB::scalar($sql);
         } else {
-            $products = DB::select($sql, ARRAY_A);
+            $products = DB::select($sql);
         }
 
 
@@ -90,7 +90,7 @@ class Products
      *
      * @return mixed
      */
-    function getProduct($product_id)
+    public function getProduct($product_id)
     {
 
 
@@ -114,8 +114,7 @@ class Products
 		FROM erp_acct_products AS product
 		LEFT JOIN erp_peoples AS people ON product.vendor = people.id
 		LEFT JOIN erp_acct_product_categories AS cat ON product.category_id = cat.id
-        LEFT JOIN erp_acct_product_types AS product_type ON product.product_type_id = product_type.id WHERE product.id = {$product_id} LIMIT 1",
-            ARRAY_A
+        LEFT JOIN erp_acct_product_types AS product_type ON product.product_type_id = product_type.id WHERE product.id = {$product_id} LIMIT 1"
         );
 
         $row = (!empty($row)) ? $row[0] : null;
@@ -127,12 +126,13 @@ class Products
      * Insert product data
      *
      * @param array $data Data Filter
-     * 
-     * @return WP_Error | integer
+     *
+     * @return messageBag()->add( | integer
      */
-    function insertProduct($data)
+    public function insertProduct($data)
     {
 
+        $products = new Products();
 
         $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
@@ -177,8 +177,9 @@ class Products
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            return new WP_Error('duplicate-product', $e->getMessage(), array('status' => 400));
-        }
+             messageBag()->add('duplicate-product', $e->getMessage(), array('status' => 400));
+             return;
+            }
 
 
         do_action('erp_acct_after_change_product_list');
@@ -191,11 +192,12 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return WP_Error | Object
+     * @return messageBag()->add( | Object
      */
-    function updateProduct($data, $id)
+    public function updateProduct($data, $id)
     {
 
+        $products = new Products();
 
         $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
@@ -242,7 +244,7 @@ class Products
         } catch (\Exception $e) {
             DB::rollback();
 
-            return new WP_Error('duplicate-product', $e->getMessage(), array('status' => 400));
+             messageBag()->add('duplicate-product', $e->getMessage(), array('status' => 400));
         }
 
 
@@ -258,7 +260,7 @@ class Products
      *
      * @return mixed
      */
-    function getFormattedProductData($data)
+    public function getFormattedProductData($data)
     {
         $product_data['name']            = !empty($data['name']) ? $data['name'] : 1;
         $product_data['product_type_id'] = !empty($data['product_type_id']) ? $data['product_type_id'] : 1;
@@ -282,7 +284,7 @@ class Products
      *
      * @return int
      */
-    function deleteProduct($product_id)
+    public function deleteProduct($product_id)
     {
 
 
@@ -300,7 +302,7 @@ class Products
      *
      * @return int
      */
-    function getProductTypes()
+    public function getProductTypes()
     {
 
 
@@ -316,7 +318,7 @@ class Products
      *
      * @return int
      */
-    function getProductTypeIdByProductId($product_id)
+    public function getProductTypeIdByProductId($product_id)
     {
 
 
@@ -327,12 +329,12 @@ class Products
 
     /**
      * Get all products of a vendor
-     * 
+     *
      * @param array $args Data Filter
      *
      * @return mixed
      */
-    function getVendorProducts($args = [])
+    public function getVendorProducts($args = [])
     {
 
 
@@ -381,7 +383,7 @@ class Products
         if ($args['count']) {
             $products_vendor_count = DB::scalar($sql);
         } else {
-            $products_vendor = DB::select($sql, ARRAY_A);
+            $products_vendor = DB::select($sql);
         }
 
 
@@ -397,14 +399,15 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return array|WP_Error
+     * @return array|messageBag()->add(
      */
-    function validateCsvData($data)
+    public function validateCsvData($data)
     {
         $files = wp_check_filetype_and_ext($data['csv_file']['tmp_name'], $data['csv_file']['name']);
 
         if ('csv' !== $files['ext'] && 'text/csv' !== $files['type']) {
-            return new WP_Error('invalid-file-type', __('The file is not a valid CSV file! Please provide a valid one.', 'erp'));
+             messageBag()->add('invalid-file-type', __('The file is not a valid CSV file! Please provide a valid one.', 'erp'));
+            return;
         }
 
         $csv = new \ParseCsv\Csv();
@@ -412,8 +415,9 @@ class Products
         $csv->parse($data['csv_file']['tmp_name']);
 
         if (empty($csv->data)) {
-            return new WP_Error('no-data', __('No data found to import!', 'erp'));
-        }
+             messageBag()->add('no-data', __('No data found to import!', 'erp'));
+             return;
+            }
 
         $csv_data   = [];
         $csv_data[] = array_keys($csv->data[0]);
@@ -423,7 +427,8 @@ class Products
         }
 
         if (empty($csv_data)) {
-            return new WP_Error('no-data', __('No data found to import!', 'erp'), ['status' => 400]);
+             messageBag()->add('no-data', __('No data found to import!', 'erp'), ['status' => 400]);
+            return;
         }
 
         $count           = 0;
@@ -443,7 +448,8 @@ class Products
         $errors = apply_filters('erp_validate_csv_data', $csv_data, $data['fields'], $temp_type);
 
         if (!empty($errors)) {
-            return new WP_Error('import-error', $errors);
+             messageBag()->add('import-error', $errors);
+             return;
         }
 
         unset($csv_data[0]);
@@ -569,21 +575,22 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return int|WP_Error
+     * @return int|messageBag()->add(
      */
-    function importProducts($data)
+    public function importProducts($data)
     {
 
 
         if (!empty($data['items'])) {
-            $inserted = $wpdb->query(
+            $inserted = DB::delete(
                 "INSERT INTO erp_acct_products
             (name, product_type_id, category_id, cost_price, sale_price, vendor, tax_cat_id, created_by, created_at)
             VALUES {$data['items']}"
             );
 
-            if (is_wp_error($inserted)) {
-                return new WP_Error('import-db-error', __('Something went wrong', 'erp'));
+            if (!$inserted) {
+                 messageBag()->add('import-db-error', __('Something went wrong', 'erp'));
+                return;
             }
         }
 
@@ -600,7 +607,8 @@ class Products
         }
 
         if (0 >= (int) $data['total']) {
-            return new WP_Error('import-error', __('No data imported', 'erp'));
+             messageBag()->add('import-error', __('No data imported', 'erp'));
+            return;
         }
 
         return $data['total'];

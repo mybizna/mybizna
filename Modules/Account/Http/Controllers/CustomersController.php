@@ -21,7 +21,7 @@ class CustomersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_customers(Request $request)
+    public function getCustomers(Request $request)
     {
         $people = new People();
         $args = [
@@ -60,8 +60,8 @@ class CustomersController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -78,7 +78,7 @@ class CustomersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_customer(Request $request)
+    public function getCustomer(Request $request)
     {
         $people = new People();
 
@@ -111,7 +111,7 @@ class CustomersController extends Controller
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
-        $item                           = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
         
         return response()->json($item);
 
@@ -126,7 +126,7 @@ class CustomersController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function create_customer(Request $request)
+    public function createCustomer(Request $request)
     {
         $people = new People();
         $common = new CommonFunc();
@@ -135,18 +135,18 @@ class CustomersController extends Controller
             return ;
         }
 
-        $item = $this->prepare_item_for_database($request);
+        $item = $this->prepareItemFDatabase($request);
         $id   = $people->insertPeople($item);
 
         $customer       = (array) $people->getPeople($id);
         $customer['id'] = $id;
 
-        $this->add_log($customer, 'add');
+        $this->addLog($customer, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $response = $this->prepare_item_for_response($customer, $request, $additional_fields);
+        $response = $this->prepareItemForResponse($customer, $request, $additional_fields);
         return response()->json($response);
 
         
@@ -159,7 +159,7 @@ class CustomersController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function update_customer(Request $request)
+    public function updateCustomer(Request $request)
     {
         $people = new People();
         $id = (int) $request['id'];
@@ -171,19 +171,19 @@ class CustomersController extends Controller
             return ;
         }
 
-        $item = $this->prepare_item_for_database($request);
+        $item = $this->prepareItemFDatabase($request);
 
         $id = $people->insertPeople($item);
 
         $customer       = (array) $people->getPeople($id);
         $customer['id'] = $id;
 
-        $this->add_log((array) $item, 'edit', $customer);
+        $this->addLog((array) $item, 'edit', $customer);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $response = $this->prepare_item_for_response($customer, $request, $additional_fields);
+        $response = $this->prepareItemForResponse($customer, $request, $additional_fields);
         return response()->json($response);
         
 
@@ -197,7 +197,7 @@ class CustomersController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function delete_customer(Request $request)
+    public function deleteCustomer(Request $request)
     {
         $people = new People();
         $id = (int) $request['id'];
@@ -221,9 +221,9 @@ class CustomersController extends Controller
 
         $people->deletePeople($data);
 
-        $this->add_log($customer, 'delete');
+        $this->addLog($customer, 'delete');
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});;
     }
 
     /**
@@ -233,7 +233,7 @@ class CustomersController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function bulk_delete_customers(Request $request)
+    public function bulkDeleteCustomers(Request $request)
     {
         $people = new People();
         $ids = (string) $request['ids'];
@@ -260,10 +260,10 @@ class CustomersController extends Controller
         $people->deletePeople($data);
 
         foreach ($customers as $customer) {
-            $this->add_log($customer, 'delete');
+            $this->addLog($customer, 'delete');
         }
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});;
     }
 
     /**
@@ -273,7 +273,7 @@ class CustomersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_transactions(Request $request)
+    public function getTransactions(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -281,7 +281,7 @@ class CustomersController extends Controller
 
         $transactions = $this->getPeopleTransactions($args);
 
-        return new WP_REST_Response($transactions, 200);
+        return response()->json($transactions);
     }
 
     /**
@@ -289,9 +289,9 @@ class CustomersController extends Controller
      *
      * @return object
      */
-    public function get_countries(Request $request)
+    public function getCountries(Request $request)
     {
-        $country  = \WeDevs\ERP\Countries::instance();
+        $country  = Countries::instance();
         $c        = $country->get_countries();
         $state    = $country->get_states();
         $response = [
@@ -310,7 +310,7 @@ class CustomersController extends Controller
      *
      * @return array
      */
-    public function filter_transactions($request)
+    public function filterTransactions($request)
     {
         $people = new People();
         $id           = $request['id'];
@@ -335,7 +335,7 @@ class CustomersController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
         switch ($action) {
@@ -359,7 +359,7 @@ class CustomersController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
         // required arguments.
@@ -451,7 +451,7 @@ class CustomersController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $common = new CommonFunc();
         $item = (object) $item;
@@ -497,7 +497,7 @@ class CustomersController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

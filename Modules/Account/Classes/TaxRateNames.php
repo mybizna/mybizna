@@ -14,7 +14,7 @@ class TaxRateNames
      * 
      * @return mixed
      */
-    function getAllTaxRateNames($args = [])
+    public function getAllTaxRateNames($args = [])
     {
 
 
@@ -42,7 +42,7 @@ class TaxRateNames
         if ($args['count']) {
             $tax_rates_count = DB::scalar($sql);
         } else {
-            $tax_rates = DB::select($sql, ARRAY_A);
+            $tax_rates = DB::select($sql);
         }
 
         if ($args['count']) {
@@ -59,7 +59,7 @@ class TaxRateNames
      *
      * @return mixed
      */
-    function getTaxRateName($tax_no)
+    public function getTaxRateName($tax_no)
     {
 
 
@@ -75,7 +75,7 @@ class TaxRateNames
      *
      * @return int
      */
-    function insertTaxRateName($data)
+    public function insertTaxRateName($data)
     {
 
 
@@ -84,7 +84,7 @@ class TaxRateNames
         $data['created_by'] = $created_by;
 
         if (!empty($data['default'])) {
-            $wpdb->query("UPDATE erp_acct_taxes SET `default` = 0");
+            DB::update("UPDATE erp_acct_taxes SET `default` = 0");
         }
 
         $tax_data = $taxratenames->getFormattedTaxRateNameData($data);
@@ -111,7 +111,7 @@ class TaxRateNames
      *
      * @return int
      */
-    function updateTaxRateName($data, $id)
+    public function updateTaxRateName($data, $id)
     {
 
 
@@ -122,7 +122,7 @@ class TaxRateNames
         $tax_data = $taxratenames->getFormattedTaxRateNameData($data);
 
         if (!empty($tax_data['default'])) {
-            $wpdb->query("UPDATE erp_acct_taxes SET `default` = 0");
+            DB::update("UPDATE erp_acct_taxes SET `default` = 0");
         }
 
         DB::table('erp_acct_taxes')
@@ -148,7 +148,7 @@ class TaxRateNames
      *
      * @return int
      */
-    function deleteTaxRateName($id)
+    public function deleteTaxRateName($id)
     {
 
 
@@ -165,7 +165,7 @@ class TaxRateNames
      *
      * @return mixed
      */
-    function getFormattedTaxRateNameData($data)
+    public function getFormattedTaxRateNameData($data)
     {
         $tax_data = [];
 

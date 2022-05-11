@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\LedgerAccounts;
+use Modules\Account\Classes\Taxes;
 
 use Illuminate\Support\Facades\DB;
 
@@ -19,8 +20,10 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_tax_rates(Request $request)
-    {
+    public function getTaxRates(Request $request)
+    { 
+        $taxes = new Taxes();
+
         $args = [
             'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
             'offset'     => ($request['per_page'] * ($request['page'] - 1)),
@@ -51,15 +54,11 @@ class TaxesController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -69,13 +68,16 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_tax_rate(Request $request)
+    public function getTaxRate(Request $request)
     {
+
+        $taxes = new Taxes();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $taxes->getTaxRate($id);
@@ -83,12 +85,8 @@ class TaxesController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $item     = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
-
-        
-
-        
     }
 
     /**
@@ -98,11 +96,13 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_tax_rate(Request $request)
+    public function createTaxRate(Request $request)
     {
+        $taxes = new Taxes();
+
         $item_rates = [];
 
-        $tax_data = $this->prepare_item_for_database($request);
+        $tax_data = $this->prepareItemFDatabase($request);
 
         $items = $request['tax_components'];
 
@@ -116,17 +116,14 @@ class TaxesController extends Controller
 
         $tax_data['id'] = $tax_data['tax_rate_name'];
 
-        $this->add_log($tax_data, 'add');
+        $this->addLog($tax_data, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data = $this->prepare_item_for_response($tax_data, $request, $additional_fields);
+        $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-        $response->set_status(201);
-
-        
     }
 
     /**
@@ -136,17 +133,19 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update_tax_rate(Request $request)
+    public function updateTaxRate(Request $request)
     {
+        $taxes = new Taxes();
+
         $id         = (int) $request['id'];
         $item_rates = [];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
-        $tax_data = $this->prepare_item_for_database($request);
+        $tax_data = $this->prepareItemFDatabase($request);
 
         $items = $tax_data['tax_components'];
 
@@ -160,17 +159,14 @@ class TaxesController extends Controller
 
         $tax_data['id'] = $tax_id;
 
-        $this->add_log($tax_data, 'edit');
+        $this->addLog($tax_data, 'edit');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data = $this->prepare_item_for_response($tax_data, $request, $additional_fields);
+        $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-        $response->set_status(201);
-
-        
     }
 
     /**
@@ -180,17 +176,19 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function quick_edit_tax_rate(Request $request)
+    public function quickEditTaxRate(Request $request)
     {
+        $taxes = new Taxes();
+
         $id         = (int) $request['id'];
         $item_rates = [];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
-        $tax_data = $this->prepare_item_for_database($request);
+        $tax_data = $this->prepareItemFDatabase($request);
 
         $tax_data['tax_rate'] = array_sum($item_rates);
 
@@ -198,17 +196,14 @@ class TaxesController extends Controller
 
         $tax_data['id'] = $tax_id;
 
-        $this->add_log($tax_data, 'edit');
+        $this->addLog($tax_data, 'edit');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data = $this->prepare_item_for_response($tax_data, $request, $additional_fields);
+        $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-        $response->set_status(201);
-
-        
     }
 
     /**
@@ -218,28 +213,27 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function line_add_tax_rate(Request $request)
+    public function lineAddTaxRate(Request $request)
     {
+         $taxes = new Taxes();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
-        $tax_data = $this->prepare_line_item_for_database($request);
+        $tax_data = $this->prepareLineItemForDatabase($request);
 
         $line_id = $taxes->addTaxRateLine($tax_data);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data = $this->prepare_tax_line_for_response($tax_data, $request, $additional_fields);
+        $tax_data = $this->prepareTaxLineForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-        
-
-        
     }
 
     /**
@@ -249,29 +243,26 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function line_edit_tax_rate(Request $request)
+    public function lineEditTaxRate(Request $request)
     {
         $id         = (int) $request['id'];
         $item_rates = [];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
-        $tax_data = $this->prepare_line_item_for_database($request);
+        $tax_data = $this->prepareLineItemForDatabase($request);
 
         $line_id = $taxes->editTaxRateLine($tax_data);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data = $this->prepare_tax_line_for_response($tax_data, $request, $additional_fields);
+        $tax_data = $this->prepareTaxLineForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-        $response->set_status(201);
-
-        
     }
 
     /**
@@ -281,18 +272,18 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function line_delete_tax_rate(Request $request)
+    public function lineDeleteTaxRate(Request $request)
     {
         $id = (int) $request['db_id'];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $this->deleteTaxRateLine($id);
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -302,22 +293,24 @@ class TaxesController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function delete_tax_rate(Request $request)
+    public function deleteTaxRate(Request $request)
     {
+        $taxes = new Taxes();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $taxes->getTaxRate($id);
 
         $taxes->deleteTaxRate($id);
 
-        $this->add_log($item, 'delete');
+        $this->addLog($item, 'delete');
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -327,8 +320,10 @@ class TaxesController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function get_tax_records(Request $request)
+    public function getTaxRecords(Request $request)
     {
+        $taxes = new Taxes();
+
         $args = [
             'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
             'offset'     => ($request['per_page'] * ($request['page'] - 1)),
@@ -359,15 +354,11 @@ class TaxesController extends Controller
                 }
             }
 
-            $data              = $this->prepare_tax_pay_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareTaxPayResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -377,13 +368,15 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_tax_pay_record(Request $request)
+    public function getTaxPayRecord(Request $request)
     {
+        $taxes = new Taxes();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_pay_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $taxes->getTaxPayRecord($id);
@@ -391,12 +384,8 @@ class TaxesController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $item     = $this->prepare_tax_pay_response($item, $request, $additional_fields);
+        $item     = $this->prepareTaxPayResponse($item, $request, $additional_fields);
         return response()->json($item);
-
-        
-
-        
     }
 
     /**
@@ -406,9 +395,9 @@ class TaxesController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function pay_tax(Request $request)
+    public function payTax(Request $request)
     {
-        $tax_data = $this->prepare_item_for_database($request);
+        $tax_data = $this->prepareItemFDatabase($request);
 
         $tax_id = $taxes->payTax($tax_data);
 
@@ -416,24 +405,23 @@ class TaxesController extends Controller
 
         $tax_data['voucher_no'] = $tax_id; // do we need it?
 
-        $this->add_log($tax_data, 'add', true);
+        $this->addLog($tax_data, 'add', true);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $tax_data = $this->prepare_tax_pay_response($tax_data, $request, $additional_fields);
+        $tax_data = $this->prepareTaxPayResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-        $response->set_status(201);
-
-        
     }
 
     /**
      * Tax summary
      */
-    public function get_tax_summary(Request $request)
-    {
+    public function getTaxSummary(Request $request)
+    { 
+        $taxes = new Taxes();
+
         $formatted_items   = [];
         $additional_fields = [];
 
@@ -443,15 +431,11 @@ class TaxesController extends Controller
         $summary = $taxes->taxSummary();
 
         foreach ($summary as $item) {
-            $data              = $this->prepare_tax_summary_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareTaxSummaryResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -461,8 +445,10 @@ class TaxesController extends Controller
      *
      * @return object
      */
-    public function bulk_delete(Request $request)
+    public function bulkDelete(Request $request)
     {
+        $taxes = new Taxes();
+
         $ids = $request['ids'];
         $ids = explode(',', $ids);
 
@@ -475,10 +461,10 @@ class TaxesController extends Controller
 
             $taxes->deleteTaxRate($id);
 
-            $this->add_log($item, 'delete');
+            $this->addLog($item, 'delete');
         }
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -490,7 +476,7 @@ class TaxesController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $is_payment = false)
+    public function addLog($data, $action, $is_payment = false)
     {
         switch ($action) {
             case 'edit':
@@ -510,7 +496,6 @@ class TaxesController extends Controller
             $sub_comp = __('Tax Payment', 'erp');
             $message  = sprintf(__('A tax payment of %1$s has been %2$s', 'erp'), $data['amount'], $operation);
         }
-
     }
 
     /**
@@ -520,7 +505,7 @@ class TaxesController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -582,7 +567,7 @@ class TaxesController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_line_item_for_database(Request $request)
+    protected function prepareLineItemForDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -626,7 +611,7 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request,  $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request,  $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -652,16 +637,12 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_tax_line_for_response($item, Request $request, $additional_fields = [])
+    public function prepareTaxLineForResponse($item, Request $request, $additional_fields = [])
     {
         $data = array_merge($item, $additional_fields);
 
         // Wrap the data in a response object
         return response()->json($data);
-
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        
     }
 
     /**
@@ -673,7 +654,7 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_tax_pay_response($item, Request $request, $additional_fields = [])
+    public function prepareTaxPayResponse($item, Request $request, $additional_fields = [])
     {
 
         $taxagencies = new TaxAgencies();
@@ -697,10 +678,6 @@ class TaxesController extends Controller
 
         // Wrap the data in a response object
         return response()->json($data);
-
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        
     }
 
     /**
@@ -712,7 +689,7 @@ class TaxesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_tax_summary_response($item, Request $request, $additional_fields = [])
+    public function prepareTaxSummaryResponse($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -730,10 +707,6 @@ class TaxesController extends Controller
 
         // Wrap the data in a response object
         return response()->json($data);
-
-        $response = $this->add_links($response, $item, $additional_fields);
-
-        
     }
 
     /**
@@ -741,7 +714,7 @@ class TaxesController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

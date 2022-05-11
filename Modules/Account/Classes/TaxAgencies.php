@@ -2,6 +2,8 @@
 
 namespace Modules\Account\Classes;
 
+use Modules\Account\Classes\Taxes;
+
 use Illuminate\Support\Facades\DB;
 
 class TaxAgencies
@@ -13,7 +15,7 @@ class TaxAgencies
      *
      * @return mixed
      */
-    function getAllTaxAgencies($args = [])
+    public function getAllTaxAgencies($args = [])
     {
 
 
@@ -41,7 +43,7 @@ class TaxAgencies
         if ($args['count']) {
             $tax_agencies_count = DB::scalar($sql);
         } else {
-            $tax_agencies = DB::select($sql, ARRAY_A);
+            $tax_agencies = DB::select($sql);
         }
 
         if ($args['count']) {
@@ -58,7 +60,7 @@ class TaxAgencies
      *
      * @return mixed
      */
-    function getTaxAgency($tax_no)
+    public function getTaxAgency($tax_no)
     {
 
 
@@ -73,7 +75,7 @@ class TaxAgencies
      *
      * @return mixed
      */
-    function getTaxAgencyById($id)
+    public function getTaxAgencyById($id)
     {
 
 
@@ -90,9 +92,10 @@ class TaxAgencies
      *
      * @return int
      */
-    function insertTaxAgency($data)
+    public function insertTaxAgency($data)
     {
 
+        $taxes = new Taxes();
 
         $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
@@ -124,9 +127,9 @@ class TaxAgencies
      *
      * @return int
      */
-    function updateTaxAgency($data, $id)
+    public function updateTaxAgency($data, $id)
     {
-
+        $taxes = new Taxes();
 
         $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
@@ -155,7 +158,7 @@ class TaxAgencies
      *
      * @return int
      */
-    function deleteTaxAgency($id)
+    public function deleteTaxAgency($id)
     {
 
 
@@ -172,7 +175,7 @@ class TaxAgencies
      *
      * @return mixed
      */
-    function getTaxAgencyNameById($agency_id)
+    public function getTaxAgencyNameById($agency_id)
     {
 
 
@@ -192,7 +195,7 @@ class TaxAgencies
      *
      * @return mixed
      */
-    function getAgencyDue($agency_id)
+    public function getAgencyDue($agency_id)
     {
         return DB::scalar("SELECT SUM( credit - debit ) as tax_due From erp_acct_tax_agency_details WHERE agency_id = %d", [$agency_id]);
     }

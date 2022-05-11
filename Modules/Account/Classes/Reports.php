@@ -25,7 +25,7 @@ class Reports
      *
      * @return mixed
      */
-    function getLedgerReport($ledger_id, $start_date, $end_date)
+    public function getLedgerReport($ledger_id, $start_date, $end_date)
     {
         $trialbal = new TrialBalance();
 
@@ -66,7 +66,7 @@ class Reports
         FROM erp_acct_ledger_details
         WHERE ledger_id = %d AND trn_date BETWEEN '%s' AND '%s' ORDER BY trn_date ASC";
 
-        $wpdb->query("SET SESSION sql_mode='';");
+        DB::statement("SET SESSION sql_mode='';");
 
         $details = DB::select($sql2, [
             $ledger_id,
@@ -149,7 +149,7 @@ class Reports
      *
      * @return string|null
      */
-    function ledgerReportOpeningBalanceByFnYearId($id, $ledger_id)
+    public function ledgerReportOpeningBalanceByFnYearId($id, $ledger_id)
     {
 
 
@@ -174,7 +174,7 @@ class Reports
      *
      * @return mixed
      */
-    function getSalesTaxReport($agency_id, $start_date, $end_date)
+    public function getSalesTaxReport($agency_id, $start_date, $end_date)
     {
 
 
@@ -282,7 +282,7 @@ class Reports
      *
      * @return array
      */
-    function getFilteredSalesTaxReport($args)
+    public function getFilteredSalesTaxReport($args)
     {
 
 
@@ -332,7 +332,7 @@ class Reports
      * 
      * @return array
      */
-    function getIncomeStatement($args)
+    public function getIncomeStatement($args)
     {
 
 
@@ -361,7 +361,7 @@ class Reports
      *
      * @return array
      */
-    function incomeStatementCalculateWithOpeningBalance($is_start_date, $data, $sql, $chart_id)
+    public function incomeStatementCalculateWithOpeningBalance($is_start_date, $data, $sql, $chart_id)
     {
 
         $trialbal = new TrialBalance();
@@ -431,7 +431,7 @@ class Reports
      *
      * @return array
      */
-    function getIsBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
+    public function getIsBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
     {
         $temp_data = [];
 
@@ -470,7 +470,7 @@ class Reports
      *
      * @return array
      */
-    function isOpeningBalanceByFnYearId($id, $chart_id)
+    public function isOpeningBalanceByFnYearId($id, $chart_id)
     {
 
 
@@ -502,7 +502,7 @@ class Reports
      *
      * @return mixed
      */
-    function getBalanceSheet($args)
+    public function getBalanceSheet($args)
     {
         $trialbal = new TrialBalance();
 
@@ -553,7 +553,7 @@ class Reports
         $results['rows2'] = $this->balanceSheetCalculateWithOpeningBalance($args['start_date'], $data2, $sql2, 2);
         $results['rows3'] = $this->balanceSheetCalculateWithOpeningBalance($args['start_date'], $data3, $sql3, 3);
 
-        $final_accounts   = new \WeDevs\ERP\Accounting\Includes\Classes\Final_Accounts($args);
+        $final_accounts   = new FinalAccounts($args);
 
         $results['rows1'][] = [
             'name'    => 'Accounts Receivable',
@@ -589,8 +589,7 @@ class Reports
             'balance' => $trialbal->salesTaxQuery($args, 'payable'),
         ];
 
-        $ledger_map        = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
-        $owner_s_equity_id = $ledger_map->get_ledger_id_by_slug('owner_s_equity');
+        $owner_s_equity_id = get_ledger_id_by_slug('owner_s_equity');
 
         $capital     = $trialbal->getOwnersEquity($args, 'capital');
         $drawings    = $trialbal->getOwnersEquity($args, 'drawings');
@@ -702,7 +701,7 @@ class Reports
      * 
      * @return array
      */
-    function balanceSheetCalculateWithOpeningBalance($bs_start_date, $data, $sql, $chart_id)
+    public function balanceSheetCalculateWithOpeningBalance($bs_start_date, $data, $sql, $chart_id)
     {
         $trialbal = new TrialBalance();
 
@@ -719,7 +718,7 @@ class Reports
         FROM erp_acct_ledgers AS ledger
         WHERE ledger.chart_id={$chart_id} AND ledger.slug <> 'owner_s_equity'";
 
-        $ledgers   = DB::select($ledger_sql, ARRAY_A);
+        $ledgers   = DB::select($ledger_sql);
         $temp_data = $this->getBsBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
         $result    = [];
 
@@ -776,7 +775,7 @@ class Reports
      *
      * @return array
      */
-    function getBsBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
+    public function getBsBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
     {
         $temp_data = [];
 
@@ -815,7 +814,7 @@ class Reports
      *
      * @return array
      */
-    function bsOpeningBalanceByFnYearId($id, $chart_id)
+    public function bsOpeningBalanceByFnYearId($id, $chart_id)
     {
 
 
@@ -841,7 +840,7 @@ class Reports
      *
      * @return array
      */
-    function getProfitLoss($args)
+    public function getProfitLoss($args)
     {
         $trialbal = new TrialBalance();
 

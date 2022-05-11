@@ -17,7 +17,7 @@ class PayBills
      *
      * @return mixed
      */
-    function getPayBills($args = [])
+    public function getPayBills($args = [])
     {
 
 
@@ -46,7 +46,7 @@ class PayBills
             return DB::scalar($sql);
         }
 
-        return DB::select($sql, ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -56,7 +56,7 @@ class PayBills
      *
      * @return mixed
      */
-    function getPayBill($bill_no)
+    public function getPayBill($bill_no)
     {
 
 
@@ -94,7 +94,7 @@ class PayBills
      *
      * @return array
      */
-    function formatPaybillLineItems($voucher_no)
+    public function formatPaybillLineItems($voucher_no)
     {
 
 
@@ -117,7 +117,7 @@ class PayBills
      *
      * @return mixed
      */
-    function insertPayBill($data)
+    public function insertPayBill($data)
     {
         $people = new People();
         $common = new CommonFunc();
@@ -254,7 +254,7 @@ class PayBills
      *
      * @return mixed
      */
-    function updatePayBill($data, $pay_bill_id)
+    public function updatePayBill($data, $pay_bill_id)
     {
 
 
@@ -342,7 +342,7 @@ class PayBills
      *
      * @return void
      */
-    function voidPayBill($id)
+    public function voidPayBill($id)
     {
 
 
@@ -370,13 +370,13 @@ class PayBills
      *
      * @return mixed
      */
-    function getFormattedPayBillData($data, $voucher_no)
+    public function getFormattedPayBillData($data, $voucher_no)
     {
         $people = new People();
         $pay_bill_data = [];
 
         $user_info = $people->getPeople($data['vendor_id']);
-        $company   = new \WeDevs\ERP\Company();
+        $company   = new Company();
 
         $pay_bill_data['voucher_no']       = !empty($voucher_no) ? $voucher_no : 0;
         $pay_bill_data['trn_no']           = !empty($voucher_no) ? $voucher_no : 0;
@@ -411,7 +411,7 @@ class PayBills
      *
      * @return mixed
      */
-    function insertPayBillDataIntoLedger($pay_bill_data)
+    public function insertPayBillDataIntoLedger($pay_bill_data)
     {
 
 
@@ -445,7 +445,7 @@ class PayBills
      *
      * @return mixed
      */
-    function updatePayBillDataIntoLedger($pay_bill_data, $pay_bill_no)
+    public function updatePayBillDataIntoLedger($pay_bill_data, $pay_bill_no)
     {
 
 
@@ -476,7 +476,7 @@ class PayBills
      *
      * @return int
      */
-    function getPayBillCount()
+    public function getPayBillCount()
     {
 
 
@@ -492,7 +492,7 @@ class PayBills
      *
      * @return void
      */
-    function changeBillStatus($bill_no)
+    public function changeBillStatus($bill_no)
     {
         $bills = new Bills();
 

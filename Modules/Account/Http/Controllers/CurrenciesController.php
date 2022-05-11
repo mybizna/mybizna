@@ -18,7 +18,7 @@ class CurrenciesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_currencies( Request $request ) {
+    public function getCurrencies( Request $request ) {
         $additional_fields = [];
 
         $additional_fields['namespace'] = $this->namespace;
@@ -30,8 +30,8 @@ class CurrenciesController extends Controller
         $formatted_items = [];
 
         foreach ( $items as $item ) {
-            $data              = $this->prepare_item_for_response( $item, $request, $additional_fields );
-            $formatted_items[] = $this->prepare_response_for_collection( $data );
+            $data              = $this->prepareItemForResponse( $item, $request, $additional_fields );
+            $formatted_items[] = $this->prepareResponseForCollection( $data );
         }
 
         return response()->json( $formatted_items );
@@ -48,7 +48,7 @@ class CurrenciesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response( $item, Request $request, $additional_fields = [] ) {
+    public function prepareItemForResponse( $item, Request $request, $additional_fields = [] ) {
         $item = (object) $item;
 
         $data = [
@@ -68,7 +68,7 @@ class CurrenciesController extends Controller
      *
      * @return array
      */
-    public function get_item_schema() {
+    public function getItemSchema() {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'journal',

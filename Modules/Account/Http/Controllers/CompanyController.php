@@ -17,9 +17,9 @@ class AccountsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_company()
+    public function getCompany()
     {
-        $company = new \WeDevs\ERP\Company();
+        $company = new Company();
 
         $logo_id = (int) $company->logo;
 
@@ -48,7 +48,7 @@ class AccountsController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

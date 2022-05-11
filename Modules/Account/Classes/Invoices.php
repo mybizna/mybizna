@@ -5,7 +5,7 @@ namespace Modules\Account\Classes;
 use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\Transactions;
 use Modules\Account\Classes\People;
-use Modules\Account\Classes\LedgerAccounts;
+use Modules\Account\Classes\Taxes;
 
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +18,7 @@ class Invoices
      *
      * @return mixed
      */
-    function getAllInvoices($args = [])
+    public function getAllInvoices($args = [])
     {
 
 
@@ -72,9 +72,9 @@ class Invoices
      *
      * @return mixed
      */
-    function getInvoice($invoice_no)
+    public function getInvoice($invoice_no)
     {
-
+        $taxes = new Taxes();
 
         $sql =
             "SELECT
@@ -113,7 +113,7 @@ class Invoices
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = DB::select($sql, ARRAY_A);
+        $row = DB::select($sql);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -142,7 +142,7 @@ class Invoices
      *
      * @return array
      */
-    function formatInvoiceLineItems($voucher_no)
+    public function formatInvoiceLineItems($voucher_no)
     {
 
 
@@ -196,7 +196,7 @@ class Invoices
      *
      * @return int
      */
-    function insertInvoice($data)
+    public function insertInvoice($data)
     {
 
         $people = new People();
@@ -281,7 +281,8 @@ class Invoices
         } catch (\Exception $e) {
             DB::rollback();
 
-            return new WP_Error('invoice-exception', $e->getMessage());
+            messageBag()->add('invoice-exception', $e->getMessage());
+            return;
         }
 
         $invoice = $this->getInvoice($voucher_no);
@@ -302,7 +303,7 @@ class Invoices
      *
      * @return void
      */
-    function insertInvoiceDetailsAndTax($invoice_data, $voucher_no, $contra = false)
+    public function insertInvoiceDetailsAndTax($invoice_data, $voucher_no, $contra = false)
     {
 
 
@@ -416,7 +417,7 @@ class Invoices
      *
      * @return void
      */
-    function insertInvoiceAccountDetails($invoice_data, $voucher_no, $contra = false)
+    public function insertInvoiceAccountDetails($invoice_data, $voucher_no, $contra = false)
     {
 
 
@@ -462,7 +463,7 @@ class Invoices
      *
      * @return int
      */
-    function updateInvoice($data, $invoice_no)
+    public function updateInvoice($data, $invoice_no)
     {
 
 
@@ -513,8 +514,8 @@ class Invoices
                 $old_invoice = $this->getInvoice($invoice_no);
 
                 // insert contra `erp_acct_invoices` (basically a duplication of row)
-                $wpdb->query("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_invoices WHERE voucher_no = %d", [$invoice_no]);
-                $wpdb->query(
+                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_invoices WHERE voucher_no = %d", [$invoice_no]);
+                DB::update(
 
                     "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
                     [
@@ -524,12 +525,12 @@ class Invoices
                         $data['created_at']
                     ]
                 );
-                $wpdb->query("INSERT INTO erp_acct_invoices SELECT * FROM acct_tmptable");
-                $wpdb->query('DROP TABLE acct_tmptable');
+                DB::insert("INSERT INTO erp_acct_invoices SELECT * FROM acct_tmptable");
+                DB::statement('DROP TABLE acct_tmptable');
 
                 // change invoice status and other things
                 $status_closed = 7;
-                $wpdb->query(
+                DB::update(
                     "UPDATE erp_acct_invoices SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
                     [
                         $status_closed,
@@ -578,7 +579,7 @@ class Invoices
      *
      * @return array
      */
-    function convertEstimateToInvoice($data, $invoice_no)
+    public function convertEstimateToInvoice($data, $invoice_no)
     {
 
 
@@ -659,7 +660,7 @@ class Invoices
      *
      * @return void
      */
-    function updateDraftAndEstimate($data, $invoice_no)
+    public function updateDraftAndEstimate($data, $invoice_no)
     {
 
 
@@ -709,7 +710,7 @@ class Invoices
      *
      * @return mixed
      */
-    function getFormattedInvoiceData($data, $voucher_no)
+    public function getFormattedInvoiceData($data, $voucher_no)
     {
         $people = new People();
         $invoice_data = [];
@@ -763,7 +764,7 @@ class Invoices
      *
      * @return void
      */
-    function voidInvoice($invoice_no)
+    public function voidInvoice($invoice_no)
     {
 
 
@@ -807,19 +808,18 @@ class Invoices
      *
      * @return mixed
      */
-    function insertInvoiceDataIntoLedger($invoice_data, $voucher_no = 0, $contra = false)
+    public function insertInvoiceDataIntoLedger($invoice_data, $voucher_no = 0, $contra = false)
     {
 
 
         $user_id = auth()->user()->id;
         $date    = date('Y-m-d H:i:s');
 
-        $ledger_map = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
 
-        $sales_ledger_id              = $ledger_map->get_ledger_id_by_slug('sales_revenue');
-        $sales_discount_ledger_id     = $ledger_map->get_ledger_id_by_slug('sales_discount');
-        $sales_shipping_ledger_id     = $ledger_map->get_ledger_id_by_slug('shipment');
-        $sales_shipping_tax_ledger_id = $ledger_map->get_ledger_id_by_slug('shipment_tax');
+        $sales_ledger_id              = get_ledger_id_by_slug('sales_revenue');
+        $sales_discount_ledger_id     = get_ledger_id_by_slug('sales_discount');
+        $sales_shipping_ledger_id     =get_ledger_id_by_slug('shipment');
+        $sales_shipping_tax_ledger_id = get_ledger_id_by_slug('shipment_tax');
 
         if ($contra) {
             $sales_credit        = 0;
@@ -928,7 +928,7 @@ class Invoices
      *
      * @return mixed
      */
-    function updateInvoiceDataInLedger($invoice_data, $invoice_no)
+    public function updateInvoiceDataInLedger($invoice_data, $invoice_no)
     {
 
 
@@ -964,7 +964,7 @@ class Invoices
      *
      * @return int
      */
-    function getInvoiceCount()
+    public function getInvoiceCount()
     {
 
 
@@ -982,7 +982,7 @@ class Invoices
      *
      * @return mixed
      */
-    function receivePaymentsFromCustomer($args = [])
+    public function receivePaymentsFromCustomer($args = [])
     {
 
 
@@ -1031,7 +1031,7 @@ class Invoices
      *
      * @return int
      */
-    function getDuePayment($invoice_no)
+    public function getDuePayment($invoice_no)
     {
 
 
@@ -1051,7 +1051,7 @@ class Invoices
      *
      * @return array|object|null
      */
-    function getRecievables($from, $to)
+    public function getRecievables($from, $to)
     {
 
 
@@ -1077,7 +1077,7 @@ class Invoices
      *
      * @return array
      */
-    function getRecievablesOverview()
+    public function getRecievablesOverview()
     {
         // get dates till coming 90 days
         $from_date = date('Y-m-d');
@@ -1093,32 +1093,32 @@ class Invoices
         $result = $this->getRecievables($from_date, $to_date);
 
         if (!empty($result)) {
-            $from_date = new DateTime($from_date);
+            $from_date = new \DateTime($from_date);
 
             foreach ($result as $item_data) {
                 $item  = (object) $item_data;
-                $later = new DateTime($item->due_date);
+                $later = new \DateTime($item->due_date);
                 $diff  = $later->diff($from_date)->format('%a');
 
                 //segment by date difference
                 switch ($diff) {
 
-                    case  $diff === 0:
+                    case $diff === 0:
                         $data['first'][] = $item_data;
                         $amount['first'] = $amount['first'] + $item->due;
                         break;
 
-                    case  $diff <= 30:
+                    case $diff <= 30:
                         $data['first'][] = $item_data;
                         $amount['first'] = $amount['first'] + $item->due;
                         break;
 
-                    case  $diff <= 60:
+                    case $diff <= 60:
                         $data['second'][] = $item_data;
                         $amount['second'] = $amount['second'] + $item->due;
                         break;
 
-                    case  $diff <= 90:
+                    case $diff <= 90:
                         $data['third'][] = $item_data;
                         $amount['third'] = $amount['third'] + $item->due;
                         break;
@@ -1141,7 +1141,7 @@ class Invoices
      *
      * @return int
      */
-    function getInvoiceDue($invoice_no)
+    public function getInvoiceDue($invoice_no)
     {
 
 
@@ -1165,7 +1165,7 @@ class Invoices
      *
      * @return int|string
      */
-    function getInvoiceTaxZone($invoice_no)
+    public function getInvoiceTaxZone($invoice_no)
     {
 
 

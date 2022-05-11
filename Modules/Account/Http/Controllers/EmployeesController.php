@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 use Modules\Account\Classes\People;
+use Modules\Account\Classes\Company;
 
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +20,7 @@ class EmployeesController extends Controller
      *
      * @return mixed|object|\Illuminate\Http\Response
      */
-    public function get_employees(Request $request)
+    public function getEmployees(Request $request)
     {
         $args = [
             'number'      => $request['per_page'],
@@ -46,8 +47,8 @@ class EmployeesController extends Controller
         foreach ($items as $item) {
             $additional_fields['id'] = $item->user_id;
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
         
         return response()->json($formatted_items);
@@ -63,7 +64,7 @@ class EmployeesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_employee(Request $request)
+    public function getEmployee(Request $request)
     {
 
         $people = new People();
@@ -101,14 +102,14 @@ class EmployeesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_transactions(Request $request)
+    public function getTransactions(Request $request)
     {
         $people = new People();
         $args['people_id'] = (int) $request['id'];
 
         $transactions = $people->getPeopleTransactions($args);
 
-        return new WP_REST_Response($transactions, 200);
+        return response()->json($transactions);
     }
 
     /**
@@ -120,7 +121,7 @@ class EmployeesController extends Controller
      *
      * @return mixed|object|\Illuminate\Http\Response
      */
-    public function prepare_item_for_response($item, Request $request = null, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request = null, $additional_fields = [])
     {
         $item     = $item->data;
         $employee = new \WeDevs\ERP\HRM\Employee($item['user_id']);
@@ -145,12 +146,11 @@ class EmployeesController extends Controller
      *
      * @return mixed|object|\Illuminate\Http\Response
      */
-    public function prepare_employee_item_for_response($item, Request $request = null, $additional_fields = [])
+    public function prepareEmployeeItemForResponse($item, Request $request = null, $additional_fields = [])
     {
         // Wrap the data in a response object
         return response()->json($item);
 
-        $response = $this->add_links($response, $item, $additional_fields);
 
         
     }
@@ -162,10 +162,10 @@ class EmployeesController extends Controller
      *
      * @return array $prepared_item
      */
-    public function prepare_item_for_database(Request $request)
+    public function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
-        $company       = new \WeDevs\ERP\Company();
+        $company       = new Company();
 
         if (isset($request['id'])) {
             $prepared_item['id'] = $request['id'];
@@ -329,7 +329,7 @@ class EmployeesController extends Controller
      *
      * @return array
      */
-    public function get_collection_params()
+    public function getCollectionParams()
     {
         return [
             'context'  => $this->get_context_param(),

@@ -23,7 +23,7 @@ class Transactions
      *
      * @return mixed
      */
-    function getSalesTransactions($args = [])
+    public function getSalesTransactions($args = [])
     {
 
 
@@ -105,10 +105,9 @@ class Transactions
         //config()->set('database.connections.mysql.strict', true);
 
         if ($args['count']) {
-            DB::select($sql);
-            $sales_transaction_count = $wpdb->num_rows;
+            $sales_transaction_count =  DB::scalar($sql);;
         } else {
-            $sales_transaction = DB::select($sql, ARRAY_A);
+            $sales_transaction = DB::select($sql);
         }
 
 
@@ -126,7 +125,7 @@ class Transactions
      *
      * @return array|object|null
      */
-    function getSalesChartStatus($args = [])
+    public function getSalesChartStatus($args = [])
     {
 
 
@@ -145,7 +144,7 @@ class Transactions
             LEFT JOIN erp_acct_invoices AS invoice ON invoice.status = status_type.id {$where}
             GROUP BY status_type.id HAVING COUNT(invoice.status) > 0 ORDER BY status_type.type_name ASC";
 
-        return DB::select($sql, ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -155,7 +154,7 @@ class Transactions
      *
      * @return array|object|void|null
      */
-    function getSalesChartPayment($args = [])
+    public function getSalesChartPayment($args = [])
     {
 
 
@@ -175,7 +174,7 @@ class Transactions
         LEFT JOIN erp_acct_invoice_account_details AS invoice_acc_detail ON invoice.voucher_no = invoice_acc_detail.invoice_no {$where}
         GROUP BY invoice.voucher_no) AS get_amount";
 
-        $row =  DB::select($sql, ARRAY_A);
+        $row =  DB::select($sql);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -188,7 +187,7 @@ class Transactions
      *
      * @return array|object|null
      */
-    function getBillChartData($args = [])
+    public function getBillChartData($args = [])
     {
 
 
@@ -208,7 +207,7 @@ class Transactions
         LEFT JOIN erp_acct_bill_account_details AS bill_acc_detail ON bill.voucher_no = bill_acc_detail.bill_no {$where}
         GROUP BY bill.voucher_no) AS get_amount";
 
-        $row = DB::select($sql, ARRAY_A);
+        $row = DB::select($sql);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -221,7 +220,7 @@ class Transactions
      *
      * @return array|object|null
      */
-    function getBillChartStatus($args = [])
+    public function getBillChartStatus($args = [])
     {
 
 
@@ -242,7 +241,7 @@ class Transactions
             HAVING sub_total > 0
             ORDER BY status_type.type_name ASC";
 
-        return DB::select($sql, ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -252,7 +251,7 @@ class Transactions
      *
      * @return array|object|null
      */
-    function getPurchaseChartData($args = [])
+    public function getPurchaseChartData($args = [])
     {
 
 
@@ -272,7 +271,7 @@ class Transactions
         LEFT JOIN erp_acct_purchase_account_details AS purchase_acc_detail ON purchase.voucher_no = purchase_acc_detail.purchase_no {$where}
         GROUP BY purchase.voucher_no) AS get_amount";
 
-        $result = DB::select($sql, ARRAY_A);
+        $result = DB::select($sql);
 
         $result = (!empty($result)) ? $result[0] : null;
 
@@ -286,7 +285,7 @@ class Transactions
      *
      * @return array|object|null
      */
-    function getPurchaseChartStatus($args = [])
+    public function getPurchaseChartStatus($args = [])
     {
 
 
@@ -307,7 +306,7 @@ class Transactions
             HAVING sub_total > 0
             ORDER BY status_type.type_name ASC";
 
-        $result = DB::select($sql, ARRAY_A);
+        $result = DB::select($sql);
 
         return $result;
     }
@@ -319,7 +318,7 @@ class Transactions
      *
      * @return array|object|null
      */
-    function getExpenseChartData($args = [])
+    public function getExpenseChartData($args = [])
     {
 
 
@@ -338,7 +337,7 @@ class Transactions
         FROM erp_acct_expenses AS bill
         LEFT JOIN erp_acct_expense_details AS bill_acc_detail ON bill.voucher_no = bill_acc_detail.trn_no {$where} HAVING balance > 0 ) AS get_amount";
 
-        $row = DB::select($sql, ARRAY_A);
+        $row = DB::select($sql);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -351,7 +350,7 @@ class Transactions
      *
      * @return array|object|null
      */
-    function getExpenseChartStatus($args = [])
+    public function getExpenseChartStatus($args = [])
     {
 
 
@@ -372,7 +371,7 @@ class Transactions
             HAVING sub_total > 0
             ORDER BY status_type.type_name ASC";
 
-        $row = DB::select($sql, ARRAY_A);
+        $row = DB::select($sql);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -383,7 +382,7 @@ class Transactions
      *
      * @return array|object|null
      */
-    function getIncomeExpenseChartData()
+    public function getIncomeExpenseChartData()
     {
         $income_chart_id  = 4; //Default db value
         $expense_chart_id = 5; //Default db value
@@ -463,7 +462,7 @@ class Transactions
      *
      * @return array|object|null
      */
-    function getMonthlyBalanceByChartId($start_date, $end_date, $chart_id)
+    public function getMonthlyBalanceByChartId($start_date, $end_date, $chart_id)
     {
 
 
@@ -491,7 +490,7 @@ class Transactions
      *
      * @return array
      */
-    function formatMonthlyDataToYearlyData($result)
+    public function formatMonthlyDataToYearlyData($result)
     {
         $default_year_data = [
             'Jan' => 0,
@@ -509,7 +508,7 @@ class Transactions
         ];
 
         $result = array_map(
-            function ($item) {
+            public function ($item) {
                 $item['month']   = date('M', mktime(0, 0, 0, $item['month']));
                 $item['balance'] = abs($item['balance']);
 
@@ -536,7 +535,7 @@ class Transactions
      *
      * @return array|object|null
      */
-    function getDailyBalanceByChartId($chart_id, $month = 'current')
+    public function getDailyBalanceByChartId($chart_id, $month = 'current')
     {
 
         $start_date = null;
@@ -580,10 +579,10 @@ class Transactions
      *
      * @return array
      */
-    function formatDailyDataToYearlyData($result)
+    public function formatDailyDataToYearlyData($result)
     {
         $result = array_map(
-            function ($item) {
+            public function ($item) {
                 $item['day']     = date('d-m', strtotime($item['day']));
                 $item['balance'] = abs($item['balance']);
 
@@ -607,7 +606,7 @@ class Transactions
      *
      * @return mixed
      */
-    function getExpenseTransactions($args = [])
+    public function getExpenseTransactions($args = [])
     {
 
 
@@ -657,7 +656,7 @@ class Transactions
 
         $sql = 'SELECT';
 
-        $wpdb->query("SET SESSION sql_mode='';");
+        DB::statement("SET SESSION sql_mode='';");
 
         if ($args['count']) {
             $sql .= ' COUNT( DISTINCT voucher.id ) AS total_number';
@@ -702,7 +701,7 @@ class Transactions
 
             $expense_transaction_count =  $wpdb->num_rows;
         } else {
-            $expense_transaction = DB::select($sql, ARRAY_A);
+            $expense_transaction = DB::select($sql);
         }
 
 
@@ -720,7 +719,7 @@ class Transactions
      *
      * @return mixed
      */
-    function getPurchaseTransactions($args = [])
+    public function getPurchaseTransactions($args = [])
     {
 
 
@@ -807,7 +806,7 @@ class Transactions
             $purchase_transaction_count =  $wpdb->num_rows;
         }
 
-        $purchase_transaction = DB::select($sql, ARRAY_A);
+        $purchase_transaction = DB::select($sql);
 
 
         if ($args['count']) {
@@ -824,7 +823,7 @@ class Transactions
      * 
      * @return void
      */
-    function generateTransactionPdf($voucher_no)
+    public function generateTransactionPdf($voucher_no)
     {
         $transaction = $this->getTransaction($voucher_no);
         $filename    = $this->getPdfFilename($voucher_no);
@@ -837,11 +836,11 @@ class Transactions
      *
      * @return void
      */
-    function generateTransactionPdfs()
+    public function generateTransactionPdfs()
     {
 
 
-        $voucher_nos = DB::select("SELECT id, type FROM erp_acct_voucher_no", ARRAY_A);
+        $voucher_nos = DB::select("SELECT id, type FROM erp_acct_voucher_no");
 
         for ($i = 0; $i < count($voucher_nos); $i++) {
             if ('journal' === $voucher_nos[$i]['type']) {
@@ -864,7 +863,7 @@ class Transactions
      *
      * @return bool
      */
-    function generatePdf($request, $transaction, $file_name = '', $output_method = 'D')
+    public function generatePdf($request, $transaction, $file_name = '', $output_method = 'D')
     {
         $people = new People();
         if (!is_plugin_active('erp-pdf-invoice/wp-erp-pdf.php')) {
@@ -875,7 +874,7 @@ class Transactions
             $transaction = (object) $transaction;
         }
 
-        $company     = new \WeDevs\ERP\Company();
+        $company     = new Company();
         $theme_color = config('erp_ac_pdf_theme_color', false, '#9e9e9e');
 
         $user_id = null;
@@ -900,7 +899,6 @@ class Transactions
         if (!empty($transaction->people_id)) {
             $user_id = $transaction->people_id;
         }
-        $user = new \WeDevs\ERP\People(intval($user_id));
 
         if (!defined('WPERP_PDF_VERSION')) {
             wp_die(esc_html__('ERP PDF extension is not installed. Please install the extension for PDF support', 'erp'));
@@ -1456,13 +1454,12 @@ class Transactions
      *
      * @return bool
      */
-    function sendEmailWithPdfAttached($request, $transaction, $file_name, $output_method = 'D')
+    public function sendEmailWithPdfAttached($request, $transaction, $file_name, $output_method = 'D')
     {
         if (!is_plugin_active('erp-pdf-invoice/wp-erp-pdf.php')) {
             return;
         }
 
-        $trn_email = new \WeDevs\ERP\Accounting\Includes\Classes\Send_Email();
         $user_id   = null;
         $trn_id    = null;
         $result    = [];
@@ -1477,7 +1474,7 @@ class Transactions
         $pdf_file = $this->generatePdf($request, $transaction, $file_name, 'F');
 
         if ($pdf_file) {
-            $result = $trn_email->trigger($receiver, $subject, $body, $pdf_file);
+            $result = mailer($receiver, $subject, $body, $pdf_file);
         } else {
             wp_die(esc_html__('PDF not generated!', 'erp'));
         }
@@ -1493,7 +1490,7 @@ class Transactions
      *
      * @return bool
      */
-    function sendEmailOnTransaction($voucher_no, $transaction)
+    public function sendEmailOnTransaction($voucher_no, $transaction)
     {
         if (!is_plugin_active('erp-pdf-invoice/wp-erp-pdf.php')) {
             return;
@@ -1576,10 +1573,10 @@ class Transactions
      *
      * @return bool
      */
-    function acct_send_email($receiver, $pdf_file, $email_type, $voucher_no)
+    public function acct_send_email($receiver, $pdf_file, $email_type, $voucher_no)
     {
         $emailer = wperp()->emailer->get_email($email_type);
-        $company = new \WeDevs\ERP\Company();
+        $company = new Company();
 
         if (is_a($emailer, '\WeDevs\ERP\Email')) {
             if (is_array($receiver)) {
@@ -1599,7 +1596,7 @@ class Transactions
          *
          * @return string|null
          */
-        function getTransactionType($voucher_no)
+        public function getTransactionType($voucher_no)
         {
 
 
@@ -1611,7 +1608,7 @@ class Transactions
          *
          * @return mixed
          */
-        function getTransaction($transaction_id)
+        public function getTransaction($transaction_id)
         {
             $invoices = new Invoices();
             $recpayments = new RecPayments();
@@ -1687,7 +1684,7 @@ class Transactions
          *
          * @return bool
          */
-        function verifyInvoiceLinkHash($transaction_id, $transaction_type, $hash_to_verify = '', $algo = 'sha256')
+        public function verifyInvoiceLinkHash($transaction_id, $transaction_type, $hash_to_verify = '', $algo = 'sha256')
         {
             if ($transaction_id && $transaction_type && $hash_to_verify) {
                 $to_hash       = $transaction_id . $transaction_type;
@@ -1710,7 +1707,7 @@ class Transactions
          *
          * @return string
          */
-        function getInvoiceLinkHash($transaction_id, $transaction_type, $algo = 'sha256')
+        public function getInvoiceLinkHash($transaction_id, $transaction_type, $algo = 'sha256')
         {
             $hash_string = '';
 
@@ -1729,7 +1726,7 @@ class Transactions
          *
          * @return string
          */
-        function getPdfFilename($voucher_no)
+        public function getPdfFilename($voucher_no)
         {
             $inv_dir = WP_CONTENT_DIR . '/uploads/erp-pdfs/';
 
@@ -1750,7 +1747,7 @@ class Transactions
          * 
          * @return void
          */
-        function insertDataIntoPeopleTrnDetails($transaction, $voucher_no)
+        public function insertDataIntoPeopleTrnDetails($transaction, $voucher_no)
         {
 
 
@@ -1793,7 +1790,7 @@ class Transactions
          * 
          * @return void
          */
-        function updateDataIntoPeopleTrnDetails($transaction, $voucher_no)
+        public function updateDataIntoPeopleTrnDetails($transaction, $voucher_no)
         {
 
 
@@ -1807,7 +1804,7 @@ class Transactions
          *
          * @return string
          */
-        function pdfAbsPathToUrl($voucher_no)
+        public function pdfAbsPathToUrl($voucher_no)
         {
             $upload_url = wp_upload_dir();
             $url        = $upload_url['baseurl'] . '/erp-pdfs/' . "voucher_{$voucher_no}.pdf";
@@ -1822,7 +1819,7 @@ class Transactions
          *
          * @return $string
          */
-        function getFormattedStatus($trn_status)
+        public function getFormattedStatus($trn_status)
         {
             $common = new CommonFunc();
             $trn_status = $common->getTrnStatusById($trn_status);
@@ -1847,7 +1844,7 @@ class Transactions
          *
          * @return string
          */
-        function formatAmount($amount)
+        public function formatAmount($amount)
         {
             return str_replace('&nbsp;', ' ', $this->getPrice($amount));
         }

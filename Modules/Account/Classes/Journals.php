@@ -16,7 +16,7 @@ class Journals
      *
      * @return mixed
      */
-    function getAllJournals($args = [])
+    public function getAllJournals($args = [])
     {
 
 
@@ -35,7 +35,6 @@ class Journals
 
 
         if (false === $journals) {
-
             $where = '';
             $limit = '';
 
@@ -59,9 +58,7 @@ class Journals
             $sql .= " ON journal.voucher_no = journal_detail.trn_no {$where} GROUP BY journal.voucher_no ORDER BY journal.{$args['orderby']} {$args['order']} {$limit}";
 
             if ($args['count']) {
-                DB::select($sql);
-
-                $journals_count = $wpdb->num_rows;
+                $journals_count = DB::scalar($sql);;
             } else {
                 $journals = DB::select($sql);
             }
@@ -81,7 +78,7 @@ class Journals
      *
      * @return mixed
      */
-    function getJournal($journal_no)
+    public function getJournal($journal_no)
     {
 
 
@@ -106,7 +103,7 @@ class Journals
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row                = DB::select($sql, ARRAY_A);
+        $row                = DB::select($sql);
 
         $row = (!empty($row)) ? $row[0] : null;
         $rows               = $row;
@@ -122,7 +119,7 @@ class Journals
      *
      * @return mixed
      */
-    function insertJournal($data)
+    public function insertJournal($data)
     {
 
 
@@ -221,7 +218,7 @@ class Journals
      *
      * @return int
      */
-    function updateJournal($data, $journal_no)
+    public function updateJournal($data, $journal_no)
     {
 
 
@@ -305,7 +302,7 @@ class Journals
      *
      * @return mixed
      */
-    function getFormattedJournalData($data, $voucher_no)
+    public function getFormattedJournalData($data, $voucher_no)
     {
         $journal_data = [];
 
@@ -333,7 +330,7 @@ class Journals
      *
      * @return mixed
      */
-    function formatJournalData($item, $journal_no)
+    public function formatJournalData($item, $journal_no)
     {
 
         $ledger = new LedgerAccounts();

@@ -95,8 +95,8 @@ class TransactionsController extends Controller
         );
 
         foreach ($transactions as $transaction) {
-            $data              = $this->prepare_item_for_response($transaction, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($transaction, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -266,8 +266,8 @@ class TransactionsController extends Controller
         );
 
         foreach ($transactions as $transaction) {
-            $data              = $this->prepare_item_for_response($transaction, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($transaction, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -364,8 +364,8 @@ class TransactionsController extends Controller
         );
 
         foreach ($transactions as $transaction) {
-            $data              = $this->prepare_item_for_response($transaction, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($transaction, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -380,7 +380,7 @@ class TransactionsController extends Controller
      *
      * @return array
      */
-    public function get_payment_methods()
+    public function getPaymentMethods()
     {
 
 
@@ -389,7 +389,7 @@ class TransactionsController extends Controller
         return apply_filters('erp_acct_pay_methods', $rows);
     }
 
-    public function get_voucher_type($request)
+    public function getVoucherType($request)
     {
         $id = (int) $request['id'];
 
@@ -414,7 +414,7 @@ class TransactionsController extends Controller
      * @param array           $additional_fields (optional)
      * @return object $response Response data.
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $common = new CommonFunc();
         $status = null;
@@ -471,7 +471,7 @@ class TransactionsController extends Controller
      *
      * @return array|mixed|object
      */
-    public function send_as_pdf($request)
+    public function sendAsPdf($request)
     {
         $trans = new Transactions();
         $id = (int) $request['id'];
@@ -500,7 +500,7 @@ class TransactionsController extends Controller
     /**
      * Chart transaction data of a people
      */
-    public function get_people_trn_amount_data($request)
+    public function getPeopleTrnAmountData($request)
     {
         $trans = new Transactions();
         $args = [
@@ -528,7 +528,7 @@ class TransactionsController extends Controller
     /**
      * Chart transaction status/s of a people
      */
-    public function get_people_trn_status_data($request)
+    public function getPeopleTrnStatusData($request)
     {
         $trans = new Transactions();
         $args = [

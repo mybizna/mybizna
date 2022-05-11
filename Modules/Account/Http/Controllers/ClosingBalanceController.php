@@ -20,7 +20,7 @@ class ClosingBalanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function close_balancesheet(Request $request)
+    public function closeBalancesheet(Request $request)
     {
         if (empty($request['start_date'])) {
             messageBag()->add('rest_invalid_date', __('Start date missing.'), ['status' => 404]);
@@ -53,7 +53,7 @@ class ClosingBalanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_next_fn_year(Request $request)
+    public function getNextFnYear(Request $request)
     {
         if (empty($request['date'])) {
             messageBag()->add('rest_invalid_date', __('Invalid resource date.'), ['status' => 404]);
@@ -73,7 +73,7 @@ class ClosingBalanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_closest_fn_year(Request $request)
+    public function getClosestFnYear(Request $request)
     {
         $trialbal = new TrialBalance();
 

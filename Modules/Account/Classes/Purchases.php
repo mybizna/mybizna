@@ -18,7 +18,7 @@ class Purchases
      *
      * @return mixed
      */
-    function getPurchases($args = [])
+    public function getPurchases($args = [])
     {
 
 
@@ -47,7 +47,7 @@ class Purchases
             return DB::scalar($sql);
         }
 
-        return DB::select($sql, ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -57,7 +57,7 @@ class Purchases
      *
      * @return mixed
      */
-    function getPurchase($purchase_no)
+    public function getPurchase($purchase_no)
     {
 
 
@@ -93,7 +93,7 @@ class Purchases
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row                = DB::select($sql, ARRAY_A);
+        $row                = DB::select($sql);
         $row = (!empty($row)) ? $row[0] : null;
         $row['line_items']  = $this->formatPurchaseLineItems($purchase_no);
         $row['attachments'] = unserialize($row['attachments']);
@@ -110,7 +110,7 @@ class Purchases
      *
      * @return array|object|null
      */
-    function formatPurchaseLineItems($voucher_no)
+    public function formatPurchaseLineItems($voucher_no)
     {
 
 
@@ -136,7 +136,7 @@ class Purchases
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $results = DB::select($sql, ARRAY_A);
+        $results = DB::select($sql);
 
         // calculate every line total
         foreach ($results as $key => $value) {
@@ -153,7 +153,7 @@ class Purchases
      *
      * @return mixed
      */
-    function insertPurchase($data)
+    public function insertPurchase($data)
     {
 
         $common = new CommonFunc();
@@ -318,7 +318,7 @@ class Purchases
      *
      * @return mixed
      */
-    function updatePurchase($purchase_data, $purchase_id)
+    public function updatePurchase($purchase_data, $purchase_id)
     {
 
         $common = new CommonFunc();
@@ -382,7 +382,7 @@ class Purchases
 
                 DB::table('erp_acct_purchase_details')->where([['trn_no' => $purchase_id]])->delete();
 
-                $wpdb->query("DELETE FROM erp_acct_purchase_details_tax WHERE invoice_details_id IN($prev_detail_ids)"); // delete previous tax data
+                DB::delete("DELETE FROM erp_acct_purchase_details_tax WHERE invoice_details_id IN($prev_detail_ids)"); // delete previous tax data
 
                 $items = $purchase_data['purchase_details'];
 
@@ -449,8 +449,8 @@ class Purchases
                 $old_purchase = $this->getPurchases($purchase_id);
 
                 // insert contra `erp_acct_purchase` (basically a duplication of row)
-                $wpdb->query("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_purchase WHERE voucher_no = %d", [$purchase_id]);
-                $wpdb->query(
+                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_purchase WHERE voucher_no = %d", [$purchase_id]);
+                DB::update(
                     "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
                     [
                         0,
@@ -459,12 +459,12 @@ class Purchases
                         $data['created_at']
                     ]
                 );
-                $wpdb->query("INSERT INTO erp_acct_purchase SELECT * FROM acct_tmptable");
-                $wpdb->query('DROP TABLE acct_tmptable');
+                DB::insert("INSERT INTO erp_acct_purchase SELECT * FROM acct_tmptable");
+                DB::statement('DROP TABLE acct_tmptable');
 
                 // change purchase status and other things
                 $status_closed = 7;
-                $wpdb->query(
+                DB::update(
                     "UPDATE erp_acct_purchase SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
                     [
                         $status_closed,
@@ -536,7 +536,7 @@ class Purchases
      *
      * @return array
      */
-    function convertOrderToPurchase($purchase_data, $purchase_id)
+    public function convertOrderToPurchase($purchase_data, $purchase_id)
     {
 
         $people = new People();
@@ -629,7 +629,7 @@ class Purchases
      *
      * @return void
      */
-    function voidPurchase($id)
+    public function voidPurchase($id)
     {
 
 
@@ -657,7 +657,7 @@ class Purchases
      *
      * @return mixed
      */
-    function getFormattedPurchaseData($data, $voucher_no)
+    public function getFormattedPurchaseData($data, $voucher_no)
     {
         $people = new People();
         $user_info = $people->getPeople($data['vendor_id']);
@@ -697,15 +697,15 @@ class Purchases
      *
      * @return mixed
      */
-    function insertPurchaseDataIntoLedger($purchase_data)
+    public function insertPurchaseDataIntoLedger($purchase_data)
     {
 
 
-        $ledger_map = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
-        $purchase_ledger_id  = $ledger_map->get_ledger_id_by_slug('purchase');
+        $purchase_ledger_id  = get_ledger_id_by_slug('purchase');
 
         if (!$purchase_ledger_id) {
-            return new WP_Error(505, 'Ledger ID not found for purchase', $purchase_data);
+            messageBag()->add( 'Ledger ID not found for purchase', $purchase_data);
+            return;
         }
 
         $purchase_data['tax'] = $purchase_data['tax'] ? (int) $purchase_data['tax'] : 0;
@@ -729,9 +729,10 @@ class Purchases
 
         if ($purchase_data['tax']) {
 
-            $purchase_vat_ledger_id = $ledger_map->get_ledger_id_by_slug('purchase_vat');
+            $purchase_vat_ledger_id = get_ledger_id_by_slug('purchase_vat');
             if (!$purchase_vat_ledger_id) {
-                return new WP_Error(505, __('Ledger ID not found for purchase vat', 'erp'), $purchase_data);
+             messageBag()->add('500', __('Ledger ID not found for purchase vat', 'erp'), $purchase_data);
+                return;
             }
 
             // Insert amount in ledger_details
@@ -761,15 +762,14 @@ class Purchases
      *
      * @return mixed
      */
-    function updatePurchaseDataIntoLedger($purchase_data, $purchase_no)
+    public function updatePurchaseDataIntoLedger($purchase_data, $purchase_no)
     {
 
 
-        $ledger_map = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
-        $ledger_id  = $ledger_map->get_ledger_id_by_slug('purchase');
+        $ledger_id  = get_ledger_id_by_slug('purchase');
 
         if (!$ledger_id) {
-            return new WP_Error(505, 'Ledger ID not found for purchase', $purchase_data);
+             messageBag()->add('505', 'Ledger ID not found for purchase', $purchase_data);
         }
 
         // insert contra `erp_acct_ledger_details`
@@ -795,7 +795,7 @@ class Purchases
      *
      * @return int
      */
-    function getPurchaseCount()
+    public function getPurchaseCount()
     {
 
 
@@ -811,7 +811,7 @@ class Purchases
      * 
      * @return mixed
      */
-    function getDuePurchasesByVendor($args)
+    public function getDuePurchasesByVendor($args)
     {
 
 
@@ -855,7 +855,7 @@ class Purchases
             return DB::scalar($query);
         }
 
-        return DB::select($query, ARRAY_A);
+        return DB::select($query);
     }
 
     /**
@@ -865,7 +865,7 @@ class Purchases
      *
      * @return int
      */
-    function getPurchaseDue($purchase_no)
+    public function getPurchaseDue($purchase_no)
     {
 
 

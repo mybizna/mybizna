@@ -18,7 +18,7 @@ class Bills
      *
      * @return mixed
      */
-    function getBills($args = [])
+    public function getBills($args = [])
     {
 
 
@@ -59,7 +59,7 @@ class Bills
      *
      * @return mixed
      */
-    function getBill($bill_no)
+    public function getBill($bill_no)
     {
 
 
@@ -89,7 +89,7 @@ class Bills
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = DB::select($sql, ARRAY_A);
+        $row = DB::select($sql);
         $row = (!empty($row)) ? $row[0] : null;
 
         $row['bill_details'] = $this->formatBillLineItems($bill_no);
@@ -104,7 +104,7 @@ class Bills
      *
      * @return array|object|null
      */
-    function formatBillLineItems($voucher_no)
+    public function formatBillLineItems($voucher_no)
     {
 
 
@@ -136,7 +136,7 @@ class Bills
      *
      * @return mixed
      */
-    function insertBill($data)
+    public function insertBill($data)
     {
 
 
@@ -264,7 +264,7 @@ class Bills
      *
      * @return mixed
      */
-    function updateBill($data, $bill_id)
+    public function updateBill($data, $bill_id)
     {
 
         $common = new CommonFunc();
@@ -308,16 +308,16 @@ class Bills
                 $old_bill = $this->getBill($bill_id);
 
                 // insert contra `erp_acct_bills` (basically a duplication of row)
-                $wpdb->query("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_bills WHERE voucher_no ={$bill_id}");
-                $wpdb->query(
+                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_bills WHERE voucher_no ={$bill_id}");
+                DB::update(
                     "UPDATE acct_tmptable SET id = 0, voucher_no = {$voucher_no}, particulars = 'Contra entry for voucher no \#{$bill_id}', created_at = '{$data['created_at']}'"
                 );
-                $wpdb->query("INSERT INTO erp_acct_bills SELECT * FROM acct_tmptable");
-                $wpdb->query('DROP TABLE acct_tmptable');
+                DB::insert("INSERT INTO erp_acct_bills SELECT * FROM acct_tmptable");
+                DB::statement('DROP TABLE acct_tmptable');
 
                 // change bill status and other things
                 $status_closed = 7;
-                $wpdb->query(
+                DB::update(
                     "UPDATE erp_acct_bills SET status = ?, updated_at ='?', updated_by = ? WHERE voucher_no IN (?, ?)",
                     [
                         $status_closed,
@@ -393,7 +393,7 @@ class Bills
      *
      * @return void
      */
-    function updateDraftBill($data, $bill_id)
+    public function updateDraftBill($data, $bill_id)
     {
 
 
@@ -455,7 +455,7 @@ class Bills
      *
      * @return void
      */
-    function voidBill($id)
+    public function voidBill($id)
     {
 
 
@@ -483,7 +483,7 @@ class Bills
      *
      * @return mixed
      */
-    function getFormattedBillData($data, $voucher_no)
+    public function getFormattedBillData($data, $voucher_no)
     {
         $bill_data = [];
 
@@ -521,7 +521,7 @@ class Bills
      *
      * @return mixed
      */
-    function insertBillDataIntoLedger($bill_data, $item_data)
+    public function insertBillDataIntoLedger($bill_data, $item_data)
     {
 
 
@@ -558,7 +558,7 @@ class Bills
      *
      * @return mixed
      */
-    function updateBillDataIntoLedger($bill_data, $bill_no, $item_data)
+    public function updateBillDataIntoLedger($bill_data, $bill_no, $item_data)
     {
 
 
@@ -591,7 +591,7 @@ class Bills
      *
      * @return int
      */
-    function getBillCount()
+    public function getBillCount()
     {
 
 
@@ -608,7 +608,7 @@ class Bills
      *
      * @return mixed
      */
-    function getDueBillsByPeople($args = [])
+    public function getDueBillsByPeople($args = [])
     {
 
 
@@ -640,9 +640,7 @@ class Bills
             GROUP BY ba.bill_no HAVING due > 0 ) as bs
             ON bill.voucher_no = bs.bill_no
             WHERE bill.vendor_id = {$args['people_id']} AND bill.status != 1
-            ORDER BY {$args['orderby']} {$args['order']} $limit"
-
-        ;
+            ORDER BY {$args['orderby']} {$args['order']} $limit";
 
         if ($args['count']) {
             return DB::scalar($query);
@@ -658,7 +656,7 @@ class Bills
      *
      * @return int
      */
-    function getBillDue($bill_no)
+    public function getBillDue($bill_no)
     {
 
 

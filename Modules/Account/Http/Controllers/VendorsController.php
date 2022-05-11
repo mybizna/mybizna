@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\People;
+use Modules\Account\Classes\Products;
+use Modules\Account\Classes\OpenBalances;
+
 
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +23,7 @@ class VendorsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_vendors(Request $request)
+    public function getVendors(Request $request)
     {
         $people = new People();
         $args = [
@@ -59,8 +62,8 @@ class VendorsController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -73,7 +76,7 @@ class VendorsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_vendor(Request $request)
+    public function getVendor(Request $request)
     {
 
         $people = new People();
@@ -106,7 +109,7 @@ class VendorsController extends Controller
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
-        $item                           = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
     }
 
@@ -117,7 +120,7 @@ class VendorsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function create_vendor(Request $request)
+    public function createVendor(Request $request)
     {
         $people = new People();
         $common = new CommonFunc();
@@ -125,21 +128,21 @@ class VendorsController extends Controller
             messageBag()->add('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
         }
 
-        $item = $this->prepare_item_for_database($request);
+        $item = $this->prepareItemFDatabase($request);
 
         $id   = $people->insertPeople($item);
 
         $vendor       = (array) $people->getPeople($id);
         $vendor['id'] = $id;
 
-        $this->add_log($vendor, 'add');
+        $this->addLog($vendor, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $response = $this->prepare_item_for_response($vendor, $request, $additional_fields);
+        $response = $this->prepareItemForResponse($vendor, $request, $additional_fields);
         return response()->json($response);
-        $response->set_status(201);
+        
     }
 
     /**
@@ -149,7 +152,7 @@ class VendorsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function update_vendor(Request $request)
+    public function updateVendor(Request $request)
     {
         $people = new People();
         $id = (int) $request['id'];
@@ -162,20 +165,20 @@ class VendorsController extends Controller
 
         $old_data = (array) $item;
 
-        $item = $this->prepare_item_for_database($request);
+        $item = $this->prepareItemFDatabase($request);
 
         $id   = $people->insertPeople($item);
 
         $vendor       = (array) $people->getPeople($id);
         $vendor['id'] = $id;
 
-        $this->add_log((array) $item, 'edit', $vendor);
+        $this->addLog((array) $item, 'edit', $vendor);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
         $vendor   = $people->getPeople($id);
-        $response = $this->prepare_item_for_response($vendor, $request, $additional_fields);
+        $response = $this->prepareItemForResponse($vendor, $request, $additional_fields);
         return response()->json($response);
     }
 
@@ -186,7 +189,7 @@ class VendorsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function delete_vendor(Request $request)
+    public function deleteVendor(Request $request)
     {
 
         $people = new People();
@@ -210,9 +213,9 @@ class VendorsController extends Controller
 
         $people->deletePeople($data);
 
-        $this->add_log($vendor, 'delete');
+        $this->addLog($vendor, 'delete');
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -222,7 +225,7 @@ class VendorsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function bulk_delete_vendors(Request $request)
+    public function bulkDeleteVendors(Request $request)
     {
 
         $people = new People();
@@ -250,10 +253,10 @@ class VendorsController extends Controller
         $people->deletePeople($data);
 
         foreach ($vendors as $vendor) {
-            $this->add_log($vendor, 'delete');
+            $this->addLog($vendor, 'delete');
         }
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -272,7 +275,8 @@ class VendorsController extends Controller
 
         $transactions = $people->getPeopleTransactions($args);
 
-        return new WP_REST_Response($transactions, 200);
+        return response()->json($transactions);
+
     }
 
     /**
@@ -282,7 +286,7 @@ class VendorsController extends Controller
      *
      * @return array
      */
-    public function filter_transactions(Request $request)
+    public function filterTransactions(Request $request)
     {
 
         $people = new People();
@@ -306,10 +310,12 @@ class VendorsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_vendor_products(Request $request)
+    public function getVendorProducts(Request $request)
     {
 
         $people = new People();
+        $products = new Products();
+        
         $args = [
             'number' => !empty($request['number']) ? (int) $request['number'] : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -331,8 +337,8 @@ class VendorsController extends Controller
         );
 
         foreach ($product_data as $item) {
-            $data              = $this->prepare_product_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareProductItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -347,7 +353,7 @@ class VendorsController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
         switch ($action) {
@@ -371,7 +377,7 @@ class VendorsController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -467,7 +473,7 @@ class VendorsController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -514,7 +520,7 @@ class VendorsController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_product_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareProductItemForResponse($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -544,7 +550,7 @@ class VendorsController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

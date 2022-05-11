@@ -16,7 +16,7 @@ class Taxes
      *
      * @return mixed
      */
-    function getAllTaxRates($args = [])
+    public function getAllTaxRates($args = [])
     {
 
 
@@ -44,7 +44,7 @@ class Taxes
         if ($args['count']) {
             $tax_rates_count = DB::scalar($sql);
         } else {
-            $tax_rates = DB::select($sql, ARRAY_A);
+            $tax_rates = DB::select($sql);
         }
 
         if ($args['count']) {
@@ -61,7 +61,7 @@ class Taxes
      *
      * @return mixed
      */
-    function getTaxRate($tax_no)
+    public function getTaxRate($tax_no)
     {
 
 
@@ -89,9 +89,9 @@ class Taxes
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
-        $row = DB::select($sql, ARRAY_A);
+        $row = DB::select($sql);
         $row = (!empty($row)) ? $row[0] : null;
-        $row['tax_components'] = $taxes->formatTaxLineItems($tax_no);
+        $row['tax_components'] =$this->formatTaxLineItems($tax_no);
 
         for ($i = 0; $i < count($row['tax_components']); $i++) { //
             $row['tax_components'][$i]['agency']   = null; // we'll fill that later from VUE
@@ -111,7 +111,7 @@ class Taxes
      *
      * @return array
      */
-    function insertTaxRate($data)
+    public function insertTaxRate($data)
     {
 
 
@@ -119,7 +119,7 @@ class Taxes
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
 
-        $tax_data = $taxes->getFormattedTaxData($data);
+        $tax_data =$this->getFormattedTaxData($data);
         $items    = $data['tax_components'];
         $tax_id   = (int) $data['tax_rate_name'];
         $inserted = [];
@@ -140,7 +140,7 @@ class Taxes
                     ]
                 );
 
-            if (!is_wp_error($id)) {
+            if ($id) {
                 $inserted[] = $id;
             }
         }
@@ -156,7 +156,7 @@ class Taxes
      *
      * @return int
      */
-    function updateTaxRate($data, $id)
+    public function updateTaxRate($data, $id)
     {
 
 
@@ -164,7 +164,7 @@ class Taxes
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
-        $tax_data = $taxes->getFormattedTaxData($data);
+        $tax_data =$this->getFormattedTaxData($data);
 
         DB::table('erp_acct_taxes')
             ->where('id', $id)
@@ -179,7 +179,7 @@ class Taxes
             );
 
         if (!empty($tax_data['default']) && $tax_data['default']) {
-            $results = DB::select('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
+            $results = DB::update('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
         }
 
         $items = $data['tax_components'];
@@ -210,7 +210,7 @@ class Taxes
      *
      * @return int
      */
-    function quickEditTaxRate($data, $id)
+    public function quickEditTaxRate($data, $id)
     {
 
 
@@ -218,10 +218,10 @@ class Taxes
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
-        $tax_data = $taxes->getFormattedTaxData($data);
+        $tax_data =$this->getFormattedTaxData($data);
 
         if (!empty($tax_data['default']) && 1 === $tax_data['default']) {
-            $results = DB::select('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
+            $results = DB::update('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
         }
 
         DB::table('erp_acct_taxes')
@@ -247,7 +247,7 @@ class Taxes
      *
      * @return int
      */
-    function addTaxRateLine($data)
+    public function addTaxRateLine($data)
     {
 
 
@@ -283,7 +283,7 @@ class Taxes
      *
      * @return int
      */
-    function editTaxRateLine($data)
+    public function editTaxRateLine($data)
     {
 
 
@@ -317,7 +317,7 @@ class Taxes
      *
      * @return int
      */
-    function deleteTaxRateLine($line_no)
+    public function deleteTaxRateLine($line_no)
     {
 
 
@@ -334,7 +334,7 @@ class Taxes
      *
      * @return int
      */
-    function deleteTaxRate($tax_no)
+    public function deleteTaxRate($tax_no)
     {
 
 
@@ -351,7 +351,7 @@ class Taxes
      *
      * @return mixed
      */
-    function getTaxPayRecords($args = [])
+    public function getTaxPayRecords($args = [])
     {
 
 
@@ -380,7 +380,7 @@ class Taxes
         if ($args['count']) {
             $tax_pay_count = DB::scalar($sql);
         } else {
-            $tax_pay = DB::select($sql, ARRAY_A);
+            $tax_pay = DB::select($sql);
         }
 
         if ($args['count']) {
@@ -397,7 +397,7 @@ class Taxes
      * 
      * @return mixed
      */
-    function getTaxPayRecord($voucher_no)
+    public function getTaxPayRecord($voucher_no)
     {
 
 
@@ -431,7 +431,7 @@ class Taxes
      *
      * @return array
      */
-    function payTax($data)
+    public function payTax($data)
     {
 
         $common = new CommonFunc();
@@ -453,7 +453,7 @@ class Taxes
                 ]
             );
 
-        $tax_data = $taxes->getFormattedTaxData($data);
+        $tax_data =$this->getFormattedTaxData($data);
 
         DB::table('erp_acct_tax_pay')
             ->insert(
@@ -500,9 +500,9 @@ class Taxes
 
         $tax_data['voucher_no'] = $voucher_no;
 
-        $taxes->insertTaxPayDataIntoLedger($tax_data);
+       $this->insertTaxPayDataIntoLedger($tax_data);
 
-        $tax_pay = $taxes->getTaxPayRecord($voucher_no);
+        $tax_pay =$this->getTaxPayRecord($voucher_no);
 
 
         return $tax_pay;
@@ -515,7 +515,7 @@ class Taxes
      *
      * @return mixed
      */
-    function insertTaxPayDataIntoLedger($tax_data)
+    public function insertTaxPayDataIntoLedger($tax_data)
     {
 
 
@@ -552,7 +552,7 @@ class Taxes
      *
      * @return array
      */
-    function formatTaxLineItems($tax = 'all')
+    public function formatTaxLineItems($tax = 'all')
     {
 
 
@@ -565,7 +565,7 @@ class Taxes
         }
         $sql .= " FROM erp_acct_tax_cat_agency {$tax_sql} ORDER BY tax_id";
 
-        $results = DB::select($sql, ARRAY_A);
+        $results = DB::select($sql);
 
         return $results;
     }
@@ -577,7 +577,7 @@ class Taxes
      *
      * @return mixed
      */
-    function getFormattedTaxData($data)
+    public function getFormattedTaxData($data)
     {
         $tax_data = [];
 
@@ -614,7 +614,7 @@ class Taxes
      *
      * @return mixed
      */
-    function getFormattedTaxLineData($data)
+    public function getFormattedTaxLineData($data)
     {
         $tax_data = [];
 
@@ -638,7 +638,7 @@ class Taxes
      * 
      * @return void
      */
-    function taxSummary()
+    public function taxSummary()
     {
 
 
@@ -654,8 +654,7 @@ class Taxes
         sum(tca.tax_rate) AS tax_rate
         FROM erp_acct_tax_cat_agency AS tca
         INNER JOIN erp_acct_taxes AS tax ON tax.id = tca.tax_id
-        GROUP BY tca.tax_cat_id, tax.id order by tax_cat_id",
-            ARRAY_A
+        GROUP BY tca.tax_cat_id, tax.id order by tax_cat_id"
         );
     }
 
@@ -664,7 +663,7 @@ class Taxes
      * 
      * @return void
      */
-    function getDefaultTaxRateNameId()
+    public function getDefaultTaxRateNameId()
     {
 
 
@@ -676,9 +675,9 @@ class Taxes
      *
      * @param array $args Data Filter
      *
-     * @return int|string|\WP_Error
+     * @return int|string|null
      */
-    function insertSyncedTax($args = [])
+    public function insertSyncedTax($args = [])
     {
 
 
@@ -693,7 +692,7 @@ class Taxes
         $args = array_merge($defaults, $args);
 
         if (empty($args['system_id']) || (empty($args['sync_slug']) && empty($args['sync_id']))) {
-            return new \WP_Error('inconsistent-data', __('Inconsistent data provided', 'erp'));
+            return new \messageBag()->add('inconsistent-data', __('Inconsistent data provided', 'erp'));
         }
 
         $inserted = DB::table("erp_acct_synced_taxes", $args, ['%d', '%s', '%s', '%d', '%s']);
@@ -711,7 +710,7 @@ class Taxes
      *
      * @return int|null
      */
-    function getSyncedTaxSystemId($sync_type, $sync_source, $sync_id = false, $sync_slug = false)
+    public function getSyncedTaxSystemId($sync_type, $sync_source, $sync_id = false, $sync_slug = false)
     {
 
 
@@ -734,6 +733,6 @@ class Taxes
 
         $system_id = DB::scalar($sql, $args);
 
-        return !is_wp_error($system_id) ? (int) $system_id : null;
+        return $system_id;
     }
 }

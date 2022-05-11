@@ -28,7 +28,7 @@ class Bank
      *
      * @return array
      */
-    function getBanks($show_balance = false, $with_cash = false, $no_bank = false)
+    public function getBanks($show_balance = false, $with_cash = false, $no_bank = false)
     {
         $trialbal = new TrialBalance();
         $ledger = new LedgerAccounts();
@@ -105,8 +105,7 @@ class Bank
         $bank_accts = [];
         $uniq_accts = [];
 
-        $ledger_map = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
-        $ledger_id  = $ledger_map->get_ledger_id_by_slug('cash');
+        $ledger_id  = get_ledger_id_by_slug('cash');
 
         $c_balance = get_ledger_balance_with_opening_balance($ledger_id, $args['start_date'], $args['end_date']);
         $balance   = isset($c_balance->balance) ? $c_balance->balance : 0;
@@ -148,7 +147,7 @@ class Bank
      *
      * @return mixed
      */
-    function getDashboardBanks()
+    public function getDashboardBanks()
     {
         $trialbal = new TrialBalance();
 
@@ -161,8 +160,7 @@ class Bank
 
         $results = [];
 
-        $ledger_map = \WeDevs\ERP\Accounting\Includes\Classes\Ledger_Map::get_instance();
-        $ledger_id  = $ledger_map->get_ledger_id_by_slug('cash');
+        $ledger_id  = get_ledger_id_by_slug('cash');
 
         $c_balance = get_ledger_balance_with_opening_balance($ledger_id, $args['start_date'], $args['end_date']);
 
@@ -193,7 +191,7 @@ class Bank
      *
      * @return mixed
      */
-    function getBank($bank_no)
+    public function getBank($bank_no)
     {
 
         $row = DB::select("SELECT * FROM erp_acct_cash_at_banks WHERE ledger_id = {$bank_no}");
@@ -208,7 +206,7 @@ class Bank
      *
      * @return int
      */
-    function insertBank($data)
+    public function insertBank($data)
     {
 
 
@@ -241,7 +239,7 @@ class Bank
      *
      * @return int
      */
-    function deleteBank($id)
+    public function deleteBank($id)
     {
 
 
@@ -267,7 +265,7 @@ class Bank
      * @return mixed
      */
 
-    function getFormattedBankData($bank_data)
+    public function getFormattedBankData($bank_data)
     {
         $bank_data['ledger_id'] = !empty($bank_data['ledger_id']) ? $bank_data['ledger_id'] : 0;
 
@@ -281,7 +279,7 @@ class Bank
      *
      * @return mixed
      */
-    function getSingleAccountBalance($ledger_id)
+    public function getSingleAccountBalance($ledger_id)
     {
 
 
@@ -297,7 +295,7 @@ class Bank
      *
      * @return array
      */
-    function getAccountDebitCredit($ledger_id)
+    public function getAccountDebitCredit($ledger_id)
     {
 
         $dr_cr = [];
@@ -315,7 +313,7 @@ class Bank
      *
      * @return mixed
      */
-    function performTransfer($item)
+    public function performTransfer($item)
     {
 
 
@@ -405,7 +403,7 @@ class Bank
      *
      * @return mixed
      */
-    function syncDashboardAccounts()
+    public function syncDashboardAccounts()
     {
 
 
@@ -434,7 +432,7 @@ class Bank
      * 
      * @return array
      */
-    function getTransferAccounts($show_balance = false)
+    public function getTransferAccounts($show_balance = false)
     {
         $results = $this->GetBanks(true, true, false);
 
@@ -448,7 +446,7 @@ class Bank
      *
      * @return array
      */
-    function getTransferVouchers($args = [])
+    public function getTransferVouchers($args = [])
     {
 
 
@@ -481,7 +479,7 @@ class Bank
      *
      * @return object Single voucher
      */
-    function getSingleVoucher($id)
+    public function getSingleVoucher($id)
     {
 
 
@@ -501,7 +499,7 @@ class Bank
      *
      * @return array
      */
-    function getBalanceByLedger($id)
+    public function getBalanceByLedger($id)
     {
         if (is_array($id)) {
             $id = "'" . implode("','", $id) . "'";
@@ -520,7 +518,7 @@ class Bank
      *
      * @return array
      */
-    function getBankDropdown()
+    public function getBankDropdown()
     {
         $accounts = [];
         $banks    = $this->GetBanks(true, true, false);

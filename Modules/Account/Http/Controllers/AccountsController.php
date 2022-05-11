@@ -22,7 +22,7 @@ class AccountsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_accounts(Request $request)
+    public function getAccounts(Request $request)
     {
         $bank = new Bank();
         $items = $bank->getTransferAccounts(true);
@@ -32,13 +32,13 @@ class AccountsController extends Controller
         foreach ($items as $item) {
             $additional_fields = [];
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
 
-        
+
     }
 
     /**
@@ -48,7 +48,7 @@ class AccountsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_account(Request $request)
+    public function getAccount(Request $request)
     {
         $bank = new Bank();
         $id   = (int) $request['id'];
@@ -59,10 +59,10 @@ class AccountsController extends Controller
         return ;
         }
 
-        $item     = $this->prepare_item_for_response($item, $request, []);
+        $item     = $this->prepareItemForResponse($item, $request, []);
         return response()->json($item);
 
-        
+
     }
 
     /**
@@ -72,7 +72,7 @@ class AccountsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function delete_account(Request $request)
+    public function deleteAccount(Request $request)
     {
         $bank = new Bank();
         $id   = (int) $request['id'];
@@ -83,10 +83,10 @@ class AccountsController extends Controller
             return ;
         }
 
-        $item     = $this->prepare_item_for_response($item, $request, []);
+        $item     = $this->prepareItemForResponse($item, $request, []);
         return response()->json($item);
 
-        
+
     }
 
     /**
@@ -96,11 +96,11 @@ class AccountsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function transfer_money(Request $request)
+    public function transferMoney(Request $request)
     {
         $trialbal = new TrialBalance();
         $bank = new Bank();
-        $item = $this->prepare_item_for_database($request);
+        $item = $this->prepareItemFDatabase($request);
 
         if (empty($item['from_account_id']) || empty($item['to_account_id'])) {
             messageBag()->add('rest_transfer_invalid_accounts', __('Both accounts should be present.'), ['status' => 400]);
@@ -126,15 +126,16 @@ class AccountsController extends Controller
         //     messageBag()->add( 'rest_transfer_insufficient_funds', __( 'Not enough money on selected transfer source.' ), [ 'status' => 400 ] );
         // }
 
-        $id = $bank->performTransfer(Request $request);
+        $id = $bank->performTransfer($request);
 
-        if (is_wp_error($id)) {
+        if ($id) {
             return $id;
         }
 
-        $this->add_log($item, 'transfer');
+        //TODO: Ccheck the issues
+        //$this-L($item, 'transfer');
 
-        return new WP_REST_Response(true, 201);
+        return response()->json(['status'=>true]);
     }
 
     /**
@@ -144,7 +145,7 @@ class AccountsController extends Controller
      *
      * @return mixed|object|\Illuminate\Http\Response
      */
-    public function get_transfer_list(Request $request)
+    public function getTransferList(Request $request)
     {
         $bank = new Bank();
         $args = [
@@ -163,19 +164,19 @@ class AccountsController extends Controller
         foreach ($items as $item) {
             $additional_fields = [];
 
-            $data              = $this->prepare_list_item_for_response($item, $request, $additional_fields, $accounts);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareListItemForResponse($item, $request, $additional_fields, $accounts);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
 
-        
+
     }
 
     /**
      * Get single voucher
      */
-    public function get_single_transfer(Request $request)
+    public function getSingleTransfer(Request $request)
     {
 
         $bank = new Bank();
@@ -183,10 +184,10 @@ class AccountsController extends Controller
         $item     = $bank->getSingleVoucher($id);
         $accounts = $bank->getTransferAccounts();
         $accounts = wp_list_pluck($accounts, 'name', 'id');
-        $data     = $this->prepare_list_item_for_response($item, $request, [], $accounts);
+        $data     = $this->prepareListItemForResponse($item, $request, [], $accounts);
         return response()->json($data);
 
-        
+
     }
 
     /**
@@ -196,13 +197,13 @@ class AccountsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_bank_accounts(Request $request)
+    public function getBankSccounts(Request $request)
     {
         $bank = new Bank();
         $items = $bank->getBanks(true, true, false);
 
         if (empty($items)) {
-            messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
+            messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'));
             return ;
         }
 
@@ -211,13 +212,13 @@ class AccountsController extends Controller
         foreach ($items as $item) {
             $additional_fields = [];
 
-            $data              = $this->prepare_bank_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareBankItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
 
-        
+
     }
 
     /**
@@ -227,7 +228,7 @@ class AccountsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_cash_at_bank(Request $request)
+    public function getCashAtBank(Request $request)
     {
         $bank = new Bank();
         $formatted_items = [];
@@ -241,13 +242,13 @@ class AccountsController extends Controller
         foreach ($items as $item) {
             $additional_fields = [];
 
-            $data              = $this->prepare_bank_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareBankItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
 
-        
+
     }
 
     /**
@@ -256,7 +257,7 @@ class AccountsController extends Controller
      * @param $data
      * @param $action
      */
-    public function add_log($data, $action)
+    public function addLog($data, $action)
     {
     }
 
@@ -267,7 +268,7 @@ class AccountsController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -289,7 +290,7 @@ class AccountsController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request,  $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request,  $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -322,7 +323,7 @@ class AccountsController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_dashboard_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareDashboardItemForResponse($item, Request $request, $additional_fields = [])
     {
         if (isset($request['include'])) {
             $include_params = explode(',', str_replace(' ', '', $request['include']));
@@ -337,7 +338,7 @@ class AccountsController extends Controller
         // Wrap the data in a response object
         return response()->json($data);
 
-        
+
     }
 
     /**
@@ -348,7 +349,7 @@ class AccountsController extends Controller
      *
      * @return mixed|\Illuminate\Http\Response
      */
-    public function prepare_list_item_for_response($item, Request $request,  $additional_fields, $accounts)
+    public function prepareListItemForResponse($item, Request $request,  $additional_fields, $accounts)
     {
         $item = (object) $item;
 
@@ -377,7 +378,7 @@ class AccountsController extends Controller
         // Wrap the data in a response object
         return response()->json($data);
 
-        
+
     }
 
     /**
@@ -387,14 +388,14 @@ class AccountsController extends Controller
      *
      * @return mixed|\Illuminate\Http\Response
      */
-    public function prepare_bank_item_for_response($item, Request $request, $additional_fields)
+    public function prepareBankItemForResponse($item, Request $request, $additional_fields)
     {
         $data = array_merge($item, $additional_fields);
 
         // Wrap the data in a response object
         return response()->json($data);
 
-        
+
     }
 
     /**
@@ -402,7 +403,7 @@ class AccountsController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

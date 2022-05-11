@@ -1,7 +1,5 @@
 <?php
-
 namespace Modules\Account\Classes;
-
 
 use Modules\Account\Classes\Transactions;
 use Modules\Account\Classes\Reports\TrialBalance;
@@ -16,7 +14,7 @@ class LedgerAccounts
      *
      * @return array
      */
-    function getAllCharts()
+     public function getAllCharts()
     {
 
 
@@ -32,7 +30,7 @@ class LedgerAccounts
      *
      * @return mixed
      */
-    function getLedgerNameById($ledger_id)
+    public function getLedgerNameById($ledger_id)
     {
 
 
@@ -48,7 +46,7 @@ class LedgerAccounts
      *
      * @return array
      */
-    function getLedgerCategories($chart_id)
+    public function getLedgerCategories($chart_id)
     {
 
 
@@ -65,7 +63,7 @@ class LedgerAccounts
      *
      * @return array
      */
-    function createLedgerCategory($args)
+    public function createLedgerCategory($args)
     {
 
 
@@ -94,7 +92,7 @@ class LedgerAccounts
      *
      * @return array
      */
-    function updateLedgerCategory($args)
+    public function updateLedgerCategory($args)
     {
 
 
@@ -126,7 +124,7 @@ class LedgerAccounts
      *
      * @return array
      */
-    function deleteLedgerCategory($id,$parent_id='')
+    public function deleteLedgerCategory($id,$parent_id='')
     {
 
 
@@ -150,7 +148,7 @@ class LedgerAccounts
      *
      * @return array|object|null
      */
-    function getLedgersByChartId($chart_id)
+    public function getLedgersByChartId($chart_id)
     {
 
 
@@ -170,7 +168,7 @@ class LedgerAccounts
      *
      * @return mixed
      */
-    function getLedgerTrnCount($ledger_id)
+    public function getLedgerTrnCount($ledger_id)
     {
 
 
@@ -188,7 +186,7 @@ class LedgerAccounts
      *
      * @return mixed
      */
-    function getLedgerBalance($ledger_id)
+    public function getLedgerBalance($ledger_id)
     {
 
 
@@ -209,7 +207,7 @@ class LedgerAccounts
      *
      * @return array|object|void|null
      */
-    function getLedger($id)
+    public function getLedger($id)
     {
 
 
@@ -226,7 +224,7 @@ class LedgerAccounts
      *
      * @return array|object|void|null
      */
-    function insertLedger($item)
+    public function insertLedger($item)
     {
         $common = CommonFunc();
 
@@ -252,7 +250,7 @@ class LedgerAccounts
      *
      * @return array|object|void|null
      */
-    function updateLedger($item, $id)
+    public function updateLedger($item, $id)
     {
 
 
@@ -278,7 +276,7 @@ class LedgerAccounts
      *
      * @return string
      */
-    function ledgerOpeningBalanceByFnYearId($id)
+    public function ledgerOpeningBalanceByFnYearId($id)
     {
 
 
@@ -300,7 +298,7 @@ class LedgerAccounts
      *
      * @return array
      */
-    function getLedgersWithBalances()
+    public function getLedgersWithBalances()
     {
 
         $trialbal = new TrialBalance();
@@ -335,7 +333,7 @@ class LedgerAccounts
      *
      * @return void
      */
-    function ledgersOpeningBalanceByFnYearId($id)
+    public function ledgersOpeningBalanceByFnYearId($id)
     {
 
 
@@ -354,7 +352,7 @@ class LedgerAccounts
      *
      * @return array
      */
-    function ledgerBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
+    public function ledgerBalanceWithOpeningBalance($ledgers, $data, $opening_balance)
     {
         $temp_data         = [];
         $ledger_balance    = [];
@@ -405,7 +403,7 @@ class LedgerAccounts
      *
      * @return int
      */
-    function getChartIdBySlug($key)
+    public function getChartIdBySlug($key)
     {
         switch ($key) {
             case 'asset':
@@ -447,11 +445,11 @@ class LedgerAccounts
      *
      * @return array|object|null
      */
-    function getLedgers()
+    public function getLedgers()
     {
 
 
-        $ledgers = DB::select("SELECT id, name FROM erp_acct_ledgers WHERE unused IS NULL", ARRAY_A);
+        $ledgers = DB::select("SELECT id, name FROM erp_acct_ledgers WHERE unused IS NULL");
 
         return $ledgers;
     }

@@ -13,7 +13,7 @@ class Capabilities
      *
      * @return string
      */
-    function getManagerRole()
+    public function getManagerRole()
     {
         return apply_filters('ac_get_manager_role', 'erp_ac_manager');
     }
@@ -25,7 +25,7 @@ class Capabilities
      *
      * @return void
      */
-    function newAdminAsManager($user_id)
+    public function newAdminAsManager($user_id)
     {
         $user = get_user_by('id', $user_id);
 
@@ -39,7 +39,7 @@ class Capabilities
      *
      * @return bool
      */
-    function isCurrentUserManager()
+    public function isCurrentUserManager()
     {
         $current_user_role = $this->getUserRole(auth()->user()->id);
 
@@ -57,7 +57,7 @@ class Capabilities
      *
      * @return string
      */
-    function getUserRole($user_id = 0)
+    public function getUserRole($user_id = 0)
     {
 
         // Validate user id
@@ -89,7 +89,7 @@ class Capabilities
      *
      * @return array
      */
-    function getRoles()
+    public function getRoles()
     {
         $roles = [
             $this->getManagerRole() => [
@@ -111,7 +111,7 @@ class Capabilities
      *
      * @return void
      */
-    function getCapsForRole($role = '')
+    public function getCapsForRole($role = '')
     {
         $caps = [];
 
@@ -176,7 +176,7 @@ class Capabilities
      *
      * @return void
      */
-    function isHrCurrentUserManager()
+    public function isHrCurrentUserManager()
     {
         $current_user_hr_role = true;
 
@@ -192,7 +192,7 @@ class Capabilities
      *
      * @return void
      */
-    function createCustomer()
+    public function createCustomer()
     {
         return current_user_can('create_customer');
     }
@@ -204,7 +204,7 @@ class Capabilities
      *
      * @return void
      */
-    function userCanEditCustomer($created_by = false)
+    public function userCanEditCustomer($created_by = false)
     {
         if (!current_user_can('erp_ac_edit_customer')) {
             return false;
@@ -232,7 +232,7 @@ class Capabilities
      *
      * @return void
      */
-    function currentUserCanViewSingleCustomer()
+    public function currentUserCanViewSingleCustomer()
     {
         return current_user_can('erp_ac_view_single_customer');
     }
@@ -242,7 +242,7 @@ class Capabilities
      *
      * @return void
      */
-    function viewOtherCustomers()
+    public function viewOtherCustomers()
     {
         return current_user_can('erp_ac_view_other_customers');
     }
@@ -254,7 +254,7 @@ class Capabilities
      *
      * @return void
      */
-    function currentUserCanDeleteCustomer($created_by = false)
+    public function currentUserCanDeleteCustomer($created_by = false)
     {
         if (!current_user_can('erp_ac_delete_customer')) {
             return false;
@@ -282,7 +282,7 @@ class Capabilities
      *
      * @return void
      */
-    function createVendor()
+    public function createVendor()
     {
         return current_user_can('erp_ac_create_vendor');
     }
@@ -294,7 +294,7 @@ class Capabilities
      *
      * @return void
      */
-    function currentUserCanEditVendor($created_by = false)
+    public function currentUserCanEditVendor($created_by = false)
     {
         if (!current_user_can('erp_ac_edit_vendor')) {
             return false;
@@ -322,7 +322,7 @@ class Capabilities
      *
      * @return void
      */
-    function currentUserCanViewSingleVendor()
+    public function currentUserCanViewSingleVendor()
     {
         return current_user_can('erp_ac_view_single_vendor');
     }
@@ -332,7 +332,7 @@ class Capabilities
      *
      * @return void
      */
-    function viewOtherVendors()
+    public function viewOtherVendors()
     {
         return current_user_can('erp_ac_view_other_vendors');
     }
@@ -344,7 +344,7 @@ class Capabilities
      *
      * @return void
      */
-    function currentUserCanDeleteVendor($created_by = false)
+    public function currentUserCanDeleteVendor($created_by = false)
     {
         if (!current_user_can('erp_ac_delete_vendor')) {
             return false;
@@ -376,7 +376,7 @@ class Capabilities
      *
      * @return array
      */
-    function filterEditableRoles($all_roles = [])
+    public function filterEditableRoles($all_roles = [])
     {
         $roles = $this->getRoles();
 

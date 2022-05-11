@@ -18,7 +18,7 @@ class JournalsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_journals(Request $request)
+    public function getJournals(Request $request)
     {
         $args['number'] = !empty($request['per_page']) ? $request['per_page'] : 20;
         $args['offset'] = ($request['per_page'] * ($request['page'] - 1));
@@ -39,15 +39,11 @@ class JournalsController extends Controller
         $formatted_items = [];
 
         foreach ($items as $item) {
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -57,7 +53,7 @@ class JournalsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_journal(Request $request)
+    public function getJournal(Request $request)
     {
         $id                = (int) $request['id'];
         $additional_fields = [];
@@ -72,7 +68,7 @@ class JournalsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $item = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $item = $this->prepareItemForResponse($item, $request, $additional_fields);
 
         return response()->json($item);
 
@@ -86,7 +82,7 @@ class JournalsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_next_journal_id(Request $request)
+    public function getNextJournalId(Request $request)
     {
 
 
@@ -107,9 +103,9 @@ class JournalsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function create_journal(Request $request)
+    public function createJournal(Request $request)
     {
-        $trans_data = $this->prepare_item_for_database($request);
+        $trans_data = $this->prepareItemFDatabase($request);
 
         $items            = $trans_data['line_items'];
         $vocher_amount_dr = [];
@@ -127,15 +123,15 @@ class JournalsController extends Controller
 
         $journal = $this->insertJournal($trans_data);
 
-        $this->add_log($journal, 'add');
+        $this->addLog($journal, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $response = $this->prepare_item_for_response($journal, $request, $additional_fields);
+        $response = $this->prepareItemForResponse($journal, $request, $additional_fields);
         return response()->json($response);
 
-        $response->set_status(201);
+        
 
         
     }
@@ -146,7 +142,7 @@ class JournalsController extends Controller
      * @param $data
      * @param $action
      */
-    public function add_log($data, $action)
+    public function addLog($data, $action)
     {
     }
 
@@ -157,7 +153,7 @@ class JournalsController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -197,7 +193,7 @@ class JournalsController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -231,7 +227,7 @@ class JournalsController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

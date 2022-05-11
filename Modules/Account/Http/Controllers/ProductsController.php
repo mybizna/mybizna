@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\Products;
 
 use Illuminate\Support\Facades\DB;
 
@@ -18,8 +19,11 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_inventory_products(Request $request)
+    public function getInventoryProducts(Request $request)
     {
+
+        $products = new Products();
+
         $args = [
             'number' => !empty($request['number']) ? (int) $request['number'] : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -41,14 +45,11 @@ class ProductsController extends Controller
         );
 
         foreach ($product_data as $item) {
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
-
-
-        
     }
 
     /**
@@ -58,25 +59,22 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_inventory_product(Request $request)
+    public function getInventoryProduct(Request $request)
     {
+        $products = new Products();
+
         $id   = (int) $request['id'];
         $item = $products->getAllProducts($id);
 
         if (empty($id)) {
             messageBag()->add('rest_inventory_product_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
-
+            return;
         }
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
-        $item                           = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
-
-
-
-        
     }
 
     /**
@@ -86,28 +84,27 @@ class ProductsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function create_inventory_product(Request $request)
+    public function createInventoryProduct(Request $request)
     {
-        $item  = $this->prepare_item_for_database($request);
+        $products = new Products();
+
+        $item  = $this->prepareItemFDatabase($request);
 
         $id    = $products->insertProduct($item);
 
-        if (is_wp_error($id)) {
+        if (!$id) {
             return $id;
         }
 
         $item['id'] = $id;
 
-        $this->add_log($item, 'add');
+        $this->addLog($item, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $response = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $response = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($response);
-        $response->set_status(201);
-
-        
     }
 
     /**
@@ -117,37 +114,36 @@ class ProductsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function update_inventory_product(Request $request)
+    public function updateInventoryProduct(Request $request)
     {
+        $products = new Products();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
-        $item = $this->prepare_item_for_database($request);
+        $item = $this->prepareItemFDatabase($request);
 
         $old_data = $products->getAllProducts($id);
 
         $id = $products->updateProduct($item, $id);
 
-        if (is_wp_error($id)) {
+        if (!$id) {
             return $id;
         }
 
-        $this->add_log($item, 'edit', $old_data);
+        $this->addLog($item, 'edit', $old_data);
 
         $item['id'] = $id;
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $response = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $response = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($response);
-
-
-        
     }
 
     /**
@@ -157,17 +153,19 @@ class ProductsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function delete_inventory_product(Request $request)
+    public function deleteInventoryProduct(Request $request)
     {
+        $products = new Products();
+
         $id = (int) $request['id'];
 
         $item = $products->getAllProducts($id);
 
         $products->deleteProduct($id);
 
-        $this->add_log($item, 'delete');
+        $this->addLog($item, 'delete');
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -177,8 +175,10 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function validate_csv_data(Request $request)
+    public function validateCsvData(Request $request)
     {
+        $products = new Products();
+
         $args = [
             'csv_file'        => !empty($_FILES['csv_file'])         ? $_FILES['csv_file']         : '',
             'type'            => !empty($request['type'])            ? $request['type']            : '',
@@ -192,14 +192,11 @@ class ProductsController extends Controller
 
         $data = $products->validateCsvData($args);
 
-        if (is_wp_error($data)) {
+        if (!$data) {
             return $data;
         }
 
         return response()->json($data);
-
-
-        
     }
 
     /**
@@ -209,8 +206,10 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function import_products(Request $request)
+    public function importProducts(Request $request)
     {
+        $products = new Products();
+
         $args = [
             'items'  => !empty($request['items'])  ? $request['items']   : '',
             'update' => !empty($request['update']) ? $request['update']  : '',
@@ -219,14 +218,11 @@ class ProductsController extends Controller
 
         $imported = $products->importProducts($args);
 
-        if (is_wp_error($imported)) {
+        if (!$imported) {
             return $imported;
         }
 
         return response()->json($imported);
-        $response->set_status(201);
-
-        
     }
 
     /**
@@ -238,7 +234,7 @@ class ProductsController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
         switch ($action) {
@@ -261,7 +257,7 @@ class ProductsController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
         // required arguments.
@@ -305,7 +301,7 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $item = (object) $item;
 
@@ -335,7 +331,7 @@ class ProductsController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
@@ -468,10 +464,10 @@ class ProductsController extends Controller
      */
     public function get_product_types()
     {
+        $products = new Products();
+
         $types    = $products->getProductTypes();
         return response()->json($types);
-
-        
     }
 
     /**
@@ -483,6 +479,8 @@ class ProductsController extends Controller
      */
     public function bulk_delete(Request $request)
     {
+        $products = new Products();
+
         $ids = $request['ids'];
         $ids = explode(',', $ids);
 
@@ -494,6 +492,6 @@ class ProductsController extends Controller
             $products->deleteProduct($id);
         }
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 }

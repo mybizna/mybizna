@@ -15,7 +15,7 @@ class Currencies
      *
      * @return mixed
      */
-    function getAllCurrencies($count = false)
+    public function getAllCurrencies($count = false)
     {
 
 
@@ -31,7 +31,7 @@ class Currencies
      *
      * @return array
      */
-    function getCurrenciesForDropdown()
+    public function getCurrenciesForDropdown()
     {
         $currencies = $this->getAllCurrencies();
 
@@ -49,7 +49,7 @@ class Currencies
      *
      * @return string
      */
-    function getCurrencySymbol()
+    public function getCurrencySymbol()
     {
 
         $common = new CommonFunc();
@@ -69,7 +69,7 @@ class Currencies
      *
      * @return string
      */
-    function getPriceFormat()
+    public function getPriceFormat()
     {
         $currency_pos = config('erp_ac_currency_position', false, 'left');
         $format       = '%s%v';
@@ -102,7 +102,7 @@ class Currencies
      *
      * @return string
      */
-    function getPriceFormatPhp()
+    public function getPriceFormatPhp()
     {
         $currency_pos = config('erp_ac_currency_position', false, 'left');
         $format       = '%1$s%2$s';
@@ -136,7 +136,7 @@ class Currencies
      *
      * @return string
      */
-    function getPrice($main_price, $args = [])
+    public function getPrice($main_price, $args = [])
     {
         $common = new CommonFunc();
         extract(

@@ -21,7 +21,7 @@ class PayPurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_pay_purchases(Request $request)
+    public function getPayPurchases(Request $request)
     {
         $args = [
             'number' => (int) isset($request['per_page']) ? $request['per_page'] : 20,
@@ -51,15 +51,11 @@ class PayPurchasesController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -69,7 +65,7 @@ class PayPurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_pay_purchase(Request $request)
+    public function getPayPurchase(Request $request)
     {
         $pay_purchases = new PayPurchases();
 
@@ -77,7 +73,7 @@ class PayPurchasesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $pay_purchases->getPayPurchase($id);
@@ -85,13 +81,9 @@ class PayPurchasesController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $item = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $item = $this->prepareItemForResponse($item, $request, $additional_fields);
 
         return response()->json($item);
-
-        
-
-        
     }
 
     /**
@@ -101,10 +93,10 @@ class PayPurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_pay_purchase(Request $request)
+    public function createPayPurchase(Request $request)
     {
         $additional_fields = [];
-        $pay_purchase_data = $this->prepare_item_for_database($request);
+        $pay_purchase_data = $this->prepareItemFDatabase($request);
 
         $items      = $request['purchase_details'];
         $item_total = [];
@@ -117,18 +109,14 @@ class PayPurchasesController extends Controller
 
         $pay_purchase_data = $this->insertPayPurchase($pay_purchase_data);
 
-        $this->add_log($pay_purchase_data, 'add');
+        $this->addLog($pay_purchase_data, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $pay_purchase_data = $this->prepare_item_for_response($pay_purchase_data, $request, $additional_fields);
+        $pay_purchase_data = $this->prepareItemForResponse($pay_purchase_data, $request, $additional_fields);
 
         return response()->json($pay_purchase_data);
-
-        $response->set_status(201);
-
-        
     }
 
     /**
@@ -138,7 +126,7 @@ class PayPurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update_pay_purchase(Request $request)
+    public function updatePayPurchase(Request $request)
     {
         $pay_purchases = new PayPurchases();
 
@@ -146,10 +134,10 @@ class PayPurchasesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
-        $pay_purchase_data = $this->prepare_item_for_database($request);
+        $pay_purchase_data = $this->prepareItemFDatabase($request);
 
         $items      = $request['purchase_details'];
         $item_total = [];
@@ -164,11 +152,9 @@ class PayPurchasesController extends Controller
 
         $pay_purchase_id = $pay_purchases->updatePayPurchase($pay_purchase_data, $id);
 
-        $this->add_log($pay_purchase_data, 'edit', $old_data);
+        $this->addLog($pay_purchase_data, 'edit', $old_data);
 
         return response()->json($pay_purchase_data);
-
-        
     }
 
     /**
@@ -178,7 +164,7 @@ class PayPurchasesController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function void_pay_purchase(Request $request)
+    public function voidPayPurchase(Request $request)
     {
         $pay_purchases = new PayPurchases();
 
@@ -186,16 +172,16 @@ class PayPurchasesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $pay_purchases->getPayPurchase($id);
 
         $this->voidPayPurchase($id);
 
-        $this->add_log($item, 'delete');
+        $this->addLog($item, 'delete');
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -205,7 +191,7 @@ class PayPurchasesController extends Controller
      * @param string $action
      * @param array $old_data
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
         switch ($action) {
@@ -228,7 +214,7 @@ class PayPurchasesController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -312,7 +298,7 @@ class PayPurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $common = new CommonFunc();
         $item = (object) $item;
@@ -345,7 +331,7 @@ class PayPurchasesController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

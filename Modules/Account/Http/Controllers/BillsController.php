@@ -20,7 +20,7 @@ class BillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_bills(Request $request)
+    public function getBills(Request $request)
     {
 
         $bills = new Bills();
@@ -52,8 +52,8 @@ class BillsController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -68,7 +68,7 @@ class BillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_bill(Request $request)
+    public function getBill(Request $request)
     {
         $bills = new Bills();
         $id = (int) $request['id'];
@@ -82,8 +82,8 @@ class BillsController extends Controller
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
-        $data            = $this->prepare_item_for_response($bill_data, $request, $additional_fields);
-        $formatted_items = $this->prepare_response_for_collection($data);
+        $data            = $this->prepareItemForResponse($bill_data, $request, $additional_fields);
+        $formatted_items = $this->prepareResponseForCollection($data);
 
         return  response()->json($formatted_items);
 
@@ -98,10 +98,10 @@ class BillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_bill(Request $request)
+    public function createBill(Request $request)
     {
         $bills = new Bills();
-        $bill_data = $this->prepare_item_for_database($request);
+        $bill_data = $this->prepareItemFDatabase($request);
 
         $item_total        = [];
         $additional_fields = [];
@@ -118,12 +118,12 @@ class BillsController extends Controller
 
         $bill = $bills->insertBill($bill_data);
 
-        $this->add_log($bill, 'add');
+        $this->addLog($bill, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $bill_data = $this->prepare_item_for_response($bill, $request, $additional_fields);
+        $bill_data = $this->prepareItemForResponse($bill, $request, $additional_fields);
         return response()->json($bill_data);
 
         
@@ -136,7 +136,7 @@ class BillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update_bill(Request $request)
+    public function updateBill(Request $request)
     {
         $common = new CommonFunc();
         $bills = new Bills();
@@ -154,7 +154,7 @@ class BillsController extends Controller
             return ;
         }
 
-        $bill_data = $this->prepare_item_for_database($request);
+        $bill_data = $this->prepareItemFDatabase($request);
 
         $item_total        = [];
         $additional_fields = [];
@@ -172,12 +172,12 @@ class BillsController extends Controller
         $old_data = $bills->getBill($id);
         $bill     = $bills->updateBill($bill_data, $id);
 
-        $this->add_log($bill_data, 'edit', $old_data);
+        $this->addLog($bill_data, 'edit', $old_data);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $bill_data = $this->prepare_item_for_response($bill, $request, $additional_fields);
+        $bill_data = $this->prepareItemForResponse($bill, $request, $additional_fields);
 
         return response()->json($bill_data);
 
@@ -191,7 +191,7 @@ class BillsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function void_bill(Request $request)
+    public function voidBill(Request $request)
     {
         $bills = new Bills();
 
@@ -204,7 +204,7 @@ class BillsController extends Controller
 
         $bills->voidBill($id);
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});;
     }
 
     /**
@@ -214,12 +214,12 @@ class BillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function due_bills(Request $request)
+    public function dueBills(Request $request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'));
             return ;
         }
 
@@ -252,8 +252,8 @@ class BillsController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
@@ -268,7 +268,7 @@ class BillsController extends Controller
      *
      * @return mixed|\Illuminate\Http\Response
      */
-    public function get_overview_payables(Request $request)
+    public function getOverviewPayables(Request $request)
     {
         $common = new CommonFunc();
         $items    = $common->getPayables();
@@ -287,7 +287,7 @@ class BillsController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
         switch ($action) {
@@ -310,7 +310,7 @@ class BillsController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -380,7 +380,7 @@ class BillsController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $people = new People();
         $item = (object) $item;
@@ -417,7 +417,7 @@ class BillsController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

@@ -22,7 +22,7 @@ class PayBillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_pay_bills(Request $request)
+    public function getPayBills(Request $request)
     {
         $args = [
             'number' => isset($request['per_page']) ? $request['per_page'] : 20,
@@ -52,15 +52,15 @@ class PayBillsController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
 
-        
 
-        
+
+
     }
 
     /**
@@ -70,7 +70,7 @@ class PayBillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_pay_bill(Request $request)
+    public function getPayBill(Request $request)
     {
         $paybills = new PayBills();
         $id = (int) $request['id'];
@@ -84,13 +84,13 @@ class PayBillsController extends Controller
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
-        $item                           = $this->prepare_item_for_response($item, $request, $additional_fields);
-        
+        $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
+
         return response()->json($item);
 
-        
 
-        
+
+
     }
 
     /**
@@ -100,11 +100,11 @@ class PayBillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_pay_bill(Request $request)
+    public function createPayBill(Request $request)
     {
         $paybills = new PayBills();
         $additional_fields = [];
-        $pay_bill_data     = $this->prepare_item_for_database($request);
+        $pay_bill_data     = $this->prepareItemFDatabase($request);
 
         $items      = $request['bill_details'];
         $item_total = [];
@@ -117,18 +117,18 @@ class PayBillsController extends Controller
 
         $pay_bill_data = $paybills->insertPayBill($pay_bill_data);
 
-        $this->add_log($pay_bill_data, 'add');
+        $this->addLog($pay_bill_data, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $pay_bill_data = $this->prepare_item_for_response($pay_bill_data, $request, $additional_fields);
+        $pay_bill_data = $this->prepareItemForResponse($pay_bill_data, $request, $additional_fields);
 
         return response()->json($pay_bill_data);
 
-        $response->set_status(201);
 
-        
+
+
     }
 
     /**
@@ -138,7 +138,7 @@ class PayBillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update_pay_bill(Request $request)
+    public function updatePayBill(Request $request)
     {
         $paybills = new PayBills();
         $id = (int) $request['id'];
@@ -148,7 +148,7 @@ class PayBillsController extends Controller
             return ;
         }
 
-        $pay_bill_data = $this->prepare_item_for_database($request);
+        $pay_bill_data = $this->prepareItemFDatabase($request);
 
         $items      = $request['bill_details'];
         $item_total = [];
@@ -163,20 +163,20 @@ class PayBillsController extends Controller
 
         $pay_bill_id = $paybills->updatePayBill($pay_bill_data, $id);
 
-        $this->add_log($pay_bill_data, 'edit', $old_data);
+        $this->addLog($pay_bill_data, 'edit', $old_data);
 
         $pay_bill_data['id']            = $pay_bill_id;
         $additional_fields              = [];
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $pay_bill_response = $this->prepare_item_for_response($pay_bill_data, $request, $additional_fields);
+        $pay_bill_response = $this->prepareItemForResponse($pay_bill_data, $request, $additional_fields);
 
         return response()->json($pay_bill_response);
 
-        
 
-        
+
+
     }
 
     /**
@@ -186,7 +186,7 @@ class PayBillsController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function void_pay_bill(Request $request)
+    public function voidPayBill(Request $request)
     {
         $paybills = new PayBills();
         $id = (int) $request['id'];
@@ -200,9 +200,9 @@ class PayBillsController extends Controller
 
         $this->voidPayBill($id);
 
-        $this->add_log($old_data, 'delete');
+        $this->addLog($old_data, 'delete');
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -214,7 +214,7 @@ class PayBillsController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
         switch ($action) {
@@ -237,7 +237,7 @@ class PayBillsController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -315,9 +315,9 @@ class PayBillsController extends Controller
      * @param \Illuminate\Http\Request $request           request object
      * @param array           $additional_fields (optional)
      *
-     * @return WP_REST_Response $response response data
+     * @return Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $common = new CommonFunc();
 
@@ -353,7 +353,7 @@ class PayBillsController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

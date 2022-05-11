@@ -7,6 +7,7 @@ use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\People;
 use Modules\Account\Classes\Purchases;
 use Modules\Account\Classes\Bank;
+use Modules\Account\Classes\Company;
 
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +21,7 @@ class PayPurchases
      *
      * @return mixed
      */
-    function getPayPurchases($args = [])
+    public function getPayPurchases($args = [])
     {
 
 
@@ -49,7 +50,7 @@ class PayPurchases
             return DB::scalar($sql);
         }
 
-        return DB::select($sql, ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -59,7 +60,7 @@ class PayPurchases
      *
      * @return mixed
      */
-    function getPayPurchase($purchase_no)
+    public function getPayPurchase($purchase_no)
     {
 
 
@@ -68,7 +69,7 @@ class PayPurchases
 
         $row = DB::select(
 
-                "SELECT
+            "SELECT
                 pay_purchase.id,
                 pay_purchase.voucher_no,
                 pay_purchase.vendor_id,
@@ -85,7 +86,7 @@ class PayPurchases
                 pay_purchase.trn_by_ledger_id
             FROM erp_acct_pay_purchase AS pay_purchase
             WHERE pay_purchase.voucher_no = %d",
-                [$purchase_no]
+            [$purchase_no]
         );
 
         $row = (!empty($row)) ? $row[0] : null;
@@ -103,18 +104,18 @@ class PayPurchases
      *
      * @return array
      */
-    function formatPayPurchaseLineItems($voucher_no)
+    public function formatPayPurchaseLineItems($voucher_no)
     {
 
 
         return DB::select(
-                "SELECT * FROM erp_acct_pay_purchase AS pay_purchase
+            "SELECT * FROM erp_acct_pay_purchase AS pay_purchase
             LEFT JOIN erp_acct_pay_purchase_details AS pay_purchase_detail
             ON pay_purchase.voucher_no = pay_purchase_detail.voucher_no
             LEFT JOIN erp_acct_voucher_no AS voucher
             ON pay_purchase_detail.voucher_no = voucher.id
             WHERE pay_purchase.voucher_no = %d",
-                [$voucher_no]
+            [$voucher_no]
         );
     }
 
@@ -125,7 +126,7 @@ class PayPurchases
      *
      * @return mixed
      */
-    function insertPayPurchase($data)
+    public function insertPayPurchase($data)
     {
 
         $people = new People();
@@ -299,7 +300,7 @@ class PayPurchases
      *
      * @return mixed
      */
-    function updatePayPurchase($data, $pay_purchase_id)
+    public function updatePayPurchase($data, $pay_purchase_id)
     {
 
 
@@ -401,7 +402,7 @@ class PayPurchases
      *
      * @return void
      */
-    function voidPayPurchase($id)
+    public function voidPayPurchase($id)
     {
         if (!$id) {
             return;
@@ -425,12 +426,13 @@ class PayPurchases
      *
      * @return mixed
      */
-    function getFormattedPayPurchaseData($data, $voucher_no)
+    public function getFormattedPayPurchaseData($data, $voucher_no)
     {
+        $people_obj   = new People();
+        $company   = new Company();
         $pay_purchase_data = [];
 
-        $user_data = $people->getPeople($data['vendor_id']);
-        $company   = new \WeDevs\ERP\Company();
+        $user_data = $people_obj->getPeople($data['vendor_id']);
 
         $pay_purchase_data['voucher_no']       = !empty($voucher_no) ? $voucher_no : 0;
         $pay_purchase_data['order_no']         = isset($data['order_no']) ? $data['order_no'] : 1;
@@ -467,7 +469,7 @@ class PayPurchases
      *
      * @return mixed
      */
-    function insertPayPurchaseDataIntoLedger($pay_purchase_data, $item_data)
+    public function insertPayPurchaseDataIntoLedger($pay_purchase_data, $item_data)
     {
 
 
@@ -511,7 +513,7 @@ class PayPurchases
      *
      * @return mixed
      */
-    function updatePayPurchaseDataIntoLedger($pay_purchase_data, $pay_purchase_no, $item_data)
+    public function updatePayPurchaseDataIntoLedger($pay_purchase_data, $pay_purchase_no, $item_data)
     {
 
 
@@ -555,7 +557,7 @@ class PayPurchases
      *
      * @return int
      */
-    function getPayPurchaseCount()
+    public function getPayPurchaseCount()
     {
 
 
@@ -572,7 +574,7 @@ class PayPurchases
      *
      * @return void
      */
-    function changePurchaseStatus($purchase_no)
+    public function changePurchaseStatus($purchase_no)
     {
         $purchases = new Purchases();
 

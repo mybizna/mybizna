@@ -2,6 +2,8 @@
 
 namespace Modules\Account\Classes;
 
+use Modules\Account\Classes\Taxes;
+
 use Illuminate\Support\Facades\DB;
 
 class TaxCats
@@ -14,7 +16,7 @@ class TaxCats
      *
      * @return mixed
      */
-    function getAllTaxCats($args = [])
+    public function getAllTaxCats($args = [])
     {
 
 
@@ -42,7 +44,7 @@ class TaxCats
         if ($args['count']) {
             $tax_cats_count = DB::scalar($sql);
         } else {
-            $tax_cats = DB::select($sql, ARRAY_A);
+            $tax_cats = DB::select($sql);
         }
 
 
@@ -60,7 +62,7 @@ class TaxCats
      *
      * @return mixed
      */
-    function getTaxCat($tax_no)
+    public function getTaxCat($tax_no)
     {
 
 
@@ -76,7 +78,7 @@ $row = (!empty($row)) ? $row[0] : null;
      *
      * @return mixed
      */
-    function getTaxCategoryById($id)
+    public function getTaxCategoryById($id)
     {
 
 
@@ -92,9 +94,9 @@ $row = (!empty($row)) ? $row[0] : null;
      *
      * @return int
      */
-    function insertTaxCat($data)
+    public function insertTaxCat($data)
     {
-
+        $taxes = new Taxes();
 
         $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
@@ -127,9 +129,9 @@ $row = (!empty($row)) ? $row[0] : null;
      *
      * @return int
      */
-    function updateTaxCat($data, $id)
+    public function updateTaxCat($data, $id)
     {
-
+        $taxes = new Taxes();
 
         $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
@@ -159,7 +161,7 @@ $row = (!empty($row)) ? $row[0] : null;
      *
      * @return int
      */
-    function deleteTaxCat($id)
+    public function deleteTaxCat($id)
     {
 
 

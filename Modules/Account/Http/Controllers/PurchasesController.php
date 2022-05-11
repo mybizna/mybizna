@@ -21,7 +21,7 @@ class PurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_purchases(Request $request)
+    public function getPurchases(Request $request)
     {
         $purchases = new Purchases();
         $args = [
@@ -52,15 +52,15 @@ class PurchasesController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
 
-        
 
-        
+
+
     }
 
     /**
@@ -70,7 +70,7 @@ class PurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function due_purchases(Request $request)
+    public function duePurchases(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -104,15 +104,15 @@ class PurchasesController extends Controller
 
             $item['line_items'] = []; // TEST?
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
 
-        
 
-        
+
+
     }
 
     /**
@@ -122,7 +122,7 @@ class PurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_purchase(Request $request)
+    public function getPurchase(Request $request)
     {
         $purchases = new Purchases();
         $id = (int) $request['id'];
@@ -137,12 +137,12 @@ class PurchasesController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $item     = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
 
-        
 
-        
+
+
     }
 
     /**
@@ -152,9 +152,9 @@ class PurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_purchase(Request $request)
+    public function createPurchase(Request $request)
     {
-        $purchase_data  = $this->prepare_item_for_database($request);
+        $purchase_data  = $this->prepareItemFDatabase($request);
         $items          = $request['line_items'];
         $item_total     = [];
         $item_tax_total = [];
@@ -172,14 +172,14 @@ class PurchasesController extends Controller
 
         $purchase_data = $this->insertPurchase($purchase_data);
 
-        $this->add_log($purchase_data, 'add');
+        $this->addLog($purchase_data, 'add');
 
-        $purchase_data = $this->prepare_item_for_response($purchase_data, $request, $additional_fields);
+        $purchase_data = $this->prepareItemForResponse($purchase_data, $request, $additional_fields);
 
         return response()->json($purchase_data);
-        $response->set_status(201);
 
-        
+
+
     }
 
     /**
@@ -189,7 +189,7 @@ class PurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update_purchase(Request $request)
+    public function updatePurchase(Request $request)
     {
         $common = new CommonFunc();
         $purchases = new Purchases();
@@ -208,7 +208,7 @@ class PurchasesController extends Controller
             return ;
         }
 
-        $purchase_data = $this->prepare_item_for_database($request);
+        $purchase_data = $this->prepareItemFDatabase($request);
 
         $items      = $request['line_items'];
         $item_total = [];
@@ -227,17 +227,17 @@ class PurchasesController extends Controller
         $old_data = $purchases->getPurchases($id);
         $purchase = $purchases->updatePurchase($purchase_data, $id);
 
-        $this->add_log($purchase_data, 'edit', $old_data);
+        $this->addLog($purchase_data, 'edit', $old_data);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $purchase_data = $this->prepare_item_for_response($purchase, $request, $additional_fields);
+        $purchase_data = $this->prepareItemForResponse($purchase, $request, $additional_fields);
 
         return response()->json($purchase_data);
-        
 
-        
+
+
     }
 
     /**
@@ -247,7 +247,7 @@ class PurchasesController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function void_purchase(Request $request)
+    public function voidPurchase(Request $request)
     {
         $id = (int) $request['id'];
 
@@ -258,7 +258,7 @@ class PurchasesController extends Controller
 
         $this->voidPurchase($id);
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -270,7 +270,7 @@ class PurchasesController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
         switch ($action) {
@@ -293,7 +293,7 @@ class PurchasesController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -365,7 +365,7 @@ class PurchasesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
 
         $people = new People();
@@ -406,7 +406,7 @@ class PurchasesController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

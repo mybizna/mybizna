@@ -1,9 +1,26 @@
 <?php
-
+/**
+ * Hr
+ * 
+ * @category HRM
+ * @package  Hrm
+ * @author   Dedan Irungu <dedanirungu@gmail.com>
+ * @license  GPL v3
+ * @link     http://www.mybizna.com
+ */
 namespace Modules\Account\Classes;
 
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Hr
+ * 
+ * @category HRM
+ * @package  Hrm
+ * @author   Dedan Irungu <dedanirungu@gmail.com>
+ * @license  GPL v3
+ * @link     http://www.mybizna.com
+ */
 class Hr
 {
 
@@ -16,14 +33,13 @@ class Hr
     {
 
 
-        $employee_tbl = 'erp_hr_employees';
+        $emp_tbl = 'erp_hr_employees';
 
-        $query =
-            "select $employee_tbl.user_id from $employee_tbl
-            left join {$wpdb->users} on $employee_tbl.user_id = {$wpdb->users}.ID
-            where $employee_tbl.status != 'active' or $employee_tbl.deleted_at is not null",
+        $query = "select $emp_tbl.user_id from $emp_tbl
+            left join users on $emp_tbl.user_id = user.id
+            where $emp_tbl.status != 'active' or $emp_tbl.deleted_at is not null";
 
 
-        return $wpdb->get_col($query);
+        return DB::scalar($query);
     }
 }

@@ -22,7 +22,7 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_payments(Request $request)
+    public function getPayments(Request $request)
     {
         $recpayments = new RecPayments();
         $args = [
@@ -53,15 +53,11 @@ class PaymentController extends Controller
                 }
             }
 
-            $data              = $this->prepare_item_for_response($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepare_response_for_collection($data);
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -77,7 +73,7 @@ class PaymentController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $purchases->getPayment($id);
@@ -85,12 +81,8 @@ class PaymentController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $item     = $this->prepare_item_for_response($item, $request, $additional_fields);
+        $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
-
-        
-
-        
     }
 
     /**
@@ -100,11 +92,11 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_payment(Request $request)
+    public function createPayment(Request $request)
     {
         $recpayments = new RecPayments();
         $additional_fields = [];
-        $payment_data      = $this->prepare_item_for_database($request);
+        $payment_data      = $this->prepareItemFDatabase($request);
 
         $items      = $request['line_items'];
         $item_total = [];
@@ -117,17 +109,14 @@ class PaymentController extends Controller
 
         $payment_data = $recpayments->insertPayment($payment_data);
 
-        $this->add_log($payment_data, 'add');
+        $this->addLog($payment_data, 'add');
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $payment_data = $this->prepare_item_for_response($payment_data, $request, $additional_fields);
+        $payment_data = $this->prepareItemForResponse($payment_data, $request, $additional_fields);
 
         return response()->json($payment_data);
-        $response->set_status(201);
-
-        
     }
 
     /**
@@ -137,17 +126,17 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update_payment(Request $request)
+    public function updatePayment(Request $request)
     {
         $recpayments = new RecPayments();
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
-        $payment_data = $this->prepare_item_for_database($request);
+        $payment_data = $this->prepareItemFDatabase($request);
 
         $items      = $request['line_items'];
         $item_total = [];
@@ -161,19 +150,15 @@ class PaymentController extends Controller
         $old_data     = $recpayments->getPayment($id);
         $payment_data = $recpayments->updatePayment($payment_data, $id);
 
-        $this->add_log($payment_data, 'edit', $old_data);
+        $this->addLog($payment_data, 'edit', $old_data);
 
         $additional_fields              = [];
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $payment_response = $this->prepare_item_for_response($payment_data, $request, $additional_fields);
+        $payment_response = $this->prepareItemForResponse($payment_data, $request, $additional_fields);
 
         return response()->json($payment_response);
-
-        
-
-        
     }
 
     /**
@@ -183,18 +168,18 @@ class PaymentController extends Controller
      *
      * @return messageBag()->add|\Illuminate\Http\Request
      */
-    public function void_payment(Request $request)
+    public function voidPayment(Request $request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $payment->voidPayment($id);
 
-        return new WP_REST_Response(true, 204);
+        return response()->json({'status': true});
     }
 
     /**
@@ -206,7 +191,7 @@ class PaymentController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
         switch ($action) {
@@ -229,7 +214,7 @@ class PaymentController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -325,7 +310,7 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, Request $request, $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $common = new CommonFunc();
         $ledger = new LedgerAccounts();
@@ -361,7 +346,7 @@ class PaymentController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

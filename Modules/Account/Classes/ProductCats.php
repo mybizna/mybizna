@@ -12,10 +12,10 @@ class ProductCats
      *
      * @return mixed
      */
-    function getAllProductCats()
+    public function getAllProductCats()
     {
 
-        $categories = DB::select('SELECT * FROM ' . 'erp_acct_product_categories', ARRAY_A);
+        $categories = DB::select('SELECT * FROM ' . 'erp_acct_product_categories');
 
 
         return $categories;
@@ -28,7 +28,7 @@ class ProductCats
      *
      * @return mixed
      */
-    function getProductCat($product_cat_id)
+    public function getProductCat($product_cat_id)
     {
 
 
@@ -44,7 +44,7 @@ class ProductCats
      *
      * @return int
      */
-    function insertProductCat($data)
+    public function insertProductCat($data)
     {
 
 
@@ -89,7 +89,7 @@ class ProductCats
      *
      * @return int
      */
-    function updateProductCat($data, $id)
+    public function updateProductCat($data, $id)
     {
 
 
@@ -133,7 +133,7 @@ class ProductCats
      *
      * @return mixed
      */
-    function getFormattedProductCatData($data)
+    public function getFormattedProductCatData($data)
     {
         $product_cat_data['name']       = isset($data['name']) ? $data['name'] : '';
         $product_cat_data['parent']     = isset($data['parent']) ? $data['parent'] : 0;
@@ -152,7 +152,7 @@ class ProductCats
      *
      * @return void
      */
-    function deleteProductCat($product_cat_id)
+    public function deleteProductCat($product_cat_id)
     {
 
 

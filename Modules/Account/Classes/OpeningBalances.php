@@ -8,6 +8,7 @@ use Modules\Account\Classes\Reports\TrialBalance;
 use Modules\Account\Classes\People;
 use Modules\Account\Classes\TaxAgencies;
 use Modules\Account\Classes\LedgerAccounts;
+use Modules\Account\Classes\Reports;
 
 
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,7 @@ class OpenBalances
      *
      * @return mixed
      */
-    function getAllOpeningBalances($args = [])
+    public function getAllOpeningBalances($args = [])
     {
 
 
@@ -60,12 +61,11 @@ class OpenBalances
         $sql .= " ON opening_balance.financial_year_id = financial_year.id {$where} GROUP BY financial_year.name ORDER BY financial_year.{$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
-            DB::select($sql);
+            return DB::scalar($sql);
 
-            return $wpdb->num_rows;
         }
 
-        return DB::select($sql, ARRAY_A);
+        return DB::select($sql);
     }
 
     /**
@@ -75,7 +75,7 @@ class OpenBalances
      *
      * @return mixed
      */
-    function getOpeningBalance($year_id)
+    public function getOpeningBalance($year_id)
     {
 
 
@@ -94,7 +94,7 @@ class OpenBalances
      *
      * @return mixed
      */
-    function getVirtualAcct($year_id)
+    public function getVirtualAcct($year_id)
     {
 
 
@@ -116,7 +116,7 @@ class OpenBalances
      *
      * @return mixed
      */
-    function insertOpeningBalance($data)
+    public function insertOpeningBalance($data)
     {
 
 
@@ -139,7 +139,7 @@ class OpenBalances
 
             $year_id = $opening_balance_data['year'];
 
-            $wpdb->query("DELETE FROM erp_acct_opening_balances WHERE financial_year_id = %d", [$year_id]);
+            DB::delete("DELETE FROM erp_acct_opening_balances WHERE financial_year_id = %d", [$year_id]);
 
             foreach ($ledgers as $ledger) {
                 if ((isset($ledger['debit']) && (float) $ledger['debit'] > 0) || (isset($ledger['credit']) && (float) $ledger['credit'] > 0)) {
@@ -182,7 +182,7 @@ class OpenBalances
      *
      * @return void
      */
-    function insertObVirAccounts($data, $year_id)
+    public function insertObVirAccounts($data, $year_id)
     {
 
 
@@ -251,7 +251,7 @@ class OpenBalances
      *
      * @return mixed
      */
-    function getFormattedOpeningBalanceData($data)
+    public function getFormattedOpeningBalanceData($data)
     {
         $opening_balance_data = [];
 
@@ -275,11 +275,11 @@ class OpenBalances
      *
      * @return array
      */
-    function getOpeningBalanceNames()
+    public function getOpeningBalanceNames()
     {
 
 
-        $rows = DB::select("SELECT id, name, start_date, end_date FROM erp_acct_financial_years", ARRAY_A);
+        $rows = DB::select("SELECT id, name, start_date, end_date FROM erp_acct_financial_years");
 
         return $rows;
     }
@@ -291,7 +291,7 @@ class OpenBalances
      *
      * @return array
      */
-    function getStartEndDate($year_id)
+    public function getStartEndDate($year_id)
     {
         $dates = [];
 
@@ -313,7 +313,7 @@ class OpenBalances
      *
      * @return void
      */
-    function getObVirtualAcct($year_id)
+    public function getObVirtualAcct($year_id)
     {
 
         $people = new People();
@@ -364,8 +364,9 @@ class OpenBalances
      *
      * @return mixed
      */
-    function getLedgerBalanceWithOpeningBalance($ledger_id, $start_date, $end_date)
+    public function getLedgerBalanceWithOpeningBalance($ledger_id, $start_date, $end_date)
     {
+        $reports = new Reports();
 
         $trialbal = new TrialBalance();
         $ledger = new LedgerAccounts();
@@ -383,8 +384,8 @@ class OpenBalances
             $sql1 =
                 "SELECT SUM(debit - credit) AS balance
             FROM erp_acct_ledger_details
-            WHERE ledger_id = {$ledger_id} AND trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_start}'",
-            ;
+            WHERE ledger_id = {$ledger_id} AND trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_start}'";
+            
 
             $prev_ledger_details = DB::scalar($sql1);
             $opening_balance += (float) $prev_ledger_details;
@@ -398,7 +399,7 @@ class OpenBalances
         WHERE ledger_id = {$ledger_id} AND trn_date BETWEEN '{$start_date}' AND '{$end_date}'"
         ;
 
-        $res = DB::select($sql2, ARRAY_A);
+        $res = DB::select($sql2);
         $res = (!empty($res)) ? $res[0] : null;
 
         $total_debit   = 0;
@@ -431,7 +432,7 @@ class OpenBalances
      *
      * @return int
      */
-    function getOpbInvoiceAccountDetails($fy_start_date)
+    public function getOpbInvoiceAccountDetails($fy_start_date)
     {
 
 
@@ -452,7 +453,7 @@ class OpenBalances
      *
      * @return int
      */
-    function getOpbBillPurchaseAccountDetails($fy_start_date)
+    public function getOpbBillPurchaseAccountDetails($fy_start_date)
     {
 
 
@@ -481,11 +482,11 @@ class OpenBalances
      *
      * @return array
      */
-    function getDateBoundary()
+    public function getDateBoundary()
     {
 
 
-        $result = DB::select("SELECT MIN(start_date) as lower, MAX(end_date) as upper FROM erp_acct_financial_years", ARRAY_A);
+        $result = DB::select("SELECT MIN(start_date) as lower, MAX(end_date) as upper FROM erp_acct_financial_years");
         $result = (!empty($result)) ? $result[0] : null;
 
         return $result;
@@ -498,7 +499,7 @@ class OpenBalances
      *
      * @return array
      */
-    function getCurrentFinancialYear($date = '')
+    public function getCurrentFinancialYear($date = '')
     {
 
 
