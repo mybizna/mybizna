@@ -25,6 +25,7 @@ class AccountsController extends Controller
     public function getAccounts(Request $request)
     {
         $bank = new Bank();
+
         $items = $bank->getTransferAccounts(true);
 
         $formatted_items = [];
@@ -37,8 +38,6 @@ class AccountsController extends Controller
         }
 
         return response()->json($formatted_items);
-
-
     }
 
     /**
@@ -56,13 +55,11 @@ class AccountsController extends Controller
 
         if (empty($id) || empty($item->id)) {
             messageBag()->add('rest_bank_account_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-        return ;
+            return;
         }
 
         $item     = $this->prepareItemForResponse($item, $request, []);
         return response()->json($item);
-
-
     }
 
     /**
@@ -80,13 +77,11 @@ class AccountsController extends Controller
 
         if (empty($id) || empty($item->id)) {
             messageBag()->add('rest_bank_account_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item     = $this->prepareItemForResponse($item, $request, []);
         return response()->json($item);
-
-
     }
 
     /**
@@ -104,7 +99,7 @@ class AccountsController extends Controller
 
         if (empty($item['from_account_id']) || empty($item['to_account_id'])) {
             messageBag()->add('rest_transfer_invalid_accounts', __('Both accounts should be present.'), ['status' => 400]);
-            return ;
+            return;
         }
         $args               = [];
         $args['start_date'] = date('Y-m-d');
@@ -117,7 +112,7 @@ class AccountsController extends Controller
 
         if (empty($ledger_details)) {
             messageBag()->add('rest_transfer_invalid_account', __('Something Went Wrong! Account not found.'), ['status' => 400]);
-            return ;
+            return;
         }
 
         $from_balance = $ledger_details['balance'];
@@ -135,7 +130,7 @@ class AccountsController extends Controller
         //TODO: Ccheck the issues
         //$this-L($item, 'transfer');
 
-        return response()->json(['status'=>true]);
+        return response()->json(['status' => true]);
     }
 
     /**
@@ -169,8 +164,6 @@ class AccountsController extends Controller
         }
 
         return response()->json($formatted_items);
-
-
     }
 
     /**
@@ -186,8 +179,6 @@ class AccountsController extends Controller
         $accounts = wp_list_pluck($accounts, 'name', 'id');
         $data     = $this->prepareListItemForResponse($item, $request, [], $accounts);
         return response()->json($data);
-
-
     }
 
     /**
@@ -204,7 +195,7 @@ class AccountsController extends Controller
 
         if (empty($items)) {
             messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'));
-            return ;
+            return;
         }
 
         $formatted_items = [];
@@ -217,8 +208,6 @@ class AccountsController extends Controller
         }
 
         return response()->json($formatted_items);
-
-
     }
 
     /**
@@ -236,7 +225,7 @@ class AccountsController extends Controller
 
         if (empty($items)) {
             messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'), ['status' => 204]);
-            return ;
+            return;
         }
 
         foreach ($items as $item) {
@@ -247,8 +236,6 @@ class AccountsController extends Controller
         }
 
         return response()->json($formatted_items);
-
-
     }
 
     /**
@@ -337,8 +324,6 @@ class AccountsController extends Controller
 
         // Wrap the data in a response object
         return response()->json($data);
-
-
     }
 
     /**
@@ -377,8 +362,6 @@ class AccountsController extends Controller
 
         // Wrap the data in a response object
         return response()->json($data);
-
-
     }
 
     /**
@@ -394,8 +377,6 @@ class AccountsController extends Controller
 
         // Wrap the data in a response object
         return response()->json($data);
-
-
     }
 
     /**

@@ -467,11 +467,8 @@ class Products
 
 
                 foreach ($data['fields'] as $key => $value) {
-
                     switch ($key) {
-
                         case 'category_id':
-
                             if (!empty($line[$value])) {
                                 $valid_value = DB::scalar(
                                     "SELECT id
@@ -483,7 +480,6 @@ class Products
                             break;
 
                         case 'product_type_id':
-
                             if (!empty($line[$value])) {
                                 $valid_value = DB::scalar(
                                     "SELECT id
@@ -495,7 +491,6 @@ class Products
                             break;
 
                         case 'tax_cat_id':
-
                             if (!empty($line[$value])) {
                                 $valid_value = DB::scalar(
                                     "SELECT id
@@ -507,7 +502,6 @@ class Products
                             break;
 
                         case 'vendor':
-
                             if (!empty($line[$value])) {
                                 $valid_value = DB::scalar(
                                     "SELECT people.id

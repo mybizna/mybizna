@@ -5,13 +5,15 @@ namespace Modules\Account\Classes;
 use Modules\Account\Classes\CommonFunc;
 
 use Illuminate\Support\Facades\DB;
+use Modules\Account\Classes\TaxAgencies;
+use Modules\Account\Classes\TaxCats;
 
 class Taxes
 {
 
     /**
      * Get all taxes
-     * 
+     *
      * @param array $args Tax Rates
      *
      * @return mixed
@@ -63,7 +65,8 @@ class Taxes
      */
     public function getTaxRate($tax_no)
     {
-
+        $tax_agencies = new TaxAgencies();
+        $tax_cats = new TaxCats();
 
         $sql = "SELECT
 
@@ -346,7 +349,7 @@ class Taxes
 
     /**
      * Get all tax payments
-     * 
+     *
      * @param array $args Data Filter
      *
      * @return mixed
@@ -394,7 +397,7 @@ class Taxes
      * Get a single tax payment
      *
      * @param int $voucher_no Voucher Number
-     * 
+     *
      * @return mixed
      */
     public function getTaxPayRecord($voucher_no)
@@ -635,7 +638,7 @@ class Taxes
 
     /**
      * Tax summary
-     * 
+     *
      * @return void
      */
     public function taxSummary()
@@ -660,7 +663,7 @@ class Taxes
 
     /**
      * Get default tax rate name id
-     * 
+     *
      * @return void
      */
     public function getDefaultTaxRateNameId()
@@ -692,7 +695,7 @@ class Taxes
         $args = array_merge($defaults, $args);
 
         if (empty($args['system_id']) || (empty($args['sync_slug']) && empty($args['sync_id']))) {
-            return new \messageBag()->add('inconsistent-data', __('Inconsistent data provided', 'erp'));
+            messageBag()->add('inconsistent-data', __('Inconsistent data provided', 'erp'));
         }
 
         $inserted = DB::table("erp_acct_synced_taxes", $args, ['%d', '%s', '%s', '%d', '%s']);

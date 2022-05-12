@@ -37,10 +37,6 @@ class AccountsController extends Controller
                 'address' => $company->address,
             ]
         );
-
-        
-
-        
     }
 
     /**

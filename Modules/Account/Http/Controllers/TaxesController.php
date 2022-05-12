@@ -21,7 +21,7 @@ class TaxesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getTaxRates(Request $request)
-    { 
+    {
         $taxes = new Taxes();
 
         $args = [
@@ -245,6 +245,8 @@ class TaxesController extends Controller
      */
     public function lineEditTaxRate(Request $request)
     {
+        $taxes = new Taxes();
+
         $id         = (int) $request['id'];
         $item_rates = [];
 
@@ -283,7 +285,7 @@ class TaxesController extends Controller
 
         $this->deleteTaxRateLine($id);
 
-        return response()->json({'status': true});
+        return response()->json(['status'=> true]);
     }
 
     /**
@@ -310,7 +312,7 @@ class TaxesController extends Controller
 
         $this->addLog($item, 'delete');
 
-        return response()->json({'status': true});
+        return response()->json(['status'=> true]);
     }
 
     /**
@@ -419,7 +421,7 @@ class TaxesController extends Controller
      * Tax summary
      */
     public function getTaxSummary(Request $request)
-    { 
+    {
         $taxes = new Taxes();
 
         $formatted_items   = [];
@@ -464,7 +466,7 @@ class TaxesController extends Controller
             $this->addLog($item, 'delete');
         }
 
-        return response()->json({'status': true});
+        return response()->json(['status'=> true]);
     }
 
     /**

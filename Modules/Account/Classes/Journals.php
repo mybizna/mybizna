@@ -122,6 +122,7 @@ class Journals
     public function insertJournal($data)
     {
 
+        $common = new CommonFunc();
 
         $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');

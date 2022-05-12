@@ -4,7 +4,8 @@ namespace Modules\Account\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;use Modules\Account\Classes\CommonFunc;
+use Illuminate\Routing\Controller;
+use Modules\Account\Classes\CommonFunc;
 
 use Illuminate\Support\Facades\DB;
 
@@ -55,10 +56,6 @@ class TaxRateNamesController extends Controller
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -74,7 +71,7 @@ class TaxRateNamesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $taxratenames->getTaxRateName($id);
@@ -84,10 +81,6 @@ class TaxRateNamesController extends Controller
 
         $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
-
-        
-
-        
     }
 
     /**
@@ -113,9 +106,6 @@ class TaxRateNamesController extends Controller
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-        
-
-        
     }
 
     /**
@@ -131,7 +121,7 @@ class TaxRateNamesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $tax_data = $this->prepareItemFDatabase($request);
@@ -147,9 +137,6 @@ class TaxRateNamesController extends Controller
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-        
-
-        
     }
 
     /**
@@ -165,7 +152,7 @@ class TaxRateNamesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $taxratenames->getTaxRateName($id);
@@ -174,7 +161,7 @@ class TaxRateNamesController extends Controller
 
         $this->addLog($item, 'delete');
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**
@@ -201,7 +188,7 @@ class TaxRateNamesController extends Controller
             $this->addLog($item, 'delete');
         }
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**
@@ -219,7 +206,7 @@ class TaxRateNamesController extends Controller
         switch ($action) {
             case 'edit':
                 $operation = 'updated';
-                $changes   = !empty($old_data) ?$common->getArrayDiff($data, $old_data) : [];
+                $changes   = !empty($old_data) ? $common->getArrayDiff($data, $old_data) : [];
                 break;
             case 'delete':
                 $operation = 'deleted';
@@ -227,7 +214,6 @@ class TaxRateNamesController extends Controller
             default:
                 $operation = 'created';
         }
-
     }
 
     /**

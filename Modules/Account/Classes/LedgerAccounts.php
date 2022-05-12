@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Account\Classes;
 
 use Modules\Account\Classes\Transactions;
@@ -14,11 +15,11 @@ class LedgerAccounts
      *
      * @return array
      */
-     public function getAllCharts()
+    public function getAllCharts()
     {
 
 
-            $charts = DB::select("SELECT id, name AS label FROM erp_acct_chart_of_accounts");
+        $charts = DB::select("SELECT id, name AS label FROM erp_acct_chart_of_accounts");
 
         return $charts;
     }
@@ -103,13 +104,10 @@ class LedgerAccounts
                 ->where('id', $args['id'])
                 ->update(
                     [
-                    'name'      => $args['name'],
-                    'parent_id' => !empty($args['parent']) ? $args['parent'] : null,
-                ]
-            );
-
-
-
+                        'name'      => $args['name'],
+                        'parent_id' => !empty($args['parent']) ? $args['parent'] : null,
+                    ]
+                );
         }
 
 
@@ -124,7 +122,7 @@ class LedgerAccounts
      *
      * @return array
      */
-    public function deleteLedgerCategory($id,$parent_id='')
+    public function deleteLedgerCategory($id, $parent_id = '')
     {
 
 
@@ -133,9 +131,8 @@ class LedgerAccounts
         $table = "erp_acct_ledger_categories";
 
         DB::table($table)
-        ->where('parent_id', $id        )
-            ->update(['parent_id' => $parent_id])
-            ;
+            ->where('parent_id', $id)
+            ->update(['parent_id' => $parent_id]);
 
 
         return DB::table($table)->where([['id' => $id]])->delete();
@@ -254,16 +251,18 @@ class LedgerAccounts
     {
 
 
+        $common = new CommonFunc();
+
         DB::table("erp_acct_ledgers")
-        ->where('id', $id)
+            ->where('id', $id)
             ->update(
                 [
-                'chart_id'    => $item['chart_id'],
-                'category_id' => $item['category_id'],
-                'name'        => $item['name'],
-                'slug'        => $common->($item['name']),
-                'code'        => $item['code'],
-            ]
+                    'chart_id'    => $item['chart_id'],
+                    'category_id' => $item['category_id'],
+                    'name'        => $item['name'],
+                    'slug'        => $common->slugify($item['name']),
+                    'code'        => $item['code'],
+                ]
             );
 
         return $this->getLedger($id);
@@ -338,9 +337,9 @@ class LedgerAccounts
 
 
         return DB::select(
-                "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_opening_balances AS opb ON ledger.id = opb.ledger_id WHERE opb.financial_year_id = %d opb.type = 'ledger' GROUP BY opb.ledger_id",
-                [$id]
-         );
+            "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_opening_balances AS opb ON ledger.id = opb.ledger_id WHERE opb.financial_year_id = %d opb.type = 'ledger' GROUP BY opb.ledger_id",
+            [$id]
+        );
     }
 
     /**

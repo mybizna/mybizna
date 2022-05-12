@@ -60,7 +60,7 @@ class JournalsController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_journal_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $journal->updateInvoice($id);
@@ -71,8 +71,6 @@ class JournalsController extends Controller
         $item = $this->prepareItemForResponse($item, $request, $additional_fields);
 
         return response()->json($item);
-
-        
     }
 
     /**
@@ -92,8 +90,6 @@ class JournalsController extends Controller
         $item['id'] = $count['0'] + 1;
 
         return response()->json($item);
-
-        
     }
 
     /**
@@ -130,10 +126,6 @@ class JournalsController extends Controller
 
         $response = $this->prepareItemForResponse($journal, $request, $additional_fields);
         return response()->json($response);
-
-        
-
-        
     }
 
     /**

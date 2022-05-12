@@ -5,6 +5,7 @@ namespace Modules\Account\Classes\Reports;
 use Modules\Account\Classes\OpenBalances;
 use Modules\Account\Classes\Reports;
 use Modules\Account\Classes\FinalAccounts;
+use Modules\Account\Classes\CommonFunc;
 
 use Illuminate\Support\Facades\DB;
 
@@ -31,7 +32,7 @@ class TrialBalance
 
         $chart_bank = 7;
 
-        $sql1       = "SELECT group_concat(id) FROM erp_acct_ledgers where chart_id = ". $chart_bank;
+        $sql1       = "SELECT group_concat(id) FROM erp_acct_ledgers where chart_id = " . $chart_bank;
         $ledger_ids = implode(',', explode(',', DB::scalar($sql1))); // e.g. 4, 5
 
         if ($ledger_ids) {
@@ -339,6 +340,7 @@ class TrialBalance
     {
 
         $open_balance = new OpenBalances();
+        $common = new CommonFunc();
 
         $result = [];
 
@@ -346,7 +348,7 @@ class TrialBalance
         $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
 
         // get opening balance data within that(^) financial year
-        $opening_balance =$this->openingBalanceByFnYearId($closest_fy_date['id']);
+        $opening_balance = $this->openingBalanceByFnYearId($closest_fy_date['id']);
 
         $ledgers = DB::select(
             "SELECT ledger.id, ledger.chart_id, ledger.name FROM erp_acct_ledgers AS ledger
@@ -356,17 +358,16 @@ class TrialBalance
         $temp_data = $this->getBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
 
         // should we go further calculation, check the diff
-        if (!erp_acct_has_date_diff($tb_start_date, $closest_fy_date['start_date'])) {
+        if (!$common->hasDateDiff($tb_start_date, $closest_fy_date['start_date'])) {
             return $temp_data;
         } else {
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($tb_start_date)));
         }
 
-        $sql ="SELECT  ledger.id, ledger.name, SUM(ledger_detail.debit - ledger_detail.credit) AS balance
+        $sql = "SELECT  ledger.id, ledger.name, SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM erp_acct_ledgers AS ledger
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id
-        WHERE ledger.chart_id NOT IN ( 4, 5, 7 ) AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_tb_start}' GROUP BY ledger_detail.ledger_id"
-        ;
+        WHERE ledger.chart_id NOT IN ( 4, 5, 7 ) AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_tb_start}' GROUP BY ledger_detail.ledger_id";
 
         $result = $this->getBalanceWithinLedgerDetailsAndTrialBalance($sql, $temp_data);
 
@@ -386,6 +387,7 @@ class TrialBalance
     public function bankCashCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
 
+        $common = new CommonFunc();
 
         // get closest financial year id and start date
         $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
@@ -400,7 +402,7 @@ class TrialBalance
         }
 
         // should we go further calculation, check the diff
-        if (!erp_acct_has_date_diff($tb_start_date, $closest_fy_date['start_date'])) {
+        if (!$common->hasDateDiff($tb_start_date, $closest_fy_date['start_date'])) {
             return $balance;
         } else {
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($tb_start_date)));
@@ -432,6 +434,7 @@ class TrialBalance
     public function bankBalanceCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
 
+        $common = new CommonFunc();
 
         $chart_bank = 7;
 
@@ -446,7 +449,7 @@ class TrialBalance
         $temp_data = $this->getBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
 
         // should we go further calculation, check the diff
-        if (!erp_acct_has_date_diff($tb_start_date, $closest_fy_date['start_date'])) {
+        if (!$common->hasDateDiff($tb_start_date, $closest_fy_date['start_date'])) {
             return $temp_data;
         } else {
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($tb_start_date)));
@@ -478,6 +481,8 @@ class TrialBalance
     {
 
 
+        $common = new CommonFunc();
+
         // get closest financial year id and start date
         $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
 
@@ -491,7 +496,7 @@ class TrialBalance
         }
 
         // should we go further calculation, check the diff
-        if (!erp_acct_has_date_diff($tb_start_date, $closest_fy_date['start_date'])) {
+        if (!$common->hasDateDiff($tb_start_date, $closest_fy_date['start_date'])) {
             return $balance;
         } else {
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($tb_start_date)));
@@ -590,6 +595,7 @@ class TrialBalance
     public function ownersEquityCalcWithOpeningBalance($tb_start_date, $data, $sql, $type)
     {
 
+        $common = new CommonFunc();
 
         // get closest financial year id and start date
         $closest_fy_date = $this->getClosestFnYearDate($tb_start_date);
@@ -604,7 +610,7 @@ class TrialBalance
         }
 
         // should we go further calculation, check the diff
-        if (!erp_acct_has_date_diff($tb_start_date, $closest_fy_date['start_date'])) {
+        if (!$common->hasDateDiff($tb_start_date, $closest_fy_date['start_date'])) {
             return $balance;
         } else {
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($tb_start_date)));
@@ -654,7 +660,7 @@ class TrialBalance
         $where = '';
 
         if ($chart_id) {
-            $where = 'AND ledger.chart_id = %d'. $chart_id;
+            $where = 'AND ledger.chart_id = %d' . $chart_id;
         }
 
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
@@ -706,7 +712,7 @@ class TrialBalance
             FROM erp_acct_opening_balances
             WHERE financial_year_id = %d AND type = 'tax_agency' GROUP BY ledger_id {$having} ) AS opb";
 
-        return DB::select($sql,[$id]);
+        return DB::select($sql, [$id]);
     }
 
     /**

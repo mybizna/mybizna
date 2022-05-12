@@ -65,10 +65,6 @@ class CustomersController extends Controller
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -88,7 +84,7 @@ class CustomersController extends Controller
 
         if (empty($id) || empty($item['id'])) {
             messageBag()->add('rest_customer_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $photo_id = $people->peopleGetMeta($id, 'photo_id', true);
@@ -112,11 +108,8 @@ class CustomersController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
         $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
-        
+
         return response()->json($item);
-
-        
-
     }
 
     /**
@@ -132,7 +125,7 @@ class CustomersController extends Controller
         $common = new CommonFunc();
         if ($common->existPeople($request['email'])) {
             messageBag()->add('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
-            return ;
+            return;
         }
 
         $item = $this->prepareItemFDatabase($request);
@@ -148,8 +141,6 @@ class CustomersController extends Controller
 
         $response = $this->prepareItemForResponse($customer, $request, $additional_fields);
         return response()->json($response);
-
-        
     }
 
     /**
@@ -168,7 +159,7 @@ class CustomersController extends Controller
 
         if (!$item) {
             messageBag()->add('rest_customer_invalid_id', __('Invalid resource id.'), ['status' => 400]);
-            return ;
+            return;
         }
 
         $item = $this->prepareItemFDatabase($request);
@@ -185,9 +176,6 @@ class CustomersController extends Controller
 
         $response = $this->prepareItemForResponse($customer, $request, $additional_fields);
         return response()->json($response);
-        
-
-        
     }
 
     /**
@@ -205,7 +193,7 @@ class CustomersController extends Controller
         $exist = $people->checkAssociatedTranasaction($id);
 
         if ($exist) {
-             messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+            messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
             return false;
         }
@@ -223,7 +211,7 @@ class CustomersController extends Controller
 
         $this->addLog($customer, 'delete');
 
-        return response()->json({'status': true});;
+        return response()->json(['status' => true]);;
     }
 
     /**
@@ -248,7 +236,7 @@ class CustomersController extends Controller
             $exist = $people->checkAssociatedTranasaction($id);
 
             if ($exist) {
-                 messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+                messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
                 return false;
             }
@@ -263,7 +251,7 @@ class CustomersController extends Controller
             $this->addLog($customer, 'delete');
         }
 
-        return response()->json({'status': true});;
+        return response()->json(['status' => true]);;
     }
 
     /**
@@ -299,8 +287,6 @@ class CustomersController extends Controller
             'state'   => $state,
         ];
         return response()->json($response);
-
-        
     }
 
     /**
@@ -323,7 +309,6 @@ class CustomersController extends Controller
         ];
         $transactions = $people->getPeopleTransactions($args);
         return response()->json($transactions);
-
     }
 
     /**

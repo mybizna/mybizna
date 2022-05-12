@@ -18,25 +18,24 @@ class CurrenciesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getCurrencies( Request $request ) {
+    public function getCurrencies(Request $request)
+    {
         $additional_fields = [];
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
         $items       = $currencies->getAllCurrencies();
-        $total_items = $currencies->getAllCurrencies( true );
+        $total_items = $currencies->getAllCurrencies(true);
 
         $formatted_items = [];
 
-        foreach ( $items as $item ) {
-            $data              = $this->prepareItemForResponse( $item, $request, $additional_fields );
-            $formatted_items[] = $this->prepareResponseForCollection( $data );
+        foreach ($items as $item) {
+            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
+            $formatted_items[] = $this->prepareResponseForCollection($data);
         }
 
-        return response()->json( $formatted_items );
-
-        
+        return response()->json($formatted_items);
     }
 
     /**
@@ -48,7 +47,8 @@ class CurrenciesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepareItemForResponse( $item, Request $request, $additional_fields = [] ) {
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
+    {
         $item = (object) $item;
 
         $data = [
@@ -57,7 +57,7 @@ class CurrenciesController extends Controller
             'sign' => $item->sign,
         ];
 
-        $data = array_merge( $data, $additional_fields );
+        $data = array_merge($data, $additional_fields);
 
 
         return $data;
@@ -68,30 +68,31 @@ class CurrenciesController extends Controller
      *
      * @return array
      */
-    public function getItemSchema() {
+    public function getItemSchema()
+    {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'journal',
             'type'       => 'object',
             'properties' => [
                 'id'   => [
-                    'description' => __( 'Unique identifier for the resource.' ),
+                    'description' => __('Unique identifier for the resource.'),
                     'type'        => 'integer',
-                    'context'     => [ 'embed', 'view', 'edit' ],
+                    'context'     => ['embed', 'view', 'edit'],
                     'readonly'    => true,
                 ],
                 'name' => [
-                    'description' => __( 'Name for the resource.' ),
+                    'description' => __('Name for the resource.'),
                     'type'        => 'string',
-                    'context'     => [ 'edit' ],
+                    'context'     => ['edit'],
                     'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
                 ],
                 'sign' => [
-                    'description' => __( 'Sign for the resource.' ),
+                    'description' => __('Sign for the resource.'),
                     'type'        => 'string',
-                    'context'     => [ 'edit' ],
+                    'context'     => ['edit'],
                     'arg_options' => [
                         'sanitize_callback' => 'sanitize_text_field',
                     ],

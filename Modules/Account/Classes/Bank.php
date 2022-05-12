@@ -121,7 +121,7 @@ class Bank
         $banks = $ledger->getLedgersByChartId(7);
 
         if ($bank_only && empty($banks)) {
-              messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'));
+            messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'));
             return false;
         }
 
@@ -285,7 +285,7 @@ class Bank
 
         $result = DB::select("SELECT ledger_id, SUM(credit) - SUM(debit) AS 'balance' FROM erp_acct_ledger_details WHERE ledger_id = {$ledger_id}");
 
-        return  (!empty($result)) ? $result[0] : null;
+        return (!empty($result)) ? $result[0] : null;
     }
 
     /**
@@ -429,7 +429,7 @@ class Bank
      * Get transferrable accounts
      *
      * @param boolean $show_balance Show Balance
-     * 
+     *
      * @return array
      */
     public function getTransferAccounts($show_balance = false)

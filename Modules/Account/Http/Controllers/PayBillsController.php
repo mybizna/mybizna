@@ -57,10 +57,6 @@ class PayBillsController extends Controller
         }
 
         return response()->json($formatted_items);
-
-
-
-
     }
 
     /**
@@ -77,7 +73,7 @@ class PayBillsController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $paybills->getPayBill($id);
@@ -87,10 +83,6 @@ class PayBillsController extends Controller
         $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
 
         return response()->json($item);
-
-
-
-
     }
 
     /**
@@ -125,10 +117,6 @@ class PayBillsController extends Controller
         $pay_bill_data = $this->prepareItemForResponse($pay_bill_data, $request, $additional_fields);
 
         return response()->json($pay_bill_data);
-
-
-
-
     }
 
     /**
@@ -145,7 +133,7 @@ class PayBillsController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $pay_bill_data = $this->prepareItemFDatabase($request);
@@ -173,10 +161,6 @@ class PayBillsController extends Controller
         $pay_bill_response = $this->prepareItemForResponse($pay_bill_data, $request, $additional_fields);
 
         return response()->json($pay_bill_response);
-
-
-
-
     }
 
     /**
@@ -193,7 +177,7 @@ class PayBillsController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $old_data = $paybills->getPayBill($id);
@@ -202,7 +186,7 @@ class PayBillsController extends Controller
 
         $this->addLog($old_data, 'delete');
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**

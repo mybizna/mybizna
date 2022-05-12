@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\Transactions;
 
 use Illuminate\Support\Facades\DB;
 
@@ -22,16 +23,12 @@ class TransactionsController extends Controller
     public function get_transaction_type(Request $request)
     {
         $trans = new Transactions();
-        $trans = new Transactions();
+
         $voucher_no = !empty($request['voucher_no']) ? $request['voucher_no'] : 0;
 
         $voucher_type = $trans->getTransactionType($voucher_no);
 
         return response()->json($voucher_type);
-
-        
-
-        
     }
 
     /**
@@ -48,10 +45,6 @@ class TransactionsController extends Controller
         $statuses = DB::select("SELECT id, type_name as name, slug FROM erp_acct_trn_status_types", ARRAY_A);
 
         return response()->json($statuses);
-
-        
-
-        
     }
 
     /**
@@ -100,10 +93,6 @@ class TransactionsController extends Controller
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -120,10 +109,6 @@ class TransactionsController extends Controller
         $chart_status = $trans->getSalesChartStatus($args);
 
         return response()->json($chart_status);
-
-        
-
-        
     }
 
     /**
@@ -139,10 +124,6 @@ class TransactionsController extends Controller
         $chart_payment = $thtransis->getSalesChartPayment($args);
 
         return response()->json($chart_payment);
-
-        
-
-        
     }
 
     /**
@@ -157,10 +138,6 @@ class TransactionsController extends Controller
         $data = $this->getIncomeExpenseChartData();
 
         return response()->json($data);
-
-        
-
-        
     }
 
     /**
@@ -186,10 +163,6 @@ class TransactionsController extends Controller
         $chart_payment['payable'] = $bill_payment['payable'] + $expense_payment['payable'];
 
         return response()->json($chart_payment);
-
-        
-
-        
     }
 
     /**
@@ -220,10 +193,6 @@ class TransactionsController extends Controller
         }
 
         return response()->json($chart_statuses);
-
-        
-
-        
     }
 
     /**
@@ -271,10 +240,6 @@ class TransactionsController extends Controller
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -295,10 +260,6 @@ class TransactionsController extends Controller
         $chart_payment = $trans->getPurchaseChartData($args);
 
         return response()->json($chart_payment);
-
-        
-
-        
     }
 
     /**
@@ -318,10 +279,6 @@ class TransactionsController extends Controller
         $chart_status = $this->getPurchaseChartStatus($args);
 
         return response()->json($chart_status);
-
-        
-
-        
     }
 
     /**
@@ -369,10 +326,6 @@ class TransactionsController extends Controller
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -395,15 +348,12 @@ class TransactionsController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_voucher_type_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
-        $response = $trans>getTransactionType($id);
+        $response = $trans > getTransactionType($id);
 
         return response()->json($response);
-        
-
-        
     }
 
     /**
@@ -478,7 +428,7 @@ class TransactionsController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_trn_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $response = [
@@ -493,8 +443,6 @@ class TransactionsController extends Controller
             $response['status']  = 200;
             $response['message'] = 'mail sent successfully.';
         }
-
-        
     }
 
     /**
@@ -519,10 +467,6 @@ class TransactionsController extends Controller
         $chart_payment['payable'] = $bill_payment['payable'] + $expense_payment['payable'] + $sales_payment['outstanding'] + $purchase_payment['payable'];
 
         return response()->json($chart_payment);
-
-        
-
-        
     }
 
     /**
@@ -541,8 +485,7 @@ class TransactionsController extends Controller
         $chart_statuses    = $trans->getBillChartStatus($args);
         $expense_status    = $trans->getExpenseChartStatus($args);
         $sales_statuses    = $trans->getSalesChartStatus($args);
-        $purchase_statuses = $trans->function getPurchaseChartStatus( $args = [] ) {
-            ($args);
+        $purchase_statuses = $trans->getPurchaseChartStatus($args);
 
         foreach ($chart_statuses as $key => $item) {
             $chart_statuses[$key]['sub_total'] = (int) $chart_statuses[$key]['sub_total'];
@@ -592,9 +535,5 @@ class TransactionsController extends Controller
         }
 
         return response()->json($statuses);
-
-        
-
-        
     }
 }

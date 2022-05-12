@@ -181,7 +181,7 @@ class PayPurchasesController extends Controller
 
         $this->addLog($item, 'delete');
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**

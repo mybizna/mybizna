@@ -268,6 +268,7 @@ class Bills
     {
 
         $common = new CommonFunc();
+        $trans = new Transactions();
 
         $user_id    = auth()->user()->id;
         $draft      = 1;
@@ -326,7 +327,6 @@ class Bills
                         $bill_id,
                         $voucher_no
                     ]
-
                 );
 
                 $items = $old_bill['bill_details'];
@@ -485,13 +485,16 @@ class Bills
      */
     public function getFormattedBillData($data, $voucher_no)
     {
+
+        $people_obj = new People();
+
         $bill_data = [];
 
-        $vendor = $people->getPeople($data['vendor_id']);
+        $vendor = $people_obj->getPeople($data['vendor_id']);
 
         $bill_data['voucher_no']      = !empty($voucher_no) ? $voucher_no : 0;
         $bill_data['vendor_id']       = isset($data['vendor_id']) ? $data['vendor_id'] : 1;
-        $bill_data['vendor_name']     = isset($vendor) ? $vendor->first_name . ' ' . $vendor->last_name : '';
+        $bill_data['vendor_name']     = isset($vendor) ? $vendor['first_name'] . ' ' . $vendor['last_name'] : '';
         $bill_data['billing_address'] = isset($data['billing_address']) ? $data['billing_address'] : '';
         $bill_data['trn_date']        = isset($data['trn_date']) ? $data['trn_date'] : date('Y-m-d');
         $bill_data['due_date']        = isset($data['due_date']) ? $data['due_date'] : date('Y-m-d');

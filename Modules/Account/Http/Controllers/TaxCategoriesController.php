@@ -6,6 +6,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\TaxCats;
+
 
 use Illuminate\Support\Facades\DB;
 
@@ -56,10 +58,6 @@ class TaxCategoriesController extends Controller
         }
 
         return response()->json($formatted_items);
-
-
-
-
     }
 
     /**
@@ -71,11 +69,13 @@ class TaxCategoriesController extends Controller
      */
     public function getTaxCat(Request $request)
     {
+        $taxcats = new TaxCats();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $taxcats->getTaxCat($id);
@@ -85,10 +85,6 @@ class TaxCategoriesController extends Controller
 
         $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
-
-
-
-
     }
 
     /**
@@ -100,6 +96,8 @@ class TaxCategoriesController extends Controller
      */
     public function createTaxCat(Request $request)
     {
+        $tax_cat = new TaxCats();
+
         $tax_data = $this->prepareItemFDatabase($request);
 
         $tax_id = $taxcats->insertTaxCat($tax_data);
@@ -114,9 +112,6 @@ class TaxCategoriesController extends Controller
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-
-
-
     }
 
     /**
@@ -128,11 +123,14 @@ class TaxCategoriesController extends Controller
      */
     public function updateTaxCat(Request $request)
     {
+
+        $taxcats = new TaxCats();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $tax_data = $this->prepareItemFDatabase($request);
@@ -157,9 +155,6 @@ class TaxCategoriesController extends Controller
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
         return response()->json($tax_data);
-
-
-
     }
 
     /**
@@ -171,11 +166,14 @@ class TaxCategoriesController extends Controller
      */
     public function deleteTaxCat(Request $request)
     {
+
+        $taxcats = new TaxCats();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $taxcats->getTaxCat($id);
@@ -184,7 +182,7 @@ class TaxCategoriesController extends Controller
 
         $this->addLog($item, 'delete');
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**
@@ -196,6 +194,9 @@ class TaxCategoriesController extends Controller
      */
     public function bulkDelete(Request $request)
     {
+
+        $taxcats = new TaxCats();
+
         $ids = $request['ids'];
         $ids = explode(',', $ids);
 
@@ -211,7 +212,7 @@ class TaxCategoriesController extends Controller
             $this->addLog($item, 'delete');
         }
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**

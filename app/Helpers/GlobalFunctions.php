@@ -24,6 +24,11 @@ function do_action()
 {
 }
 
+function current_user_can()
+{
+    return true;
+}
+
 function wp_list_pluck()
 {
 }
@@ -37,4 +42,28 @@ function get_ledger_id_by_slug($slug)
     }
 
     return false;
+}
+
+function esc_attr__($str)
+{
+    return $str;
+}
+
+function esc_attr($str)
+{
+    return $str;
+}
+
+function maybe_unserialize($str)
+{
+    return $str;
+}
+
+function maybe_serialize($str)
+{
+    return $str;
+}
+
+function get_user_meta($field, $user_id)
+{
 }

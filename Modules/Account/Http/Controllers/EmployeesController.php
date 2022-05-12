@@ -50,11 +50,8 @@ class EmployeesController extends Controller
             $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
             $formatted_items[] = $this->prepareResponseForCollection($data);
         }
-        
-        return response()->json($formatted_items);
-        
 
-        
+        return response()->json($formatted_items);
     }
 
     /**
@@ -76,7 +73,7 @@ class EmployeesController extends Controller
 
         if (empty($item['id'])) {
             messageBag()->add('rest_employee_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item['designation']  = $employee->get_designation('view');
@@ -89,10 +86,6 @@ class EmployeesController extends Controller
 
         $item     = $this->prepare_employee_item_for_response($item, $request, $additional_fields);
         return response()->json($item);
-
-        
-
-        
     }
 
     /**
@@ -150,9 +143,6 @@ class EmployeesController extends Controller
     {
         // Wrap the data in a response object
         return response()->json($item);
-
-
-        
     }
 
     /**

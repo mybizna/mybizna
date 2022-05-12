@@ -57,8 +57,6 @@ class BillsController extends Controller
         }
 
         return response()->json($formatted_items);
-
-        
     }
 
     /**
@@ -75,7 +73,7 @@ class BillsController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $bill_data = $bills->getBill($id);
@@ -86,9 +84,6 @@ class BillsController extends Controller
         $formatted_items = $this->prepareResponseForCollection($data);
 
         return  response()->json($formatted_items);
-
-
-        
     }
 
     /**
@@ -125,8 +120,6 @@ class BillsController extends Controller
 
         $bill_data = $this->prepareItemForResponse($bill, $request, $additional_fields);
         return response()->json($bill_data);
-
-        
     }
 
     /**
@@ -144,14 +137,14 @@ class BillsController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
             messageBag()->add('rest_bill_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
-            return ;
+            return;
         }
 
         $bill_data = $this->prepareItemFDatabase($request);
@@ -180,8 +173,6 @@ class BillsController extends Controller
         $bill_data = $this->prepareItemForResponse($bill, $request, $additional_fields);
 
         return response()->json($bill_data);
-
-        
     }
 
     /**
@@ -199,12 +190,12 @@ class BillsController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $bills->voidBill($id);
 
-        return response()->json({'status': true});;
+        return response()->json(['status' => true]);
     }
 
     /**
@@ -220,7 +211,7 @@ class BillsController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'));
-            return ;
+            return;
         }
 
         $args = [
@@ -257,8 +248,6 @@ class BillsController extends Controller
         }
 
         return response()->json($formatted_items);
-
-        
     }
 
     /**
@@ -273,9 +262,6 @@ class BillsController extends Controller
         $common = new CommonFunc();
         $items    = $common->getPayables();
         return response()->json($items);
-
-
-        
     }
 
     /**

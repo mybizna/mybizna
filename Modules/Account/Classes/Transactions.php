@@ -508,7 +508,7 @@ class Transactions
         ];
 
         $result = array_map(
-            public function ($item) {
+            function ($item) {
                 $item['month']   = date('M', mktime(0, 0, 0, $item['month']));
                 $item['balance'] = abs($item['balance']);
 
@@ -582,7 +582,7 @@ class Transactions
     public function formatDailyDataToYearlyData($result)
     {
         $result = array_map(
-            public function ($item) {
+            function ($item) {
                 $item['day']     = date('d-m', strtotime($item['day']));
                 $item['balance'] = abs($item['balance']);
 
@@ -820,7 +820,7 @@ class Transactions
      * Generate transaction pdf by voucher_no
      *
      * @param int $voucher_no Voucher Number
-     * 
+     *
      * @return void
      */
     public function generateTransactionPdf($voucher_no)
@@ -1587,266 +1587,264 @@ class Transactions
                 $emailer->trigger($receiver, $pdf_file, $voucher_no, $company);
             }
         }
+    }
 
 
-        /**
-         * Get voucher type by id
-         *
-         * @param int $voucher_no Voucher Number
-         *
-         * @return string|null
-         */
-        public function getTransactionType($voucher_no)
-        {
+    /**
+     * Get voucher type by id
+     *
+     * @param int $voucher_no Voucher Number
+     *
+     * @return string|null
+     */
+    public function getTransactionType($voucher_no)
+    {
 
 
-            return DB::scalar("SELECT type FROM erp_acct_voucher_no WHERE id = %d", [$voucher_no]);
+        return DB::scalar("SELECT type FROM erp_acct_voucher_no WHERE id = %d", [$voucher_no]);
+    }
+
+    /**
+     * @param $transaction_id
+     *
+     * @return mixed
+     */
+    public function getTransaction($transaction_id)
+    {
+        $invoices = new Invoices();
+        $recpayments = new RecPayments();
+        $bills = new Bills();
+        $paybills = new PayBills();
+        $purchases = new Purchases();
+        $pay_purchases = new PayPurchases();
+        $bank = new Bank();
+
+        $transaction = [];
+
+        $transaction_type = $this->getTransactionType($transaction_id);
+        $link_hash        = $this->getInvoiceLinkHash($transaction_id, $transaction_type);
+        $readonly_url     = add_query_arg(
+            [
+                'query'    => 'readonly_invoice',
+                'trans_id' => $transaction_id,
+                'auth'     => $link_hash,
+            ],
+            site_url()
+        );
+
+        switch ($transaction_type) {
+            case 'invoice':
+                $transaction = $invoices->getInvoice($transaction_id);
+                break;
+
+            case 'payment':
+                $transaction = $recpayments->getPayment($transaction_id);
+                break;
+
+            case 'bill':
+                $transaction = $bills->getBill($transaction_id);
+                break;
+
+            case 'pay_bill':
+                $transaction = $paybills->getPayBill($transaction_id);
+                break;
+
+            case 'purchase':
+                $transaction = $purchases->getPurchases($transaction_id);
+                break;
+
+            case 'pay_purchase':
+                $transaction = $pay_purchases->getPayPurchase($transaction_id);
+                break;
+
+            case 'expense':
+            case 'check':
+                $transaction = $this->getExpense($transaction_id);
+                break;
+
+            case 'transfer_voucher':
+                $transaction = $bank->getSingleVoucher($transaction_id);
+                break;
+            default:
+                break;
         }
 
-        /**
-         * @param $transaction_id
-         *
-         * @return mixed
-         */
-        public function getTransaction($transaction_id)
-        {
-            $invoices = new Invoices();
-            $recpayments = new RecPayments();
-            $bills = new Bills();
-            $paybills = new PayBills();
-            $purchases = new Purchases();
-            $pay_purchases = new PayPurchases();
-            $bank = new Bank();
+        $transaction['type']         = $transaction_type;
+        $transaction['readonly_url'] = $readonly_url;
 
-            $transaction = [];
+        return $transaction;
+    }
 
-            $transaction_type = $this->getTransactionType($transaction_id);
-            $link_hash        = $this->getInvoiceLinkHash($transaction_id, $transaction_type);
-            $readonly_url     = add_query_arg(
-                [
-                    'query'    => 'readonly_invoice',
-                    'trans_id' => $transaction_id,
-                    'auth'     => $link_hash,
-                ],
-                site_url()
-            );
+    /**
+     * Varify transaction hash
+     *
+     * @param int    $transaction_id   Transaction ID
+     * @param string $transaction_type Transaction Type
+     * @param string $hash_to_verify   Hash To Verify
+     * @param string $algo             Algo
+     *
+     * @return bool
+     */
+    public function verifyInvoiceLinkHash($transaction_id, $transaction_type, $hash_to_verify = '', $algo = 'sha256')
+    {
+        if ($transaction_id && $transaction_type && $hash_to_verify) {
+            $to_hash       = $transaction_id . $transaction_type;
+            $hash_original = hash($algo, $to_hash);
 
-            switch ($transaction_type) {
-                case 'invoice':
-                    $transaction = $invoices->getInvoice($transaction_id);
-                    break;
-
-                case 'payment':
-                    $transaction = $recpayments->getPayment($transaction_id);
-                    break;
-
-                case 'bill':
-                    $transaction = $bills->getBill($transaction_id);
-                    break;
-
-                case 'pay_bill':
-                    $transaction = $paybills->getPayBill($transaction_id);
-                    break;
-
-                case 'purchase':
-                    $transaction = $purchases->getPurchases($transaction_id);
-                    break;
-
-                case 'pay_purchase':
-                    $transaction = $pay_purchases->getPayPurchase($transaction_id);
-                    break;
-
-                case 'expense':
-                case 'check':
-                    $transaction = $this->getExpense($transaction_id);
-                    break;
-
-                case 'transfer_voucher':
-                    $transaction = $bank->getSingleVoucher($transaction_id);
-                    break;
-                default:
-                    break;
+            if ($hash_original === $hash_to_verify) {
+                return true;
             }
-
-            $transaction['type']         = $transaction_type;
-            $transaction['readonly_url'] = $readonly_url;
-
-            return $transaction;
         }
 
-        /**
-         * Varify transaction hash
-         *
-         * @param int    $transaction_id   Transaction ID
-         * @param string $transaction_type Transaction Type
-         * @param string $hash_to_verify   Hash To Verify
-         * @param string $algo             Algo
-         *
-         * @return bool
-         */
-        public function verifyInvoiceLinkHash($transaction_id, $transaction_type, $hash_to_verify = '', $algo = 'sha256')
-        {
-            if ($transaction_id && $transaction_type && $hash_to_verify) {
-                $to_hash       = $transaction_id . $transaction_type;
-                $hash_original = hash($algo, $to_hash);
+        return false;
+    }
 
-                if ($hash_original === $hash_to_verify) {
-                    return true;
-                }
-            }
+    /**
+     * Get unique transaction hash for sharing
+     *
+     * @param int    $transaction_id   Transaction ID
+     * @param string $transaction_type Transaction Type
+     * @param string $algo             Algo
+     *
+     * @return string
+     */
+    public function getInvoiceLinkHash($transaction_id, $transaction_type, $algo = 'sha256')
+    {
+        $hash_string = '';
 
-            return false;
+        if ($transaction_id && $transaction_type) {
+            $to_hash     = $transaction_id . $transaction_type;
+            $hash_string = hash($algo, $to_hash);
         }
 
-        /**
-         * Get unique transaction hash for sharing
-         *
-         * @param int    $transaction_id   Transaction ID
-         * @param string $transaction_type Transaction Type
-         * @param string $algo             Algo
-         *
-         * @return string
-         */
-        public function getInvoiceLinkHash($transaction_id, $transaction_type, $algo = 'sha256')
-        {
-            $hash_string = '';
+        return $hash_string;
+    }
 
-            if ($transaction_id && $transaction_type) {
-                $to_hash     = $transaction_id . $transaction_type;
-                $hash_string = hash($algo, $to_hash);
-            }
+    /**
+     * Get pdf file name
+     *
+     * @param int $voucher_no Voucher Number
+     *
+     * @return string
+     */
+    public function getPdfFilename($voucher_no)
+    {
+        $inv_dir = WP_CONTENT_DIR . '/uploads/erp-pdfs/';
 
-            return $hash_string;
+        if (!file_exists($inv_dir)) {
+            mkdir($inv_dir, 0777, true);
         }
 
-        /**
-         * Get pdf file name
-         *
-         * @param int $voucher_no Voucher Number
-         *
-         * @return string
-         */
-        public function getPdfFilename($voucher_no)
-        {
-            $inv_dir = WP_CONTENT_DIR . '/uploads/erp-pdfs/';
+        $pdf_file = $inv_dir . "voucher_{$voucher_no}.pdf";
 
-            if (!file_exists($inv_dir)) {
-                mkdir($inv_dir, 0777, true);
-            }
+        return $pdf_file;
+    }
 
-            $pdf_file = $inv_dir . "voucher_{$voucher_no}.pdf";
-
-            return $pdf_file;
-        }
-
-        /**
-         * Insert data into `erp_acct_people_trn_details` table
-         *
-         * @param object $transaction Transaction
-         * @param int    $voucher_no  Voucher Number
-         * 
-         * @return void
-         */
-        public function insertDataIntoPeopleTrnDetails($transaction, $voucher_no)
-        {
+    /**
+     * Insert data into `erp_acct_people_trn_details` table
+     *
+     * @param object $transaction Transaction
+     * @param int    $voucher_no  Voucher Number
+     *
+     * @return void
+     */
+    public function insertDataIntoPeopleTrnDetails($transaction, $voucher_no)
+    {
 
 
-            $data = [];
+        $data = [];
 
-            if (!empty($transaction['customer_id'])) {
-                $people_id = $transaction['customer_id'];
+        if (!empty($transaction['customer_id'])) {
+            $people_id = $transaction['customer_id'];
+        } else {
+            if (!empty($transaction['vendor_id'])) {
+                $people_id = $transaction['vendor_id'];
             } else {
-                if (!empty($transaction['vendor_id'])) {
-                    $people_id = $transaction['vendor_id'];
-                } else {
-                    $people_id = $transaction['people_id'];
-                }
+                $people_id = $transaction['people_id'];
             }
-
-            $date = !empty($transaction['trn_date']) ? $transaction['trn_date'] : $transaction['date'];
-
-            DB::table('erp_acct_people_trn_details')
-                ->insert(
-                    [
-                        'people_id'   => $people_id,
-                        'voucher_no'  => $voucher_no,
-                        'debit'       => $transaction['dr'],
-                        'credit'      => $transaction['cr'],
-                        'trn_date'    => $date,
-                        'particulars' => $transaction['particulars'],
-                        'created_at'  => $transaction['created_at'],
-                        'created_by'  => $transaction['created_by'],
-                        'updated_at'  => $transaction['updated_at'],
-                        'updated_by'  => $transaction['updated_by'],
-                    ]
-                );
         }
 
-        /**
-         * Update data into `erp_acct_people_trn_details` table
-         *
-         * @param object $transaction Transaction
-         * @param int    $voucher_no  Voucher Number
-         * 
-         * @return void
-         */
-        public function updateDataIntoPeopleTrnDetails($transaction, $voucher_no)
-        {
+        $date = !empty($transaction['trn_date']) ? $transaction['trn_date'] : $transaction['date'];
 
+        DB::table('erp_acct_people_trn_details')
+            ->insert(
+                [
+                    'people_id'   => $people_id,
+                    'voucher_no'  => $voucher_no,
+                    'debit'       => $transaction['dr'],
+                    'credit'      => $transaction['cr'],
+                    'trn_date'    => $date,
+                    'particulars' => $transaction['particulars'],
+                    'created_at'  => $transaction['created_at'],
+                    'created_by'  => $transaction['created_by'],
+                    'updated_at'  => $transaction['updated_at'],
+                    'updated_by'  => $transaction['updated_by'],
+                ]
+            );
+    }
 
-            DB::table('erp_acct_people_trn_details')->where([['voucher_no' => $voucher_no]])->delete();
-        }
+    /**
+     * Update data into `erp_acct_people_trn_details` table
+     *
+     * @param object $transaction Transaction
+     * @param int    $voucher_no  Voucher Number
+     *
+     * @return void
+     */
+    public function updateDataIntoPeopleTrnDetails($transaction, $voucher_no)
+    {
+        DB::table('erp_acct_people_trn_details')->where([['voucher_no' => $voucher_no]])->delete();
+    }
 
-        /**
-         * Return url from a absolute path
-         *
-         * @param int $voucher_no Voucher Number
-         *
-         * @return string
-         */
-        public function pdfAbsPathToUrl($voucher_no)
-        {
-            $upload_url = wp_upload_dir();
-            $url        = $upload_url['baseurl'] . '/erp-pdfs/' . "voucher_{$voucher_no}.pdf";
+    /**
+     * Return url from a absolute path
+     *
+     * @param int $voucher_no Voucher Number
+     *
+     * @return string
+     */
+    public function pdfAbsPathToUrl($voucher_no)
+    {
+        $upload_url = wp_upload_dir();
+        $url        = $upload_url['baseurl'] . '/erp-pdfs/' . "voucher_{$voucher_no}.pdf";
 
-            return esc_url_raw($url);
-        }
+        return esc_url_raw($url);
+    }
 
-        /**
-         * Get formatted transaction status for pdf voucher
-         *
-         * @param int|string $trn_status Transaction Status
-         *
-         * @return $string
-         */
-        public function getFormattedStatus($trn_status)
-        {
-            $common = new CommonFunc();
-            $trn_status = $common->getTrnStatusById($trn_status);
-            $trn_status = explode('_', $trn_status);
-            $status     = '';
+    /**
+     * Get formatted transaction status for pdf voucher
+     *
+     * @param int|string $trn_status Transaction Status
+     *
+     * @return $string
+     */
+    public function getFormattedStatus($trn_status)
+    {
+        $common = new CommonFunc();
+        $trn_status = $common->getTrnStatusById($trn_status);
+        $trn_status = explode('_', $trn_status);
+        $status     = '';
 
-            foreach ($trn_status as $i => $ts) {
-                $status .= strtoupper($ts);
+        foreach ($trn_status as $i => $ts) {
+            $status .= strtoupper($ts);
 
-                if ($i < count($trn_status) - 1) {
-                    $status .= ' ';
-                }
+            if ($i < count($trn_status) - 1) {
+                $status .= ' ';
             }
-
-            return $status;
         }
 
-        /**
-         * Formats amount with currency in appropriate form.
-         *
-         * @param int|float|string $amount Amount
-         *
-         * @return string
-         */
-        public function formatAmount($amount)
-        {
-            return str_replace('&nbsp;', ' ', $this->getPrice($amount));
-        }
+        return $status;
+    }
+
+    /**
+     * Formats amount with currency in appropriate form.
+     *
+     * @param int|float|string $amount Amount
+     *
+     * @return string
+     */
+    public function formatAmount($amount)
+    {
+        return str_replace('&nbsp;', ' ', $this->getPrice($amount));
     }
 }

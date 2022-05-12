@@ -129,6 +129,7 @@ class PayPurchases
     public function insertPayPurchase($data)
     {
 
+        $trans = new Transactions();
         $people = new People();
         $bank = new Bank();
         $common = new CommonFunc();

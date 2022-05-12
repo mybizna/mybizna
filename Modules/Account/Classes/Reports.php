@@ -2,7 +2,6 @@
 
 namespace Modules\Account\Classes;
 
-
 use Modules\Account\Classes\Reports\TrialBalance;
 
 use Illuminate\Support\Facades\DB;
@@ -19,7 +18,7 @@ class Reports
     /**
      * get ledger report
      *
-     * @param int    $ledger_id  Ledger Id 
+     * @param int    $ledger_id  Ledger Id
      * @param string $start_date Start Date
      * @param string $end_date   End Date
      *
@@ -28,6 +27,7 @@ class Reports
     public function getLedgerReport($ledger_id, $start_date, $end_date)
     {
         $trialbal = new TrialBalance();
+        $common = new CommonFunc();
 
 
 
@@ -38,7 +38,7 @@ class Reports
         $opening_balance = (float) $this->ledgerReportOpeningBalanceByFnYearId($closest_fy_date['id'], $ledger_id);
 
         // should we go further calculation, check the diff
-        if (erp_acct_has_date_diff($start_date, $closest_fy_date['start_date'])) {
+        if ($common->hasDateDiff($start_date, $closest_fy_date['start_date'])) {
             $prev_date_of_start = date('Y-m-d', strtotime('-1 day', strtotime($start_date)));
 
             $sql1 =
@@ -296,26 +296,23 @@ class Reports
         $values       = [$args['start_date'], $args['end_date']];
 
         if (!empty($args['customer_id'])) {
-
             $sql['select'] = 'inv.trn_date, inv.voucher_no, inv.tax AS tax_amount, inv.customer_id, inv.customer_name';
             $sql['where'] .= " AND inv.tax > 0 AND inv.customer_id = %d";
             $values[]      = $args['customer_id'];
-        } else if (!empty($args['category_id'])) {
-
+        } elseif (!empty($args['category_id'])) {
             $sql['select'] = 'inv.trn_date, details.trn_no AS voucher_no, sum(details.tax) AS tax_amount, details.tax_cat_id';
             $sql['from']  .= " RIGHT JOIN erp_acct_invoice_details AS details ON inv.voucher_no = details.trn_no";
             $sql['where'] .= " AND details.tax > 0 AND details.tax_cat_id = %d";
             $sql['extra'] .= "GROUP BY details.trn_no";
             $values[]      = $args['category_id'];
         } else {
-
             $sql['select'] = 'inv.trn_date, inv.voucher_no, inv.tax AS tax_amount';
             $sql['where'] .= " AND inv.tax > 0";
         }
 
         return DB::select(
-                "SELECT {$sql['select']} FROM {$sql['from']} WHERE {$sql['where']} {$sql['extra']}",
-                [$values]
+            "SELECT {$sql['select']} FROM {$sql['from']} WHERE {$sql['where']} {$sql['extra']}",
+            [$values]
         );
     }
 
@@ -327,9 +324,9 @@ class Reports
 
     /**
      * Get income statement
-     * 
+     *
      * @param array $args Income Statement Filter
-     * 
+     *
      * @return array
      */
     public function getIncomeStatement($args)
@@ -365,6 +362,7 @@ class Reports
     {
 
         $trialbal = new TrialBalance();
+        $common = new CommonFunc();
 
 
 
@@ -378,7 +376,7 @@ class Reports
         $temp_data = $this->getIsBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
         $result    = [];
 
-        if (!erp_acct_has_date_diff($is_start_date, $closest_fy_date['start_date'])) {
+        if (!$common->hasDateDiff($is_start_date, $closest_fy_date['start_date'])) {
             return $temp_data;
         } else {
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($is_start_date)));
@@ -400,7 +398,8 @@ class Reports
 
         // get ledger details data between `financial year start date` and `previous date from balance sheet start date`
         $ledger_details = DB::select(
-            $sql, [$closest_fy_date['start_date'], $is_date),
+            $sql,
+            [$closest_fy_date['start_date'], $is_date]
         );
 
         foreach ($temp_data as $temp) {
@@ -698,12 +697,13 @@ class Reports
      * @param array   $data          Data
      * @param string  $sql           Sql
      * @param int     $chart_id      Chart Id
-     * 
+     *
      * @return array
      */
     public function balanceSheetCalculateWithOpeningBalance($bs_start_date, $data, $sql, $chart_id)
     {
         $trialbal = new TrialBalance();
+        $common = new CommonFunc();
 
 
 
@@ -722,7 +722,7 @@ class Reports
         $temp_data = $this->getBsBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
         $result    = [];
 
-        if (!erp_acct_has_date_diff($bs_start_date, $closest_fy_date['start_date'])) {
+        if (!$common->hasDateDiff($bs_start_date, $closest_fy_date['start_date'])) {
             return $temp_data;
         } else {
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($bs_start_date)));
@@ -744,7 +744,8 @@ class Reports
 
         // get ledger details data between `financial year start date` and `previous date from balance sheet start date`
         $ledger_details = DB::select(
-            $sql, [$closest_fy_date['start_date'], $bs_date]
+            $sql,
+            [$closest_fy_date['start_date'], $bs_date]
         );
 
         foreach ($temp_data as $temp) {
@@ -821,7 +822,7 @@ class Reports
         $where = '';
 
         if ($chart_id) {
-            $where = 'AND ledger.chart_id = '.$chart_id;
+            $where = 'AND ledger.chart_id = ' . $chart_id;
         }
 
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
@@ -878,8 +879,8 @@ class Reports
         LEFT JOIN erp_acct_ledger_details AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=5 AND ledger_detail.trn_date BETWEEN '%s' AND '%s'
         GROUP BY ledger_detail.ledger_id";
 
-        $data1 = DB::select($sql1, [$args['start_date'], $args['end_date']);
-        $data2 = DB::select($sql2, [$args['start_date'], $args['end_date']);
+        $data1 = DB::select($sql1, [$args['start_date'], $args['end_date']]);
+        $data2 = DB::select($sql2, [$args['start_date'], $args['end_date']]);
 
         $results['rows1'] = $this->incomeStatementCalculateWithOpeningBalance($args['start_date'], $data1, $sql1, 4);
         $results['rows2'] = $this->incomeStatementCalculateWithOpeningBalance($args['start_date'], $data2, $sql2, 5);

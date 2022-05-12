@@ -728,7 +728,6 @@ class Purchases
             );
 
         if ($purchase_data['tax']) {
-
             $purchase_vat_ledger_id = get_ledger_id_by_slug('purchase_vat');
             if (!$purchase_vat_ledger_id) {
              messageBag()->add('500', __('Ledger ID not found for purchase vat', 'erp'), $purchase_data);
@@ -808,7 +807,7 @@ class Purchases
      * Get due purchases by vendor
      *
      * @param array $args Data Filter
-     * 
+     *
      * @return mixed
      */
     public function getDuePurchasesByVendor($args)

@@ -272,9 +272,7 @@ class PdfInvoicer extends PdfTFPDF
             $positionX = $this->document['w'] - $this->margins['l'] - $this->margins['r'] - $max_ref_width - 35;
 
             if (is_array($this->reference)) {
-
                 foreach ($this->reference as $data) {
-
                     $this->Cell($positionX, $lineheight);
                     $this->SetFont($this->font, '', 9);
                     $this->SetTextColor($this->color[0], $this->color[1], $this->color[2]);
@@ -288,7 +286,6 @@ class PdfInvoicer extends PdfTFPDF
 
         //First page
         if ($this->PageNo() == 1) {
-
             if (($this->margins['t'] + $this->dimensions[1]) > $this->GetY()) {
                 $this->SetY($this->margins['t'] + $this->dimensions[1] + 10);
             } else {
@@ -393,7 +390,6 @@ class PdfInvoicer extends PdfTFPDF
                 $cHeight = $cellHeight;
 
                 foreach ($item as $key => $column) {
-
                     if (0 == $key) {
                         $this->SetFont($this->font, '', 8);
                         $this->SetTextColor(50, 50, 50);
@@ -797,8 +793,8 @@ class PdfInvoicer extends PdfTFPDF
                 $crypt .= chr(($crypt > "") ? $this->JSwap[$jeu] : $this->JStart[$jeu]); // début start, sinon swap
 
                 $crypt .= strtr(substr($code, 0, $made), $this->SetFrom[$jeu], $this->SetTo[$jeu]); // conversion selon jeu
-
             }
+
             $code  = substr($code, $made);                                           // raccourcir légende et guides de la zone traitée
             $Aguid = substr($Aguid, $made);
             $Bguid = substr($Bguid, $made);

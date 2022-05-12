@@ -226,13 +226,13 @@ class InvoicesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $this->voidInvoice($id);
 
-        return response()->json({'status': true});;
+        return response()->json(['status' => true]);
     }
 
     /**

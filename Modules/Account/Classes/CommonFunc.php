@@ -216,7 +216,6 @@ class CommonFunc
 
                 //segment by date difference
                 switch ($diff) {
-
                     case 0 === $diff:
                         $data['first'][] = $item_data;
                         $amount['first'] = $amount['first'] + abs($item->due);
@@ -1876,7 +1875,7 @@ class CommonFunc
      *
      * @return string The date and time of the beginning of a given day.
      */
-    public static function beginningOfDay($date, $isTimestamp = false)
+    public static function eventBeginningOfDay($date, $isTimestamp = false)
     {
 
         if ($isTimestamp) {

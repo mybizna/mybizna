@@ -60,10 +60,6 @@ class PeopleController extends Controller
         }
 
         return response()->json($formatted_items);
-
-        
-
-        
     }
 
     /**
@@ -82,7 +78,7 @@ class PeopleController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $people = $people->getPeople($id);
@@ -109,14 +105,13 @@ class PeopleController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $row = DB::select("SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return response()->json($people->formatPeopleAddress($row));
-
     }
 
     /**
@@ -149,9 +144,6 @@ class PeopleController extends Controller
         $res      = $common->existPeople($request['email'], ['customer', 'vendor', 'contact', 'company']);
 
         return response()->json($res);
-        
-
-        
     }
 
     /**

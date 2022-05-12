@@ -57,10 +57,6 @@ class PurchasesController extends Controller
         }
 
         return response()->json($formatted_items);
-
-
-
-
     }
 
     /**
@@ -76,7 +72,7 @@ class PurchasesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $args = [];
@@ -109,10 +105,6 @@ class PurchasesController extends Controller
         }
 
         return response()->json($formatted_items);
-
-
-
-
     }
 
     /**
@@ -129,7 +121,7 @@ class PurchasesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $item = $purchases->getPurchases($id);
@@ -139,10 +131,6 @@ class PurchasesController extends Controller
 
         $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
-
-
-
-
     }
 
     /**
@@ -177,9 +165,6 @@ class PurchasesController extends Controller
         $purchase_data = $this->prepareItemForResponse($purchase_data, $request, $additional_fields);
 
         return response()->json($purchase_data);
-
-
-
     }
 
     /**
@@ -198,14 +183,14 @@ class PurchasesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
             messageBag()->add('rest_purchase_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
-            return ;
+            return;
         }
 
         $purchase_data = $this->prepareItemFDatabase($request);
@@ -235,9 +220,6 @@ class PurchasesController extends Controller
         $purchase_data = $this->prepareItemForResponse($purchase, $request, $additional_fields);
 
         return response()->json($purchase_data);
-
-
-
     }
 
     /**
@@ -253,12 +235,12 @@ class PurchasesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $this->voidPurchase($id);
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**

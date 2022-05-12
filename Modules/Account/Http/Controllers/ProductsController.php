@@ -165,7 +165,7 @@ class ProductsController extends Controller
 
         $this->addLog($item, 'delete');
 
-        return response()->json({'status': true});
+        return response()->json(['status'=> true]);
     }
 
     /**
@@ -303,6 +303,8 @@ class ProductsController extends Controller
      */
     public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
+        $tax_cats = TaxCats();
+
         $item = (object) $item;
 
         $data = [
@@ -492,6 +494,6 @@ class ProductsController extends Controller
             $products->deleteProduct($id);
         }
 
-        return response()->json({'status': true});
+        return response()->json(['status'=> true]);
     }
 }

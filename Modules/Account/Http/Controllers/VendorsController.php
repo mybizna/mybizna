@@ -9,6 +9,7 @@ use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\People;
 use Modules\Account\Classes\Products;
 use Modules\Account\Classes\OpenBalances;
+use Modules\Account\Classes\TaxCats;
 
 
 use Illuminate\Support\Facades\DB;
@@ -86,7 +87,7 @@ class VendorsController extends Controller
 
         if (empty($id) || empty($item['id'])) {
             messageBag()->add('rest_vendor_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $photo_id = $people->peopleGetMeta($id, 'photo_id', true);
@@ -100,10 +101,10 @@ class VendorsController extends Controller
             $include_params = explode(',', str_replace(' ', '', $request['include']));
 
             if (in_array('owner', $include_params, true)) {
-                $vendor_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : $people->peopleGetMeta($item->id, 'contact_owner', true);
+                $vendor_owner_id = ($item['user_id']) ? get_user_meta($item['user_id'], 'contact_owner', true) : $people->peopleGetMeta($item->id, 'contact_owner', true);
 
-                $item->owner       = $this->get_user($vendor_owner_id);
-                $additional_fields = ['owner' => $item->owner];
+                $item['owner']       = $this->get_user($vendor_owner_id);
+                $additional_fields = ['owner' => $item['owner']];
             }
         }
 
@@ -142,7 +143,6 @@ class VendorsController extends Controller
 
         $response = $this->prepareItemForResponse($vendor, $request, $additional_fields);
         return response()->json($response);
-        
     }
 
     /**
@@ -198,8 +198,7 @@ class VendorsController extends Controller
         $exist = $people->checkAssociatedTranasaction($id);
 
         if ($exist) {
-             messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
-
+            messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
         }
 
         $data = [
@@ -215,7 +214,7 @@ class VendorsController extends Controller
 
         $this->addLog($vendor, 'delete');
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**
@@ -241,9 +240,9 @@ class VendorsController extends Controller
             $exist = $people->checkAssociatedTranasaction($id);
 
             if ($exist) {
-                 messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+                messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
-               return false;
+                return false;
             }
 
             $vendors[] = (array) $people->getPeople((int) $id);
@@ -256,7 +255,7 @@ class VendorsController extends Controller
             $this->addLog($vendor, 'delete');
         }
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**
@@ -276,7 +275,6 @@ class VendorsController extends Controller
         $transactions = $people->getPeopleTransactions($args);
 
         return response()->json($transactions);
-
     }
 
     /**
@@ -315,7 +313,7 @@ class VendorsController extends Controller
 
         $people = new People();
         $products = new Products();
-        
+
         $args = [
             'number' => !empty($request['number']) ? (int) $request['number'] : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -522,6 +520,8 @@ class VendorsController extends Controller
      */
     public function prepareProductItemForResponse($item, Request $request, $additional_fields = [])
     {
+        $tax_cats = new TaxCats();
+
         $item = (object) $item;
 
         $data = [

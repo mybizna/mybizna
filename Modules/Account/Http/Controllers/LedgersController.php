@@ -120,8 +120,6 @@ class LedgersController extends Controller
         return response()->json($response);
 
         //$response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $result['id'] ) ) );
-
-
     }
 
     /**
@@ -183,7 +181,7 @@ class LedgersController extends Controller
 
         $this->addLog($item, 'delete');
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**
@@ -211,6 +209,7 @@ class LedgersController extends Controller
     public function getBankAccounts(Request $request)
     {
         $bank = new Bank();
+
         $items = $bank->getBanks(true, false, false);
 
         if (empty($items)) {
@@ -345,7 +344,7 @@ class LedgersController extends Controller
 
         $ledger->deleteLedgerCategory($id);
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**

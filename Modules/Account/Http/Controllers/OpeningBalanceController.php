@@ -210,7 +210,7 @@ class OpeningBalanceController extends Controller
     public function getAccPayableReceivable(Request $request)
     {
         $open_balance = new OpenBalances();
-        
+
         $additional_fields = [];
 
         $additional_fields['namespace'] = $this->namespace;

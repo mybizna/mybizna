@@ -4,7 +4,6 @@ namespace Modules\Account\Classes\Reports;
 
 use Illuminate\Support\Facades\DB;
 
-
 class Capabilities
 {
 
@@ -66,7 +65,6 @@ class Capabilities
 
         // User has roles so look for a HR one
         if (!empty($user->roles)) {
-
             // Look for a ac role
             $roles = array_intersect(
                 array_values($user->roles),
@@ -117,7 +115,6 @@ class Capabilities
 
         // Which role are we looking for?
         switch ($role) {
-
             case $this->getManagerRole():
                 $caps = [
                     'read'                            => true,
@@ -214,7 +211,7 @@ class Capabilities
             return false;
         }
 
-        $user_id =auth()->user()->id;
+        $user_id = auth()->user()->id;
 
         if ($created_by === $user_id) {
             return true;
@@ -264,7 +261,7 @@ class Capabilities
             return false;
         }
 
-        $user_id =auth()->user()->id;
+        $user_id = auth()->user()->id;
 
         if ($created_by === $user_id) {
             return true;
@@ -304,7 +301,7 @@ class Capabilities
             return false;
         }
 
-        $user_id =auth()->user()->id;
+        $user_id = auth()->user()->id;
 
         if ($created_by === $user_id) {
             return true;
@@ -354,7 +351,7 @@ class Capabilities
             return false;
         }
 
-        $user_id =auth()->user()->id;
+        $user_id = auth()->user()->id;
 
         if ($created_by === $user_id) {
             return true;
@@ -382,10 +379,8 @@ class Capabilities
 
         foreach ($roles as $ac_role_key => $ac_role) {
             if (isset($ac_role['public']) && false === $ac_role['public']) {
-
                 // Loop through WordPress roles
                 foreach (array_keys($all_roles) as $wp_role) {
-
                     // If keys match, unset
                     if ($wp_role === $ac_role_key) {
                         unset($all_roles[$wp_role]);

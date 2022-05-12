@@ -478,6 +478,7 @@ class ClosingBalance
     {
 
         $trialbal = new TrialBalance();
+        $common = new CommonFunc();
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($bs_start_date);
@@ -489,7 +490,7 @@ class ClosingBalance
         $result = $this->getFormattedPeopleBalance($merged);
 
         // should we go further calculation, check the diff
-        if (!erp_acct_has_date_diff($bs_start_date, $closest_fy_date['start_date'])) {
+        if (!$common->hasDateDiff($bs_start_date, $closest_fy_date['start_date'])) {
             return $result;
         } else {
             $prev_date_of_tb_start = date('Y-m-d', strtotime('-1 day', strtotime($bs_start_date)));

@@ -2,7 +2,6 @@
 
 namespace Modules\Account\Classes;
 
-
 use Modules\Account\Classes\Reports\TrialBalance;
 
 use Modules\Account\Classes\People;
@@ -62,7 +61,6 @@ class OpenBalances
 
         if ($args['count']) {
             return DB::scalar($sql);
-
         }
 
         return DB::select($sql);
@@ -370,6 +368,7 @@ class OpenBalances
 
         $trialbal = new TrialBalance();
         $ledger = new LedgerAccounts();
+        $common = new CommonFunc();
 
         // get closest financial year id and start date
         $closest_fy_date = $trialbal->getClosestFnYearDate($start_date);
@@ -378,14 +377,14 @@ class OpenBalances
         $opening_balance = (float) $reports->ledgerReportOpeningBalanceByFnYearId($closest_fy_date['id'], $ledger_id);
 
         // should we go further calculation, check the diff
-        if (erp_acct_has_date_diff($start_date, $closest_fy_date['start_date'])) {
+        if ($common->hasDateDiff($start_date, $closest_fy_date['start_date'])) {
             $prev_date_of_start = date('Y-m-d', strtotime('-1 day', strtotime($start_date)));
 
             $sql1 =
                 "SELECT SUM(debit - credit) AS balance
             FROM erp_acct_ledger_details
             WHERE ledger_id = {$ledger_id} AND trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_start}'";
-            
+
 
             $prev_ledger_details = DB::scalar($sql1);
             $opening_balance += (float) $prev_ledger_details;

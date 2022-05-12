@@ -179,7 +179,7 @@ class PaymentController extends Controller
 
         $payment->voidPayment($id);
 
-        return response()->json({'status': true});
+        return response()->json(['status' => true]);
     }
 
     /**

@@ -103,7 +103,7 @@ class Expenses
         $row['bill_details'] = $this->formatExpenseLineItems($expense_no);
         $row['pdf_link']    = $this->pdfAbsPathToUrl($expense_no);
 
-        $check_data = $expense->getCheckDataOfExpense($expense_no);
+        $check_data = $this->getCheckDataOfExpense($expense_no);
 
         if (!empty($check_data)) {
             $row['check_data'] = $check_data;
@@ -238,6 +238,8 @@ class Expenses
 
         $common = new CommonFunc();
         $people = new People();
+        $bank = new Bank();
+        $trans = new Transactions();
 
         $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
@@ -270,7 +272,7 @@ class Expenses
                 );
 
 
-            $expense_data = $expense->getFormattedExpenseData($data, $voucher_no);
+            $expense_data = $this->getFormattedExpenseData($data, $voucher_no);
 
             // check transaction charge
             $transaction_charge = 0;
@@ -322,7 +324,7 @@ class Expenses
                         ]
                     );
 
-                $expense->insertExpenseDataIntoLedger($expense_data, $item);
+                $this->insertExpenseDataIntoLedger($expense_data, $item);
             }
 
 
@@ -335,7 +337,7 @@ class Expenses
                 DB::commit();
 
                 if ('check' === $type) {
-                    return $expense->getCheck($voucher_no);
+                    return $this->getCheck($voucher_no);
                 }
 
                 return $this->getExpense($voucher_no);
@@ -350,12 +352,12 @@ class Expenses
             }
 
             if ('check' === $type) {
-                $expense->insertSourceExpenseDataIntoLedger($expense_data);
+                $this->insertSourceExpenseDataIntoLedger($expense_data);
             } elseif (isset($expense_data['trn_by']) && 4 === $expense_data['trn_by']) {
                 do_action('erp_acct_expense_people_transaction', $expense_data, $voucher_no);
             } else {
                 //Insert into Ledger for source account
-                $expense->insertSourceExpenseDataIntoLedger($expense_data);
+                $this->insertSourceExpenseDataIntoLedger($expense_data);
             }
 
             $data['dr'] = 0;
@@ -375,7 +377,7 @@ class Expenses
         $email = $people->getPeopleEmail($expense_data['people_id']);
 
         if ('check' === $type) {
-            $check          = $expense->getCheck($voucher_no);
+            $check          = $this->getCheck($voucher_no);
             $check['email'] = $email;
 
             do_action('erp_acct_new_transaction_check', $voucher_no, $check);
@@ -405,7 +407,7 @@ class Expenses
 
 
         if ($data['convert']) {
-            $expense->convertDraftToExpense($data, $expense_id);
+            $this->convertDraftToExpense($data, $expense_id);
 
             return;
         }
@@ -417,7 +419,7 @@ class Expenses
         try {
             DB::beginTransaction();
 
-            $expense_data = $expense->getFormattedExpenseData($data, $expense_id);
+            $expense_data = $this->getFormattedExpenseData($data, $expense_id);
 
             DB::table('erp_acct_expenses')
                 ->where('voucher_no', $expense_id)
@@ -493,6 +495,7 @@ class Expenses
 
         $common = new CommonFunc();
         $people = new People();
+        $trans = new Transactions();
 
         $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
@@ -507,7 +510,7 @@ class Expenses
                 $type = 'check';
             }
 
-            $expense_data = $expense->getFormattedExpenseData($data, $expense_id);
+            $expense_data = $this->getFormattedExpenseData($data, $expense_id);
 
             DB::table('erp_acct_expenses')
                 ->where('voucher_no', $expense_id)
@@ -559,7 +562,7 @@ class Expenses
                         ]
                     );
 
-                $expense->insertExpenseDataIntoLedger($expense_data, $item);
+                $this->insertExpenseDataIntoLedger($expense_data, $item);
             }
 
             $check = 3;
@@ -571,12 +574,12 @@ class Expenses
             }
 
             if ('check' === $type) {
-                $expense->insertSourceExpenseDataIntoLedger($expense_data);
+                $this->insertSourceExpenseDataIntoLedger($expense_data);
             } elseif (isset($expense_data['trn_by']) && 4 === $expense_data['trn_by']) {
                 do_action('erp_acct_expense_people_transaction', $expense_data, $expense_id);
             } else {
                 //Insert into Ledger for source account
-                $expense->insertSourceExpenseDataIntoLedger($expense_data);
+                $this->insertSourceExpenseDataIntoLedger($expense_data);
             }
 
             $data['dr'] = 0;
@@ -596,7 +599,7 @@ class Expenses
         $email = $people->getPeopleEmail($expense_data['people_id']);
 
         if ('check' === $type) {
-            $check          = $expense->getCheck($expense_id);
+            $check          = $this->getCheck($expense_id);
             $check['email'] = $email;
 
             do_action('erp_acct_new_transaction_check', $expense_id, $check);

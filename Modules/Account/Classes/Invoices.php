@@ -200,8 +200,9 @@ class Invoices
     {
 
         $people = new People();
-
         $common = new CommonFunc();
+        $trans = new Transactions();
+
         $user_id = auth()->user()->id;
 
         $data['created_at'] = date('Y-m-d H:i:s');
@@ -306,6 +307,7 @@ class Invoices
     public function insertInvoiceDetailsAndTax($invoice_data, $voucher_no, $contra = false)
     {
 
+        $common = new CommonFunc();
 
         $user_id = auth()->user()->id;
 
@@ -466,6 +468,8 @@ class Invoices
     public function updateInvoice($data, $invoice_no)
     {
 
+        $common = new CommonFunc();
+        $trans = new Transactions();
 
         if (1 === $data['estimate'] && $data['convert']) {
             $this->convertEstimateToInvoice($data, $invoice_no);
@@ -582,6 +586,7 @@ class Invoices
     public function convertEstimateToInvoice($data, $invoice_no)
     {
 
+        $trans = new Transactions();
 
         $user_id  = auth()->user()->id;
 
@@ -1102,7 +1107,6 @@ class Invoices
 
                 //segment by date difference
                 switch ($diff) {
-
                     case $diff === 0:
                         $data['first'][] = $item_data;
                         $amount['first'] = $amount['first'] + $item->due;

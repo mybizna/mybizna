@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\Expenses;
 
 use Illuminate\Support\Facades\DB;
 
@@ -20,6 +21,8 @@ class ExpensesController extends Controller
      */
     public function getExpenses(Request $request)
     {
+        $expense = new Expenses();
+
         $args = [
             'number' => isset($request['per_page']) ? $request['per_page'] : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -64,11 +67,13 @@ class ExpensesController extends Controller
      */
     public function getExpense(Request $request)
     {
+        $expense = new Expenses();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $expense_data       = $expense->getExpense($id);
@@ -92,11 +97,13 @@ class ExpensesController extends Controller
      */
     public function getCheck(Request $request)
     {
+        $expense = new Expenses();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_check_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $expense_data       = $expense->getCheck($id);
@@ -144,7 +151,6 @@ class ExpensesController extends Controller
         $expense_data = $this->prepareItemForResponse($expense, $request, $additional_fields);
 
         return response()->json($expense_data);
-
     }
 
     /**
@@ -156,11 +162,13 @@ class ExpensesController extends Controller
      */
     public function updateExpense(Request $request)
     {
+        $expense = new Expenses();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
             messageBag()->add('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $expense_data = $this->prepareItemFDatabase($request);
@@ -205,12 +213,12 @@ class ExpensesController extends Controller
 
         if (empty($id)) {
             messageBag()->add('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
-            return ;
+            return;
         }
 
         $this->voidExpense($id);
 
-        return response()->json({'status': true});;
+        return response()->json(['status' => true]);;
     }
 
     /**

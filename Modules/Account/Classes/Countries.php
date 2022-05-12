@@ -199,7 +199,6 @@ class Countries
     public function get_address_formats()
     {
         if (!$this->address_formats) {
-
             // Common formats
             $postcode_before_city = "{address_1}\n{address_2}\n{postcode} {city}\n{country}";
 

@@ -61,7 +61,7 @@ class PayBills
 
 
         $row = DB::select(
-                "SELECT
+            "SELECT
             pay_bill.id,
             pay_bill.voucher_no,
             pay_bill.vendor_id,
@@ -76,7 +76,7 @@ class PayBills
             pay_bill.status
             FROM erp_acct_pay_bill AS pay_bill
             WHERE pay_bill.voucher_no = %d",
-                [$bill_no]
+            [$bill_no]
         );
 
         $row = (!empty($row)) ? $row[0] : null;
@@ -99,14 +99,14 @@ class PayBills
 
 
         return DB::select(
-                "SELECT pay_bill_detail.id,
+            "SELECT pay_bill_detail.id,
             pay_bill_detail.voucher_no,
             pay_bill_detail.bill_no,
             pay_bill_detail.amount
             FROM erp_acct_pay_bill AS pay_bill
             LEFT JOIN erp_acct_pay_bill_details as pay_bill_detail ON pay_bill.voucher_no = pay_bill_detail.voucher_no
             WHERE pay_bill.voucher_no = %d",
-                [$voucher_no]
+            [$voucher_no]
         );
     }
 
@@ -121,7 +121,7 @@ class PayBills
     {
         $people = new People();
         $common = new CommonFunc();
-
+        $trans = new Transactions();
 
         $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');

@@ -79,6 +79,7 @@
 
     <file>app</file>
     <file>config</file>
+    <file>Modules</file>
     <file>public</file>
     <file>resources</file>
     <file>routes</file>
