@@ -9,9 +9,9 @@ class TaxRateNames
 
     /**
      * Get all tax rate names
-     * 
+     *
      * @param array $args Tax Rate Name
-     * 
+     *
      * @return mixed
      */
     public function getAllTaxRateNames($args = [])

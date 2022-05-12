@@ -1,7 +1,7 @@
 <?php
 /**
  * Hr
- * 
+ *
  * @category HRM
  * @package  Hrm
  * @author   Dedan Irungu <dedanirungu@gmail.com>
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Hr
- * 
+ *
  * @category HRM
  * @package  Hrm
  * @author   Dedan Irungu <dedanirungu@gmail.com>

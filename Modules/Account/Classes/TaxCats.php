@@ -11,7 +11,7 @@ class TaxCats
 
     /**
      * Get all tax categories
-     * 
+     *
      * @param array $args Data Filter
      *
      * @return mixed
@@ -157,7 +157,7 @@ $row = (!empty($row)) ? $row[0] : null;
     /**
      * Delete a tax category
      *
-     * @param int $id Tax Category ID 
+     * @param int $id Tax Category ID
      *
      * @return int
      */

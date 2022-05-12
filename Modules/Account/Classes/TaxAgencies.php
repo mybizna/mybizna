@@ -10,7 +10,7 @@ class TaxAgencies
 {
     /**
      * Get all tax agencies
-     * 
+     *
      * @param array $args Data Filter
      *
      * @return mixed

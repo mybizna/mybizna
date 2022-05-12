@@ -14,7 +14,7 @@ class RecPayments
 {
     /**
      * Get all payments
-     * 
+     *
      * @param array $args Data Filter
      *
      * @return mixed
