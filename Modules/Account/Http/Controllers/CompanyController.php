@@ -6,6 +6,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+use Modules\Account\Classes\Company;
+
 use Illuminate\Support\Facades\DB;
 
 class AccountsController extends Controller

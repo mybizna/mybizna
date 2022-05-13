@@ -129,7 +129,7 @@ class Company
      */
     public function placeholder_logo()
     {
-        $url = WPERP_ASSETS . '/images/placeholder.png';
+        $url = base_path() . '/images/placeholder.png';
 
         return apply_filters('erp_placeholder_image', $url);
     }
@@ -160,10 +160,7 @@ class Company
      */
     public function get_edit_url()
     {
-        $url = add_query_arg(
-            ['action' => 'edit'],
-            admin_url('admin.php?page=erp-company')
-        );
+        $url = admin_url('admin.php?page=erp-company').'/'.http_build_query(['action' => 'edit']);
 
         return $url;
     }

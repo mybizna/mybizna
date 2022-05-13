@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\LedgerAccounts;
 use Modules\Account\Classes\Taxes;
+use Modules\Account\Classes\TaxAgencies;
 
 use Illuminate\Support\Facades\DB;
 
@@ -399,6 +400,8 @@ class TaxesController extends Controller
      */
     public function payTax(Request $request)
     {
+        $taxes = new Taxes();
+
         $tax_data = $this->prepareItemFDatabase($request);
 
         $tax_id = $taxes->payTax($tax_data);

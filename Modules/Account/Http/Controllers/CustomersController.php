@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\People;
+use Modules\Account\Classes\Countries;
 
 use Illuminate\Support\Facades\DB;
 
@@ -47,7 +48,7 @@ class CustomersController extends Controller
             $photo_id = $people->peopleGetMeta($item->id, 'photo_id', true);
 
             $item->{'photo_id'} = $photo_id;
-            $item->{'photo'}    = wp_get_attachment_thumb_url($photo_id);
+            $item->{'photo'}    = wp_get_attachment_image_src($photo_id);
 
             if (isset($request['include'])) {
                 $include_params = explode(',', str_replace(' ', '', $request['include']));
@@ -90,7 +91,7 @@ class CustomersController extends Controller
         $photo_id = $people->peopleGetMeta($id, 'photo_id', true);
 
         $item['photo_id'] = $photo_id;
-        $item['photo']    = wp_get_attachment_thumb_url($photo_id);
+        $item['photo']    = wp_get_attachment_image_src($photo_id);
 
         $additional_fields = [];
 

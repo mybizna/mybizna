@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 
 use Modules\Account\Classes\Reports\TrialBalance;
 use Modules\Account\Classes\Bank;
+use Modules\Account\Classes\OpeningBalances;
 
 use Illuminate\Support\Facades\DB;
 
@@ -95,6 +96,8 @@ class AccountsController extends Controller
     {
         $trialbal = new TrialBalance();
         $bank = new Bank();
+        $opening_balance = new OpeningBalances();
+
         $item = $this->prepareItemFDatabase($request);
 
         if (empty($item['from_account_id']) || empty($item['to_account_id'])) {
@@ -108,7 +111,7 @@ class AccountsController extends Controller
         $args['start_date'] = $closest_fy_date['start_date'];
         $args['end_date']   = $closest_fy_date['end_date'];
 
-        $ledger_details = get_ledger_balance_with_opening_balance($item['from_account_id'], $args['start_date'], $args['end_date']);
+        $ledger_details = $opening_balance->getLedgerBalanceWithOpeningBalance($item['from_account_id'], $args['start_date'], $args['end_date']);
 
         if (empty($ledger_details)) {
             messageBag()->add('rest_transfer_invalid_account', __('Something Went Wrong! Account not found.'), ['status' => 400]);

@@ -2,6 +2,7 @@
 
 namespace Modules\Account\Classes;
 
+
 use Illuminate\Support\Facades\DB;
 
 class TaxRateNames
@@ -78,7 +79,6 @@ class TaxRateNames
     public function insertTaxRateName($data)
     {
 
-
         $created_by         = auth()->user()->id;
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $created_by;
@@ -87,7 +87,7 @@ class TaxRateNames
             DB::update("UPDATE erp_acct_taxes SET `default` = 0");
         }
 
-        $tax_data = $taxratenames->getFormattedTaxRateNameData($data);
+        $tax_data = $this->getFormattedTaxRateNameData($data);
 
         return DB::table('erp_acct_taxes')
             ->insertGetId(
@@ -114,12 +114,11 @@ class TaxRateNames
     public function updateTaxRateName($data, $id)
     {
 
-
         $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $updated_by;
 
-        $tax_data = $taxratenames->getFormattedTaxRateNameData($data);
+        $tax_data = $this->getFormattedTaxRateNameData($data);
 
         if (!empty($tax_data['default'])) {
             DB::update("UPDATE erp_acct_taxes SET `default` = 0");

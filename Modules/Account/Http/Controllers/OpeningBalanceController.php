@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Modules\Account\Classes\OpenBalances;
+use Modules\Account\Classes\OpeningBalances;
 
 use Illuminate\Support\Facades\DB;
 
@@ -22,7 +22,7 @@ class OpeningBalanceController extends Controller
      */
     public function getOpeningBalances(Request $request)
     {
-        $obalance = new OpenBalances();
+        $obalance = new OpeningBalances();
 
         $args['number'] = !empty($request['per_page']) ? $request['per_page'] : 20;
         $args['offset'] = ($request['per_page'] * ($request['page'] - 1));
@@ -60,7 +60,7 @@ class OpeningBalanceController extends Controller
     public function getOpeningBalance(Request $request)
     {
 
-        $obalance = new OpenBalances();
+        $obalance = new OpeningBalances();
 
         $id                = (int) $request['id'];
         $additional_fields = [];
@@ -124,7 +124,7 @@ class OpeningBalanceController extends Controller
      */
     public function getVirtualAcctsByYear(Request $request)
     {
-        $open_balance = new OpenBalances();
+        $open_balances = new OpeningBalances();
 
         $id                = (int) $request['id'];
         $additional_fields = [];
@@ -148,7 +148,7 @@ class OpeningBalanceController extends Controller
      */
     public function getOpeningBalanceNames(Request $request)
     {
-        $open_balance = new OpenBalances();
+        $open_balance = new OpeningBalances();
 
         $additional_fields = [];
 
@@ -169,7 +169,7 @@ class OpeningBalanceController extends Controller
      */
     public function createOpeningBalance(Request $request)
     {
-        $obalance = new OpenBalances();
+        $obalance = new OpeningBalances();
 
         $opening_balance_data = $this->prepareItemFDatabase($request);
 
@@ -209,7 +209,7 @@ class OpeningBalanceController extends Controller
      */
     public function getAccPayableReceivable(Request $request)
     {
-        $open_balance = new OpenBalances();
+        $open_balance = new OpeningBalances();
 
         $additional_fields = [];
 

@@ -63,6 +63,7 @@ class RecPayments
     public function getPayment($invoice_no)
     {
 
+        $common = new CommonFunc();
 
         $sql = "SELECT
                 pay_inv.id,
@@ -101,7 +102,7 @@ class RecPayments
         $row = (!empty($row)) ? $row[0] : null;
 
         $row['line_items'] = $this->formatPaymentLineItems($invoice_no);
-        $row['pdf_link']   = $this->pdfAbsPathToUrl($invoice_no);
+        $row['pdf_link']   = $common->pdfAbsPathToUrl($invoice_no);
 
         return $row;
     }
@@ -198,7 +199,7 @@ class RecPayments
 
             // add transaction charge entry to ledger
             if ($transaction_charge) {
-                $bank->insertBankTransactionChargeIntoLedger($payment_data);
+                $common->insertBankTransactionChargeIntoLedger($payment_data);
             }
 
             $data['dr'] = 0;

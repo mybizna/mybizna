@@ -75,6 +75,7 @@ class Invoices
     public function getInvoice($invoice_no)
     {
         $taxes = new Taxes();
+        $common = new CommonFunc();
 
         $sql =
             "SELECT
@@ -130,7 +131,7 @@ class Invoices
 
         $row['attachments'] = isset($row['attachments']) ? maybe_unserialize($row['attachments']) : null;
         $row['total_due']   = $this->getInvoiceDue($invoice_no);
-        $row['pdf_link']    = $this->pdfAbsPathToUrl($invoice_no);
+        $row['pdf_link']    = $common->pdfAbsPathToUrl($invoice_no);
 
         return $row;
     }
@@ -587,6 +588,7 @@ class Invoices
     {
 
         $trans = new Transactions();
+        $people = new People();
 
         $user_id  = auth()->user()->id;
 

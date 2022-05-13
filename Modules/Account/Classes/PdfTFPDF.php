@@ -108,11 +108,7 @@ class PdfTFPDF
         $this->ColorFlag = false;
         $this->ws = 0;
         // Font path
-        if (defined('FPDF_FONTPATH')) {
-            $this->fontpath = FPDF_FONTPATH;
-            if (substr($this->fontpath, -1) != '/' && substr($this->fontpath, -1) != '\\')
-                $this->fontpath .= '/';
-        } elseif (is_dir(dirname(__FILE__) . '/font')) {
+        if (is_dir(dirname(__FILE__) . '/font')) {
             $this->fontpath = dirname(__FILE__) . '/font/';
         } else {
             $this->fontpath = '';
@@ -505,11 +501,7 @@ class PdfTFPDF
             return;
 
         if ($uni) {
-            if (defined("_SYSTEM_TTFONTS") && file_exists(_SYSTEM_TTFONTS . $file)) {
-                $ttffilename = _SYSTEM_TTFONTS . $file;
-            } else {
-                $ttffilename = $this->_getfontpath() . 'unifont/' . $file;
-            }
+            $ttffilename = $this->_getfontpath() . 'unifont/' . $file;
             $unifilename = $this->_getfontpath() . 'unifont/' . strtolower(substr($file, 0, (strpos($file, '.'))));
             $name = '';
             $originalsize = 0;
@@ -1228,8 +1220,6 @@ class PdfTFPDF
         if (ini_get('mbstring.func_overload') & 2)
             $this->Error('mbstring overloading must be disabled');
         // Ensure runtime magic quotes are disabled
-        if (get_magic_quotes_runtime())
-            @set_magic_quotes_runtime(0);
     }
 
     function _getfontpath()

@@ -110,8 +110,6 @@ class PdfInvoicer extends PdfTFPDF
             $this->maxImageDimensions = [$maxWidth, $maxHeight];
         }
 
-        $logo = str_replace(WP_CONTENT_URL, WP_CONTENT_DIR, $logo);
-
         $this->logo       = $logo;
         $this->dimensions = $this->resizeToFit($logo);
     }

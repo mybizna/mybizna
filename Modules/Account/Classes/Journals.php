@@ -222,6 +222,7 @@ class Journals
     public function updateJournal($data, $journal_no)
     {
 
+        $invoices = new Invoices();
 
         $updated_by         = auth()->user()->id;
         $data['updated_at'] = date('Y-m-d H:i:s');
@@ -230,7 +231,7 @@ class Journals
         try {
             DB::beginTransaction();
 
-            $journal_data = $journals->getFormattedJournalData($data, $journal_no);
+            $journal_data = $this->getFormattedJournalData($data, $journal_no);
 
             DB::table('erp_acct_journals')
                 ->where('voucher_no', $journal_no)
@@ -292,7 +293,7 @@ class Journals
         }
 
 
-        return $journal->updateInvoice($journal_no);
+        return $invoices->updateInvoice($journal_no);
     }
 
     /**

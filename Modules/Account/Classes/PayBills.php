@@ -59,6 +59,7 @@ class PayBills
     public function getPayBill($bill_no)
     {
 
+        $common = new CommonFunc();
 
         $row = DB::select(
             "SELECT
@@ -82,7 +83,7 @@ class PayBills
         $row = (!empty($row)) ? $row[0] : null;
 
         $row['bill_details'] = $this->formatPaybillLineItems($bill_no);
-        $row['pdf_link']    = $this->pdfAbsPathToUrl($bill_no);
+        $row['pdf_link']    = $common->pdfAbsPathToUrl($bill_no);
 
         return $row;
     }

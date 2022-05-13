@@ -339,7 +339,6 @@ class TrialBalance
     public function calcWithOpeningBalance($tb_start_date, $data, $sql)
     {
 
-        $open_balance = new OpenBalances();
         $common = new CommonFunc();
 
         $result = [];

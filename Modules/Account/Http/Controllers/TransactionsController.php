@@ -42,7 +42,7 @@ class TransactionsController extends Controller
     {
 
 
-        $statuses = DB::select("SELECT id, type_name as name, slug FROM erp_acct_trn_status_types", ARRAY_A);
+        $statuses = DB::select("SELECT id, type_name as name, slug FROM erp_acct_trn_status_types");
 
         return response()->json($statuses);
     }
@@ -121,7 +121,7 @@ class TransactionsController extends Controller
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
         ];
 
-        $chart_payment = $thtransis->getSalesChartPayment($args);
+        $chart_payment = $this->getSalesChartPayment($args);
 
         return response()->json($chart_payment);
     }
@@ -337,13 +337,15 @@ class TransactionsController extends Controller
     {
 
 
-        $rows = DB::select("SELECT id, name FROM erp_acct_payment_methods", ARRAY_A);
+        $rows = DB::select("SELECT id, name FROM erp_acct_payment_methods");
 
         return apply_filters('erp_acct_pay_methods', $rows);
     }
 
     public function getVoucherType($request)
     {
+        $trans = new Transactions();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -351,7 +353,7 @@ class TransactionsController extends Controller
             return;
         }
 
-        $response = $trans > getTransactionType($id);
+        $response = $trans->getTransactionType($id);
 
         return response()->json($response);
     }

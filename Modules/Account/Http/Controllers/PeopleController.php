@@ -9,6 +9,7 @@ use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\People;
 
 use Illuminate\Support\Facades\DB;
+use Modules\Account\Entities\OpeningBalance;
 
 class PeopleController extends Controller
 {
@@ -123,6 +124,8 @@ class PeopleController extends Controller
      */
     public function getOpeningBalance(Request $request)
     {
+        $opening_balance = new OpeningBalance();
+
         $id                = (int) $request['id'];
         $args['people_id'] = $id;
 

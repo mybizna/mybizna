@@ -12,7 +12,7 @@ use Modules\Account\Classes\Reports;
 
 use Illuminate\Support\Facades\DB;
 
-class OpenBalances
+class OpeningBalances
 {
 
     /**

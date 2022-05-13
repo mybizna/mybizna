@@ -67,6 +67,7 @@ class Expenses
     public function getExpense($expense_no)
     {
 
+        $common = new CommonFunc();
 
         $sql = "SELECT
 
@@ -101,7 +102,7 @@ class Expenses
 
 
         $row['bill_details'] = $this->formatExpenseLineItems($expense_no);
-        $row['pdf_link']    = $this->pdfAbsPathToUrl($expense_no);
+        $row['pdf_link']    = $common->pdfAbsPathToUrl($expense_no);
 
         $check_data = $this->getCheckDataOfExpense($expense_no);
 
@@ -330,7 +331,7 @@ class Expenses
 
             // add transaction charge entry to ledger
             if ($transaction_charge) {
-                $bank->insertBankTransactionChargeIntoLedger($expense_data);
+                $common->insertBankTransactionChargeIntoLedger($expense_data);
             }
 
             if (1 === $expense_data['status']) {

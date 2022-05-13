@@ -60,6 +60,7 @@ class Purchases
     public function getPurchase($purchase_no)
     {
 
+        $common = new CommonFunc();
 
         $sql =
             "SELECT
@@ -98,7 +99,7 @@ class Purchases
         $row['line_items']  = $this->formatPurchaseLineItems($purchase_no);
         $row['attachments'] = unserialize($row['attachments']);
         $row['total_due']   = $row['credit'] - $row['debit'];
-        $row['pdf_link']    = $this->pdfAbsPathToUrl($purchase_no);
+        $row['pdf_link']    = $common->pdfAbsPathToUrl($purchase_no);
 
         return $row;
     }
@@ -387,7 +388,7 @@ class Purchases
                 $items = $purchase_data['purchase_details'];
 
                 foreach ($items as $key => $item) {
-                    DB::table('erp_acct_purchase_details')
+                    $tmp_purchase_details = DB::table('erp_acct_purchase_details')
                         ->where('trn_no', $purchase_id)
                         ->update(
                             [
@@ -403,7 +404,7 @@ class Purchases
                             ]
                         );
 
-                    $details_id = $wpdb->insert_id;
+                    $details_id = $tmp_purchase_details;
 
                     if (isset($purchase_data['tax_rate'])) {
                         $tax_rate_agency = $common->getTaxRateWithAgency($purchase_data['tax_rate']['id'], $item['tax_cat_id']);

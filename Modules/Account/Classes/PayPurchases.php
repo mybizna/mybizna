@@ -64,6 +64,8 @@ class PayPurchases
     {
 
 
+        $common = new CommonFunc();
+
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
 
@@ -92,7 +94,7 @@ class PayPurchases
         $row = (!empty($row)) ? $row[0] : null;
 
         $row['purchase_details'] = $this->formatPayPurchaseLineItems($purchase_no);
-        $row['pdf_link']    = $this->pdfAbsPathToUrl($purchase_no);
+        $row['pdf_link']    = $common->pdfAbsPathToUrl($purchase_no);
 
         return $row;
     }
@@ -217,7 +219,7 @@ class PayPurchases
 
             // add transaction charge entry to ledger
             if ($transaction_charge) {
-                $bank->insertBankTransactionChargeIntoLedger($pay_purchase_data);
+                $common->insertBankTransactionChargeIntoLedger($pay_purchase_data);
             }
 
 

@@ -6,6 +6,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+use Modules\Account\Classes\Currencies;
+
 use Illuminate\Support\Facades\DB;
 
 class CurrenciesController extends Controller
@@ -20,6 +22,8 @@ class CurrenciesController extends Controller
      */
     public function getCurrencies(Request $request)
     {
+        $currencies = new Currencies();
+
         $additional_fields = [];
 
         $additional_fields['namespace'] = $this->namespace;

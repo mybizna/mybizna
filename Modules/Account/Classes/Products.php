@@ -3,6 +3,7 @@
 namespace Modules\Account\Classes;
 
 use Illuminate\Support\Facades\DB;
+use ParseCsv/Csv;
 
 class Products
 {
@@ -410,7 +411,7 @@ class Products
             return;
         }
 
-        $csv = new \ParseCsv\Csv();
+        $csv = new Csv();
         $csv->encoding(null, 'UTF-8');
         $csv->parse($data['csv_file']['tmp_name']);
 

@@ -6,6 +6,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
+use Modules\Account\Classes\TaxRateNames;
+
 
 use Illuminate\Support\Facades\DB;
 
@@ -21,6 +23,8 @@ class TaxRateNamesController extends Controller
      */
     public function getTaxRateNames(Request $request)
     {
+        $taxratenames = new TaxRateNames();
+
         $args = [
             'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
             'offset'     => ($request['per_page'] * ($request['page'] - 1)),
@@ -67,6 +71,8 @@ class TaxRateNamesController extends Controller
      */
     public function getTaxRateName(Request $request)
     {
+        $taxratenames = new TaxRateNames();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -92,6 +98,9 @@ class TaxRateNamesController extends Controller
      */
     public function createTaxRateName(Request $request)
     {
+
+        $taxratenames = new TaxRateNames();
+
         $tax_data = $this->prepareItemFDatabase($request);
 
         $tax_id = $taxratenames->insertTaxRateName($tax_data);
@@ -117,6 +126,8 @@ class TaxRateNamesController extends Controller
      */
     public function updateTaxRateName(Request $request)
     {
+        $taxratenames = new TaxRateNames();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -148,6 +159,8 @@ class TaxRateNamesController extends Controller
      */
     public function deleteTaxRateName(Request $request)
     {
+        $taxratenames = new TaxRateNames();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -173,6 +186,8 @@ class TaxRateNamesController extends Controller
      */
     public function bulkDelete(Request $request)
     {
+        $taxratenames = new TaxRateNames();
+
         $ids = $request['ids'];
         $ids = explode(',', $ids);
 

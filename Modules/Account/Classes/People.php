@@ -565,11 +565,10 @@ class People
 
         // Check if the row want to search
         if (!empty($s)) {
-            $search_like = '%' . $wpdb->esc_like($s) . '%';
+            $search_like = '%' . esc_like($s) . '%';
             $words       = explode(' ', $s);
 
             if ($type == 'customer' || $type == 'vendor') {
-                if (defined('DOING_AJAX') && DOING_AJAX) {
                     if ($type === 'customer') {
                         $sql['where'][] =
                             'AND ( people.first_name ) LIKE ' . $search_like . ' OR ' .
@@ -577,13 +576,6 @@ class People
                     } else {
                         $sql['where'][] = 'AND ( people.company ) LIKE ' . $search_like;
                     }
-                } else {
-                    $sql['where'][] =
-                        'AND ( people.first_name ) LIKE ' . $search_like . ' OR ' .
-                        '( people.last_name ) LIKE ' . $search_like . ' OR ' .
-                        '( people.email ) LIKE ' . $search_like . ' OR ' .
-                        '( people.company ) LIKE ' . $search_like;
-                }
             } elseif (is_array($type)) {
                 $sql['where'][] =
                     'AND ( people.first_name ) LIKE ' . $search_like . ' OR ' .
@@ -744,7 +736,7 @@ class People
 
         // Check if the row want to search
         if (!empty($s)) {
-            $search_like = '%' . $wpdb->esc_like($s) . '%';
+            $search_like = '%' . esc_like($s) . '%';
             $words       = explode(' ', $s);
 
             if ($type === 'contact') {
@@ -759,7 +751,6 @@ class People
                     'AND ( people.first_name ) LIKE ' . $search_like . ' OR ' .
                     '( people.last_name ) LIKE ' . $search_like;
             } elseif ($type === 'customer' || $type === 'vendor') {
-                if (defined('DOING_AJAX') && DOING_AJAX) {
                     if ($type === 'customer') {
                         $sql['where'][] =
                             'AND ( people.first_name ) LIKE ' . $search_like . ' OR ' .
@@ -767,13 +758,6 @@ class People
                     } else {
                         $sql['where'][] = 'AND ( people.company ) LIKE ' . $search_like;
                     }
-                } else {
-                    $sql['where'][] =
-                        'AND ( people.first_name ) LIKE ' . $search_like . ' OR ' .
-                        '( people.last_name ) LIKE ' . $search_like . ' OR ' .
-                        '( people.email ) LIKE ' . $search_like . ' OR ' .
-                        '( people.company ) LIKE ' . $search_like;
-                }
             }
         }
 
@@ -871,7 +855,7 @@ class People
 
                 if (empty($types)) {
                     $people->delete();
-                    
+
                     DB::table('erp_peoplemeta')->where('erp_people_id', $people_id)->delete();
                     DB::table('erp_peoplemeta')->where('user_id', $people_id)->delete();
                 }
@@ -960,7 +944,7 @@ class People
      */
     public function getPeoplesCount($type = 'contact')
     {
-        $count = WeDevs\ERP\Framework\Models\People::type($type)->count();
+        $count = DB::table('erp_peoples')->where('type',$type)->count();
 
         return intval($count);
     }
@@ -1049,7 +1033,7 @@ class People
         }
 
         $existing_people =DB::table('erp_peoples')->firstOrNew(['id' => $args['id']]);
-        
+
         $defaults = [
             'id'            => $existing_people->id,
             'first_name'    => $existing_people->first_name,
@@ -1108,7 +1092,7 @@ class People
             }
 
             // Some validation
-            
+
             $type_obj = DB::table('erp_people_types')->where('name', $people_type)->first();
 
             // check if a valid people type exists in the database
@@ -1208,7 +1192,7 @@ class People
 
         if (!$existing_people->id) {
             if (!$user) {
-                $user             = new stdClass();
+                $user             = new \stdClass();
                 $user->ID         = 0;
                 $user->user_url   = '';
                 $user->user_email = '';

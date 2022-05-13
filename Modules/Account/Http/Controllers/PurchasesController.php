@@ -351,6 +351,8 @@ class PurchasesController extends Controller
     {
 
         $people = new People();
+        $purchases = new Purchases();
+
         $item = (object) $item;
 
         $data = [

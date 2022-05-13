@@ -6,6 +6,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+use Modules\Account\Classes\ClosingBalance;
+
 use Illuminate\Support\Facades\DB;
 
 use Modules\Account\Classes\Reports\TrialBalance;
@@ -22,6 +24,8 @@ class ClosingBalanceController extends Controller
      */
     public function closeBalancesheet(Request $request)
     {
+        $cbalance = new ClosingBalance();
+
         if (empty($request['start_date'])) {
             messageBag()->add('rest_invalid_date', __('Start date missing.'), ['status' => 404]);
             return;
@@ -51,6 +55,8 @@ class ClosingBalanceController extends Controller
      */
     public function getNextFnYear(Request $request)
     {
+        $cbalance = new ClosingBalance();
+
         if (empty($request['date'])) {
             messageBag()->add('rest_invalid_date', __('Invalid resource date.'), ['status' => 404]);
             return;

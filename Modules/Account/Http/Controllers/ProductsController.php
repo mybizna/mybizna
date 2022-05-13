@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\Products;
+use Modules\Account\Classes\TaxCats;
 
 use Illuminate\Support\Facades\DB;
 
@@ -303,7 +304,7 @@ class ProductsController extends Controller
      */
     public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
-        $tax_cats = TaxCats();
+        $tax_cats = new TaxCats();
 
         $item = (object) $item;
 

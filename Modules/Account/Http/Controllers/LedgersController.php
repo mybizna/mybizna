@@ -12,6 +12,7 @@ use Modules\Account\Classes\Bank;
 use Modules\Account\Classes\LedgerAccounts;
 
 use Modules\Account\Classes\Reports\TrialBalance;
+use Modules\Account\Classes\OpeningBalances;
 
 use Illuminate\Support\Facades\DB;
 
@@ -239,6 +240,7 @@ class LedgersController extends Controller
     public function getCashAccounts(Request $request)
     {
         $trialbal = new TrialBalance();
+        $opening_balance = new OpeningBalances();
 
         $args               = [];
         $args['start_date'] = date('Y-m-d');
@@ -249,7 +251,7 @@ class LedgersController extends Controller
 
         $ledger_id  = get_ledger_id_by_slug('cash');
 
-        $c_balance = get_ledger_balance_with_opening_balance($ledger_id, $args['start_date'], $args['end_date']);
+        $c_balance = $opening_balance->getLedgerBalanceWithOpeningBalance($ledger_id, $args['start_date'], $args['end_date']);
 
         $item[]            = [
             'id'           => $ledger_id,

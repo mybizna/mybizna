@@ -697,9 +697,7 @@ class Transactions
         //config()->set('database.connections.mysql.strict', true);
 
         if ($args['count']) {
-            DB::select($sql);
-
-            $expense_transaction_count =  $wpdb->num_rows;
+            $expense_transaction_count =  DB::scalar($sql);
         } else {
             $expense_transaction = DB::select($sql);
         }
@@ -801,9 +799,7 @@ class Transactions
         //config()->set('database.connections.mysql.strict', true);
 
         if ($args['count']) {
-            DB::select($sql);
-
-            $purchase_transaction_count =  $wpdb->num_rows;
+            $purchase_transaction_count =  DB::scalar($sql);
         }
 
         $purchase_transaction = DB::select($sql);
@@ -866,9 +862,9 @@ class Transactions
     public function generatePdf($request, $transaction, $file_name = '', $output_method = 'D')
     {
         $people = new People();
-        if (!is_plugin_active('erp-pdf-invoice/wp-erp-pdf.php')) {
-            return;
-        }
+        $bills = new Bills();
+
+        $common = new CommonFunc();
 
         if (is_array($transaction)) {
             $transaction = (object) $transaction;
@@ -900,12 +896,10 @@ class Transactions
             $user_id = $transaction->people_id;
         }
 
-        if (!defined('WPERP_PDF_VERSION')) {
-            wp_die(esc_html__('ERP PDF extension is not installed. Please install the extension for PDF support', 'erp'));
-        }
+        $user = get_user_by('id',  $user_id);
 
         //Create a new instance
-        $trn_pdf = new \WeDevs\ERP_PDF\PDF_Invoicer('A4', '$', 'en');
+        $trn_pdf = new PDFInvoicer('A4', '$', 'en');
 
         //Set theme color
         $trn_pdf->set_theme_color($theme_color);
@@ -947,7 +941,7 @@ class Transactions
 
         // Set Issue Date
         $date = !empty($transaction->trn_date) ? $transaction->trn_date : $transaction->date;
-        $trn_pdf->set_reference($this->formatDate($date), __('Transaction Date', 'erp'));
+        $trn_pdf->set_reference($common->mybizna_format_date($date), __('Transaction Date', 'erp'));
 
         // Set Due Date
         if ($transaction->due_date) {
@@ -1093,7 +1087,7 @@ class Transactions
                             $line['name'],
                             $line['qty'],
                             $this->formatAmountline['price'],
-                            $this->formatAmounttval($line['price']) * floatval($line['qty']),
+                            $this->formatAmount($line['price']) * floatval($line['qty']),
                         )
                     );
                 }
@@ -1456,9 +1450,6 @@ class Transactions
      */
     public function sendEmailWithPdfAttached($request, $transaction, $file_name, $output_method = 'D')
     {
-        if (!is_plugin_active('erp-pdf-invoice/wp-erp-pdf.php')) {
-            return;
-        }
 
         $user_id   = null;
         $trn_id    = null;
@@ -1476,7 +1467,7 @@ class Transactions
         if ($pdf_file) {
             $result = mailer($receiver, $subject, $body, $pdf_file);
         } else {
-            wp_die(esc_html__('PDF not generated!', 'erp'));
+            esc_html__('PDF not generated!', 'erp');
         }
 
         return $result;
@@ -1490,11 +1481,8 @@ class Transactions
      *
      * @return bool
      */
-    public function sendEmailOnTransaction($voucher_no, $transaction)
+    public function sendEmailOnTransaction($voucher_no, $transaction, $current_action = "erp_acct_new_transaction_sales")
     {
-        if (!is_plugin_active('erp-pdf-invoice/wp-erp-pdf.php')) {
-            return;
-        }
 
         $user_id   = null;
         $trn_id    = null;
@@ -1509,7 +1497,7 @@ class Transactions
         $pdf_file  = $this->generatePdf($request, $transaction, $file_name, 'F');
 
         if ($pdf_file) {
-            switch (current_action()) {
+            switch ($current_action) {
                 case 'erp_acct_new_transaction_sales':
                     $email_type = 'Transactional_Email';
                     break;
@@ -1559,7 +1547,7 @@ class Transactions
 
             acct_send_email($request['receiver'], $pdf_file, $email_type, $voucher_no);
         } else {
-            wp_die(esc_html__('PDF not generated!', 'erp'));
+            esc_html__('PDF not generated!', 'erp');
         }
     }
 
@@ -1575,17 +1563,15 @@ class Transactions
      */
     public function acct_send_email($receiver, $pdf_file, $email_type, $voucher_no)
     {
-        $emailer = wperp()->emailer->get_email($email_type);
+        $emailer = get_email($email_type);
         $company = new Company();
 
-        if (is_a($emailer, '\WeDevs\ERP\Email')) {
-            if (is_array($receiver)) {
-                foreach ($receiver as $email) {
-                    $emailer->trigger($email, $pdf_file, $voucher_no, $company);
-                }
-            } else {
-                $emailer->trigger($receiver, $pdf_file, $voucher_no, $company);
+        if (is_array($receiver)) {
+            foreach ($receiver as $email) {
+                $emailer->trigger($email, $pdf_file, $voucher_no, $company);
             }
+        } else {
+            $emailer->trigger($receiver, $pdf_file, $voucher_no, $company);
         }
     }
 
@@ -1618,18 +1604,18 @@ class Transactions
         $purchases = new Purchases();
         $pay_purchases = new PayPurchases();
         $bank = new Bank();
+        $expenses = new Expenses();
 
         $transaction = [];
 
         $transaction_type = $this->getTransactionType($transaction_id);
         $link_hash        = $this->getInvoiceLinkHash($transaction_id, $transaction_type);
-        $readonly_url     = add_query_arg(
+        $readonly_url     = site_url() . '?' . http_build_query(
             [
                 'query'    => 'readonly_invoice',
                 'trans_id' => $transaction_id,
                 'auth'     => $link_hash,
             ],
-            site_url()
         );
 
         switch ($transaction_type) {
@@ -1659,7 +1645,7 @@ class Transactions
 
             case 'expense':
             case 'check':
-                $transaction = $this->getExpense($transaction_id);
+                $transaction = $expenses->getExpense($transaction_id);
                 break;
 
             case 'transfer_voucher':
@@ -1729,7 +1715,7 @@ class Transactions
      */
     public function getPdfFilename($voucher_no)
     {
-        $inv_dir = WP_CONTENT_DIR . '/uploads/erp-pdfs/';
+        $inv_dir = base_path() . '/uploads/erp-pdfs/';
 
         if (!file_exists($inv_dir)) {
             mkdir($inv_dir, 0777, true);
@@ -1845,6 +1831,8 @@ class Transactions
      */
     public function formatAmount($amount)
     {
-        return str_replace('&nbsp;', ' ', $this->getPrice($amount));
+        $currencies = new Currencies();
+
+        return str_replace('&nbsp;', ' ', $currencies->getPrice($amount));
     }
 }

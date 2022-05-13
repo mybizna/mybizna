@@ -9,8 +9,10 @@ namespace Modules\Account\Classes;
 use Modules\Account\Classes\Reports\TrialBalance;
 use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\LedgerAccounts;
+use Modules\Account\Classes\OpeningBalances;
 
 use Illuminate\Support\Facades\DB;
+use Modules\Account\Entities\OpeningBalance;
 
 /**
  * Bank
@@ -32,6 +34,8 @@ class Bank
     {
         $trialbal = new TrialBalance();
         $ledger = new LedgerAccounts();
+
+        $opening_balance = new OpeningBalance();
 
         $args               = [];
         $args['start_date'] = date('Y-m-d');
@@ -107,11 +111,11 @@ class Bank
 
         $ledger_id  = get_ledger_id_by_slug('cash');
 
-        $c_balance = get_ledger_balance_with_opening_balance($ledger_id, $args['start_date'], $args['end_date']);
+        $c_balance = $opening_balance->getLedgerBalanceWithOpeningBalance($ledger_id, $args['start_date'], $args['end_date']);
         $balance   = isset($c_balance->balance) ? $c_balance->balance : 0;
 
         foreach ($temp_accts as $temp_acct) {
-            $bank_accts[] = get_ledger_balance_with_opening_balance($temp_acct['id'], $args['start_date'], $args['end_date']);
+            $bank_accts[] = $opening_balance->getLedgerBalanceWithOpeningBalance($temp_acct['id'], $args['start_date'], $args['end_date']);
         }
 
         if ($cash_only && !empty($accts)) {
@@ -126,7 +130,7 @@ class Bank
         }
 
         foreach ($banks as $bank) {
-            $bank_accts[] = get_ledger_balance_with_opening_balance($bank['id'], $args['start_date'], $args['end_date']);
+            $bank_accts[] = $opening_balance->getLedgerBalanceWithOpeningBalance($bank['id'], $args['start_date'], $args['end_date']);
         }
 
         $results = array_merge($accts, $bank_accts);
@@ -150,6 +154,7 @@ class Bank
     public function getDashboardBanks()
     {
         $trialbal = new TrialBalance();
+        $opening_balance = new OpeningBalance();
 
         $args               = [];
         $args['start_date'] = date('Y-m-d');
@@ -162,7 +167,7 @@ class Bank
 
         $ledger_id  = get_ledger_id_by_slug('cash');
 
-        $c_balance = get_ledger_balance_with_opening_balance($ledger_id, $args['start_date'], $args['end_date']);
+        $c_balance = $opening_balance->getLedgerBalanceWithOpeningBalance($ledger_id, $args['start_date'], $args['end_date']);
 
         $results[] = [
             'name'    => __('Cash', 'erp'),

@@ -9,6 +9,7 @@ use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\Expenses;
 
 use Illuminate\Support\Facades\DB;
+use Modules\Expense\Entities\Expense;
 
 class ExpensesController extends Controller
 {
@@ -127,6 +128,8 @@ class ExpensesController extends Controller
      */
     public function createExpense(Request $request)
     {
+        $expenses = new Expenses();
+
         $expense_data = $this->prepareItemFDatabase($request);
 
         $item_amount       = [];

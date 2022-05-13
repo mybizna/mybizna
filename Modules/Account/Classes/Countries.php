@@ -54,7 +54,7 @@ class Countries
     public function get_countries($default = '')
     {
         if (empty($this->countries)) {
-            $this->countries = apply_filters('erp_countries', include(WPERP_PATH . '/i18n/countries.php'));
+            $this->countries = apply_filters('erp_countries', include(base_path() . '/i18n/countries.php'));
 
             if (apply_filters('erp_sort_countries', true)) {
                 asort($this->countries);
@@ -85,8 +85,8 @@ class Countries
 
         if ($countries) {
             foreach ($countries as $code => $country) {
-                if (!isset($states[$code]) && file_exists(WPERP_PATH . '/i18n/states/' . $code . '.php')) {
-                    include WPERP_PATH . '/i18n/states/' . $code . '.php';
+                if (!isset($states[$code]) && file_exists(base_path() . '/i18n/states/' . $code . '.php')) {
+                    include base_path() . '/i18n/states/' . $code . '.php';
                 }
             }
         }
@@ -174,7 +174,7 @@ class Countries
                             $html .= ' selected="selected"';
                         }
 
-                        $html .= '>' . $value . ' &mdash; ' . ($escape ? esc_js($state_value) : $state_value) . '</option>';
+                        $html .= '>' . $value . ' &mdash; ' . ($escape ? $state_value : $state_value) . '</option>';
                     }
                     $html .= '</optgroup>';
                 } else {
@@ -183,7 +183,7 @@ class Countries
                     if ($selected_country == $key && $selected_state == '*') {
                         $html .= ' selected="selected"';
                     }
-                    $html .= ' value="' . esc_attr($key) . '">' . ($escape ? esc_js($value) : $value) . '</option>';
+                    $html .= ' value="' . esc_attr($key) . '">' . ($escape ? $value : $value) . '</option>';
                 }
             }
         }

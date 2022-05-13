@@ -5,6 +5,7 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Account\Classes\Invoices;
 
 use Illuminate\Support\Facades\DB;
 
@@ -55,6 +56,8 @@ class JournalsController extends Controller
      */
     public function getJournal(Request $request)
     {
+        $invoices = new Invoices();
+
         $id                = (int) $request['id'];
         $additional_fields = [];
 
@@ -63,7 +66,7 @@ class JournalsController extends Controller
             return;
         }
 
-        $item = $journal->updateInvoice($id);
+        $item = $invoices->updateInvoice($id);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
@@ -84,7 +87,7 @@ class JournalsController extends Controller
     {
 
 
-        $count      = DB::select('SELECT count(*) FROM ' . 'erp_acct_journals', ARRAY_N);
+        $count      = DB::select('SELECT count(*) FROM ' . 'erp_acct_journals');
         $count = (!empty($count)) ? $count[0] : null;
 
         $item['id'] = $count['0'] + 1;

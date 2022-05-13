@@ -61,7 +61,7 @@ class Bills
      */
     public function getBill($bill_no)
     {
-
+        $common = new CommonFunc();
 
         $sql =
             "SELECT
@@ -93,7 +93,7 @@ class Bills
         $row = (!empty($row)) ? $row[0] : null;
 
         $row['bill_details'] = $this->formatBillLineItems($bill_no);
-        $row['pdf_link']    = $this->pdfAbsPathToUrl($bill_no);
+        $row['pdf_link']    = $common->pdfAbsPathToUrl($bill_no);
         return $row;
     }
 

@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Classes;
 
-use Modules\Account\Classes\Transactions;
+use Modules\Account\Classes\CommonFunc;
 use Modules\Account\Classes\Reports\TrialBalance;
 
 use Illuminate\Support\Facades\DB;
@@ -223,7 +223,7 @@ class LedgerAccounts
      */
     public function insertLedger($item)
     {
-        $common = CommonFunc();
+        $common = new CommonFunc();
 
         $id = DB::table("erp_acct_ledgers")
             ->insertGetId(

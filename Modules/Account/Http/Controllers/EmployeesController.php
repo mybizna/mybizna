@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 
 use Modules\Account\Classes\People;
 use Modules\Account\Classes\Company;
+use Modules\Account\Classes\Hr;
 
 use Illuminate\Support\Facades\DB;
 
@@ -22,6 +23,8 @@ class EmployeesController extends Controller
      */
     public function getEmployees(Request $request)
     {
+        $hr = new Hr();
+
         $args = [
             'number'      => $request['per_page'],
             'offset'      => ($request['per_page'] * ($request['page'] - 1)),
@@ -68,7 +71,7 @@ class EmployeesController extends Controller
         $people_id = (int) $request['id'];
         $user_id   = $people->getUserIdByPeopleId($people_id);
 
-        $employee = new \WeDevs\ERP\HRM\Employee($user_id);
+        $employee = DB::table('erp_hr_employees')->where('user_id', $user_id)->first();
         $item     = (array) $people->getPeople($people_id);
 
         if (empty($item['id'])) {
@@ -117,7 +120,7 @@ class EmployeesController extends Controller
     public function prepareItemForResponse($item, Request $request = null, $additional_fields = [])
     {
         $item     = $item->data;
-        $employee = new \WeDevs\ERP\HRM\Employee($item['user_id']);
+        $employee = DB::table('erp_hr_employees')->where('user_id', $item['user_id'])->first();
 
         $data                = array_merge($item['work'], $item['personal'], $additional_fields);
         $data['user_id']     = $item['user_id'];

@@ -93,7 +93,6 @@ class Capabilities
             $this->getManagerRole() => [
                 'name'         => __('Accounting Manager', 'erp'),
                 'public'       => false,
-                'capabilities' => $this->getManagerRole(erp_ac_get_manager_role()),
             ],
         ];
 
@@ -175,11 +174,6 @@ class Capabilities
      */
     public function isHrCurrentUserManager()
     {
-        $current_user_hr_role = true;
-
-        if (erp_hr_get_manager_role() !== $current_user_hr_role) {
-            return false;
-        }
 
         return true;
     }

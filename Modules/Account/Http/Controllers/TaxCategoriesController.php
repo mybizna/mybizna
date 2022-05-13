@@ -96,7 +96,7 @@ class TaxCategoriesController extends Controller
      */
     public function createTaxCat(Request $request)
     {
-        $tax_cat = new TaxCats();
+        $taxcats = new TaxCats();
 
         $tax_data = $this->prepareItemFDatabase($request);
 

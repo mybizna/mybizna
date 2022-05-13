@@ -83,14 +83,11 @@ class InvoicesController extends Controller
         $item = $invoices->getInvoice($id);
 
         $link_hash    = $trans->getInvoiceLinkHash($id, 'invoice');
-        $readonly_url = add_query_arg(
-            [
-                'query'    => 'readonly_invoice',
-                'trans_id' => $id,
-                'auth'     => $link_hash,
-            ],
-            site_url()
-        );
+        $readonly_url = site_url().http_build_query([
+            'query'    => 'readonly_invoice',
+            'trans_id' => $id,
+            'auth'     => $link_hash,
+        ]);
 
         $item['readonly_url'] = $readonly_url;
 
@@ -305,9 +302,11 @@ class InvoicesController extends Controller
      */
     public function uploadAttachments(Request $request)
     {
+        $common = new CommonFunc();
+
         $file = $_FILES['attachments'];
 
-        $movefiles = $account->uploadAttachments($file);
+        $movefiles = $common->uploadAttachments($file);
 
         return response()->json($movefiles);
     }

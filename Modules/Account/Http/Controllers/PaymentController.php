@@ -69,6 +69,8 @@ class PaymentController extends Controller
      */
     public function get_payment(Request $request)
     {
+        $recpayments = new RecPayments();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
@@ -76,7 +78,7 @@ class PaymentController extends Controller
             return;
         }
 
-        $item = $purchases->getPayment($id);
+        $item = $recpayments->getPayment($id);
 
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
@@ -170,6 +172,8 @@ class PaymentController extends Controller
      */
     public function voidPayment(Request $request)
     {
+        $payment = new RecPayments();
+
         $id = (int) $request['id'];
 
         if (empty($id)) {
