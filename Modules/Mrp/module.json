@@ -1,11 +1,11 @@
 {
-    "name": "Blog",
-    "alias": "blog",
+    "name": "Mrp",
+    "alias": "mrp",
     "description": "",
     "keywords": [],
     "priority": 0,
     "providers": [
-        
+
     ],
     "aliases": {},
     "files": [],

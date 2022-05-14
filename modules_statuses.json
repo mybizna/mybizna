@@ -1,6 +1,22 @@
 {
     "Account": true,
+    "Base": true,
+    "Bill": true,
     "Blog": true,
+    "Crm": true,
+    "Expense": true,
+    "Fleet": true,
+    "Hrm": true,
+    "Invoice": true,
+    "Mail": true,
+    "Massmail": true,
     "Media": true,
+    "Mrp": true,
+    "Partner": true,
+    "Payment": true,
+    "Product": true,
+    "Purchase": true,
+    "Sale": true,
+    "Stock": true,
     "Taxonomy": true
 }

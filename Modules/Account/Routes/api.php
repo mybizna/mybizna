@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     ['prefix' => 'accounts', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\AccountsController';
+        $apicontroller = 'AccountsController';
 
         Route::get('/', $apicontroller . '@get_accounts')
             ->middleware('sanctum.abilities:erp_ac_view_bank_accounts');
@@ -45,7 +45,7 @@ Route::group(
 Route::group(
     ['prefix' => 'bills', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\BillsController';
+        $apicontroller = 'BillsController';
 
         Route::get('/', $apicontroller . '@get_bills')
             ->middleware('sanctum.abilities:erp_ac_view_expense');
@@ -71,7 +71,7 @@ Route::group(
 Route::group(
     ['prefix' => 'closing-balance', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::post('/', $apicontroller . '@close_balancesheet')
             ->middleware('sanctum.abilities:erp_ac_create_expenses_voucher');
@@ -87,7 +87,7 @@ Route::group(
 Route::group(
     ['prefix' => 'company', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
 
         Route::get('/', $apicontroller . '@get_company')
@@ -98,7 +98,7 @@ Route::group(
 Route::group(
     ['prefix' => 'currencies', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_currencies')
             ->middleware('sanctum.abilities:erp_ac_view_dashboard');
@@ -108,7 +108,7 @@ Route::group(
 Route::group(
     ['prefix' => 'customers', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_customers')
             ->middleware('sanctum.abilities:erp_ac_view_customer');
@@ -142,7 +142,7 @@ Route::group(
 Route::group(
     ['prefix' => 'employees', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_employees')
             ->middleware('sanctum.abilities:erp_view_list');
@@ -158,7 +158,7 @@ Route::group(
 Route::group(
     ['prefix' => 'expenses', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_expenses')
             ->middleware('sanctum.abilities:erp_ac_view_expense');
@@ -180,7 +180,7 @@ Route::group(
 Route::group(
     ['prefix' => 'expenses', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_expenses')
             ->middleware('sanctum.abilities:erp_ac_view_expense');
@@ -203,7 +203,7 @@ Route::group(
 Route::group(
     ['prefix' => 'invoices', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_invoices')
             ->middleware('sanctum.abilities:erp_ac_view_sale');
@@ -232,7 +232,7 @@ Route::group(
 Route::group(
     ['prefix' => 'journals', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_journals')
             ->middleware('sanctum.abilities:erp_ac_view_journal');
@@ -251,7 +251,7 @@ Route::group(
 Route::group(
     ['prefix' => 'ledgers', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_all_ledger_accounts')
             ->middleware('sanctum.abilities:erp_ac_view_account_lists');
@@ -292,7 +292,7 @@ Route::group(
 Route::group(
     ['prefix' => 'opening-balances', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_opening_balances')
             ->middleware('sanctum.abilities:erp_ac_view_journal');
@@ -318,7 +318,7 @@ Route::group(
 Route::group(
     ['prefix' => 'pay-bills', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_pay_bills')
             ->middleware('sanctum.abilities:erp_ac_view_expense');
@@ -339,7 +339,7 @@ Route::group(
 Route::group(
     ['prefix' => 'pay-purchases', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_pay_purchases')
             ->middleware('sanctum.abilities:erp_ac_view_expense');
@@ -359,7 +359,7 @@ Route::group(
 Route::group(
     ['prefix' => 'people', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_all_people')
             ->middleware('sanctum.abilities:erp_ac_view_expense');
@@ -381,7 +381,7 @@ Route::group(
 Route::group(
     ['prefix' => 'product-cats', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_all_inventory_product_cats')
             ->middleware('sanctum.abilities:erp_ac_manager');
@@ -403,7 +403,7 @@ Route::group(
 Route::group(
     ['prefix' => 'products', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_inventory_products')
             ->middleware('sanctum.abilities:erp_ac_manager');
@@ -431,7 +431,7 @@ Route::group(
 Route::group(
     ['prefix' => 'purchases', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_purchases')
             ->middleware('sanctum.abilities:erp_ac_view_expense');
@@ -454,7 +454,7 @@ Route::group(
 Route::group(
     ['prefix' => 'payments', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_payments')
             ->middleware('sanctum.abilities:erp_ac_view_sale');
@@ -474,7 +474,7 @@ Route::group(
 Route::group(
     ['prefix' => 'reports', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/trial-balance', $apicontroller . '@get_trial_balance')
             ->middleware('sanctum.abilities:erp_ac_view_sales_summary');
@@ -499,7 +499,7 @@ Route::group(
 Route::group(
     ['prefix' => 'tax-agencies', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_tax_agencies')
             ->middleware('sanctum.abilities:erp_ac_view_sale');
@@ -524,7 +524,7 @@ Route::group(
 Route::group(
     ['prefix' => 'tax-cats', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_tax_cats')
             ->middleware('sanctum.abilities:erp_ac_view_sale');
@@ -546,7 +546,7 @@ Route::group(
 Route::group(
     ['prefix' => 'tax-rate-names', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_tax_rate_names')
             ->middleware('sanctum.abilities:erp_ac_view_sale');
@@ -569,7 +569,7 @@ Route::group(
 Route::group(
     ['prefix' => 'taxes', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_tax_rates')
             ->middleware('sanctum.abilities:erp_ac_view_sale');
@@ -615,7 +615,7 @@ Route::group(
 Route::group(
     ['prefix' => 'transactions', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/{voucher_no}', $apicontroller . '@get_transaction_type')
             ->middleware('sanctum.abilities:erp_ac_view_sales_summary');
@@ -674,7 +674,7 @@ Route::group(
 Route::group(
     ['prefix' => 'vendors', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'Modules\Account\Http\Controllers\ClosingBalanceController';
+        $apicontroller = 'ClosingBalanceController';
 
         Route::get('/', $apicontroller . '@get_vendors')
             ->middleware('sanctum.abilities:erp_ac_view_vendor');

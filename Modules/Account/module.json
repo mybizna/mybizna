@@ -1,11 +1,11 @@
 {
-    "name": "Blog",
-    "alias": "blog",
+    "name": "Account",
+    "alias": "account",
     "description": "",
     "keywords": [],
     "priority": 0,
     "providers": [
-        
+        "Modules\\Account\\Providers\\AccountServiceProvider"
     ],
     "aliases": {},
     "files": [],

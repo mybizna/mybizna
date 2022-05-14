@@ -1,11 +1,11 @@
 {
-    "name": "Blog",
-    "alias": "blog",
+    "name": "Massmail",
+    "alias": "massmail",
     "description": "",
     "keywords": [],
     "priority": 0,
     "providers": [
-        
+
     ],
     "aliases": {},
     "files": [],

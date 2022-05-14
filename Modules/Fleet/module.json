@@ -1,11 +1,11 @@
 {
-    "name": "Blog",
-    "alias": "blog",
+    "name": "Fleet",
+    "alias": "fleet",
     "description": "",
     "keywords": [],
     "priority": 0,
     "providers": [
-        
+
     ],
     "aliases": {},
     "files": [],

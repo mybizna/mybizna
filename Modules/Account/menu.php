@@ -29,5 +29,3 @@ $this->add_submenu("account", "products", "Products & Services", "/products/prod
 $this->add_submenu("account", "products", "Products Categories", "/products/product-categories", 5);
 $this->add_submenu("account", "products", "Inventory", "/products/inventory", 5);
 $this->add_submenu("account", "products", "Inventory", "/products/inventory", 5);
-
-
