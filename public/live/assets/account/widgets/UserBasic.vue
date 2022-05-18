@@ -91,8 +91,8 @@ export default {
                     name: "Full Name",
                     email: "email@mail.com",
                     photo:
-                        this.$erp_acct_var.acct_assets +
-                        "/images/dummy-user.png" /* global this.$erp_acct_var */,
+                        this.$mybizna_var.acct_assets +
+                        "/images/dummy-user.png" /* global this.$mybizna_var */,
                     meta: {
                         phone: "+ 88101230123",
                         mobile: "+ 999999999",

@@ -101,6 +101,7 @@ class TransactionsController extends Controller
     public function get_sales_chart_status(Request $request)
     {
         $trans = new Transactions();
+
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
@@ -114,14 +115,16 @@ class TransactionsController extends Controller
     /**
      * Chart payment
      */
-    public function get_sales_chart_payment(Request $request)
+    public function getSalesChartPayment(Request $request)
     {
+        $trans = new Transactions();
+
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
         ];
 
-        $chart_payment = $this->getSalesChartPayment($args);
+        $chart_payment = $trans->getSalesChartPayment($args);
 
         return response()->json($chart_payment);
     }
@@ -150,6 +153,7 @@ class TransactionsController extends Controller
     public function get_expense_chart_data(Request $request)
     {
         $trans = new Transactions();
+
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],

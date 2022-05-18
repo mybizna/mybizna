@@ -118,7 +118,7 @@ export default {
             endDate: null,
             customer: null,
             taxes: [],
-            symbol: this.$erp_acct_var.symbol,
+            symbol: this.$mybizna_var.symbol,
             columns: {
                 voucher_no: {
                     label: this.$func.__("Voucher No", "erp"),
@@ -162,7 +162,7 @@ export default {
             const year = dateObj.getFullYear();
 
             this.startDate = `${year}-${month}-01`;
-            this.endDate = this.$erp_acct_var.current_date;
+            this.endDate = this.$mybizna_var.current_date;
 
             if (!this.customers.length) {
                 this.$store.dispatch("sales/fillCustomers", []);

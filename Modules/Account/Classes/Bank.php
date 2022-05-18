@@ -34,7 +34,6 @@ class Bank
     {
         $trialbal = new TrialBalance();
         $ledger = new LedgerAccounts();
-
         $opening_balance = new OpeningBalance();
 
         $args               = [];

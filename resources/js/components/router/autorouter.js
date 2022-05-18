@@ -42,9 +42,11 @@ function path_updater(route) {
 
 export default async function (router) {
 
+    console.log('sdfsdfdsfds');
     // Make a request for a user with a given ID
     await window.axios.get(window.base_url + '/api/discover_modules');
 
+    console.log('sdfsdfdsfds');
     // Make a request for a user with a given ID
     await window.axios.get(window.base_url + '/api/fetch_routes')
         .then(function (response) {

@@ -51,7 +51,7 @@ export default {
             accounts: [],
             fa: [],
             ta: [],
-            transferdate: this.$erp_acct_var.current_date /* global erp_acct_var */,
+            transferdate: this.$mybizna_var.current_date /* global mybizna_var */,
             particulars: "",
             amount: "",
             money_transfer: false,

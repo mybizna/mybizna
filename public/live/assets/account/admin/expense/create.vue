@@ -277,7 +277,7 @@
                                     >
                                         <img
                                             :src="
-                                                erp_acct_assets +
+                                               mybizna_assets +
                                                 '/images/file-thumb.png'
                                             "
                                         />
@@ -403,7 +403,7 @@ export default {
             particulars: "",
             isWorking: false,
             accts_by_chart: [],
-            erp_acct_assets: this.$erp_acct_var.acct_assets /* global this.$erp_acct_var */,
+           mybizna_assets: this.$mybizna_var.acct_assets /* global this.$mybizna_var */,
         };
     },
 
@@ -484,8 +484,8 @@ export default {
                 this.getLedgers();
                 this.getPayMethods();
 
-                this.basic_fields.trn_date = this.$erp_acct_var.current_date;
-                this.basic_fields.due_date = this.$erp_acct_var.current_date;
+                this.basic_fields.trn_date = this.$mybizna_var.current_date;
+                this.basic_fields.due_date = this.$mybizna_var.current_date;
                 this.transactionLines.push({}, {}, {});
 
                 // initialize combo button id with `save`
@@ -749,12 +749,12 @@ export default {
                         }
                     });
                 });
-                /* global erp_reimbursement_var */
+                /* globalmybizna_reimbursement_var */
             } else if (this.basic_fields.trn_by.id === "4") {
                 if (
-                    erp_reimbursement_var.erp_reimbursement_module !==
+                   mybizna_reimbursement_var.erp_reimbursement_module !==
                         "undefined" &&
-                    erp_reimbursement_var.erp_reimbursement_module === "1"
+                   mybizna_reimbursement_var.erp_reimbursement_module === "1"
                 ) {
                     window.axios
                         .get("/people-transactions/balances")
@@ -780,7 +780,7 @@ export default {
             this.basic_fields = {
                 people: "",
                 trn_ref: "",
-                trn_date: this.$erp_acct_var.current_date,
+                trn_date: this.$mybizna_var.current_date,
                 deposit_to: "",
                 trn_by: "",
                 billing_address: "",

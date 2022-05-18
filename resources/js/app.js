@@ -51,7 +51,7 @@ const app = createApp(App)
 
 loadFonts();
 
-let base_url = window.base_url + '/api';
+let base_url = window.base_url+'/api';
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxx  App Initializer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -1578,6 +1578,7 @@ app.config.globalProperties.$func = filters;
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 Axios.defaults.baseURL = base_url;
+Axios.defaults.withCredentials = true;
 
 
 Axios.defaults.timeout = 10000;
@@ -1600,7 +1601,7 @@ Axios.interceptors.request.use(function (config) {
     }
 
     // Do something with request error
-    console.error(error);
+    console.log(error);
     return Promise.reject(error);
 });
 
@@ -1625,12 +1626,52 @@ Axios.interceptors.response.use(function (response) {
     };
 
     // Do something with response error
-    console.error(error);
+    console.log(error);
     return Promise.reject(error);
 });
 
+
 app.config.globalProperties.$http = app.config.globalProperties.$axios = window.axios = Axios;
 
+
+// Create axios instance with base url and credentials support
+window.axios.interceptors.request.use(function (config) {
+
+    console.log(Cookies.get('XSRF-TOKEN'));
+
+    // If http method is `post | put | delete` and XSRF-TOKEN cookie is
+    // not present, call '/sanctum/csrf-cookie' to set CSRF token, then
+    // proceed with the initial response
+
+    const tmp_config = async (config) => {
+
+        if ((
+                config.method == 'patch' ||
+                config.method == 'post' ||
+                config.method == 'put' ||
+                config.method == 'delete'
+                /* other methods you want to add here */
+            ) && !Cookies.get('XSRF-TOKEN')) {
+
+                 console.log("Cookies.get('XSRF-TOKEN')");
+
+                await window.axios.get(window.base_url + '/sanctum/csrf-cookie')
+                .then(function(response){
+                    console.log(response);
+                });
+
+            return await window.axios.get(window.base_url + '/sanctum/csrf-cookie')
+                .then(response => config);
+        }
+
+        return config;
+    };
+
+    return tmp_config(config);
+
+}, function (error) {
+    return Promise.reject(error);
+});
 
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -1656,6 +1697,12 @@ const store = createStore({
 });
 
 window.$store = store;
+
+if(window.$store.state.auth.token){
+    console.log('window.$store.state.auth.token');
+    console.log(window.$store.state.auth.token);
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.$store.state.auth.token;
+}
 
 app.use(store);
 

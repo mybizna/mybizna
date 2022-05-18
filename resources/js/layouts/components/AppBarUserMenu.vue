@@ -10,7 +10,7 @@
             <v-avatar size="28px">
                 <v-img src="images/avatars/1.png"></v-img>
             </v-avatar>
-            <div style="line-height:28px;">Admin</div>
+            <div style="line-height: 28px">Admin</div>
         </v-badge>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -18,10 +18,7 @@
                 <a class="dropdown-item" href="#">Action</a>
             </li>
             <li>
-                <a class="dropdown-item" href="#">Another action</a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="#" @click="logout()">Logout</a>
             </li>
         </ul>
     </div>
@@ -31,6 +28,12 @@
 export default {
     setup() {
         return {};
+    },
+
+    methods: {
+        logout() {
+            this.$store.commit("auth/logout");
+        },
     },
 };
 </script>

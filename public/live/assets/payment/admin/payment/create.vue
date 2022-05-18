@@ -227,7 +227,7 @@
                                 >
                                     <img
                                         :src="
-                                            erp_acct_assets +
+                                           mybizna_assets +
                                             '/images/file-thumb.png'
                                         "
                                     />
@@ -323,7 +323,7 @@ export default {
             particulars: "",
             isWorking: false,
             accts_by_chart: [],
-            erp_acct_assets: this.$erp_acct_var.acct_assets /* global this.$erp_acct_var */,
+           mybizna_assets: this.$mybizna_var.acct_assets /* global this.$mybizna_var */,
             reset: false,
             negativeAmount: [],
             negativeTotal: false,
@@ -404,7 +404,7 @@ export default {
                  * create a new Receive Payment
                  * -----------------------------------------------
                  */
-                this.basic_fields.payment_date = this.$erp_acct_var.current_date;
+                this.basic_fields.payment_date = this.$mybizna_var.current_date;
 
                 this.getPayMethods();
             }
@@ -622,12 +622,12 @@ export default {
                         }
                     });
                 });
-                /* global erp_reimbursement_var */
+                /* globalmybizna_reimbursement_var */
             } else if (this.basic_fields.trn_by.id === "4") {
                 if (
-                    erp_reimbursement_var.erp_reimbursement_module !==
+                   mybizna_reimbursement_var.erp_reimbursement_module !==
                         "undefined" &&
-                    erp_reimbursement_var.erp_reimbursement_module === "1"
+                   mybizna_reimbursement_var.erp_reimbursement_module === "1"
                 ) {
                     window.axios
                         .get("/people-transactions/balances")
@@ -700,7 +700,7 @@ export default {
             this.basic_fields = {
                 customer: "",
                 trn_ref: "",
-                payment_date: this.$erp_acct_var.current_date,
+                payment_date: this.$mybizna_var.current_date,
                 deposit_to: "",
                 billing_address: "",
                 trn_by: "",

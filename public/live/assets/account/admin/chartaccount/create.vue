@@ -308,8 +308,8 @@ export default {
         },
 
         isDuplicateLedger(requestData) {
-            /* global this.$erp_acct_var */
-            const current_ledgers = this.$erp_acct_var.ledgers.filter((led) => {
+            /* global this.$mybizna_var */
+            const current_ledgers = this.$mybizna_var.ledgers.filter((led) => {
                 return led.id !== this.$route.params.id;
             });
 

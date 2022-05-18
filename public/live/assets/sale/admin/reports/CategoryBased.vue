@@ -125,7 +125,7 @@ export default {
                 trn_date: { label: this.$func.__("Transaction Date", "erp") },
                 tax_amount: { label: this.$func.__("Tax Amount", "erp") },
             },
-            symbol: this.$erp_acct_var.symbol,
+            symbol: this.$mybizna_var.symbol,
         };
     },
 
@@ -136,7 +136,7 @@ export default {
             const year = dateObj.getFullYear();
 
             this.startDate = `${year}-${month}-01`;
-            this.endDate = this.$erp_acct_var.current_date;
+            this.endDate = this.$mybizna_var.current_date;
 
             this.fetchData();
         });
