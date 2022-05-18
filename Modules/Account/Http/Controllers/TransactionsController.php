@@ -20,7 +20,7 @@ class TransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_transaction_type(Request $request)
+    public function getTransactionType(Request $request)
     {
         $trans = new Transactions();
 
@@ -38,7 +38,7 @@ class TransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_trn_statuses(Request $request)
+    public function getTrnStatuses(Request $request)
     {
 
 
@@ -54,7 +54,7 @@ class TransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_sales(Request $request)
+    public function getSales(Request $request)
     {
         $args = [
             'number'     => empty($request['per_page']) ? 20 : (int) $request['per_page'],
@@ -98,7 +98,7 @@ class TransactionsController extends Controller
     /**
      * Chart status
      */
-    public function get_sales_chart_status(Request $request)
+    public function getSalesChartStatus(Request $request)
     {
         $trans = new Transactions();
 
@@ -136,7 +136,7 @@ class TransactionsController extends Controller
      *
      * @return mixed|\Illuminate\Http\Response
      */
-    public function get_income_expense_overview(Request $request)
+    public function getIncomeExpenseOverview(Request $request)
     {
         $data = $this->getIncomeExpenseChartData();
 
@@ -150,7 +150,7 @@ class TransactionsController extends Controller
      *
      * @return mixed|\Illuminate\Http\Response
      */
-    public function get_expense_chart_data(Request $request)
+    public function getExpenseChartData(Request $request)
     {
         $trans = new Transactions();
 
@@ -176,7 +176,7 @@ class TransactionsController extends Controller
      *
      * @return mixed|\Illuminate\Http\Response
      */
-    public function get_expense_chart_status(Request $request)
+    public function getExpenseChartStatus(Request $request)
     {
         $trans = new Transactions();
         $args = [
@@ -206,7 +206,7 @@ class TransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_expenses(Request $request)
+    public function getExpenses(Request $request)
     {
         $trans = new Transactions();
         $args = [
@@ -253,7 +253,7 @@ class TransactionsController extends Controller
      *
      * @return mixed|\Illuminate\Http\Response
      */
-    public function get_purchase_chart_data(Request $request)
+    public function getPurchaseChartData(Request $request)
     {
         $trans = new Transactions();
         $args = [
@@ -273,14 +273,16 @@ class TransactionsController extends Controller
      *
      * @return mixed|\Illuminate\Http\Response
      */
-    public function get_purchase_chart_status(Request $request)
+    public function getPurchaseChartStatus(Request $request)
     {
+        $trans = new Transactions();
+
         $args = [
             'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
             'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
         ];
 
-        $chart_status = $this->getPurchaseChartStatus($args);
+        $chart_status = $trans->getPurchaseChartStatus($args);
 
         return response()->json($chart_status);
     }
@@ -292,7 +294,7 @@ class TransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_purchases(Request $request)
+    public function getPurchases(Request $request)
     {
         $trans = new Transactions();
         $args = [

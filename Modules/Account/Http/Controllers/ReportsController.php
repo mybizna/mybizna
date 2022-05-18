@@ -23,7 +23,7 @@ class ReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_trial_balance(Request $request)
+    public function getTrialBalance(Request $request)
     {
         $trial_bal = new TrialBalance();
 
@@ -79,7 +79,7 @@ class ReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_ledger_report(Request $request)
+    public function getLedgerReport(Request $request)
     {
         $report = new Reports();
 
@@ -101,7 +101,7 @@ class ReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_sales_tax_report(Request $request)
+    public function getSalesTaxReport(Request $request)
     {
         $report = new Reports();
 
@@ -129,7 +129,7 @@ class ReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_income_statement(Request $request)
+    public function getIncomeStatement(Request $request)
     {
         $report = new Reports();
 
@@ -152,7 +152,7 @@ class ReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_balance_sheet(Request $request)
+    public function getBalanceSheet(Request $request)
     {
         $report = new Reports();
 
@@ -175,7 +175,7 @@ class ReportsController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function get_closest_fn_year(Request $request)
+    public function getClosestFnYear(Request $request)
     {
         $trialbal = new TrialBalance();
 
@@ -193,7 +193,7 @@ class ReportsController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepare_item_for_response($item, $request, $additional_fields = [])
+    public function prepareItemForResponse($item, $request, $additional_fields = [])
     {
         $data = array_merge($item, $additional_fields);
 

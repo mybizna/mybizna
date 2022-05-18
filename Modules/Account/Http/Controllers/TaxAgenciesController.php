@@ -20,7 +20,7 @@ class TaxAgenciesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_tax_agencies(Request $request)
+    public function getTaxAgencies(Request $request)
     {
         $tax_agencies = new TaxAgencies();
 
@@ -67,7 +67,7 @@ class TaxAgenciesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_tax_agency(Request $request)
+    public function getTaxAgency(Request $request)
     {
 
         $tax_agencies = new TaxAgencies();
@@ -96,7 +96,7 @@ class TaxAgenciesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_tax_agency(Request $request)
+    public function createTaxAgency(Request $request)
     {
         $tax_agencies = new TaxAgencies();
 
@@ -123,7 +123,7 @@ class TaxAgenciesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update_tax_agency(Request $request)
+    public function updateTaxAgency(Request $request)
     {
 
         $tax_agencies = new TaxAgencies();
@@ -157,7 +157,7 @@ class TaxAgenciesController extends Controller
      *
      * @return void
      */
-    public function get_agency_due(Request $request)
+    public function getAgencyDue(Request $request)
     {
 
         $tax_agencies = new TaxAgencies();
@@ -181,7 +181,7 @@ class TaxAgenciesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function delete_tax_agency(Request $request)
+    public function deleteTaxAgency(Request $request)
     {
         $tax_agencies = new TaxAgencies();
 
@@ -206,7 +206,7 @@ class TaxAgenciesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function bulk_delete(Request $request)
+    public function bulkDelete(Request $request)
     {
 
         $tax_agencies = new TaxAgencies();
@@ -238,7 +238,7 @@ class TaxAgenciesController extends Controller
      *
      * @return void
      */
-    public function add_log($data, $action, $old_data = [])
+    public function addLog($data, $action, $old_data = [])
     {
         $common = new CommonFunc();
 
@@ -264,7 +264,7 @@ class TaxAgenciesController extends Controller
      *
      * @return array $prepared_item
      */
-    protected function prepare_item_for_database(Request $request)
+    protected function prepareItemForDatabase(Request $request)
     {
         $prepared_item = [];
 
@@ -303,7 +303,7 @@ class TaxAgenciesController extends Controller
      *
      * @return array
      */
-    public function get_item_schema()
+    public function getItemSchema()
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',

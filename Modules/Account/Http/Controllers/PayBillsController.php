@@ -11,6 +11,7 @@ use Modules\Account\Classes\PayBills;
 
 
 use Illuminate\Support\Facades\DB;
+use Modules\Payment\Entities\PayBill;
 
 class PayBillsController extends Controller
 {
@@ -24,6 +25,8 @@ class PayBillsController extends Controller
      */
     public function getPayBills(Request $request)
     {
+        $paybills = new PayBill();
+
         $args = [
             'number' => isset($request['per_page']) ? $request['per_page'] : 20,
             'offset' => ($request['per_page'] * ($request['page'] - 1)),
@@ -35,13 +38,8 @@ class PayBillsController extends Controller
         $additional_fields['namespace'] = $this->namespace;
         $additional_fields['rest_base'] = $this->rest_base;
 
-        $pay_bill_data = $this->getPayBills($args);
-        $total_items   = $this->getPayBills(
-            [
-                'count'  => true,
-                'number' => -1,
-            ]
-        );
+        $pay_bill_data = $paybills->getPayBills($args);
+        $total_items   = $paybills->getPayBills(['count'  => true, 'number' => -1,]);
 
         foreach ($pay_bill_data as $item) {
             if (isset($request['include'])) {
@@ -182,7 +180,7 @@ class PayBillsController extends Controller
 
         $old_data = $paybills->getPayBill($id);
 
-        $this->voidPayBill($id);
+        $paybills->voidPayBill($id);
 
         $this->addLog($old_data, 'delete');
 
