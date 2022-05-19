@@ -38,7 +38,7 @@ class TaxRateNames
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM erp_acct_taxes ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM account_tax ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
             $tax_rates_count = DB::scalar($sql);
@@ -64,7 +64,7 @@ class TaxRateNames
     {
 
 
-        $row = DB::select("SELECT * FROM erp_acct_taxes WHERE id = %d LIMIT 1", [$tax_no]);
+        $row = DB::select("SELECT * FROM account_tax WHERE id = %d LIMIT 1", [$tax_no]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -84,12 +84,12 @@ class TaxRateNames
         $data['created_by'] = $created_by;
 
         if (!empty($data['default'])) {
-            DB::update("UPDATE erp_acct_taxes SET `default` = 0");
+            DB::update("UPDATE account_tax SET `default` = 0");
         }
 
         $tax_data = $this->getFormattedTaxRateNameData($data);
 
-        return DB::table('erp_acct_taxes')
+        return DB::table('account_tax')
             ->insertGetId(
                 [
                     'tax_rate_name' => $tax_data['tax_rate_name'],
@@ -121,10 +121,10 @@ class TaxRateNames
         $tax_data = $this->getFormattedTaxRateNameData($data);
 
         if (!empty($tax_data['default'])) {
-            DB::update("UPDATE erp_acct_taxes SET `default` = 0");
+            DB::update("UPDATE account_tax SET `default` = 0");
         }
 
-        DB::table('erp_acct_taxes')
+        DB::table('account_tax')
             ->where('id', $id)
             ->update(
                 [
@@ -151,7 +151,7 @@ class TaxRateNames
     {
 
 
-        DB::table('erp_acct_taxes')->where([['id' => $id]])->delete();
+        DB::table('account_tax')->where([['id' => $id]])->delete();
 
 
         return $id;

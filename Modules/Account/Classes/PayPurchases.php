@@ -44,7 +44,7 @@ class PayPurchases
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM erp_acct_pay_purchase ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM payment_pay_purchase ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
             return DB::scalar($sql);
@@ -86,7 +86,7 @@ class PayPurchases
                 pay_purchase.created_at,
                 pay_purchase.attachments,
                 pay_purchase.trn_by_ledger_id
-            FROM erp_acct_pay_purchase AS pay_purchase
+            FROM payment_pay_purchase AS pay_purchase
             WHERE pay_purchase.voucher_no = %d",
             [$purchase_no]
         );
@@ -111,10 +111,10 @@ class PayPurchases
 
 
         return DB::select(
-            "SELECT * FROM erp_acct_pay_purchase AS pay_purchase
-            LEFT JOIN erp_acct_pay_purchase_details AS pay_purchase_detail
+            "SELECT * FROM payment_pay_purchase AS pay_purchase
+            LEFT JOIN payment_pay_purchase_details AS pay_purchase_detail
             ON pay_purchase.voucher_no = pay_purchase_detail.voucher_no
-            LEFT JOIN erp_acct_voucher_no AS voucher
+            LEFT JOIN purchase_voucher_no AS voucher
             ON pay_purchase_detail.voucher_no = voucher.id
             WHERE pay_purchase.voucher_no = %d",
             [$voucher_no]
@@ -154,7 +154,7 @@ class PayPurchases
             }
 
             //create voucher
-            $voucher_no =  DB::table('erp_acct_voucher_no')
+            $voucher_no =  DB::table('purchase_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => $trn_type,
@@ -176,7 +176,7 @@ class PayPurchases
                 $transaction_charge = (float)$pay_purchase_data['bank_trn_charge'];
             }
 
-            DB::table('erp_acct_pay_purchase')
+            DB::table('payment_pay_purchase')
                 ->insert(
                     [
                         'voucher_no'         => $voucher_no,
@@ -201,7 +201,7 @@ class PayPurchases
             $items = $pay_purchase_data['purchase_details'];
 
             foreach ($items as $key => $item) {
-                DB::table('erp_acct_pay_purchase_details')
+                DB::table('payment_pay_purchase_details')
                     ->insert(
                         [
                             'voucher_no'  => $voucher_no,
@@ -239,7 +239,7 @@ class PayPurchases
                     $credit  = floatval($item['line_total']);
                 }
 
-                DB::table('erp_acct_purchase_account_details')
+                DB::table('purchase_account_details')
                     ->insert(
                         [
                             'purchase_no' => $item['voucher_no'],
@@ -271,7 +271,7 @@ class PayPurchases
 
             $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
-            do_action('erp_acct_after_pay_purchase_create', $pay_purchase_data, $voucher_no);
+            do_action('after_pay_purchase_create', $pay_purchase_data, $voucher_no);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -289,7 +289,7 @@ class PayPurchases
 
         $pay_purchase['email'] = $people->getPeopleEmail($data['vendor_id']);
 
-        do_action('erp_acct_new_transaction_pay_purchase', $voucher_no, $pay_purchase);
+        do_action('new_transaction_pay_purchase', $voucher_no, $pay_purchase);
 
 
         return $pay_purchase;
@@ -314,7 +314,7 @@ class PayPurchases
 
             $pay_purchase_data = $this->getFormattedPayPurchaseData($data, $pay_purchase_id);
 
-            DB::table('erp_acct_pay_purchase')
+            DB::table('payment_pay_purchase')
                 ->where('voucher_no', $pay_purchase_id)
                 ->update(
                     [
@@ -333,7 +333,7 @@ class PayPurchases
             $items = $pay_purchase_data['purchase_details'];
 
             foreach ($items as $key => $item) {
-                DB::table('erp_acct_pay_purchase_details')
+                DB::table('payment_pay_purchase_details')
                     ->where('voucher_no', $pay_purchase_id)
                     ->update(
                         [
@@ -365,7 +365,7 @@ class PayPurchases
                     $credit  = floatval($item['amount']);
                 }
 
-                DB::table('erp_acct_purchase_account_details')
+                DB::table('purchase_account_details')
                     ->where('purchase_no', $item['voucher_no'])
                     ->update(
                         [
@@ -411,14 +411,14 @@ class PayPurchases
             return;
         }
 
-        DB::table('erp_acct_pay_purchase')
+        DB::table('payment_pay_purchase')
             ->where('voucher_no', $id)
             ->update(
                 ['status' => 8]
             );
 
-        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
-        DB::table('erp_acct_purchase_account_details')->where([['trn_no' => $id]])->delete();
+        DB::table('account_ledger_detail')->where([['trn_no' => $id]])->delete();
+        DB::table('purchase_account_details')->where([['trn_no' => $id]])->delete();
     }
 
     /**
@@ -490,7 +490,7 @@ class PayPurchases
         }
 
         // Insert amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 [
                     'ledger_id'   => $pay_purchase_data['trn_by_ledger_id'],
@@ -534,7 +534,7 @@ class PayPurchases
         }
 
         // Update amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->where(
                 [
                     'trn_no' => $pay_purchase_no,
@@ -564,7 +564,7 @@ class PayPurchases
     {
 
 
-        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_pay_purchase');
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'payment_pay_purchase');
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->count;
@@ -584,7 +584,7 @@ class PayPurchases
         $due = $purchases->getPurchaseDue($purchase_no);
 
         if (0 == $due) {
-            DB::table('erp_acct_purchase')
+            DB::table('purchase')
                 ->where('voucher_no', $purchase_no)
                 ->update(
                     [
@@ -592,7 +592,7 @@ class PayPurchases
                     ]
                 );
         } else {
-            DB::table('erp_acct_purchase')
+            DB::table('purchase')
                 ->where('voucher_no', $purchase_no)
                 ->update(
                     [

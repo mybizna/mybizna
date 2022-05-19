@@ -9,6 +9,7 @@ class EmployeeRemoteWorkRequest extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "hrm_employee_remote_work_request";
 
     /**

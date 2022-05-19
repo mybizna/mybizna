@@ -20,10 +20,10 @@ class Currencies
 
 
         if ($count) {
-            return DB::scalar("SELECT count(*) FROM erp_acct_currency_info");
+            return DB::scalar("SELECT count(*) FROM account_currency_info");
         }
 
-        return DB::select("SELECT id, name, sign FROM erp_acct_currency_info");
+        return DB::select("SELECT id, name, sign FROM account_currency_info");
     }
 
     /**
@@ -57,7 +57,7 @@ class Currencies
         $active_currency_id = $common->getCurrency(true);
 
         return DB::scalar(
-            "SELECT sign FROM erp_acct_currency_info WHERE id = %d",
+            "SELECT sign FROM account_currency_info WHERE id = %d",
             [absint($active_currency_id)]
         );
     }
@@ -71,7 +71,7 @@ class Currencies
      */
     public function getPriceFormat()
     {
-        $currency_pos = config('erp_ac_currency_position', false, 'left');
+        $currency_pos = config('currency_position', false, 'left');
         $format       = '%s%v';
 
         switch ($currency_pos) {
@@ -92,7 +92,7 @@ class Currencies
                 break;
         }
 
-        return apply_filters('erp_acct_price_format', $format, $currency_pos);
+        return apply_filters('price_format', $format, $currency_pos);
     }
 
     /**
@@ -104,7 +104,7 @@ class Currencies
      */
     public function getPriceFormatPhp()
     {
-        $currency_pos = config('erp_ac_currency_position', false, 'left');
+        $currency_pos = config('currency_position', false, 'left');
         $format       = '%1$s%2$s';
 
         switch ($currency_pos) {
@@ -125,7 +125,7 @@ class Currencies
                 break;
         }
 
-        return apply_filters('erp_acct_price_format_php', $format, $currency_pos);
+        return apply_filters('price_format_php', $format, $currency_pos);
     }
 
     /**
@@ -141,14 +141,14 @@ class Currencies
         $common = new CommonFunc();
         extract(
             apply_filters(
-                'erp_acct_price_args',
+                'price_args',
                 wp_parse_args(
 
                     [
                         'currency'           => $common->getCurrency(),
-                        'decimal_separator'  => config('erp_ac_de_separator', false, '.'),
-                        'thousand_separator' => config('erp_ac_th_separator', false, ','),
-                        'decimals'           => absint(config('erp_ac_nm_decimal', false, 2)),
+                        'decimal_separator'  => config('de_separator', false, '.'),
+                        'thousand_separator' => config('th_separator', false, ','),
+                        'decimals'           => absint(config('nm_decimal', false, 2)),
                         'price_format'       => $this->getPriceFormatPhp(),
                         'symbol'             => true,
                         'currency_symbol'    => $this->getCurrencySymbol(),
@@ -162,6 +162,6 @@ class Currencies
         $formatted_price = $symbol ? sprintf($price_format, $currency_symbol, $price) : $price;
         $formatted_price = ($main_price < 0) ? '(' . $formatted_price . ')' : $formatted_price;
 
-        return apply_filters('erp_acct_price', $formatted_price, $price, $args);
+        return apply_filters('price', $formatted_price, $price, $args);
     }
 }

@@ -48,14 +48,14 @@ class CommonFunc
 
         $usd = 148;
 
-        $currency_id = config('erp_currency', $usd);
+        $currency_id = config('currency', $usd);
 
         if ($get_only_id) {
             return $currency_id;
         }
 
         $currency_name = DB::scalar(
-            "SELECT name FROM erp_acct_currency_info WHERE id = %d",
+            "SELECT name FROM account_currency_info WHERE id = %d",
             [$currency_id]
         );
 
@@ -154,8 +154,8 @@ class CommonFunc
         $from_date = date('Y-m-d', strtotime($from));
         $to_date   = date('Y-m-d', strtotime($to));
 
-        $purchases             = 'erp_acct_purchase';
-        $purchase_acct_details = 'erp_acct_purchase_account_details';
+        $purchases             = 'purchase';
+        $purchase_acct_details = 'purchase_account_details';
 
         $purchase_query = "Select voucher_no, SUM(ad.debit - ad.credit) as due, due_date
         FROM $purchases LEFT JOIN $purchase_acct_details as ad
@@ -164,8 +164,8 @@ class CommonFunc
 
         $purchase_results = DB::select($purchase_query);
 
-        $bills             = 'erp_acct_bills';
-        $bill_acct_details = 'erp_acct_bill_account_details';
+        $bills             = 'bill';
+        $bill_acct_details = 'bill_account_detail';
         $bills_query       = "Select voucher_no, SUM(ad.debit - ad.credit) as due, due_date
         FROM $bills LEFT JOIN $bill_acct_details as ad
         ON ad.bill_no = voucher_no  where due_date
@@ -258,7 +258,7 @@ class CommonFunc
     {
 
 
-        DB::table('erp_acct_expense_checks')
+        DB::table('expense_check')
             ->insert(
                 [
                     'trn_no'       => $check_data['voucher_no'],
@@ -288,7 +288,7 @@ class CommonFunc
     {
 
 
-        DB::table('erp_acct_expense_checks')
+        DB::table('expense_check')
             ->insert(
                 [
                     'trn_no'       => $check_data['voucher_no'],
@@ -319,7 +319,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT first_name, last_name, email FROM erp_peoples WHERE id = %d LIMIT 1", [$people_id]);
+        $row = DB::select("SELECT first_name, last_name, email FROM `partner` WHERE id = %d LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -336,7 +336,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name, slug, code FROM erp_acct_ledgers WHERE id = %d LIMIT 1", [$ledger_id]);
+        $row = DB::select("SELECT name, slug, code FROM account_ledger WHERE id = %d LIMIT 1", [$ledger_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -365,7 +365,7 @@ class CommonFunc
         }
 
         $row = DB::select(
-            "SELECT * FROM erp_acct_ledgers WHERE $field = %s LIMIT 1",
+            "SELECT * FROM account_ledger WHERE $field = %s LIMIT 1",
             [$value]
         );
 
@@ -384,7 +384,7 @@ class CommonFunc
     public function getProductTypeById($product_type_id)
     {
 
-        $row = DB::select("SELECT name FROM erp_acct_product_types WHERE id = %d LIMIT 1", [$product_type_id]);
+        $row = DB::select("SELECT name FROM product_type WHERE id = %d LIMIT 1", [$product_type_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -401,7 +401,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name FROM erp_acct_product_categories WHERE id = %d LIMIT 1", [$cat_id]);
+        $row = DB::select("SELECT name FROM product_category WHERE id = %d LIMIT 1", [$cat_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -418,7 +418,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", [$agency_id]);
+        $row = DB::select("SELECT name FROM account_tax_agency WHERE id = %d LIMIT 1", [$agency_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->name;
@@ -436,7 +436,7 @@ class CommonFunc
 
 
         if (null !== $cat_id) {
-            return DB::scalar("SELECT name FROM erp_acct_tax_categories WHERE id = %d", [$cat_id]);
+            return DB::scalar("SELECT name FROM account_tax_category WHERE id = %d", [$cat_id]);
         }
 
         return '';
@@ -457,7 +457,7 @@ class CommonFunc
             return 'pending';
         }
 
-        $row = DB::select("SELECT type_name FROM erp_acct_trn_status_types WHERE id = %d", [$trn_id]);
+        $row = DB::select("SELECT type_name FROM account_transaction_status_type WHERE id = %d", [$trn_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -475,7 +475,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name FROM erp_acct_payment_methods WHERE id = %d LIMIT 1", [$method_id]);
+        $row = DB::select("SELECT name FROM payment_method WHERE id = %d LIMIT 1", [$method_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -493,7 +493,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name FROM erp_acct_payment_methods WHERE id = %d LIMIT 1", [$method_id]);
+        $row = DB::select("SELECT name FROM payment_method WHERE id = %d LIMIT 1", [$method_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -511,7 +511,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name FROM erp_acct_check_trn_tables WHERE id = %d LIMIT 1", [$trn_type_id]);
+        $row = DB::select("SELECT name FROM expense_check WHERE id = %d LIMIT 1", [$trn_type_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -532,7 +532,7 @@ class CommonFunc
 
         return DB::select(
             "SELECT agency_id, tax_rate
-            FROM erp_acct_tax_cat_agency
+            FROM account_tax_category_agency
             where tax_id = {$tax_id} and tax_cat_id = {$tax_cat_id}"
         );
     }
@@ -550,7 +550,7 @@ class CommonFunc
 
         $result = DB::select(
             "SELECT agency_id, tax_rate
-            FROM erp_acct_invoice_details_tax
+            FROM invoice_detail_tax
             WHERE invoice_details_id = {$invoice_details_id}"
         );
 
@@ -632,7 +632,7 @@ class CommonFunc
             ],
         ];
 
-        return apply_filters('erp_acct_quick_menu', $menus);
+        return apply_filters('quick_menu', $menus);
     }
 
     /**
@@ -659,7 +659,7 @@ class CommonFunc
      */
     public function checkVoucherEditState($id)
     {
-        $res = DB::scalar("SELECT editable FROM erp_acct_voucher_no WHERE id = %d", [$id]);
+        $res = DB::scalar("SELECT editable FROM purchase_voucher_no WHERE id = %d", [$id]);
 
         return !empty($res) ? true : false;
     }
@@ -707,7 +707,7 @@ class CommonFunc
     {
 
 
-        return DB::scalar("SELECT id FROM erp_acct_trn_status_types WHERE slug = %s", [$slug]);
+        return DB::scalar("SELECT id FROM account_transaction_status_type WHERE slug = %s", [$slug]);
     }
 
     /**
@@ -719,7 +719,7 @@ class CommonFunc
     {
 
 
-        return DB::select("SELECT id,type_name as name, slug FROM erp_acct_trn_status_types");
+        return DB::select("SELECT id,type_name as name, slug FROM account_transaction_status_type");
     }
 
 
@@ -778,7 +778,7 @@ class CommonFunc
             return;
         }
 
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 array(
                     'ledger_id'   => $ledger_data['id'],
@@ -794,7 +794,7 @@ class CommonFunc
                 )
             );
 
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 array(
                     'ledger_id'   => $payment_data['trn_by_ledger_id'],
@@ -869,7 +869,7 @@ class CommonFunc
             : (new \DateTime())->format('Y-m-d');
 
         $sql = "SELECT id, name, start_date, end_date
-                FROM erp_acct_financial_years
+                FROM account_financial_year
                 WHERE start_date <= '%s'
                 ORDER BY start_date DESC
                 LIMIT 1";

@@ -9,6 +9,7 @@ class OpeningBalance extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "account_opening_balance";
 
     /**

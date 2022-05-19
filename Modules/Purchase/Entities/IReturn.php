@@ -5,10 +5,11 @@ namespace Modules\Purchase\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Return extends Model
+class IReturn extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "purchase_return";
 
     /**

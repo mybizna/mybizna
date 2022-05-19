@@ -9,6 +9,7 @@ class Tag extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "taxonomy_tag";
 
     /**
@@ -19,7 +20,7 @@ class Tag extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->id();
+        $table->integer('id')->primary();
         $table->string('name');
         $table->timestamp('created_at')->nullable();
         $table->timestamp('updated_at')->nullable();

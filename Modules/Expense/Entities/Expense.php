@@ -9,6 +9,7 @@ class Expense extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 1;
     protected $table = "expense";
 
     /**

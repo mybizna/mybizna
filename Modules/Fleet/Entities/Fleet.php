@@ -9,6 +9,7 @@ class Fleet extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 1;
     protected $table = "fleet";
 
     /**
@@ -19,7 +20,7 @@ class Fleet extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->id();
+        $table->integer('id')->primary();
         $table->string('name');
         $table->timestamp('created_at')->nullable();
         $table->timestamp('updated_at')->nullable();

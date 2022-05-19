@@ -19,7 +19,7 @@ class LedgerAccounts
     {
 
 
-        $charts = DB::select("SELECT id, name AS label FROM erp_acct_chart_of_accounts");
+        $charts = DB::select("SELECT id, name AS label FROM account_chart_of_account");
 
         return $charts;
     }
@@ -35,7 +35,7 @@ class LedgerAccounts
     {
 
 
-        $row = DB::select("SELECT id, name  FROM erp_acct_ledgers WHERE id = %d", [$ledger_id]);
+        $row = DB::select("SELECT id, name  FROM account_ledger WHERE id = %d", [$ledger_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row->name;
     }
@@ -51,7 +51,7 @@ class LedgerAccounts
     {
 
 
-        $ledger_categories = DB::select("SELECT id, name AS label, chart_id, parent_id, system FROM erp_acct_ledger_categories WHERE chart_id = {$chart_id}");
+        $ledger_categories = DB::select("SELECT id, name AS label, chart_id, parent_id, system FROM account_ledger_category WHERE chart_id = {$chart_id}");
 
 
         return $ledger_categories;
@@ -68,10 +68,10 @@ class LedgerAccounts
     {
 
 
-        $exist = DB::scalar("SELECT name FROM erp_acct_ledger_categories WHERE name = %s", [$args['name']]);
+        $exist = DB::scalar("SELECT name FROM account_ledger_category WHERE name = %s", [$args['name']]);
 
         if (!$exist) {
-            $id = DB::table("erp_acct_ledger_categories")
+            $id = DB::table("account_ledger_category")
                 ->insertGetId(
                     [
                         'name'      => $args['name'],
@@ -97,10 +97,10 @@ class LedgerAccounts
     {
 
 
-        $exist = DB::scalar("SELECT name FROM erp_acct_ledger_categories WHERE name = %s AND id <> %d", [$args['name'], $args['id']]);
+        $exist = DB::scalar("SELECT name FROM account_ledger_category WHERE name = %s AND id <> %d", [$args['name'], $args['id']]);
 
         if (!$exist) {
-            return DB::table("erp_acct_ledger_categories")
+            return DB::table("account_ledger_category")
                 ->where('id', $args['id'])
                 ->update(
                     [
@@ -126,9 +126,9 @@ class LedgerAccounts
     {
 
 
-        $parent_id = DB::scalar("SELECT parent_id FROM erp_acct_ledger_categories WHERE id = %d", [$id]);
+        $parent_id = DB::scalar("SELECT parent_id FROM account_ledger_category WHERE id = %d", [$id]);
 
-        $table = "erp_acct_ledger_categories";
+        $table = "account_ledger_category";
 
         DB::table($table)
             ->where('parent_id', $id)
@@ -149,7 +149,7 @@ class LedgerAccounts
     {
 
 
-        $ledgers = DB::select("SELECT id, name FROM erp_acct_ledgers WHERE chart_id = {$chart_id} AND unused IS NULL");
+        $ledgers = DB::select("SELECT id, name FROM account_ledger WHERE chart_id = {$chart_id} AND unused IS NULL");
 
         for ($i = 0; $i < count($ledgers); $i++) {
             $ledgers[$i]['balance'] = $this->getLedgerBalance($ledgers[$i]['id']);
@@ -169,7 +169,7 @@ class LedgerAccounts
     {
 
 
-        $ledger = DB::select("SELECT COUNT(*) as count FROM erp_acct_ledger_details WHERE ledger_id = %d", [$ledger_id]);
+        $ledger = DB::select("SELECT COUNT(*) as count FROM account_ledger_detail WHERE ledger_id = %d", [$ledger_id]);
 
         $ledger = (!empty($ledger)) ? $ledger[0] : null;
 
@@ -187,7 +187,7 @@ class LedgerAccounts
     {
 
 
-        $ledger = DB::select("SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_ledger_details as ld ON ledger.id = ld.ledger_id WHERE ledger.id = %d", [$ledger_id]);
+        $ledger = DB::select("SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance FROM account_ledger AS ledger LEFT JOIN account_ledger_detail as ld ON ledger.id = ld.ledger_id WHERE ledger.id = %d", [$ledger_id]);
         $ledger = (!empty($ledger)) ? $ledger[0] : null;
 
         return $ledger['balance'];
@@ -208,7 +208,7 @@ class LedgerAccounts
     {
 
 
-        $row = DB::select("SELECT * FROM erp_acct_ledgers WHERE id = %d", [$id]);
+        $row = DB::select("SELECT * FROM account_ledger WHERE id = %d", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -225,7 +225,7 @@ class LedgerAccounts
     {
         $common = new CommonFunc();
 
-        $id = DB::table("erp_acct_ledgers")
+        $id = DB::table("account_ledger")
             ->insertGetId(
                 [
                     'chart_id'    => $item['chart_id'],
@@ -253,7 +253,7 @@ class LedgerAccounts
 
         $common = new CommonFunc();
 
-        DB::table("erp_acct_ledgers")
+        DB::table("account_ledger")
             ->where('id', $id)
             ->update(
                 [
@@ -280,8 +280,8 @@ class LedgerAccounts
 
 
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
-        FROM erp_acct_ledgers AS ledger
-        LEFT JOIN erp_acct_opening_balances AS opb ON ledger.id = opb.ledger_id
+        FROM account_ledger AS ledger
+        LEFT JOIN account_opening_balance AS opb ON ledger.id = opb.ledger_id
         WHERE opb.financial_year_id = {$id} AND opb.type = 'ledger' GROUP BY opb.ledger_id";
 
         return DB::select($sql);
@@ -305,8 +305,8 @@ class LedgerAccounts
         $today = date('Y-m-d');
 
         $ledgers = DB::select(
-            "SELECT ledger.id, ledger.chart_id, ledger.category_id, ledger.name, ledger.slug, ledger.code, ledger.system, chart_of_account.name as account_name FROM erp_acct_ledgers AS ledger
-        LEFT JOIN erp_acct_chart_of_accounts AS chart_of_account ON ledger.chart_id = chart_of_account.id WHERE ledger.unused IS NULL"
+            "SELECT ledger.id, ledger.chart_id, ledger.category_id, ledger.name, ledger.slug, ledger.code, ledger.system, chart_of_account.name as account_name FROM account_ledger AS ledger
+        LEFT JOIN account_chart_of_account AS chart_of_account ON ledger.chart_id = chart_of_account.id WHERE ledger.unused IS NULL"
         );
 
         // get closest financial year id and start date
@@ -316,8 +316,8 @@ class LedgerAccounts
         $opening_balance = $this->ledgerOpeningBalanceByFnYearId($closest_fy_date['id']);
 
         $sql2 = "SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance
-        FROM erp_acct_ledgers AS ledger
-        LEFT JOIN erp_acct_ledger_details as ld ON ledger.id = ld.ledger_id
+        FROM account_ledger AS ledger
+        LEFT JOIN account_ledger_detail as ld ON ledger.id = ld.ledger_id
         AND ld.trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$today}' GROUP BY ld.ledger_id";
 
         $data = DB::select($sql2);
@@ -337,7 +337,7 @@ class LedgerAccounts
 
 
         return DB::select(
-            "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance FROM erp_acct_ledgers AS ledger LEFT JOIN erp_acct_opening_balances AS opb ON ledger.id = opb.ledger_id WHERE opb.financial_year_id = %d opb.type = 'ledger' GROUP BY opb.ledger_id",
+            "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance FROM account_ledger AS ledger LEFT JOIN account_opening_balance AS opb ON ledger.id = opb.ledger_id WHERE opb.financial_year_id = %d opb.type = 'ledger' GROUP BY opb.ledger_id",
             [$id]
         );
     }
@@ -448,7 +448,7 @@ class LedgerAccounts
     {
 
 
-        $ledgers = DB::select("SELECT id, name FROM erp_acct_ledgers WHERE unused IS NULL");
+        $ledgers = DB::select("SELECT id, name FROM account_ledger WHERE unused IS NULL");
 
         return $ledgers;
     }

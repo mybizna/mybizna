@@ -9,6 +9,7 @@ class Partner extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "partner";
 
     /**
@@ -19,8 +20,26 @@ class Partner extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->id();
-        $table->string('name');
+        $table->integer('id')->primary();
+        $table->unsignedBigInteger('user_id')->default(0)->index('user_id');
+        $table->string('company', 60)->nullable();
+        $table->string('email', 100)->nullable()->index('email');
+        $table->string('phone', 20)->nullable();
+        $table->string('mobile', 20)->nullable();
+        $table->string('other', 50)->nullable();
+        $table->string('website', 100)->nullable();
+        $table->string('fax', 20)->nullable();
+        $table->text('notes')->nullable();
+        $table->string('street_1')->nullable();
+        $table->string('street_2')->nullable();
+        $table->string('city', 80)->nullable();
+        $table->string('state', 50)->nullable();
+        $table->string('postal_code', 10)->nullable();
+        $table->string('country', 20)->nullable();
+        $table->string('currency', 5)->nullable();
+        $table->string('life_stage', 100)->nullable();
+        $table->bigInteger('contact_owner')->nullable();
+        $table->string('hash', 40)->nullable();
         $table->timestamp('created_at')->nullable();
         $table->timestamp('updated_at')->nullable();
     }

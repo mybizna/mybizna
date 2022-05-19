@@ -21,7 +21,7 @@ class Company
     /**
      * Option name in wp_options table
      */
-    const key = '_erp_company';
+    const key = '_company';
 
     /**
      * Constructor
@@ -56,7 +56,7 @@ class Company
             'currency' => 'USD',
         ];
 
-        return apply_filters('erp_company_defaults', $defaults);
+        return apply_filters('company_defaults', $defaults);
     }
 
     /**
@@ -131,7 +131,7 @@ class Company
     {
         $url = base_path() . '/images/placeholder.png';
 
-        return apply_filters('erp_placeholder_image', $url);
+        return apply_filters('placeholder_image', $url);
     }
 
     /**
@@ -179,7 +179,7 @@ class Company
 
     public function get_locations()
     {
-        $locations = DB::select("SELECT * FROM erp_company_locations");
+        $locations = DB::select("SELECT * FROM base_company_location");
 
         return $locations;
     }
@@ -218,6 +218,6 @@ class Company
             messageBag()->add('no-country', __('No country provided.', 'erp'));
         }
 
-        return DB::table("erp_company_locations")->insertGetId($fields);
+        return DB::table("base_company_location")->insertGetId($fields);
     }
 }

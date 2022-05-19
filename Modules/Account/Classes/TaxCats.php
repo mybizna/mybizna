@@ -39,7 +39,7 @@ class TaxCats
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM erp_acct_tax_categories ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM account_tax_category ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
             $tax_cats_count = DB::scalar($sql);
@@ -66,7 +66,7 @@ class TaxCats
     {
 
 
-        $row = DB::select("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", [$tax_no]);
+        $row = DB::select("SELECT * FROM account_tax_category WHERE id = %d LIMIT 1", [$tax_no]);
 $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -82,7 +82,7 @@ $row = (!empty($row)) ? $row[0] : null;
     {
 
 
-        $row = DB::select("SELECT * FROM erp_acct_tax_categories WHERE id = %d LIMIT 1", [$id]);
+        $row = DB::select("SELECT * FROM account_tax_category WHERE id = %d LIMIT 1", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -104,7 +104,7 @@ $row = (!empty($row)) ? $row[0] : null;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        $tax_id =  DB::table('erp_acct_tax_categories')
+        $tax_id =  DB::table('account_tax_category')
             ->insertGetId(
                 [
                     'name'        => $tax_data['name'],
@@ -139,7 +139,7 @@ $row = (!empty($row)) ? $row[0] : null;
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        DB::table('erp_acct_tax_categories')
+        DB::table('account_tax_category')
             ->where('id', $id)
             ->update(
                 [
@@ -165,7 +165,7 @@ $row = (!empty($row)) ? $row[0] : null;
     {
 
 
-        DB::table('erp_acct_tax_categories')->where([['id' => $id]])->delete();
+        DB::table('account_tax_category')->where([['id' => $id]])->delete();
 
 
         return $id;

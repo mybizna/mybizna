@@ -71,7 +71,7 @@ class EmployeesController extends Controller
         $people_id = (int) $request['id'];
         $user_id   = $people->getUserIdByPeopleId($people_id);
 
-        $employee = DB::table('erp_hr_employees')->where('user_id', $user_id)->first();
+        $employee = DB::table('hrm_employee')->where('user_id', $user_id)->first();
         $item     = (array) $people->getPeople($people_id);
 
         if (empty($item['id'])) {
@@ -120,7 +120,7 @@ class EmployeesController extends Controller
     public function prepareItemForResponse($item, Request $request = null, $additional_fields = [])
     {
         $item     = $item->data;
-        $employee = DB::table('erp_hr_employees')->where('user_id', $item['user_id'])->first();
+        $employee = DB::table('hrm_employee')->where('user_id', $item['user_id'])->first();
 
         $data                = array_merge($item['work'], $item['personal'], $additional_fields);
         $data['user_id']     = $item['user_id'];

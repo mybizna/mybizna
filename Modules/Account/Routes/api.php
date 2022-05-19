@@ -19,26 +19,26 @@ Route::group(
     function () {
         $apicontroller = 'AccountsController';
 
-        Route::get('/', $apicontroller . '@get_accounts')
-            ->middleware('abilities:erp_ac_view_bank_accounts');
+        Route::get('/', $apicontroller . '@getccounts')
+            ->middleware('abilities:view_bank_accounts');
 
-        Route::get('/{id}', $apicontroller . '@get_account')
-            ->middleware('abilities:erp_ac_view_bank_accounts');
-        Route::delete('/{id}', $apicontroller . '@delete_account')
-            ->middleware('abilities:erp_ac_create_bank_transfer');
+        Route::get('/{id}', $apicontroller . '@getAccount')
+            ->middleware('abilities:view_bank_accounts');
+        Route::delete('/{id}', $apicontroller . '@deleteAccount')
+            ->middleware('abilities:create_bank_transfer');
 
-        Route::post('transfer/', $apicontroller . '@transfer_money')
-            ->middleware('abilities:erp_ac_create_bank_transfer');
-        Route::get('/transfers/{id}', $apicontroller . '@get_single_transfer')
-            ->middleware('abilities:erp_ac_create_bank_transfer');
-        Route::get('/transfers/list', $apicontroller . '@get_transfer_list')
-            ->middleware('abilities:erp_ac_create_bank_transfer');
+        Route::post('transfer/', $apicontroller . '@transferMoney')
+            ->middleware('abilities:create_bank_transfer');
+        Route::get('/transfers/{id}', $apicontroller . '@getSingleTransfer')
+            ->middleware('abilities:create_bank_transfer');
+        Route::get('/transfers/list', $apicontroller . '@getTransferList')
+            ->middleware('abilities:create_bank_transfer');
 
-        Route::get('/bank-accounts', $apicontroller . '@get_bank_accounts')
-            ->middleware('abilities:erp_ac_view_bank_accounts');
+        Route::get('/bank-accounts', $apicontroller . '@getBankAccounts')
+            ->middleware('abilities:view_bank_accounts');
 
         Route::get('/cash-at-bank', $apicontroller . '@get_cash_at_bank')
-            ->middleware('abilities:erp_ac_view_bank_accounts');
+            ->middleware('abilities:view_bank_accounts');
     }
 );
 
@@ -47,24 +47,24 @@ Route::group(
     function () {
         $apicontroller = 'BillsController';
 
-        Route::get('/', $apicontroller . '@get_bills')
-            ->middleware('abilities:erp_ac_view_expense');
-        Route::post('/', $apicontroller . '@create_bill')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/', $apicontroller . '@getBills')
+            ->middleware('abilities:view_expense');
+        Route::post('/', $apicontroller . '@createBill')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::get('/{id}', $apicontroller . '@get_bill')
-            ->middleware('abilities:erp_ac_view_expense');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_bill')
-            ->middleware('abilities:erp_ac_view_expense');
+        Route::get('/{id}', $apicontroller . '@getBill')
+            ->middleware('abilities:view_expense');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateBill')
+            ->middleware('abilities:view_expense');
 
-        Route::get('/due/{id}', $apicontroller . '@due_bills')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/due/{id}', $apicontroller . '@dueBills')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::post('/{id}/void', $apicontroller . '@void_bill')
-            ->middleware('abilities:erp_ac_publish_expenses_voucher');
+        Route::post('/{id}/void', $apicontroller . '@voidBill')
+            ->middleware('abilities:publish_expenses_voucher');
 
-        Route::get('/{id}', $apicontroller . '@get_overview_payables')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/{id}', $apicontroller . '@getOverviewPayables')
+            ->middleware('abilities:view_sales_summary');
     }
 );
 
@@ -73,14 +73,14 @@ Route::group(
     function () {
         $apicontroller = 'ClosingBalanceController';
 
-        Route::post('/', $apicontroller . '@close_balancesheet')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::post('/', $apicontroller . '@closeBalancesheet')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::get('/', $apicontroller . '@closest-fn-year')
-            ->middleware('abilities:erp_ac_view_expense');
+        Route::get('/', $apicontroller . '@closestFnYear')
+            ->middleware('abilities:view_expense');
 
-        Route::get('/', $apicontroller . '@next-fn-year')
-            ->middleware('abilities:erp_ac_view_expense');
+        Route::get('/', $apicontroller . '@nextFnYear')
+            ->middleware('abilities:view_expense');
     }
 );
 
@@ -89,8 +89,8 @@ Route::group(
     function () {
         $apicontroller = 'CompanyController';
 
-        Route::get('/', $apicontroller . '@get_company')
-            ->middleware('abilities:erp_ac_view_dashboard');
+        Route::get('/', $apicontroller . '@getCompany')
+            ->middleware('abilities:view_dashboard');
     }
 );
 
@@ -99,8 +99,8 @@ Route::group(
     function () {
         $apicontroller = 'CurrenciesController';
 
-        Route::get('/', $apicontroller . '@get_currencies')
-            ->middleware('abilities:erp_ac_view_dashboard');
+        Route::get('/', $apicontroller . '@getCurrencies')
+            ->middleware('abilities:view_dashboard');
     }
 );
 
@@ -109,30 +109,30 @@ Route::group(
     function () {
         $apicontroller = 'CustomersController';
 
-        Route::get('/', $apicontroller . '@get_customers')
-            ->middleware('abilities:erp_ac_view_customer');
-        Route::post('/', $apicontroller . '@create_customer')
-            ->middleware('abilities:erp_ac_create_customer');
+        Route::get('/', $apicontroller . '@getCustomers')
+            ->middleware('abilities:view_customer');
+        Route::post('/', $apicontroller . '@createCustomer')
+            ->middleware('abilities:create_customer');
 
-        Route::get('/{id}', $apicontroller . '@get_customer')
-            ->middleware('abilities:erp_ac_view_customer');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_customer')
-            ->middleware('abilities:erp_ac_edit_customer');
-        Route::delete('/{id}', $apicontroller . '@delete_customer')
-            ->middleware('abilities:erp_ac_delete_customer');
+        Route::get('/{id}', $apicontroller . '@getCustomer')
+            ->middleware('abilities:view_customer');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateCustomer')
+            ->middleware('abilities:edit_customer');
+        Route::delete('/{id}', $apicontroller . '@deleteCustomer')
+            ->middleware('abilities:delete_customer');
 
-        Route::delete('/delete/{id}', $apicontroller . '@bulk_delete_customers')
-            ->middleware('abilities:erp_ac_delete_customer');
+        Route::delete('/delete/{id}', $apicontroller . '@bulkDeleteCustomers')
+            ->middleware('abilities:delete_customer');
 
-        Route::get('/{id}/transactions', $apicontroller . '@get_transactions')
-            ->middleware('abilities:erp_ac_view_customer');
+        Route::get('/{id}/transactions', $apicontroller . '@getTransactions')
+            ->middleware('abilities:view_customer');
 
 
-        Route::get('/{id}/transactions/filter', $apicontroller . '@filter_transactions')
-            ->middleware('abilities:erp_ac_view_customer');
+        Route::get('/{id}/transactions/filter', $apicontroller . '@filterTransactions')
+            ->middleware('abilities:view_customer');
 
-        Route::get('/country', $apicontroller . '@get_countries')
-            ->middleware('abilities:erp_ac_view_customer');
+        Route::get('/country', $apicontroller . '@getCountries')
+            ->middleware('abilities:view_customer');
     }
 );
 
@@ -142,14 +142,14 @@ Route::group(
     function () {
         $apicontroller = 'EmployeesController';
 
-        Route::get('/', $apicontroller . '@get_employees')
-            ->middleware('abilities:erp_view_list');
+        Route::get('/', $apicontroller . '@getEmployees')
+            ->middleware('abilities:view_list');
 
-        Route::get('/{id}', $apicontroller . '@get_employee')
-            ->middleware('abilities:erp_list_employee');
+        Route::get('/{id}', $apicontroller . '@getEmployee')
+            ->middleware('abilities:list_employee');
 
-        Route::get('/{id}/transactions', $apicontroller . '@get_transactions')
-            ->middleware('abilities:erp_view_list');
+        Route::get('/{id}/transactions', $apicontroller . '@getTransactions')
+            ->middleware('abilities:view_list');
     }
 );
 
@@ -158,20 +158,20 @@ Route::group(
     function () {
         $apicontroller = 'ExpensesController';
 
-        Route::get('/', $apicontroller . '@get_expenses')
-            ->middleware('abilities:erp_ac_view_expense');
-        Route::post('/', $apicontroller . '@create_expense')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/', $apicontroller . '@getExpenses')
+            ->middleware('abilities:view_expense');
+        Route::post('/', $apicontroller . '@createExpense')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::get('/{id}', $apicontroller . '@get_transactions')
-            ->middleware('abilities:erp_view_list');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_expense')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/{id}', $apicontroller . '@getTransactions')
+            ->middleware('abilities:view_list');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateExpense')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::post('/{id}/void', $apicontroller . '@void_expense')
-            ->middleware('abilities:erp_ac_publish_expenses_voucher');
-        Route::get('/checks/{id}', $apicontroller . '@get_check')
-            ->middleware('abilities:erp_ac_view_expense');
+        Route::post('/{id}/void', $apicontroller . '@voidExpense')
+            ->middleware('abilities:publish_expenses_voucher');
+        Route::get('/checks/{id}', $apicontroller . '@getCheck')
+            ->middleware('abilities:view_expense');
     }
 );
 
@@ -181,27 +181,27 @@ Route::group(
     function () {
         $apicontroller = 'InvoicesController';
 
-        Route::get('/', $apicontroller . '@get_invoices')
-            ->middleware('abilities:erp_ac_view_sale');
-        Route::post('/', $apicontroller . '@create_invoice')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/', $apicontroller . '@getInvoices')
+            ->middleware('abilities:view_sale');
+        Route::post('/', $apicontroller . '@createInvoice')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::get('/{id}', $apicontroller . '@get_invoice')
-            ->middleware('abilities:erp_ac_view_sales_summary');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_invoice')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/{id}', $apicontroller . '@getInvoice')
+            ->middleware('abilities:view_sales_summary');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateInvoice')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::post('/{id}/void', $apicontroller . '@void_invoice')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::post('/{id}/void', $apicontroller . '@voidInvoice')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::get('/due/{id}', $apicontroller . '@due_invoices')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/due/{id}', $apicontroller . '@dueInvoices')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::post('/attachments', $apicontroller . '@upload_attachments')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::post('/attachments', $apicontroller . '@uploadAttachments')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::get('/overview-receivable', $apicontroller . '@get_overview_receivables')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/overview-receivable', $apicontroller . '@getOverviewReceivables')
+            ->middleware('abilities:create_sales_invoice');
     }
 );
 
@@ -210,17 +210,17 @@ Route::group(
     function () {
         $apicontroller = 'JournalsController';
 
-        Route::get('/', $apicontroller . '@get_journals')
-            ->middleware('abilities:erp_ac_view_journal');
+        Route::get('/', $apicontroller . '@getJournals')
+            ->middleware('abilities:view_journal');
 
-        Route::post('/', $apicontroller . '@create_journal')
-            ->middleware('abilities:erp_ac_create_journal');
+        Route::post('/', $apicontroller . '@createJournal')
+            ->middleware('abilities:create_journal');
 
-        Route::get('/{id}', $apicontroller . '@get_journal')
-            ->middleware('abilities:erp_ac_view_journal');
+        Route::get('/{id}', $apicontroller . '@getJournal')
+            ->middleware('abilities:view_journal');
 
-        Route::get('/next', $apicontroller . '@get_next_journal_id')
-            ->middleware('abilities:erp_ac_view_journal');
+        Route::get('/next', $apicontroller . '@getNextJournalId')
+            ->middleware('abilities:view_journal');
     }
 );
 
@@ -229,38 +229,38 @@ Route::group(
     function () {
         $apicontroller = 'LedgersController';
 
-        Route::get('/', $apicontroller . '@get_all_ledger_accounts')
-            ->middleware('abilities:erp_ac_view_account_lists');
-        Route::post('/', $apicontroller . '@create_ledger_account')
-            ->middleware('abilities:erp_ac_create_account');
+        Route::get('/', $apicontroller . '@getAllLedgerAccounts')
+            ->middleware('abilities:view_account_lists');
+        Route::post('/', $apicontroller . '@createLedgerAccount')
+            ->middleware('abilities:create_account');
 
-        Route::get('/{id}', $apicontroller . '@get_ledger_account')
-            ->middleware('abilities:erp_ac_view_single_account');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_ledger_account')
-            ->middleware('abilities:erp_ac_edit_account');
-        Route::delete('/{id}', $apicontroller . '@delete_ledger_account')
-            ->middleware('abilities:erp_ac_delete_account');
+        Route::get('/{id}', $apicontroller . '@getLedgerAccount')
+            ->middleware('abilities:view_single_account');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateLedgerAccount')
+            ->middleware('abilities:edit_account');
+        Route::delete('/{id}', $apicontroller . '@deleteLedgerAccount')
+            ->middleware('abilities:delete_account');
 
-        Route::get('/{id}/accounts', $apicontroller . '@get_ledger_accounts_by_chart')
-            ->middleware('abilities:erp_ac_view_account_lists');
+        Route::get('/{id}/accounts', $apicontroller . '@getLedgerAccountsByChart')
+            ->middleware('abilities:view_account_lists');
 
-        Route::get('/accounts', $apicontroller . '@get_chart_accounts')
-            ->middleware('abilities:erp_ac_view_account_lists');
+        Route::get('/accounts', $apicontroller . '@getChartAccounts')
+            ->middleware('abilities:view_account_lists');
 
-        Route::get('/bank-accounts', $apicontroller . '@get_bank_accounts')
-            ->middleware('abilities:erp_ac_view_account_lists');
+        Route::get('/bank-accounts', $apicontroller . '@getBankAccounts')
+            ->middleware('abilities:view_account_lists');
 
-        Route::get('/cash-accounts', $apicontroller . '@get_cash_accounts')
-            ->middleware('abilities:erp_ac_view_account_lists');
+        Route::get('/cash-accounts', $apicontroller . '@getCashAccounts')
+            ->middleware('abilities:view_account_lists');
         /*
         Route::get('/categories/{id}', $apicontroller . '@get_ledger_categories')
-        ->middleware('abilities:erp_ac_view_account_lists');
+        ->middleware('abilities:view_account_lists');
         Route::post('/categories/{id}', $apicontroller . '@create_ledger_category')
-        ->middleware('abilities:erp_ac_create_account');
+        ->middleware('abilities:create_account');
         Route::match(['post', 'put', 'patch'], '/categories/{id}',  $apicontroller . '@update_ledger_category')
-        ->middleware('abilities:erp_ac_edit_account');
+        ->middleware('abilities:edit_account');
         Route::delete('/categories/{id}', $apicontroller . '@delete_ledger_category')
-        ->middleware('abilities:erp_ac_delete_account');
+        ->middleware('abilities:delete_account');
         */
     }
 );
@@ -270,23 +270,23 @@ Route::group(
     function () {
         $apicontroller = 'OpeningBalanceController';
 
-        Route::get('/', $apicontroller . '@get_opening_balances')
-            ->middleware('abilities:erp_ac_view_journal');
-        Route::post('/', $apicontroller . '@create_opening_balance')
-            ->middleware('abilities:erp_ac_create_journal');
+        Route::get('/', $apicontroller . '@getOpeningBalances')
+            ->middleware('abilities:view_journal');
+        Route::post('/', $apicontroller . '@createOpeningBalance')
+            ->middleware('abilities:create_journal');
 
-        Route::get('/names', $apicontroller . '@get_opening_balance_names')
-            ->middleware('abilities:erp_ac_view_journal');
+        Route::get('/names', $apicontroller . '@getOpeningBalanceNames')
+            ->middleware('abilities:view_journal');
 
-        Route::get('/{id}', $apicontroller . '@get_opening_balance')
-            ->middleware('abilities:erp_ac_view_journal');
+        Route::get('/{id}', $apicontroller . '@getOpeningBalance')
+            ->middleware('abilities:view_journal');
 
-        Route::get('/virtual-accts/{id}', $apicontroller . '@get_virtual_accts_by_year')
-            ->middleware('abilities:erp_ac_view_journal');
+        Route::get('/virtual-accts/{id}', $apicontroller . '@getVirtualAcctsByYear')
+            ->middleware('abilities:view_journal');
 
 
-        Route::get('/acc-payable-receivable', $apicontroller . '@get_acc_payable_receivable')
-            ->middleware('abilities:erp_ac_view_journal');
+        Route::get('/acc-payable-receivable', $apicontroller . '@getAccPayableReceivable')
+            ->middleware('abilities:view_journal');
     }
 );
 
@@ -296,18 +296,18 @@ Route::group(
     function () {
         $apicontroller = 'PayBillsController';
 
-        Route::get('/', $apicontroller . '@get_pay_bills')
-            ->middleware('abilities:erp_ac_view_expense');
-        Route::post('/', $apicontroller . '@create_pay_bill')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/', $apicontroller . '@getPayBills')
+            ->middleware('abilities:view_expense');
+        Route::post('/', $apicontroller . '@createPayBill')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::get('/{id}', $apicontroller . '@get_pay_bill')
-            ->middleware('abilities:erp_ac_view_expense');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_pay_bill')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/{id}', $apicontroller . '@getPayBill')
+            ->middleware('abilities:view_expense');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updatePayBill')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::post('/{id}/void', $apicontroller . '@void_pay_bill')
-            ->middleware('abilities:erp_ac_publish_expenses_voucher');
+        Route::post('/{id}/void', $apicontroller . '@voidPayBill')
+            ->middleware('abilities:publish_expenses_voucher');
     }
 );
 
@@ -317,18 +317,18 @@ Route::group(
     function () {
         $apicontroller = 'PayPurchasesController';
 
-        Route::get('/', $apicontroller . '@get_pay_purchases')
-            ->middleware('abilities:erp_ac_view_expense');
-        Route::post('/', $apicontroller . '@create_pay_purchase')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/', $apicontroller . '@getPayPurchases')
+            ->middleware('abilities:view_expense');
+        Route::post('/', $apicontroller . '@createPayPurchase')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::get('/{id}', $apicontroller . '@get_pay_purchase')
-            ->middleware('abilities:erp_ac_view_expense');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_pay_purchase')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/{id}', $apicontroller . '@getPayPurchase')
+            ->middleware('abilities:view_expense');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updatePayPurchase')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::post('/{id}/void', $apicontroller . '@void_pay_purchase')
-            ->middleware('abilities:erp_ac_publish_expenses_voucher');
+        Route::post('/{id}/void', $apicontroller . '@voidPayPurchase')
+            ->middleware('abilities:publish_expenses_voucher');
     }
 );
 
@@ -337,20 +337,20 @@ Route::group(
     function () {
         $apicontroller = 'PeopleController';
 
-        Route::get('/', $apicontroller . '@get_all_people')
-            ->middleware('abilities:erp_ac_view_expense');
+        Route::get('/', $apicontroller . '@getAllPeople')
+            ->middleware('abilities:view_expense');
 
-        Route::get('/{id}', $apicontroller . '@get_people')
-            ->middleware('abilities:erp_ac_view_expense');
+        Route::get('/{id}', $apicontroller . '@getPeople')
+            ->middleware('abilities:view_expense');
 
-        Route::get('/{id}/address', $apicontroller . '@get_people_address')
-            ->middleware('abilities:erp_ac_view_expense');
+        Route::get('/{id}/address', $apicontroller . '@getPeopleAddress')
+            ->middleware('abilities:view_expense');
 
-        Route::get('/{id}/opening-balance', $apicontroller . '@get_opening_balance')
-            ->middleware('abilities:erp_ac_view_expense');
+        Route::get('/{id}/opening-balance', $apicontroller . '@getOpeningBalance')
+            ->middleware('abilities:view_expense');
 
-        Route::get('/check-email', $apicontroller . '@check_people_email')
-            ->middleware('abilities:erp_ac_view_expense');
+        Route::get('/check-email', $apicontroller . '@checkPeopleEmail')
+            ->middleware('abilities:view_expense');
     }
 );
 
@@ -359,20 +359,20 @@ Route::group(
     function () {
         $apicontroller = 'ProductCategoriesController';
 
-        Route::get('/', $apicontroller . '@get_all_inventory_product_cats')
-            ->middleware('abilities:erp_ac_manager');
-        Route::post('/', $apicontroller . '@create_inventory_product_cat')
-            ->middleware('abilities:erp_ac_manager');
+        Route::get('/', $apicontroller . '@getAllInventoryProductCats')
+            ->middleware('abilities:manager');
+        Route::post('/', $apicontroller . '@createInventoryProductCat')
+            ->middleware('abilities:manager');
 
-        Route::get('/{id}', $apicontroller . '@get_inventory_product_cat')
-            ->middleware('abilities:erp_ac_manager');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_inventory_product_cat')
-            ->middleware('abilities:erp_ac_manager');
-        Route::delete('/{id}', $apicontroller . '@delete_inventory_product_cat')
-            ->middleware('abilities:erp_ac_manager');
+        Route::get('/{id}', $apicontroller . '@getInventoryProductCat')
+            ->middleware('abilities:manager');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateInventoryProductCat')
+            ->middleware('abilities:manager');
+        Route::delete('/{id}', $apicontroller . '@deleteInventoryProductCat')
+            ->middleware('abilities:manager');
 
-        Route::delete('/delete/{id}', $apicontroller . '@bulk_delete_cat')
-            ->middleware('abilities:erp_ac_manager');
+        Route::delete('/delete/{id}', $apicontroller . '@bulkDeleteCat')
+            ->middleware('abilities:manager');
     }
 );
 
@@ -381,26 +381,26 @@ Route::group(
     function () {
         $apicontroller = 'ProductsController';
 
-        Route::get('/', $apicontroller . '@get_inventory_products')
-            ->middleware('abilities:erp_ac_manager');
-        Route::post('/', $apicontroller . '@create_inventory_products')
-            ->middleware('abilities:erp_ac_manager');
+        Route::get('/', $apicontroller . '@getInventoryProducts')
+            ->middleware('abilities:manager');
+        Route::post('/', $apicontroller . '@createInventoryProducts')
+            ->middleware('abilities:manager');
 
-        Route::get('/{id}', $apicontroller . '@get_inventory_product')
-            ->middleware('abilities:erp_ac_manager');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_inventory_product')
-            ->middleware('abilities:erp_ac_manager');
-        Route::delete('/{id}', $apicontroller . '@delete_inventory_product')
-            ->middleware('abilities:erp_ac_manager');
+        Route::get('/{id}', $apicontroller . '@getInventoryProduct')
+            ->middleware('abilities:manager');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateInventoryProduct')
+            ->middleware('abilities:manager');
+        Route::delete('/{id}', $apicontroller . '@deleteInventoryProduct')
+            ->middleware('abilities:manager');
 
-        Route::delete('/delete/{id}', $apicontroller . '@bulk_delete')
-            ->middleware('abilities:erp_ac_manager');
+        Route::delete('/delete/{id}', $apicontroller . '@bulkDelete')
+            ->middleware('abilities:manager');
 
-        Route::post('/csv/validate', $apicontroller . '@validate_csv_data')
-            ->middleware('abilities:erp_ac_manager');
+        Route::post('/csv/validate', $apicontroller . '@validateCsvData')
+            ->middleware('abilities:manager');
 
-        Route::post('/csv/import', $apicontroller . '@import_products')
-            ->middleware('abilities:erp_ac_manager');
+        Route::post('/csv/import', $apicontroller . '@importProducts')
+            ->middleware('abilities:manager');
     }
 );
 
@@ -409,21 +409,21 @@ Route::group(
     function () {
         $apicontroller = 'PurchasesController';
 
-        Route::get('/', $apicontroller . '@get_purchases')
-            ->middleware('abilities:erp_ac_view_expense');
-        Route::post('/', $apicontroller . '@create_purchase')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/', $apicontroller . '@getPurchases')
+            ->middleware('abilities:view_expense');
+        Route::post('/', $apicontroller . '@createPurchase')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::get('/{id}', $apicontroller . '@get_purchase')
-            ->middleware('abilities:erp_ac_view_expense');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_purchase')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/{id}', $apicontroller . '@getPurchase')
+            ->middleware('abilities:view_expense');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updatePurchase')
+            ->middleware('abilities:create_expenses_voucher');
 
-        Route::post('/{id}/void', $apicontroller . '@void_purchase')
-            ->middleware('abilities:erp_ac_publish_expenses_voucher');
+        Route::post('/{id}/void', $apicontroller . '@voidPurchase')
+            ->middleware('abilities:publish_expenses_voucher');
 
-        Route::get('/due/{id}', $apicontroller . '@due_purchases')
-            ->middleware('abilities:erp_ac_create_expenses_voucher');
+        Route::get('/due/{id}', $apicontroller . '@duePurchases')
+            ->middleware('abilities:create_expenses_voucher');
     }
 );
 
@@ -432,18 +432,18 @@ Route::group(
     function () {
         $apicontroller = 'PaymentController';
 
-        Route::get('/', $apicontroller . '@get_payments')
-            ->middleware('abilities:erp_ac_view_sale');
-        Route::post('/', $apicontroller . '@create_payment')
-            ->middleware('abilities:erp_ac_create_sales_payment');
+        Route::get('/', $apicontroller . '@getPayments')
+            ->middleware('abilities:view_sale');
+        Route::post('/', $apicontroller . '@createPayment')
+            ->middleware('abilities:create_sales_payment');
 
-        Route::get('/{id}', $apicontroller . '@get_payment')
-            ->middleware('abilities:erp_ac_view_sales_summary');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_payment')
-            ->middleware('abilities:erp_ac_create_sales_payment');
+        Route::get('/{id}', $apicontroller . '@getPayment')
+            ->middleware('abilities:view_sales_summary');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updatePayment')
+            ->middleware('abilities:create_sales_payment');
 
-        Route::post('/{id}/void', $apicontroller . '@void_payment')
-            ->middleware('abilities:erp_ac_create_sales_payment');
+        Route::post('/{id}/void', $apicontroller . '@voidPayment')
+            ->middleware('abilities:create_sales_payment');
     }
 );
 
@@ -452,23 +452,23 @@ Route::group(
     function () {
         $apicontroller = 'ReportsController';
 
-        Route::get('/trial-balance', $apicontroller . '@get_trial_balance')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/trial-balance', $apicontroller . '@getTrialBalance')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/ledger-report', $apicontroller . '@get_ledger_report')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/ledger-report', $apicontroller . '@getLedgerReport')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/sales-tax', $apicontroller . '@get_sales_tax_report')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/sales-tax', $apicontroller . '@getSalesTaxReport')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/income-statement', $apicontroller . '@get_income_statement')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/income-statement', $apicontroller . '@getIncomeStatement')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/balance-sheet', $apicontroller . '@get_balance_sheet')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/balance-sheet', $apicontroller . '@getBalanceSheet')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/closest-fn-year', $apicontroller . '@get_closest_fn_year')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/closest-fn-year', $apicontroller . '@getClosestFnYear')
+            ->middleware('abilities:view_sales_summary');
     }
 );
 
@@ -477,23 +477,23 @@ Route::group(
     function () {
         $apicontroller = 'TaxAgenciesController';
 
-        Route::get('/', $apicontroller . '@get_tax_agencies')
-            ->middleware('abilities:erp_ac_view_sale');
-        Route::post('/', $apicontroller . '@create_tax_agency')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/', $apicontroller . '@getTaxAgencies')
+            ->middleware('abilities:view_sale');
+        Route::post('/', $apicontroller . '@createTaxAgency')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::get('/{id}', $apicontroller . '@get_tax_agency')
-            ->middleware('abilities:erp_ac_view_sale');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_tax_agency')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
-        Route::delete('/{id}', $apicontroller . '@delete_tax_agency')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/{id}', $apicontroller . '@getTaxAgency')
+            ->middleware('abilities:view_sale');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateTaxAgency')
+            ->middleware('abilities:create_sales_invoice');
+        Route::delete('/{id}', $apicontroller . '@deleteTaxAgency')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::get('/due/{id}', $apicontroller . '@get_agency_due')
-            ->middleware('abilities:erp_ac_view_sale');
+        Route::get('/due/{id}', $apicontroller . '@getAgencyDue')
+            ->middleware('abilities:view_sale');
 
-        Route::delete('/delete/{id}', $apicontroller . '@bulk_delete')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::delete('/delete/{id}', $apicontroller . '@bulkDelete')
+            ->middleware('abilities:create_sales_invoice');
     }
 );
 
@@ -502,20 +502,20 @@ Route::group(
     function () {
         $apicontroller = 'TaxCategoriesController';
 
-        Route::get('/', $apicontroller . '@get_tax_cats')
-            ->middleware('abilities:erp_ac_view_sale');
-        Route::post('/', $apicontroller . '@create_tax_cat')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/', $apicontroller . '@getTaxCats')
+            ->middleware('abilities:view_sale');
+        Route::post('/', $apicontroller . '@createTaxCat')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::get('/{id}', $apicontroller . '@get_tax_cat')
-            ->middleware('abilities:erp_ac_view_sale');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_tax_cat')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
-        Route::delete('/{id}', $apicontroller . '@delete_tax_cat')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/{id}', $apicontroller . '@getTaxCat')
+            ->middleware('abilities:view_sale');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateTaxCat')
+            ->middleware('abilities:create_sales_invoice');
+        Route::delete('/{id}', $apicontroller . '@deleteTaxCat')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::delete('/delete/{id}', $apicontroller . '@bulk_delete')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::delete('/delete/{id}', $apicontroller . '@bulkDelete')
+            ->middleware('abilities:create_sales_invoice');
     }
 );
 
@@ -524,20 +524,20 @@ Route::group(
     function () {
         $apicontroller = 'TaxRateNamesController';
 
-        Route::get('/', $apicontroller . '@get_tax_rate_names')
-            ->middleware('abilities:erp_ac_view_sale');
-        Route::post('/', $apicontroller . '@create_tax_rate_name')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/', $apicontroller . '@getTaxRateNames')
+            ->middleware('abilities:view_sale');
+        Route::post('/', $apicontroller . '@createTaxRateName')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::get('/{id}', $apicontroller . '@get_tax_rate_name')
-            ->middleware('abilities:erp_ac_view_sale');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_tax_rate_name')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
-        Route::delete('/{id}', $apicontroller . '@delete_tax_rate_name')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/{id}', $apicontroller . '@getTaxRateName')
+            ->middleware('abilities:view_sale');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateTaxRateName')
+            ->middleware('abilities:create_sales_invoice');
+        Route::delete('/{id}', $apicontroller . '@deleteTaxRateName')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::delete('/delete/{id}', $apicontroller . '@bulk_delete')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::delete('/delete/{id}', $apicontroller . '@bulkDelete')
+            ->middleware('abilities:create_sales_invoice');
     }
 );
 
@@ -547,44 +547,44 @@ Route::group(
     function () {
         $apicontroller = 'TaxesController';
 
-        Route::get('/', $apicontroller . '@get_tax_rates')
-            ->middleware('abilities:erp_ac_view_sale');
-        Route::post('/', $apicontroller . '@create_tax_rate')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/', $apicontroller . '@getTaxRates')
+            ->middleware('abilities:view_sale');
+        Route::post('/', $apicontroller . '@createTaxRate')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::get('/{id}', $apicontroller . '@get_tax_rate')
-            ->middleware('abilities:erp_ac_view_sale');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_tax_rate')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
-        Route::delete('/{id}', $apicontroller . '@delete_tax_rate')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::get('/{id}', $apicontroller . '@getTaxRate')
+            ->middleware('abilities:view_sale');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateTaxRate')
+            ->middleware('abilities:create_sales_invoice');
+        Route::delete('/{id}', $apicontroller . '@deleteTaxRate')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::delete('/delete/{id}', $apicontroller . '@bulk_delete')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::delete('/delete/{id}', $apicontroller . '@bulkDelete')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::match(['post', 'put', 'patch'], '/{id}/quick-edit',  $apicontroller . '@quick_edit_tax_rate')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::match(['post', 'put', 'patch'], '/{id}/quick-edit',  $apicontroller . '@quickEditTaxRate')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::match(['post', 'put', 'patch'], '/{id}/line-add',  $apicontroller . '@line_add_tax_rate')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::match(['post', 'put', 'patch'], '/{id}/line-add',  $apicontroller . '@lineAddTaxRate')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::match(['post', 'put', 'patch'], '/{id}/line-edit',  $apicontroller . '@line_edit_tax_rate')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::match(['post', 'put', 'patch'], '/{id}/line-edit',  $apicontroller . '@lineEditTaxRate')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::delete('/{id}/line-delete', $apicontroller . '@line_delete_tax_rate')
-            ->middleware('abilities:erp_ac_create_sales_invoice');
+        Route::delete('/{id}/line-delete', $apicontroller . '@lineDeleteTaxRate')
+            ->middleware('abilities:create_sales_invoice');
 
-        Route::get('/tax-records', $apicontroller . '@get_tax_pay_records')
-            ->middleware('abilities:erp_ac_view_sale');
+        Route::get('/tax-records', $apicontroller . '@getTaxPayRecords')
+            ->middleware('abilities:view_sale');
 
-        Route::get('/tax-records/{id}', $apicontroller . '@get_tax_pay_record')
-            ->middleware('abilities:erp_ac_view_sale');
+        Route::get('/tax-records/{id}', $apicontroller . '@getTaxPayRecord')
+            ->middleware('abilities:view_sale');
 
-        Route::post('/pay-tax', $apicontroller . '@pay_tax')
-            ->middleware('abilities:erp_ac_create_sales_payment');
+        Route::post('/pay-tax', $apicontroller . '@payTax')
+            ->middleware('abilities:create_sales_payment');
 
-        Route::get('/summary', $apicontroller . '@get_tax_summary')
-            ->middleware('abilities:erp_ac_view_sale');
+        Route::get('/summary', $apicontroller . '@getTaxSummary')
+            ->middleware('abilities:view_sale');
     }
 );
 
@@ -593,56 +593,56 @@ Route::group(
     function () {
         $apicontroller = 'TransactionsController';
 
-        Route::get('/{voucher_no}', $apicontroller . '@get_transaction_type')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/{voucher_no}', $apicontroller . '@getTransactionType')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/statuses', $apicontroller . '@get_trn_statuses')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/statuses', $apicontroller . '@getTrnStatuses')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/sales', $apicontroller . '@get_sales')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/sales', $apicontroller . '@getSales')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/expenses', $apicontroller . '@get_expenses')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/expenses', $apicontroller . '@getExpenses')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/purchases', $apicontroller . '@get_purchases')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/purchases', $apicontroller . '@getPurchases')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/sales/chart-status', $apicontroller . '@get_sales_chart_status')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/sales/chart-status', $apicontroller . '@getSalesChartStatus')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/sales/chart-payment', $apicontroller . '@get_sales_chart_payment')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/sales/chart-payment', $apicontroller . '@getSalesChartPayment')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/income-expense-overview', $apicontroller . '@get_income_expense_overview')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/income-expense-overview', $apicontroller . '@getIncomeExpenseOverview')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/expense/chart-expense', $apicontroller . '@get_expense_chart_data')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/expense/chart-expense', $apicontroller . '@getExpenseChartData')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/expense/chart-status', $apicontroller . '@get_expense_chart_status')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/expense/chart-status', $apicontroller . '@getExpenseChartStatus')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/purchase/chart-purchase', $apicontroller . '@get_purchase_chart_data')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/purchase/chart-purchase', $apicontroller . '@getPurchaseChartData')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/purchase/chart-status', $apicontroller . '@get_purchase_chart_status')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/purchase/chart-status', $apicontroller . '@getPurchaseChartStatus')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/payment-methods', $apicontroller . '@get_payment_methods')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/payment-methods', $apicontroller . '@getPaymentMethods')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/send-pdf/{id}', $apicontroller . '@send_as_pdf')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/send-pdf/{id}', $apicontroller . '@sendAsPdf')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/people-chart/trn-amount/{id}', $apicontroller . '@get_people_trn_amount_data')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/people-chart/trn-amount/{id}', $apicontroller . '@getPeopleTrnAmountData')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/people-chart/trn-status/{id}', $apicontroller . '@get_people_trn_status_data')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/people-chart/trn-status/{id}', $apicontroller . '@getPeopleTrnStatusData')
+            ->middleware('abilities:view_sales_summary');
 
-        Route::get('/voucher-type', $apicontroller . '@get_voucher_type')
-            ->middleware('abilities:erp_ac_view_sales_summary');
+        Route::get('/voucher-type', $apicontroller . '@getVoucherType')
+            ->middleware('abilities:view_sales_summary');
     }
 );
 
@@ -652,28 +652,28 @@ Route::group(
     function () {
         $apicontroller = 'VendorsController';
 
-        Route::get('/', $apicontroller . '@get_vendors')
-            ->middleware('abilities:erp_ac_view_vendor');
-        Route::post('/', $apicontroller . '@create_vendor')
-            ->middleware('abilities:erp_ac_create_vendor');
+        Route::get('/', $apicontroller . '@getVendors')
+            ->middleware('abilities:view_vendor');
+        Route::post('/', $apicontroller . '@createVendor')
+            ->middleware('abilities:create_vendor');
 
-        Route::get('/{id}', $apicontroller . '@get_vendor')
-            ->middleware('abilities:erp_ac_view_vendor');
-        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@update_vendor')
-            ->middleware('abilities:erp_ac_edit_vendor');
-        Route::delete('/{id}', $apicontroller . '@delete_vendor')
-            ->middleware('abilities:erp_ac_delete_vendor');
+        Route::get('/{id}', $apicontroller . '@getVendor')
+            ->middleware('abilities:view_vendor');
+        Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateVendor')
+            ->middleware('abilities:edit_vendor');
+        Route::delete('/{id}', $apicontroller . '@deleteVendor')
+            ->middleware('abilities:delete_vendor');
 
-        Route::delete('/delete/{id}', $apicontroller . '@bulk_delete_vendors')
-            ->middleware('abilities:erp_ac_delete_vendor');
+        Route::delete('/delete/{id}', $apicontroller . '@bulkDeleteVendors')
+            ->middleware('abilities:delete_vendor');
 
-        Route::get('/{id}/transactions', $apicontroller . '@get_transactions')
-            ->middleware('abilities:erp_ac_view_vendor');
+        Route::get('/{id}/transactions', $apicontroller . '@getTransactions')
+            ->middleware('abilities:view_vendor');
 
-        Route::get('/{id}/transactions/filter', $apicontroller . '@filter_transactions')
-            ->middleware('abilities:erp_ac_view_vendor');
+        Route::get('/{id}/transactions/filter', $apicontroller . '@filterTransactions')
+            ->middleware('abilities:view_vendor');
 
-        Route::get('/{id}/products', $apicontroller . '@get_vendor_products')
-            ->middleware('abilities:erp_ac_view_vendor');
+        Route::get('/{id}/products', $apicontroller . '@getVendorProducts')
+            ->middleware('abilities:view_vendor');
     }
 );

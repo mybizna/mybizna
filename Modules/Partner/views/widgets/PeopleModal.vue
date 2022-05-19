@@ -429,7 +429,7 @@ export default {
                 postal_code: "",
                 photo_id: null,
                 photo:
-                    this.$mybizna_var.erp_assets +
+                    this.$mybizna_var.assets +
                     "/images/mystery-person.png",
             },
             states: [],

@@ -219,9 +219,9 @@ export default {
                 });
                 /* globalmybizna_reimbursement_var */
             } else if (
-               mybizna_reimbursement_var.erp_reimbursement_module !==
+               mybizna_reimbursement_var.reimbursement_module !==
                     "undefined" &&
-               mybizna_reimbursement_var.erp_reimbursement_module === "1"
+               mybizna_reimbursement_var.reimbursement_module === "1"
             ) {
                 window.axios
                     .get("/people-transactions/balances")

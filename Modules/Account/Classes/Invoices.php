@@ -52,7 +52,7 @@ class Invoices
             $sql .= ' invoice.*, SUM(ledger_detail.credit) - SUM(ledger_detail.debit) as due';
         }
 
-        $sql .= " FROM erp_acct_invoices AS invoice LEFT JOIN erp_acct_ledger_details AS ledger_detail";
+        $sql .= " FROM invoice AS invoice LEFT JOIN account_ledger_detail AS ledger_detail";
         $sql .= " ON invoice.voucher_no = ledger_detail.trn_no {$where} GROUP BY invoice.voucher_no ORDER BY invoice.{$args['orderby']} {$args['order']} {$limit}";
 
         //config()->set('database.connections.mysql.strict', false);
@@ -106,9 +106,9 @@ class Invoices
             inv_acc_detail.debit,
             inv_acc_detail.credit
 
-        FROM erp_acct_invoices as invoice
-        LEFT JOIN erp_acct_voucher_no as voucher ON invoice.voucher_no = voucher.id
-        LEFT JOIN erp_acct_invoice_account_details as inv_acc_detail ON invoice.voucher_no = inv_acc_detail.trn_no
+        FROM invoice as invoice
+        LEFT JOIN purchase_voucher_no as voucher ON invoice.voucher_no = voucher.id
+        LEFT JOIN invoice_account_detail as inv_acc_detail ON invoice.voucher_no = inv_acc_detail.trn_no
         WHERE invoice.voucher_no = {$invoice_no}";
 
         //config()->set('database.connections.mysql.strict', false);
@@ -167,16 +167,16 @@ class Invoices
         product.sale_price,
         product.tax_cat_id
 
-        FROM erp_acct_invoices as invoice
-        LEFT JOIN erp_acct_invoice_details as inv_detail ON invoice.voucher_no = inv_detail.trn_no
-        LEFT JOIN erp_acct_invoice_details_tax as inv_detail_tax ON inv_detail.id = inv_detail_tax.invoice_details_id
-        LEFT JOIN erp_acct_products as product ON inv_detail.product_id = product.id
+        FROM invoice as invoice
+        LEFT JOIN invoice_detail as inv_detail ON invoice.voucher_no = inv_detail.trn_no
+        LEFT JOIN invoice_detail_tax as inv_detail_tax ON inv_detail.id = inv_detail_tax.invoice_details_id
+        LEFT JOIN product as product ON inv_detail.product_id = product.id
         WHERE invoice.voucher_no = {$voucher_no} GROUP BY inv_detail.id";
 
         $results = DB::select($sql);
 
         if (!empty(reset($results)['ecommerce_type'])) {
-            // product name should not fetch form `erp_acct_products`
+            // product name should not fetch form `product`
             $results = array_map(
                 function ($result) {
                     $result['name'] = get_the_title($result['product_id']);
@@ -220,7 +220,7 @@ class Invoices
         try {
             DB::beginTransaction();
 
-            $voucher_no =  DB::table('erp_acct_voucher_no')
+            $voucher_no =  DB::table('purchase_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => 'invoice',
@@ -234,7 +234,7 @@ class Invoices
 
             $invoice_data = $this->getFormattedInvoiceData($data, $voucher_no);
 
-            DB::table('erp_acct_invoices')
+            DB::table('invoice')
                 ->insert(
                     [
                         'voucher_no'      => $invoice_data['voucher_no'],
@@ -265,7 +265,7 @@ class Invoices
                 DB::commit();
                 $estimate          = $this->getInvoice($voucher_no);
                 $estimate['email'] = $email;
-                do_action('erp_acct_new_transaction_estimate', $voucher_no, $estimate);
+                do_action('new_transaction_estimate', $voucher_no, $estimate);
 
                 return $estimate;
             }
@@ -273,7 +273,7 @@ class Invoices
             $this->insertInvoiceAccountDetails($invoice_data, $voucher_no);
             $this->insertInvoiceDataIntoLedger($invoice_data);
 
-            do_action('erp_acct_after_sales_create', $data, $voucher_no);
+            do_action('after_sales_create', $data, $voucher_no);
 
             $data['dr'] = $invoice_data['amount'];
             $data['cr'] = 0;
@@ -291,7 +291,7 @@ class Invoices
 
         $invoice['email'] = $people->getPeopleEmail($data['customer_id']);
 
-        do_action('erp_acct_new_transaction_sales', $voucher_no, $invoice);
+        do_action('new_transaction_sales', $voucher_no, $invoice);
 
         return $invoice;
     }
@@ -327,7 +327,7 @@ class Invoices
             $sub_total = $item['qty'] * $item['unit_price'];
 
             // insert into invoice details
-            $details_id =   DB::table('erp_acct_invoice_details')
+            $details_id =   DB::table('invoice_detail')
                 ->insertGetId(
                     [
                         'trn_no'         => $voucher_no,
@@ -368,7 +368,7 @@ class Invoices
                     }
 
                     /*==== insert into invoice details tax ====*/
-                    DB::table('erp_acct_invoice_details_tax')
+                    DB::table('invoice_detail_tax')
                         ->insert(
                             [
                                 'invoice_details_id' => $details_id,
@@ -394,7 +394,7 @@ class Invoices
                     $credit = $tax_agency_detail;
                 }
 
-                DB::table('erp_acct_tax_agency_details')
+                DB::table('account_tax_agency_detail')
                     ->insert(
                         [
                             'agency_id'   => $agency_id,
@@ -441,7 +441,7 @@ class Invoices
             $credit     = 0;
         }
 
-        DB::table('erp_acct_invoice_account_details')
+        DB::table('invoice_account_detail')
             ->insert(
                 [
                     'invoice_no'  => $invoice_no,
@@ -497,12 +497,12 @@ class Invoices
                 $this->updateDraftAndEstimate($data, $invoice_no);
             } else {
                 // disable editing on old invoice
-                DB::table('erp_acct_voucher_no')
+                DB::table('purchase_voucher_no')
                     ->where('id', $invoice_no)
                     ->update(['editable' => 0]);
 
                 // insert contra voucher
-                $voucher_no =  DB::table('erp_acct_voucher_no')
+                $voucher_no =  DB::table('purchase_voucher_no')
                     ->insertGetId(
                         [
                             'type'       => 'invoice',
@@ -518,8 +518,8 @@ class Invoices
 
                 $old_invoice = $this->getInvoice($invoice_no);
 
-                // insert contra `erp_acct_invoices` (basically a duplication of row)
-                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_invoices WHERE voucher_no = %d", [$invoice_no]);
+                // insert contra `invoice` (basically a duplication of row)
+                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM invoice WHERE voucher_no = %d", [$invoice_no]);
                 DB::update(
 
                     "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
@@ -530,13 +530,13 @@ class Invoices
                         $data['created_at']
                     ]
                 );
-                DB::insert("INSERT INTO erp_acct_invoices SELECT * FROM acct_tmptable");
+                DB::insert("INSERT INTO invoice SELECT * FROM acct_tmptable");
                 DB::statement('DROP TABLE acct_tmptable');
 
                 // change invoice status and other things
                 $status_closed = 7;
                 DB::update(
-                    "UPDATE erp_acct_invoices SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
+                    "UPDATE invoice SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
                     [
                         $status_closed,
                         $data['updated_at'],
@@ -546,19 +546,19 @@ class Invoices
                     ]
                 );
 
-                // insert contra `erp_acct_invoice_details` AND `erp_acct_invoice_details_tax`
+                // insert contra `invoice_detail` AND `invoice_detail_tax`
                 $this->insertInvoiceDetailsAndTax($old_invoice, $voucher_no, true);
 
-                // insert contra `erp_acct_invoice_account_details`
+                // insert contra `invoice_account_detail`
                 $this->insertInvoiceAccountDetails($old_invoice, $voucher_no, true);
 
-                // insert contra `erp_acct_ledger_details`
+                // insert contra `account_ledger_detail`
                 $this->insertInvoiceDataIntoLedger($old_invoice, $voucher_no, true);
 
                 // insert new invoice with edited data
                 $new_invoice = $this->insertInvoice($data);
 
-                do_action('erp_acct_after_sales_update', $data, $invoice_no);
+                do_action('after_sales_update', $data, $invoice_no);
 
                 $data['dr'] = $data['amount'];
                 $data['cr'] = 0;
@@ -603,7 +603,7 @@ class Invoices
 
             $invoice_data = $this->getFormattedInvoiceData($data, $invoice_no);
 
-            DB::table('erp_acct_invoices')
+            DB::table('invoice')
                 ->where('voucher_no', $invoice_no)
                 ->update(
                     [
@@ -627,7 +627,7 @@ class Invoices
                     ]
                 );
 
-            DB::table('erp_acct_invoice_details')->where([['trn_no' => $invoice_no]])->delete();
+            DB::table('invoice_detail')->where([['trn_no' => $invoice_no]])->delete();
 
             // insert data into invoice_details
             $this->insertInvoiceDetailsAndTax($invoice_data, $invoice_no);
@@ -636,7 +636,7 @@ class Invoices
 
             $this->insertInvoiceDataIntoLedger($invoice_data, $invoice_no);
 
-            do_action('erp_acct_after_sales_create', $data, $invoice_no);
+            do_action('after_sales_create', $data, $invoice_no);
 
             $data['dr'] = $invoice_data['amount'];
             $data['cr'] = 0;
@@ -654,7 +654,7 @@ class Invoices
 
         $invoice['email'] = $people->getPeopleEmail($data['customer_id']);
 
-        do_action('erp_acct_new_transaction_sales', $invoice_no, $invoice);
+        do_action('new_transaction_sales', $invoice_no, $invoice);
 
         return $invoice;
     }
@@ -673,7 +673,7 @@ class Invoices
 
         $invoice_data = $this->getFormattedInvoiceData($data, $invoice_no);
 
-        DB::table('erp_acct_invoices')
+        DB::table('invoice')
             ->where('voucher_no', $invoice_no)
             ->update(
                 [
@@ -704,7 +704,7 @@ class Invoices
      *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
      *? so, remove previous rows to insert new rows
      */
-        DB::table('erp_acct_invoice_details')->where([['trn_no' => $invoice_no]])->delete();
+        DB::table('invoice_detail')->where([['trn_no' => $invoice_no]])->delete();
 
         $this->insertInvoiceDetailsAndTax($invoice_data, $invoice_no);
     }
@@ -779,7 +779,7 @@ class Invoices
             return;
         }
 
-        DB::table('erp_acct_invoices')
+        DB::table('invoice')
             ->where('voucher_no', $invoice_no)
             ->update(
                 [
@@ -787,23 +787,23 @@ class Invoices
                 ]
             );
 
-        DB::table('erp_acct_ledger_details')->where([['trn_no' => $invoice_no]])->delete();
-        DB::table('erp_acct_invoice_account_details')->where([['invoice_no' => $invoice_no]])->delete();
+        DB::table('account_ledger_detail')->where([['trn_no' => $invoice_no]])->delete();
+        DB::table('invoice_account_detail')->where([['invoice_no' => $invoice_no]])->delete();
 
         $results = DB::select(
             "SELECT
             inv_detail_tax.id
-            FROM erp_acct_invoice_details_tax as inv_detail_tax
-            LEFT JOIN erp_acct_invoice_details as inv_detail ON inv_detail_tax.invoice_details_id = inv_detail.id
-            LEFT JOIN erp_acct_invoices as invoice ON inv_detail.trn_no = invoice.voucher_no
+            FROM invoice_detail_tax as inv_detail_tax
+            LEFT JOIN invoice_detail as inv_detail ON inv_detail_tax.invoice_details_id = inv_detail.id
+            LEFT JOIN invoice as invoice ON inv_detail.trn_no = invoice.voucher_no
             WHERE inv_detail.trn_no = {$invoice_no}"
         );
 
         foreach ($results as $result) {
-            DB::table('erp_acct_invoice_details_tax')->where([['id' => $result['id']]])->delete();
+            DB::table('invoice_detail_tax')->where([['id' => $result['id']]])->delete();
         }
 
-        DB::table('erp_acct_tax_agency_details')->where([['trn_no' => $invoice_no]])->delete();
+        DB::table('account_tax_agency_detail')->where([['trn_no' => $invoice_no]])->delete();
     }
 
     /**
@@ -853,7 +853,7 @@ class Invoices
         }
 
         // insert amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 [
                     'ledger_id'   => $sales_ledger_id,
@@ -871,7 +871,7 @@ class Invoices
 
         // insert discount in ledger_details
         if ((float) $discount_debit > 0 || (float) $discount_credit > 0) {
-            DB::table('erp_acct_ledger_details')
+            DB::table('account_ledger_detail')
                 ->insert(
                     [
                         'ledger_id'   => $sales_discount_ledger_id,
@@ -890,7 +890,7 @@ class Invoices
 
         // insert shipping in ledger_details
         if ((float) $shipment_debit > 0 || (float) $shipment_credit > 0) {
-            DB::table('erp_acct_ledger_details')
+            DB::table('account_ledger_detail')
                 ->insert(
                     [
                         'ledger_id'   => $sales_shipping_ledger_id,
@@ -909,7 +909,7 @@ class Invoices
 
         // insert shipping tax in ledger_details
         if ((float) $shipment_tax_debit > 0 || (float) $shipment_tax_credit > 0) {
-            DB::table('erp_acct_ledger_details')
+            DB::table('account_ledger_detail')
                 ->insert(
                     [
                         'ledger_id'   => $sales_shipping_tax_ledger_id,
@@ -940,7 +940,7 @@ class Invoices
 
 
         // Update amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->where('trn_no', $invoice_no)
             ->update(
                 [
@@ -953,7 +953,7 @@ class Invoices
             );
 
         // Update discount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->where('trn_no', $invoice_no)
             ->update(
                 [
@@ -975,7 +975,7 @@ class Invoices
     {
 
 
-        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_invoices');
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'invoice');
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -1010,8 +1010,8 @@ class Invoices
             $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
         }
 
-        $invoices            = "erp_acct_invoices";
-        $invoice_act_details = "erp_acct_invoice_account_details";
+        $invoices            = "invoice";
+        $invoice_act_details = "invoice_account_detail";
         $items               = $args['count'] ? ' COUNT( id ) as total_number ' : ' id, voucher_no, due_date, (amount + tax - discount) as amount, invs.due as due ';
 
         $query =
@@ -1042,7 +1042,7 @@ class Invoices
     {
 
 
-        $result = DB::select("SELECT invoice_no, SUM( ia.debit - ia.credit) as due FROM erp_acct_invoice_account_details as ia WHERE ia.invoice_no = %d GROUP BY ia.invoice_no", [$invoice_no]);
+        $result = DB::select("SELECT invoice_no, SUM( ia.debit - ia.credit) as due FROM invoice_account_detail as ia WHERE ia.invoice_no = %d GROUP BY ia.invoice_no", [$invoice_no]);
 
         $result = (!empty($result)) ? $result[0] : null;
 
@@ -1065,8 +1065,8 @@ class Invoices
         $from_date = date('Y-m-d', strtotime($from));
         $to_date   = date('Y-m-d', strtotime($to));
 
-        $invoices              = 'erp_acct_invoices';
-        $invoices_acct_details = 'erp_acct_invoice_account_details';
+        $invoices              = 'invoice';
+        $invoices_acct_details = 'invoice_account_detail';
 
         $query =
             "Select voucher_no, SUM(ad.debit - ad.credit) as due, due_date
@@ -1153,7 +1153,7 @@ class Invoices
 
         $result = DB::select(
             "SELECT ia.invoice_no, SUM( ia.debit - ia.credit) as due
-            FROM erp_acct_invoice_account_details as ia
+            FROM invoice_account_detail as ia
             WHERE ia.invoice_no = %d
             GROUP BY ia.invoice_no",
             [$invoice_no]
@@ -1176,7 +1176,7 @@ class Invoices
 
 
         $tax_zone = DB::scalar(
-            "SELECT tax_zone_id FROM erp_acct_invoices WHERE voucher_no = %d",
+            "SELECT tax_zone_id FROM invoice WHERE voucher_no = %d",
             [(int) $invoice_no]
         );
 

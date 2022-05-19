@@ -200,8 +200,8 @@ export default {
 
     computed: {
         proActivated() {
-            return this.$store.state.erp_pro_activated
-                ? this.$store.state.erp_pro_activated
+            return this.$store.state.pro_activated
+                ? this.$store.state.pro_activated
                 : false;
         },
     },

@@ -9,6 +9,7 @@ class Transaction extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "partner_transaction";
 
     /**

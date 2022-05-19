@@ -40,7 +40,7 @@ class PayBills
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM erp_acct_pay_bill ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM payment_pay_bill ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
             return DB::scalar($sql);
@@ -75,7 +75,7 @@ class PayBills
             pay_bill.created_at,
             pay_bill.attachments,
             pay_bill.status
-            FROM erp_acct_pay_bill AS pay_bill
+            FROM payment_pay_bill AS pay_bill
             WHERE pay_bill.voucher_no = %d",
             [$bill_no]
         );
@@ -104,8 +104,8 @@ class PayBills
             pay_bill_detail.voucher_no,
             pay_bill_detail.bill_no,
             pay_bill_detail.amount
-            FROM erp_acct_pay_bill AS pay_bill
-            LEFT JOIN erp_acct_pay_bill_details as pay_bill_detail ON pay_bill.voucher_no = pay_bill_detail.voucher_no
+            FROM payment_pay_bill AS pay_bill
+            LEFT JOIN payment_pay_bill_details as pay_bill_detail ON pay_bill.voucher_no = pay_bill_detail.voucher_no
             WHERE pay_bill.voucher_no = %d",
             [$voucher_no]
         );
@@ -136,7 +136,7 @@ class PayBills
         try {
             DB::beginTransaction();
 
-            $voucher_no = DB::table('erp_acct_voucher_no')
+            $voucher_no = DB::table('purchase_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => 'pay_bill',
@@ -151,7 +151,7 @@ class PayBills
 
             $pay_bill_data = $this->getFormattedPayBillData($data, $voucher_no);
 
-            DB::table('erp_acct_pay_bill')
+            DB::table('payment_pay_bill')
                 ->insert(
                     [
                         'voucher_no'       => $voucher_no,
@@ -175,7 +175,7 @@ class PayBills
             $items = $pay_bill_data['bill_details'];
 
             foreach ($items as $key => $item) {
-                DB::table('erp_acct_pay_bill_details')
+                DB::table('payment_pay_bill_details')
                     ->insert(
                         [
                             'voucher_no' => $voucher_no,
@@ -196,7 +196,7 @@ class PayBills
             }
 
             foreach ($items as $key => $item) {
-                DB::table('erp_acct_bill_account_details')
+                DB::table('bill_account_detail')
                     ->insert(
                         [
                             'bill_no'     => $item['voucher_no'],
@@ -223,7 +223,7 @@ class PayBills
             $data['cr'] = 0;
             $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
-            do_action('erp_acct_after_pay_bill_create', $pay_bill_data, $voucher_no);
+            do_action('after_pay_bill_create', $pay_bill_data, $voucher_no);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -241,7 +241,7 @@ class PayBills
 
         $pay_bill['email'] = $people->getPeopleEmail($data['vendor_id']);
 
-        do_action('erp_acct_new_transaction_pay_bill', $voucher_no, $pay_bill);
+        do_action('new_transaction_pay_bill', $voucher_no, $pay_bill);
 
 
         return $pay_bill;
@@ -268,7 +268,7 @@ class PayBills
 
             $pay_bill_data = $this->getFormattedPayBillData($data, $pay_bill_id);
 
-            DB::table('erp_acct_pay_bill')
+            DB::table('payment_pay_bill')
                 ->where('voucher_no', $pay_bill_id)
                 ->update(
                     [
@@ -289,7 +289,7 @@ class PayBills
             $items = $pay_bill_data['bill_details'];
 
             foreach ($items as $key => $item) {
-                DB::table('erp_acct_pay_bill_details')
+                DB::table('payment_pay_bill_details')
                     ->where('voucher_no', $pay_bill_id)
                     ->update(
                         [
@@ -302,7 +302,7 @@ class PayBills
                         ]
                     );
 
-                DB::table('erp_acct_bill_account_details')
+                DB::table('bill_account_detail')
                     ->where('trn_no', $pay_bill_id)
                     ->update(
                         [
@@ -351,7 +351,7 @@ class PayBills
             return;
         }
 
-        DB::table('erp_acct_pay_bill')
+        DB::table('payment_pay_bill')
             ->where('voucher_no', $id)
             ->update(
                 [
@@ -359,8 +359,8 @@ class PayBills
                 ]
             );
 
-        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
-        DB::table('erp_acct_bill_account_details')->where([['trn_no' => $id]])->delete();
+        DB::table('account_ledger_detail')->where([['trn_no' => $id]])->delete();
+        DB::table('bill_account_detail')->where([['trn_no' => $id]])->delete();
     }
 
     /**
@@ -421,7 +421,7 @@ class PayBills
         }
 
         // Insert amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 [
                     'ledger_id'   => $pay_bill_data['trn_by_ledger_id'],
@@ -455,7 +455,7 @@ class PayBills
         }
 
         // Update amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->where('trn_no', $pay_bill_no)
             ->update(
                 [
@@ -481,7 +481,7 @@ class PayBills
     {
 
 
-        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_pay_bill');
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'payment_pay_bill');
         $row = (!empty($row)) ? $row[0] : null;
         return $row->count;
     }
@@ -500,7 +500,7 @@ class PayBills
         $due = $bills->getBillDue($bill_no);
 
         if (0 == $due) {
-            DB::table('erp_acct_bills')
+            DB::table('bill')
                 ->where('voucher_no', $bill_no)
                 ->update(
                     [
@@ -508,7 +508,7 @@ class PayBills
                     ]
                 );
         } else {
-            DB::table('erp_acct_bills')
+            DB::table('bill')
                 ->where('voucher_no', $bill_no)
                 ->update(
                     [

@@ -41,7 +41,7 @@ class Bills
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM erp_acct_bills WHERE `trn_by_ledger_id` IS NULL ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM bill WHERE `trn_by_ledger_id` IS NULL ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
             return DB::scalar($sql);
@@ -81,9 +81,9 @@ class Bills
             bill.created_at,
             bill.attachments
 
-        FROM erp_acct_bills AS bill
-        LEFT JOIN erp_acct_voucher_no as voucher ON bill.voucher_no = voucher.id
-        LEFT JOIN erp_acct_bill_account_details AS b_ac_detail ON bill.voucher_no = b_ac_detail.trn_no
+        FROM bill AS bill
+        LEFT JOIN purchase_voucher_no as voucher ON bill.voucher_no = voucher.id
+        LEFT JOIN bill_account_detail AS b_ac_detail ON bill.voucher_no = b_ac_detail.trn_no
         WHERE bill.voucher_no = {$bill_no}";
 
         //config()->set('database.connections.mysql.strict', false);
@@ -118,9 +118,9 @@ class Bills
 
             ledger.name AS ledger_name
 
-        FROM erp_acct_bills AS bill
-        LEFT JOIN erp_acct_bill_details AS b_detail ON bill.voucher_no = b_detail.trn_no
-        LEFT JOIN erp_acct_ledgers AS ledger ON ledger.id = b_detail.ledger_id
+        FROM bill AS bill
+        LEFT JOIN bill_detail AS b_detail ON bill.voucher_no = b_detail.trn_no
+        LEFT JOIN account_ledger AS ledger ON ledger.id = b_detail.ledger_id
         WHERE bill.voucher_no = { $voucher_no}";
 
         //config()->set('database.connections.mysql.strict', false);
@@ -158,7 +158,7 @@ class Bills
         try {
             DB::beginTransaction();
 
-            $voucher_no = DB::table('erp_acct_voucher_no')
+            $voucher_no = DB::table('purchase_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => 'bill',
@@ -175,7 +175,7 @@ class Bills
             $bill_data           = $this->getFormattedBillData($data, $voucher_no);
             $bill_data['trn_no'] = $voucher_no;
 
-            DB::table('erp_acct_bills')
+            DB::table('bill')
                 ->insert(
                     [
                         'voucher_no'  => $bill_data['voucher_no'],
@@ -197,7 +197,7 @@ class Bills
             $items = $bill_data['bill_details'];
 
             foreach ($items as $key => $item) {
-                DB::table('erp_acct_bill_details')
+                DB::table('bill_detail')
                     ->insert(
                         [
                             'trn_no'      => $voucher_no,
@@ -218,7 +218,7 @@ class Bills
                 return $this->getBill($voucher_no);
             }
 
-            DB::table('erp_acct_bill_account_details')
+            DB::table('bill_account_detail')
                 ->insert(
                     [
                         'bill_no'     => $voucher_no,
@@ -236,7 +236,7 @@ class Bills
             $data['cr'] = $bill_data['amount'];
             $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
-            do_action('erp_acct_after_bill_create', $data, $voucher_no);
+            do_action('after_bill_create', $data, $voucher_no);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -250,7 +250,7 @@ class Bills
 
         $bill['email'] = $people->getPeopleEmail($bill_data['vendor_id']);
 
-        do_action('erp_acct_new_transaction_bill', $voucher_no, $bill);
+        do_action('new_transaction_bill', $voucher_no, $bill);
 
 
         return $bill;
@@ -287,12 +287,12 @@ class Bills
                 $this->updateDraftBill($data, $bill_id);
             } else {
                 // disable editing on old bill
-                DB::table('erp_acct_voucher_no')
+                DB::table('purchase_voucher_no')
                     ->where(['id' => $bill_id])
                     ->update(['editable' => 0]);
 
                 // insert contra voucher
-                $voucher_no = DB::table('erp_acct_voucher_no')
+                $voucher_no = DB::table('purchase_voucher_no')
                     ->insertGetId(
                         [
                             'type'       => 'bill',
@@ -308,18 +308,18 @@ class Bills
 
                 $old_bill = $this->getBill($bill_id);
 
-                // insert contra `erp_acct_bills` (basically a duplication of row)
-                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_bills WHERE voucher_no ={$bill_id}");
+                // insert contra `bill` (basically a duplication of row)
+                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM bill WHERE voucher_no ={$bill_id}");
                 DB::update(
                     "UPDATE acct_tmptable SET id = 0, voucher_no = {$voucher_no}, particulars = 'Contra entry for voucher no \#{$bill_id}', created_at = '{$data['created_at']}'"
                 );
-                DB::insert("INSERT INTO erp_acct_bills SELECT * FROM acct_tmptable");
+                DB::insert("INSERT INTO bill SELECT * FROM acct_tmptable");
                 DB::statement('DROP TABLE acct_tmptable');
 
                 // change bill status and other things
                 $status_closed = 7;
                 DB::update(
-                    "UPDATE erp_acct_bills SET status = ?, updated_at ='?', updated_by = ? WHERE voucher_no IN (?, ?)",
+                    "UPDATE bill SET status = ?, updated_at ='?', updated_by = ? WHERE voucher_no IN (?, ?)",
                     [
                         $status_closed,
                         $data['updated_at'],
@@ -332,8 +332,8 @@ class Bills
                 $items = $old_bill['bill_details'];
 
                 foreach ($items as $key => $item) {
-                    // insert contra `erp_acct_bill_details`
-                    DB::table('erp_acct_bill_details')
+                    // insert contra `bill_detail`
+                    DB::table('bill_detail')
                         ->insert(
                             [
                                 'trn_no'      => $voucher_no,
@@ -345,12 +345,12 @@ class Bills
                             ]
                         );
 
-                    // insert contra `erp_acct_ledger_details`
+                    // insert contra `account_ledger_detail`
                     $this->updateBillDataIntoLedger($old_bill, $voucher_no, $item);
                 }
 
-                // insert contra `erp_acct_bill_account_details`
-                DB::table('erp_acct_bill_account_details')
+                // insert contra `bill_account_detail`
+                DB::table('bill_account_detail')
                     ->insert(
                         [
                             'bill_no'     => $bill_id,
@@ -366,7 +366,7 @@ class Bills
                 // insert new bill with edited data
                 $new_bill = $this->insertBill($data);
 
-                do_action('erp_acct_after_bill_update', $data, $bill_id);
+                do_action('after_bill_update', $data, $bill_id);
 
                 $data['dr'] = 0;
                 $data['cr'] = $data['amount'];
@@ -399,7 +399,7 @@ class Bills
 
         $bill_data = $this->getFormattedBillData($data, $bill_id);
 
-        DB::table('erp_acct_bills')
+        DB::table('bill')
             ->where('voucher_no', $bill_id)
             ->update(
                 [
@@ -425,16 +425,16 @@ class Bills
          *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
          *? so, remove previous rows and insert new rows
          */
-        $prev_detail_ids = DB::select("SELECT id FROM erp_acct_bill_details WHERE trn_no = {$bill_id}");
+        $prev_detail_ids = DB::select("SELECT id FROM bill_detail WHERE trn_no = {$bill_id}");
 
         $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
-        DB::table('erp_acct_bill_details')->where([['trn_no' => $bill_id]])->delete();
+        DB::table('bill_detail')->where([['trn_no' => $bill_id]])->delete();
 
         $items = $bill_data['bill_details'];
 
         foreach ($items as $item) {
-            DB::table('erp_acct_bill_details')
+            DB::table('bill_detail')
                 ->insert(
                     [
                         'trn_no'      => $bill_id,
@@ -463,7 +463,7 @@ class Bills
             return;
         }
 
-        DB::table('erp_acct_bills')
+        DB::table('bill')
             ->where('voucher_no', $id)
             ->update(
                 [
@@ -471,8 +471,8 @@ class Bills
                 ]
             );
 
-        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
-        DB::table('erp_acct_bill_account_details')->where([['bill_no' => $id]])->delete();
+        DB::table('account_ledger_detail')->where([['trn_no' => $id]])->delete();
+        DB::table('bill_account_detail')->where([['bill_no' => $id]])->delete();
     }
 
     /**
@@ -535,7 +535,7 @@ class Bills
         }
 
         // Insert items amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 [
                     'ledger_id'   => $item_data['ledger_id'],
@@ -572,7 +572,7 @@ class Bills
         $bill_data['updated_at'] = date('Y-m-d H:i:s');
         $bill_data['updated_by'] = $user_id;
 
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 [
                     'ledger_id'   => $item_data['ledger_id'],
@@ -598,7 +598,7 @@ class Bills
     {
 
 
-        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_bills');
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'bill');
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->count;
@@ -632,8 +632,8 @@ class Bills
             $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
         }
 
-        $bills            = "erp_acct_bills";
-        $bill_act_details = "erp_acct_bill_account_details";
+        $bills            = "bill";
+        $bill_act_details = "bill_account_detail";
         $items            = $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
 
         $query =
@@ -663,7 +663,7 @@ class Bills
     {
 
 
-        $result = DB::select("SELECT bill_no, SUM( ba.debit - ba.credit) as due FROM erp_acct_bill_account_details as ba WHERE ba.bill_no = ? GROUP BY ba.bill_no", [$bill_no]);
+        $result = DB::select("SELECT bill_no, SUM( ba.debit - ba.credit) as due FROM bill_account_detail as ba WHERE ba.bill_no = ? GROUP BY ba.bill_no", [$bill_no]);
         $result = (!empty($result)) ? $result[0] : null;
 
         return $result['due'];

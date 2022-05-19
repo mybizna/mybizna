@@ -54,9 +54,9 @@ class Countries
     public function get_countries($default = '')
     {
         if (empty($this->countries)) {
-            $this->countries = apply_filters('erp_countries', include(base_path() . '/i18n/countries.php'));
+            $this->countries = apply_filters('countries', include(base_path() . '/i18n/countries.php'));
 
-            if (apply_filters('erp_sort_countries', true)) {
+            if (apply_filters('sort_countries', true)) {
                 asort($this->countries);
             }
         }
@@ -91,7 +91,7 @@ class Countries
             }
         }
 
-        $this->states = apply_filters('erp_states', $states);
+        $this->states = apply_filters('states', $states);
 
         return $this->states;
     }
@@ -125,7 +125,7 @@ class Countries
     {
         $country = '-1';
 
-        return apply_filters('erp_countries_base_country', $country);
+        return apply_filters('countries_base_country', $country);
     }
 
     /**
@@ -268,7 +268,7 @@ class Countries
 
         // Substitute address parts into the string
         $replace = array_map('esc_html', apply_filters(
-            'erp_formatted_address_replacements',
+            'formatted_address_replacements',
             [
                 '{address_1}'        => $address_1,
                 '{address_2}'        => $address_2,

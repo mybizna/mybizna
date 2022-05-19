@@ -15,7 +15,7 @@ class ProductCats
     public function getAllProductCats()
     {
 
-        $categories = DB::select('SELECT * FROM ' . 'erp_acct_product_categories');
+        $categories = DB::select('SELECT * FROM ' . 'product_category');
 
 
         return $categories;
@@ -32,7 +32,7 @@ class ProductCats
     {
 
 
-        $row = DB::select("SELECT * FROM erp_acct_product_categories WHERE id = %d GROUP BY parent", [$product_cat_id]);
+        $row = DB::select("SELECT * FROM product_category WHERE id = %d GROUP BY parent", [$product_cat_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -56,7 +56,7 @@ class ProductCats
             DB::beginTransaction();
             $product_cat_data = $this->getFormattedProductCatData($data);
 
-            $product_cat_id =  DB::table('erp_acct_product_categories')
+            $product_cat_id =  DB::table('product_category')
                 ->insertGetId(
                     [
                         'name'       => $product_cat_data['name'],
@@ -101,7 +101,7 @@ class ProductCats
             DB::beginTransaction();
             $product_cat_data = $this->getFormattedProductCatData($data);
 
-            DB::table('erp_acct_product_categories')
+            DB::table('product_category')
                 ->where('id', $id)
                 ->update(
                     [
@@ -156,6 +156,6 @@ class ProductCats
     {
 
 
-        DB::table('erp_acct_product_categories')->where([['id' => $product_cat_id]])->delete();
+        DB::table('product_category')->where([['id' => $product_cat_id]])->delete();
     }
 }

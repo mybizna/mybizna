@@ -42,7 +42,7 @@ class RecPayments
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM erp_acct_invoice_receipts ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM invoice_receipt ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
             return DB::scalar($sql);
@@ -88,10 +88,10 @@ class RecPayments
                 ledger_detail.debit,
                 ledger_detail.credit
 
-            from erp_acct_invoice_receipts as pay_inv
+            from invoice_receipt as pay_inv
 
-            LEFT JOIN erp_acct_invoice_receipts_details as pay_inv_detail ON pay_inv.voucher_no = pay_inv_detail.voucher_no
-            LEFT JOIN erp_acct_ledger_details as ledger_detail ON pay_inv.voucher_no = ledger_detail.trn_no
+            LEFT JOIN invoice_receipt_details as pay_inv_detail ON pay_inv.voucher_no = pay_inv_detail.voucher_no
+            LEFT JOIN account_ledger_detail as ledger_detail ON pay_inv.voucher_no = ledger_detail.trn_no
 
             WHERE pay_inv.voucher_no = {$invoice_no}";
 
@@ -137,7 +137,7 @@ class RecPayments
                 $trn_type = 'payment';
             }
 
-            $voucher_no =  DB::table('erp_acct_voucher_no')
+            $voucher_no =  DB::table('purchase_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => $trn_type,
@@ -159,7 +159,7 @@ class RecPayments
                 $transaction_charge = (float) $payment_data['bank_trn_charge'];
             }
 
-            DB::table('erp_acct_invoice_receipts')
+            DB::table('invoice_receipt')
                 ->insert(
                     [
                         'voucher_no'         => $voucher_no,
@@ -213,7 +213,7 @@ class RecPayments
 
             $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
-            do_action('erp_acct_after_payment_create', $payment_data, $voucher_no);
+            do_action('after_payment_create', $payment_data, $voucher_no);
 
 
             DB::commit();
@@ -232,7 +232,7 @@ class RecPayments
 
         $payment['email'] = $people->getPeopleEmail($data['customer_id']);
 
-        do_action('erp_acct_new_transaction_payment', $voucher_no, $payment);
+        do_action('new_transaction_payment', $voucher_no, $payment);
 
         return $payment;
     }
@@ -255,7 +255,7 @@ class RecPayments
         $payment_data['created_at'] = date('Y-m-d H:i:s');
         $payment_data['created_by'] = $created_by;
 
-        DB::table('erp_acct_invoice_receipts_details')
+        DB::table('invoice_receipt_details')
             ->insert(
                 [
                     'voucher_no' => $voucher_no,
@@ -281,7 +281,7 @@ class RecPayments
             $credit = $item['line_total'];
         }
 
-        DB::table('erp_acct_invoice_account_details')
+        DB::table('invoice_account_detail')
             ->insert(
                 [
                     'invoice_no'  => $item['invoice_no'],
@@ -324,7 +324,7 @@ class RecPayments
 
             $payment_data = $this->getFormattedPaymentData($data, $voucher_no);
 
-            DB::table('erp_acct_invoice_receipts')
+            DB::table('invoice_receipt')
                 ->where('voucher_no', $voucher_no)
                 ->update(
                     [
@@ -387,7 +387,7 @@ class RecPayments
 
         $payment_data = $this->getFormattedPaymentData($data, $voucher_no, $invoice_no);
 
-        DB::table('erp_acct_invoice_receipts_details')
+        DB::table('invoice_receipt_details')
             ->where('invoice_no', $invoice_no)
             ->update(
                 [
@@ -413,7 +413,7 @@ class RecPayments
             $credit  = $payment_data['amount'];
         }
 
-        DB::table('erp_acct_invoice_account_details')
+        DB::table('invoice_account_detail')
             ->where('invoice_no', $invoice_no)
             ->update(
                 [
@@ -493,9 +493,9 @@ class RecPayments
     {
 
 
-        DB::table('erp_acct_invoice_receipts')->where([['voucher_no' => $id]])->delete();
-        DB::table('erp_acct_invoice_receipts_details')->where([['voucher_no' => $id]])->delete();
-        DB::table('erp_acct_invoice_account_details')->where([['invoice_no' => $id]])->delete();
+        DB::table('invoice_receipt')->where([['voucher_no' => $id]])->delete();
+        DB::table('invoice_receipt_details')->where([['voucher_no' => $id]])->delete();
+        DB::table('invoice_account_detail')->where([['invoice_no' => $id]])->delete();
     }
 
     /**
@@ -513,7 +513,7 @@ class RecPayments
             return;
         }
 
-        DB::table('erp_acct_invoice_receipts')
+        DB::table('invoice_receipt')
             ->where('voucher_no', $id)
             ->update(
                 [
@@ -521,8 +521,8 @@ class RecPayments
                 ]
             );
 
-        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
-        DB::table('erp_acct_invoice_account_details')->where([['trn_no' => $id]])->delete();
+        DB::table('account_ledger_detail')->where([['trn_no' => $id]])->delete();
+        DB::table('invoice_account_detail')->where([['trn_no' => $id]])->delete();
     }
 
     /**
@@ -540,7 +540,7 @@ class RecPayments
         $due = (float) $invoices->getInvoiceDue($invoice_no);
 
         if (0.00 === $due) {
-            DB::table('erp_acct_invoices')
+            DB::table('invoice')
                 ->where('voucher_no', $invoice_no)
                 ->update(
                     [
@@ -548,7 +548,7 @@ class RecPayments
                     ]
                 );
         } else {
-            DB::table('erp_acct_invoices')
+            DB::table('invoice')
                 ->where('voucher_no', $invoice_no)
                 ->update(
                     [
@@ -583,7 +583,7 @@ class RecPayments
         }
 
         // Insert amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 [
                     'ledger_id'   => $payment_data['trn_by_ledger_id'],
@@ -626,7 +626,7 @@ class RecPayments
         }
 
         // Update amount in ledger_details
-        DB::table(('erp_acct_ledger_details')
+        DB::table(('account_ledger_detail')
                 ->where('trn_no', $invoice_no)
                 ->update(
                     [
@@ -653,7 +653,7 @@ class RecPayments
     {
 
 
-        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_invoice_receipts');
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'invoice_receipt');
         $row = (!empty($row)) ? $row[0] : null;
         return $row->count;
     }
@@ -676,8 +676,8 @@ class RecPayments
         } else {
             $invoice_sql = 'WHERE voucher_no = ' . $invoice;
         }
-        $sql .= "FROM erp_acct_invoice_receipts_details AS inv_rec_detail
-            LEFT JOIN erp_acct_voucher_no AS voucher
+        $sql .= "FROM invoice_receipt_details AS inv_rec_detail
+            LEFT JOIN purchase_voucher_no AS voucher
             ON inv_rec_detail.voucher_no = voucher.id
             {$invoice_sql}";
 

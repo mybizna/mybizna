@@ -9,6 +9,7 @@ class ReturnDetail extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "purchase_return_detail";
 
     /**

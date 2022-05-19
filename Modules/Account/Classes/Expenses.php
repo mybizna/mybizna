@@ -43,7 +43,7 @@ class Expenses
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM erp_acct_expenses WHERE `trn_by_ledger_id` IS NOT NULL ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM expense WHERE `trn_by_ledger_id` IS NOT NULL ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -91,7 +91,7 @@ class Expenses
                 expense.updated_at,
                 expense.updated_by
 
-            FROM erp_acct_expenses AS expense WHERE expense.voucher_no = {$expense_no}";
+            FROM expense AS expense WHERE expense.voucher_no = {$expense_no}";
 
         //config()->set('database.connections.mysql.strict', false);
         //config()->set('database.connections.mysql.strict', true);
@@ -147,9 +147,9 @@ class Expenses
     ledg_detail.debit,
     ledg_detail.credit
 
-    FROM erp_acct_expenses AS expense
+    FROM expense AS expense
 
-    LEFT JOIN erp_acct_ledger_details AS ledg_detail ON expense.voucher_no = ledg_detail.trn_no
+    LEFT JOIN account_ledger_detail AS ledg_detail ON expense.voucher_no = ledg_detail.trn_no
 
     WHERE expense.voucher_no = {$expense_no} AND expense.trn_by = 3";
 
@@ -190,9 +190,9 @@ class Expenses
 
         ledger.name AS ledger_name
 
-        FROM erp_acct_expenses AS expense
-        LEFT JOIN erp_acct_expense_details AS expense_detail ON expense_detail.trn_no = expense.voucher_no
-        LEFT JOIN erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id
+        FROM expense AS expense
+        LEFT JOIN expense_detail AS expense_detail ON expense_detail.trn_no = expense.voucher_no
+        LEFT JOIN account_ledger AS ledger ON expense_detail.ledger_id = ledger.id
 
         WHERE expense.voucher_no={$voucher_no} AND expense.trn_by = 3";
 
@@ -219,8 +219,8 @@ class Expenses
         expense_detail.particulars,
         expense_detail.amount
 
-        FROM erp_acct_expenses AS expense
-        LEFT JOIN erp_acct_expense_details AS expense_detail ON expense.voucher_no = expense_detail.trn_no LEFT JOIN erp_acct_ledgers AS ledger ON expense_detail.ledger_id = ledger.id WHERE expense.voucher_no = {$voucher_no}";
+        FROM expense AS expense
+        LEFT JOIN expense_detail AS expense_detail ON expense.voucher_no = expense_detail.trn_no LEFT JOIN account_ledger AS ledger ON expense_detail.ledger_id = ledger.id WHERE expense.voucher_no = {$voucher_no}";
 
 
 
@@ -260,7 +260,7 @@ class Expenses
                 $type = 'check';
             }
 
-            $voucher_no =  DB::table('erp_acct_voucher_no')
+            $voucher_no =  DB::table('purchase_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => $type,
@@ -282,7 +282,7 @@ class Expenses
             }
 
 
-            DB::table('erp_acct_expenses')
+            DB::table('expense')
                 ->insert(
                     [
                         'voucher_no'         => $expense_data['voucher_no'],
@@ -311,7 +311,7 @@ class Expenses
 
 
             foreach ($items as $key => $item) {
-                DB::table('erp_acct_expense_details')
+                DB::table('expense_detail')
                     ->insert(
                         [
                             'trn_no'      => $voucher_no,
@@ -355,7 +355,7 @@ class Expenses
             if ('check' === $type) {
                 $this->insertSourceExpenseDataIntoLedger($expense_data);
             } elseif (isset($expense_data['trn_by']) && 4 === $expense_data['trn_by']) {
-                do_action('erp_acct_expense_people_transaction', $expense_data, $voucher_no);
+                do_action('expense_people_transaction', $expense_data, $voucher_no);
             } else {
                 //Insert into Ledger for source account
                 $this->insertSourceExpenseDataIntoLedger($expense_data);
@@ -365,7 +365,7 @@ class Expenses
             $data['cr'] = $expense_data['amount'];
             $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
-            do_action('erp_acct_after_expense_create', $expense_data, $voucher_no);
+            do_action('after_expense_create', $expense_data, $voucher_no);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -381,7 +381,7 @@ class Expenses
             $check          = $this->getCheck($voucher_no);
             $check['email'] = $email;
 
-            do_action('erp_acct_new_transaction_check', $voucher_no, $check);
+            do_action('new_transaction_check', $voucher_no, $check);
 
             return $check;
         }
@@ -389,7 +389,7 @@ class Expenses
         $expense          = $this->getExpense($voucher_no);
         $expense['email'] = $email;
 
-        do_action('erp_acct_new_transaction_expense', $voucher_no, $expense);
+        do_action('new_transaction_expense', $voucher_no, $expense);
 
 
         return $expense;
@@ -422,7 +422,7 @@ class Expenses
 
             $expense_data = $this->getFormattedExpenseData($data, $expense_id);
 
-            DB::table('erp_acct_expenses')
+            DB::table('expense')
                 ->where('voucher_no', $expense_id)
                 ->update(
                     [
@@ -449,15 +449,15 @@ class Expenses
              *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
              *? so, remove previous rows and insert new rows
              */
-            $prev_detail_ids = DB::select("SELECT id FROM erp_acct_expense_details WHERE trn_no = {$expense_id}");
+            $prev_detail_ids = DB::select("SELECT id FROM expense_detail WHERE trn_no = {$expense_id}");
             $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
-            DB::table('erp_acct_expense_details')->where([['trn_no' => $expense_id]])->delete();
+            DB::table('expense_detail')->where([['trn_no' => $expense_id]])->delete();
 
             $items = $expense_data['bill_details'];
 
             foreach ($items as $key => $item) {
-                DB::table('erp_acct_expense_details')
+                DB::table('expense_detail')
                     ->insert(
                         [
                             'ledger_id'   => $item['ledger_id'],
@@ -513,7 +513,7 @@ class Expenses
 
             $expense_data = $this->getFormattedExpenseData($data, $expense_id);
 
-            DB::table('erp_acct_expenses')
+            DB::table('expense')
                 ->where('voucher_no', $expense_id)
                 ->update(
                     [
@@ -541,15 +541,15 @@ class Expenses
              *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
              *? so, remove previous rows and insert new rows
              */
-            $prev_detail_ids = DB::select("SELECT id FROM erp_acct_expense_details WHERE trn_no = {$expense_id}");
+            $prev_detail_ids = DB::select("SELECT id FROM expense_detail WHERE trn_no = {$expense_id}");
             $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
-            DB::table('erp_acct_expense_details')->where([['trn_no' => $expense_id]])->delete();
+            DB::table('expense_detail')->where([['trn_no' => $expense_id]])->delete();
 
             $items = $expense_data['bill_details'];
 
             foreach ($items as $item) {
-                DB::table('erp_acct_expense_details')
+                DB::table('expense_detail')
                     ->insert(
                         [
                             'ledger_id'   => $item['ledger_id'],
@@ -577,7 +577,7 @@ class Expenses
             if ('check' === $type) {
                 $this->insertSourceExpenseDataIntoLedger($expense_data);
             } elseif (isset($expense_data['trn_by']) && 4 === $expense_data['trn_by']) {
-                do_action('erp_acct_expense_people_transaction', $expense_data, $expense_id);
+                do_action('expense_people_transaction', $expense_data, $expense_id);
             } else {
                 //Insert into Ledger for source account
                 $this->insertSourceExpenseDataIntoLedger($expense_data);
@@ -587,7 +587,7 @@ class Expenses
             $data['cr'] = $expense_data['amount'];
             $trans->insertDataIntoPeopleTrnDetails($data, $expense_id);
 
-            do_action('erp_acct_after_expense_create', $expense_data, $expense_id);
+            do_action('after_expense_create', $expense_data, $expense_id);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -603,7 +603,7 @@ class Expenses
             $check          = $this->getCheck($expense_id);
             $check['email'] = $email;
 
-            do_action('erp_acct_new_transaction_check', $expense_id, $check);
+            do_action('new_transaction_check', $expense_id, $check);
 
             return $check;
         }
@@ -611,7 +611,7 @@ class Expenses
         $expense          = $this->getExpense($expense_id);
         $expense['email'] = $email;
 
-        do_action('erp_acct_new_transaction_expense', $expense_id, $expense);
+        do_action('new_transaction_expense', $expense_id, $expense);
 
 
         return $expense;
@@ -632,7 +632,7 @@ class Expenses
             return;
         }
 
-        DB::table('erp_acct_expenses')
+        DB::table('expense')
             ->where('voucher_no', $id)
             ->update(
                 [
@@ -640,8 +640,8 @@ class Expenses
                 ]
             );
 
-        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
-        DB::table('erp_acct_expense_details')->where([['trn_no' => $id]])->delete();
+        DB::table('account_ledger_detail')->where([['trn_no' => $id]])->delete();
+        DB::table('expense_detail')->where([['trn_no' => $id]])->delete();
     }
 
     /**
@@ -707,7 +707,7 @@ class Expenses
         }
 
         // Insert amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 [
                     'ledger_id'   => $item_data['ledger_id'],
@@ -742,7 +742,7 @@ class Expenses
         }
 
         // Update amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->where('trn_no', $expense_no)
             ->update(
                 [
@@ -775,7 +775,7 @@ class Expenses
         }
 
         // Insert amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 [
                     'ledger_id'   => $expense_data['trn_by_ledger_id'],
@@ -815,8 +815,8 @@ class Expenses
                 ledg_detail.debit,
                 ledg_detail.credit
 
-            FROM erp_acct_expense_checks AS cheque
-            LEFT JOIN erp_acct_ledger_details AS ledg_detail ON cheque.trn_no = ledg_detail.trn_no
+            FROM expense_check AS cheque
+            LEFT JOIN account_ledger_detail AS ledg_detail ON cheque.trn_no = ledg_detail.trn_no
 
             WHERE cheque.trn_no = {$expense_no}";
 

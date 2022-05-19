@@ -195,7 +195,7 @@ export default {
             msg           : this.$func.__('Accounting', 'erp'),
             to_receive    : [],
             to_pay        : [],
-            tutorialUrl   : this.$mybizna_var.erp_acct_tut_url
+            tutorialUrl   : this.$mybizna_var.tut_url
         };
     },
 

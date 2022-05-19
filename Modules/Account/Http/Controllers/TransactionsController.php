@@ -42,7 +42,7 @@ class TransactionsController extends Controller
     {
 
 
-        $statuses = DB::select("SELECT id, type_name as name, slug FROM erp_acct_trn_status_types");
+        $statuses = DB::select("SELECT id, type_name as name, slug FROM account_transaction_status_type");
 
         return response()->json($statuses);
     }
@@ -343,9 +343,9 @@ class TransactionsController extends Controller
     {
 
 
-        $rows = DB::select("SELECT id, name FROM erp_acct_payment_methods");
+        $rows = DB::select("SELECT id, name FROM payment_method");
 
-        return apply_filters('erp_acct_pay_methods', $rows);
+        return apply_filters('pay_methods', $rows);
     }
 
     public function getVoucherType($request)

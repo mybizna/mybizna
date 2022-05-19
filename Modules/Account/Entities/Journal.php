@@ -9,6 +9,7 @@ class Journal extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "account_journal";
 
     /**

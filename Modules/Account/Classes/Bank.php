@@ -43,7 +43,7 @@ class Bank
         $args['start_date'] = $closest_fy_date['start_date'];
         $args['end_date']   = $closest_fy_date['end_date'];
 
-        $ledgers   = 'erp_acct_ledgers';
+        $ledgers   = 'account_ledger';
         $show_all  = false;
         $cash_only = false;
         $bank_only = false;
@@ -78,7 +78,7 @@ class Bank
         }
 
         $sub_query      = "SELECT id FROM $ledgers" . $where . $cash_ledger;
-        $ledger_details = 'erp_acct_ledger_details';
+        $ledger_details = 'account_ledger_detail';
         $query          = "Select l.id, ld.ledger_id, l.code, l.name, SUM(ld.debit - ld.credit) as balance
               From $ledger_details as ld
               LEFT JOIN $ledgers as l ON l.id = ld.ledger_id
@@ -198,7 +198,7 @@ class Bank
     public function getBank($bank_no)
     {
 
-        $row = DB::select("SELECT * FROM erp_acct_cash_at_banks WHERE ledger_id = {$bank_no}");
+        $row = DB::select("SELECT * FROM account_cash_at_bank WHERE ledger_id = {$bank_no}");
 
         return (!empty($row)) ? $row[0] : null;
     }
@@ -219,7 +219,7 @@ class Bank
         try {
             DB::beginTransaction();
 
-            DB::table('erp_acct_cash_at_banks')
+            DB::table('account_cash_at_bank')
                 ->insert(
                     [
                         'ledger_id' => $bank_data['ledger_id'],
@@ -249,7 +249,7 @@ class Bank
 
         try {
             DB::beginTransaction();
-            DB::table('erp_acct_cash_at_banks')->where([['ledger_id' => $id]])->delete();
+            DB::table('account_cash_at_bank')->where([['ledger_id' => $id]])->delete();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -287,7 +287,7 @@ class Bank
     {
 
 
-        $result = DB::select("SELECT ledger_id, SUM(credit) - SUM(debit) AS 'balance' FROM erp_acct_ledger_details WHERE ledger_id = {$ledger_id}");
+        $result = DB::select("SELECT ledger_id, SUM(credit) - SUM(debit) AS 'balance' FROM account_ledger_detail WHERE ledger_id = {$ledger_id}");
 
         return (!empty($result)) ? $result[0] : null;
     }
@@ -304,8 +304,8 @@ class Bank
 
         $dr_cr = [];
 
-        $dr_cr['debit']  = DB::scalar("SELECT SUM(debit) FROM erp_acct_ledger_details WHERE ledger_id = {$ledger_id}");
-        $dr_cr['credit'] = DB::scalar("SELECT SUM(credit) FROM erp_acct_ledger_details WHERE ledger_id = {$ledger_id}");
+        $dr_cr['debit']  = DB::scalar("SELECT SUM(debit) FROM account_ledger_detail WHERE ledger_id = {$ledger_id}");
+        $dr_cr['credit'] = DB::scalar("SELECT SUM(credit) FROM account_ledger_detail WHERE ledger_id = {$ledger_id}");
 
         return $dr_cr;
     }
@@ -331,7 +331,7 @@ class Bank
         try {
             DB::beginTransaction();
 
-            $voucher_no =  DB::table('erp_acct_voucher_no')
+            $voucher_no =  DB::table('purchase_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => 'transfer_voucher',
@@ -345,7 +345,7 @@ class Bank
 
 
             // Inset transfer amount in ledger_details
-            DB::table('erp_acct_ledger_details')
+            DB::table('account_ledger_detail')
                 ->insert(
                     [
                         'ledger_id'   => $item['from_account_id'],
@@ -361,7 +361,7 @@ class Bank
                     ]
                 );
 
-            DB::table('erp_acct_ledger_details')
+            DB::table('account_ledger_detail')
                 ->insert(
                     [
                         'ledger_id'   => $item['to_account_id'],
@@ -377,7 +377,7 @@ class Bank
                     ]
                 );
 
-            DB::table('erp_acct_transfer_voucher')
+            DB::table('purchase_transfer_voucher')
                 ->insert(
                     [
                         'voucher_no'  => $voucher_no,
@@ -414,7 +414,7 @@ class Bank
         $accounts = $this->GetBanks(true, true, false);
 
         foreach ($accounts as $account) {
-            DB::table('erp_acct_cash_at_banks')
+            DB::table('account_cash_at_bank')
 
                 ->where(
                     [
@@ -471,7 +471,7 @@ class Bank
             $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
         }
 
-        $result = DB::select("SELECT * FROM erp_acct_transfer_voucher ORDER BY {$args['order_by']} {$args['order']} {$limit}");
+        $result = DB::select("SELECT * FROM purchase_transfer_voucher ORDER BY {$args['order_by']} {$args['order']} {$limit}");
 
         return $result;
     }
@@ -491,7 +491,7 @@ class Bank
             return;
         }
 
-        $result = DB::select("SELECT * FROM erp_acct_transfer_voucher WHERE id = {$id}");
+        $result = DB::select("SELECT * FROM purchase_transfer_voucher WHERE id = {$id}");
 
         return (!empty($result)) ? $result[0] : null;
     }
@@ -510,7 +510,7 @@ class Bank
         }
 
 
-        $table_name = 'erp_acct_ledger_details';
+        $table_name = 'account_ledger_detail';
         $query      = "Select ld.ledger_id,SUM(ld.debit - ld.credit) as balance From $table_name as ld Where ld.ledger_id IN ($id) Group BY ld.ledger_id ";
         $result     = DB::select($query);
 

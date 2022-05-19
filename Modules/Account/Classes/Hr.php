@@ -33,7 +33,7 @@ class Hr
     {
 
 
-        $emp_tbl = 'erp_hr_employees';
+        $emp_tbl = 'hrm_employee';
 
         $query = "select $emp_tbl.user_id from $emp_tbl
             left join users on $emp_tbl.user_id = user.id

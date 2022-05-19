@@ -161,8 +161,8 @@ class FinalAccounts
                     SUM( ld.debit - ld.credit ) AS balance,
                     ledger.name,
                     ledger.chart_id
-                FROM erp_acct_ledger_details AS ld
-                INNER JOIN erp_acct_ledgers AS ledger
+                FROM account_ledger_detail AS ld
+                INNER JOIN account_ledger AS ledger
                 ON ledger.id = ld.ledger_id
                 WHERE ledger.chart_id = %d
                 AND ld.trn_date >= '%s' AND ld.trn_date < '%s'
@@ -196,8 +196,8 @@ class FinalAccounts
                     ob.ledger_id,
                     SUM(ob.debit - ob.credit) AS balance,
                     ledger.name, ob.chart_id
-                FROM erp_acct_opening_balances AS ob
-                INNER JOIN erp_acct_ledgers AS ledger
+                FROM account_opening_balance AS ob
+                INNER JOIN account_ledger AS ledger
                 ON ledger.id = ob.ledger_id
                 WHERE ob.financial_year_id = %d
                 AND ob.chart_id = %d
@@ -231,8 +231,8 @@ class FinalAccounts
                     SUM( ld.debit - ld.credit ) AS balance,
                     ledger.name,
                     ledger.chart_id
-                FROM erp_acct_ledger_details AS ld
-                INNER JOIN erp_acct_ledgers AS ledger
+                FROM account_ledger_detail AS ld
+                INNER JOIN account_ledger AS ledger
                 ON ledger.id = ld.ledger_id
                 WHERE ledger.chart_id = %d
                 AND ld.trn_date BETWEEN '%s' AND '%s'

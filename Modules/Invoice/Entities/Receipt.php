@@ -9,6 +9,7 @@ class Receipt extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "invoice_receipt";
 
     /**

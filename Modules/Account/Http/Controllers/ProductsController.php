@@ -338,7 +338,7 @@ class ProductsController extends Controller
     {
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'erp_inv_product',
+            'title'      => 'inv_product',
             'type'       => 'object',
             'properties' => [
                 'id'              => [

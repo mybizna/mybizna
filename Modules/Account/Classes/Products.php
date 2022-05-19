@@ -55,10 +55,10 @@ class Products
                     product_type.name AS product_type_name";
         }
 
-        $sql .= " FROM erp_acct_products AS product
-            LEFT JOIN erp_peoples AS people ON product.vendor = people.id
-            LEFT JOIN erp_acct_product_categories AS cat ON product.category_id = cat.id
-            LEFT JOIN erp_acct_product_types AS product_type ON product.product_type_id = product_type.id
+        $sql .= " FROM product AS product
+            LEFT JOIN partner AS people ON product.vendor = people.id
+            LEFT JOIN product_category AS cat ON product.category_id = cat.id
+            LEFT JOIN product_type AS product_type ON product.product_type_id = product_type.id
             WHERE product.product_type_id<>3";
 
         if (!empty($args['s'])) {
@@ -112,10 +112,10 @@ class Products
             cat.name AS cat_name,
             product_type.name AS product_type_name
 
-		FROM erp_acct_products AS product
-		LEFT JOIN erp_peoples AS people ON product.vendor = people.id
-		LEFT JOIN erp_acct_product_categories AS cat ON product.category_id = cat.id
-        LEFT JOIN erp_acct_product_types AS product_type ON product.product_type_id = product_type.id WHERE product.id = {$product_id} LIMIT 1"
+		FROM product AS product
+		LEFT JOIN partner AS people ON product.vendor = people.id
+		LEFT JOIN product_category AS cat ON product.category_id = cat.id
+        LEFT JOIN product_type AS product_type ON product.product_type_id = product_type.id WHERE product.id = {$product_id} LIMIT 1"
         );
 
         $row = (!empty($row)) ? $row[0] : null;
@@ -146,7 +146,7 @@ class Products
 
             $product_check =  DB::select(
 
-                "SELECT * FROM erp_acct_products where name = %s",
+                "SELECT * FROM product where name = %s",
                 [$product_data['name']]
             );
 
@@ -157,7 +157,7 @@ class Products
                 throw new \Exception($product_data['name'] . ' ' . __('product already exists!', 'erp'));
             }
 
-            $product_id = DB::table('erp_acct_products')
+            $product_id = DB::table('product')
                 ->insertGetId(
                     [
                         'name'            => $product_data['name'],
@@ -183,7 +183,7 @@ class Products
             }
 
 
-        do_action('erp_acct_after_change_product_list');
+        do_action('after_change_product_list');
 
         return $this->getAllProducts($product_id);
     }
@@ -209,7 +209,7 @@ class Products
             $product_data = $products->getFormattedProductData($data);
 
             $product_name_check =  DB::select(
-                "SELECT * FROM erp_acct_products where name = %s AND id NOT IN(%d)",
+                "SELECT * FROM product where name = %s AND id NOT IN(%d)",
                 [
                     $product_data['name'],
                     $id
@@ -223,7 +223,7 @@ class Products
                 throw new \Exception($product_data['name'] . ' ' . __("Product name already exists!", "erp"));
             }
 
-            DB::table('erp_acct_products')
+            DB::table('product')
                 ->where('id', $id)
                 ->update(
                     [
@@ -249,7 +249,7 @@ class Products
         }
 
 
-        do_action('erp_acct_after_change_product_list');
+        do_action('after_change_product_list');
 
         return $this->getAllProducts($id);
     }
@@ -289,11 +289,11 @@ class Products
     {
 
 
-        DB::table('erp_acct_products')->where([['id' => $product_id]])->delete();
-        DB::table('erp_acct_product_details')->where([['product_id' => $product_id]])->delete();
+        DB::table('product')->where([['id' => $product_id]])->delete();
+        DB::table('product_detail')->where([['product_id' => $product_id]])->delete();
 
 
-        do_action('erp_acct_after_change_product_list');
+        do_action('after_change_product_list');
 
         return $product_id;
     }
@@ -307,9 +307,9 @@ class Products
     {
 
 
-        $types = DB::select("SELECT * FROM erp_acct_product_types");
+        $types = DB::select("SELECT * FROM product_type");
 
-        return apply_filters('erp_acct_product_types', $types);
+        return apply_filters('product_type', $types);
     }
 
     /**
@@ -323,7 +323,7 @@ class Products
     {
 
 
-        $type_id = DB::scalar("SELECT product_type_id FROM erp_acct_products WHERE id = %d", [$product_id]);
+        $type_id = DB::scalar("SELECT product_type_id FROM product WHERE id = %d", [$product_id]);
 
         return $type_id;
     }
@@ -375,10 +375,10 @@ class Products
                 product_type.name AS product_type_name";
         }
 
-        $sql .= " FROM erp_acct_products AS product
-            LEFT JOIN erp_peoples AS people ON product.vendor = people.id
-            LEFT JOIN erp_acct_product_categories AS cat ON product.category_id = cat.id
-            LEFT JOIN erp_acct_product_types AS product_type ON product.product_type_id = product_type.id
+        $sql .= " FROM product AS product
+            LEFT JOIN partner AS people ON product.vendor = people.id
+            LEFT JOIN product_category AS cat ON product.category_id = cat.id
+            LEFT JOIN product_type AS product_type ON product.product_type_id = product_type.id
             WHERE people.id={$args['vendor']} AND product.product_type_id<>3 ORDER BY product.{$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
@@ -446,7 +446,7 @@ class Products
             $temp_type = 'product_non_unique';
         }
 
-        $errors = apply_filters('erp_validate_csv_data', $csv_data, $data['fields'], $temp_type);
+        $errors = apply_filters('validate_csv_data', $csv_data, $data['fields'], $temp_type);
 
         if (!empty($errors)) {
              messageBag()->add('import-error', $errors);
@@ -473,7 +473,7 @@ class Products
                             if (!empty($line[$value])) {
                                 $valid_value = DB::scalar(
                                     "SELECT id
-                                FROM erp_acct_product_categories
+                                FROM product_category
                                 WHERE id = {$line[$value]}"
                                 );
                             }
@@ -484,7 +484,7 @@ class Products
                             if (!empty($line[$value])) {
                                 $valid_value = DB::scalar(
                                     "SELECT id
-                                FROM erp_acct_product_types
+                                FROM product_type
                                 WHERE id = {$line[$value]}"
                                 );
                             }
@@ -495,7 +495,7 @@ class Products
                             if (!empty($line[$value])) {
                                 $valid_value = DB::scalar(
                                     "SELECT id
-                                FROM erp_acct_tax_categories
+                                FROM account_tax_category
                                 WHERE id = {$line[$value]}"
                                 );
                             }
@@ -506,8 +506,8 @@ class Products
                             if (!empty($line[$value])) {
                                 $valid_value = DB::scalar(
                                     "SELECT people.id
-                                FROM erp_peoples AS people
-                                LEFT JOIN erp_people_type_relations AS rel
+                                FROM partner AS people
+                                LEFT JOIN partner_type_relation AS rel
                                 ON people.id = rel.people_id
                                 WHERE people.id = {$line[$value]}
                                 AND rel.people_types_id = 4"
@@ -530,7 +530,7 @@ class Products
 
                     if ($update_existing && !$product_checked && 'name' === $key) {
                         $product_exists_id =  DB::scalar(
-                            "SELECT id FROM erp_acct_products where name = %s",
+                            "SELECT id FROM product where name = %s",
                             [$value]
                         );
 
@@ -578,7 +578,7 @@ class Products
 
         if (!empty($data['items'])) {
             $inserted = DB::delete(
-                "INSERT INTO erp_acct_products
+                "INSERT INTO product
             (name, product_type_id, category_id, cost_price, sale_price, vendor, tax_cat_id, created_by, created_at)
             VALUES {$data['items']}"
             );
@@ -597,7 +597,7 @@ class Products
                 $field_data['updated_at'] = $curr_date;
                 $field_data['updated_by'] = $user;
 
-                DB::table("erp_acct_products")->where('id', $id)->update($field_data);
+                DB::table("product")->where('id', $id)->update($field_data);
             }
         }
 

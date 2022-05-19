@@ -14,7 +14,7 @@ class Capabilities
      */
     public function getManagerRole()
     {
-        return apply_filters('ac_get_manager_role', 'erp_ac_manager');
+        return apply_filters('ac_get_manager_role', 'manager');
     }
 
     /**
@@ -197,7 +197,7 @@ class Capabilities
      */
     public function userCanEditCustomer($created_by = false)
     {
-        if (!current_user_can('erp_ac_edit_customer')) {
+        if (!current_user_can('edit_customer')) {
             return false;
         }
 
@@ -211,7 +211,7 @@ class Capabilities
             return true;
         }
 
-        if (current_user_can('erp_ac_edit_other_customers')) {
+        if (current_user_can('edit_other_customers')) {
             return true;
         }
 
@@ -225,7 +225,7 @@ class Capabilities
      */
     public function currentUserCanViewSingleCustomer()
     {
-        return current_user_can('erp_ac_view_single_customer');
+        return current_user_can('view_single_customer');
     }
 
     /**
@@ -235,7 +235,7 @@ class Capabilities
      */
     public function viewOtherCustomers()
     {
-        return current_user_can('erp_ac_view_other_customers');
+        return current_user_can('view_other_customers');
     }
 
     /**
@@ -247,7 +247,7 @@ class Capabilities
      */
     public function currentUserCanDeleteCustomer($created_by = false)
     {
-        if (!current_user_can('erp_ac_delete_customer')) {
+        if (!current_user_can('delete_customer')) {
             return false;
         }
 
@@ -261,7 +261,7 @@ class Capabilities
             return true;
         }
 
-        if (current_user_can('erp_ac_delete_other_customers')) {
+        if (current_user_can('delete_other_customers')) {
             return true;
         }
 
@@ -275,7 +275,7 @@ class Capabilities
      */
     public function createVendor()
     {
-        return current_user_can('erp_ac_create_vendor');
+        return current_user_can('create_vendor');
     }
 
     /**
@@ -287,7 +287,7 @@ class Capabilities
      */
     public function currentUserCanEditVendor($created_by = false)
     {
-        if (!current_user_can('erp_ac_edit_vendor')) {
+        if (!current_user_can('edit_vendor')) {
             return false;
         }
 
@@ -301,7 +301,7 @@ class Capabilities
             return true;
         }
 
-        if (current_user_can('erp_ac_edit_other_vendors')) {
+        if (current_user_can('edit_other_vendors')) {
             return true;
         }
 
@@ -315,7 +315,7 @@ class Capabilities
      */
     public function currentUserCanViewSingleVendor()
     {
-        return current_user_can('erp_ac_view_single_vendor');
+        return current_user_can('view_single_vendor');
     }
 
     /**
@@ -325,7 +325,7 @@ class Capabilities
      */
     public function viewOtherVendors()
     {
-        return current_user_can('erp_ac_view_other_vendors');
+        return current_user_can('view_other_vendors');
     }
 
     /**
@@ -337,7 +337,7 @@ class Capabilities
      */
     public function currentUserCanDeleteVendor($created_by = false)
     {
-        if (!current_user_can('erp_ac_delete_vendor')) {
+        if (!current_user_can('delete_vendor')) {
             return false;
         }
 
@@ -351,7 +351,7 @@ class Capabilities
             return true;
         }
 
-        if (current_user_can('erp_ac_delete_other_vendors')) {
+        if (current_user_can('delete_other_vendors')) {
             return true;
         }
 

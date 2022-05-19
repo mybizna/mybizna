@@ -9,6 +9,7 @@ class SaleReturn extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "sale_return";
 
     /**

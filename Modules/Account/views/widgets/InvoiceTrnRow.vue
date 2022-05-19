@@ -89,7 +89,7 @@ export default {
             taxRate: 0,
             taxAmount: 0,
             taxCatID: 0,
-            debugMode: this.$mybizna_var.erp_debug_mode /* global this.$mybizna_var */,
+            debugMode: this.$mybizna_var.debug_mode /* global this.$mybizna_var */,
         };
     },
 

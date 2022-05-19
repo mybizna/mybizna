@@ -55,7 +55,7 @@ export default {
 
     created() {
         setTimeout(()=>{
-            this.pro_activated =  this.$store.state.erp_pro_activated ?  this.$store.state.erp_pro_activated : false
+            this.pro_activated =  this.$store.state.pro_activated ?  this.$store.state.pro_activated : false
             if(this.pro_activated ){
                 this.pages.push({ namedRoute: 'PurchaseReturnList', name:  this.$func.__('Purchase Return', 'erp') })
              }

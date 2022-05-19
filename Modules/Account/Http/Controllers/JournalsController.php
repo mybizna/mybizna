@@ -87,7 +87,7 @@ class JournalsController extends Controller
     {
 
 
-        $count      = DB::select('SELECT count(*) FROM ' . 'erp_acct_journals');
+        $count      = DB::select('SELECT count(*) FROM ' . 'account_journal');
         $count = (!empty($count)) ? $count[0] : null;
 
         $item['id'] = $count['0'] + 1;

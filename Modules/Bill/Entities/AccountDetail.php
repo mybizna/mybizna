@@ -9,6 +9,7 @@ class AccountDetail extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "bill_account_detail";
 
     /**

@@ -109,7 +109,7 @@ class PeopleController extends Controller
             return;
         }
 
-        $row = DB::select("SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d", [$id]);
+        $row = DB::select("SELECT street_1, street_2, city, state, postal_code, country FROM partner WHERE id = %d", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return response()->json($people->formatPeopleAddress($row));

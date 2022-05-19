@@ -109,7 +109,7 @@ class OpeningBalanceController extends Controller
             return;
         }
 
-        $result = DB::select("select count(*) as num from erp_acct_opening_balances where financial_year_id = %d", [$id]);
+        $result = DB::select("select count(*) as num from account_opening_balance where financial_year_id = %d", [$id]);
         $result = (!empty($result)) ? $result[0] : null;
 
         return response()->json($result->num);

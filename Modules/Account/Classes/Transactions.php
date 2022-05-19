@@ -95,10 +95,10 @@ class Transactions
                     invoice_receipt.status as pay_status';
         }
 
-        $sql .= " FROM erp_acct_voucher_no AS voucher
-            LEFT JOIN erp_acct_invoices AS invoice ON invoice.voucher_no = voucher.id
-            LEFT JOIN erp_acct_invoice_receipts AS invoice_receipt ON invoice_receipt.voucher_no = voucher.id
-            LEFT JOIN erp_acct_invoice_account_details AS invoice_account_detail ON invoice_account_detail.invoice_no = invoice.voucher_no
+        $sql .= " FROM purchase_voucher_no AS voucher
+            LEFT JOIN invoice AS invoice ON invoice.voucher_no = voucher.id
+            LEFT JOIN invoice_receipt AS invoice_receipt ON invoice_receipt.voucher_no = voucher.id
+            LEFT JOIN invoice_account_detail AS invoice_account_detail ON invoice_account_detail.invoice_no = invoice.voucher_no
             {$where} GROUP BY voucher.id ORDER BY voucher.id {$args['order']} {$limit}";
 
         //config()->set('database.connections.mysql.strict', false);
@@ -140,8 +140,8 @@ class Transactions
         }
 
         $sql = "SELECT COUNT(invoice.status) AS sub_total, status_type.type_name
-            FROM erp_acct_trn_status_types AS status_type
-            LEFT JOIN erp_acct_invoices AS invoice ON invoice.status = status_type.id {$where}
+            FROM account_transaction_status_type AS status_type
+            LEFT JOIN invoice AS invoice ON invoice.status = status_type.id {$where}
             GROUP BY status_type.id HAVING COUNT(invoice.status) > 0 ORDER BY status_type.type_name ASC";
 
         return DB::select($sql);
@@ -170,8 +170,8 @@ class Transactions
 
         $sql = "SELECT SUM(credit) as received, SUM(balance) AS outstanding
         FROM ( SELECT invoice.voucher_no, SUM(invoice_acc_detail.credit) AS credit, SUM( invoice_acc_detail.debit - invoice_acc_detail.credit) AS balance
-        FROM erp_acct_invoices AS invoice
-        LEFT JOIN erp_acct_invoice_account_details AS invoice_acc_detail ON invoice.voucher_no = invoice_acc_detail.invoice_no {$where}
+        FROM invoice AS invoice
+        LEFT JOIN invoice_account_detail AS invoice_acc_detail ON invoice.voucher_no = invoice_acc_detail.invoice_no {$where}
         GROUP BY invoice.voucher_no) AS get_amount";
 
         $row =  DB::select($sql);
@@ -203,8 +203,8 @@ class Transactions
 
         $sql = "SELECT SUM(debit) as paid, ABS(SUM(balance)) AS payable
         FROM ( SELECT bill.voucher_no, SUM(bill_acc_detail.debit) AS debit, SUM( bill_acc_detail.debit - bill_acc_detail.credit) AS balance
-        FROM erp_acct_bills AS bill
-        LEFT JOIN erp_acct_bill_account_details AS bill_acc_detail ON bill.voucher_no = bill_acc_detail.bill_no {$where}
+        FROM bill AS bill
+        LEFT JOIN bill_account_detail AS bill_acc_detail ON bill.voucher_no = bill_acc_detail.bill_no {$where}
         GROUP BY bill.voucher_no) AS get_amount";
 
         $row = DB::select($sql);
@@ -235,8 +235,8 @@ class Transactions
         }
 
         $sql = "SELECT status_type.type_name, COUNT(bill.status) AS sub_total
-            FROM erp_acct_trn_status_types AS status_type
-            LEFT JOIN erp_acct_bills AS bill ON bill.status = status_type.id {$where}
+            FROM account_transaction_status_type AS status_type
+            LEFT JOIN bill AS bill ON bill.status = status_type.id {$where}
             GROUP BY status_type.id
             HAVING sub_total > 0
             ORDER BY status_type.type_name ASC";
@@ -267,8 +267,8 @@ class Transactions
 
         $sql = "SELECT SUM(debit) as paid, ABS(SUM(balance)) AS payable
         FROM ( SELECT purchase.voucher_no, SUM(purchase_acc_detail.debit) AS debit, SUM( purchase_acc_detail.debit - purchase_acc_detail.credit) AS balance
-        FROM erp_acct_purchase AS purchase
-        LEFT JOIN erp_acct_purchase_account_details AS purchase_acc_detail ON purchase.voucher_no = purchase_acc_detail.purchase_no {$where}
+        FROM purchase AS purchase
+        LEFT JOIN purchase_account_details AS purchase_acc_detail ON purchase.voucher_no = purchase_acc_detail.purchase_no {$where}
         GROUP BY purchase.voucher_no) AS get_amount";
 
         $result = DB::select($sql);
@@ -300,8 +300,8 @@ class Transactions
         }
 
         $sql = "SELECT status_type.type_name, COUNT(purchase.status) AS sub_total
-            FROM erp_acct_trn_status_types AS status_type
-            LEFT JOIN erp_acct_purchase AS purchase ON purchase.status = status_type.id {$where}
+            FROM account_transaction_status_type AS status_type
+            LEFT JOIN purchase AS purchase ON purchase.status = status_type.id {$where}
             GROUP BY status_type.id
             HAVING sub_total > 0
             ORDER BY status_type.type_name ASC";
@@ -334,8 +334,8 @@ class Transactions
 
         $sql = "SELECT SUM(balance) as paid, 0 AS payable
         FROM ( SELECT bill.voucher_no, bill_acc_detail.amount AS balance
-        FROM erp_acct_expenses AS bill
-        LEFT JOIN erp_acct_expense_details AS bill_acc_detail ON bill.voucher_no = bill_acc_detail.trn_no {$where} HAVING balance > 0 ) AS get_amount";
+        FROM expense AS bill
+        LEFT JOIN expense_detail AS bill_acc_detail ON bill.voucher_no = bill_acc_detail.trn_no {$where} HAVING balance > 0 ) AS get_amount";
 
         $row = DB::select($sql);
         $row = (!empty($row)) ? $row[0] : null;
@@ -365,8 +365,8 @@ class Transactions
         }
 
         $sql = "SELECT status_type.type_name, COUNT(bill.status) AS sub_total
-            FROM erp_acct_trn_status_types AS status_type
-            LEFT JOIN erp_acct_expenses AS bill ON bill.status = status_type.id {$where}
+            FROM account_transaction_status_type AS status_type
+            LEFT JOIN expense AS bill ON bill.status = status_type.id {$where}
             GROUP BY status_type.id
             HAVING sub_total > 0
             ORDER BY status_type.type_name ASC";
@@ -466,9 +466,9 @@ class Transactions
     {
 
 
-        $ledger_details = 'erp_acct_ledger_details';
-        $ledgers        = 'erp_acct_ledgers';
-        $chart_of_accs  = 'erp_acct_chart_of_accounts';
+        $ledger_details = 'account_ledger_detail';
+        $ledgers        = 'account_ledger';
+        $chart_of_accs  = 'account_chart_of_account';
 
         $query = "Select Month(ld.trn_date) as month, SUM( ld.debit-ld.credit ) as balance
               From $ledger_details as ld
@@ -555,9 +555,9 @@ class Transactions
                 break;
         }
 
-        $ledger_details = 'erp_acct_ledger_details';
-        $ledgers        = 'erp_acct_ledgers';
-        $chart_of_accs  = 'erp_acct_chart_of_accounts';
+        $ledger_details = 'account_ledger_detail';
+        $ledgers        = 'account_ledger';
+        $chart_of_accs  = 'account_chart_of_account';
 
         $query = "Select ld.trn_date as day, SUM( ld.debit-ld.credit ) as balance
               From $ledger_details as ld
@@ -683,12 +683,12 @@ class Transactions
                 expense.status as expense_status';
         }
 
-        $sql .= " FROM erp_acct_voucher_no AS voucher
-            LEFT JOIN erp_acct_bills AS bill ON bill.voucher_no = voucher.id
-            LEFT JOIN erp_acct_pay_bill AS pay_bill ON pay_bill.voucher_no = voucher.id
-            LEFT JOIN erp_acct_bill_account_details AS bill_acct_details ON bill_acct_details.bill_no = bill.voucher_no
-            LEFT JOIN erp_acct_expenses AS expense ON expense.voucher_no = voucher.id
-            LEFT JOIN erp_acct_expense_checks AS cheque ON cheque.trn_no = voucher.id
+        $sql .= " FROM purchase_voucher_no AS voucher
+            LEFT JOIN bill AS bill ON bill.voucher_no = voucher.id
+            LEFT JOIN payment_pay_bill AS pay_bill ON pay_bill.voucher_no = voucher.id
+            LEFT JOIN bill_account_detail AS bill_acct_details ON bill_acct_details.bill_no = bill.voucher_no
+            LEFT JOIN expense AS expense ON expense.voucher_no = voucher.id
+            LEFT JOIN expense_check AS cheque ON cheque.trn_no = voucher.id
             {$where}
             GROUP BY voucher.id
             ORDER BY voucher.id {$args['order']} {$limit}";
@@ -789,10 +789,10 @@ class Transactions
                 pay_purchase.status AS pay_purchase_status';
         }
 
-        $sql .= " FROM erp_acct_voucher_no AS voucher
-            LEFT JOIN erp_acct_purchase AS purchase ON purchase.voucher_no = voucher.id
-            LEFT JOIN erp_acct_pay_purchase AS pay_purchase ON pay_purchase.voucher_no = voucher.id
-            LEFT JOIN erp_acct_purchase_account_details AS purchase_acct_details ON purchase_acct_details.purchase_no = purchase.voucher_no
+        $sql .= " FROM purchase_voucher_no AS voucher
+            LEFT JOIN purchase AS purchase ON purchase.voucher_no = voucher.id
+            LEFT JOIN payment_pay_purchase AS pay_purchase ON pay_purchase.voucher_no = voucher.id
+            LEFT JOIN purchase_account_details AS purchase_acct_details ON purchase_acct_details.purchase_no = purchase.voucher_no
             {$where} GROUP BY voucher.id ORDER BY voucher.id {$args['order']} {$limit}";
 
         //config()->set('database.connections.mysql.strict', false);
@@ -836,7 +836,7 @@ class Transactions
     {
 
 
-        $voucher_nos = DB::select("SELECT id, type FROM erp_acct_voucher_no");
+        $voucher_nos = DB::select("SELECT id, type FROM purchase_voucher_no");
 
         for ($i = 0; $i < count($voucher_nos); $i++) {
             if ('journal' === $voucher_nos[$i]['type']) {
@@ -871,7 +871,7 @@ class Transactions
         }
 
         $company     = new Company();
-        $theme_color = config('erp_ac_pdf_theme_color', false, '#9e9e9e');
+        $theme_color = config('pdf_theme_color', false, '#9e9e9e');
 
         $user_id = null;
         $trn_id  = null;
@@ -1481,7 +1481,7 @@ class Transactions
      *
      * @return bool
      */
-    public function sendEmailOnTransaction($voucher_no, $transaction, $current_action = "erp_acct_new_transaction_sales")
+    public function sendEmailOnTransaction($voucher_no, $transaction, $current_action = "new_transaction_sales")
     {
 
         $user_id   = null;
@@ -1498,47 +1498,47 @@ class Transactions
 
         if ($pdf_file) {
             switch ($current_action) {
-                case 'erp_acct_new_transaction_sales':
+                case 'new_transaction_sales':
                     $email_type = 'Transactional_Email';
                     break;
 
-                case 'erp_acct_new_transaction_payment':
+                case 'new_transaction_payment':
                     $email_type = 'Transactional_Email_Payments';
                     break;
 
-                case 'erp_acct_new_transaction_bill':
+                case 'new_transaction_bill':
                     $email_type = 'Transactional_Email_Bill';
                     break;
 
-                case 'erp_acct_new_transaction_pay_bill':
+                case 'new_transaction_pay_bill':
                     $email_type = 'Transactional_Email_Pay_Bill';
                     break;
 
-                case 'erp_acct_new_transaction_purchase':
+                case 'new_transaction_purchase':
                     $email_type = 'Transactional_Email_Purchase';
                     break;
 
-                case 'erp_acct_new_transaction_pay_purchase':
+                case 'new_transaction_pay_purchase':
                     $email_type = 'Transactional_Email_Pay_Purchase';
                     break;
 
-                case 'erp_acct_new_transaction_purchase_return':
+                case 'new_transaction_purchase_return':
                     $email_type = 'Transactional_Email_Purchase_Return';
                     break;
 
-                case 'erp_acct_new_transaction_sales_return':
+                case 'new_transaction_sales_return':
                     $email_type = 'Transactional_Email_Sales_Return';
                     break;
 
-                case 'erp_acct_new_transaction_expense':
+                case 'new_transaction_expense':
                     $email_type = 'Transactional_Email_Expense';
                     break;
 
-                case 'erp_acct_new_transaction_estimate':
+                case 'new_transaction_estimate':
                     $email_type = 'Transactional_Email_Estimate';
                     break;
 
-                case 'erp_acct_new_transaction_purchase_order':
+                case 'new_transaction_purchase_order':
                     $email_type = 'Transactional_Email_Purchase_Order';
                     break;
                 default:
@@ -1587,7 +1587,7 @@ class Transactions
     {
 
 
-        return DB::scalar("SELECT type FROM erp_acct_voucher_no WHERE id = %d", [$voucher_no]);
+        return DB::scalar("SELECT type FROM purchase_voucher_no WHERE id = %d", [$voucher_no]);
     }
 
     /**
@@ -1727,7 +1727,7 @@ class Transactions
     }
 
     /**
-     * Insert data into `erp_acct_people_trn_details` table
+     * Insert data into `partner_transaction_detail` table
      *
      * @param object $transaction Transaction
      * @param int    $voucher_no  Voucher Number
@@ -1752,7 +1752,7 @@ class Transactions
 
         $date = !empty($transaction['trn_date']) ? $transaction['trn_date'] : $transaction['date'];
 
-        DB::table('erp_acct_people_trn_details')
+        DB::table('partner_transaction_detail')
             ->insert(
                 [
                     'people_id'   => $people_id,
@@ -1770,7 +1770,7 @@ class Transactions
     }
 
     /**
-     * Update data into `erp_acct_people_trn_details` table
+     * Update data into `partner_transaction_detail` table
      *
      * @param object $transaction Transaction
      * @param int    $voucher_no  Voucher Number
@@ -1779,7 +1779,7 @@ class Transactions
      */
     public function updateDataIntoPeopleTrnDetails($transaction, $voucher_no)
     {
-        DB::table('erp_acct_people_trn_details')->where([['voucher_no' => $voucher_no]])->delete();
+        DB::table('partner_transaction_detail')->where([['voucher_no' => $voucher_no]])->delete();
     }
 
     /**

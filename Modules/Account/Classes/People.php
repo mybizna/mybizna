@@ -27,7 +27,7 @@ class People
         $company = new Company();
 
         if ($update) {
-            DB::table('erp_peoples')
+            DB::table('partner')
                 ->where('user_id', $data['user_id'])
                 ->update(
                     [
@@ -56,7 +56,7 @@ class People
                     ]
                 );
         } else {
-            $people_id = DB::table('erp_peoples')
+            $people_id = DB::table('partner')
                 ->insertGetId(
                     [
                         'user_id'       => $data['user_id'],
@@ -118,7 +118,7 @@ class People
         if ($id) {
             $type_id = $this->getPeopleTypeIdByName($args['type']);
 
-            DB::table("erp_people_type_relations")
+            DB::table("partner_type_relation")
                 ->insert(
                     ['people_id' => $id, 'people_types_id' => $type_id],
                 );
@@ -141,7 +141,7 @@ class People
         $start_date = isset($args['start_date']) ? $args['start_date'] : '';
         $end_date   = isset($args['end_date']) ? $args['start_date'] : '';
 
-        $rows = DB::select("SELECT * FROM erp_acct_people_account_details WHERE trn_date >= '{$start_date}' AND trn_date <= '{$end_date}' AND people_id = {$people_id}");
+        $rows = DB::select("SELECT * FROM partner_account_detail WHERE trn_date >= '{$start_date}' AND trn_date <= '{$end_date}' AND people_id = {$people_id}");
 
         return $rows;
     }
@@ -160,7 +160,7 @@ class People
         $row = [];
 
         $row = DB::select(
-            "SELECT street_1, street_2, city, state, postal_code, country FROM erp_peoples WHERE id = %d",
+            "SELECT street_1, street_2, city, state, postal_code, country FROM partner WHERE id = %d",
             [$people_id]
         );
 
@@ -252,8 +252,8 @@ class People
             people.created_at';
         }
 
-        $sql .= " FROM erp_acct_voucher_no AS voucher
-        INNER JOIN erp_acct_people_trn_details AS people ON voucher.id = people.voucher_no
+        $sql .= " FROM purchase_voucher_no AS voucher
+        INNER JOIN partner_transaction_detail AS people ON voucher.id = people.voucher_no
         {$where} ORDER BY people.trn_date {$args['order']} {$limit}";
 
         if ($args['count']) {
@@ -344,12 +344,12 @@ class People
     {
 
 
-        $opening_balance_query     = "SELECT SUM(debit - credit) AS opening_balance FROM erp_acct_opening_balances where type = 'people' AND ledger_id = %d AND financial_year_id = %d";
+        $opening_balance_query     = "SELECT SUM(debit - credit) AS opening_balance FROM account_opening_balance where type = 'people' AND ledger_id = %d AND financial_year_id = %d";
         $opening_balance_result    = DB::select($opening_balance_query, [$args['people_id'], $args['financial_year_id']]);
         $opening_balance_result = (!empty($opening_balance_result)) ? $opening_balance_result[0] : null;
         $opening_balance           =  isset($opening_balance_result['opening_balance']) ? $opening_balance_result['opening_balance'] : 0;
 
-        $people_transaction_query  =  "SELECT SUM(debit - credit) AS balance FROM erp_acct_people_trn_details where   people_id = %d AND trn_date BETWEEN %s AND %s";
+        $people_transaction_query  =  "SELECT SUM(debit - credit) AS balance FROM partner_transaction_detail where   people_id = %d AND trn_date BETWEEN %s AND %s";
         $people_transaction_result = DB::select($people_transaction_query, [$args['people_id'], $args['start_date'], $args['end_date']]);
         $people_transaction_result = (!empty($people_transaction_result)) ? $people_transaction_result[0] : null;
         $balance                   =  isset($people_transaction_result['balance']) ? $people_transaction_result['balance'] : 0;
@@ -368,7 +368,7 @@ class People
     {
 
 
-        $row = DB::select("SELECT people_types_id FROM erp_people_type_relations WHERE people_id = %d LIMIT 1", [$people_id]);
+        $row = DB::select("SELECT people_types_id FROM partner_type_relation WHERE people_id = %d LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $this->getPeopleTypeByTypeId($row->people_types_id);
     }
@@ -384,7 +384,7 @@ class People
     {
 
 
-        $row = DB::select("SELECT name FROM erp_people_types WHERE id = %d LIMIT 1", [$type_id]);
+        $row = DB::select("SELECT name FROM partner_type WHERE id = %d LIMIT 1", [$type_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row->name;
     }
@@ -402,7 +402,7 @@ class People
 
         $row = DB::select(
             "SELECT id
-            FROM erp_people_types
+            FROM partner_type
             WHERE name = %s LIMIT 1",
             [$type_name]
         );
@@ -423,7 +423,7 @@ class People
     {
 
 
-        $row = DB::select("SELECT id FROM erp_peoples WHERE user_id = %d LIMIT 1", [$user_id]);
+        $row = DB::select("SELECT id FROM partner WHERE user_id = %d LIMIT 1", [$user_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->id;
@@ -440,7 +440,7 @@ class People
     {
 
 
-        $row = DB::select("SELECT first_name, last_name FROM erp_peoples WHERE id = %d LIMIT 1", [$people_id]);
+        $row = DB::select("SELECT first_name, last_name FROM partner WHERE id = %d LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->first_name . ' ' . $row->last_name;
@@ -461,7 +461,7 @@ class People
             return false;
         }
 
-        $res = DB::scalar("SELECT COUNT(1) FROM erp_peoples WHERE user_id = %d", [$user_id]);
+        $res = DB::scalar("SELECT COUNT(1) FROM partner WHERE user_id = %d", [$user_id]);
 
         if ('1' === $res) {
             return true;
@@ -481,7 +481,7 @@ class People
     {
 
 
-        $row = DB::select("SELECT user_id FROM erp_peoples WHERE id = %d LIMIT 1", [$people_id]);
+        $row = DB::select("SELECT user_id FROM partner WHERE id = %d LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->user_id;
@@ -519,10 +519,10 @@ class People
 
 
 
-        $pep_tb      = 'erp_peoples';
-        $pepmeta_tb  = 'erp_peoplemeta';
-        $types_tb    = 'erp_people_types';
-        $type_rel_tb = 'erp_people_type_relations';
+        $pep_tb      = 'partner';
+        $pepmeta_tb  = 'partner_meta';
+        $types_tb    = 'partner_type';
+        $type_rel_tb = 'partner_type_relation';
 
         extract($args);
 
@@ -554,7 +554,7 @@ class People
         $sql_limit = ('-1' !== $number && !$count) ? "LIMIT $number OFFSET $offset" : '';
 
         if ($meta_query) {
-            $sql['join'][] = "LEFT JOIN $pepmeta_tb as people_meta on people.id = people_meta.`erp_people_id`";
+            $sql['join'][] = "LEFT JOIN $pepmeta_tb as people_meta on people.id = people_meta.`people_id`";
 
             $meta_key   = isset($meta_query['meta_key']) ? $meta_query['meta_key'] : '';
             $meta_value = isset($meta_query['meta_value']) ? $meta_query['meta_value'] : '';
@@ -643,7 +643,7 @@ class People
     public function checkAssociatedTranasaction($people_id)
     {
         return DB::scalar(
-            "SELECT id FROM erp_acct_people_trn_details WHERE people_id = %d",
+            "SELECT id FROM partner_transaction_detail WHERE people_id = %d",
             [$people_id]
         );
     }
@@ -681,10 +681,10 @@ class People
 
         $people_type  = is_array($args['type']) ? implode('-', $args['type'])       : $args['type'];
         $items        = false;
-        $pep_tb       = 'erp_peoples';
-        $pepmeta_tb   = 'erp_peoplemeta';
-        $types_tb     = 'erp_people_types';
-        $type_rel_tb  = 'erp_people_type_relations';
+        $pep_tb       = 'partner';
+        $pepmeta_tb   = 'partner_meta';
+        $types_tb     = 'partner_type';
+        $type_rel_tb  = 'partner_type_relation';
 
         extract($args);
 
@@ -716,7 +716,7 @@ class People
         $sql_limit = ($number != '-1' && !$count) ? "LIMIT $number OFFSET $offset" : '';
 
         if ($meta_query) {
-            $sql['join'][] = "LEFT JOIN $pepmeta_tb as people_meta on people.id = people_meta.`erp_people_id`";
+            $sql['join'][] = "LEFT JOIN $pepmeta_tb as people_meta on people.id = people_meta.`people_id`";
 
             $meta_key   = isset($meta_query['meta_key']) ? $meta_query['meta_key'] : '';
             $meta_value = isset($meta_query['meta_value']) ? $meta_query['meta_value'] : '';
@@ -844,11 +844,11 @@ class People
 
         // seems like we got some
         foreach ($people_ids as $people_id) {
-            do_action('erp_before_delete_people', $people_id, $data);
+            do_action('before_delete_people', $people_id, $data);
 
             if ($data['hard']) {
-                $people   = DB::table('erp_peoples')->where('id',$people_id)->first();
-                $type_obj = DB::table('erp_people_types')->where('name', $data['type'])->first();
+                $people   = DB::table('partner')->where('id',$people_id)->first();
+                $type_obj = DB::table('partner_type')->where('name', $data['type'])->first();
                 $people->removeType($type_obj);
 
                 $types = wp_list_pluck($people->types->toArray(), 'name');
@@ -856,17 +856,17 @@ class People
                 if (empty($types)) {
                     $people->delete();
 
-                    DB::table('erp_peoplemeta')->where('erp_people_id', $people_id)->delete();
-                    DB::table('erp_peoplemeta')->where('user_id', $people_id)->delete();
+                    DB::table('partner_meta')->where('people_id', $people_id)->delete();
+                    DB::table('partner_meta')->where('user_id', $people_id)->delete();
                 }
             } else {
-                $people   = DB::table('erp_peoples')->where('id',$people_id)->first();
-                $type_obj = DB::table('erp_people_types')->where('name', $data['type'])->first();
+                $people   = DB::table('partner')->where('id',$people_id)->first();
+                $type_obj = DB::table('partner_type')->where('name', $data['type'])->first();
                 $people->softDeleteType($type_obj);
             }
 
-            do_action('erp_after_delete_people', $people_id, $data);
-            do_action("erp_acct_delete_{$data['type']}", $data);
+            do_action('after_delete_people', $people_id, $data);
+            do_action("delete_{$data['type']}", $data);
         }
     }
 
@@ -906,13 +906,13 @@ class People
 
         // seems like we got some
         foreach ($people_ids as $people_id) {
-            do_action('erp_before_restoring_people', $people_id, $data);
+            do_action('before_restoring_people', $people_id, $data);
 
-            $people   = DB::table('erp_peoples')->where('id',$people_id)->first();
-            $type_obj = DB::table('erp_people_types')->where('name', $data['type'])->first();
+            $people   = DB::table('partner')->where('id',$people_id)->first();
+            $type_obj = DB::table('partner_type')->where('name', $data['type'])->first();
             $people->restore($type_obj);
 
-            do_action('erp_after_restoring_people', $people_id, $data);
+            do_action('after_restoring_people', $people_id, $data);
         }
     }
 
@@ -944,7 +944,7 @@ class People
      */
     public function getPeoplesCount($type = 'contact')
     {
-        $count = DB::table('erp_peoples')->where('type',$type)->count();
+        $count = DB::table('partner')->where('type',$type)->count();
 
         return intval($count);
     }
@@ -986,9 +986,9 @@ class People
 
         $sql = 'SELECT people.*, ';
         $sql .= "GROUP_CONCAT(DISTINCT p_types.name) as types
-        FROM erp_peoples as people
-        LEFT JOIN erp_people_type_relations as p_types_rel on p_types_rel.people_id = people.id
-        LEFT JOIN erp_people_types as p_types on p_types.id = p_types_rel.people_types_id
+        FROM partner as people
+        LEFT JOIN partner_type_relation as p_types_rel on p_types_rel.people_id = people.id
+        LEFT JOIN partner_type as p_types on p_types.id = p_types_rel.people_types_id
         ";
 
         if (is_array($value)) {
@@ -1032,7 +1032,7 @@ class People
             $args['id'] = 0;
         }
 
-        $existing_people =DB::table('erp_peoples')->firstOrNew(['id' => $args['id']]);
+        $existing_people =DB::table('partner')->firstOrNew(['id' => $args['id']]);
 
         $defaults = [
             'id'            => $existing_people->id,
@@ -1093,7 +1093,7 @@ class People
 
             // Some validation
 
-            $type_obj = DB::table('erp_people_types')->where('name', $people_type)->first();
+            $type_obj = DB::table('partner_type')->where('name', $people_type)->first();
 
             // check if a valid people type exists in the database
             if (null === $type_obj) {
@@ -1109,12 +1109,12 @@ class People
                     messageBag()->add('no-basic-data', esc_attr__('You must need to fill up both first name and email fields', 'erp'));
                     return;
                 } else {
-                    if (!erp_is_valid_name($args['first_name'])) {
+                    if (!$common->isValidName($args['first_name'])) {
                         messageBag()->add('invalid-first-name', esc_attr__('Please provide a valid first name', 'erp'));
                         return;
                     }
 
-                    if (!empty($args['last_name']) && !erp_is_valid_name($args['last_name'])) {
+                    if (!empty($args['last_name']) && !$common->isValidName($args['last_name'])) {
                         messageBag()->add('invalid-last-name', esc_attr__('Please provide a valid last name', 'erp'));
                         return;
                     }
@@ -1128,7 +1128,7 @@ class People
                 messageBag()->add('no-company', esc_attr__('You must need to fill up both Company name and email fields', 'erp'));
                 return;
             } else {
-                if (erp_contains_disallowed_chars($args['company'])) {
+                if ($common->containsDisallowedChars($args['company'])) {
                     messageBag()->add('invalid-company', esc_attr__('Please provide a valid company name', 'erp'));
                     return;
                 }
@@ -1142,43 +1142,43 @@ class People
         }
 
 
-        if (!empty($args['phone']) && !erp_is_valid_contact_no($args['phone'])) {
+        if (!empty($args['phone']) && !$common->isValidContactNo($args['phone'])) {
             messageBag()->add('invalid-phone', esc_attr__('Please provide a valid phone number', 'erp'));
             return;
         }
 
-        if (!empty($args['date_of_birth']) && !erp_is_valid_date($args['date_of_birth'])) {
+        if (!empty($args['date_of_birth']) && !$common->isValidDate($args['date_of_birth'])) {
             messageBag()->add('invalid-date-of-birth', esc_attr__('Please provide a valid date of birth', 'erp'));
             return;
         }
 
-        if (!empty($args['contact_age']) && !erp_is_valid_age($args['contact_age'])) {
+        if (!empty($args['contact_age']) && !$common->isValidAge($args['contact_age'])) {
             messageBag()->add('invalid-age', esc_attr__('Please provide a valid age', 'erp'));
             return;
         }
 
-        if (!empty($args['mobile']) && !erp_is_valid_contact_no($args['mobile'])) {
+        if (!empty($args['mobile']) && !$common->isValidContactNo($args['mobile'])) {
             messageBag()->add('invalid-mobile', esc_attr__('Please provide a valid mobile number', 'erp'));
             return;
         }
 
-        if (!empty($args['website']) && !erp_is_valid_url($args['website'])) {
+        if (!empty($args['website']) && !$common->isValidUrl($args['website'])) {
             messageBag()->add('invalid-website', esc_attr__('Please provide a valid website', 'erp'));
             return;
         }
 
-        if (!empty($args['fax']) && !erp_is_valid_contact_no($args['fax'])) {
+        if (!empty($args['fax']) && !$common->isValidContactNo($args['fax'])) {
             messageBag()->add('invalid-fax', esc_attr__('Please provide a valid fax number', 'erp'));
             return;
         }
 
 
-        if (!empty($args['postal_code']) && !erp_is_valid_zip_code($args['postal_code'])) {
+        if (!empty($args['postal_code']) && !$common->isValidZipCode($args['postal_code'])) {
             messageBag()->add('invalid-postal-code', esc_attr__('Please provide a valid postal code', 'erp'));
             return;
         }
 
-        $errors = apply_filters('erp_people_validation_error', [], $args);
+        $errors = apply_filters('people_validation_error', [], $args);
 
         if (!empty($errors)) {
             return $errors;
@@ -1201,7 +1201,7 @@ class People
             $args['created_by'] = auth()->user()->id ? auth()->user()->id : 1;
             $args['hash']       = sha1(microtime() . 'erp-unique-hash-id' . $args['email']);
 
-            $existing_people_by_email = DB::table('erp_peoples')->where('email', $args['email'])->first();
+            $existing_people_by_email = DB::table('partner')->where('email', $args['email'])->first();
 
             if (!empty($existing_people_by_email->email) && $existing_people_by_email->hasType($people_type)) {
                 $is_existing_people = true;
@@ -1212,7 +1212,7 @@ class People
                 $people->first_name = $args['first_name'];
                 $people->last_name  = $args['last_name'];
             } else {
-                $people = DB::table('erp_peoples')->insert([
+                $people = DB::table('partner')->insert([
                     'user_id'       => $user->ID,
                     'first_name'    => $args['first_name'],
                     'last_name'     => $args['last_name'],
@@ -1230,7 +1230,7 @@ class People
                 return;
             }
         } else {
-            $existing_people_by_email = DB::table('erp_peoples')->where('type',$people_type)->where('email', $args['email'])->first();
+            $existing_people_by_email = DB::table('partner')->where('type',$people_type)->where('email', $args['email'])->first();
 
             if (!empty($existing_people_by_email->email) && intval($existing_people_by_email->id) !== intval($existing_people->id)) {
                 $is_existing_people = true;
@@ -1255,7 +1255,7 @@ class People
 
                 unset($args['id'], $args['user_id'], $args['email'], $args['website'], $args['contact_owner'], $args['created_by'], $args['hash']);
 
-                wp_cache_delete('erp_people_id_user_' . $user->ID, 'erp');
+                wp_cache_delete('people_id_user_' . $user->ID, 'erp');
 
                 if ('employee' !== $people_type) {
                     foreach ($args as $key => $value) {
@@ -1312,10 +1312,10 @@ class People
         }
 
         if (!$existing_people->id) {
-            do_action('erp_create_new_people', $people->id, $args, $people_type);
-            do_action("erp_acct_after_new_{$people_type}", $people->id, $args);
+            do_action('create_new_people', $people->id, $args, $people_type);
+            do_action("after_new_{$people_type}", $people->id, $args);
         } else {
-            do_action('erp_update_people', $people->id, $args, $people_type);
+            do_action('update_people', $people->id, $args, $people_type);
         }
 
         if (!empty($is_existing_people)) {
@@ -1335,7 +1335,7 @@ class People
      *
      * @since 1.10.3
      */
-        do_action('erp_people_created', $people->id, $people, $people_type);
+        do_action('people_created', $people->id, $people, $people_type);
 
         return $return_object ? $people : $people->id;
     }
@@ -1353,7 +1353,7 @@ class People
      */
     public function peopleAddMeta($people_id, $meta_key, $meta_value, $unique = false)
     {
-        return add_metadata('erp_people', $people_id, $meta_key, $meta_value, $unique);
+        return add_metadata('people', $people_id, $meta_key, $meta_value, $unique);
     }
 
     /**
@@ -1369,7 +1369,7 @@ class People
      */
     public function peopleGetMeta($people_id, $key = '', $single = false)
     {
-        return get_metadata('erp_people', $people_id, $key, $single);
+        return get_metadata('people', $people_id, $key, $single);
     }
 
     /**
@@ -1391,7 +1391,7 @@ class People
      */
     public function peopleUpdateMeta($people_id, $meta_key, $meta_value, $prev_value = '')
     {
-        return update_metadata('erp_people', $people_id, $meta_key, $meta_value, $prev_value);
+        return update_metadata('people', $people_id, $meta_key, $meta_value, $prev_value);
     }
 
     /**
@@ -1410,7 +1410,7 @@ class People
      */
     public function peopleDeleteMeta($people_id, $meta_key, $meta_value = '')
     {
-        return delete_metadata('erp_people', $people_id, $meta_key, $meta_value);
+        return delete_metadata('people', $people_id, $meta_key, $meta_value);
     }
 
     /**
@@ -1490,14 +1490,14 @@ class People
                 return $people_id;
             }
         } else {
-            $people_obj = DB::table('erp_peoples')->find($args['people_id']);
+            $people_obj = DB::table('partner')->find($args['people_id']);
 
             if (empty($people_obj)) {
                 messageBag()->add('no-erp-people', __('People not exists', 'erp'));
                 return;
             }
 
-            $type_obj = DB::table('erp_people_types')->where('name', $type)->first();
+            $type_obj = DB::table('partner_type')->where('name', $type)->first();
             $people_obj->assignType($type_obj);
             $people_id = $people_obj->id;
         }
@@ -1519,7 +1519,7 @@ class People
     {
 
 
-        $sql = "SELECT email FROM erp_peoples WHERE id = " . absint($id);
+        $sql = "SELECT email FROM partner WHERE id = " . absint($id);
 
         return DB::scalar($sql);
     }
@@ -1536,7 +1536,7 @@ class People
 
 
         $trashed = DB::scalar(
-            "SELECT deleted_at FROM erp_people_type_relations WHERE people_id = %d",
+            "SELECT deleted_at FROM partner_type_relation WHERE people_id = %d",
             [absint($id)]
         );
 

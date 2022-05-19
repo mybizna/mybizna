@@ -56,7 +56,7 @@ class OpeningBalances
             $sql .= ' *';
         }
 
-        $sql .= " FROM erp_acct_opening_balances AS opening_balance LEFT JOIN erp_acct_financial_years AS financial_year";
+        $sql .= " FROM account_opening_balance AS opening_balance LEFT JOIN account_financial_year AS financial_year";
         $sql .= " ON opening_balance.financial_year_id = financial_year.id {$where} GROUP BY financial_year.name ORDER BY financial_year.{$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
@@ -78,7 +78,7 @@ class OpeningBalances
 
 
         $rows = DB::select(
-            "SELECT ob.id, ob.financial_year_id, ob.ledger_id, ledger.name, ob.chart_id, ob.debit, ob.credit FROM erp_acct_opening_balances as ob LEFT JOIN erp_acct_ledgers as ledger ON ledger.id = ob.ledger_id WHERE financial_year_id = %d AND ob.type = 'ledger'",
+            "SELECT ob.id, ob.financial_year_id, ob.ledger_id, ledger.name, ob.chart_id, ob.debit, ob.credit FROM account_opening_balance as ob LEFT JOIN account_ledger as ledger ON ledger.id = ob.ledger_id WHERE financial_year_id = %d AND ob.type = 'ledger'",
             [$year_id]
         );
 
@@ -98,7 +98,7 @@ class OpeningBalances
 
         $rows = DB::select(
             "SELECT ob.id, ob.financial_year_id, ob.ledger_id, ob.type, ob.debit, ob.credit
-            FROM erp_acct_opening_balances as ob WHERE financial_year_id = %d AND ob.type <> 'ledger'",
+            FROM account_opening_balance as ob WHERE financial_year_id = %d AND ob.type <> 'ledger'",
             [$year_id]
         );
 
@@ -137,11 +137,11 @@ class OpeningBalances
 
             $year_id = $opening_balance_data['year'];
 
-            DB::delete("DELETE FROM erp_acct_opening_balances WHERE financial_year_id = %d", [$year_id]);
+            DB::delete("DELETE FROM account_opening_balance WHERE financial_year_id = %d", [$year_id]);
 
             foreach ($ledgers as $ledger) {
                 if ((isset($ledger['debit']) && (float) $ledger['debit'] > 0) || (isset($ledger['credit']) && (float) $ledger['credit'] > 0)) {
-                    DB::table('erp_acct_opening_balances')
+                    DB::table('account_opening_balance')
                         ->insert(
                             [
                                 'financial_year_id' => $year_id,
@@ -186,7 +186,7 @@ class OpeningBalances
 
         if (!empty($data['acct_rec'])) {
             foreach ($data['acct_rec'] as $acct_rec) {
-                DB::table('erp_acct_opening_balances')
+                DB::table('account_opening_balance')
                     ->insert(
                         [
                             'financial_year_id' => $year_id,
@@ -205,7 +205,7 @@ class OpeningBalances
 
         if (!empty($data['acct_pay'])) {
             foreach ($data['acct_pay'] as $acct_pay) {
-                DB::table('erp_acct_opening_balances')
+                DB::table('account_opening_balance')
                     ->insert(
                         [
                             'financial_year_id' => $year_id,
@@ -224,7 +224,7 @@ class OpeningBalances
 
         if (!empty($data['tax_pay'])) {
             foreach ($data['tax_pay'] as $tax_pay) {
-                DB::table('erp_acct_opening_balances')
+                DB::table('account_opening_balance')
                     ->insert(
                         [
                             'financial_year_id' => $year_id,
@@ -277,7 +277,7 @@ class OpeningBalances
     {
 
 
-        $rows = DB::select("SELECT id, name, start_date, end_date FROM erp_acct_financial_years");
+        $rows = DB::select("SELECT id, name, start_date, end_date FROM account_financial_year");
 
         return $rows;
     }
@@ -294,7 +294,7 @@ class OpeningBalances
         $dates = [];
 
 
-        $rows = DB::select("SELECT start_date, end_date FROM erp_acct_financial_years WHERE id = %d", [$year_id]);
+        $rows = DB::select("SELECT start_date, end_date FROM account_financial_year WHERE id = %d", [$year_id]);
         $rows = (!empty($rows)) ? $rows[0] : null;
 
 
@@ -317,11 +317,11 @@ class OpeningBalances
         $people = new People();
         $taxagencies = new TaxAgencies();
 
-        $vir_ac['acct_receivable'] = DB::select("SELECT ledger_id as people_id, debit, credit from erp_acct_opening_balances where financial_year_id = %d and credit=0 and type='people'", [$year_id]);
+        $vir_ac['acct_receivable'] = DB::select("SELECT ledger_id as people_id, debit, credit from account_opening_balance where financial_year_id = %d and credit=0 and type='people'", [$year_id]);
 
-        $vir_ac['acct_payable'] = DB::select("SELECT ledger_id as people_id, debit, credit from erp_acct_opening_balances where financial_year_id = %d and debit=0 and type='people'", [$year_id]);
+        $vir_ac['acct_payable'] = DB::select("SELECT ledger_id as people_id, debit, credit from account_opening_balance where financial_year_id = %d and debit=0 and type='people'", [$year_id]);
 
-        $vir_ac['tax_payable'] = DB::select("SELECT ledger_id as agency_id, debit, credit from erp_acct_opening_balances where financial_year_id = %d and debit=0 and type='tax_agency'", [$year_id]);
+        $vir_ac['tax_payable'] = DB::select("SELECT ledger_id as agency_id, debit, credit from account_opening_balance where financial_year_id = %d and debit=0 and type='tax_agency'", [$year_id]);
 
         for ($i = 0; $i < count($vir_ac['acct_payable']); $i++) {
             if (empty($vir_ac['acct_payable'][$i]['people_id'])) {
@@ -382,7 +382,7 @@ class OpeningBalances
 
             $sql1 =
                 "SELECT SUM(debit - credit) AS balance
-            FROM erp_acct_ledger_details
+            FROM account_ledger_detail
             WHERE ledger_id = {$ledger_id} AND trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_start}'";
 
 
@@ -394,7 +394,7 @@ class OpeningBalances
         $sql2 =
             "SELECT
         SUM(debit-credit) as balance
-        FROM erp_acct_ledger_details
+        FROM account_ledger_detail
         WHERE ledger_id = {$ledger_id} AND trn_date BETWEEN '{$start_date}' AND '{$end_date}'"
         ;
 
@@ -438,7 +438,7 @@ class OpeningBalances
         // mainly ( debit - credit )
         $sql = "SELECT SUM(balance) AS amount
         FROM ( SELECT SUM( debit - credit ) AS balance
-            FROM erp_acct_invoice_account_details WHERE trn_date < '{$fy_start_date}'
+            FROM invoice_account_detail WHERE trn_date < '{$fy_start_date}'
             GROUP BY invoice_no HAVING balance > 0 )
         AS get_amount";
 
@@ -461,12 +461,12 @@ class OpeningBalances
          *? Expense is `direct expense`, and we don't include direct expense here
          */
         $bill_sql = "SELECT SUM(balance) AS amount
-        FROM ( SELECT SUM( debit - credit ) AS balance FROM erp_acct_bill_account_details WHERE trn_date < '%s'
+        FROM ( SELECT SUM( debit - credit ) AS balance FROM bill_account_detail WHERE trn_date < '%s'
         GROUP BY bill_no HAVING balance < 0 )
         AS get_amount";
 
         $purchase_sql = "SELECT SUM(balance) AS amount
-        FROM ( SELECT SUM( debit - credit ) AS balance FROM erp_acct_purchase_account_details WHERE trn_date < '%s'
+        FROM ( SELECT SUM( debit - credit ) AS balance FROM purchase_account_details WHERE trn_date < '%s'
         GROUP BY purchase_no HAVING balance < 0 )
         AS get_amount";
 
@@ -485,7 +485,7 @@ class OpeningBalances
     {
 
 
-        $result = DB::select("SELECT MIN(start_date) as lower, MAX(end_date) as upper FROM erp_acct_financial_years");
+        $result = DB::select("SELECT MIN(start_date) as lower, MAX(end_date) as upper FROM account_financial_year");
         $result = (!empty($result)) ? $result[0] : null;
 
         return $result;
@@ -506,7 +506,7 @@ class OpeningBalances
             $date = date('Y-m-d');
         }
 
-        $result = DB::select("SELECT id,name,start_date,end_date FROM erp_acct_financial_years WHERE '%s' between start_date AND end_date", [$date]);
+        $result = DB::select("SELECT id,name,start_date,end_date FROM account_financial_year WHERE '%s' between start_date AND end_date", [$date]);
 
         $result = (!empty($result)) ? $result[0] : null;
 

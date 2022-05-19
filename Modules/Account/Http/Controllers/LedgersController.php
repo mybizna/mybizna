@@ -103,7 +103,7 @@ class LedgersController extends Controller
         $ledger = new LedgerAccounts();
 
 
-        $exist = DB::scalar("SELECT name FROM erp_acct_ledgers WHERE name = %s", [$request['name']]);
+        $exist = DB::scalar("SELECT name FROM account_ledger WHERE name = %s", [$request['name']]);
 
         if ($exist) {
             messageBag()->add('rest_ledger_name_already_exist', __('Name already exist.'), ['status' => 404]);
@@ -178,7 +178,7 @@ class LedgersController extends Controller
 
         $item = $ledger->getLedger($id);
 
-        DB::table("erp_acct_ledgers")->where([['id' => $id]])->delete();
+        DB::table("account_ledger")->where([['id' => $id]])->delete();
 
         $this->addLog($item, 'delete');
 

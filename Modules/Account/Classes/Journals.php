@@ -54,7 +54,7 @@ class Journals
                 $sql .= ' journal.*';
             }
 
-            $sql .= " FROM erp_acct_journals AS journal LEFT JOIN erp_acct_journal_details AS journal_detail";
+            $sql .= " FROM account_journal AS journal LEFT JOIN account_journal_detail AS journal_detail";
             $sql .= " ON journal.voucher_no = journal_detail.trn_no {$where} GROUP BY journal.voucher_no ORDER BY journal.{$args['orderby']} {$args['order']} {$limit}";
 
             if ($args['count']) {
@@ -96,8 +96,8 @@ class Journals
                 journal.updated_at,
                 journal.updated_by
 
-            FROM erp_acct_journals as journal
-            LEFT JOIN erp_acct_journal_details as journal_detail ON journal.voucher_no = journal_detail.trn_no
+            FROM account_journal as journal
+            LEFT JOIN account_journal_detail as journal_detail ON journal.voucher_no = journal_detail.trn_no
             WHERE journal.voucher_no = {$journal_no} LIMIT 1";
 
         //config()->set('database.connections.mysql.strict', false);
@@ -134,7 +134,7 @@ class Journals
         try {
             DB::beginTransaction();
 
-            $voucher_no =  DB::table('erp_acct_voucher_no')
+            $voucher_no =  DB::table('purchase_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => 'journal',
@@ -149,7 +149,7 @@ class Journals
 
             $journal_data = $this->getFormattedJournalData($data, $voucher_no);
 
-            DB::table('erp_acct_journals')
+            DB::table('account_journal')
                 ->insert(
                     [
                         'voucher_no'     => $voucher_no,
@@ -168,7 +168,7 @@ class Journals
             $items = $journal_data['line_items'];
 
             foreach ($items as $key => $item) {
-                DB::table('erp_acct_journal_details')
+                DB::table('account_journal_detail')
                     ->insert(
                         [
                             'trn_no'      => $voucher_no,
@@ -183,7 +183,7 @@ class Journals
                         ]
                     );
 
-                DB::table('erp_acct_ledger_details')
+                DB::table('account_ledger_detail')
                     ->insert(
                         [
                             'ledger_id'   => $item['ledger_id'],
@@ -233,7 +233,7 @@ class Journals
 
             $journal_data = $this->getFormattedJournalData($data, $journal_no);
 
-            DB::table('erp_acct_journals')
+            DB::table('account_journal')
                 ->where('voucher_no', $journal_no)
                 ->update(
                     [
@@ -252,7 +252,7 @@ class Journals
             $items = $journal_data['line_items'];
 
             foreach ($items as $key => $item) {
-                DB::table('erp_acct_journal_details')
+                DB::table('account_journal_detail')
                     ->where('trn_no', $journal_no)
                     ->update(
                         [
@@ -267,7 +267,7 @@ class Journals
                         ]
                     );
 
-                DB::table('erp_acct_ledger_details')
+                DB::table('account_ledger_detail')
                     ->where('trn_no', $journal_no)
                     ->update(
                         [
@@ -345,8 +345,8 @@ class Journals
                 journal_detail.debit,
                 journal_detail.credit
 
-            FROM erp_acct_journals as journal
-            LEFT JOIN erp_acct_journal_details as journal_detail ON journal.voucher_no = journal_detail.trn_no
+            FROM account_journal as journal
+            LEFT JOIN account_journal_detail as journal_detail ON journal.voucher_no = journal_detail.trn_no
             WHERE journal.voucher_no = {$journal_no}";
 
         //config()->set('database.connections.mysql.strict', false);

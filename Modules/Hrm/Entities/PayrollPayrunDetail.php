@@ -9,6 +9,7 @@ class PayrollPayrunDetail extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "hrm_payroll_payrun_detail";
 
     /**

@@ -152,7 +152,7 @@ export default {
                 {
                     key: 'trash',
                     label: this.$func.__('Move to Trash', 'erp'),
-                    img: this.$mybizna_var.erp_assets + '/images/trash.png' /* global this.$mybizna_var */
+                    img: this.$mybizna_var.assets + '/images/trash.png' /* global this.$mybizna_var */
                 }
             ],
             columns: {

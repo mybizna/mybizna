@@ -9,6 +9,7 @@ class CashAtBank extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "account_cash_at_bank";
 
     /**

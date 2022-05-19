@@ -38,7 +38,7 @@ class TaxAgencies
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM erp_acct_tax_agencies ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM account_tax_agency ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
             $tax_agencies_count = DB::scalar($sql);
@@ -64,7 +64,7 @@ class TaxAgencies
     {
 
 
-        $row = DB::select("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", [$tax_no]);
+        $row = DB::select("SELECT * FROM account_tax_agency WHERE id = %d LIMIT 1", [$tax_no]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -79,7 +79,7 @@ class TaxAgencies
     {
 
 
-        $row = DB::select("SELECT * FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1", [$id]);
+        $row = DB::select("SELECT * FROM account_tax_agency WHERE id = %d LIMIT 1", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -103,7 +103,7 @@ class TaxAgencies
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        $tax_id = DB::table('erp_acct_tax_agencies')
+        $tax_id = DB::table('account_tax_agency')
             ->insert(
                 [
                     'name'       => $tax_data['agency_name'],
@@ -137,7 +137,7 @@ class TaxAgencies
 
         $tax_data = $taxes->getFormattedTaxData($data);
 
-        DB::table('erp_acct_tax_agencies')
+        DB::table('account_tax_agency')
             ->where('id', $id)
             ->update(
                 [
@@ -162,7 +162,7 @@ class TaxAgencies
     {
 
 
-        DB::table('erp_acct_tax_agencies')->where([['id' => $id]])->delete();
+        DB::table('account_tax_agency')->where([['id' => $id]])->delete();
 
 
         return $id;
@@ -180,7 +180,7 @@ class TaxAgencies
 
 
         $row = DB::select(
-            "SELECT name FROM erp_acct_tax_agencies WHERE id = %d LIMIT 1",
+            "SELECT name FROM account_tax_agency WHERE id = %d LIMIT 1",
             [$agency_id]
         );
         $row = (!empty($row)) ? $row[0] : null;
@@ -197,6 +197,6 @@ class TaxAgencies
      */
     public function getAgencyDue($agency_id)
     {
-        return DB::scalar("SELECT SUM( credit - debit ) as tax_due From erp_acct_tax_agency_details WHERE agency_id = %d", [$agency_id]);
+        return DB::scalar("SELECT SUM( credit - debit ) as tax_due From account_tax_agency_detail WHERE agency_id = %d", [$agency_id]);
     }
 }

@@ -21,7 +21,7 @@ class ClosingBalance
     {
 
 
-        $result = DB::select("SELECT id, start_date, end_date FROM erp_acct_financial_years WHERE start_date > '?' ORDER BY start_date ASC LIMIT 1", [$date]);
+        $result = DB::select("SELECT id, start_date, end_date FROM account_financial_year WHERE start_date > '?' ORDER BY start_date ASC LIMIT 1", [$date]);
 
         $result = (!empty($result)) ? $result[0] : null;
     }
@@ -47,13 +47,13 @@ class ClosingBalance
 
         // remove next financial year data if exists
         DB::delete(
-            "DELETE FROM erp_acct_opening_balances
+            "DELETE FROM account_opening_balance
     WHERE financial_year_id = %d",
             [$next_f_year_id]
         );
 
         // ledgers
-        $sql     = "SELECT id, chart_id, name, slug FROM erp_acct_ledgers";
+        $sql     = "SELECT id, chart_id, name, slug FROM account_ledger";
         $ledgers = DB::select($sql);
 
         foreach ($ledgers as $ledger) {
@@ -257,7 +257,7 @@ class ClosingBalance
     {
 
 
-        DB::table("erp_acct_opening_balances")
+        DB::table("account_opening_balance")
             ->insert(
                 [
                     'financial_year_id' => $f_year_id,
@@ -285,8 +285,8 @@ class ClosingBalance
 
         // mainly ( debit - credit )
         $sql = "SELECT invoice.customer_id AS id, SUM( debit - credit ) AS balance
-        FROM erp_acct_invoice_account_details AS invoice_acd
-        LEFT JOIN erp_acct_invoices AS invoice ON invoice_acd.invoice_no = invoice.voucher_no
+        FROM invoice_account_detail AS invoice_acd
+        LEFT JOIN invoice AS invoice ON invoice_acd.invoice_no = invoice.voucher_no
         WHERE invoice_acd.trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}' GROUP BY invoice_acd.invoice_no HAVING balance > 0";
 
         $data = DB::select($sql);
@@ -306,13 +306,13 @@ class ClosingBalance
 
 
         $bill_sql = "SELECT bill.vendor_id AS id, SUM( debit - credit ) AS balance
-        FROM erp_acct_bill_account_details AS bill_acd
-        LEFT JOIN erp_acct_bills AS bill ON bill_acd.bill_no = bill.voucher_no
+        FROM bill_account_detail AS bill_acd
+        LEFT JOIN bill AS bill ON bill_acd.bill_no = bill.voucher_no
         WHERE bill_acd.trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}' GROUP BY bill_acd.bill_no HAVING balance < 0";
 
         $purchase_sql = "SELECT purchase.vendor_id AS id, SUM( debit - credit ) AS balance
-        FROM erp_acct_purchase_account_details AS purchase_acd
-        LEFT JOIN erp_acct_purchase AS purchase ON purchase_acd.purchase_no = purchase.voucher_no
+        FROM purchase_account_details AS purchase_acd
+        LEFT JOIN purchase AS purchase ON purchase_acd.purchase_no = purchase.voucher_no
         WHERE purchase_acd.trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}' GROUP BY purchase_acd.purchase_no HAVING balance < 0";
 
         $bill_data     = DB::select($bill_sql);
@@ -384,7 +384,7 @@ class ClosingBalance
 
 
         $sql = "SELECT ledger_id AS id, SUM( debit - credit ) AS balance
-        FROM erp_acct_opening_balances
+        FROM account_opening_balance
         WHERE financial_year_id = {$id} AND type = 'people' GROUP BY ledger_id HAVING balance > 0";
 
         return DB::select($sql);
@@ -402,7 +402,7 @@ class ClosingBalance
 
 
         $sql = "SELECT ledger_id AS id, SUM( debit - credit ) AS balance
-        FROM erp_acct_opening_balances
+        FROM account_opening_balance
         WHERE financial_year_id = {$id} AND type = 'people' GROUP BY ledger_id HAVING balance < 0";
 
         return DB::select($sql);
@@ -454,7 +454,7 @@ class ClosingBalance
             $having = 'HAVING balance > 0';
         }
 
-        $sql = "SELECT agency_id AS id, SUM( debit - credit ) AS balance FROM erp_acct_tax_agency_details
+        $sql = "SELECT agency_id AS id, SUM( debit - credit ) AS balance FROM account_tax_agency_detail
         WHERE trn_date BETWEEN '{$args['start_date']}' AND '{$args['end_date']}'
         GROUP BY agency_id {$having}";
 
@@ -497,7 +497,7 @@ class ClosingBalance
         }
 
 
-        $sql = "SELECT agency_id AS id, SUM( debit - credit ) AS balance FROM erp_acct_tax_agency_details
+        $sql = "SELECT agency_id AS id, SUM( debit - credit ) AS balance FROM account_tax_agency_detail
         WHERE trn_date BETWEEN '{$closest_fy_date['start_date']}' AND '{$prev_date_of_tb_start}'
         GROUP BY agency_id {$having}";
 
@@ -531,7 +531,7 @@ class ClosingBalance
         }
 
         $sql = "SELECT ledger_id AS id, SUM( debit - credit ) AS balance
-            FROM erp_acct_opening_balances
+            FROM account_opening_balance
             WHERE type = 'tax_agency' GROUP BY ledger_id {$having}";
 
         return DB::select($sql);

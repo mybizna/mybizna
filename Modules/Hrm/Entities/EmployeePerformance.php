@@ -9,6 +9,7 @@ class EmployeePerformance extends Model
 {
 
     protected $fillable = [];
+    protected $migrationOrder = 5;
     protected $table = "hrm_employee_performance";
 
     /**

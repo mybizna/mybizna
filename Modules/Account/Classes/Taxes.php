@@ -41,7 +41,7 @@ class Taxes
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( DISTINCT tax.id ) as total_number ' : ' DISTINCT tax.id, tax.tax_rate_name, tax.tax_number, tax.default ';
-        $sql .= "FROM erp_acct_taxes AS tax INNER JOIN erp_acct_tax_cat_agency as cat_agency on tax.id = cat_agency.tax_id ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM account_tax AS tax INNER JOIN account_tax_category_agency as cat_agency on tax.id = cat_agency.tax_id ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
             $tax_rates_count = DB::scalar($sql);
@@ -84,8 +84,8 @@ class Taxes
                 tax_item.agency_id,
                 tax_item.tax_cat_id
 
-            FROM erp_acct_taxes AS tax
-            LEFT JOIN erp_acct_tax_cat_agency AS tax_item ON tax.id = tax_item.tax_id
+            FROM account_tax AS tax
+            LEFT JOIN account_tax_category_agency AS tax_item ON tax.id = tax_item.tax_id
 
             WHERE tax.id = {$tax_no} LIMIT 1";
 
@@ -128,7 +128,7 @@ class Taxes
         $inserted = [];
 
         foreach ($items as $item) {
-            $id = DB::table('erp_acct_tax_cat_agency')
+            $id = DB::table('account_tax_category_agency')
                 ->insertGetId(
                     [
                         'tax_id'         => $tax_id,
@@ -169,7 +169,7 @@ class Taxes
 
         $tax_data =$this->getFormattedTaxData($data);
 
-        DB::table('erp_acct_taxes')
+        DB::table('account_tax')
             ->where('id', $id)
             ->update(
                 [
@@ -182,13 +182,13 @@ class Taxes
             );
 
         if (!empty($tax_data['default']) && $tax_data['default']) {
-            $results = DB::update('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
+            $results = DB::update('UPDATE ' . 'account_tax' . ' SET `default`=0');
         }
 
         $items = $data['tax_components'];
 
         foreach ($items as $key => $item) {
-            DB::table('erp_acct_tax_cat_agency')
+            DB::table('account_tax_category_agency')
                 ->where('tax_id', $id)
                 ->update(
                     [
@@ -224,10 +224,10 @@ class Taxes
         $tax_data =$this->getFormattedTaxData($data);
 
         if (!empty($tax_data['default']) && 1 === $tax_data['default']) {
-            $results = DB::update('UPDATE ' . 'erp_acct_taxes' . ' SET `default`=0');
+            $results = DB::update('UPDATE ' . 'account_tax' . ' SET `default`=0');
         }
 
-        DB::table('erp_acct_taxes')
+        DB::table('account_tax')
 
             ->where('id', $id)
             ->update(
@@ -260,7 +260,7 @@ class Taxes
 
         $tax_data = $this->getFormattedTaxLineData($data);
 
-        DB::table('erp_acct_tax_cat_agency')
+        DB::table('account_tax_category_agency')
             ->insert(
                 [
                     'tax_id'         => $tax_data['tax_id'],
@@ -296,7 +296,7 @@ class Taxes
 
         $tax_data = $this->getFormattedTaxLineData($data);
 
-        DB::table('erp_acct_tax_cat_agency')
+        DB::table('account_tax_category_agency')
             ->where('id', $tax_data['db_id'])
             ->update(
                 [
@@ -324,7 +324,7 @@ class Taxes
     {
 
 
-        DB::table('erp_acct_tax_cat_agency')->where([['id' => $line_no]])->delete();
+        DB::table('account_tax_category_agency')->where([['id' => $line_no]])->delete();
 
 
         return $line_no;
@@ -341,7 +341,7 @@ class Taxes
     {
 
 
-        DB::table('erp_acct_taxes')->where([['id' => $tax_no]])->delete();
+        DB::table('account_tax')->where([['id' => $tax_no]])->delete();
 
 
         return $tax_no;
@@ -378,7 +378,7 @@ class Taxes
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM erp_acct_tax_pay ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM account_tax_pay ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
             $tax_pay_count = DB::scalar($sql);
@@ -417,7 +417,7 @@ class Taxes
             tax.agency_id,
             tax.ledger_id,
             tax.created_at
-            FROM erp_acct_tax_pay AS tax
+            FROM account_tax_pay AS tax
             WHERE tax.voucher_no = %d LIMIT 1",
             [$voucher_no]
         );
@@ -444,7 +444,7 @@ class Taxes
         $data['created_by'] = $created_by;
         $currency           = $common->getCurrency(true);
 
-        $voucher_no = DB::table('erp_acct_voucher_no')
+        $voucher_no = DB::table('purchase_voucher_no')
             ->insertGetId(
                 [
                     'type'       => 'tax_payment',
@@ -458,7 +458,7 @@ class Taxes
 
         $tax_data =$this->getFormattedTaxData($data);
 
-        DB::table('erp_acct_tax_pay')
+        DB::table('account_tax_pay')
             ->insert(
                 [
                     'voucher_no'   => $voucher_no,
@@ -485,8 +485,8 @@ class Taxes
             $credit = $tax_data['amount'];
         }
 
-        // insert data into erp_acct_tax_agency_details
-        DB::table('erp_acct_tax_agency_details')
+        // insert data into account_tax_agency_detail
+        DB::table('account_tax_agency_detail')
             ->insert(
                 [
                     'agency_id'   => $tax_data['agency_id'],
@@ -531,7 +531,7 @@ class Taxes
         }
 
         // Insert amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 [
                     'ledger_id'   => $tax_data['ledger_id'],
@@ -566,7 +566,7 @@ class Taxes
         } else {
             $tax_sql = 'WHERE tax_id = ' . $tax;
         }
-        $sql .= " FROM erp_acct_tax_cat_agency {$tax_sql} ORDER BY tax_id";
+        $sql .= " FROM account_tax_category_agency {$tax_sql} ORDER BY tax_id";
 
         $results = DB::select($sql);
 
@@ -655,8 +655,8 @@ class Taxes
         tax.default,
         tca.tax_cat_id,
         sum(tca.tax_rate) AS tax_rate
-        FROM erp_acct_tax_cat_agency AS tca
-        INNER JOIN erp_acct_taxes AS tax ON tax.id = tca.tax_id
+        FROM account_tax_category_agency AS tca
+        INNER JOIN account_tax AS tax ON tax.id = tca.tax_id
         GROUP BY tca.tax_cat_id, tax.id order by tax_cat_id"
         );
     }
@@ -670,7 +670,7 @@ class Taxes
     {
 
 
-        return DB::scalar("SELECT id FROM erp_acct_taxes WHERE `default` = 1");
+        return DB::scalar("SELECT id FROM account_tax WHERE `default` = 1");
     }
 
     /**
@@ -698,7 +698,7 @@ class Taxes
             messageBag()->add('inconsistent-data', __('Inconsistent data provided', 'erp'));
         }
 
-        $inserted = DB::table("erp_acct_synced_taxes", $args, ['%d', '%s', '%s', '%d', '%s']);
+        $inserted = DB::table("account_synced_tax", $args, ['%d', '%s', '%s', '%d', '%s']);
 
         return $inserted;
     }
@@ -718,7 +718,7 @@ class Taxes
 
 
         $sql  = "SELECT system_id
-            FROM erp_acct_synced_taxes
+            FROM account_synced_tax
             WHERE sync_type = %s
             AND sync_source = %s";
 

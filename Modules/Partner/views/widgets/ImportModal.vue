@@ -125,7 +125,7 @@
                                 <input
                                     type="hidden"
                                     name="action"
-                                    value="erp_import_csv"
+                                    value="import_csv"
                                 />
                                 <input
                                     type="hidden"
@@ -186,13 +186,13 @@ export default {
     created() {
         var self = this;
 
-        this.peopleFields = this.$mybizna_var.erp_fields;
+        this.peopleFields = this.$mybizna_var.fields;
         this.nonce = this.$mybizna_var.export_import_nonce;
         this.peopleType = "customers" == this.type ? "customer" : "vendor";
 
         wp.ajax.send({
             data: {
-                action: "erp_acct_get_sample_csv_url",
+                action: "get_sample_csv_url",
                 type: this.type,
                 path: this.$router.currentRoute.path,
             },

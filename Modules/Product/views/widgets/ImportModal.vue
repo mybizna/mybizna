@@ -514,7 +514,7 @@ export default {
         },
 
         mapFields() {
-            let erpFields = this.$mybizna_var.erp_fields;
+            let erpFields = this.$mybizna_var.fields;
 
             if (erpFields[this.type] !== undefined) {
                 this.fields = erpFields[this.type].fields;

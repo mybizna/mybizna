@@ -41,7 +41,7 @@ class Purchases
 
         $sql  = 'SELECT';
         $sql .= $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
-        $sql .= "FROM erp_acct_purchase ORDER BY {$args['orderby']} {$args['order']} {$limit}";
+        $sql .= "FROM purchase ORDER BY {$args['orderby']} {$args['order']} {$limit}";
 
         if ($args['count']) {
             return DB::scalar($sql);
@@ -86,9 +86,9 @@ class Purchases
             purchase_acc_detail.debit,
             purchase_acc_detail.credit
 
-        FROM erp_acct_purchase AS purchase
-        LEFT JOIN erp_acct_voucher_no as voucher ON purchase.voucher_no = voucher.id
-        LEFT JOIN erp_acct_purchase_account_details AS purchase_acc_detail ON purchase.voucher_no = purchase_acc_detail.trn_no
+        FROM purchase AS purchase
+        LEFT JOIN purchase_voucher_no as voucher ON purchase.voucher_no = voucher.id
+        LEFT JOIN purchase_account_details AS purchase_acc_detail ON purchase.voucher_no = purchase_acc_detail.trn_no
         WHERE purchase.voucher_no = " + $purchase_no;
 
         //config()->set('database.connections.mysql.strict', false);
@@ -129,9 +129,9 @@ class Purchases
             product.cost_price,
             product.sale_price as unit_price
 
-        FROM erp_acct_purchase AS purchase
-        LEFT JOIN erp_acct_purchase_details AS purchase_detail ON purchase.voucher_no = purchase_detail.trn_no
-        LEFT JOIN erp_acct_products AS product ON purchase_detail.product_id = product.id
+        FROM purchase AS purchase
+        LEFT JOIN purchase_details AS purchase_detail ON purchase.voucher_no = purchase_detail.trn_no
+        LEFT JOIN product AS product ON purchase_detail.product_id = product.id
         WHERE purchase.voucher_no = " + $voucher_no;
 
         //config()->set('database.connections.mysql.strict', false);
@@ -175,7 +175,7 @@ class Purchases
         try {
             DB::beginTransaction();
 
-            $voucher_no    = DB::table('erp_acct_voucher_no')
+            $voucher_no    = DB::table('purchase_voucher_no')
                 ->insertGetId(
                     [
                         'type'       => 'purchase',
@@ -191,7 +191,7 @@ class Purchases
             $purchase_no   = $voucher_no;
             $purchase_data = $this->getFormattedPurchaseData($data, $voucher_no);
 
-            DB::table('erp_acct_purchase')
+            DB::table('purchase')
                 ->insert(
                     [
                         'voucher_no'      => $voucher_no,
@@ -218,7 +218,7 @@ class Purchases
             $items = $data['line_items'];
 
             foreach ($items as $item) {
-                $details_id = DB::table('erp_acct_purchase_details')
+                $details_id = DB::table('purchase_details')
                     ->insertGetId(
                         [
                             'trn_no'     => $voucher_no,
@@ -240,7 +240,7 @@ class Purchases
                     $tax_rate_agency = $common->getTaxRateWithAgency($purchase_data['tax_rate']['id'], $item['tax_cat_id']);
 
                     foreach ($tax_rate_agency as $tra) {
-                        DB::table('erp_acct_purchase_details_tax')
+                        DB::table('purchase_details_tax')
                             ->insert(
                                 [
                                     'invoice_details_id' => $details_id,
@@ -256,7 +256,7 @@ class Purchases
                 }
             }
 
-            do_action('erp_acct_after_purchase_create', $data, $voucher_no);
+            do_action('after_purchase_create', $data, $voucher_no);
 
             $email = $people->getPeopleEmail($purchase_data['vendor_id']);
 
@@ -264,12 +264,12 @@ class Purchases
                 DB::commit();
                 $purchase_order          = $this->getPurchases($voucher_no);
                 $purchase_order['email'] = $email;
-                do_action('erp_acct_new_transaction_purchase_order', $voucher_no, $purchase_order);
+                do_action('new_transaction_purchase_order', $voucher_no, $purchase_order);
 
                 return $purchase_order;
             }
 
-            DB::table('erp_acct_purchase_account_details')
+            DB::table('purchase_account_details')
                 ->insert(
                     [
                         'purchase_no' => $purchase_no,
@@ -305,7 +305,7 @@ class Purchases
 
         $purchase['email'] = $email;
 
-        do_action('erp_acct_new_transaction_purchase', $voucher_no, $purchase);
+        do_action('new_transaction_purchase', $voucher_no, $purchase);
 
 
         return $purchase;
@@ -347,7 +347,7 @@ class Purchases
             if ($purchase_type_order === $purchase_data['purchase_order'] || $draft === $purchase_data['status']) {
                 $purchase_data = $this->getFormattedPurchaseData($purchase_data, $purchase_id);
 
-                DB::table('erp_acct_purchase')
+                DB::table('purchase')
                     ->where('voucher_no', $purchase_id)
                     ->update(
                         [
@@ -377,18 +377,18 @@ class Purchases
                  *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
                  *? so, remove previous rows and insert new rows
                  */
-                $prev_detail_ids = DB::select("SELECT id FROM erp_acct_purchase_details WHERE trn_no = %s", [$purchase_id]);
+                $prev_detail_ids = DB::select("SELECT id FROM purchase_details WHERE trn_no = %s", [$purchase_id]);
 
                 $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
-                DB::table('erp_acct_purchase_details')->where([['trn_no' => $purchase_id]])->delete();
+                DB::table('purchase_details')->where([['trn_no' => $purchase_id]])->delete();
 
-                DB::delete("DELETE FROM erp_acct_purchase_details_tax WHERE invoice_details_id IN($prev_detail_ids)"); // delete previous tax data
+                DB::delete("DELETE FROM purchase_details_tax WHERE invoice_details_id IN($prev_detail_ids)"); // delete previous tax data
 
                 $items = $purchase_data['purchase_details'];
 
                 foreach ($items as $key => $item) {
-                    $tmp_purchase_details = DB::table('erp_acct_purchase_details')
+                    $tmp_purchase_details = DB::table('purchase_details')
                         ->where('trn_no', $purchase_id)
                         ->update(
                             [
@@ -410,7 +410,7 @@ class Purchases
                         $tax_rate_agency = $common->getTaxRateWithAgency($purchase_data['tax_rate']['id'], $item['tax_cat_id']);
 
                         foreach ($tax_rate_agency as $tra) {
-                            DB::table('erp_acct_purchase_details_tax')
+                            DB::table('purchase_details_tax')
                                 ->insert(
                                     [
                                         'invoice_details_id' => $details_id,
@@ -429,11 +429,11 @@ class Purchases
                 return $this->getPurchases($purchase_id);
             } else {
                 // disable editing on old bill
-                DB::table('erp_acct_voucher_no')
+                DB::table('purchase_voucher_no')
                     ->where('id', $purchase_id)
                     ->update(['editable' => 0]);
                 // insert contra voucher
-                $voucher_no =  DB::table('erp_acct_voucher_no')
+                $voucher_no =  DB::table('purchase_voucher_no')
                     ->insertGetId(
                         [
                             'type'       => 'purchase',
@@ -449,8 +449,8 @@ class Purchases
 
                 $old_purchase = $this->getPurchases($purchase_id);
 
-                // insert contra `erp_acct_purchase` (basically a duplication of row)
-                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM erp_acct_purchase WHERE voucher_no = %d", [$purchase_id]);
+                // insert contra `purchase` (basically a duplication of row)
+                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM purchase WHERE voucher_no = %d", [$purchase_id]);
                 DB::update(
                     "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
                     [
@@ -460,13 +460,13 @@ class Purchases
                         $data['created_at']
                     ]
                 );
-                DB::insert("INSERT INTO erp_acct_purchase SELECT * FROM acct_tmptable");
+                DB::insert("INSERT INTO purchase SELECT * FROM acct_tmptable");
                 DB::statement('DROP TABLE acct_tmptable');
 
                 // change purchase status and other things
                 $status_closed = 7;
                 DB::update(
-                    "UPDATE erp_acct_purchase SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
+                    "UPDATE purchase SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
                     [
                         $status_closed,
                         $data['updated_at'],
@@ -479,7 +479,7 @@ class Purchases
                 $items = $old_purchase['line_items'];
 
                 foreach ($items as $key => $item) {
-                    DB::table('erp_acct_purchase_details')
+                    DB::table('purchase_details')
                         ->insert(
                             [
                                 'trn_no'     => $voucher_no,
@@ -493,7 +493,7 @@ class Purchases
                         );
                 }
 
-                DB::table('erp_acct_purchase_account_details')
+                DB::table('purchase_account_details')
                     ->insert(
                         [
                             'purchase_no' => $purchase_id,
@@ -506,7 +506,7 @@ class Purchases
                         ]
                     );
 
-                do_action('erp_acct_after_purchase_update', $purchase_data, $purchase_id);
+                do_action('after_purchase_update', $purchase_data, $purchase_id);
 
                 $this->updatePurchaseDataIntoLedger($items, $purchase_id);
 
@@ -551,7 +551,7 @@ class Purchases
             $purchase_data = $this->getFormattedPurchaseData($purchase_data, $purchase_id);
 
             // purchase
-            DB::table('erp_acct_purchase')
+            DB::table('purchase')
                 ->where('voucher_no', $purchase_id)
                 ->update(
                     [
@@ -574,10 +574,10 @@ class Purchases
                 );
 
             // remove data from purchase_details
-            DB::table('erp_acct_purchase_details')->where([['trn_no' => $purchase_id]])->delete();
+            DB::table('purchase_details')->where([['trn_no' => $purchase_id]])->delete();
 
             foreach ($purchase_data['line_items'] as $item) {
-                DB::table('erp_acct_purchase_details', [
+                DB::table('purchase_details', [
                     'trn_no'     => $purchase_id,
                     'product_id' => $item['product_id'],
                     'qty'        => $item['qty'],
@@ -588,7 +588,7 @@ class Purchases
                 ]);
             }
 
-            DB::table('erp_acct_purchase_account_details', [
+            DB::table('purchase_account_details', [
                 'purchase_no' => $purchase_id,
                 'trn_no'      => $purchase_id,
                 'trn_date'    => $purchase_data['trn_date'],
@@ -617,7 +617,7 @@ class Purchases
 
         $purchase['email'] = $people->getPeopleEmail($purchase['vendor_id']);
 
-        do_action('erp_acct_new_transaction_purchase', $purchase_id, $purchase);
+        do_action('new_transaction_purchase', $purchase_id, $purchase);
 
 
         return $purchase;
@@ -638,7 +638,7 @@ class Purchases
             return;
         }
 
-        DB::table('erp_acct_purchase')
+        DB::table('purchase')
             ->where('voucher_no', $id)
             ->update(
                 [
@@ -646,8 +646,8 @@ class Purchases
                 ]
             );
 
-        DB::table('erp_acct_ledger_details')->where([['trn_no' => $id]])->delete();
-        DB::table('erp_acct_purchase_account_details')->where([['purchase_no' => $id]])->delete();
+        DB::table('account_ledger_detail')->where([['trn_no' => $id]])->delete();
+        DB::table('purchase_account_details')->where([['purchase_no' => $id]])->delete();
     }
 
     /**
@@ -712,7 +712,7 @@ class Purchases
         $purchase_data['tax'] = $purchase_data['tax'] ? (int) $purchase_data['tax'] : 0;
 
         // Insert amount in ledger_details
-        DB::table('erp_acct_ledger_details')
+        DB::table('account_ledger_detail')
             ->insert(
                 [
                     'ledger_id'   => $purchase_ledger_id,
@@ -736,7 +736,7 @@ class Purchases
             }
 
             // Insert amount in ledger_details
-            DB::table('erp_acct_ledger_details')
+            DB::table('account_ledger_detail')
                 ->insert(
                     [
                         'ledger_id'   => $purchase_vat_ledger_id,
@@ -772,8 +772,8 @@ class Purchases
              messageBag()->add('505', 'Ledger ID not found for purchase', $purchase_data);
         }
 
-        // insert contra `erp_acct_ledger_details`
-        DB::table('erp_acct_ledger_details')
+        // insert contra `account_ledger_detail`
+        DB::table('account_ledger_detail')
             ->where('trn_no', $purchase_no)
             ->update(
 
@@ -799,7 +799,7 @@ class Purchases
     {
 
 
-        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'erp_acct_purchase');
+        $row = DB::select('SELECT COUNT(*) as count FROM ' . 'purchase');
         $row = (!empty($row)) ? $row[0] : null;
         return $row->count;
     }
@@ -832,8 +832,8 @@ class Purchases
             $limit = "LIMIT {$args['number']} OFFSET {$args['offset']}";
         }
 
-        $purchases            = "erp_acct_purchase";
-        $purchase_act_details = "erp_acct_purchase_account_details";
+        $purchases            = "purchase";
+        $purchase_act_details = "purchase_account_details";
         $items                = $args['count'] ? ' COUNT( id ) as total_number ' : ' * ';
 
         $query =
@@ -869,7 +869,7 @@ class Purchases
     {
 
 
-        $result = DB::select("SELECT purchase_no, SUM( debit - credit) as due FROM erp_acct_purchase_account_details WHERE purchase_no = %d GROUP BY purchase_no", [$purchase_no]);
+        $result = DB::select("SELECT purchase_no, SUM( debit - credit) as due FROM purchase_account_details WHERE purchase_no = %d GROUP BY purchase_no", [$purchase_no]);
         $result = (!empty($result)) ? $result[0] : null;
 
         return $result['due'];

@@ -46,7 +46,7 @@
                                 </div>
 
                                 <input type="hidden" name="type" :value="peopleType">
-                                <input type="hidden" name="erp_export_csv" value="1">
+                                <input type="hidden" name="export_csv" value="1">
                                 <input type="hidden" name="_wpnonce" :value="nonce">
 
                             </div>
@@ -92,7 +92,7 @@ export default {
 
     created() {
         this.peopleType   = 'customers' == this.type ? 'customer' : 'vendor';
-        this.peopleFields = this.$mybizna_var.erp_fields ? this.$mybizna_var.erp_fields[this.peopleType].fields : [];
+        this.peopleFields = this.$mybizna_var.fields ? this.$mybizna_var.fields[this.peopleType].fields : [];
         this.nonce        = this.$mybizna_var.export_import_nonce;
         this.description  = 'customer' === this.peopleType
                           ? this.$func.__('Select customer fields to export', 'erp')
