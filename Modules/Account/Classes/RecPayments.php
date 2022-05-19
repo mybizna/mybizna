@@ -220,7 +220,7 @@ class RecPayments
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('payment-exception', $e->getMessage());
+            config('kernel.messageBag')->add('payment-exception', $e->getMessage());
             return;
         }
 
@@ -361,7 +361,7 @@ class RecPayments
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('payment-exception', $e->getMessage());
+            config('kernel.messageBag')->add('payment-exception', $e->getMessage());
             return;
         }
 
@@ -464,7 +464,7 @@ class RecPayments
         $payment_data['ref']              = isset($data['ref']) ? $data['ref'] : null;
         $payment_data['attachments']      = isset($data['attachments']) ? $data['attachments'] : '';
         $payment_data['voucher_type']     = isset($data['type']) ? $data['type'] : '';
-        $payment_data['particulars']      = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Invoice receipt created with voucher no %s', 'erp'), $voucher_no);
+        $payment_data['particulars']      = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Invoice receipt created with voucher no %s'), $voucher_no);
         $payment_data['trn_by']           = isset($data['trn_by']) ? $data['trn_by'] : '';
         $payment_data['trn_by_ledger_id'] = isset($data['deposit_to']) ? $data['deposit_to'] : null;
         $payment_data['status']           = isset($data['status']) ? $data['status'] : null;

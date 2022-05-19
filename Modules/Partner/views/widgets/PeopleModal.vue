@@ -212,7 +212,7 @@
                                             id="street1"
                                             class="form-control form-control-sm form-field"
                                             :placeholder="
-                                                this.$func.__('Street 1', 'erp')
+                                                this.$func.__('Street 1')
                                             "
                                         />
                                     </div>
@@ -226,7 +226,7 @@
                                             id="street2"
                                             class="form-control form-control-sm form-field"
                                             :placeholder="
-                                                this.$func.__('Street 2', 'erp')
+                                                this.$func.__('Street 2')
                                             "
                                         />
                                     </div>

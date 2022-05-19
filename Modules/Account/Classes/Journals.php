@@ -204,7 +204,7 @@ class Journals
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('journal-exception', $e->getMessage());
+            config('kernel.messageBag')->add('journal-exception', $e->getMessage());
             return;
         }
 
@@ -288,7 +288,7 @@ class Journals
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('journal-exception', $e->getMessage());
+            config('kernel.messageBag')->add('journal-exception', $e->getMessage());
             return;
         }
 
@@ -313,7 +313,7 @@ class Journals
         $journal_data['voucher_amount'] = isset($data['voucher_amount']) ? $data['voucher_amount'] : 0;
         $journal_data['line_items']     = isset($data['line_items']) ? $data['line_items'] : [];
         // translators: %s: voucher_no
-        $journal_data['particulars'] = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Journal created with voucher no %s', 'erp'), $voucher_no);
+        $journal_data['particulars'] = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Journal created with voucher no %s'), $voucher_no);
         $journal_data['ref']         = isset($data['ref']) ? $data['ref'] : '';
         $journal_data['attachments'] = isset($data['attachments']) ? $data['attachments'] : '';
         $journal_data['created_at']  = isset($data['created_at']) ? $data['created_at'] : '';

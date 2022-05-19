@@ -6,7 +6,7 @@
                     v-model="search"
                     type="search"
                     class="form-control form-contro-sm form-field"
-                    :placeholder="this.$func.__('Search Products', 'erp')"
+                    :placeholder="this.$func.__('Search Products')"
                 />
                 <span v-if="search" @click="clearSearch">&#x2716;</span>
             </div>

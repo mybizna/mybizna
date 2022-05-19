@@ -1,12 +1,12 @@
 <template>
     <div class="sales-tax-report">
         <h2 class="title-container">
-            <span>{{ this.$func.__( 'Sales Tax Report (Transaction Based)', 'erp' ) }}</span>
+            <span>{{ this.$func.__( 'Sales Tax Report (Transaction Based)' ) }}</span>
 
             <router-link
                 class="btn btn-primary"
                 :to="{ name: 'SalesTaxReportOverview' }">
-                {{ this.$func.__( 'Back', 'erp' ) }}
+                {{ this.$func.__( 'Back' ) }}
             </router-link>
         </h2>
 
@@ -17,14 +17,14 @@
                 <datepicker v-model="endDate" />
 
                 <button class="btn btn-primary add-line-trigger" type="submit">
-                    {{ this.$func.__( 'Filter', 'erp' ) }}
+                    {{ this.$func.__( 'Filter' ) }}
                 </button>
             </div>
 
 
             <a href="#" class="btn btn-default print-btn" @click.prevent="printPopup">
                 <i class="flaticon-printer-1"></i>
-                &nbsp; {{ this.$func.__( 'Print', 'erp' ) }}
+                &nbsp; {{ this.$func.__( 'Print' ) }}
             </a>
         </form>
 
@@ -57,7 +57,7 @@
             <template slot="tfoot">
                 <tr class="tfoot">
                     <td></td>
-                    <td>{{ this.$func.__( 'Total', 'erp' ) }} =</td>
+                    <td>{{ this.$func.__( 'Total' ) }} =</td>
                     <td>{{ moneyFormat( totalTax ) }}</td>
                 </tr>
             </template>
@@ -81,13 +81,13 @@
                 taxes     : [],
                 columns   : {
                     trn_no     : {
-                        label  : this.$func.__( 'Voucher No', 'erp' )
+                        label  : this.$func.__( 'Voucher No' )
                     },
                     trn_date   : {
-                        label  : this.$func.__( 'Trnasaction Date', 'erp' )
+                        label  : this.$func.__( 'Trnasaction Date' )
                     },
                     tax_amount : {
-                        label  : this.$func.__( 'Tax Amount', 'erp' )
+                        label  : this.$func.__( 'Tax Amount' )
                     }
                 },
             };

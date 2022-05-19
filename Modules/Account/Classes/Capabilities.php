@@ -91,7 +91,7 @@ class Capabilities
     {
         $roles = [
             $this->getManagerRole() => [
-                'name'         => __('Accounting Manager', 'erp'),
+                'name'         => __('Accounting Manager'),
                 'public'       => false,
             ],
         ];

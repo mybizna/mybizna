@@ -242,7 +242,7 @@ class Bills
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('bill-exception', $e->getMessage());
+            config('kernel.messageBag')->add('bill-exception', $e->getMessage());
             return;
         }
 
@@ -377,7 +377,7 @@ class Bills
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('bill-exception', $e->getMessage());
+            config('kernel.messageBag')->add('bill-exception', $e->getMessage());
             return;
         }
 
@@ -504,7 +504,7 @@ class Bills
         $bill_data['due']             = isset($data['due']) ? $data['due'] : 0;
         $bill_data['attachments']     = isset($data['attachments']) ? $data['attachments'] : '';
         // translators: %s: voucher_no
-        $bill_data['particulars']      = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Bill created with voucher no %s', 'erp'), $voucher_no);
+        $bill_data['particulars']      = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Bill created with voucher no %s'), $voucher_no);
         $bill_data['bill_details']     = isset($data['bill_details']) ? $data['bill_details'] : '';
         $bill_data['status']           = isset($data['status']) ? $data['status'] : 1;
         $bill_data['trn_by_ledger_id'] = isset($data['trn_by']) ? $data['trn_by'] : null;

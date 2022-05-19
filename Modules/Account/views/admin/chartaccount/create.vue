@@ -30,7 +30,7 @@
                     :options="chartAccounts"
                     :disable-branch-nodes="true"
                     :show-count="true"
-                    :placeholder="this.$func.__('Please select', 'erp')"
+                    :placeholder="this.$func.__('Please select')"
                 />
             </div>
 
@@ -40,7 +40,7 @@
                     :options="categories"
                     :disable-branch-nodes="true"
                     :show-count="true"
-                    :placeholder="this.$func.__('Please select a category', 'erp')">
+                    :placeholder="this.$func.__('Please select a category')">
 
                     <label slot="option-label" slot-scope="{ node, shouldShowCount, count, labelClassName, countClassName }" :class="labelClassName">
                         {{ node.label }}
@@ -144,7 +144,7 @@ export default {
              this.catData.title = 'Add New';
              this.catData.node = null;
 
-             this.showAlert('success', this.$func.__('Successful !', 'erp'));
+             this.showAlert('success', this.$func.__('Successful !'));
 
              this.fetchLedgerCategories();
             return true;

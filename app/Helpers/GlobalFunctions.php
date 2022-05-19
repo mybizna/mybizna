@@ -1,19 +1,36 @@
 <?php
 
-use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\DB;
 
-// Create a new MessageBag instance.
-$messageBag = new MessageBag;
+use App\Jobs\AppMailerJob;
 
+if (!function_exists('sendmail')) {
 
-function messageBag()
-{
-    global $messageBag;
+    function sendmail(array $data)
+    {
+        try {
+            dispatch(new AppMailerJob($data));
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
 
-    return $messageBag;
-    //function logic
 }
+
+if (!function_exists('getRealQuery')) {
+    function getRealQuery($query, $dumpIt = false)
+    {
+        $params = array_map(function ($item) {
+            return "'{$item}'";
+        }, $query->getBindings());
+        $result = str_replace_array('\?', $params, $query->toSql());
+        if ($dumpIt) {
+            dd($result);
+        }
+        return $result;
+    }
+}
+
 
 function apply_filters($str, $object)
 {
@@ -327,4 +344,3 @@ function mybizna_event_beginning_of_day($event)
 function mybizna_get_time_format($event)
 {
 }
-

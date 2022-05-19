@@ -33,8 +33,7 @@ class PaymentController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $payment_data  = $recpayments->getPayments($args);
         $payment_count = $recpayments->getPayments(
@@ -74,14 +73,13 @@ class PaymentController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $item = $recpayments->getPayment($id);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
@@ -113,8 +111,7 @@ class PaymentController extends Controller
 
         $this->addLog($payment_data, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $payment_data = $this->prepareItemForResponse($payment_data, $request, $additional_fields);
 
@@ -134,7 +131,7 @@ class PaymentController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -155,8 +152,7 @@ class PaymentController extends Controller
         $this->addLog($payment_data, 'edit', $old_data);
 
         $additional_fields              = [];
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $payment_response = $this->prepareItemForResponse($payment_data, $request, $additional_fields);
 
@@ -168,7 +164,7 @@ class PaymentController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function voidPayment(Request $request)
     {
@@ -177,7 +173,7 @@ class PaymentController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -390,27 +386,27 @@ class PaymentController extends Controller
                     'required'    => true,
                 ],
                 'billing_address' => [
-                    'description' => __('List of billing address data.', 'erp'),
+                    'description' => __('List of billing address data.'),
                     'type'        => 'object',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'city'        => [
-                            'description' => __('City name.', 'erp'),
+                            'description' => __('City name.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'state'       => [
-                            'description' => __('ISO code or name of the state, province or district.', 'erp'),
+                            'description' => __('ISO code or name of the state, province or district.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'postal_code' => [
-                            'description' => __('Postal code.', 'erp'),
+                            'description' => __('Postal code.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'country'     => [
-                            'description' => __('ISO code of the country.', 'erp'),
+                            'description' => __('ISO code of the country.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
@@ -422,27 +418,27 @@ class PaymentController extends Controller
                     ],
                 ],
                 'line_items'      => [
-                    'description' => __('List of line items data.', 'erp'),
+                    'description' => __('List of line items data.'),
                     'type'        => 'array',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'invoice_no' => [
-                            'description' => __('Invoice no.', 'erp'),
+                            'description' => __('Invoice no.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'amount'     => [
-                            'description' => __('Invoice amount.', 'erp'),
+                            'description' => __('Invoice amount.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'due'        => [
-                            'description' => __('Invoice due.', 'erp'),
+                            'description' => __('Invoice due.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'line_total' => [
-                            'description' => __('Total.', 'erp'),
+                            'description' => __('Total.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],

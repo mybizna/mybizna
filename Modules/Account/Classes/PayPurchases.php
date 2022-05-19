@@ -277,7 +277,7 @@ class PayPurchases
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('pay-purchase-exception', $e->getMessage());
+            config('kernel.messageBag')->add('pay-purchase-exception', $e->getMessage());
             return;
         }
 
@@ -386,7 +386,7 @@ class PayPurchases
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('pay-purchase-exception', $e->getMessage());
+            config('kernel.messageBag')->add('pay-purchase-exception', $e->getMessage());
             return;
         }
 
@@ -448,7 +448,7 @@ class PayPurchases
         $pay_purchase_data['bank_trn_charge']  = isset($data['bank_trn_charge']) ? $data['bank_trn_charge'] : '';
         $pay_purchase_data['attachments']      = isset($data['attachments']) ? $data['attachments'] : '';
         $pay_purchase_data['ref']              = isset($data['ref']) ? $data['ref'] : '';
-        $pay_purchase_data['particulars']      = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Purchase payment created with voucher no %s', 'erp'), $voucher_no);
+        $pay_purchase_data['particulars']      = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Purchase payment created with voucher no %s'), $voucher_no);
         $pay_purchase_data['status']           = isset($data['status']) ? $data['status'] : '';
         $pay_purchase_data['trn_by_ledger_id'] = isset($data['deposit_to']) ? $data['deposit_to'] : null;
         $pay_purchase_data['check_no']         = isset($data['check_no']) ? $data['check_no'] : 0;

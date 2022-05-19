@@ -241,8 +241,13 @@ class Modularize
                     $public_folder = realpath(base_path()) . $DS . 'public' . $DS . 'assets' . $DS . Str::lower($module_name);
 
                     if (!File::exists($public_folder)) {
+
+                        config('kernel.messageBag')->add('modularize_fold_missing_error', __('Folder Missing error.'));
+
                         //File::makeDirectory($public_folder);
-                        symlink($module_folder, $public_folder);
+                        if (File::exists($module_folder)) {
+                            symlink($module_folder, $public_folder);
+                        }
                     }
                 }
             }

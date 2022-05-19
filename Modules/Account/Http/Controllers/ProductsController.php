@@ -34,8 +34,7 @@ class ProductsController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $product_data = $products->getAllProducts($args);
         $total_items  = $products->getAllProducts(
@@ -68,12 +67,11 @@ class ProductsController extends Controller
         $item = $products->getAllProducts($id);
 
         if (empty($id)) {
-            messageBag()->add('rest_inventory_product_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_inventory_product_invalid_id', __('Invalid resource id.'));
             return;
         }
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
         $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
     }
@@ -83,7 +81,7 @@ class ProductsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function createInventoryProduct(Request $request)
     {
@@ -101,8 +99,7 @@ class ProductsController extends Controller
 
         $this->addLog($item, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $response = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($response);
@@ -113,7 +110,7 @@ class ProductsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function updateInventoryProduct(Request $request)
     {
@@ -122,7 +119,7 @@ class ProductsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_payment_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -140,8 +137,7 @@ class ProductsController extends Controller
 
         $item['id'] = $id;
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $response = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($response);
@@ -152,7 +148,7 @@ class ProductsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function deleteInventoryProduct(Request $request)
     {
@@ -357,18 +353,18 @@ class ProductsController extends Controller
                     'required'    => true,
                 ],
                 'product_type_id'    => [
-                    'description' => __('State for the resource.', 'erp'),
+                    'description' => __('State for the resource.'),
                     'type'        => 'object',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'id'   => [
-                            'description' => __('Unique identifier for the resource.', 'erp'),
+                            'description' => __('Unique identifier for the resource.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                             'required'    => true,
                         ],
                         'name' => [
-                            'description' => __('Type name for the resource.', 'erp'),
+                            'description' => __('Type name for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                             'arg_options' => [
@@ -378,62 +374,62 @@ class ProductsController extends Controller
                     ],
                 ],
                 'category_id'    => [
-                    'description' => __('Category id for the resource.', 'erp'),
+                    'description' => __('Category id for the resource.'),
                     'type'        => 'object',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'id'   => [
-                            'description' => __('Unique identifier for the resource.', 'erp'),
+                            'description' => __('Unique identifier for the resource.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'name' => [
-                            'description' => __('Type name for the resource.', 'erp'),
+                            'description' => __('Type name for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'parent' => [
-                            'description' => __('Parent category for the resource.', 'erp'),
+                            'description' => __('Parent category for the resource.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                     ],
                 ],
                 'tax_cat_id'    => [
-                    'description' => __('Tax category id for the resource.', 'erp'),
+                    'description' => __('Tax category id for the resource.'),
                     'type'        => 'object',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'id'   => [
-                            'description' => __('Unique identifier for the resource.', 'erp'),
+                            'description' => __('Unique identifier for the resource.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'name' => [
-                            'description' => __('Tax category name for the resource.', 'erp'),
+                            'description' => __('Tax category name for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'description' => [
-                            'description' => __('Description for the resource.', 'erp'),
+                            'description' => __('Description for the resource.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                     ],
                 ],
                 'vendor'    => [
-                    'description' => __('Vendor for the resource.', 'erp'),
+                    'description' => __('Vendor for the resource.'),
                     'type'        => 'object',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'id'   => [
-                            'description' => __('Unique identifier for the resource.', 'erp'),
+                            'description' => __('Unique identifier for the resource.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                             'required'    => false,
                         ],
                         'name' => [
-                            'description' => __('Name for the resource.', 'erp'),
+                            'description' => __('Name for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                             'arg_options' => [

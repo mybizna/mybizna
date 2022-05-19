@@ -44,8 +44,8 @@
             :current-page="paginationData.currentPage"
             @pagination="goToPage"
             :actions="[
-                { key: 'edit', label: this.$func.__('Edit', 'erp') },
-                { key: 'trash', label: this.$func.__('Delete', 'erp') },
+                { key: 'edit', label: this.$func.__('Edit') },
+                { key: 'trash', label: this.$func.__('Delete') },
             ]"
         >
         </list-table>

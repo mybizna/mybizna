@@ -128,7 +128,7 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return messageBag()->add( | integer
+     * @return config('kernel.messageBag')->add( | integer
      */
     public function insertProduct($data)
     {
@@ -154,7 +154,7 @@ class Products
             $product_check = (!empty($product_check)) ? $product_check[0] : null;
 
             if ($product_check) {
-                throw new \Exception($product_data['name'] . ' ' . __('product already exists!', 'erp'));
+                throw new \Exception($product_data['name'] . ' ' . __('product already exists!'));
             }
 
             $product_id = DB::table('product')
@@ -178,7 +178,7 @@ class Products
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-             messageBag()->add('duplicate-product', $e->getMessage(), array('status' => 400));
+             config('kernel.messageBag')->add('duplicate-product', $e->getMessage());
              return;
             }
 
@@ -193,7 +193,7 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return messageBag()->add( | Object
+     * @return config('kernel.messageBag')->add( | Object
      */
     public function updateProduct($data, $id)
     {
@@ -245,7 +245,7 @@ class Products
         } catch (\Exception $e) {
             DB::rollback();
 
-             messageBag()->add('duplicate-product', $e->getMessage(), array('status' => 400));
+             config('kernel.messageBag')->add('duplicate-product', $e->getMessage());
         }
 
 
@@ -400,14 +400,14 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return array|messageBag()->add(
+     * @return array|config('kernel.messageBag')->add(
      */
     public function validateCsvData($data)
     {
         $files = wp_check_filetype_and_ext($data['csv_file']['tmp_name'], $data['csv_file']['name']);
 
         if ('csv' !== $files['ext'] && 'text/csv' !== $files['type']) {
-             messageBag()->add('invalid-file-type', __('The file is not a valid CSV file! Please provide a valid one.', 'erp'));
+             config('kernel.messageBag')->add('invalid-file-type', __('The file is not a valid CSV file! Please provide a valid one.'));
             return;
         }
 
@@ -416,7 +416,7 @@ class Products
         $csv->parse($data['csv_file']['tmp_name']);
 
         if (empty($csv->data)) {
-             messageBag()->add('no-data', __('No data found to import!', 'erp'));
+             config('kernel.messageBag')->add('no-data', __('No data found to import!'));
              return;
             }
 
@@ -428,7 +428,7 @@ class Products
         }
 
         if (empty($csv_data)) {
-             messageBag()->add('no-data', __('No data found to import!', 'erp'), ['status' => 400]);
+             config('kernel.messageBag')->add('no-data', __('No data found to import!'));
             return;
         }
 
@@ -449,7 +449,7 @@ class Products
         $errors = apply_filters('validate_csv_data', $csv_data, $data['fields'], $temp_type);
 
         if (!empty($errors)) {
-             messageBag()->add('import-error', $errors);
+             config('kernel.messageBag')->add('import-error', $errors);
              return;
         }
 
@@ -570,7 +570,7 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return int|messageBag()->add(
+     * @return int|config('kernel.messageBag')->add(
      */
     public function importProducts($data)
     {
@@ -584,7 +584,7 @@ class Products
             );
 
             if (!$inserted) {
-                 messageBag()->add('import-db-error', __('Something went wrong', 'erp'));
+                 config('kernel.messageBag')->add('import-db-error', __('Something went wrong'));
                 return;
             }
         }
@@ -602,7 +602,7 @@ class Products
         }
 
         if (0 >= (int) $data['total']) {
-             messageBag()->add('import-error', __('No data imported', 'erp'));
+             config('kernel.messageBag')->add('import-error', __('No data imported'));
             return;
         }
 

@@ -35,8 +35,7 @@ class TaxesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data    = $taxes->getAllTaxRates($args);
         $total_items = $taxes->getAllTaxRates(
@@ -77,14 +76,13 @@ class TaxesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $item = $taxes->getTaxRate($id);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
@@ -119,8 +117,7 @@ class TaxesController extends Controller
 
         $this->addLog($tax_data, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
@@ -142,7 +139,7 @@ class TaxesController extends Controller
         $item_rates = [];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -162,8 +159,7 @@ class TaxesController extends Controller
 
         $this->addLog($tax_data, 'edit');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
@@ -185,7 +181,7 @@ class TaxesController extends Controller
         $item_rates = [];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -199,8 +195,7 @@ class TaxesController extends Controller
 
         $this->addLog($tax_data, 'edit');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
@@ -221,7 +216,7 @@ class TaxesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -229,8 +224,7 @@ class TaxesController extends Controller
 
         $line_id = $taxes->addTaxRateLine($tax_data);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data = $this->prepareTaxLineForResponse($tax_data, $request, $additional_fields);
 
@@ -252,7 +246,7 @@ class TaxesController extends Controller
         $item_rates = [];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -260,8 +254,7 @@ class TaxesController extends Controller
 
         $line_id = $taxes->editTaxRateLine($tax_data);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data = $this->prepareTaxLineForResponse($tax_data, $request, $additional_fields);
 
@@ -280,7 +273,7 @@ class TaxesController extends Controller
         $id = (int) $request['db_id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -294,7 +287,7 @@ class TaxesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function deleteTaxRate(Request $request)
     {
@@ -303,7 +296,7 @@ class TaxesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -321,7 +314,7 @@ class TaxesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function getTaxRecords(Request $request)
     {
@@ -337,8 +330,7 @@ class TaxesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data    = $taxes->getTaxPayRecords($args);
         $total_items = $taxes->getTaxPayRecords(
@@ -378,14 +370,13 @@ class TaxesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_pay_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_pay_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $item = $taxes->getTaxPayRecord($id);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $item     = $this->prepareTaxPayResponse($item, $request, $additional_fields);
         return response()->json($item);
@@ -396,7 +387,7 @@ class TaxesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function payTax(Request $request)
     {
@@ -412,8 +403,7 @@ class TaxesController extends Controller
 
         $this->addLog($tax_data, 'add', true);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data = $this->prepareTaxPayResponse($tax_data, $request, $additional_fields);
 
@@ -430,8 +420,7 @@ class TaxesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $summary = $taxes->taxSummary();
 
@@ -495,11 +484,11 @@ class TaxesController extends Controller
         }
 
         if (!$is_payment) {
-            $sub_comp = __('Tax Rate', 'erp');
-            $message  = sprintf(__('A tax rate has been %s', 'erp'), $operation);
+            $sub_comp = __('Tax Rate');
+            $message  = sprintf(__('A tax rate has been %s'), $operation);
         } else {
-            $sub_comp = __('Tax Payment', 'erp');
-            $message  = sprintf(__('A tax payment of %1$s has been %2$s', 'erp'), $data['amount'], $operation);
+            $sub_comp = __('Tax Payment');
+            $message  = sprintf(__('A tax payment of %1$s has been %2$s'), $data['amount'], $operation);
         }
     }
 
@@ -744,27 +733,27 @@ class TaxesController extends Controller
                     'context'     => ['edit'],
                 ],
                 'tax_components'    => [
-                    'description' => __('Components for the resource.', 'erp'),
+                    'description' => __('Components for the resource.'),
                     'type'        => 'object',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'component_name'   => [
-                            'description' => __('Component name for the resource.', 'erp'),
+                            'description' => __('Component name for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'agency_id' => [
-                            'description' => __('Agency id for the resource.', 'erp'),
+                            'description' => __('Agency id for the resource.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'tax_category_id' => [
-                            'description' => __('Tax category id for the resource.', 'erp'),
+                            'description' => __('Tax category id for the resource.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'tax_rate' => [
-                            'description' => __('Tax rate for the resource.', 'erp'),
+                            'description' => __('Tax rate for the resource.'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],

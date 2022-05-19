@@ -626,7 +626,7 @@ class CommonFunc
                 'url'   => 'pay-tax',
             ],
             'opening_balance' => [
-                'title' => __('Opening Balance', 'erp'),
+                'title' => __('Opening Balance'),
                 'slug'  => 'opening_balance',
                 'url'   => 'opening-balance',
             ],

@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="chart-block">
-                                <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
+                                <h3>{{ this.$func.__('Outstanding') }}</h3>
                                 <div class="total"><h2>{{ moneyFormat( outstanding ) }}</h2></div>
                             </div>
                         </div>

@@ -83,7 +83,7 @@
                                 v-model="basic_fields.billing_address"
                                 rows="4"
                                 class="form-control form-contro-sm form-field"
-                                :placeholder="this.$func.__('Type here', 'erp')"
+                                :placeholder="this.$func.__('Type here')"
                             ></textarea>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                                 </td>
                                 <td
                                     class="col--uni_price"
-                                    :data-colname="this.$func.__('Unit Price', 'erp')"
+                                    :data-colname="this.$func.__('Unit Price')"
                                 >
                                     <input
                                         min="0"
@@ -159,7 +159,7 @@
                                 </td>
                                 <td
                                     class="col--amount"
-                                    :data-colname="this.$func.__('Amount', 'erp')"
+                                    :data-colname="this.$func.__('Amount')"
                                 >
                                     <input
                                         type="number"
@@ -172,7 +172,7 @@
                                 </td>
                                 <td
                                     class="col--tax"
-                                    :data-colname="this.$func.__('Tax', 'erp')"
+                                    :data-colname="this.$func.__('Tax')"
                                 >
                                     <input
                                         type="checkbox"
@@ -183,7 +183,7 @@
                                 </td>
                                 <td
                                     class="col--actions delete-row"
-                                    :data-colname="this.$func.__('Action', 'erp')"
+                                    :data-colname="this.$func.__('Action')"
                                 >
                                     <span
                                         class="btn"
@@ -262,7 +262,7 @@
                                         rows="4"
                                         maxlength="250"
                                         class="form-control form-contro-sm form-field display-flex"
-                                        :placeholder="this.$func.__('Particulars', 'erp')"
+                                        :placeholder="this.$func.__('Particulars')"
                                     ></textarea>
                                 </td>
                             </tr>
@@ -371,7 +371,7 @@ export default {
             },
             createButtons: [
                 { id: "save", text: this.$func.__("Save", "erp") },
-                // {id: 'send_create', text: this.$func.__('Create and Send', 'erp')},
+                // {id: 'send_create', text: this.$func.__('Create and Send')},
                 {
                     id: "new_create",
                     text: this.$func.__("Save and New", "erp"),
@@ -380,7 +380,7 @@ export default {
             ],
             updateButtons: [
                 { id: "update", text: this.$func.__("Update", "erp") },
-                // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
+                // {id: 'send_update', text: this.$func.__('Update and Send')},
                 {
                     id: "new_update",
                     text: this.$func.__("Update and New", "erp"),

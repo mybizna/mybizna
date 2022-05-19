@@ -124,7 +124,7 @@ class Bank
         $banks = $ledger->getLedgersByChartId(7);
 
         if ($bank_only && empty($banks)) {
-            messageBag()->add('rest_empty_accounts', __('Bank accounts are empty.'));
+            config('kernel.messageBag')->add('rest_empty_accounts', __('Bank accounts are empty.'));
             return false;
         }
 
@@ -169,18 +169,18 @@ class Bank
         $c_balance = $opening_balance->getLedgerBalanceWithOpeningBalance($ledger_id, $args['start_date'], $args['end_date']);
 
         $results[] = [
-            'name'    => __('Cash', 'erp'),
+            'name'    => __('Cash'),
             'balance' => isset($c_balance['balance']) ? $c_balance['balance'] : 0,
         ];
 
         $results[] = [
-            'name'       => __('Cash at Bank', 'erp'),
+            'name'       => __('Cash at Bank'),
             'balance'    => $trialbal->cashAtBank($args, 'balance'),
             'additional' => $trialbal->bankBalance($args, 'balance'),
         ];
 
         $results[] = [
-            'name'       => __('Bank Loan', 'erp'),
+            'name'       => __('Bank Loan'),
             'balance'    => $trialbal->cashAtBank($args, 'loan'),
             'additional' => $trialbal->bankBalance($args, 'loan'),
         ];
@@ -230,7 +230,7 @@ class Bank
         } catch (\Exception $e) {
             DB::rollback();
 
-            return messageBag()->add('bank-account-exception', $e->getMessage());
+            return config('kernel.messageBag')->add('bank-account-exception', $e->getMessage());
         }
 
         return $bank_data['ledger_id'];
@@ -254,7 +254,7 @@ class Bank
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('bank-account-exception', $e->getMessage());
+            config('kernel.messageBag')->add('bank-account-exception', $e->getMessage());
             return;
         }
 
@@ -397,7 +397,7 @@ class Bank
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('transfer-exception', $e->getMessage());
+            config('kernel.messageBag')->add('transfer-exception', $e->getMessage());
             return;
         }
     }

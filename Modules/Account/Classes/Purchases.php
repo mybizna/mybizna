@@ -289,7 +289,7 @@ class Purchases
 
             $data['dr']          = 0;
             $data['cr']          = $purchase_data['amount'];
-            $data['particulars'] = __('Purchase Total', 'erp');
+            $data['particulars'] = __('Purchase Total');
 
             $trans->insertDataIntoPeopleTrnDetails($data, $voucher_no);
 
@@ -297,7 +297,7 @@ class Purchases
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('purchase-exception', $e->getMessage());
+            config('kernel.messageBag')->add('purchase-exception', $e->getMessage());
             return;
         }
 
@@ -521,7 +521,7 @@ class Purchases
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('purchase-exception', $e->getMessage());
+            config('kernel.messageBag')->add('purchase-exception', $e->getMessage());
             return;
         }
 
@@ -609,7 +609,7 @@ class Purchases
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('purchase-exception', $e->getMessage());
+            config('kernel.messageBag')->add('purchase-exception', $e->getMessage());
             return;
         }
 
@@ -678,7 +678,7 @@ class Purchases
         $purchase_data['purchase_order']  = isset($data['purchase_order']) ? intval($data['purchase_order']) : '';
         $purchase_data['ref']             = isset($data['ref']) ? $data['ref'] : '';
         // translators: %s: voucher_no
-        $purchase_data['particulars'] = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Purchase created with voucher no %s', 'erp'), $voucher_no);
+        $purchase_data['particulars'] = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Purchase created with voucher no %s'), $voucher_no);
         $purchase_data['created_at']  = date('Y-m-d');
         $purchase_data['created_by']  = isset($data['created_by']) ? $data['created_by'] : '';
         $purchase_data['updated_at']  = isset($data['updated_at']) ? $data['updated_at'] : '';
@@ -705,7 +705,7 @@ class Purchases
         $purchase_ledger_id  = get_ledger_id_by_slug('purchase');
 
         if (!$purchase_ledger_id) {
-            messageBag()->add( 'Ledger ID not found for purchase', $purchase_data);
+            config('kernel.messageBag')->add( 'Ledger ID not found for purchase', $purchase_data);
             return;
         }
 
@@ -731,7 +731,7 @@ class Purchases
         if ($purchase_data['tax']) {
             $purchase_vat_ledger_id = get_ledger_id_by_slug('purchase_vat');
             if (!$purchase_vat_ledger_id) {
-             messageBag()->add('500', __('Ledger ID not found for purchase vat', 'erp'), $purchase_data);
+             config('kernel.messageBag')->add('500', __('Ledger ID not found for purchase vat'), $purchase_data);
                 return;
             }
 
@@ -741,7 +741,7 @@ class Purchases
                     [
                         'ledger_id'   => $purchase_vat_ledger_id,
                         'trn_no'      => $purchase_data['voucher_no'],
-                        'particulars' => sprintf(__('Purchase Vat of voucher no- %1$s', 'erp'), $purchase_data['voucher_no']),
+                        'particulars' => sprintf(__('Purchase Vat of voucher no- %1$s'), $purchase_data['voucher_no']),
                         'debit'       => $purchase_data['tax'],
                         'credit'      => 0,
                         'trn_date'    => $purchase_data['trn_date'],
@@ -769,7 +769,7 @@ class Purchases
         $ledger_id  = get_ledger_id_by_slug('purchase');
 
         if (!$ledger_id) {
-             messageBag()->add('505', 'Ledger ID not found for purchase', $purchase_data);
+             config('kernel.messageBag')->add('505', 'Ledger ID not found for purchase', $purchase_data);
         }
 
         // insert contra `account_ledger_detail`

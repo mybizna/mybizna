@@ -80,7 +80,7 @@
                                 v-model.trim="basic_fields.billing_address"
                                 rows="3"
                                 class="form-control form-contro-sm form-field"
-                                :placeholder="this.$func.__('Type here', 'erp')"
+                                :placeholder="this.$func.__('Type here')"
                             ></textarea>
                         </div>
 
@@ -128,7 +128,7 @@
                                 <td
                                     class="col--due-date"
                                     :data-colname="
-                                        this.$func.__('Due Date', 'erp')
+                                        this.$func.__('Due Date')
                                     "
                                 >
                                     {{ pay_bill.due_date }}
@@ -136,20 +136,20 @@
                                 <td
                                     class="col--total"
                                     :data-colname="
-                                        this.$func.__('Total', 'erp')
+                                        this.$func.__('Total')
                                     "
                                 >
                                     {{ moneyFormat(pay_bill.amount) }}
                                 </td>
                                 <td
                                     class="col--due"
-                                    :data-colname="this.$func.__('Due', 'erp')"
+                                    :data-colname="this.$func.__('Due')"
                                 >
                                     {{ pay_bill.due }}
                                 </td>
                                 <td
                                     class="col--amount text-right"
-                                    :data-colname="this.$func.__('Amount', 'erp')"
+                                    :data-colname="this.$func.__('Amount')"
                                 >
                                     <input
                                         type="text"
@@ -182,7 +182,7 @@
                                 <td
                                     class="text-right"
                                     :data-colname="
-                                        this.$func.__('Total Amount', 'erp')
+                                        this.$func.__('Total Amount')
                                     "
                                 >
                                     <input

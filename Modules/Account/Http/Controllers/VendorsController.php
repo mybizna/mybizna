@@ -43,8 +43,7 @@ class VendorsController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         foreach ($items as $item) {
             $photo_id = $people->peopleGetMeta($item->id, 'photo_id', true);
@@ -86,7 +85,7 @@ class VendorsController extends Controller
         $item = (array) $item;
 
         if (empty($id) || empty($item['id'])) {
-            messageBag()->add('rest_vendor_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_vendor_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -108,8 +107,7 @@ class VendorsController extends Controller
             }
         }
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
         $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
     }
@@ -119,14 +117,14 @@ class VendorsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function createVendor(Request $request)
     {
         $people = new People();
         $common = new CommonFunc();
         if ($common->existPeople($request['email'])) {
-            messageBag()->add('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
+            config('kernel.messageBag')->add('rest_customer_invalid_id', __('Email already exists!'));
         }
 
         $item = $this->prepareItemFDatabase($request);
@@ -138,8 +136,7 @@ class VendorsController extends Controller
 
         $this->addLog($vendor, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $response = $this->prepareItemForResponse($vendor, $request, $additional_fields);
         return response()->json($response);
@@ -150,7 +147,7 @@ class VendorsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function updateVendor(Request $request)
     {
@@ -160,7 +157,7 @@ class VendorsController extends Controller
         $item = $people->getPeople($id);
 
         if (!$item) {
-            messageBag()->add('rest_vendor_invalid_id', __('Invalid resource id.'), ['status' => 400]);
+            config('kernel.messageBag')->add('rest_vendor_invalid_id', __('Invalid resource id.'));
         }
 
         $old_data = (array) $item;
@@ -174,8 +171,7 @@ class VendorsController extends Controller
 
         $this->addLog((array) $item, 'edit', $vendor);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $vendor   = $people->getPeople($id);
         $response = $this->prepareItemForResponse($vendor, $request, $additional_fields);
@@ -187,7 +183,7 @@ class VendorsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function deleteVendor(Request $request)
     {
@@ -198,7 +194,7 @@ class VendorsController extends Controller
         $exist = $people->checkAssociatedTranasaction($id);
 
         if ($exist) {
-            messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+            config('kernel.messageBag')->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
         }
 
         $data = [
@@ -222,7 +218,7 @@ class VendorsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function bulkDeleteVendors(Request $request)
     {
@@ -240,7 +236,7 @@ class VendorsController extends Controller
             $exist = $people->checkAssociatedTranasaction($id);
 
             if ($exist) {
-                messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+                config('kernel.messageBag')->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
                 return false;
             }
@@ -323,8 +319,7 @@ class VendorsController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $product_data = $products->getVendorProducts($args);
         $total_items  = $products->getVendorProducts(
@@ -680,34 +675,34 @@ class VendorsController extends Controller
                     ],
                 ],
                 'country'    => [
-                    'description' => __('List of countries data.', 'erp'),
+                    'description' => __('List of countries data.'),
                     'type'        => ['array', 'object'],
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'id'   => [
-                            'description' => __('Unique identifier for the resource.', 'erp'),
+                            'description' => __('Unique identifier for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'name' => [
-                            'description' => __('Country name for the resource.', 'erp'),
+                            'description' => __('Country name for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                     ],
                 ],
                 'state'    => [
-                    'description' => __('State for the resource.', 'erp'),
+                    'description' => __('State for the resource.'),
                     'type'        => ['array', 'object'],
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'id'   => [
-                            'description' => __('Unique identifier for the resource.', 'erp'),
+                            'description' => __('Unique identifier for the resource.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'name' => [
-                            'description' => __('State name for the resource.', 'erp'),
+                            'description' => __('State name for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],

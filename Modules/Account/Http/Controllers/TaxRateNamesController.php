@@ -35,8 +35,7 @@ class TaxRateNamesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data    = $taxratenames->getAllTaxRateNames($args);
         $total_items = $taxratenames->getAllTaxRateNames(
@@ -76,14 +75,13 @@ class TaxRateNamesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $item = $taxratenames->getTaxRateName($id);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
@@ -109,8 +107,7 @@ class TaxRateNamesController extends Controller
 
         $this->addLog($tax_data, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
@@ -131,7 +128,7 @@ class TaxRateNamesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -142,8 +139,7 @@ class TaxRateNamesController extends Controller
         $this->addLog($tax_data, 'edit', $old_data);
 
         $tax_data['id']                 = $tax_id;
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
@@ -164,7 +160,7 @@ class TaxRateNamesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -266,7 +262,7 @@ class TaxRateNamesController extends Controller
      *
      * @return \Illuminate\Http\Response $response response data
      */
-    public function prepareItemForResponse($item, Request $request,  $additional_fields = [])
+    public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
         $data = array_merge($item, $additional_fields);
 

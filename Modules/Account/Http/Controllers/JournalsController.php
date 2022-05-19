@@ -26,8 +26,7 @@ class JournalsController extends Controller
 
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $items       = $this->getAllJournals($args);
         $total_items = $this->getAllJournals(
@@ -62,14 +61,13 @@ class JournalsController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            messageBag()->add('rest_journal_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_journal_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $item = $invoices->updateInvoice($id);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $item = $this->prepareItemForResponse($item, $request, $additional_fields);
 
@@ -100,7 +98,7 @@ class JournalsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function createJournal(Request $request)
     {
@@ -124,8 +122,7 @@ class JournalsController extends Controller
 
         $this->addLog($journal, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $response = $this->prepareItemForResponse($journal, $request, $additional_fields);
         return response()->json($response);
@@ -260,17 +257,17 @@ class JournalsController extends Controller
                     ],
                 ],
                 'line_items'      => [
-                    'description' => __('List of line items data.', 'erp'),
+                    'description' => __('List of line items data.'),
                     'type'        => 'array',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'ledger_id'   => [
-                            'description' => __('Ledger id.', 'erp'),
+                            'description' => __('Ledger id.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'particulars' => [
-                            'description' => __('Line particulars.', 'erp'),
+                            'description' => __('Line particulars.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                             'arg_options' => [
@@ -278,12 +275,12 @@ class JournalsController extends Controller
                             ],
                         ],
                         'debit' => [
-                            'description' => __('Debit balance.', 'erp'),
+                            'description' => __('Debit balance.'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],
                         'credit'          => [
-                            'description' => __('Credit balance.', 'erp'),
+                            'description' => __('Credit balance.'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],

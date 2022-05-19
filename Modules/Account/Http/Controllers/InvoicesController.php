@@ -35,8 +35,7 @@ class InvoicesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $invoice_data = $invoices->getAllInvoices($args);
         $total_items  = $invoices->getAllInvoices(
@@ -76,7 +75,7 @@ class InvoicesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_invoice_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -91,8 +90,8 @@ class InvoicesController extends Controller
 
         $item['readonly_url'] = $readonly_url;
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
+        
         $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
 
         return response()->json($item);
@@ -132,8 +131,7 @@ class InvoicesController extends Controller
         $invoice_data['tax']             = $item_tax_total;
         $invoice_data['amount']          = $item_total;
         $invoice_data['attachments']     = maybe_serialize($request['attachments']);
-        $additional_fields['namespace']  = $this->namespace;
-        $additional_fields['rest_base']  = $this->rest_base;
+        $additional_fields['namespace']  = __NAMESPACE__;
 
         $invoice_id = $invoices->insertInvoice($invoice_data);
 
@@ -160,14 +158,14 @@ class InvoicesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_invoice_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
-            messageBag()->add('rest_invoice_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
+            config('kernel.messageBag')->add('rest_invoice_invalid_edit', __('Invalid edit permission for update.'));
             return;
         }
 
@@ -195,8 +193,7 @@ class InvoicesController extends Controller
         $invoice_data['tax']             = $item_tax_total;
         $invoice_data['amount']          = $item_total;
         $invoice_data['attachments']     = maybe_serialize($request['attachments']);
-        $additional_fields['namespace']  = $this->namespace;
-        $additional_fields['rest_base']  = $this->rest_base;
+        $additional_fields['namespace']  = __NAMESPACE__;
 
         $old_data = $invoices->getInvoice($id);
 
@@ -216,14 +213,14 @@ class InvoicesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function voidInvoice(Request $request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'));
+            config('kernel.messageBag')->add('rest_invoice_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -245,7 +242,7 @@ class InvoicesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_invoice_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_invoice_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -257,8 +254,7 @@ class InvoicesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $invoice_data = $invoices->receivePaymentsFromCustomer(['people_id' => $id]);
         $total_items  = count($invoice_data);
@@ -298,7 +294,7 @@ class InvoicesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function uploadAttachments(Request $request)
     {
@@ -461,7 +457,7 @@ class InvoicesController extends Controller
                     'required'    => true,
                 ],
                 'billing_address' => [
-                    'description' => __('List of billing address data.', 'erp'),
+                    'description' => __('List of billing address data.'),
                     'type'        => 'string',
                     'context'     => ['view', 'edit'],
                     'arg_options' => [
@@ -469,7 +465,7 @@ class InvoicesController extends Controller
                     ],
                 ],
                 'discount_type' => [
-                    'description' => __('Discount type data.', 'erp'),
+                    'description' => __('Discount type data.'),
                     'type'        => 'string',
                     'context'     => ['view', 'edit'],
                     'arg_options' => [
@@ -477,22 +473,22 @@ class InvoicesController extends Controller
                     ],
                 ],
                 'tax_rate_id' => [
-                    'description' => __('Tax rate id.', 'erp'),
+                    'description' => __('Tax rate id.'),
                     'type'        => 'integer',
                     'context'     => ['view', 'edit'],
                 ],
                 'line_items'      => [
-                    'description' => __('List of line items data.', 'erp'),
+                    'description' => __('List of line items data.'),
                     'type'        => 'array',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'product_id'   => [
-                            'description' => __('Product id.', 'erp'),
+                            'description' => __('Product id.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'product_type_name' => [
-                            'description' => __('Product type.', 'erp'),
+                            'description' => __('Product type.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                             'arg_options' => [
@@ -500,22 +496,22 @@ class InvoicesController extends Controller
                             ],
                         ],
                         'tax_cat_id' => [
-                            'description' => __('Product type.', 'erp'),
+                            'description' => __('Product type.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'qty'          => [
-                            'description' => __('Product quantity.', 'erp'),
+                            'description' => __('Product quantity.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'unit_price'   => [
-                            'description' => __('Unit price.', 'erp'),
+                            'description' => __('Unit price.'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],
                         'discount'     => [
-                            'description' => __('Discount.', 'erp'),
+                            'description' => __('Discount.'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],
@@ -525,7 +521,7 @@ class InvoicesController extends Controller
                             'context'     => ['edit'],
                         ],
                         'tax_rate'  => [
-                            'description' => __('Tax percent.', 'erp'),
+                            'description' => __('Tax percent.'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],

@@ -62,7 +62,7 @@ class Countries
         }
 
         if ('-1' == $default) {
-            $this->countries = ['-1' => __('- Select -', 'erp')] + $this->countries;
+            $this->countries = ['-1' => __('- Select -')] + $this->countries;
         }
 
         return $this->countries;
@@ -137,7 +137,7 @@ class Countries
      */
     public function country_dropdown($selected = '')
     {
-        $dropdown  = sprintf('<option value="-1">%s</option>', __('- Select -', 'erp'));
+        $dropdown  = sprintf('<option value="-1">%s</option>', __('- Select -'));
         $countries = $this->get_countries();
         $selected  = empty($selected) ? $this->get_base_country() : $selected;
 
@@ -165,7 +165,7 @@ class Countries
             foreach ($this->countries as $key => $value) {
                 if ($states = $this->get_states($key)) {
                     $html .= '<optgroup label="' . esc_attr($value) . '">';
-                    $html .= '<option value="' . esc_attr($key) . '">' . $value . ' &mdash; ' . __('Any State', 'erp') . '</option>';
+                    $html .= '<option value="' . esc_attr($key) . '">' . $value . ' &mdash; ' . __('Any State') . '</option>';
 
                     foreach ($states as $state_key => $state_value) {
                         $html .= '<option value="' . esc_attr($key) . ':' . $state_key . '"';

@@ -64,17 +64,17 @@ class AccountsController extends Controller
                     'context'     => ['view'],
                 ],
                 'address'    => [
-                    'description' => __('Address data.', 'erp'),
+                    'description' => __('Address data.'),
                     'type'        => 'object',
                     'context'     => ['view'],
                     'properties'  => [
                         'address_1'   => [
-                            'description' => __('Company address 1 for the resource.', 'erp'),
+                            'description' => __('Company address 1 for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view'],
                         ],
                         'address_2' => [
-                            'description' => __('Company address 2 for the resource.', 'erp'),
+                            'description' => __('Company address 2 for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view'],
                         ],

@@ -464,7 +464,7 @@ class Taxes
                     'voucher_no'   => $voucher_no,
                     'trn_date'     => $tax_data['trn_date'],
                     // translators: %s: voucher_no
-                    'particulars'  => !empty($tax_data['particulars']) ? $tax_data['particulars'] : sprintf(__('Invoice created with voucher no %s', 'erp'), $voucher_no),
+                    'particulars'  => !empty($tax_data['particulars']) ? $tax_data['particulars'] : sprintf(__('Invoice created with voucher no %s'), $voucher_no),
                     'amount'       => $tax_data['amount'],
                     'voucher_type' => $tax_data['voucher_type'],
                     'trn_by'       => $tax_data['trn_by'],
@@ -493,7 +493,7 @@ class Taxes
                     'trn_no'      => $voucher_no,
                     'trn_date'    => $tax_data['trn_date'],
                     // translators: %s: voucher_no
-                    'particulars' => !empty($tax_data['particulars']) ? $tax_data['particulars'] : sprintf(__('Invoice created with voucher no %s', 'erp'), $voucher_no),
+                    'particulars' => !empty($tax_data['particulars']) ? $tax_data['particulars'] : sprintf(__('Invoice created with voucher no %s'), $voucher_no),
                     'debit'       => $debit,
                     'credit'      => $credit,
                     'created_at'  => $tax_data['created_at'],
@@ -695,7 +695,7 @@ class Taxes
         $args = array_merge($defaults, $args);
 
         if (empty($args['system_id']) || (empty($args['sync_slug']) && empty($args['sync_id']))) {
-            messageBag()->add('inconsistent-data', __('Inconsistent data provided', 'erp'));
+            config('kernel.messageBag')->add('inconsistent-data', __('Inconsistent data provided'));
         }
 
         $inserted = DB::table("account_synced_tax", $args, ['%d', '%s', '%s', '%d', '%s']);

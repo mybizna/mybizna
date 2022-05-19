@@ -40,12 +40,12 @@ class Company
     {
         $defaults = [
             'logo'    => 0,
-            'name'    => __('Untitled Company', 'erp'),
+            'name'    => __('Untitled Company'),
             'address' => [
-                'address_1' => __('Street Address 1', 'erp'),
-                'address_2' => __('Address Line 2', 'erp'),
-                'city'      => __('City', 'erp'),
-                'state'     => __('State', 'erp'),
+                'address_1' => __('Street Address 1'),
+                'address_2' => __('Address Line 2'),
+                'city'      => __('City'),
+                'state'     => __('State'),
                 'postcode'  => '',
                 'country'   => 'US',
             ],
@@ -207,15 +207,15 @@ class Company
 
         // validation
         if (empty($fields['name'])) {
-            messageBag()->add('no-name', __('No location name provided.', 'erp'));
+            config('kernel.messageBag')->add('no-name', __('No location name provided.'));
         }
 
         if (empty($fields['address_1'])) {
-            messageBag()->add('no-address_1', __('No address provided.', 'erp'));
+            config('kernel.messageBag')->add('no-address_1', __('No address provided.'));
         }
 
         if (empty($fields['country'])) {
-            messageBag()->add('no-country', __('No country provided.', 'erp'));
+            config('kernel.messageBag')->add('no-country', __('No country provided.'));
         }
 
         return DB::table("base_company_location")->insertGetId($fields);

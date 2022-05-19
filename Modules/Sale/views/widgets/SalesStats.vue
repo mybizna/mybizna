@@ -6,7 +6,7 @@
                     <div class="col-sm-4">
                         <pie-chart v-if="chartPayment.values.length"
                             id="payment"
-                            :title="this.$func.__('Payment', 'erp')"
+                            :title="this.$func.__('Payment')"
                             :labels="chartPayment.labels"
                             :colors="chartPayment.colors"
                             :data="chartPayment.values" />
@@ -14,14 +14,14 @@
                     <div class="col-sm-4">
                         <pie-chart v-if="chartStatus.values.length"
                             id="status"
-                            :title="this.$func.__('Status', 'erp')"
+                            :title="this.$func.__('Status')"
                             :labels="chartStatus.labels"
                             :colors="chartStatus.colors"
                             :data="chartStatus.values" />
                     </div>
                     <div class="col-sm-4">
                         <div class="chart-block">
-                            <h3>{{ this.$func.__('Outstanding', 'erp') }}</h3>
+                            <h3>{{ this.$func.__('Outstanding') }}</h3>
                             <div class="total"><h2>{{ formatAmount(chartPayment.outstanding) }}</h2></div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@ export default {
             },
             chartPayment: {
                 colors: ['#40c4ff', '#e91e63'],
-                labels: [ this.$func.__('Received', 'erp'), this.$func.__('Outstanding', 'erp') ],
+                labels: [ this.$func.__('Received'), this.$func.__('Outstanding') ],
                 values: [],
                 outstanding: 0
             }

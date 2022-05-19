@@ -52,7 +52,7 @@
                                 type="text"
                                 v-model="tax_number"
                                 class="form-control form-contro-sm form-field"
-                                :placeholder="this.$func.__('Enter Tax Number', 'erp')"
+                                :placeholder="this.$func.__('Enter Tax Number')"
                             />
                         </div>
                         <div class="form-check">
@@ -80,12 +80,12 @@
                         <div class="buttons-wrapper text-right">
                             <submit-button
                                 v-if="is_update"
-                                :text="this.$func.__('Update', 'erp')"
+                                :text="this.$func.__('Update')"
                                 :working="isWorking"
                             ></submit-button>
                             <submit-button
                                 v-else
-                                :text="this.$func.__('Save', 'erp')"
+                                :text="this.$func.__('Save')"
                                 :working="isWorking"
                             ></submit-button>
                         </div>

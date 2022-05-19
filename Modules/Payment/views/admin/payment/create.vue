@@ -103,7 +103,7 @@
                                     v-model.trim="basic_fields.billing_address"
                                     rows="4"
                                     class="form-control form-contro-sm form-field"
-                                    :placeholder="this.$func.__('Type here', 'erp')"
+                                    :placeholder="this.$func.__('Type here')"
                                 ></textarea>
                             </div>
 
@@ -143,25 +143,25 @@
                                 </td>
                                 <td
                                     class="col--due-date"
-                                    :data-colname="this.$func.__('Due Date', 'erp')"
+                                    :data-colname="this.$func.__('Due Date')"
                                 >
                                     {{ invoice.due_date }}
                                 </td>
                                 <td
                                     class="col--total"
-                                    :data-colname="this.$func.__('Total', 'erp')"
+                                    :data-colname="this.$func.__('Total')"
                                 >
                                     {{ moneyFormat(invoice.amount) }}
                                 </td>
                                 <td
                                     class="col--due"
-                                    :data-colname="this.$func.__('Due', 'erp')"
+                                    :data-colname="this.$func.__('Due')"
                                 >
                                     {{ formatAmount(invoice.due, true) }}
                                 </td>
                                 <td
                                     class="col--amount"
-                                    :data-colname="this.$func.__('Amount', 'erp')"
+                                    :data-colname="this.$func.__('Amount')"
                                 >
                                     <input
                                         type="number"
@@ -175,7 +175,7 @@
                                 <td
                                     class="delete-row"
                                     :data-colname="
-                                        this.$func.__('Remove Above Selection', 'erp')
+                                        this.$func.__('Remove Above Selection')
                                     "
                                 >
                                     <a @click.prevent="removeRow(key)" href="#"
@@ -190,7 +190,7 @@
                                 </td>
                                 <td
                                     class="text-right"
-                                    :data-colname="this.$func.__('Total Amount', 'erp')"
+                                    :data-colname="this.$func.__('Total Amount')"
                                 >
                                     <input
                                         type="text"
@@ -213,7 +213,7 @@
                                     maxlength="250"
                                     class="form-control form-contro-sm form-field display-flex"
                                     :placeholder="
-                                        this.$func.__('Internal Information', 'erp')
+                                        this.$func.__('Internal Information')
                                     "
                                 ></textarea>
                             </td>

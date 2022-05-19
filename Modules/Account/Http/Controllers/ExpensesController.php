@@ -32,8 +32,7 @@ class ExpensesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $expense_data = $expense->getExpenses($args);
         $total_items  =  $expense->getExpenses(
@@ -73,7 +72,7 @@ class ExpensesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_expense_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -82,8 +81,7 @@ class ExpensesController extends Controller
 
         $expense_data['created_by'] = $this->get_user($expense_data['created_by']);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $data     = $this->prepareItemForResponse($expense_data, $request, $additional_fields);
         return response()->json($data);
@@ -103,7 +101,7 @@ class ExpensesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_check_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_check_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -112,8 +110,7 @@ class ExpensesController extends Controller
 
         $expense_data['created_by'] = $this->get_user($expense_data['created_by']);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $data     = $this->prepareItemForResponse($expense_data, $request, $additional_fields);
         return response()->json($data);
@@ -148,8 +145,7 @@ class ExpensesController extends Controller
         $expense = $expenses->insertExpense($expense_data);
         $this->addLog((array) $expense, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $expense_data = $this->prepareItemForResponse($expense, $request, $additional_fields);
 
@@ -170,7 +166,7 @@ class ExpensesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_expense_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -195,8 +191,7 @@ class ExpensesController extends Controller
         $this->addLog($expense_data, 'edit', $old_data);
 
         $expense_data['id']             = $expense_id;
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $expense_data = $this->prepareItemForResponse($expense_data, $request, $additional_fields);
 
@@ -208,14 +203,14 @@ class ExpensesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function voidExpense(Request $request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_expense_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_expense_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -448,18 +443,18 @@ class ExpensesController extends Controller
                     ],
                 ],
                 'bill_details' => [
-                    'description' => __('List of line items data.', 'erp'),
+                    'description' => __('List of line items data.'),
                     'type'        => 'array',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'ledger_id'   => [
-                            'description' => __('Ledger id.', 'erp'),
+                            'description' => __('Ledger id.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                             'required'    => true,
                         ],
                         'particulars' => [
-                            'description' => __('Bill Particulars.', 'erp'),
+                            'description' => __('Bill Particulars.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                             'arg_options' => [
@@ -467,7 +462,7 @@ class ExpensesController extends Controller
                             ],
                         ],
                         'amount'      => [
-                            'description' => __('Bill Amount', 'erp'),
+                            'description' => __('Bill Amount'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
                             'required'    => true,
@@ -488,7 +483,7 @@ class ExpensesController extends Controller
                     'context'     => ['edit'],
                 ],
                 'type'            => [
-                    'description' => __('Item Type.', 'erp'),
+                    'description' => __('Item Type.'),
                     'type'        => 'string',
                     'context'     => ['edit'],
                     'arg_options' => [

@@ -1,7 +1,7 @@
 <template>
     <div :class="['bank-accounts-section', 'panel', 'panel-default', ( isEditSettingsEnabled ? 'open-edit':'' )]">
         <div class="panel-heading bg-white">
-            <h4>{{ this.$func.__('Accounts', 'erp') }}</h4>
+            <h4>{{ this.$func.__('Accounts'4>
         </div>
         <div class="panel-body pb-0">
             <ul v-if="accounts.length" class="list-unstyled list-table-content list-table-content--border">
@@ -26,7 +26,7 @@
         </div>
         <div class="panel-footer mt-50">
             <div class="bank-accounts-total">
-                <span class="title">{{ this.$func.__('Total Balance', 'erp') }}</span>
+                <span class="title">{{ this.$func.__('Total Balance'pan>
                 <span class="price">{{totalAmount}}</span>
             </div>
         </div>

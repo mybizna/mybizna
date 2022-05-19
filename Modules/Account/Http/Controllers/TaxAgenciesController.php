@@ -34,8 +34,7 @@ class TaxAgenciesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data    = $tax_agencies->getAllTaxAgencies($args);
         $total_items = $tax_agencies->getAllTaxAgencies(
@@ -75,14 +74,13 @@ class TaxAgenciesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return response()->json(['status' => true]);
         }
 
         $item = $tax_agencies->getTaxAgency($id);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
 
@@ -108,8 +106,7 @@ class TaxAgenciesController extends Controller
 
         $this->add_log($tax_data, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
@@ -131,7 +128,7 @@ class TaxAgenciesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return response()->json(['status' => true]);
         }
 
@@ -142,8 +139,7 @@ class TaxAgenciesController extends Controller
         $this->add_log($tax_data, 'edit', $old_data);
 
         $tax_data['id']                 = $tax_id;
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $tax_data = $this->prepareItemForResponse($tax_data, $request, $additional_fields);
 
@@ -165,7 +161,7 @@ class TaxAgenciesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return response()->json(['status' => true]);
         }
 
@@ -188,7 +184,7 @@ class TaxAgenciesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_tax_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
             return response()->json(['status' => true]);
         }
 
@@ -254,7 +250,7 @@ class TaxAgenciesController extends Controller
                 $operation = 'created';
         }
 
-        messageBag()->add('Accounting', __('Tax', 'erp'));
+        config('kernel.messageBag')->add('Accounting', __('Tax'));
     }
 
     /**

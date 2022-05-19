@@ -37,7 +37,7 @@
                             <div class="buttons-wrapper">
                                 <input
                                     type="submit"
-                                    :value="this.$func.__('Save', 'erp')"
+                                    :value="this.$func.__('Save')"
                                     class="btn btn-primary text-left"
                                     @click.prevent="createCategory"
                                 />

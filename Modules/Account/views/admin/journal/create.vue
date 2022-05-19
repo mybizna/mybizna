@@ -56,7 +56,7 @@
                                 rows="1"
                                 maxlength="250"
                                 class="form-control form-contro-sm form-field display-flex"
-                                :placeholder="this.$func.__('Internal Information', 'erp')"
+                                :placeholder="this.$func.__('Internal Information')"
                             ></textarea>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                                 </td>
                                 <td
                                     class="col--account"
-                                    :data-colname="this.$func.__('Account', 'erp')"
+                                    :data-colname="this.$func.__('Account')"
                                 >
                                     <div
                                         class="custom-select with-multiselect"
@@ -113,7 +113,7 @@
                                 </td>
                                 <td
                                     class="col--particulars"
-                                    :data-colname="this.$func.__('Particulars', 'erp')"
+                                    :data-colname="this.$func.__('Particulars')"
                                 >
                                     <input
                                         type="text"
@@ -124,7 +124,7 @@
                                 </td>
                                 <td
                                     class="col--debit"
-                                    :data-colname="this.$func.__('Debit', 'erp')"
+                                    :data-colname="this.$func.__('Debit')"
                                 >
                                     <input
                                         type="text"
@@ -140,7 +140,7 @@
                                 </td>
                                 <td
                                     class="col--credit"
-                                    :data-colname="this.$func.__('Credit', 'erp')"
+                                    :data-colname="this.$func.__('Credit')"
                                 >
                                     <input
                                         type="text"
@@ -157,7 +157,7 @@
                                 <td
                                     class="col--actions delete-row"
                                     :data-colname="
-                                        this.$func.__('Remove Selection', 'erp')
+                                        this.$func.__('Remove Selection')
                                     "
                                 >
                                     <a
@@ -187,7 +187,7 @@
                                         this.$func.__("Total Amount", "erp")
                                     }}</span>
                                 </td>
-                                <td :data-colname="this.$func.__('Debit', 'erp')">
+                                <td :data-colname="this.$func.__('Debit')">
                                     <input
                                         type="text"
                                         class="form-control form-contro-sm form-field text-right"
@@ -199,7 +199,7 @@
                                         readonly
                                     />
                                 </td>
-                                <td :data-colname="this.$func.__('Credit', 'erp')">
+                                <td :data-colname="this.$func.__('Credit')">
                                     <input
                                         type="text"
                                         class="form-control form-contro-sm form-field text-right"
@@ -231,7 +231,7 @@
                             <tr class="inline-edit-row">
                                 <td colspan="9" style="text-align: right">
                                     <submit-button
-                                        :text="this.$func.__('Save', 'erp')"
+                                        :text="this.$func.__('Save')"
                                     ></submit-button>
                                 </td>
                             </tr>

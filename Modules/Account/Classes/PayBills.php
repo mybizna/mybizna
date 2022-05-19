@@ -229,7 +229,7 @@ class PayBills
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('pay-bill-exception', $e->getMessage());
+            config('kernel.messageBag')->add('pay-bill-exception', $e->getMessage());
             return;
         }
 
@@ -324,7 +324,7 @@ class PayBills
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('bill-exception', $e->getMessage());
+            config('kernel.messageBag')->add('bill-exception', $e->getMessage());
             return;
         }
 
@@ -387,7 +387,7 @@ class PayBills
         $pay_bill_data['amount']           = isset($data['amount']) ? $data['amount'] : 0;
         $pay_bill_data['ref']              = isset($data['ref']) ? $data['ref'] : '';
         $pay_bill_data['trn_by']           = isset($data['trn_by']) ? $data['trn_by'] : 0;
-        $pay_bill_data['particulars']      = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Bill payment created with voucher no %s', 'erp'), $voucher_no);
+        $pay_bill_data['particulars']      = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Bill payment created with voucher no %s'), $voucher_no);
         $pay_bill_data['attachments']      = isset($data['attachments']) ? $data['attachments'] : '';
         $pay_bill_data['bill_details']     = isset($data['bill_details']) ? $data['bill_details'] : '';
         $pay_bill_data['status']           = isset($data['status']) ? $data['status'] : 4;

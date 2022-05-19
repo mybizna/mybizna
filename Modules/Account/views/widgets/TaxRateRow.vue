@@ -1,12 +1,12 @@
 <template>
     <div class="row">
         <div class="col-sm-3 ">
-            <label>{{ this.$func.__('Component', 'erp') }}</label>
+            <label>{{ this.$func.__('Component') }}</label>
             <template v-if="is_update"><input type="text" class="form-control form-contro-sm form-field" v-model="component_line.component_name"/></template>
             <template v-else>{{component_line.component_name}}</template>
         </div>
         <div class="col-sm-3  with-multiselect">
-            <label>{{ this.$func.__('Agency', 'erp') }}</label>
+            <label>{{ this.$func.__('Agency') }}</label>
             <template v-if="is_update">
             <multi-select
                 v-model="component_line.agency"
@@ -15,7 +15,7 @@
             <template v-else>{{component_line.agency_name}}</template>
         </div>
         <div class="col-sm-3  with-multiselect">
-            <label>{{ this.$func.__('Tax Category', 'erp') }}</label>
+            <label>{{ this.$func.__('Tax Category') }}</label>
             <template v-if="is_update">
                 <multi-select
                 v-model="component_line.category"
@@ -24,14 +24,14 @@
             <template v-else>{{component_line.tax_cat_name}}</template>
         </div>
         <div class="col-sm-3 ">
-            <label>{{ this.$func.__('Tax Rate', 'erp') }}</label>
+            <label>{{ this.$func.__('Tax Rate') }}</label>
             <template v-if="is_update"><input class="form-control form-contro-sm form-field" type="text" v-model="component_line.tax_rate"/></template>
             <template v-else>{{component_line.tax_rate}}</template>
         </div>
 
         <div class="col-sm-12">
             <div class="form-group text-right mt-10 mb-0">
-                <submit-button v-if="is_update" :text="this.$func.__( 'Update', 'erp' )" @click.native.prevent="UpdateTaxRate"></submit-button>
+                <submit-button v-if="is_update" :text="this.$func.__( 'Update' )" @click.native.prevent="UpdateTaxRate"></submit-button>
             </div>
         </div>
     </div>
@@ -97,7 +97,7 @@ export default {
                 tax_cat_id: this.component_line.category.id,
                 tax_rate: this.component_line.tax_rate
             }).then(res => {
-                this.showAlert('success', this.$func.__('Tax Rate Updated!', 'erp'));
+                this.showAlert('success', this.$func.__('Tax Rate Updated!'));
             }).catch(error => {
                 throw error;
             }).then(() => {

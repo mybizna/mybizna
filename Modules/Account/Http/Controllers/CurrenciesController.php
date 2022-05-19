@@ -26,8 +26,7 @@ class CurrenciesController extends Controller
 
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $items       = $currencies->getAllCurrencies();
         $total_items = $currencies->getAllCurrencies(true);

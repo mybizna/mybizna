@@ -165,7 +165,7 @@ class OpeningBalances
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('opening_balance-exception', $e->getMessage());
+            config('kernel.messageBag')->add('opening_balance-exception', $e->getMessage());
             return;
         }
 

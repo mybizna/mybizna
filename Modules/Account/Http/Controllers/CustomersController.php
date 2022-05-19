@@ -41,8 +41,7 @@ class CustomersController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         foreach ($items as $item) {
             $photo_id = $people->peopleGetMeta($item->id, 'photo_id', true);
@@ -84,7 +83,7 @@ class CustomersController extends Controller
         $item = (array) $item;
 
         if (empty($id) || empty($item['id'])) {
-            messageBag()->add('rest_customer_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_customer_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -106,8 +105,8 @@ class CustomersController extends Controller
             }
         }
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
+        
         $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
 
         return response()->json($item);
@@ -118,14 +117,14 @@ class CustomersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function createCustomer(Request $request)
     {
         $people = new People();
         $common = new CommonFunc();
         if ($common->existPeople($request['email'])) {
-            messageBag()->add('rest_customer_invalid_id', __('Email already exists!'), ['status' => 400]);
+            config('kernel.messageBag')->add('rest_customer_invalid_id', __('Email already exists!'));
             return;
         }
 
@@ -137,8 +136,7 @@ class CustomersController extends Controller
 
         $this->addLog($customer, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $response = $this->prepareItemForResponse($customer, $request, $additional_fields);
         return response()->json($response);
@@ -149,7 +147,7 @@ class CustomersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function updateCustomer(Request $request)
     {
@@ -159,7 +157,7 @@ class CustomersController extends Controller
         $item = $people->getPeople($id);
 
         if (!$item) {
-            messageBag()->add('rest_customer_invalid_id', __('Invalid resource id.'), ['status' => 400]);
+            config('kernel.messageBag')->add('rest_customer_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -172,8 +170,7 @@ class CustomersController extends Controller
 
         $this->addLog((array) $item, 'edit', $customer);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $response = $this->prepareItemForResponse($customer, $request, $additional_fields);
         return response()->json($response);
@@ -184,7 +181,7 @@ class CustomersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function deleteCustomer(Request $request)
     {
@@ -194,7 +191,7 @@ class CustomersController extends Controller
         $exist = $people->checkAssociatedTranasaction($id);
 
         if ($exist) {
-            messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+            config('kernel.messageBag')->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
             return false;
         }
@@ -220,7 +217,7 @@ class CustomersController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function bulkDeleteCustomers(Request $request)
     {
@@ -237,7 +234,7 @@ class CustomersController extends Controller
             $exist = $people->checkAssociatedTranasaction($id);
 
             if ($exist) {
-                messageBag()->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+                config('kernel.messageBag')->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
                 return false;
             }
@@ -613,34 +610,34 @@ class CustomersController extends Controller
                     ],
                 ],
                 'country'    => [
-                    'description' => __('List of countries data.', 'erp'),
+                    'description' => __('List of countries data.'),
                     'type'        => ['array', 'object'],
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'id'   => [
-                            'description' => __('Unique identifier for the resource.', 'erp'),
+                            'description' => __('Unique identifier for the resource.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'name' => [
-                            'description' => __('Country name for the resource.', 'erp'),
+                            'description' => __('Country name for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                     ],
                 ],
                 'state'    => [
-                    'description' => __('State for the resource.', 'erp'),
+                    'description' => __('State for the resource.'),
                     'type'        => ['array', 'object'],
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'id'   => [
-                            'description' => __('Unique identifier for the resource.', 'erp'),
+                            'description' => __('Unique identifier for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'name' => [
-                            'description' => __('State name for the resource.', 'erp'),
+                            'description' => __('State name for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],

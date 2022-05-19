@@ -44,8 +44,7 @@ class EmployeesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         foreach ($items as $item) {
             $additional_fields['id'] = $item->user_id;
@@ -75,7 +74,7 @@ class EmployeesController extends Controller
         $item     = (array) $people->getPeople($people_id);
 
         if (empty($item['id'])) {
-            messageBag()->add('rest_employee_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_employee_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -84,8 +83,7 @@ class EmployeesController extends Controller
         $item['reporting_to'] = $employee->get_reporting_to('view');
         $item['avatar']       = $employee->get_avatar();
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $item     = $this->prepare_employee_item_for_response($item, $request, $additional_fields);
         return response()->json($item);

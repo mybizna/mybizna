@@ -5,18 +5,18 @@
         <div class="content-header-section separator">
             <div class="row between-xs">
                 <div class="col">
-                    <h2 class="content-header__title">{{ this.$func.__('Purchases Transactions', 'erp') }}</h2>
+                    <h2 class="content-header__title">{{ this.$func.__('Purchases Transactions') }}</h2>
                     <combo-box
                         :options="pages"
                         :hasUrl="true"
-                        :placeholder="this.$func.__('New Transaction', 'erp')" />
+                        :placeholder="this.$func.__('New Transaction')" />
                 </div>
             </div>
         </div>
         <!-- End .header-section -->
 
         <purchases-stats />
-        <transactions-filter  :types="filterTypes" :people="{title: this.$func.__('Vendor', 'erp'), items: vendors}"/>
+        <transactions-filter  :types="filterTypes" :people="{title: this.$func.__('Vendor'), items: vendors}"/>
         <purchases-list />
 
     </div>
@@ -36,14 +36,14 @@ export default {
     data() {
         return {
             pages: [
-                { namedRoute: 'PurchaseCreate', name: this.$func.__('Create Purchase', 'erp') },
-                { namedRoute: 'PayPurchaseCreate', name: this.$func.__('Pay Purchase', 'erp') },
-                { namedRoute: 'PurchaseOrderCreate', name:  this.$func.__('Create Purchase Order', 'erp') }
+                { namedRoute: 'PurchaseCreate', name: this.$func.__('Create Purchase') },
+                { namedRoute: 'PayPurchaseCreate', name: this.$func.__('Pay Purchase') },
+                { namedRoute: 'PurchaseOrderCreate', name:  this.$func.__('Create Purchase Order') }
             ],
             filterTypes:[
-                { id: 'purchase', name: this.$func.__('Purchase', 'erp') },
-                { id: 'pay_purchase', name: this.$func.__('Payment', 'erp') },
-                { id: 'receive_pay_purchase', name: this.$func.__('Receive', 'erp') },
+                { id: 'purchase', name: this.$func.__('Purchase') },
+                { id: 'pay_purchase', name: this.$func.__('Payment') },
+                { id: 'receive_pay_purchase', name: this.$func.__('Receive') },
             ],
             pro_activated: false,
         };
@@ -57,7 +57,7 @@ export default {
         setTimeout(()=>{
             this.pro_activated =  this.$store.state.pro_activated ?  this.$store.state.pro_activated : false
             if(this.pro_activated ){
-                this.pages.push({ namedRoute: 'PurchaseReturnList', name:  this.$func.__('Purchase Return', 'erp') })
+                this.pages.push({ namedRoute: 'PurchaseReturnList', name:  this.$func.__('Purchase Return') })
              }
         }, 200);
 

@@ -32,7 +32,7 @@
         </div>
 
         <Modal
-            :title="this.$func.__('Add New', 'erp') + buttonTitle"
+            :title="this.$func.__('Add New') + buttonTitle"
             :msg="errorMgs"
             :visible="showModal"
             :newcomponent="peopleModal"

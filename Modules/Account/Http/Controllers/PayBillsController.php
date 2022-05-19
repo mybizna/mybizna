@@ -35,8 +35,7 @@ class PayBillsController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $pay_bill_data = $paybills->getPayBills($args);
         $total_items   = $paybills->getPayBills(['count'  => true, 'number' => -1,]);
@@ -70,14 +69,14 @@ class PayBillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_pay_bill_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $item = $paybills->getPayBill($id);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
+
         $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
 
         return response()->json($item);
@@ -109,8 +108,7 @@ class PayBillsController extends Controller
 
         $this->addLog($pay_bill_data, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $pay_bill_data = $this->prepareItemForResponse($pay_bill_data, $request, $additional_fields);
 
@@ -130,7 +128,7 @@ class PayBillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_pay_bill_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -153,8 +151,7 @@ class PayBillsController extends Controller
 
         $pay_bill_data['id']            = $pay_bill_id;
         $additional_fields              = [];
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $pay_bill_response = $this->prepareItemForResponse($pay_bill_data, $request, $additional_fields);
 
@@ -166,7 +163,7 @@ class PayBillsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function voidPayBill(Request $request)
     {
@@ -174,7 +171,7 @@ class PayBillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_pay_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_pay_bill_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -377,22 +374,22 @@ class PayBillsController extends Controller
                     'context'     => ['edit'],
                 ],
                 'bill_details' => [
-                    'description' => __('List of line items data.', 'erp'),
+                    'description' => __('List of line items data.'),
                     'type'        => 'array',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'id'   => [
-                            'description' => __('Unique identifier for the line item.', 'erp'),
+                            'description' => __('Unique identifier for the line item.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'voucher_no' => [
-                            'description' => __('Voucher no for line item.', 'erp'),
+                            'description' => __('Voucher no for line item.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'due_date'      => [
-                            'description' => __('Due date for the resource.', 'erp'),
+                            'description' => __('Due date for the resource.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                             'arg_options' => [

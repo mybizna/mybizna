@@ -32,8 +32,7 @@ class PurchasesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $purchase_data = $purchases->getPurchases($args);
         $total_items   = $purchases->getPurchases(
@@ -71,7 +70,7 @@ class PurchasesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -83,8 +82,7 @@ class PurchasesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $puchase_data = $this->getDuePurchasesByVendor($args);
         $total_items  = count($puchase_data);
@@ -120,14 +118,13 @@ class PurchasesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_purchase_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $item = $purchases->getPurchases($id);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $item     = $this->prepareItemForResponse($item, $request, $additional_fields);
         return response()->json($item);
@@ -155,8 +152,7 @@ class PurchasesController extends Controller
         $purchase_data['tax']           = array_sum($item_tax_total);
         $purchase_data['amount']        = array_sum($item_total) + $purchase_data['tax'];
         $purchase_data['attachments']   = maybe_serialize($request['attachments']);
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $purchase_data = $this->insertPurchase($purchase_data);
 
@@ -182,14 +178,14 @@ class PurchasesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_purchase_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
-            messageBag()->add('rest_purchase_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
+            config('kernel.messageBag')->add('rest_purchase_invalid_edit', __('Invalid edit permission for update.'));
             return;
         }
 
@@ -214,8 +210,7 @@ class PurchasesController extends Controller
 
         $this->addLog($purchase_data, 'edit', $old_data);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $purchase_data = $this->prepareItemForResponse($purchase, $request, $additional_fields);
 
@@ -227,14 +222,14 @@ class PurchasesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function voidPurchase(Request $request)
     {
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_purchase_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -447,32 +442,32 @@ class PurchasesController extends Controller
                     'required'    => true,
                 ],
                 'line_items'  => [
-                    'description' => __('List of line items data.', 'erp'),
+                    'description' => __('List of line items data.'),
                     'type'        => 'array',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'product_id'   => [
-                            'description' => __('Product id.', 'erp'),
+                            'description' => __('Product id.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'product_type' => [
-                            'description' => __('Product type.', 'erp'),
+                            'description' => __('Product type.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'qty'          => [
-                            'description' => __('Product quantity.', 'erp'),
+                            'description' => __('Product quantity.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'unit_price'   => [
-                            'description' => __('Unit price.', 'erp'),
+                            'description' => __('Unit price.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'discount'     => [
-                            'description' => __('Discount.', 'erp'),
+                            'description' => __('Discount.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
@@ -482,7 +477,7 @@ class PurchasesController extends Controller
                             'context'     => ['edit'],
                         ],
                         'tax_percent'  => [
-                            'description' => __('Tax percent.', 'erp'),
+                            'description' => __('Tax percent.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],

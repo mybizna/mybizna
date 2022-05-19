@@ -41,8 +41,7 @@ class PeopleController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         foreach ($items as $item) {
             if (isset($request['include'])) {
@@ -78,7 +77,7 @@ class PeopleController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_people_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -105,7 +104,7 @@ class PeopleController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_people_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_people_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -354,47 +353,47 @@ class PeopleController extends Controller
                     ],
                 ],
                 'billing'    => [
-                    'description' => __('List of billing address data.', 'erp'),
+                    'description' => __('List of billing address data.'),
                     'type'        => 'object',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'first_name'  => [
-                            'description' => __('First name.', 'erp'),
+                            'description' => __('First name.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'last_name'   => [
-                            'description' => __('Last name.', 'erp'),
+                            'description' => __('Last name.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'street_1'    => [
-                            'description' => __('Address line 1', 'erp'),
+                            'description' => __('Address line 1'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'street_2'    => [
-                            'description' => __('Address line 2', 'erp'),
+                            'description' => __('Address line 2'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'city'        => [
-                            'description' => __('City name.', 'erp'),
+                            'description' => __('City name.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'state'       => [
-                            'description' => __('ISO code or name of the state, province or district.', 'erp'),
+                            'description' => __('ISO code or name of the state, province or district.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'postal_code' => [
-                            'description' => __('Postal code.', 'erp'),
+                            'description' => __('Postal code.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'country'     => [
-                            'description' => __('ISO code of the country.', 'erp'),
+                            'description' => __('ISO code of the country.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],

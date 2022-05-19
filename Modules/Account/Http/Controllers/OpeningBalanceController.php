@@ -29,8 +29,7 @@ class OpeningBalanceController extends Controller
 
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $items       = $obalance->getAllOpeningBalances($args);
         $total_items = $obalance->getAllOpeningBalances(
@@ -66,7 +65,7 @@ class OpeningBalanceController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            messageBag()->add('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_opening_balance_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -75,8 +74,7 @@ class OpeningBalanceController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         foreach ($ledgers as $ledger) {
             if (7 === $ledger['chart_id']) {
@@ -105,7 +103,7 @@ class OpeningBalanceController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            messageBag()->add('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_opening_balance_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -130,7 +128,7 @@ class OpeningBalanceController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            messageBag()->add('rest_opening_balance_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_opening_balance_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -152,8 +150,7 @@ class OpeningBalanceController extends Controller
 
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $item = $open_balance->getOpeningBalanceNames();
 
@@ -165,7 +162,7 @@ class OpeningBalanceController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function createOpeningBalance(Request $request)
     {
@@ -183,7 +180,7 @@ class OpeningBalanceController extends Controller
         $total_cr = (isset($request['total_dr']) ? $request['total_dr'] : 0);
 
         if ($total_dr !== $total_cr) {
-            messageBag()->add('rest_opening_balance_invalid_amount', __('Summation of debit and credit must be equal.'), ['status' => 400]);
+            config('kernel.messageBag')->add('rest_opening_balance_invalid_amount', __('Summation of debit and credit must be equal.'), ['status' => 400]);
             return;
         }
 
@@ -193,8 +190,7 @@ class OpeningBalanceController extends Controller
 
         $this->addLog($opening_balance_data, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $response = $this->prepareItemForResponse($opening_balance, $request, $additional_fields);
         return response()->json($response);
@@ -213,8 +209,7 @@ class OpeningBalanceController extends Controller
 
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $acc_pay_rec = [];
 

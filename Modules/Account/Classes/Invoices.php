@@ -283,7 +283,7 @@ class Invoices
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('invoice-exception', $e->getMessage());
+            config('kernel.messageBag')->add('invoice-exception', $e->getMessage());
             return;
         }
 
@@ -569,7 +569,7 @@ class Invoices
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('invoice-exception', $e->getMessage());
+            config('kernel.messageBag')->add('invoice-exception', $e->getMessage());
             return;
         }
 
@@ -646,7 +646,7 @@ class Invoices
         } catch (\Exception $e) {
             DB::rollback();
 
-            messageBag()->add('invoice-exception', $e->getMessage());
+            config('kernel.messageBag')->add('invoice-exception', $e->getMessage());
             return;
         }
 
@@ -747,7 +747,7 @@ class Invoices
         $invoice_data['tax']             = isset($data['tax']) ? $data['tax'] : 0;
         $invoice_data['attachments']     = !empty($data['attachments']) ? $data['attachments'] : '';
         $invoice_data['status']          = isset($data['status']) ? $data['status'] : 1;
-        $invoice_data['particulars']     = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Invoice created with voucher no %s', 'erp'), $voucher_no);
+        $invoice_data['particulars']     = !empty($data['particulars']) ? $data['particulars'] : sprintf(__('Invoice created with voucher no %s'), $voucher_no);
         $invoice_data['estimate']        = isset($data['estimate']) ? $data['estimate'] : 0;
         $invoice_data['created_at']      = isset($data['created_at']) ? $data['created_at'] : null;
         $invoice_data['created_by']      = isset($data['created_by']) ? $data['created_by'] : null;

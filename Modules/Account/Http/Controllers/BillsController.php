@@ -32,8 +32,7 @@ class BillsController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $bill_data   = $bills->getBills($args);
         $total_items = $bills->getBills(
@@ -72,14 +71,14 @@ class BillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $bill_data = $bills->getBill($id);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
+        
         $data            = $this->prepareItemForResponse($bill_data, $request, $additional_fields);
         $formatted_items = $this->prepareResponseForCollection($data);
 
@@ -115,8 +114,7 @@ class BillsController extends Controller
 
         $this->addLog($bill, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $bill_data = $this->prepareItemForResponse($bill, $request, $additional_fields);
         return response()->json($bill_data);
@@ -136,14 +134,14 @@ class BillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
-            messageBag()->add('rest_bill_invalid_edit', __('Invalid edit permission for update.'), ['status' => 403]);
+            config('kernel.messageBag')->add('rest_bill_invalid_edit', __('Invalid edit permission for update.'));
             return;
         }
 
@@ -167,8 +165,7 @@ class BillsController extends Controller
 
         $this->addLog($bill_data, 'edit', $old_data);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $bill_data = $this->prepareItemForResponse($bill, $request, $additional_fields);
 
@@ -180,7 +177,7 @@ class BillsController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function voidBill(Request $request)
     {
@@ -189,7 +186,7 @@ class BillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -210,7 +207,7 @@ class BillsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_bill_invalid_id', __('Invalid resource id.'));
+            config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -222,8 +219,7 @@ class BillsController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $bill_data   = $this->getDueBillsByPeople(['people_id' => $id]);
         $total_items = $this->getDueBillsByPeople(
@@ -466,17 +462,17 @@ class BillsController extends Controller
                     'required'    => true,
                 ],
                 'bill_details' => [
-                    'description' => __('List of line items data.', 'erp'),
+                    'description' => __('List of line items data.'),
                     'type'        => 'array',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'ledger_id'   => [
-                            'description' => __('Ledger id.', 'erp'),
+                            'description' => __('Ledger id.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'description' => [
-                            'description' => __('Item Particular.', 'erp'),
+                            'description' => __('Item Particular.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                             'arg_options' => [
@@ -484,7 +480,7 @@ class BillsController extends Controller
                             ],
                         ],
                         'amount'      => [
-                            'description' => __('Bill Amount', 'erp'),
+                            'description' => __('Bill Amount'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],
@@ -497,7 +493,7 @@ class BillsController extends Controller
                     'required'    => true,
                 ],
                 'type' => [
-                    'description' => __('Item Type.', 'erp'),
+                    'description' => __('Item Type.'),
                     'type'        => 'string',
                     'context'     => ['edit'],
                     'arg_options' => [
@@ -505,7 +501,7 @@ class BillsController extends Controller
                     ],
                 ],
                 'particulars' => [
-                    'description' => __('Bill Particular.', 'erp'),
+                    'description' => __('Bill Particular.'),
                     'type'        => 'string',
                     'context'     => ['edit'],
                     'arg_options' => [

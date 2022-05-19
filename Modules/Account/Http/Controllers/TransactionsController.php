@@ -71,8 +71,7 @@ class TransactionsController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $transactions = $this->getSalesTransactions($args);
         $total_items  = $this->getSalesTransactions(
@@ -222,8 +221,7 @@ class TransactionsController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $transactions = $trans->getExpenseTransactions($args);
         $total_items  = $trans->getExpenseTransactions(
@@ -310,8 +308,7 @@ class TransactionsController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $transactions = $trans->getPurchaseTransactions($args);
         $total_items  = $trans->getPurchaseTransactions(
@@ -355,7 +352,7 @@ class TransactionsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_voucher_type_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_voucher_type_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -435,7 +432,7 @@ class TransactionsController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_trn_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_trn_invalid_id', __('Invalid resource id.'));
             return;
         }
 

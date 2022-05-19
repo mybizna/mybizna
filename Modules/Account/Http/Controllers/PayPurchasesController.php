@@ -31,8 +31,7 @@ class PayPurchasesController extends Controller
         $formatted_items   = [];
         $additional_fields = [];
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $pay_purchase_data = $this->getPayPurchases($args);
         $total_items       = $this->getPayPurchases(
@@ -72,14 +71,13 @@ class PayPurchasesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $item = $pay_purchases->getPayPurchase($id);
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $item = $this->prepareItemForResponse($item, $request, $additional_fields);
 
@@ -111,8 +109,7 @@ class PayPurchasesController extends Controller
 
         $this->addLog($pay_purchase_data, 'add');
 
-        $additional_fields['namespace'] = $this->namespace;
-        $additional_fields['rest_base'] = $this->rest_base;
+        $additional_fields['namespace'] = __NAMESPACE__;
 
         $pay_purchase_data = $this->prepareItemForResponse($pay_purchase_data, $request, $additional_fields);
 
@@ -133,7 +130,7 @@ class PayPurchasesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -162,7 +159,7 @@ class PayPurchasesController extends Controller
      *
      * @param \Illuminate\Http\Request $request Request
      *
-     * @return messageBag()->add|\Illuminate\Http\Request
+     * @return \Illuminate\Http\Request
      */
     public function voidPayPurchase(Request $request)
     {
@@ -171,7 +168,7 @@ class PayPurchasesController extends Controller
         $id = (int) $request['id'];
 
         if (empty($id)) {
-            messageBag()->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'), ['status' => 404]);
+            config('kernel.messageBag')->add('rest_pay_purchase_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -376,32 +373,32 @@ class PayPurchasesController extends Controller
                     'required'    => true,
                 ],
                 'purchase_details' => [
-                    'description' => __('List of line items data.', 'erp'),
+                    'description' => __('List of line items data.'),
                     'type'        => 'array',
                     'context'     => ['view', 'edit'],
                     'properties'  => [
                         'id'         => [
-                            'description' => __('Product id.', 'erp'),
+                            'description' => __('Product id.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'voucher_no' => [
-                            'description' => __('Product type.', 'erp'),
+                            'description' => __('Product type.'),
                             'type'        => 'string',
                             'context'     => ['view', 'edit'],
                         ],
                         'due_date'        => [
-                            'description' => __('Unit price.', 'erp'),
+                            'description' => __('Unit price.'),
                             'type'        => 'integer',
                             'context'     => ['view', 'edit'],
                         ],
                         'total'      => [
-                            'description' => __('Discount.', 'erp'),
+                            'description' => __('Discount.'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],
                         'due'      => [
-                            'description' => __('Discount.', 'erp'),
+                            'description' => __('Discount.'),
                             'type'        => 'number',
                             'context'     => ['view', 'edit'],
                         ],
