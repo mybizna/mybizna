@@ -5,6 +5,8 @@ namespace App\Classes;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 
+use Illuminate\Support\Facades\DB;
+use Modules\Base\Entities\DataMigrated;
 
 class Modularize
 {
@@ -321,5 +323,103 @@ class Modularize
             'path' => $path,
             'position' => $position,
         ];
+    }
+
+
+
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    //Data Modules
+    public function dataProcess()
+    {
+        $DS = DIRECTORY_SEPARATOR;
+
+        $modules_path = realpath(base_path()) . $DS . 'Modules';
+
+        if (is_dir($modules_path)) {
+            $dir = new \DirectoryIterator($modules_path);
+
+            foreach ($dir as $fileinfo) {
+                if (!$fileinfo->isDot() && $fileinfo->isDir()) {
+                    $module_name = $fileinfo->getFilename();
+
+                    $data_folder = $modules_path .  $DS . $module_name .  $DS . 'Entities' . $DS . 'data';
+
+                    if (is_dir($data_folder)) {
+                        $data_dir = new \DirectoryIterator($data_folder);
+
+                        foreach ($data_dir as $fileinfo) {
+                            if ($fileinfo->isFile()) {
+                                $data_dir_name = $fileinfo->getFilename();
+
+                                $menu_file = $data_folder .  $DS .  $data_dir_name;
+
+                                if (file_exists($menu_file)) {
+                                    include_once $menu_file;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function add_data($module, $model, $main_field, $data)
+    {
+
+
+        $data_to_migrate = array(
+            'module' => $module,
+            'table_name' => $model,
+            "array_key" => $data[$main_field],
+        );
+
+        $data_migrated = DataMigrated::where($data_to_migrate)->first();
+
+        if (empty($data_migrated)) {
+            $saved_migration = DataMigrated::create($data_to_migrate);
+
+            $data_id = DB::table($module . '_' . $model)->insertGetId($data);
+
+            $saved_migration->fill(['item_id' => $data_id]);
+            $saved_migration->save();
+        } else {
+            if ($data_migrated->item_id) {
+                $saved_record = DB::table($module . '_' . $model)->find($data_migrated->item_id);
+
+                $saved_update = $saved_record->updated_at->toDateTimeString();
+                $saved_update_add = date('Y-m-d H:i:s', strtotime($saved_update . ' +1 second'));
+                $saved_update_minus = date('Y-m-d H:i:s', strtotime($saved_update . ' -1 second'));
+
+                $migrated_update = $data_migrated->updated_at->toDateTimeString();
+                $migrated_update_add = date('Y-m-d H:i:s', strtotime($migrated_update . ' +1 second'));
+                $migrated_update_minus = date('Y-m-d H:i:s', strtotime($migrated_update . ' -1 second'));
+
+                if (
+                    $saved_update == $migrated_update ||
+                    $saved_update == $migrated_update_add ||
+                    $saved_update == $migrated_update_minus ||
+                    $saved_update_add == $migrated_update ||
+                    $saved_update_add == $migrated_update_add ||
+                    $saved_update_add == $migrated_update_minus ||
+                    $saved_update_minus == $migrated_update ||
+                    $saved_update_minus == $migrated_update_add ||
+                    $saved_update_minus == $migrated_update_minus
+                ) {
+                    $saved_record->fill($data);
+                    $saved_record->save();
+                }
+            } else {
+                $saved_migration = DataMigrated::create($data_to_migrate);
+
+                $data_id = DB::table($module . '_' . $model)->insertGetId($data);
+
+                $saved_migration->fill(['item_id' => $data_id]);
+                $saved_migration->save();
+            }
+
+            $data_migrated->counter = $data_migrated->counter + 1;
+            $data_migrated->save();
+        }
     }
 }

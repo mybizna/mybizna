@@ -19,9 +19,6 @@ Route::group(
     function () {
         $apicontroller = 'BaseController';
 
-        Route::get('/base/datamigration', $apicontroller . '@dataMigration')
-            ->middleware('abilities:data_migration');
-
         Route::get('/base/autocomplete', $apicontroller . '@autocomplete');
     }
 );

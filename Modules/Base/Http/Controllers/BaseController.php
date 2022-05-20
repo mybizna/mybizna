@@ -19,7 +19,7 @@ class BaseController extends Controller
         // $this->middleware('auth');
     }
 
-  
+
 
     public function autocomplete(Request $request)
     {
@@ -33,17 +33,5 @@ class BaseController extends Controller
         $records = $autocomplete->dataResult($search, $table_name, $display_fields, $search_fields);
 
         return $records;
-    }
-
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function dataMigration()
-    {
-        $data_migration = new DataMigration();
-        $data_migration->dataMigration();
     }
 }
