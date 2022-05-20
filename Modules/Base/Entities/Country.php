@@ -22,9 +22,11 @@ class Country extends Model
     {
         $table->increments('id');
         $table->string('name');
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
+        $table->string('code', 2);
+        $table->string('code3', 3)->nullable()->default(null);
+        $table->string('latitude', 255)->nullable()->default(null);
+        $table->string('longitude', 255)->nullable()->default(null);
+        $table->timestamps();
+        $table->softDeletes();
     }
-
-
 }
