@@ -21,8 +21,7 @@ class DataMigration
 
         foreach ($modules as $module) {
             if ($module != '.' && $module != '..') {
-
-                $data_folder = $module_path . $module . '/Database/Data/';
+                $data_folder = $module_path . $module . '/data/';
 
                 if (is_dir($data_folder)) {
                     $this->migrateDataFolder($module, $data_folder);
@@ -71,7 +70,6 @@ class DataMigration
 
                 $saved_migration->fill(['item_id' => $data->id]);
                 $saved_migration->save();
-
             } else {
                 if ($data_migrated->item_id) {
 
@@ -111,9 +109,7 @@ class DataMigration
                 $data_migrated->counter = $data_migrated->counter + 1;
                 $data_migrated->save();
             }
-
         }
-
     }
 
     public function getClassName($data_file)

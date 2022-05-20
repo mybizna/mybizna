@@ -5,12 +5,12 @@ namespace Modules\Base\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class CountryLocation extends Model
+class CompanyLocation extends Model
 {
 
     protected $fillable = [];
     protected $migrationOrder = 5;
-    protected $table = "base_country_location";
+    protected $table = "base_company_location";
 
     /**
      * List of fields for managing postings.
@@ -33,6 +33,4 @@ class CountryLocation extends Model
         $table->string('phone', 20)->nullable();
         $table->timestamps();
     }
-
-
 }

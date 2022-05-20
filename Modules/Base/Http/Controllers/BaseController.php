@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Base\Classes\Mybizna;
+use Base\Classes\DataMigration;
 use App\Repository\Autocomplete;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -19,15 +19,7 @@ class BaseController extends Controller
         // $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('home');
-    }
+  
 
     public function autocomplete(Request $request)
     {
@@ -51,7 +43,7 @@ class BaseController extends Controller
      */
     public function dataMigration()
     {
-        $kazist = new Kazist();
-        $kazist->dataMigration();
+        $data_migration = new DataMigration();
+        $data_migration->dataMigration();
     }
 }
