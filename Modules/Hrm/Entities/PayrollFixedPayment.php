@@ -21,7 +21,7 @@ class PayrollFixedPayment extends Model
     public function migration(Blueprint $table)
     {
 
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('pay_item_id');
         $table->decimal('pay_item_amount', 10, 2);
         $table->integer('empid');

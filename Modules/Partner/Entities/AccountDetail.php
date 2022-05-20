@@ -20,7 +20,7 @@ class AccountDetail extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->string('people_id')->nullable();
         $table->integer('trn_no')->nullable();
         $table->date('trn_date')->nullable();

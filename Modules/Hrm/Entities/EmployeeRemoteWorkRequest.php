@@ -20,7 +20,7 @@ class EmployeeRemoteWorkRequest extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->unsignedBigInteger('user_id')->default(0)->index('user_id');
         $table->string('reason')->nullable();
         $table->date('start_date');

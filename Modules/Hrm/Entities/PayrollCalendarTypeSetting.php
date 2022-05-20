@@ -20,7 +20,7 @@ class PayrollCalendarTypeSetting extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('pay_calendar_id');
         $table->integer('cal_type')->default(0);
         $table->integer('pay_day')->default(0);

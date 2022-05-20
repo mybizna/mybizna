@@ -20,7 +20,7 @@ class CustomerActivity extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('user_id')->nullable()->index('user_id');
         $table->string('type')->nullable()->index('type');
         $table->longText('message')->nullable();

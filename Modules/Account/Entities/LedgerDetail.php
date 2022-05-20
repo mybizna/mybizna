@@ -20,7 +20,7 @@ class LedgerDetail extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('ledger_id')->nullable();
         $table->integer('trn_no')->nullable();
         $table->string('particulars')->nullable();

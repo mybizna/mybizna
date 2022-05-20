@@ -20,7 +20,7 @@ class Detail extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('trn_no')->nullable();
         $table->integer('ledger_id')->nullable();
         $table->string('particulars')->nullable();

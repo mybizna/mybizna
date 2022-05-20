@@ -20,7 +20,7 @@ class Type extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->string('name', 20)->nullable()->unique('name');
         $table->timestamp('created_at')->nullable();
         $table->timestamp('updated_at')->nullable();

@@ -21,7 +21,7 @@ class LeaveEntitlement extends Model
     public function migration(Blueprint $table)
     {
 
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->unsignedBigInteger('user_id');
         $table->unsignedSmallInteger('leave_id')->index('leave_id');
         $table->unsignedBigInteger('created_by')->nullable();

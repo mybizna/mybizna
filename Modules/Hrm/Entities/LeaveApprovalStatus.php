@@ -20,7 +20,7 @@ class LeaveApprovalStatus extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->unsignedBigInteger('leave_request_id')->index('leave_request_id');
         $table->unsignedTinyInteger('approval_status_id')->default(0)->index('approval_status_id');
         $table->unsignedBigInteger('approved_by')->nullable();

@@ -21,7 +21,7 @@ class PayrollPayCalendarEmployee extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('pay_calendar_id');
         $table->bigInteger('empid');
     }

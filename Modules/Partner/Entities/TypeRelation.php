@@ -20,7 +20,7 @@ class TypeRelation extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->unsignedBigInteger('people_id')->nullable()->index('people_id');
         $table->unsignedInteger('people_types_id')->nullable()->index('people_types_id');
         $table->dateTime('deleted_at')->nullable();

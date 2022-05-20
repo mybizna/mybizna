@@ -20,7 +20,7 @@ class ContactSubscriber extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('user_id')->nullable();
         $table->integer('group_id')->nullable();
         $table->string('status', 25)->nullable()->index('status');

@@ -20,7 +20,7 @@ class Dependent extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('employee_id')->nullable()->index('employee_id');
         $table->string('name', 100)->nullable();
         $table->string('relation', 100)->nullable();

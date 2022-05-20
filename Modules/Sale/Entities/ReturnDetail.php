@@ -20,7 +20,7 @@ class ReturnDetail extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('invoice_details_id');
         $table->integer('trn_no');
         $table->integer('product_id');

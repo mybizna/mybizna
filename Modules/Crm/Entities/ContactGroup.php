@@ -20,7 +20,7 @@ class ContactGroup extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->string('name')->nullable();
         $table->text('description')->nullable();
         $table->tinyInteger('private')->nullable();

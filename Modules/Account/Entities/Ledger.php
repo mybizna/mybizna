@@ -20,7 +20,7 @@ class Ledger extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('chart_id')->nullable();
         $table->integer('category_id')->nullable();
         $table->string('name')->nullable();

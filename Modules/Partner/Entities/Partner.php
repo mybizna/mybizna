@@ -20,7 +20,7 @@ class Partner extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->unsignedBigInteger('user_id')->default(0)->index('user_id');
         $table->string('company', 60)->nullable();
         $table->string('email', 100)->nullable()->index('email');

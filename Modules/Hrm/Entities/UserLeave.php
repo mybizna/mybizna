@@ -21,7 +21,7 @@ class UserLeave extends Model
     public function migration(Blueprint $table)
     {
 
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->integer('user_id')->nullable();
         $table->integer('request_id')->nullable();
         $table->string('title')->nullable();

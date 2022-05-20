@@ -21,7 +21,7 @@ class DetailTax extends Model
     public function migration(Blueprint $table)
     {
 
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('invoice_details_id')->nullable();
         $table->integer('agency_id')->nullable();
         $table->decimal('tax_rate', 20, 2)->default(0.00);

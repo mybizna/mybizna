@@ -20,7 +20,7 @@ class ActivityTask extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('activity_id')->nullable()->index('activity_id');
         $table->integer('user_id')->nullable()->index('user_id');
     }

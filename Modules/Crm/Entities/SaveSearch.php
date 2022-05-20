@@ -20,7 +20,7 @@ class SaveSearch extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('user_id')->nullable();
         $table->string('type')->nullable();
         $table->boolean('global')->default(0);

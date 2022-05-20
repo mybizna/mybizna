@@ -20,7 +20,7 @@ class VoucherNo extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->string('type')->nullable();
         $table->string('currency', 50)->nullable();
         $table->boolean('editable')->default(0);

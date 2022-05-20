@@ -20,7 +20,7 @@ class HolidayIndv extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->integer('holiday_id')->nullable();
         $table->string('title')->nullable();
         $table->date('date')->nullable();

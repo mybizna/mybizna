@@ -20,7 +20,7 @@ class SaleReturn extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->integer('invoice_id');
         $table->integer('voucher_no');
         $table->integer('customer_id')->nullable();

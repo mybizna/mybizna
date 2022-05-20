@@ -20,7 +20,7 @@ class LeaveRequest extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->unsignedBigInteger('user_id')->index('user_id');
         $table->unsignedSmallInteger('leave_id');
         $table->unsignedBigInteger('leave_entitlement_id')->default(0)->index('leave_entitlement_id');

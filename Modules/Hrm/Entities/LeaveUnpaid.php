@@ -20,7 +20,7 @@ class LeaveUnpaid extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->unsignedSmallInteger('leave_id')->index('leave_id');
         $table->unsignedBigInteger('leave_request_id')->index('leave_request_id');
         $table->unsignedBigInteger('leave_approval_status_id')->index('leave_approval_status_id');

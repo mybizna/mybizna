@@ -20,7 +20,7 @@ class Education extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->unsignedInteger('employee_id')->nullable()->index('employee_id');
         $table->string('school', 100)->nullable();
         $table->string('degree', 100)->nullable();

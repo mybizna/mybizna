@@ -20,7 +20,7 @@ class TaxCategoryAgency extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('tax_id')->nullable();
         $table->string('component_name')->nullable();
         $table->integer('tax_cat_id')->nullable();

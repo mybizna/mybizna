@@ -20,7 +20,7 @@ class LifeStage extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->string('slug', 100)->nullable()->unique('slug');
         $table->string('title', 100)->nullable();
         $table->string('title_plural', 100)->nullable();

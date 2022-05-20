@@ -20,7 +20,7 @@ class Holiday extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->string('title', 200);
         $table->timestamp('start')->useCurrent();
         $table->timestamp('end')->nullable()->default(null);;

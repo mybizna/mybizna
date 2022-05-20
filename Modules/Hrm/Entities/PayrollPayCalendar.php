@@ -20,7 +20,7 @@ class PayrollPayCalendar extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->string('pay_calendar_name', 64)->nullable();
         $table->string('pay_calendar_type', 16);
     }

@@ -20,7 +20,7 @@ class LeavePolicy extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->unsignedSmallInteger('leave_id')->index('leave_id');
         $table->text('description')->nullable();
         $table->unsignedTinyInteger('days')->default(0);

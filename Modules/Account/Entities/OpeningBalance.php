@@ -20,7 +20,7 @@ class OpeningBalance extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('financial_year_id')->nullable();
         $table->integer('chart_id')->nullable();
         $table->integer('ledger_id')->nullable();

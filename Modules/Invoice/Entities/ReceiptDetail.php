@@ -20,7 +20,7 @@ class ReceiptDetail extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('voucher_no')->nullable();
         $table->integer('invoice_no')->nullable();
         $table->decimal('amount', 20, 2)->default(0.00);

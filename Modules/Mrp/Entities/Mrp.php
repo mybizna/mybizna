@@ -20,7 +20,7 @@ class Mrp extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->string('name');
         $table->timestamp('created_at')->nullable();
         $table->timestamp('updated_at')->nullable();

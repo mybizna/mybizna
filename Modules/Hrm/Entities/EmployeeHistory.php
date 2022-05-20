@@ -20,7 +20,7 @@ class EmployeeHistory extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->unsignedBigInteger('user_id')->default(0)->index('user_id');
         $table->string('module', 20)->nullable()->index('module');
         $table->string('category', 20)->nullable();

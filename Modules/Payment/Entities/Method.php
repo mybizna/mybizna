@@ -20,7 +20,7 @@ class Method extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->string('name')->nullable();
         $table->string('created_by', 50)->nullable();
         $table->string('updated_by', 50)->nullable();

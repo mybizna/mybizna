@@ -20,7 +20,7 @@ class Meta extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->bigInteger('people_id')->nullable()->index('people_id');
         $table->string('meta_key')->nullable();
         $table->longText('meta_value')->nullable();

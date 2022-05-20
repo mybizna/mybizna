@@ -20,7 +20,7 @@ class Leave extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->smallInteger('id')->primary();
+        $table->increments('id');
         $table->string('name', 150);
         $table->text('description')->nullable();
         $table->timestamps();

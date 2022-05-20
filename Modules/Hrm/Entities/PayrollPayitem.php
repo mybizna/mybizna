@@ -20,7 +20,7 @@ class PayrollPayitem extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->string('type');
         $table->string('payitem');
         $table->integer('pay_item_add_or_deduct');

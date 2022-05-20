@@ -20,7 +20,7 @@ class Announcement extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->unsignedBigInteger('user_id')->index('user_id');
         $table->bigInteger('post_id')->index('post_id');
         $table->string('status', 30)->index('status');

@@ -20,7 +20,7 @@ class Tax extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->string('tax_rate_name')->nullable();
         $table->string('tax_number', 100)->nullable();
         $table->tinyInteger('default')->nullable();

@@ -20,7 +20,7 @@ class Expense extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('voucher_no')->nullable();
         $table->integer('people_id')->nullable();
         $table->string('people_name')->nullable();

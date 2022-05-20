@@ -20,7 +20,7 @@ class CompanyLocation extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->unsignedInteger('company_id')->nullable()->index('company_id');
         $table->string('name')->nullable();
         $table->string('address_1')->nullable();

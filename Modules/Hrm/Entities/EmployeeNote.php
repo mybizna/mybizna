@@ -20,7 +20,7 @@ class EmployeeNote extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->unsignedBigInteger('user_id')->default(0);
         $table->text('comment');
         $table->unsignedBigInteger('comment_by');

@@ -20,7 +20,7 @@ class CustomerCompany extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->bigInteger('customer_id')->nullable()->index('customer_id');
         $table->bigInteger('company_id')->nullable()->index('company_id');
     }

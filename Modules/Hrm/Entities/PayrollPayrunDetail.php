@@ -20,7 +20,7 @@ class PayrollPayrunDetail extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->unsignedInteger('payrun_id');
         $table->unsignedInteger('pay_cal_id');
         $table->date('payment_date')->nullable();

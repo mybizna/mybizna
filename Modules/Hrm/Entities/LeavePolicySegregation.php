@@ -20,7 +20,7 @@ class LeavePolicySegregation extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->unsignedBigInteger('leave_policy_id')->index('leave_policy_id');
         $table->unsignedTinyInteger('jan')->default(0);
         $table->unsignedTinyInteger('feb')->default(0);

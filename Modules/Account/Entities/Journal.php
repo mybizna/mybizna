@@ -20,7 +20,7 @@ class Journal extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->date('trn_date')->nullable();
         $table->string('ref')->nullable();
         $table->integer('voucher_no')->nullable();

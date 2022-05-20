@@ -20,7 +20,7 @@ class SyncedTax extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->bigInteger('system_id')->index('system_id');
         $table->bigInteger('sync_id')->nullable()->index('sync_id');
         $table->string('sync_slug', 100)->nullable()->index('sync_slug');

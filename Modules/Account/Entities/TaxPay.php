@@ -20,7 +20,7 @@ class TaxPay extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('voucher_no')->nullable();
         $table->date('trn_date')->nullable();
         $table->string('particulars')->nullable();

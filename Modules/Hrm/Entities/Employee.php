@@ -20,7 +20,7 @@ class Employee extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedBigInteger('id')->primary();
+        $table->bigIncrements('id');
         $table->unsignedBigInteger('user_id')->default(0)->index('user_id');
         $table->string('employee_id', 20)->nullable()->index('employee_id');
         $table->unsignedInteger('designation')->default(0)->index('designation');

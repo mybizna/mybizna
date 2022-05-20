@@ -20,7 +20,7 @@ class EmployeePerformance extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->unsignedInteger('employee_id')->nullable()->index('employee_id');
         $table->unsignedInteger('reporting_to')->nullable();
         $table->string('job_knowledge', 100)->nullable();

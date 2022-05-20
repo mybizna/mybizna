@@ -20,7 +20,7 @@ class SaveEmailReply extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->text('name')->nullable();
         $table->text('subject')->nullable();
         $table->longText('template')->nullable();

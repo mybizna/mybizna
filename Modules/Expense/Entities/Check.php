@@ -20,7 +20,7 @@ class Check extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('trn_no')->nullable();
         $table->string('check_no')->nullable();
         $table->string('voucher_type')->nullable();

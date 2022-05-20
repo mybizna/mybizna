@@ -20,7 +20,7 @@ class Product extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->string('name')->nullable();
         $table->integer('product_type_id')->nullable();
         $table->integer('category_id')->nullable();

@@ -20,7 +20,7 @@ class Department extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->unsignedInteger('id')->primary();
+        $table->increments('id');
         $table->string('title', 200)->default('');
         $table->text('description')->nullable();
         $table->unsignedInteger('lead')->default(0);

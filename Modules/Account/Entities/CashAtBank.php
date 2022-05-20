@@ -20,7 +20,7 @@ class CashAtBank extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->integer('ledger_id')->nullable();
         $table->string('name')->nullable();
         $table->decimal('balance', 20, 2)->default(0.00);

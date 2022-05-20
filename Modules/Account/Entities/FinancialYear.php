@@ -20,7 +20,7 @@ class FinancialYear extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->integer('id')->primary();
+        $table->increments('id');
         $table->string('name')->nullable();
         $table->date('start_date')->nullable();
         $table->date('end_date')->nullable();
