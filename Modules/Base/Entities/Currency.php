@@ -26,7 +26,7 @@ class Currency extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_by', 'updated_by', 'deleted_at'];
 
     protected $fillable = [
         "country_id",

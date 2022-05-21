@@ -12,6 +12,14 @@ class Country extends Model
     protected $migrationOrder = 5;
     protected $table = "base_country";
 
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['created_by', 'updated_by', 'deleted_at'];
+
     /**
      * List of fields for managing postings.
      *
