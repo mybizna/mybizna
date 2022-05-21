@@ -24,7 +24,6 @@ class LeaveEntitlement extends Model
         $table->bigIncrements('id');
         $table->unsignedBigInteger('user_id');
         $table->unsignedSmallInteger('leave_id')->index('leave_id');
-        $table->unsignedBigInteger('created_by')->nullable();
         $table->unsignedBigInteger('trn_id')->index('trn_id');
         $table->enum('trn_type', ['leave_policies', 'leave_approval_status', 'leave_encashment_requests', 'leave_entitlements', 'unpaid_leave', 'leave_encashment', 'leave_carryforward', 'manual_leave_policies', 'accounts', 'others', 'leave_accrual', 'carry_forward_leave_expired'])->default('leave_policies');
         $table->unsignedDecimal('day_in', 5, 1)->default(0.0);

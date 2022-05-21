@@ -10,8 +10,26 @@
 
 Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Laravel. It is developed using laravel which is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. 
 
+
 ## Core Components
 
 -   HRM - Human Resource Management
 -   CRM - Customer Relationship Management
 -   Accounting - Double Entry Accounting
+
+
+## Minimum Requirement
+
+-   PHP 7.0^
+
+
+## Installation
+
+-   Clone the repository inside `git clone https://github.com/mybizna/mybizna`
+-   CD into folder `cd mybizna` and run `composer install` and then `composer dump-autoload -o`
+-   Lastly run `npm install` and then `npm run build`
+
+
+## Who's behind?
+
+An open-source project by [mybizna](https://mybizna.com/), contributed by a bunch of [people](https://github.com/mybizna/mybizna/graphs/contributors).
