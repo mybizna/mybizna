@@ -33,8 +33,6 @@ class Receipt extends Model
         $table->integer('status')->nullable();
         $table->string('trn_by')->nullable();
         $table->integer('trn_by_ledger_id')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

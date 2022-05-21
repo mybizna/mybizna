@@ -33,8 +33,5 @@ class IReturn extends Model
         $table->text('reason')->nullable();
         $table->text('comments')->nullable();
         $table->integer('status')->nullable()->comment("0 means drafted, 1 means confirmed return");
-        $table->integer('created_by')->nullable();
-        $table->integer('updated_by')->nullable();
-        $table->timestamps();
     }
 }

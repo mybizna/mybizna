@@ -31,7 +31,6 @@ class LeaveEntitlement extends Model
         $table->unsignedDecimal('day_out', 5, 1)->default(0.0);
         $table->text('description')->nullable();
         $table->smallInteger('f_year');
-        $table->timestamps();
 
         $table->index(['user_id', 'leave_id', 'f_year', 'trn_type'], 'comp_key_1');
     }

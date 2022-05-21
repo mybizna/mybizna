@@ -26,7 +26,5 @@ class SyncedTax extends Model
         $table->string('sync_slug', 100)->nullable()->index('sync_slug');
         $table->string('sync_type', 100)->nullable()->index('sync_type');
         $table->string('sync_source', 100)->nullable()->index('sync_source');
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
     }
 }

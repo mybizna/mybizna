@@ -26,6 +26,5 @@ class SaveSearch extends Model
         $table->boolean('global')->default(0);
         $table->text('search_name')->nullable();
         $table->text('search_val')->nullable();
-        $table->timestamps();
     }
 }

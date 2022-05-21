@@ -25,6 +25,5 @@ class LeaveApprovalStatus extends Model
         $table->unsignedTinyInteger('approval_status_id')->default(0)->index('approval_status_id');
         $table->unsignedBigInteger('approved_by')->nullable();
         $table->text('message')->nullable();
-        $table->timestamps();
     }
 }

@@ -31,8 +31,6 @@ class Detail extends Model
         $table->integer('tax_cat_id')->nullable();
         $table->decimal('item_total', 20, 2)->default(0.00);
         $table->string('ecommerce_type')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

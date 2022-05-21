@@ -29,8 +29,5 @@ class TaxPay extends Model
         $table->integer('trn_by')->nullable();
         $table->integer('agency_id')->nullable();
         $table->integer('ledger_id')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
     }
 }

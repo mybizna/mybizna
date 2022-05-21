@@ -24,8 +24,5 @@ class DetailTax extends Model
         $table->integer('invoice_details_id');
         $table->integer('agency_id')->nullable();
         $table->decimal('tax_rate', 20, 2);
-        $table->integer('created_by')->nullable();
-        $table->integer('updated_by')->nullable();
-        $table->timestamps();
     }
 }

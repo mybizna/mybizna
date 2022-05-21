@@ -23,8 +23,5 @@ class TaxCategory extends Model
         $table->increments('id');
         $table->string('name', 100)->nullable();
         $table->string('description')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
     }
 }

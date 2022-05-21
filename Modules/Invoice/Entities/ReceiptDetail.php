@@ -24,8 +24,6 @@ class ReceiptDetail extends Model
         $table->integer('voucher_no')->nullable();
         $table->integer('invoice_no')->nullable();
         $table->decimal('amount', 20, 2)->default(0.00);
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

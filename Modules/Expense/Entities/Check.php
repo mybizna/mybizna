@@ -28,9 +28,7 @@ class Check extends Model
         $table->string('bank')->nullable();
         $table->string('name')->nullable();
         $table->string('pay_to')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 
 

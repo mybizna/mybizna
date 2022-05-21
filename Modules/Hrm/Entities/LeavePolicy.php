@@ -43,6 +43,5 @@ class LeavePolicy extends Model
         $table->decimal('accrued_amount', 10, 2)->default(0.00);
         $table->unsignedSmallInteger('accrued_max_days')->default(0);
         $table->unsignedTinyInteger('halfday_enable')->default(0);
-        $table->timestamps();
     }
 }

@@ -92,7 +92,5 @@ class DataMigrated extends Model
         $table->integer('array_key');
         $table->integer('item_id')->nullable()->default(null);
         $table->integer('counter')->nullable()->default(0);
-        $table->timestamps();
-        $table->softDeletes();
     }
 }

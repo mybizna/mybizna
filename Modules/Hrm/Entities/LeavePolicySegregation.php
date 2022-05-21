@@ -34,6 +34,5 @@ class LeavePolicySegregation extends Model
         $table->unsignedTinyInteger('oct')->default(0);
         $table->unsignedTinyInteger('nov')->default(0);
         $table->unsignedTinyInteger('decem')->default(0);
-        $table->timestamps();
     }
 }

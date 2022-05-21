@@ -26,6 +26,5 @@ class UserLeave extends Model
         $table->integer('request_id')->nullable();
         $table->string('title')->nullable();
         $table->date('date')->nullable();
-        $table->timestamps();
     }
 }

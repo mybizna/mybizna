@@ -34,8 +34,6 @@ class PayPurchase extends Model
         $table->string('particulars')->nullable();
         $table->string('attachments')->nullable();
         $table->integer('status')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

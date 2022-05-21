@@ -25,9 +25,6 @@ class FinancialYear extends Model
         $table->integer('start_date')->nullable()->index('start_date');
         $table->integer('end_date')->nullable()->index('end_date');
         $table->string('description')->nullable();
-        $table->unsignedBigInteger('created_by')->nullable();
-        $table->unsignedBigInteger('updated_by')->nullable();
-        $table->timestamps();
 
         $table->index(['start_date', 'end_date'], 'year_search');
     }

@@ -28,6 +28,5 @@ class PayrollPayrun extends Model
         $table->date('to_date')->nullable();
         $table->unsignedInteger('approve_status')->default(0);
         $table->unsignedInteger('jr_tran_id')->default(0);
-        $table->timestamp('updated_at')->useCurrent();
     }
 }

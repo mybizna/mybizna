@@ -24,8 +24,5 @@ class LedgerSetting extends Model
         $table->increments('id');
         $table->integer('ledger_id')->nullable();
         $table->string('short_code')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
     }
 }

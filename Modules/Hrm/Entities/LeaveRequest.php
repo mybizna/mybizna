@@ -30,8 +30,6 @@ class LeaveRequest extends Model
         $table->integer('end_date');
         $table->text('reason')->nullable();
         $table->unsignedSmallInteger('last_status')->default(2)->index('last_status');
-        $table->unsignedBigInteger('created_by')->nullable();
-        $table->timestamps();
 
         $table->index(['user_id', 'leave_id'], 'user_leave');
         $table->index(['user_id', 'leave_entitlement_id'], 'user_entitlement');

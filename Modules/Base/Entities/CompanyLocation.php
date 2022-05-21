@@ -31,6 +31,5 @@ class CompanyLocation extends Model
         $table->string('country', 5)->nullable();
         $table->string('fax', 20)->nullable();
         $table->string('phone', 20)->nullable();
-        $table->timestamps();
     }
 }

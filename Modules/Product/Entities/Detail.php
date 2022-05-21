@@ -25,8 +25,6 @@ class Detail extends Model
         $table->integer('trn_no')->nullable();
         $table->integer('stock_in')->nullable();
         $table->integer('stock_out')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

@@ -26,6 +26,5 @@ class Department extends Model
         $table->unsignedInteger('lead')->default(0);
         $table->unsignedInteger('parent')->default(0);
         $table->unsignedTinyInteger('status')->default(1);
-        $table->timestamps();
     }
 }

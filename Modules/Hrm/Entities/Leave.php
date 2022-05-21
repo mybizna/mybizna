@@ -23,6 +23,5 @@ class Leave extends Model
         $table->increments('id');
         $table->string('name', 150);
         $table->text('description')->nullable();
-        $table->timestamps();
     }
 }

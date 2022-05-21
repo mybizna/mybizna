@@ -24,8 +24,5 @@ class CashAtBank extends Model
         $table->integer('ledger_id')->nullable();
         $table->string('name')->nullable();
         $table->decimal('balance', 20, 2)->default(0.00);
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
     }
 }

@@ -27,7 +27,5 @@ class EmployeeRemoteWorkRequest extends Model
         $table->date('end_date');
         $table->unsignedSmallInteger('days')->default(0);
         $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-        $table->timestamps();
-        $table->unsignedBigInteger('updated_by')->nullable();
     }
 }

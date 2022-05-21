@@ -24,6 +24,5 @@ class EmployeeNote extends Model
         $table->unsignedBigInteger('user_id')->default(0);
         $table->text('comment');
         $table->unsignedBigInteger('comment_by');
-        $table->timestamps();
     }
 }

@@ -35,8 +35,6 @@ class Expense extends Model
         $table->decimal('transaction_charge', 20, 2)->default(0.00);
         $table->integer('trn_by_ledger_id')->nullable();
         $table->string('attachments')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

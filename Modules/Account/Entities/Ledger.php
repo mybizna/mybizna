@@ -28,8 +28,5 @@ class Ledger extends Model
         $table->integer('code')->nullable();
         $table->tinyInteger('unused')->nullable();
         $table->tinyInteger('system')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
     }
 }

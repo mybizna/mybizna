@@ -24,6 +24,5 @@ class HolidayIndv extends Model
         $table->integer('holiday_id')->nullable();
         $table->string('title')->nullable();
         $table->date('date')->nullable();
-        $table->timestamps();
     }
 }

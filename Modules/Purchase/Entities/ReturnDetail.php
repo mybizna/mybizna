@@ -28,8 +28,5 @@ class ReturnDetail extends Model
         $table->decimal('price', 20, 2);
         $table->decimal('discount', 20, 2)->default(0.00);
         $table->decimal('tax', 20, 2)->default(0.00);
-        $table->integer('created_by')->nullable();
-        $table->integer('updated_by')->nullable();
-        $table->timestamps();
     }
 }

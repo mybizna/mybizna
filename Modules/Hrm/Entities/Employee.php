@@ -35,6 +35,5 @@ class Employee extends Model
         $table->string('pay_type', 20)->default('');
         $table->string('type', 20);
         $table->string('status', 10)->default('')->index('status');
-        $table->dateTime('deleted_at')->nullable();
     }
 }
