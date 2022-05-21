@@ -3,7 +3,7 @@
     "type": "project",
     "description": "An ERP system developed in laravel with Accounting, HRM and CRM.",
     "keywords": ["erp", "laravel","accounting", "hrm","crm"],
-    "license": "MIT",
+    "license": "GPL-3.0-or-later",
     "require": {
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
