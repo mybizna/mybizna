@@ -24,6 +24,5 @@ class Designation extends Model
         $table->string('title', 200)->default('');
         $table->text('description')->nullable();
         $table->boolean('status')->default(1);
-        $table->timestamps();
     }
 }

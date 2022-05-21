@@ -40,7 +40,5 @@ class Partner extends Model
         $table->string('life_stage', 100)->nullable();
         $table->bigInteger('contact_owner')->nullable();
         $table->string('hash', 40)->nullable();
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
     }
 }

@@ -28,6 +28,5 @@ class WorkExperience extends Model
         $table->date('from')->nullable();
         $table->date('to')->nullable();
         $table->text('description')->nullable();
-        $table->timestamps();
     }
 }

@@ -27,8 +27,6 @@ class TransferVoucher extends Model
         $table->integer('ac_from')->nullable();
         $table->integer('ac_to')->nullable();
         $table->string('particulars')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

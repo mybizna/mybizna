@@ -29,8 +29,6 @@ class Transaction extends Model
         $table->string('trn_by')->nullable();
         $table->string('particulars')->nullable();
         $table->string('voucher_type')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

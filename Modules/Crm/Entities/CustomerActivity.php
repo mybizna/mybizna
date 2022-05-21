@@ -28,10 +28,8 @@ class CustomerActivity extends Model
         $table->string('log_type')->nullable()->index('log_type');
         $table->dateTime('start_date')->nullable();
         $table->dateTime('end_date')->nullable();
-        $table->integer('created_by')->nullable()->index('created_by');
         $table->longText('extra')->nullable();
         $table->boolean('sent_notification')->default(0);
         $table->dateTime('done_at')->nullable();
-        $table->timestamps();
     }
 }

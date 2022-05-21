@@ -26,6 +26,5 @@ class Holiday extends Model
         $table->timestamp('end')->nullable()->default(null);;
         $table->text('description');
         $table->string('range_status', 5);
-        $table->timestamps();
     }
 }

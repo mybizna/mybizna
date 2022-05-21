@@ -26,8 +26,6 @@ class PayPurchaseDetail extends Model
         $table->integer('purchase_no')->nullable();
         $table->decimal('amount', 20, 2)->default(0.00);
         $table->integer('tax_cat_id')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

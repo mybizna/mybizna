@@ -38,8 +38,6 @@ class Invoice extends Model
         $table->string('attachments')->nullable();
         $table->integer('status')->nullable();
         $table->string('particulars')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

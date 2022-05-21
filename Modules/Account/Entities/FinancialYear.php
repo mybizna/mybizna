@@ -25,8 +25,5 @@ class FinancialYear extends Model
         $table->date('start_date')->nullable();
         $table->date('end_date')->nullable();
         $table->string('description')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
     }
 }

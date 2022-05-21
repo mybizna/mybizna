@@ -24,8 +24,6 @@ class VoucherNo extends Model
         $table->string('type')->nullable();
         $table->string('currency', 50)->nullable();
         $table->boolean('editable')->default(0);
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

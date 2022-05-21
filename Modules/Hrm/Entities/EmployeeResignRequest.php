@@ -25,7 +25,5 @@ class EmployeeResignRequest extends Model
         $table->string('reason')->nullable();
         $table->date('date');
         $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-        $table->timestamps();
-        $table->unsignedBigInteger('updated_by')->nullable();
     }
 }

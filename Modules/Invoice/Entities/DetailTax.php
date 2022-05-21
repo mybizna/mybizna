@@ -26,8 +26,6 @@ class DetailTax extends Model
         $table->integer('agency_id')->nullable();
         $table->decimal('tax_rate', 20, 2)->default(0.00);
         $table->decimal('tax_amount', 20, 2)->default(0.00);
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }

@@ -25,6 +25,5 @@ class Dependent extends Model
         $table->string('name', 100)->nullable();
         $table->string('relation', 100)->nullable();
         $table->date('dob')->nullable();
-        $table->timestamps();
     }
 }

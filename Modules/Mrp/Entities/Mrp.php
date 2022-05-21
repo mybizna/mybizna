@@ -22,7 +22,5 @@ class Mrp extends Model
     {
         $table->increments('id');
         $table->string('name');
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
     }
 }

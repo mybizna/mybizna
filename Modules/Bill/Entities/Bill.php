@@ -32,9 +32,7 @@ class Bill extends Model
         $table->string('particulars')->nullable();
         $table->integer('status')->nullable();
         $table->string('attachments')->nullable();
-        $table->string('created_by', 50)->nullable();
-        $table->string('updated_by', 50)->nullable();
-        $table->timestamps();
+        
     }
 }
 

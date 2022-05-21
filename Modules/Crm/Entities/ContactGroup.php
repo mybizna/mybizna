@@ -24,6 +24,5 @@ class ContactGroup extends Model
         $table->string('name')->nullable();
         $table->text('description')->nullable();
         $table->tinyInteger('private')->nullable();
-        $table->timestamps();
     }
 }

@@ -30,6 +30,5 @@ class LeaveEncashmentRequest extends Model
         $table->decimal('amount', 20, 2)->default(0.00);
         $table->decimal('total', 20, 2)->default(0.00);
         $table->unsignedSmallInteger('f_year')->index('f_year');
-        $table->timestamps();
     }
 }

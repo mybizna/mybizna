@@ -23,8 +23,5 @@ class TypeRelation extends Model
         $table->bigIncrements('id');
         $table->unsignedBigInteger('people_id')->nullable()->index('people_id');
         $table->unsignedInteger('people_types_id')->nullable()->index('people_types_id');
-        $table->dateTime('deleted_at')->nullable();
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
     }
 }

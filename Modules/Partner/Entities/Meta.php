@@ -24,7 +24,5 @@ class Meta extends Model
         $table->bigInteger('people_id')->nullable()->index('people_id');
         $table->string('meta_key')->nullable();
         $table->longText('meta_value')->nullable();
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
     }
 }

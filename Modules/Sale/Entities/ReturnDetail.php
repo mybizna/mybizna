@@ -30,8 +30,5 @@ class ReturnDetail extends Model
         $table->decimal('tax', 20, 2)->default(0.00);
         $table->decimal('item_total', 20, 2);
         $table->string('ecommerce_type')->nullable();
-        $table->integer('created_by')->nullable();
-        $table->integer('updated_by')->nullable();
-        $table->timestamps();
     }
 }

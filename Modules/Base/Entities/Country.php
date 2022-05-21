@@ -26,7 +26,5 @@ class Country extends Model
         $table->string('code3', 3)->nullable()->default(null);
         $table->string('latitude', 255)->nullable()->default(null);
         $table->string('longitude', 255)->nullable()->default(null);
-        $table->timestamps();
-        $table->softDeletes();
     }
 }

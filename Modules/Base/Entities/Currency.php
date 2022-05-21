@@ -108,8 +108,6 @@ class Currency extends Model
         $table->decimal('selling', 11, 2)->nullable()->default(null);
         $table->integer('published')->nullable()->default(0);
         $table->integer('is_fetched')->nullable()->default(0);
-        $table->timestamps();
-        $table->softDeletes();
     }
 
 }

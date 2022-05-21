@@ -25,7 +25,5 @@ class LifeStage extends Model
         $table->string('title', 100)->nullable();
         $table->string('title_plural', 100)->nullable();
         $table->unsignedSmallInteger('position')->default(0);
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
     }
 }

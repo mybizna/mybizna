@@ -27,7 +27,6 @@ class LeaveRequestDetail extends Model
         $table->unsignedBigInteger('user_id')->index('user_id');
         $table->smallInteger('f_year');
         $table->integer('leave_date');
-        $table->timestamps();
 
         $table->index(['user_id', 'f_year', 'leave_date'], 'user_fyear_leave');
     }

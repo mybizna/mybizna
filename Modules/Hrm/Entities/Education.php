@@ -30,6 +30,5 @@ class Education extends Model
         $table->unsignedInteger('finished')->nullable();
         $table->text('notes')->nullable();
         $table->text('interest')->nullable();
-        $table->timestamps();
     }
 }
