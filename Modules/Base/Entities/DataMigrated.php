@@ -25,7 +25,7 @@ class DataMigrated extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_by', 'updated_by', 'deleted_at'];
 
     protected $fillable = [
         'module',
@@ -89,7 +89,7 @@ class DataMigrated extends Model
         $table->bigIncrements('id');
         $table->string('module', 255);
         $table->string('table_name', 255);
-        $table->integer('array_key');
+        $table->string('array_key', 255);
         $table->integer('item_id')->nullable()->default(null);
         $table->integer('counter')->nullable()->default(0);
     }

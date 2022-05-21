@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use App\Classes\Modularize;
+use App\Classes\Datasetter;
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -119,9 +121,9 @@ class ApiController extends Controller
 
     public function dataProcess(Request $request)
     {
-        $modularize = new Modularize();
+        $datasetter = new Datasetter();
 
-        $result = $modularize->dataProcess();
+        $result = $datasetter->dataProcess();
 
         return Response::json($result);
     }
