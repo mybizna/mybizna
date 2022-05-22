@@ -23,6 +23,7 @@ class PayrollPayitem extends Model
         $table->increments('id');
         $table->string('type');
         $table->string('payitem');
+        $table->string('slug');
         $table->integer('pay_item_add_or_deduct');
     }
 }

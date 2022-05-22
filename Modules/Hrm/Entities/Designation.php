@@ -22,6 +22,7 @@ class Designation extends Model
     {
         $table->increments('id');
         $table->string('title', 200)->default('');
+        $table->string('slug')->nullable();
         $table->text('description')->nullable();
         $table->boolean('status')->default(1);
     }
