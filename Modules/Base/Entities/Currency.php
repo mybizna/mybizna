@@ -99,8 +99,8 @@ class Currency extends Model
     public function migration(Blueprint $table)
     {
         $table->increments('id');
-        $table->unsignedInteger('country_id');
         $table->string('name', 255);
+        $table->unsignedInteger('country_id')->nullable()->default(null);
         $table->string('code', 255)->nullable()->default(null);
         $table->string('symbol', 255)->nullable()->default(null);
         $table->decimal('rate', 11, 2)->nullable()->default(null);

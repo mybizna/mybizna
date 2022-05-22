@@ -86,6 +86,6 @@ class Timezone extends Model
     {
         $table->increments('id');
         $table->string('name', 255);
-        $table->unsignedInteger('country_id');
+        $table->unsignedInteger('country_id')->nullable()->default(null);
     }
 }

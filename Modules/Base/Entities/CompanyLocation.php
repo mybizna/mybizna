@@ -8,9 +8,14 @@ use Illuminate\Database\Schema\Blueprint;
 class CompanyLocation extends Model
 {
 
-    protected $fillable = [];
-    protected $migrationOrder = 5;
     protected $table = "base_company_location";
+
+    protected $migrationOrder = 5;
+
+    protected $fillable = [
+        'company_id', 'name', 'address_1', 'address_2', 'city', 'state',
+        'zip', 'country', 'fax', 'phone'
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -18,7 +23,7 @@ class CompanyLocation extends Model
      * @var array
      */
     protected $dates = ['created_by', 'updated_by', 'deleted_at'];
-    
+
     /**
      * List of fields for managing postings.
      *
