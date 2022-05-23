@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class LedgerCategory
 {
 
-    public $ordering = 5;
+    public $ordering = 4;
 
     public function data(Datasetter $datasetter)
     {

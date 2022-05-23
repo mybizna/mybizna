@@ -12,7 +12,6 @@ class Designation
     public function data(Datasetter $datasetter)
     {
 
-
         $datasetter->add_data('hrm', 'designation', 'slug', [
             "title" => "President",
             "slug" => "president",

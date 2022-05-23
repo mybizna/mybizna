@@ -12,7 +12,7 @@ class TransactionStatusType
     public function data(Datasetter $datasetter)
     {
         $datasetter->add_data('account', 'transaction_status_type', 'slug', [
-            "name" => "Asset",
+            "type_name" => "Asset",
             "slug" => "asset",
         ]);
         $datasetter->add_data('account', 'transaction_status_type', 'slug', [

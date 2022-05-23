@@ -12,30 +12,26 @@ class LifeStage
     public function data(Datasetter $datasetter)
     {
         $datasetter->add_data('partner', 'life_stage', 'slug', [
-            "title" => "company",
-        ]);
-
-        $datasetter->add_data('partner', 'life_stage', 'slug', [
-            "slug" => "customer",
             "title" => "Customer",
+            "slug" => "customer",
             "title_plural" => "Customers",
             "position" => "1"
         ]);
         $datasetter->add_data('partner', 'life_stage', 'slug', [
-            "slug" => "lead",
             "title" => "Lead",
+            "slug" => "lead",
             "title_plural" => "Leads",
             "position" => "2"
         ]);
         $datasetter->add_data('partner', 'life_stage', 'slug', [
-            "slug" => "opportunity",
             "title" => "Opportunity",
+            "slug" => "opportunity",
             "title_plural" => "Opportunities",
             "position" => "3"
         ]);
         $datasetter->add_data('partner', 'life_stage', 'slug', [
-            "slug" => "subscriber",
             "title" => "Subscriber",
+            "slug" => "subscriber",
             "title_plural" => "Subscribers",
             "position" => "4"
         ]);
