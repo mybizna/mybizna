@@ -8,7 +8,12 @@ use Illuminate\Database\Schema\Blueprint;
 class LeavePolicy extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'leave_id', 'description', 'days', 'color', 'apply_limit', 'employee_type', 'department_id',
+        'location_id', 'designation_id', 'gender', 'marital', 'f_year', 'apply_for_new_users',
+        'carryover_days', 'carryover_uses_limit', 'encashment_based_on', 'forward_default',
+        'applicable_from_days', 'accrued_amount', 'accrued_max_days', 'halfday_enable'
+    ];
     protected $migrationOrder = 5;
     protected $table = "hrm_leave_policy";
 
@@ -20,6 +25,8 @@ class LeavePolicy extends Model
      */
     public function migration(Blueprint $table)
     {
+
+
         $table->increments('id');
         $table->unsignedSmallInteger('leave_id')->index('leave_id');
         $table->text('description')->nullable();

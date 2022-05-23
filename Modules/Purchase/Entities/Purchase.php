@@ -8,7 +8,11 @@ use Illuminate\Database\Schema\Blueprint;
 class Purchase extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'voucher_no', 'vendor_id', 'vendor_name', 'billing_address', 'trn_date',
+        'due_date', 'amount', 'tax', 'tax_zone_id', 'ref', 'status', 'purchase_order',
+        'attachments', 'particulars'
+    ];
     protected $migrationOrder = 5;
     protected $table = "purchase";
 
@@ -20,6 +24,7 @@ class Purchase extends Model
      */
     public function migration(Blueprint $table)
     {
+
         $table->increments('id');
         $table->integer('voucher_no')->nullable();
         $table->integer('vendor_id')->nullable();
@@ -35,6 +40,5 @@ class Purchase extends Model
         $table->tinyInteger('purchase_order')->nullable();
         $table->string('attachments')->nullable();
         $table->string('particulars')->nullable();
-        
     }
 }

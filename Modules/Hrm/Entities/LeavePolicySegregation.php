@@ -8,7 +8,10 @@ use Illuminate\Database\Schema\Blueprint;
 class LeavePolicySegregation extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'leave_policy_id', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul',
+         'aug', 'sep', 'oct', 'nov', 'decem'
+    ];
     protected $migrationOrder = 5;
     protected $table = "hrm_leave_policy_segregation";
 

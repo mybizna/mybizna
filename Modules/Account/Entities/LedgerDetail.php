@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class LedgerDetail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['ledger_id', 'trn_no', 'particulars', 'debit', 'credit', 'trn_date'];
     protected $migrationOrder = 5;
     protected $table = "account_ledger_detail";
 

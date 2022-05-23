@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class LedgerCategory extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'slug', 'chart_id', 'parent_id', 'system'];
     protected $migrationOrder = 5;
     protected $table = "account_ledger_category";
 

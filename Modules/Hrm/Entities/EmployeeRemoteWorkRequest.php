@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class EmployeeRemoteWorkRequest extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['user_id', 'reason', 'start_date', 'end_date', 'days', 'status'];
     protected $migrationOrder = 5;
     protected $table = "hrm_employee_remote_work_request";
 

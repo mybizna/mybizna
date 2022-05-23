@@ -8,7 +8,9 @@ use Illuminate\Database\Schema\Blueprint;
 class LeaveApprovalStatus extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'leave_request_id', 'approval_status_id', 'approved_by', 'message'
+    ];
     protected $migrationOrder = 5;
     protected $table = "hrm_leave_approval_status";
 

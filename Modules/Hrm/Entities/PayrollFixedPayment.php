@@ -8,7 +8,9 @@ use Illuminate\Database\Schema\Blueprint;
 class PayrollFixedPayment extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'pay_item_id', 'pay_item_amount', 'empid', 'pay_item_add_or_deduct', 'note'
+    ];
     protected $migrationOrder = 5;
     protected $table = "hrm_payroll_fixed_payment";
 

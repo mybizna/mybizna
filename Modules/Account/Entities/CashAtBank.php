@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class CashAtBank extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['ledger_id', 'name', 'balance'];
     protected $migrationOrder = 5;
     protected $table = "account_cash_at_bank";
 

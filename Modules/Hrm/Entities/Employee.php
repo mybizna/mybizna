@@ -8,7 +8,11 @@ use Illuminate\Database\Schema\Blueprint;
 class Employee extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'user_id', 'employee_id', 'designation', 'department', 'location', 'hiring_source',
+        'termination_date', 'date_of_birth', 'reporting_to', 'pay_rate', 'pay_type', 'type',
+        'status'
+    ];
     protected $migrationOrder = 5;
     protected $table = "hrm_employee";
 

@@ -8,7 +8,9 @@ use Illuminate\Database\Schema\Blueprint;
 class TransactionDetail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'people_id', 'voucher_no', 'trn_date', 'particulars', 'debit', 'credit'
+    ];
     protected $migrationOrder = 5;
     protected $table = "partner_transaction_detail";
 
@@ -27,6 +29,5 @@ class TransactionDetail extends Model
         $table->string('particulars')->nullable();
         $table->decimal('debit', 20, 2)->default(0.00);
         $table->decimal('credit', 20, 2)->default(0.00);
-        
     }
 }

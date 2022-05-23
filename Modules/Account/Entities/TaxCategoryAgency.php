@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class TaxCategoryAgency extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['tax_id', 'component_name', 'tax_cat_id', 'agency_id', 'tax_rate'];
     protected $migrationOrder = 5;
     protected $table = "account_tax_category_agency";
 

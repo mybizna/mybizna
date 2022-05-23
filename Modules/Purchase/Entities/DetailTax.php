@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class DetailTax extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['invoice_details_id', 'agency_id', 'tax_rate'];
     protected $migrationOrder = 5;
     protected $table = "purchase_detail_tax";
 

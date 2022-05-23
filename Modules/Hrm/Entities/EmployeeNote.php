@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class EmployeeNote extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['user_id', 'comment', 'comment_by'];
     protected $migrationOrder = 5;
     protected $table = "hrm_employee_note";
 

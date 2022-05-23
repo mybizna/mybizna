@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Massmail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name'];
     protected $migrationOrder = 5;
     protected $table = "massmail";
 
@@ -23,6 +23,4 @@ class Massmail extends Model
         $table->increments('id');
         $table->string('name');
     }
-
-
 }

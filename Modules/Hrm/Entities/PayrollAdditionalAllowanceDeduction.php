@@ -8,7 +8,9 @@ use Illuminate\Database\Schema\Blueprint;
 class PayrollAdditionalAllowanceDeduction extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'pay_item_id', 'pay_item_amount', 'empid', 'pay_item_add_or_deduct', 'payrun_id', 'note'
+    ];
     protected $migrationOrder = 5;
     protected $table = "hrm_payroll_additional_allowance_deduction";
 

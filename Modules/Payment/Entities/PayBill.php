@@ -8,7 +8,11 @@ use Illuminate\Database\Schema\Blueprint;
 class PayBill extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'voucher_no', 'vendor_id', 'vendor_name', 'trn_date', 'amount',
+        'trn_by', 'trn_by_ledger_id', 'particulars', 'ref', 'attachments',
+        'status'
+    ];
     protected $migrationOrder = 5;
     protected $table = "payment_pay_bill";
 
@@ -32,6 +36,5 @@ class PayBill extends Model
         $table->string('ref')->nullable();
         $table->string('attachments')->nullable();
         $table->integer('status')->nullable();
-        
     }
 }

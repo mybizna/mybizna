@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Check extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['trn_no', 'check_no', 'voucher_type', 'amount', 'bank', 'name', 'pay_to'];
     protected $migrationOrder = 5;
     protected $table = "expense_check";
 
@@ -28,8 +28,5 @@ class Check extends Model
         $table->string('bank')->nullable();
         $table->string('name')->nullable();
         $table->string('pay_to')->nullable();
-        
     }
-
-
 }

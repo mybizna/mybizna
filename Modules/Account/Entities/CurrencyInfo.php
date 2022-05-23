@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class CurrencyInfo extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'sign'];
     protected $migrationOrder = 5;
     protected $table = "account_currency_info";
 
@@ -24,5 +24,4 @@ class CurrencyInfo extends Model
         $table->string('name')->nullable();
         $table->string('sign')->nullable();
     }
-
 }

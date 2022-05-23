@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class AccountDetail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['bill_no', 'trn_no', 'trn_date', 'particulars', 'debit', 'credit'];
     protected $migrationOrder = 5;
     protected $table = "bill_account_detail";
 
@@ -27,8 +27,5 @@ class AccountDetail extends Model
         $table->string('particulars')->nullable();
         $table->decimal('debit', 20, 2)->default(0.00);
         $table->decimal('credit', 20, 2)->default(0.00);
-        
     }
 }
-
-

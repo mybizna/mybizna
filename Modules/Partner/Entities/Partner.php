@@ -8,7 +8,11 @@ use Illuminate\Database\Schema\Blueprint;
 class Partner extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'user_id', 'company', 'email', 'phone', 'mobile', 'other', 'website',
+        'fax', 'notes', 'street_1', 'street_2', 'city', 'state', 'postal_code',
+        'country', 'currency', 'life_stage', 'contact_owner', 'hash'
+    ];
     protected $migrationOrder = 5;
     protected $table = "partner";
 

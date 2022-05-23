@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Fleet extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name'];
     protected $migrationOrder = 1;
     protected $table = "fleet";
 
@@ -23,6 +23,4 @@ class Fleet extends Model
         $table->increments('id');
         $table->string('name');
     }
-
-
 }

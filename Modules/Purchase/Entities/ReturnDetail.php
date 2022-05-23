@@ -8,7 +8,10 @@ use Illuminate\Database\Schema\Blueprint;
 class ReturnDetail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'invoice_details_id', 'trn_no', 'product_id', 'qty',
+        'price', 'discount', 'tax'
+    ];
     protected $migrationOrder = 5;
     protected $table = "purchase_return_detail";
 

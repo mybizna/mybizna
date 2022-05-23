@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class JournalDetail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['trn_no', 'ledger_id', 'particulars', 'debit', 'credit'];
     protected $migrationOrder = 5;
     protected $table = "account_journal_detail";
 

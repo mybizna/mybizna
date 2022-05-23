@@ -8,7 +8,10 @@ use Illuminate\Database\Schema\Blueprint;
 class CustomerActivity extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'user_id', 'type', 'message', 'email_subject', 'log_type',
+        'start_date', 'end_date', 'extra', 'sent_notification', 'done_at'
+    ];
     protected $migrationOrder = 5;
     protected $table = "crm_customer_activity";
 

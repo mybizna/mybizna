@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class PayrollPayCalendarEmployee extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['pay_calendar_id', 'empid'];
     protected $migrationOrder = 5;
     protected $table = "hrm_payroll_pay_calendar_employee";
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class SaveEmailReply extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'subject', 'template'];
     protected $migrationOrder = 5;
     protected $table = "crm_save_email_reply";
 

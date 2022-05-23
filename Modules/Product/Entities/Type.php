@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Type extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'slug'];
     protected $migrationOrder = 5;
     protected $table = "product_type";
 
@@ -23,6 +23,5 @@ class Type extends Model
         $table->increments('id');
         $table->string('name')->nullable();
         $table->string('slug')->nullable();
-        
     }
 }

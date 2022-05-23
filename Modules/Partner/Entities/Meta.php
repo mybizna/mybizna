@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Meta extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['people_id', 'meta_key', 'meta_value'];
     protected $migrationOrder = 5;
     protected $table = "partner_meta";
 

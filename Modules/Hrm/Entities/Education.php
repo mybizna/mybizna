@@ -8,7 +8,10 @@ use Illuminate\Database\Schema\Blueprint;
 class Education extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'employee_id', 'school', 'degree', 'field', 'result', 'result_type',
+        'finished', 'notes', 'interest'
+    ];
     protected $migrationOrder = 5;
     protected $table = "hrm_education";
 

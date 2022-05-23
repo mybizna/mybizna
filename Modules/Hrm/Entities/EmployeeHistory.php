@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class EmployeeHistory extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['user_id', 'module', 'category', 'type', 'comment', 'data', 'date'];
     protected $migrationOrder = 5;
     protected $table = "hrm_employee_history";
 

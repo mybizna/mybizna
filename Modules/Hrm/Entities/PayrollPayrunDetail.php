@@ -8,7 +8,10 @@ use Illuminate\Database\Schema\Blueprint;
 class PayrollPayrunDetail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'payrun_id', 'pay_cal_id','payment_date','empid','pay_item_id','pay_item_amount',
+        'pay_item_add_or_deduct','note','approve_status'
+       ];
     protected $migrationOrder = 5;
     protected $table = "hrm_payroll_payrun_detail";
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class EmployeeResignRequest extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['user_id', 'reason', 'date', 'status'];
     protected $migrationOrder = 5;
     protected $table = "hrm_employee_resign_request";
 

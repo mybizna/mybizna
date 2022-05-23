@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Department extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['title', 'slug', 'description', 'lead', 'parent', 'status'];
     protected $migrationOrder = 5;
     protected $table = "hrm_department";
 

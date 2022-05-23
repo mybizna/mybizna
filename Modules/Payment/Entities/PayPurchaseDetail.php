@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class PayPurchaseDetail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['voucher_no', 'purchase_no', 'amount', 'tax_cat_id'];
     protected $migrationOrder = 5;
     protected $table = "payment_pay_purchase_detail";
 
@@ -26,6 +26,5 @@ class PayPurchaseDetail extends Model
         $table->integer('purchase_no')->nullable();
         $table->decimal('amount', 20, 2)->default(0.00);
         $table->integer('tax_cat_id')->nullable();
-        
     }
 }

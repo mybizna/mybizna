@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class TransferVoucher extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['voucher_no', 'trn_date', 'amount', 'ac_from', 'ac_to', 'particulars'];
     protected $migrationOrder = 5;
     protected $table = "purchase_transfer_voucher";
 
@@ -27,6 +27,5 @@ class TransferVoucher extends Model
         $table->integer('ac_from')->nullable();
         $table->integer('ac_to')->nullable();
         $table->string('particulars')->nullable();
-        
     }
 }

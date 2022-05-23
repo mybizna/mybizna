@@ -8,7 +8,11 @@ use Illuminate\Database\Schema\Blueprint;
 class PayPurchase extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'voucher_no', 'vendor_id', 'vendor_name', 'trn_date', 'amount',
+        'trn_by', 'transaction_charge', 'ref', 'trn_by_ledger_id',
+        'particulars', 'attachments', 'status'
+    ];
     protected $migrationOrder = 5;
     protected $table = "payment_pay_purchase";
 
@@ -34,6 +38,5 @@ class PayPurchase extends Model
         $table->string('particulars')->nullable();
         $table->string('attachments')->nullable();
         $table->integer('status')->nullable();
-        
     }
 }

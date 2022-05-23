@@ -8,7 +8,11 @@ use Illuminate\Database\Schema\Blueprint;
 class Expense extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'voucher_no', 'people_id', 'people_name', 'address', 'trn_date', 'amount',
+        'ref', 'check_no', 'particulars', 'status', 'trn_by', 'transaction_charge',
+        'trn_by_ledger_id', 'attachments'
+    ];
     protected $migrationOrder = 1;
     protected $table = "expense";
 
@@ -35,6 +39,5 @@ class Expense extends Model
         $table->decimal('transaction_charge', 20, 2)->default(0.00);
         $table->integer('trn_by_ledger_id')->nullable();
         $table->string('attachments')->nullable();
-        
     }
 }

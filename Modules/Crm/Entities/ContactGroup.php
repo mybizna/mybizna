@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class ContactGroup extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'description', 'private'];
     protected $migrationOrder = 5;
     protected $table = "crm_contact_group";
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class PayBillDetail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['voucher_no', 'bill_no', 'amount'];
     protected $migrationOrder = 5;
     protected $table = "payment_pay_bill_detail";
 
@@ -24,6 +24,5 @@ class PayBillDetail extends Model
         $table->integer('voucher_no')->nullable();
         $table->integer('bill_no')->nullable();
         $table->decimal('amount', 20, 2)->default(0.00);
-        
     }
 }
