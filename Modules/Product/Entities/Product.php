@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Product extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'product_type_id', 'category_id', 'tax_cat_id', 'vendor', 'cost_price', 'sale_price'];
     protected $migrationOrder = 5;
     protected $table = "product";
 
@@ -28,6 +28,5 @@ class Product extends Model
         $table->integer('vendor')->nullable();
         $table->decimal('cost_price', 20, 2)->default(0.00);
         $table->decimal('sale_price', 20, 2)->default(0.00);
-        
     }
 }

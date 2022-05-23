@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class SyncedTax extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['system_id', 'sync_id', 'sync_slug', 'sync_type', 'sync_source'];
     protected $migrationOrder = 5;
     protected $table = "account_synced_tax";
 

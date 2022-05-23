@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class ActivityTask extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['activity_id', 'user_id'];
     protected $migrationOrder = 5;
     protected $table = "crm_activity_task";
 

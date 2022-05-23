@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class TaxPay extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['voucher_no', 'trn_date', 'particulars', 'amount', 'voucher_type', 'trn_by', 'agency_id', 'ledger_id'];
     protected $migrationOrder = 5;
     protected $table = "account_tax_pay";
 

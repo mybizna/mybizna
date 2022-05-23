@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class HolidayIndv extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['holiday_id', 'title', 'date'];
     protected $migrationOrder = 5;
     protected $table = "hrm_holiday_indv";
 

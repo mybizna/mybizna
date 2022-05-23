@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Announcement extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['user_id', 'post_id', 'status', 'email_status'];
     protected $migrationOrder = 5;
     protected $table = "hrm_announcement";
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Tag extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name'];
     protected $migrationOrder = 5;
     protected $table = "taxonomy_tag";
 

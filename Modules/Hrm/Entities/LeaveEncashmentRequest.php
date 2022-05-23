@@ -8,7 +8,10 @@ use Illuminate\Database\Schema\Blueprint;
 class LeaveEncashmentRequest extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'user_id', 'leave_id', 'approved_by', 'approval_status_id', 'encash_days',
+        'forward_days', 'amount', 'total', 'f_year'
+    ];
     protected $migrationOrder = 5;
     protected $table = "hrm_leave_encashment_request";
 
@@ -20,6 +23,7 @@ class LeaveEncashmentRequest extends Model
      */
     public function migration(Blueprint $table)
     {
+
         $table->bigIncrements('id');
         $table->unsignedBigInteger('user_id')->index('user_id');
         $table->unsignedSmallInteger('leave_id')->index('leave_id');

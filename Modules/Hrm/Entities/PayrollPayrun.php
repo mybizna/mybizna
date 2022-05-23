@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class PayrollPayrun extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['pay_cal_id', 'payment_date', 'from_date', 'to_date', 'approve_status', 'jr_tran_id'];
     protected $migrationOrder = 5;
     protected $table = "hrm_payroll_payrun";
 
@@ -20,7 +20,6 @@ class PayrollPayrun extends Model
      */
     public function migration(Blueprint $table)
     {
-
         $table->increments('id');
         $table->unsignedInteger('pay_cal_id');
         $table->date('payment_date')->nullable();

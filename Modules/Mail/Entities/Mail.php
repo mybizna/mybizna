@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Mail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name'];
     protected $migrationOrder = 5;
     protected $table = "mail";
 

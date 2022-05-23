@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Detail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['product_id', 'trn_no', 'stock_in', 'stock_out'];
     protected $migrationOrder = 5;
     protected $table = "product_detail";
 
@@ -25,6 +25,5 @@ class Detail extends Model
         $table->integer('trn_no')->nullable();
         $table->integer('stock_in')->nullable();
         $table->integer('stock_out')->nullable();
-        
     }
 }

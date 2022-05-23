@@ -8,7 +8,9 @@ use Illuminate\Database\Schema\Blueprint;
 class LeaveEntitlement extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'user_id','leave_id','trn_id','trn_type','day_in','day_out','description', 'f_year'
+    ];
     protected $migrationOrder = 5;
     protected $table = "hrm_leave_entitlement";
 

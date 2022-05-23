@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Tax extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['tax_rate_name', 'tax_number', 'default'];
     protected $migrationOrder = 5;
     protected $table = "account_tax";
 
@@ -25,5 +25,4 @@ class Tax extends Model
         $table->string('tax_number', 100)->nullable();
         $table->tinyInteger('default')->nullable();
     }
-
 }

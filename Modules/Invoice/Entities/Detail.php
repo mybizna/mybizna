@@ -8,7 +8,10 @@ use Illuminate\Database\Schema\Blueprint;
 class Detail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'trn_no', 'product_id', 'qty', 'unit_price', 'discount', 'shipping',
+        'tax', 'tax_cat_id', 'item_total', 'ecommerce_type'
+    ];
     protected $migrationOrder = 5;
     protected $table = "invoice_detail";
 
@@ -31,6 +34,5 @@ class Detail extends Model
         $table->integer('tax_cat_id')->nullable();
         $table->decimal('item_total', 20, 2)->default(0.00);
         $table->string('ecommerce_type')->nullable();
-        
     }
 }

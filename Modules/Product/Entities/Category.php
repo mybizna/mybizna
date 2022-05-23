@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Category extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'parent'];
     protected $migrationOrder = 5;
     protected $table = "product_category";
 
@@ -23,6 +23,5 @@ class Category extends Model
         $table->increments('id');
         $table->string('name')->nullable();
         $table->integer('parent')->default(0);
-        
     }
 }

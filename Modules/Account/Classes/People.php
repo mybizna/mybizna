@@ -527,12 +527,12 @@ class People
         extract($args);
 
         $sql         = [];
-        $trashed_sql = $trashed ? '`deleted_at` is not null' : '`deleted_at` is null';
+        $trashed_sql = $trashed ? 'r.`deleted_at` is not null' : 'r.`deleted_at` is null';
 
         if (is_array($type)) {
-            $type_sql = "and `name` IN ( '" . implode("','", $type) . "' )";
+            $type_sql = "and t.`name` IN ( '" . implode("','", $type) . "' )";
         } else {
-            $type_sql = ('all' !== $type) ? "and `name` = '" . $type . "'" : '';
+            $type_sql = ('all' !== $type) ? "and t.`name` = '" . $type . "'" : '';
         }
 
         $wrapper_select = 'SELECT people.*, ';
@@ -691,12 +691,12 @@ class People
         extract($args);
 
         $sql         = [];
-        $trashed_sql = $trashed ? '`deleted_at` is not null' : '`deleted_at` is null';
+        $trashed_sql = $trashed ? 'r.`deleted_at` is not null' : 'r.`deleted_at` is null';
 
         if (is_array($type)) {
-            $type_sql = "and `name` IN ( '" . implode("','", $type) . "' )";
+            $type_sql = "and t.`name` IN ( '" . implode("','", $type) . "' )";
         } else {
-            $type_sql = ($type !== 'all') ? "and `name` = '" . $type . "'" : '';
+            $type_sql = ($type !== 'all') ? "and t.`name` = '" . $type . "'" : '';
         }
 
         $wrapper_select = 'SELECT people.*, ';

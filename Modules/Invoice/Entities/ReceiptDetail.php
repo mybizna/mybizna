@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class ReceiptDetail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['voucher_no', 'invoice_no', 'amount'];
     protected $migrationOrder = 5;
     protected $table = "invoice_receipt_detail";
 
@@ -24,6 +24,5 @@ class ReceiptDetail extends Model
         $table->integer('voucher_no')->nullable();
         $table->integer('invoice_no')->nullable();
         $table->decimal('amount', 20, 2)->default(0.00);
-        
     }
 }

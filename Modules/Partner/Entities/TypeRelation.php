@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class TypeRelation extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['people_id', 'people_types_id'];
     protected $migrationOrder = 5;
     protected $table = "partner_type_relation";
 

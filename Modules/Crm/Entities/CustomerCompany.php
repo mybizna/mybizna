@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class CustomerCompany extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['customer_id', 'company_id'];
     protected $migrationOrder = 5;
     protected $table = "crm_customer_company";
 

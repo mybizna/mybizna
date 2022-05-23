@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Detail extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['trn_no', 'ledger_id', 'particulars', 'amount'];
     protected $migrationOrder = 5;
     protected $table = "expense_detail";
 
@@ -25,6 +25,5 @@ class Detail extends Model
         $table->integer('ledger_id')->nullable();
         $table->string('particulars')->nullable();
         $table->decimal('amount', 20, 2)->default(0.00);
-        
     }
 }

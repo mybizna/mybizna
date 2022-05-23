@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class SaveSearch extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['user_id', 'type', 'global', 'search_name', 'search_val'];
     protected $migrationOrder = 5;
     protected $table = "crm_save_search";
 

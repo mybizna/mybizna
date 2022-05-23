@@ -8,7 +8,10 @@ use Illuminate\Database\Schema\Blueprint;
 class LeaveUnpaid extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'leave_id', 'leave_request_id', 'leave_approval_status_id', 'user_id', 'days',
+        'amount', 'total', 'f_year'
+    ];
     protected $migrationOrder = 5;
     protected $table = "hrm_leave_unpaid";
 

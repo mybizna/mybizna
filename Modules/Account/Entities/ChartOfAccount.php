@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class ChartOfAccount extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'slug'];
     protected $migrationOrder = 5;
     protected $table = "account_chart_of_account";
 

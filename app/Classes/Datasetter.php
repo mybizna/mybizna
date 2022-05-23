@@ -45,13 +45,14 @@ class Datasetter
                                     '\\' . $data_name
                                 );
 
+                                print_r($model . "\n");
+
                                 if (method_exists($model, 'data')) {
                                     $models->push([
                                         'object' => $object = app($model),
                                         'order' => $object->ordering ?? 0,
                                     ]);
                                 }
-                                // include_once $menu_file;
                             }
                         }
                     }
@@ -74,30 +75,26 @@ class Datasetter
 
         $class_name = $this->getClassName($module, $model);
 
-        try {
-            $data_migrated = DataMigrated::where($data_to_migrate)
-                ->whereNotNull('item_id')->first();
+        $data_migrated = DataMigrated::where($data_to_migrate)
+            ->whereNotNull('item_id')->first();
 
-            if ($data_migrated && $data_migrated->item_id) {
-                $saved_record = $class_name::find($data_migrated->item_id);
+        if ($data_migrated && $data_migrated->item_id) {
+            $saved_record = $class_name::find($data_migrated->item_id);
 
-                if (!$saved_record->is_modified) {
-                    $saved_record->fill($data);
-                    $saved_record->save();
-                }
-
-                $data_migrated->counter = $data_migrated->counter + 1;
-                $data_migrated->save();
-            } else {
-                $data = $class_name::create($data);
-
-                $saved_migration = DataMigrated::create($data_to_migrate);
-
-                $saved_migration->fill(['item_id' => $data->id]);
-                $saved_migration->save();
+            if (!$saved_record->is_modified) {
+                $saved_record->fill($data);
+                $saved_record->save();
             }
-        } catch (\Throwable $th) {
-            //throw $th;
+
+            $data_migrated->counter = $data_migrated->counter + 1;
+            $data_migrated->save();
+        } else {
+            $data = $class_name::create($data);
+
+            $saved_migration = DataMigrated::create($data_to_migrate);
+
+            $saved_migration->fill(['item_id' => $data->id]);
+            $saved_migration->save();
         }
     }
 

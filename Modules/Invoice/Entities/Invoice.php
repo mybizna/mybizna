@@ -8,7 +8,12 @@ use Illuminate\Database\Schema\Blueprint;
 class Invoice extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'voucher_no', 'customer_id', 'customer_name', 'trn_date', 'due_date',
+        'billing_address', 'amount', 'discount', 'discount_type', 'shipping',
+        'shipping_tax', 'tax', 'tax_zone_id', 'estimate', 'attachments',
+        'status', 'particulars'
+    ];
     protected $migrationOrder = 5;
     protected $table = "invoice";
 
@@ -20,6 +25,8 @@ class Invoice extends Model
      */
     public function migration(Blueprint $table)
     {
+
+
         $table->increments('id');
         $table->integer('voucher_no')->nullable();
         $table->integer('customer_id')->nullable();
@@ -38,6 +45,5 @@ class Invoice extends Model
         $table->string('attachments')->nullable();
         $table->integer('status')->nullable();
         $table->string('particulars')->nullable();
-        
     }
 }

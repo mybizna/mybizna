@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Method extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name'];
     protected $migrationOrder = 5;
     protected $table = "payment_method";
 
@@ -22,6 +22,6 @@ class Method extends Model
     {
         $table->increments('id');
         $table->string('name')->nullable();
-        
+
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Dependent extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['employee_id', 'name', 'relation', 'dob'];
     protected $migrationOrder = 5;
     protected $table = "hrm_dependent";
 

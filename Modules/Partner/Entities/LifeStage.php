@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class LifeStage extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['slug', 'title', 'title_plural', 'position'];
     protected $migrationOrder = 5;
     protected $table = "partner_life_stage";
 

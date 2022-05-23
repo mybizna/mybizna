@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class TransactionStatusType extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['type_name', 'slug'];
     protected $migrationOrder = 5;
     protected $table = "account_transaction_status_type";
 
@@ -23,7 +23,7 @@ class TransactionStatusType extends Model
         $table->increments('id');
         $table->string('type_name')->nullable();
         $table->string('slug')->nullable();
-        
+
     }
 
 }

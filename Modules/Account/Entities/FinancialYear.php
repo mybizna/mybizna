@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class FinancialYear extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'start_date', 'end_date', 'description'];
     protected $migrationOrder = 5;
     protected $table = "account_financial_year";
 

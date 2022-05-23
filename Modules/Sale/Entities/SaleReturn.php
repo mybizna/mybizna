@@ -8,7 +8,10 @@ use Illuminate\Database\Schema\Blueprint;
 class SaleReturn extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'invoice_id', 'voucher_no', 'customer_id', 'customer_name', 'trn_date', 'amount',
+        'discount', 'discount_type', 'tax', 'reason', 'comments', 'status'
+    ];
     protected $migrationOrder = 5;
     protected $table = "sale_return";
 
@@ -20,6 +23,7 @@ class SaleReturn extends Model
      */
     public function migration(Blueprint $table)
     {
+
         $table->increments('id');
         $table->integer('invoice_id');
         $table->integer('voucher_no');

@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Leave extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'description'];
     protected $migrationOrder = 5;
     protected $table = "hrm_leave";
 
