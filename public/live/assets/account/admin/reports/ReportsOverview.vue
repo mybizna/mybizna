@@ -109,14 +109,14 @@ export default {
     },
 
     watch: {
-        "$store.state..common.erp_pro_activated": function () {
-            console.log(this.$store.state.erp_pro_activated + "ok");
+        "$store.state..common.pro_activated": function () {
+            console.log(this.$store.state.pro_activated + "ok");
         },
     },
 
     mounted() {
         setTimeout(() => {
-            this.proActivated = this.$store.state.erp_pro_activated;
+            this.proActivated = this.$store.state.pro_activated;
         }, 200);
     },
 };

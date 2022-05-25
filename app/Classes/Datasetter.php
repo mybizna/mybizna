@@ -45,8 +45,6 @@ class Datasetter
                                     '\\' . $data_name
                                 );
 
-                                print_r($model . "\n");
-
                                 if (method_exists($model, 'data')) {
                                     $models->push([
                                         'object' => $object = app($model),

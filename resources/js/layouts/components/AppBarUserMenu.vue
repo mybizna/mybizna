@@ -15,7 +15,10 @@
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <li>
-                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="https://mybizna.com">Help</a>
+            </li>
+            <li>
+                <router-link class="dropdown-item" :to="'/profile'">Profile</router-link>
             </li>
             <li>
                 <a class="dropdown-item" href="#" @click="logout()">Logout</a>

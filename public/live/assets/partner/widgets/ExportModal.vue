@@ -24,7 +24,7 @@
                                         <div class="col-3">
                                             <h3>
                                                 <input type="checkbox" id="selecctall" @change.prevent="selectFields" />
-                                                {{ this.$func.__('Select all', 'erp') }}
+                                                {{ this.$func.__('Select all') }}
                                             </h3>
                                         </div>
                                     </div>
@@ -41,20 +41,20 @@
                                     <div class="row"></div>
 
                                     <div class="row">
-                                        <p class="description">{{ this.$func.__( '**Only selected fields will be on the csv file.', 'erp' ) }}</p>
+                                        <p class="description">{{ this.$func.__( '**Only selected fields will be on the csv file.' ) }}</p>
                                     </div>
                                 </div>
 
                                 <input type="hidden" name="type" :value="peopleType">
-                                <input type="hidden" name="erp_export_csv" value="1">
+                                <input type="hidden" name="export_csv" value="1">
                                 <input type="hidden" name="_wpnonce" :value="nonce">
 
                             </div>
 
                             <div class="pt-0">
                                 <div class="buttons-wrapper text-right">
-                                    <button class="btn btn-default modal-close" @click="$parent.$emit('modal-close')" type="reset">{{ this.$func.__('Cancel', 'erp') }}</button>
-                                    <button class="btn btn-primary" type="submit">{{ this.$func.__('Export', 'erp') }}</button>
+                                    <button class="btn btn-default modal-close" @click="$parent.$emit('modal-close')" type="reset">{{ this.$func.__('Cancel') }}</button>
+                                    <button class="btn btn-primary" type="submit">{{ this.$func.__('Export') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -92,11 +92,11 @@ export default {
 
     created() {
         this.peopleType   = 'customers' == this.type ? 'customer' : 'vendor';
-        this.peopleFields = this.$mybizna_var.erp_fields ? this.$mybizna_var.erp_fields[this.peopleType].fields : [];
+        this.peopleFields = this.$mybizna_var.fields ? this.$mybizna_var.fields[this.peopleType].fields : [];
         this.nonce        = this.$mybizna_var.export_import_nonce;
         this.description  = 'customer' === this.peopleType
-                          ? this.$func.__('Select customer fields to export', 'erp')
-                          : this.$func.__('Select vendor fields to export', 'erp');
+                          ? this.$func.__('Select customer fields to export')
+                          : this.$func.__('Select vendor fields to export');
     },
 
     methods: {

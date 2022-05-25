@@ -1,15 +1,15 @@
 <template>
     <div class="col-sm-12">
         <div class="check-fields">
-            <label>{{ this.$func.__('Bank Name', 'erp') }}</label>
+            <label>{{ this.$func.__('Bank Name') }}</label>
             <input type="text" class="form-control form-contro-sm form-field" @input="updateCheckData" v-model="check_fields.bank_name"/>
         </div>
         <div class="check-fields">
-            <label>{{ this.$func.__('Check Name', 'erp') }}</label>
+            <label>{{ this.$func.__('Check Name') }}</label>
             <input type="text" class="form-control form-contro-sm form-field" @input="updateCheckData" v-model="check_fields.payer_name"/>
         </div>
         <div class="check-fields">
-            <label>{{ this.$func.__('Check No', 'erp') }}</label>
+            <label>{{ this.$func.__('Check No') }}</label>
             <input type="text" class="form-control form-contro-sm form-field" @input="updateCheckData" v-model="check_fields.check_no"/>
         </div>
     </div>

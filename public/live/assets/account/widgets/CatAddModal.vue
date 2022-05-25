@@ -10,7 +10,7 @@
         >
             <div >
                 <div >
-                    <h4>{{ `${catData.title} this.$func.__('Category', 'erp')` }}</h4>
+                    <h4>{{ `${catData.title} this.$func.__('Category')` }}</h4>
                 </div>
                 <div>
                     <form
@@ -32,7 +32,7 @@
                                 :disable-branch-nodes="true"
                                 :show-count="true"
                                 :placeholder="
-                                    this.$func.__('Please select a category', 'erp')
+                                    this.$func.__('Please select a category')
                                 "
                             />
                         </div>

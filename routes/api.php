@@ -24,6 +24,7 @@ Route::get('fetch_menus', $apicontroller . '@fetchMenus');
 Route::get('fetch_routes', $apicontroller . '@fetchRoutes');
 Route::get('current_user', $apicontroller . '@currentUser');
 Route::get('data_process', $apicontroller . '@dataProcess');
+Route::get('dashboard_data', $apicontroller . '@dashboardData');
 
 
 //register new user
@@ -32,7 +33,7 @@ Route::post('/register', [AuthenticationController::class, 'register']);
 //login user
 Route::post('/login', [AuthenticationController::class, 'login']);
 
-Route::group(['prefix'=>'admin', 'middleware' => ['auth:sanctum']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum']], function () {
     $apicontroller = 'App\Http\Controllers\ApiController';
 
     Route::get('{module}/{model}', $apicontroller . '@getAllRecords');

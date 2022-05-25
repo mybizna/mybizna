@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card class="mt-3">
         <v-card-title class="align-start">
             <span>Weekly Overview</span>
 

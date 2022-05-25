@@ -121,7 +121,7 @@ export default {
                     key: "trash",
                     label: this.$func.__("Move to Trash", "erp"),
                     img:
-                        this.$mybizna_var.erp_assets +
+                        this.$mybizna_var.assets +
                         "/images/trash.png" /* global mybizna_var */,
                 },
             ],

@@ -124,19 +124,19 @@
                                 <div class="panel-footer">
                                     <input
                                         type="button"
-                                        :value="this.$func.__('Cancel', 'erp')"
+                                        :value="this.$func.__('Cancel')"
                                         class="btn btn-cancel"
                                         @click="toggleFilter"
                                     />
                                     <input
                                         type="reset"
-                                        :value="this.$func.__('Reset', 'erp')"
+                                        :value="this.$func.__('Reset')"
                                         class="btn btn-reset"
                                         @click="resetFilter"
                                     />
                                     <input
                                         type="submit"
-                                        :value="this.$func.__('Submit', 'erp')"
+                                        :value="this.$func.__('Submit')"
                                         class="btn btn-primary"
                                     />
                                 </div>

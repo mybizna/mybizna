@@ -212,7 +212,7 @@
                                             id="street1"
                                             class="form-control form-control-sm form-field"
                                             :placeholder="
-                                                this.$func.__('Street 1', 'erp')
+                                                this.$func.__('Street 1')
                                             "
                                         />
                                     </div>
@@ -226,7 +226,7 @@
                                             id="street2"
                                             class="form-control form-control-sm form-field"
                                             :placeholder="
-                                                this.$func.__('Street 2', 'erp')
+                                                this.$func.__('Street 2')
                                             "
                                         />
                                     </div>
@@ -429,7 +429,7 @@ export default {
                 postal_code: "",
                 photo_id: null,
                 photo:
-                    this.$mybizna_var.erp_assets +
+                    this.$mybizna_var.assets +
                     "/images/mystery-person.png",
             },
             states: [],

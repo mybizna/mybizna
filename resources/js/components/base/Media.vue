@@ -13,7 +13,7 @@
 </template>
 
 <script>
-/* global this.$erp_acct_var, wp */
+/* global this.$mybizna_var, wp */
 export default {
     inheritAttrs: false,
 
@@ -88,16 +88,16 @@ export default {
                 params: {
                     width: this.croppingWidth
                         ? parseInt(this.croppingWidth, 10)
-                        : parseInt(this.$erp_acct_var.banner_dimension.width, 10),
+                        : parseInt(this.$mybizna_var.banner_dimension.width, 10),
                     height: this.croppingHeight
                         ? parseInt(this.croppingHeight, 10)
-                        : parseInt(this.$erp_acct_var.banner_dimension.height, 10),
+                        : parseInt(this.$mybizna_var.banner_dimension.height, 10),
                     flex_width: !!parseInt(
-                        this.$erp_acct_var.banner_dimension["flex-width"],
+                        this.$mybizna_var.banner_dimension["flex-width"],
                         10
                     ),
                     flex_height: !!parseInt(
-                        this.$erp_acct_var.banner_dimension["flex-height"],
+                        this.$mybizna_var.banner_dimension["flex-height"],
                         10
                     ),
                 },
@@ -213,16 +213,16 @@ export default {
         calculateImageSelectOptions: function (attachment, controller) {
             let xInit = this.croppingWidth
                 ? parseInt(this.croppingWidth, 10)
-                : parseInt(this.$erp_acct_var.banner_dimension.width, 10);
+                : parseInt(this.$mybizna_var.banner_dimension.width, 10);
             let yInit = this.croppingHeight
                 ? parseInt(this.croppingHeight, 10)
-                : parseInt(this.$erp_acct_var.banner_dimension.height, 10);
+                : parseInt(this.$mybizna_var.banner_dimension.height, 10);
             const flexWidth = !!parseInt(
-                this.$erp_acct_var.banner_dimension["flex-width"],
+                this.$mybizna_var.banner_dimension["flex-width"],
                 10
             );
             const flexHeight = !!parseInt(
-                this.$erp_acct_var.banner_dimension["flex-height"],
+                this.$mybizna_var.banner_dimension["flex-height"],
                 10
             );
 

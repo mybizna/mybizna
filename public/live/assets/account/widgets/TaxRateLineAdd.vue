@@ -4,7 +4,7 @@
             <div >
                 <!-- modal body title -->
                 <div >
-                    <h3>{{ this.$func.__('Add New Line', 'erp') }}</h3>
+                    <h3>{{ this.$func.__('Add New Line') }}</h3>
                     <span  @click.prevent="closeModal"><i class="flaticon-close"></i></span>
                 </div>
 
@@ -12,29 +12,29 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-3 ">
-                                <label>{{ this.$func.__('Component', 'erp') }}</label>
+                                <label>{{ this.$func.__('Component') }}</label>
                                 <input type="text" class="form-control form-contro-sm form-field" v-model="component_name" />
                             </div>
                             <div class="col-sm-3  with-multiselect">
-                                <label>{{ this.$func.__('Agency', 'erp') }}</label>
+                                <label>{{ this.$func.__('Agency') }}</label>
                                 <multi-select
                                     v-model="agency"
                                     :options="agencies"/>
                             </div>
                             <div class="col-sm-3  with-multiselect">
-                                <label>{{ this.$func.__('Tax Category', 'erp') }}</label>
+                                <label>{{ this.$func.__('Tax Category') }}</label>
                                     <multi-select
                                     v-model="category"
                                     :options="categories" />
                             </div>
                             <div class="col-sm-3 ">
-                                <label>{{ this.$func.__('Tax Rate', 'erp') }}</label>
+                                <label>{{ this.$func.__('Tax Rate') }}</label>
                                 <input type="text" class="form-control form-contro-sm form-field" v-model="tax_rate"/>
                             </div>
 
                             <div class="col-sm-12">
                                 <div class="form-group text-right mt-10 mb-0">
-                                    <submit-button :text="this.$func.__( 'Save', 'erp' )" @click.native.prevent="addTaxRate"></submit-button>
+                                    <submit-button :text="this.$func.__( 'Save' )" @click.native.prevent="addTaxRate"></submit-button>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@ export default {
                 tax_cat_id: this.category.id,
                 tax_rate: this.tax_rate
             }).then(res => {
-                this.showAlert('success', this.$func.__('Tax Rate Updated!', 'erp'));
+                this.showAlert('success', this.$func.__('Tax Rate Updated!'));
             }).catch(error => {
                 throw error;
             }).then(() => {

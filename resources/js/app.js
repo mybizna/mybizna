@@ -32,7 +32,6 @@ import 'vue-form-generator/dist/vfg.css';
 import 'nprogress/nprogress.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
 import "nprogress/nprogress.css";
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -41,6 +40,7 @@ import filters from "@/utils/filters";
 window.$filters = window.$func = filters;
 
 import autorouter from "@/components/router/autorouter";
+import Calendar from "@/components/common/Calendar";
 
 
 
@@ -51,7 +51,7 @@ const app = createApp(App)
 
 loadFonts();
 
-let base_url = window.base_url+'/api';
+let base_url = window.base_url + '/api';
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxx  App Initializer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -70,24 +70,24 @@ app.config.globalProperties.$in_progress = window.in_progress = true;
 app.config.globalProperties.$loading = window.loading = {
     in_progress: true
 };
-app.config.globalProperties.$erp_acct_var = {
+app.config.globalProperties.$mybizna_var = {
 
     "user_id": "1",
-    "site_url": "http://127.0.0.1/php/wordpressisp",
-    "logout_url": "http://127.0.0.1/php/wordpressisp/wp-login.php?action=logout&_wpnonce=57dea6a101",
-    "acct_assets": "http://127.0.0.1/php/wordpressisp/wp-content/plugins/erp/modules/accounting/assets",
-    "erp_assets": "http://127.0.0.1/php/wordpressisp/wp-content/plugins/erp/assets",
-    "erp_acct_menus": {
+    "site_url": window.base_url,
+    "logout_url": window.base_url,
+    "assets": window.base_url + "/public/",
+    "mybizna_assets": window.base_url+"/public/",
+    "menus": {
 
     },
-    "erp_acct_url": "http://127.0.0.1/php/wordpressisp/wp-admin/admin.php?page=erp-accounting#/",
-    "erp_acct_tut_url": "http://127.0.0.1/php/wordpressisp/wp-admin/admin.php?page=erp-accounting&tutorial=true#/",
-    "admin_url": "http://127.0.0.1/php/wordpressisp/wp-admin/admin.php",
+    "url": window.base_url,
+    "tut_url": window.base_url,
+    "admin_url": window.base_url,
     "decimal_separator": ".",
     "thousand_separator": ",",
     "currency_format": "%s%v",
     "symbol": "$",
-    "erp_debug_mode": "0",
+    "debug_mode": "0",
     "current_date": "2022-04-30",
     "fy_lower_range": "2022-01-01",
     "fy_upper_range": "2022-12-31",
@@ -1390,7 +1390,7 @@ app.config.globalProperties.$erp_acct_var = {
     "link_copy_success": "Link has been successfully copied.",
     "link_copy_error": "Failed to copy the link.",
     "date_format": "Y-m-d",
-    "erp_fields": {
+    "fields": {
         "contact": {
             "required_fields": [
                 "first_name",
@@ -1555,7 +1555,7 @@ app.config.globalProperties.$erp_acct_var = {
         "flex-height": true
     },
     "rest": {
-        "root": "http://127.0.0.1/php/wordpressisp/wp-json/",
+        "root": window.base_url+"/php/wordpressisp/wp-json/",
         "nonce": "8c27af5d3c",
         "version": "erp/v1"
     }
@@ -1760,6 +1760,8 @@ router.afterEach((to, from) => {
     NProgress.done();
 });
 
+
+app.component('calendar', Calendar);
 
 
 (async () => {

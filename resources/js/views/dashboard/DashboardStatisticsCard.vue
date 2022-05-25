@@ -10,9 +10,9 @@
 
         <v-card-subtitle class="mb-8 mt-n5">
             <span class="font-weight-semibold text--primary me-1"
-                >Total 48.5% Growth</span
+                >Total sales 48.5%</span
             >
-            <span>😎 this month</span>
+            <span>😎 so far</span>
         </v-card-subtitle>
 
         <v-card-text>
@@ -62,24 +62,37 @@ import {
     mdiLabelOutline,
 } from "@mdi/js";
 
+import { computed } from "vue";
+import { useStore } from "vuex";
+
 export default {
     setup() {
+        const store = useStore();
+
+        if (!store.state.system.has_dashboard_data) {
+            store.dispatch("dashboard/getDashboardData");
+        }
+
+        let dashboard_data = computed(function () {
+            return store.state.dashboard.dashboard_data;
+        });
+
         const statisticsData = [
             {
                 title: "Sales",
-                total: "245k",
+                total: dashboard_data.value['sale'] + "k",
             },
             {
                 title: "Customers",
-                total: "12.5k",
+                total: dashboard_data.value['customer'] + "k",
             },
             {
                 title: "Product",
-                total: "1.54k",
+                total: dashboard_data.value['product'] + "k",
             },
             {
                 title: "Revenue",
-                total: "$88k",
+                total: "$" + dashboard_data.value['revenue'] + "00k",
             },
         ];
 
@@ -97,6 +110,7 @@ export default {
         };
 
         return {
+            dashboard_data,
             statisticsData,
             resolveStatisticsIconVariation,
 
