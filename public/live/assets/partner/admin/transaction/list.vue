@@ -151,22 +151,22 @@ export default {
             bulkActions: [
                 {
                     key: 'trash',
-                    label: this.$func.__('Move to Trash', 'erp'),
-                    img: this.$mybizna_var.erp_assets + '/images/trash.png' /* global this.$mybizna_var */
+                    label: this.$func.__('Move to Trash'),
+                    img: this.$mybizna_var.assets + '/images/trash.png' /* global this.$mybizna_var */
                 }
             ],
             columns: {
-                trn_date   : { label: this.$func.__('Transaction Date', 'erp'), isColPrimary: true },
-                created_at : { label: this.$func.__('Created At', 'erp') },
-                voucher_no : { label: this.$func.__('Voucher No', 'erp') },
-                particulars: { label: this.$func.__('Particulars', 'erp') },
-                debit      : { label: this.$func.__('Debit', 'erp') },
-                credit     : { label: this.$func.__('Credit', 'erp') },
-                balance    : { label: this.$func.__('Balance', 'erp') }
+                trn_date   : { label: this.$func.__('Transaction Date'), isColPrimary: true },
+                created_at : { label: this.$func.__('Created At') },
+                voucher_no : { label: this.$func.__('Voucher No') },
+                particulars: { label: this.$func.__('Particulars') },
+                debit      : { label: this.$func.__('Debit') },
+                credit     : { label: this.$func.__('Credit') },
+                balance    : { label: this.$func.__('Balance') }
             },
             actions : [
-                { key: 'edit', label: this.$func.__('Edit', 'erp') },
-                { key: 'trash', label: this.$func.__('Delete', 'erp') }
+                { key: 'edit', label: this.$func.__('Edit') },
+                { key: 'trash', label: this.$func.__('Delete') }
             ],
             showFilters: false,
             filters: {
@@ -190,7 +190,7 @@ export default {
             switch (action) {
             case 'trash':
                 if (confirm(
-                    'Are you sure to delete?', 'erp'))) {
+                    'Are you sure to delete?'))) {
                     this.$root.$emit('delete-transaction', row.id);
                 }
                 break;

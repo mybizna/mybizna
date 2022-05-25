@@ -4,7 +4,7 @@
         <div class="content-header-section separator">
             <div class="row between-xs">
                 <div class="col">
-                    <h2 class="content-header__title">{{ this.$func.__('Transfer Money', 'erp') }}</h2>
+                    <h2 class="content-header__title">{{ this.$func.__('Transfer Money') }}</h2>
                 </div>
             </div>
         </div>
@@ -16,37 +16,37 @@
                         <!-- add new product form -->
                         <div class="row gutter-20">
                             <div class="form-group col-sm-6 ">
-                                <label for="transfer_funds_from">{{ this.$func.__('Transfer Funds From', 'erp') }}</label>
+                                <label for="transfer_funds_from">{{ this.$func.__('Transfer Funds From') }}</label>
                                 <div class="custom-select with-multiselect">
-                                    <multi-select id="transfer_funds_from" name="from" v-model="transferFrom" :multiple="false" :options="fa" :placeholder="this.$func.__('Select Account', 'erp')"></multi-select>
+                                    <multi-select id="transfer_funds_from" name="from" v-model="transferFrom" :multiple="false" :options="fa" :placeholder="this.$func.__('Select Account')"></multi-select>
                                 </div>
-                                <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(transferFrom.balance)}}</span>
+                                <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance') }}: {{transformBalance(transferFrom.balance)}}</span>
                             </div>
                             <div class="form-group col-sm-6 ">
-                                <label for="transfer_funds_to">{{ this.$func.__('Transfer Funds To', 'erp') }}</label>
+                                <label for="transfer_funds_to">{{ this.$func.__('Transfer Funds To') }}</label>
 
                                 <div class="custom-select with-multiselect">
-                                    <multi-select id="transfer_funds_to" name="to" v-model="transferTo" :multiple="false" :options="ta" :placeholder="this.$func.__('Select Account', 'erp')"></multi-select>
+                                    <multi-select id="transfer_funds_to" name="to" v-model="transferTo" :multiple="false" :options="ta" :placeholder="this.$func.__('Select Account')"></multi-select>
                                 </div>
-                                <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance', 'erp') }}: {{transformBalance(transferTo.balance)}}</span>
+                                <span class="balance mt-10 display-inline-block">{{ this.$func.__('Balance') }}: {{transformBalance(transferTo.balance)}}</span>
                             </div>
                             <div class="form-group col-sm-6 ">
-                                <label for="transfer_amount">{{ this.$func.__('Transfer Amount', 'erp') }} <span class="required-sign">*</span></label>
+                                <label for="transfer_amount">{{ this.$func.__('Transfer Amount') }} <span class="required-sign">*</span></label>
                                 <input required min="0" step="0.01" type="number" name="transfer_amount" id="transfer_amount" class="form-control form-contro-sm form-field" placeholder="$100.00" v-model="amount">
                             </div>
                             <div class="form-group col-sm-6 ">
-                                <label for="transfer_date">{{ this.$func.__('Transfer Date', 'erp') }}</label>
+                                <label for="transfer_date">{{ this.$func.__('Transfer Date') }}</label>
                                 <datepicker id="transfer_date" class="form-control form-contro-sm form-field" name="transfer_date" v-model="transferdate"></datepicker>
                             </div>
                             <div class=" form-group">
-                                <label for="particulars">{{ this.$func.__('Particulars', 'erp') }}</label>
-                                <textarea name="particulars" id="particulars" rows="3" maxlength="250" class="form-control form-contro-sm form-field" :placeholder="this.$func.__('Type Here', 'erp')" v-model="particulars"></textarea>
+                                <label for="particulars">{{ this.$func.__('Particulars') }}</label>
+                                <textarea name="particulars" id="particulars" rows="3" maxlength="250" class="form-control form-contro-sm form-field" :placeholder="this.$func.__('Type Here')" v-model="particulars"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="pt-0">
-                        <button class="btn btn-primary" type="submit">{{ this.$func.__('Transfer Money', 'erp') }}</button>
+                        <button class="btn btn-primary" type="submit">{{ this.$func.__('Transfer Money') }}</button>
                     </div>
                 </form>
             </div>
@@ -114,7 +114,7 @@ export default {
                 amount         : this.amount,
                 particulars    : this.particulars
             }).then(res => {
-                this.showAlert('success', this.$func.__('Transfer Successful!', 'erp'));
+                this.showAlert('success', this.$func.__('Transfer Successful!'));
                 this.fetchAccounts();
                 this.resetData();
                 this.$router.push('/settings/banks/transfers');

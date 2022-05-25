@@ -37,7 +37,7 @@
                             <div class="buttons-wrapper">
                                 <input
                                     type="submit"
-                                    :value="this.$func.__('Save', 'erp')"
+                                    :value="this.$func.__('Save')"
                                     class="btn btn-primary text-left"
                                     @click.prevent="createCategory"
                                 />
@@ -134,7 +134,7 @@ export default {
                     key: "trash",
                     label: this.$func.__("Move to Trash", "erp"),
                     img:
-                        this.$mybizna_var.erp_assets +
+                        this.$mybizna_var.assets +
                         "/images/trash.png" /* global this.$mybizna_var */,
                 },
             ],

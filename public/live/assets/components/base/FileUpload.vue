@@ -110,8 +110,8 @@ export default {
         },
 
         upload(formData) {
-            /* global this.$erp_acct_var */
-            const BASE_URL = this.$erp_acct_var.site_url;
+            /* global this.$mybizna_var */
+            const BASE_URL = this.$mybizna_var.site_url;
 
             const url = `${BASE_URL}/wp-json/erp/v1/accounting/v1${this.url}`;
 

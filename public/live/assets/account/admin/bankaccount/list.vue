@@ -9,7 +9,7 @@
                     <combo-box
                         :options="pages"
                         :hasUrl="true"
-                        :placeholder="this.$func.__('New Transaction', 'erp')"
+                        :placeholder="this.$func.__('New Transaction'
                     />
                     <span
                         class="erp-help-tip .erp-tips"

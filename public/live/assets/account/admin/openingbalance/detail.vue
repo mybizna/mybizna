@@ -58,16 +58,16 @@
                 <div class="erp-accordion-expand"
                      @click="open5=!open5"
                      :class="open5?'active':'before-border'">
-                    <span class="wp-erp-ob-title">{{ this.$func.__('Accounts Receivable', 'erp') }}</span>
+                    <span class="wp-erp-ob-title">{{ this.$func.__('Accounts Receivable') }}</span>
                 </div>
                 <table class="table form-table erp-accordion-expand-body" v-show="open5">
                     <thead>
                     <tr>
-                        <th>{{ this.$func.__('People', 'erp') }}</th>
-                        <th>{{ this.$func.__('Debit', 'erp') }}
+                        <th>{{ this.$func.__('People') }}</th>
+                        <th>{{ this.$func.__('Debit') }}
                             <span v-if="accPayRec && '0' != accPayRec.invoice_acc">({{ accPayRec.invoice_acc }})</span>
                         </th>
-                        <th>{{ this.$func.__('Credit', 'erp') }}</th>
+                        <th>{{ this.$func.__('Credit') }}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -83,10 +83,10 @@
                     </tr>
                     <tr class="add-new-line">
                         <td v-if="undefined === acct_rec" style="float: left;">
-                            {{ this.$func.__( 'No People Found!', 'erp' ) }}
+                            {{ this.$func.__( 'No People Found!' ) }}
                         </td>
                         <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="acct_rec.push({})" class="btn btn-rimary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
+                            <button @click.prevent="acct_rec.push({})" class="btn btn-rimary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People') }}</button>
                         </td>
                     </tr>
                     </tbody>
@@ -98,14 +98,14 @@
                 <div class="erp-accordion-expand"
                      @click="open6=!open6"
                      :class="open6?'active':'before-border'">
-                    <span class="wp-erp-ob-title">{{ this.$func.__('Accounts Payable', 'erp') }}</span>
+                    <span class="wp-erp-ob-title">{{ this.$func.__('Accounts Payable') }}</span>
                 </div>
                 <table class="table form-table erp-accordion-expand-body" v-show="open6">
                     <thead>
                     <tr>
-                        <th>{{ this.$func.__('People', 'erp') }}</th>
-                        <th>{{ this.$func.__('Debit', 'erp') }}</th>
-                        <th>{{ this.$func.__('Credit', 'erp') }}
+                        <th>{{ this.$func.__('People') }}</th>
+                        <th>{{ this.$func.__('Debit') }}</th>
+                        <th>{{ this.$func.__('Credit') }}
                             <span v-if="accPayRec && '0' != accPayRec.bill_purchase_acc">({{accPayRec.bill_purchase_acc }})</span>
                         </th>
                         <th></th>
@@ -123,10 +123,10 @@
                     </tr>
                     <tr class="add-new-line">
                         <td v-if="undefined === acct_pay" style="float: left;">
-                            {{ this.$func.__( 'No People Found!', 'erp' ) }}
+                            {{ this.$func.__( 'No People Found!' ) }}
                         </td>
                         <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="acct_pay.push({})" class="btn btn-rimary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People', 'erp') }}</button>
+                            <button @click.prevent="acct_pay.push({})" class="btn btn-rimary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add People') }}</button>
                         </td>
                     </tr>
                     </tbody>
@@ -187,7 +187,7 @@
                             </td>
                             <td
                                 class="delete-row"
-                                :data-colname="this.$func.__('Remove', 'erp')"
+                                :data-colname="this.$func.__('Remove')"
                             >
                                 <a
                                     @click.prevent="removeTaxPayRow(idx)"
@@ -419,7 +419,7 @@
                                 }}
                             </td>
                             <!--   <td v-else colspan="9" style="text-align: left;">
-                            <button @click.prevent="ledgers[7].push({})" class="btn btn&#45;&#45;primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add Bank', 'erp') }}</button>
+                            <button @click.prevent="ledgers[7].push({})" class="btn btn&#45;&#45;primary add-line-trigger"><i class="flaticon-add-plus-button"></i>{{ this.$func.__('Add Bank') }}</button>
                         </td>-->
                         </tr>
                     </tbody>
@@ -437,7 +437,7 @@
                                 this.$func.__("Total Amount", "erp")
                             }}</span>
                         </td>
-                        <td :data-colname="this.$func.__('Total Debit', 'erp')">
+                        <td :data-colname="this.$func.__('Total Debit')">
                             <input
                                 type="text"
                                 class="text-right form-field"
@@ -445,7 +445,7 @@
                                 readonly
                             />
                         </td>
-                        <td :data-colname="this.$func.__('Total Credit', 'erp')">
+                        <td :data-colname="this.$func.__('Total Credit')">
                             <input
                                 type="text"
                                 class="text-right form-field"
@@ -463,13 +463,13 @@
                                 v-model="description"
                                 rows="4"
                                 class="form-control form-contro-sm form-field display-flex"
-                                :placeholder="this.$func.__('Internal Information', 'erp')"
+                                :placeholder="this.$func.__('Internal Information')"
                             ></textarea>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <submit-button :text="this.$func.__('Save', 'erp')"></submit-button>
+            <submit-button :text="this.$func.__('Save')"></submit-button>
         </form>
     </div>
 </template>

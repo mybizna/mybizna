@@ -72,7 +72,7 @@ export default {
                 },
                 agency_id: { label: this.$func.__("Agency", "erp") },
                 trn_date: { label: this.$func.__("Date", "erp") },
-                // 'tax_period': {label: this.$func.__('Tax Period', 'erp')},
+                // 'tax_period': {label: this.$func.__('Tax Period')},
                 amount: { label: this.$func.__("Amount", "erp") },
                 actions: { label: this.$func.__("Actions", "erp") },
             },
@@ -87,7 +87,7 @@ export default {
                         : parseInt(this.$route.params.page),
             },
             actions: [
-                // { key: 'edit', label: this.$func.__('Edit', 'erp'), iconClass: 'flaticon-edit' },
+                // { key: 'edit', label: this.$func.__('Edit'), iconClass: 'flaticon-edit' },
                 { key: "#", label: this.$func.__("No action found", "erp") },
             ],
             bulkActions: [

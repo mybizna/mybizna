@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use App\Classes\Modularize;
@@ -158,8 +160,20 @@ class ApiController extends Controller
         print_r(Auth::user());
         print_r(auth()->user());
 
-        exit;
 
         return Response::json($user);
+    }
+
+    public function dashboardParams(Request $request)
+    {
+
+        $result = [
+            'sales' => DB::table('purchase')->count(),
+            'customer' => DB::table('partner')->count(),
+            'product' => DB::table('product')->count(),
+            'revenue' => DB::table('sale')->count(),
+        ];
+
+        return Response::json($result);
     }
 }

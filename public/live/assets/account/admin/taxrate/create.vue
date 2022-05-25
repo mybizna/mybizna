@@ -125,7 +125,7 @@
                                     <td
                                         class="col--agency with-multiselect"
                                         :data-colname="
-                                            this.$func.__('Agency', 'erp')
+                                            this.$func.__('Agency')
                                         "
                                     >
                                         <multi-select
@@ -150,7 +150,7 @@
                                     <td
                                         class="col--tax-category with-multiselect"
                                         :data-colname="
-                                            this.$func.__('Tax Category', 'erp')
+                                            this.$func.__('Tax Category')
                                         "
                                     >
                                         <multi-select
@@ -173,7 +173,7 @@
                                     <td
                                         class="col--tax-rate"
                                         :data-colname="
-                                            this.$func.__('Tax Rate', 'erp')
+                                            this.$func.__('Tax Rate')
                                         "
                                     >
                                         <input
@@ -246,7 +246,7 @@
                         <!-- buttons -->
                         <div class="buttons-wrapper text-right">
                             <submit-button
-                                :text="this.$func.__('Save', 'erp')"
+                                :text="this.$func.__('Save')"
                                 @click.native.prevent="addNewTaxRate"
                             ></submit-button>
                         </div>

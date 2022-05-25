@@ -81,7 +81,7 @@
                                     step="0.01"
                                     v-model="tax_amount"
                                     class="form-control form-contro-sm form-field"
-                                    :placeholder="this.$func.__('Enter Tax Amount', 'erp')"
+                                    :placeholder="this.$func.__('Enter Tax Amount')"
                                 />
 
                                 <span
@@ -99,7 +99,7 @@
                                     v-model="voucher_type"
                                     :options="voucher_types"
                                     :placeholder="
-                                        this.$func.__('Enter Voucher Type', 'erp')
+                                        this.$func.__('Enter Voucher Type')
                                     "
                                 />
                             </div>
@@ -112,13 +112,13 @@
                                 v-model="particulars"
                                 maxlength="250"
                                 class="form-control form-contro-sm form-field"
-                                :placeholder="this.$func.__('Enter Particulars', 'erp')"
+                                :placeholder="this.$func.__('Enter Particulars')"
                             ></textarea>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group text-right mt-10 mb-0">
                                 <submit-button
-                                    :text="this.$func.__('Save', 'erp')"
+                                    :text="this.$func.__('Save')"
                                     :working="isWorking"
                                 ></submit-button>
                             </div>
@@ -219,9 +219,9 @@ export default {
                 });
                 /* globalmybizna_reimbursement_var */
             } else if (
-               mybizna_reimbursement_var.erp_reimbursement_module !==
+               mybizna_reimbursement_var.reimbursement_module !==
                     "undefined" &&
-               mybizna_reimbursement_var.erp_reimbursement_module === "1"
+               mybizna_reimbursement_var.reimbursement_module === "1"
             ) {
                 window.axios
                     .get("/people-transactions/balances")
@@ -333,7 +333,7 @@ export default {
             }
 
             // if ( this.tax_amount > this.dueAmount ) {
-            //     this.form_errors.push(this.$func.__('Please pay according to your due balance.', 'erp'));
+            //     this.form_errors.push(this.$func.__('Please pay according to your due balance.'));
             // }
 
             if (

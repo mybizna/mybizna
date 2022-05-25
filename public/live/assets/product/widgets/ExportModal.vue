@@ -98,7 +98,7 @@
                                 />
                                 <input
                                     type="hidden"
-                                    name="erp_export_csv"
+                                    name="export_csv"
                                     value="1"
                                 />
                                 <input
@@ -146,8 +146,8 @@ export default {
     },
 
     created() {
-        this.productsFields = this.$mybizna_var.erp_fields
-            ? this.$mybizna_var.erp_fields[this.exportType].fields
+        this.productsFields = this.$mybizna_var.fields
+            ? this.$mybizna_var.fields[this.exportType].fields
             : [];
         this.nonce = this.$mybizna_var.export_import_nonce;
     },

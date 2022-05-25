@@ -1,11 +1,11 @@
 // initial state
 const state = {
-    erp_pro_activated: false
+    pro_activated: false
 };
 
 const mutations = {
     setProStatus(state, status) {
-        state.erp_pro_activated = status;
+        state.pro_activated = status;
     }
 };
 

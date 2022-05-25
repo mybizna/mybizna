@@ -17,7 +17,7 @@
                 :required="line.selectedProduct ? true : false"
             />
         </td>
-        <td class="col--uni_price" :data-colname="this.$func.__('Unit Price', 'erp')">
+        <td class="col--uni_price" :data-colname="this.$func.__('Unit Price')">
             <input
                 type="number"
                 min="0"
@@ -28,7 +28,7 @@
                 :required="line.selectedProduct ? true : false"
             />
         </td>
-        <td class="col--amount" :data-colname="this.$func.__('Amount', 'erp')">
+        <td class="col--amount" :data-colname="this.$func.__('Amount')">
             <input
                 type="number"
                 min="0"
@@ -38,7 +38,7 @@
                 readonly
             />
         </td>
-        <td class="col--tax" :data-colname="this.$func.__('Tax', 'erp')">
+        <td class="col--tax" :data-colname="this.$func.__('Tax')">
             <input
                 type="checkbox"
                 v-model="line.applyTax"
@@ -51,7 +51,7 @@
                 <span style="color: #f44336" v-text="line.discount"></span>
             </template>
         </td>
-        <td class="col--actions delete-row" :data-colname="this.$func.__('Action', 'erp')">
+        <td class="col--actions delete-row" :data-colname="this.$func.__('Action')">
             <span class="btn" @click="removeRow"
                 ><i class="flaticon-trash"></i
             ></span>
@@ -89,7 +89,7 @@ export default {
             taxRate: 0,
             taxAmount: 0,
             taxCatID: 0,
-            debugMode: this.$mybizna_var.erp_debug_mode /* global this.$mybizna_var */,
+            debugMode: this.$mybizna_var.debug_mode /* global this.$mybizna_var */,
         };
     },
 

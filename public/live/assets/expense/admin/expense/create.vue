@@ -116,7 +116,7 @@
                                     rows="3"
                                     class="form-control form-contro-sm form-field"
                                     :placeholder="
-                                        this.$func.__('Type here', 'erp')
+                                        this.$func.__('Type here')
                                     "
                                 ></textarea>
                             </div>
@@ -176,14 +176,14 @@
                                         maxlength="250"
                                         class="form-control form-contro-sm form-field display-flex"
                                         :placeholder="
-                                            this.$func.__('Particulars', 'erp')
+                                            this.$func.__('Particulars')
                                         "
                                     ></textarea>
                                 </td>
                                 <td
                                     class="col--amount"
                                     :data-colname="
-                                        this.$func.__('Amount', 'erp')
+                                        this.$func.__('Amount')
                                     "
                                 >
                                     <input
@@ -201,7 +201,7 @@
                                 <td
                                     class="col--total"
                                     :data-colname="
-                                        this.$func.__('Total', 'erp')
+                                        this.$func.__('Total')
                                     "
                                 >
                                     <input
@@ -245,7 +245,7 @@
                                 <td
                                     class="text-right"
                                     :data-colname="
-                                        this.$func.__('Total Amount', 'erp')
+                                        this.$func.__('Total Amount')
                                     "
                                 >
                                     <input
@@ -405,7 +405,7 @@ export default {
 
             createButtons: [
                 { id: "save", text: this.$func.__("Save", "erp") },
-                // {id: 'send_create', text: this.$func.__('Create and Send', 'erp') },
+                // {id: 'send_create', text: this.$func.__('Create and Send') },
                 {
                     id: "new_create",
                     text: this.$func.__("Save and New", "erp"),
@@ -415,7 +415,7 @@ export default {
 
             updateButtons: [
                 { id: "update", text: this.$func.__("Update", "erp") },
-                // {id: 'send_update', text: this.$func.__('Update and Send', 'erp')},
+                // {id: 'send_update', text: this.$func.__('Update and Send')},
                 {
                     id: "new_update",
                     text: this.$func.__("Update and New", "erp"),
@@ -788,9 +788,9 @@ export default {
                 /* globalmybizna_reimbursement_var */
             } else if (this.basic_fields.trn_by.id === "4") {
                 if (
-                   mybizna_reimbursement_var.erp_reimbursement_module !==
+                   mybizna_reimbursement_var.reimbursement_module !==
                         "undefined" &&
-                   mybizna_reimbursement_var.erp_reimbursement_module === "1"
+                   mybizna_reimbursement_var.reimbursement_module === "1"
                 ) {
                     window.axios
                         .get("/people-transactions/balances")

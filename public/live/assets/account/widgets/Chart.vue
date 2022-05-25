@@ -1,16 +1,16 @@
 <template>
     <div class="income-expense-section panel panel-default">
         <div class="panel-heading bg-white">
-            <h4>{{ this.$func.__('Income & Expense', 'erp') }}</h4>
+            <h4>{{ this.$func.__('Income & Expense') }}</h4>
 
             <div class="custom-select custom-select--inline-block pull-right" v-if="showDropdown">
                 <select name="query_time" class="form-control form-contro-sm form-field" id="att-filter-duration" v-model="chartRange" >
-                    <option value="this_month">{{ this.$func.__('This Month', 'erp') }}</option>
-                    <option value="last_month">{{ this.$func.__('Last Month', 'erp') }}</option>
-                    <option value="this_quarter" v-if="thisQuarter.labels.length">{{ this.$func.__('This Quarter', 'erp') }}</option>
-                    <option value="last_quarter" v-if="lastQuarter.labels.length">{{ this.$func.__('Last Quarter', 'erp') }}</option>
-                    <option value="this_year">{{ this.$func.__('This Year', 'erp') }}</option>
-                    <option value="last_year" v-if="lastYear.labels.length">{{ this.$func.__('Last Year', 'erp') }}</option>
+                    <option value="this_month">{{ this.$func.__('This Month') }}</option>
+                    <option value="last_month">{{ this.$func.__('Last Month') }}</option>
+                    <option value="this_quarter" v-if="thisQuarter.labels.length">{{ this.$func.__('This Quarter') }}</option>
+                    <option value="last_quarter" v-if="lastQuarter.labels.length">{{ this.$func.__('Last Quarter') }}</option>
+                    <option value="this_year">{{ this.$func.__('This Year') }}</option>
+                    <option value="last_year" v-if="lastYear.labels.length">{{ this.$func.__('Last Year') }}</option>
                 </select>
                 <i class="flaticon-arrow-down-sign-to-navigate"></i>
             </div>
@@ -47,12 +47,12 @@ export default {
                 labels : this.respData.thisMonth.labels,
                 datasets : [
                     {
-                        label: this.$func.__('Income', 'erp'),
+                        label: this.$func.__('Income'),
                         data: this.respData.thisMonth.income,
                         backgroundColor: '#208DF8'
                     },
                     {
-                        label: this.$func.__('Expense', 'erp'),
+                        label: this.$func.__('Expense'),
                         data: this.respData.thisMonth.expense,
                         backgroundColor: '#f86e2d'
                     }
@@ -65,12 +65,12 @@ export default {
                 labels : this.respData.lastMonth.labels,
                 datasets : [
                     {
-                        label: this.$func.__('Income', 'erp'),
+                        label: this.$func.__('Income'),
                         data: this.respData.lastMonth.income,
                         backgroundColor: '#208DF8'
                     },
                     {
-                        label: this.$func.__('Expense', 'erp'),
+                        label: this.$func.__('Expense'),
                         data: this.respData.lastYear.expense,
                         backgroundColor: '#f86e2d'
                     }
@@ -83,12 +83,12 @@ export default {
                 labels : this.respData.thisYear.labels,
                 datasets : [
                     {
-                        label: this.$func.__('Income', 'erp'),
+                        label: this.$func.__('Income'),
                         data: this.respData.thisYear.income,
                         backgroundColor: '#208DF8'
                     },
                     {
-                        label: this.$func.__('Expense', 'erp'),
+                        label: this.$func.__('Expense'),
                         data: this.respData.thisYear.expense,
                         backgroundColor: '#f86e2d'
                     }
@@ -101,12 +101,12 @@ export default {
                 labels : this.respData.lastYear.labels,
                 datasets : [
                     {
-                        label: this.$func.__('Income', 'erp'),
+                        label: this.$func.__('Income'),
                         data: this.respData.lastYear.income,
                         backgroundColor: '#208DF8'
                     },
                     {
-                        label: this.$func.__('Expense', 'erp'),
+                        label: this.$func.__('Expense'),
                         data: this.respData.lastYear.expense,
                         backgroundColor: '#f86e2d'
                     }
@@ -124,12 +124,12 @@ export default {
                 labels : labels,
                 datasets : [
                     {
-                        label: this.$func.__('Income', 'erp'),
+                        label: this.$func.__('Income'),
                         data: newIncome,
                         backgroundColor: '#208DF8'
                     },
                     {
-                        label: this.$func.__('Expense', 'erp'),
+                        label: this.$func.__('Expense'),
                         data: newExpense,
                         backgroundColor: '#f86e2d'
                     }
@@ -156,12 +156,12 @@ export default {
                 labels : labels,
                 datasets : [
                     {
-                        label: this.$func.__('Income', 'erp'),
+                        label: this.$func.__('Income'),
                         data: newIncome,
                         backgroundColor: '#208DF8'
                     },
                     {
-                        label: this.$func.__('Expense', 'erp'),
+                        label: this.$func.__('Expense'),
                         data: newExpense,
                         backgroundColor: '#f86e2d'
                     }

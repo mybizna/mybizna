@@ -187,15 +187,15 @@ export default {
 
     data() {
         return {
-            title1        : this.$func.__('Income & Expenses', 'erp'),
-            title2        : this.$func.__('Bank Accounts', 'erp'),
-            title3        : this.$func.__('Invoices owed to you', 'erp'),
-            title4        : this.$func.__('Bills to pay', 'erp'),
+            title1        : this.$func.__('Income & Expenses'),
+            title2        : this.$func.__('Bank Accounts'),
+            title3        : this.$func.__('Invoices owed to you'),
+            title4        : this.$func.__('Bills to pay'),
             closable      : true,
-            msg           : this.$func.__('Accounting', 'erp'),
+            msg           : this.$func.__('Accounting'),
             to_receive    : [],
             to_pay        : [],
-            tutorialUrl   : this.$mybizna_var.erp_acct_tut_url
+            tutorialUrl   : this.$mybizna_var.tut_url
         };
     },
 

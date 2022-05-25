@@ -15,7 +15,7 @@
                     >
                 </div>
                 <input-tag
-                    :placeholder="this.$func.__('Add Emails', 'erp')"
+                    :placeholder="this.$func.__('Add Emails')"
                     v-model="emails"
                     validate="email"
                 />
@@ -29,7 +29,7 @@
                         type="text"
                         v-model="subject"
                         class="form-control form-contro-sm form-field"
-                        :placeholder="this.$func.__('Enter Subject Here', 'erp')"
+                        :placeholder="this.$func.__('Enter Subject Here')"
                     />
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     <textarea
                         v-model="message"
                         class="form-control form-contro-sm form-field"
-                        :placeholder="this.$func.__('Enter Your Message Here', 'erp')"
+                        :placeholder="this.$func.__('Enter Your Message Here')"
                         rows="4"
                     ></textarea>
                 </div>

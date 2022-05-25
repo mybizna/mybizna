@@ -51,12 +51,12 @@
                         <div class="buttons-wrapper text-right">
                             <submit-button
                                 v-if="is_update"
-                                :text="this.$func.__('Update', 'erp')"
+                                :text="this.$func.__('Update')"
                                 :working="isWorking"
                             ></submit-button>
                             <submit-button
                                 v-else
-                                :text="this.$func.__('Save', 'erp')"
+                                :text="this.$func.__('Save')"
                                 :working="isWorking"
                             ></submit-button>
                         </div>

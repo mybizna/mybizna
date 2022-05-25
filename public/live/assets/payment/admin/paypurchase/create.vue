@@ -97,7 +97,7 @@
                                 v-model.trim="basic_fields.billing_address"
                                 rows="3"
                                 class="form-control form-contro-sm form-field"
-                                :placeholder="this.$func.__('Type here', 'erp')"
+                                :placeholder="this.$func.__('Type here')"
                             ></textarea>
                         </div>
 
@@ -138,25 +138,25 @@
                                 </td>
                                 <td
                                     class="col--due-date"
-                                    :data-colname="this.$func.__('Due Date', 'erp')"
+                                    :data-colname="this.$func.__('Due Date')"
                                 >
                                     {{ item.due_date }}
                                 </td>
                                 <td
                                     class="col--total"
-                                    :data-colname="this.$func.__('Total', 'erp')"
+                                    :data-colname="this.$func.__('Total')"
                                 >
                                     {{ moneyFormat(item.total) }}
                                 </td>
                                 <td
                                     class="col--due"
-                                    :data-colname="this.$func.__('Due', 'erp')"
+                                    :data-colname="this.$func.__('Due')"
                                 >
                                     {{ formatAmount(item.due, true) }}
                                 </td>
                                 <td
                                     class="col--amount"
-                                    :data-colname="this.$func.__('Amount', 'erp')"
+                                    :data-colname="this.$func.__('Amount')"
                                 >
                                     <input
                                         type="number"
@@ -171,7 +171,7 @@
                                 <td
                                     class="delete-row"
                                     :data-colname="
-                                        this.$func.__('Remove Above Selection', 'erp')
+                                        this.$func.__('Remove Above Selection')
                                     "
                                 >
                                     <a
@@ -188,7 +188,7 @@
                                 </td>
                                 <td
                                     class="text-right"
-                                    :data-colname="this.$func.__('Total Amount', 'erp')"
+                                    :data-colname="this.$func.__('Total Amount')"
                                 >
                                     <input
                                         type="text"
@@ -211,7 +211,7 @@
                                     maxlength="250"
                                     class="form-control form-contro-sm form-field display-flex"
                                     :placeholder="
-                                        this.$func.__('Internal Information', 'erp')
+                                        this.$func.__('Internal Information')
                                     "
                                 ></textarea>
                             </td>
@@ -558,9 +558,9 @@ export default {
                 /* globalmybizna_reimbursement_var */
             } else if (this.basic_fields.trn_by.id === "4") {
                 if (
-                   mybizna_reimbursement_var.erp_reimbursement_module !==
+                   mybizna_reimbursement_var.reimbursement_module !==
                         "undefined" &&
-                   mybizna_reimbursement_var.erp_reimbursement_module === "1"
+                   mybizna_reimbursement_var.reimbursement_module === "1"
                 ) {
                     window.axios
                         .get("/people-transactions/balances")
