@@ -164,7 +164,7 @@ class ApiController extends Controller
         return Response::json($user);
     }
 
-    public function dashboardParams(Request $request)
+    public function dashboardData(Request $request)
     {
 
         $result = [

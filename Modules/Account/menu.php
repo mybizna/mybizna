@@ -1,5 +1,13 @@
 <?php
 
+$this->add_module_info("account", [
+    'title' => 'Accounting',
+    'description' => 'Accounting',
+    'icon' => 'fas fa-funnel-dollar',
+    'path' => '/transactions',
+    'class_str'=> 'text-primary border-primary'
+]);
+
 //$this->add_menu("module", "key", "title","path", "icon", "position");
 $this->add_menu("account", "dashboard", "Dashboard", "/dashboard", "fas fa-cogs", 1);
 $this->add_menu("account", "users", "Users", "/users", "fas fa-cogs", 5);
@@ -27,5 +35,4 @@ $this->add_submenu("account", "settings", "Tax Rates", "/settings/taxes/tax-rate
 
 $this->add_submenu("account", "products", "Products & Services", "/products/product-service", 5);
 $this->add_submenu("account", "products", "Products Categories", "/products/product-categories", 5);
-$this->add_submenu("account", "products", "Inventory", "/products/inventory", 5);
 $this->add_submenu("account", "products", "Inventory", "/products/inventory", 5);

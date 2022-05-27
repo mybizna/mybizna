@@ -4,7 +4,7 @@
             <span class="font-weight-semibold">Statistics Card</span>
             <v-spacer></v-spacer>
             <v-btn icon small class="me-n3 mt-n2">
-                <v-icon icon="fas fa-plus"> mdiDotsVertical </v-icon>
+                <i :class="'fas fa-cog'"></i>
             </v-btn>
         </v-card-title>
 
@@ -32,11 +32,12 @@
                         rounded
                         class="elevation-1"
                     >
-                        <v-icon dark color="white" size="30" icon="fas fa-plus">
-                            {{
+                        <i
+                            class="text-white dashboard-card-icon"
+                            :class="
                                 resolveStatisticsIconVariation(data.title).icon
-                            }}
-                        </v-icon>
+                            "
+                        ></i>
                     </v-avatar>
                     <div class="ms-3">
                         <p class="text-xs mb-0">
@@ -54,13 +55,6 @@
 
 <script>
 // eslint-disable-next-line object-curly-newline
-import {
-    mdiAccountOutline,
-    mdiCurrencyUsd,
-    mdiTrendingUp,
-    mdiDotsVertical,
-    mdiLabelOutline,
-} from "@mdi/js";
 
 import { computed } from "vue";
 import { useStore } from "vuex";
@@ -80,49 +74,46 @@ export default {
         const statisticsData = [
             {
                 title: "Sales",
-                total: dashboard_data.value['sale'] + "k",
+                total: parseInt(dashboard_data.value["sales"]) + "k",
             },
             {
                 title: "Customers",
-                total: dashboard_data.value['customer'] + "k",
+                total: parseInt(dashboard_data.value["customer"]) + "k",
             },
             {
                 title: "Product",
-                total: dashboard_data.value['product'] + "k",
+                total: parseInt(dashboard_data.value["product"]) + "k",
             },
             {
                 title: "Revenue",
-                total: "$" + dashboard_data.value['revenue'] + "00k",
+                total: "$" + parseInt(dashboard_data.value["revenue"]) + "00k",
             },
         ];
 
         const resolveStatisticsIconVariation = (data) => {
             if (data === "Sales")
-                return { icon: mdiTrendingUp, color: "primary" };
+                return { icon: "fas fa-chart-line", color: "primary" };
             if (data === "Customers")
-                return { icon: mdiAccountOutline, color: "success" };
+                return { icon: "fas fa-users", color: "success" };
             if (data === "Product")
-                return { icon: mdiLabelOutline, color: "warning" };
+                return { icon: "fas fa-store", color: "warning" };
             if (data === "Revenue")
-                return { icon: mdiCurrencyUsd, color: "info" };
+                return { icon: "fas fa-sack-dollar", color: "info" };
 
-            return { icon: mdiAccountOutline, color: "success" };
+            return { icon: "fas fa-cogs", color: "success" };
         };
 
         return {
             dashboard_data,
             statisticsData,
             resolveStatisticsIconVariation,
-
-            // icons
-            icons: {
-                mdiDotsVertical,
-                mdiTrendingUp,
-                mdiAccountOutline,
-                mdiLabelOutline,
-                mdiCurrencyUsd,
-            },
         };
     },
 };
 </script>
+
+<style scoped>
+.dashboard-card-icon {
+    font-size: 18px;
+}
+</style>

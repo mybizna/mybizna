@@ -46,8 +46,6 @@ export default {
                 .then(
                     response => {
 
-                        console.log(response.data);
-
                         commit('login', response.data.token);
                         commit('user', response.data.user);
 
@@ -66,14 +64,9 @@ export default {
             that
         }) {
 
-            alert('getUser');
-
-
             window.axios.get("/api/profile")
                 .then(
                     response => {
-
-                        console.log(response);
 
                         var user = response.data;
 
@@ -85,8 +78,6 @@ export default {
 
                         commit('user', user);
 
-                        console.log('login');
-                        console.log(user);
 
                         /*that.$store.dispatch("auth/affiliate", {
                             user_id: user.id

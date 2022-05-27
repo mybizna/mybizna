@@ -13,17 +13,13 @@ export default {
         },
     },
     actions: {
-        getDashboardData({
+        async getDashboardData({
             commit
         }) {
 
-            alert('fetch_dashboard_datas');
-            console.log('fetch_dashboard_datas');
-
-            window.axios.get("/dashboard_data")
+            await window.axios.get("/dashboard_data")
                 .then(
                     response => {
-
                         commit('dashboard_data', response.data);
                         commit('has_dashboard_data', true);
 
@@ -34,9 +30,7 @@ export default {
                             console.log('Issues Getting Menu');
                         }
                     });
-
         },
     },
-    getters: {
-    }
+    getters: {}
 }

@@ -241,12 +241,13 @@ export default {
     setup() {
         const store = useStore();
 
+
         if (!store.state.system.has_menu) {
             store.dispatch("system/getMenu");
         }
 
         let menus = computed(function () {
-            return store.state.system.menu["account"];
+            return store.state.system.menu["account"]["menus"];
         });
 
         console.log(menus);

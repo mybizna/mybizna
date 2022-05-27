@@ -1,35 +1,40 @@
 <template>
-  <component :is="resolveLayout">
-    <router-view></router-view>
-  </component>
+    <component :is="resolveLayout">
+        <router-view></router-view>
+    </component>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useRouter } from '@/utils'
-import LayoutBlank from '@/layouts/Blank.vue'
-import LayoutContent from '@/layouts/Content.vue'
+import { computed } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "@/utils";
+import LayoutBlank from "@/layouts/Blank.vue";
+import LayoutContent from "@/layouts/Content.vue";
 
 export default {
-  components: {
-    LayoutBlank,
-    LayoutContent,
-  },
-  setup() {
-    const { route } = useRouter()
+    components: {
+        LayoutBlank,
+        LayoutContent,
+    },
+    setup() {
+        const { route } = useRouter();
 
-    const resolveLayout = computed(() => {
-      // Handles initial route
-      if (route.value.name === null) return null
+        const store = useStore();
 
-      if (route.value.meta.layout === 'blank') return 'layout-blank'
+        window.$store = store;
 
-      return 'layout-content'
-    })
+        const resolveLayout = computed(() => {
+            // Handles initial route
+            if (route.value.name === null) return null;
 
-    return {
-      resolveLayout,
-    }
-  },
-}
+            if (route.value.meta.layout === "blank") return "layout-blank";
+
+            return "layout-content";
+        });
+
+        return {
+            resolveLayout,
+        };
+    },
+};
 </script>
