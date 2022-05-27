@@ -291,13 +291,19 @@ class Modularize
     }
 
 
-    public function add_menu($module, $key, $title, $path, $icon, $position)
+    public function add_module_info($module, $data)
     {
         if (!array_key_exists($module, $this->menus)) {
-            $this->menus[$module] = [];
+            $this->menus[$module] = ['menus'=>[]];
         }
 
-        $this->menus[$module][$key] = [
+        $this->menus[$module] = array_merge($this->menus[$module], $data);
+
+    }
+
+    public function add_menu($module, $key, $title, $path, $icon, $position)
+    {
+        $this->menus[$module]['menus'][$key] = [
             'title' => $title,
             'path' => $path,
             'position' => $position,
@@ -308,15 +314,7 @@ class Modularize
 
     public function add_submenu($module, $key, $title, $path, $position)
     {
-        if (!array_key_exists($module, $this->menus)) {
-            $this->menus[$module] = [];
-        }
-
-        if (!array_key_exists($key, $this->menus[$module])) {
-            $this->menus[$module][$key] = [];
-        }
-
-        $this->menus[$module][$key]['list'][] = [
+        $this->menus[$module]['menus'][$key]['list'][] = [
             'title' => $title,
             'path' => $path,
             'position' => $position,

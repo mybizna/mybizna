@@ -51,7 +51,6 @@ export default {
     },
     watch: {
         newcomponent: function (newVal, oldVal) {
-            alert("newcomponent");
             self.passed_component = window.$func.fetchComponent(newVal);
         },
         visible: function (newVal, oldVal) {

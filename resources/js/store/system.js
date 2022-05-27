@@ -22,18 +22,13 @@ export default {
         },
     },
     actions: {
-        getMenu({
+        async getMenu({
             commit
         }) {
 
-            alert('fetch_menus');
-            console.log('fetch_menus');
-
-            window.axios.get("/fetch_menus")
+            await window.axios.get("/fetch_menus")
                 .then(
                     response => {
-
-                        console.log(response);
 
                         commit('menu', response.data);
                         commit('has_menu', true);
@@ -45,9 +40,7 @@ export default {
                             console.log('Issues Getting Menu');
                         }
                     });
-
         },
     },
-    getters: {
-    }
+    getters: {}
 }

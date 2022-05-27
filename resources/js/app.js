@@ -70,6 +70,7 @@ app.config.globalProperties.$in_progress = window.in_progress = true;
 app.config.globalProperties.$loading = window.loading = {
     in_progress: true
 };
+app.config.devtools = true;
 app.config.globalProperties.$mybizna_var = {
 
     "user_id": "1",
@@ -1696,12 +1697,11 @@ const store = createStore({
     })],
 });
 
-window.$store = store;
 
-if(window.$store.state.auth.token){
-    console.log('window.$store.state.auth.token');
-    console.log(window.$store.state.auth.token);
-    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.$store.state.auth.token;
+
+
+if(store.state.auth.token){
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.auth.token;
 }
 
 app.use(store);

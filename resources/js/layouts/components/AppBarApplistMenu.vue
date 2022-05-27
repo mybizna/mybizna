@@ -9,49 +9,46 @@
             <template v-slot:activator="{ props }">
                 <v-badge color="success" content="3" v-bind="props">
                     <div class="text-white" v-bind="attrs" v-on="on">
-                        <v-icon size="22" icon="fas fa-plus"
-                            >mdiCogOutline
-                        </v-icon>
+                        <i class="fas fa-th"></i>
                         Apps
                     </div>
                 </v-badge>
             </template>
 
-            <v-card min-width="300">
-                <v-row>
-                    <v-col
+            <v-card max-width="300">
+                <div class="row m-0">
+                    <div
                         v-for="(item, index) in menus"
                         :key="index"
-                        cols="6"
-                        sm="3"
-                        md="2"
+                        class="col-sm-6 col-md-4 p-1"
                     >
-                        <image-link
-                            :title="item.title"
-                            :url="item.url"
-                            :icon="item.icon"
-                            :class_str="item.class_str"
-                        ></image-link>
-                    </v-col>
+                        <div
+                            class="m-1 p-2 border border-light rounded text-center"
+                        >
 
-                    <v-col
-                        v-for="(item, index) in menuIcons"
-                        :key="index"
-                        cols="6"
-                        sm="3"
-                        md="2"
-                    >
-                        <image-link
-                            :title="item.title"
-                            :url="item.url"
-                            :icon="item.icon"
-                            :class_str="item.class_str"
-                        ></image-link>
-                    </v-col>
-                </v-row>
+                            <router-link
+                                :to="item.path"
+                                :title="item.title"
+                                class="app-bar-link text-center text-decoration-none"
+                            >
+                                <h2
+                                    :class="
+                                        'border rounded-circle m-2 mt-0 ' +
+                                        item.class_str
+                                    "
+                                >
+                                    <i :class="item.icon"></i>
+                                </h2>
+
+                                <small class="text-black">{{ item.title }}</small>
+                            </router-link>
+                        </div>
+                    </div>
+
+                </div>
+
                 <v-card-actions>
                     <v-spacer></v-spacer>
-
                     <v-btn text @click="menu = false"> Cancel </v-btn>
                 </v-card-actions>
             </v-card>
@@ -60,17 +57,6 @@
 </template>
 
 <script>
-import {
-    mdiAccountOutline,
-    mdiEmailOutline,
-    mdiCheckboxMarkedOutline,
-    mdiChatOutline,
-    mdiCogOutline,
-    mdiCurrencyUsd,
-    mdiHelpCircleOutline,
-    mdiLogoutVariant,
-} from "@mdi/js";
-
 import { computed } from "vue";
 import { useStore } from "vuex";
 
@@ -82,26 +68,30 @@ export default {
             store.dispatch("system/getMenu");
         }
 
+        console.log(store.state.system.has_menu);
+
         let menus = computed(function () {
             return store.state.system.menu;
         });
 
-        console.log(menus);
+        console.log('xxxxxxxxxxxxxxxxxxx-------xxxxxxxxxxxxxxxxxx');
+        console.log('');
+        console.log('');
 
-        return {
-            menus,
-            icons: {
-                mdiAccountOutline,
-                mdiEmailOutline,
-                mdiCheckboxMarkedOutline,
-                mdiChatOutline,
-                mdiCogOutline,
-                mdiCurrencyUsd,
-                mdiHelpCircleOutline,
-                mdiLogoutVariant,
-            },
-        };
+        console.log(menus.value);
+
+
+        return { menus, };
     },
+
+     computed: {
+          menups() {
+              var obj = window.$store.state.system.menu;
+              var result = Object.keys(obj).map((key) => [Number(key), obj[key]]);
+
+            return result;
+          }
+        },
     data: () => ({
         fav: true,
         menu: false,
@@ -144,7 +134,7 @@ export default {
                 url: "/expense",
                 class_str: "text-success border-success",
             },
-        ]
+        ],
     }),
 };
 </script>
@@ -153,6 +143,23 @@ export default {
 .user-profile-menu-content {
     .v-list-item {
         min-height: 2.5rem !important;
+    }
+}
+.app-bar-link {
+    margin: 0 auto;
+    h2 {
+        height: 48px;
+        width: 48px;
+        line-height: 48px;
+        font-size: 24px;
+        margin: 0 auto !important;
+    }
+    small{
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
     }
 }
 </style>
