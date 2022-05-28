@@ -42,8 +42,7 @@ class OpeningBalanceController extends Controller
         $formatted_items = [];
 
         foreach ($items as $item) {
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -81,8 +80,7 @@ class OpeningBalanceController extends Controller
                 $ledger['bank']['id']   = $ledger['ledger_id'];
                 $ledger['bank']['name'] = $ledger['name'];
             }
-            $data              = $this->prepareItemForResponse($ledger, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($ledger, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);

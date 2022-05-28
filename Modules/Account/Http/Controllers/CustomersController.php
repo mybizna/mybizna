@@ -60,8 +60,7 @@ class CustomersController extends Controller
                 }
             }
 
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[] = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -106,7 +105,7 @@ class CustomersController extends Controller
         }
 
         $additional_fields['namespace'] = __NAMESPACE__;
-        
+
         $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
 
         return response()->json($item);
@@ -439,6 +438,7 @@ class CustomersController extends Controller
         $common = new CommonFunc();
         $item = (object) $item;
 
+
         $data = [
             'id'         => (int) $item->id,
             'first_name' => $item->first_name,
@@ -468,6 +468,7 @@ class CustomersController extends Controller
                 'phone'        => $item->phone,
             ],
         ];
+
 
         $data = array_merge($data, $additional_fields);
 

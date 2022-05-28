@@ -51,8 +51,7 @@ class PurchasesController extends Controller
                 }
             }
 
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -98,8 +97,7 @@ class PurchasesController extends Controller
 
             $item['line_items'] = []; // TEST?
 
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);

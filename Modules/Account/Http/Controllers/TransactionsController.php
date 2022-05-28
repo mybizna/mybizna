@@ -87,8 +87,7 @@ class TransactionsController extends Controller
         );
 
         foreach ($transactions as $transaction) {
-            $data              = $this->prepareItemForResponse($transaction, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($transaction, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -237,8 +236,7 @@ class TransactionsController extends Controller
         );
 
         foreach ($transactions as $transaction) {
-            $data              = $this->prepareItemForResponse($transaction, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($transaction, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -324,8 +322,7 @@ class TransactionsController extends Controller
         );
 
         foreach ($transactions as $transaction) {
-            $data              = $this->prepareItemForResponse($transaction, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($transaction, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);

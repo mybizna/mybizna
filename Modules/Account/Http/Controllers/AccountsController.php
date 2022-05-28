@@ -34,8 +34,7 @@ class AccountsController extends Controller
         foreach ($items as $item) {
             $additional_fields = [];
 
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[] = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -162,8 +161,7 @@ class AccountsController extends Controller
         foreach ($items as $item) {
             $additional_fields = [];
 
-            $data              = $this->prepareListItemForResponse($item, $request, $additional_fields, $accounts);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[] = $this->prepareListItemForResponse($item, $request, $additional_fields, $accounts);
         }
 
         return response()->json($formatted_items);
@@ -206,8 +204,7 @@ class AccountsController extends Controller
         foreach ($items as $item) {
             $additional_fields = [];
 
-            $data              = $this->prepareBankItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[] = $this->prepareBankItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -234,8 +231,7 @@ class AccountsController extends Controller
         foreach ($items as $item) {
             $additional_fields = [];
 
-            $data              = $this->prepareBankItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[] = $this->prepareBankItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);

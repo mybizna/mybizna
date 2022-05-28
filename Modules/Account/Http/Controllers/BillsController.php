@@ -51,8 +51,7 @@ class BillsController extends Controller
                 }
             }
 
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -78,9 +77,8 @@ class BillsController extends Controller
         $bill_data = $bills->getBill($id);
 
         $additional_fields['namespace'] = __NAMESPACE__;
-        
-        $data            = $this->prepareItemForResponse($bill_data, $request, $additional_fields);
-        $formatted_items = $this->prepareResponseForCollection($data);
+
+        $formatted_items[] = $this->prepareItemForResponse($bill_data, $request, $additional_fields);
 
         return  response()->json($formatted_items);
     }
@@ -239,8 +237,7 @@ class BillsController extends Controller
                 }
             }
 
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[] = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);

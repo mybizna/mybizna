@@ -54,8 +54,7 @@ class InvoicesController extends Controller
                 }
             }
 
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -91,7 +90,7 @@ class InvoicesController extends Controller
         $item['readonly_url'] = $readonly_url;
 
         $additional_fields['namespace'] = __NAMESPACE__;
-        
+
         $item                           = $this->prepareItemForResponse($item, $request, $additional_fields);
 
         return response()->json($item);
@@ -268,8 +267,7 @@ class InvoicesController extends Controller
                 }
             }
 
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);

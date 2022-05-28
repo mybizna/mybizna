@@ -35,8 +35,7 @@ class LedgersController extends Controller
         $ledgers = $this->getLedgersWithBalances();
 
         foreach ($ledgers as $ledger) {
-            $data              = $this->prepareLedgerForResponse($ledger, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareLedgerForResponse($ledger, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -220,8 +219,7 @@ class LedgersController extends Controller
         foreach ($items as $item) {
             $additional_fields = [];
 
-            $data              = $this->prepareBankItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareBankItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);

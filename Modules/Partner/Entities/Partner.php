@@ -9,7 +9,7 @@ class Partner extends Model
 {
 
     protected $fillable = [
-        'user_id', 'company', 'email', 'phone', 'mobile', 'other', 'website',
+        'user_id','first_name','last_name', 'company', 'email', 'phone', 'mobile', 'other', 'website',
         'fax', 'notes', 'street_1', 'street_2', 'city', 'state', 'postal_code',
         'country', 'currency', 'life_stage', 'contact_owner', 'hash'
     ];
@@ -26,6 +26,8 @@ class Partner extends Model
     {
         $table->increments('id');
         $table->unsignedBigInteger('user_id')->default(0)->index('user_id');
+        $table->string('first_name', 60)->nullable();
+        $table->string('last_name', 60)->nullable();
         $table->string('company', 60)->nullable();
         $table->string('email', 100)->nullable()->index('email');
         $table->string('phone', 20)->nullable();
