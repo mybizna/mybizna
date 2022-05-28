@@ -62,8 +62,7 @@ class VendorsController extends Controller
                 }
             }
 
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
@@ -330,8 +329,7 @@ class VendorsController extends Controller
         );
 
         foreach ($product_data as $item) {
-            $data              = $this->prepareProductItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareProductItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);

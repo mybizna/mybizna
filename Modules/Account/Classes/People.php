@@ -622,12 +622,14 @@ class People
         } else {
             // Fetch results from people table
             $results = DB::select(apply_filters('get_people_total_query', $final_query, $args));
+
             array_walk(
                 $results,
                 function (&$results) {
-                    $results['types'] = explode(',', $results['types']);
+                    $results->types = explode(',', $results->types);
                 }
             );
+
 
             $items = ($no_object) ? $results : (object)$results;
         }

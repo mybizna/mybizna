@@ -39,8 +39,7 @@ class JournalsController extends Controller
         $formatted_items = [];
 
         foreach ($items as $item) {
-            $data              = $this->prepareItemForResponse($item, $request, $additional_fields);
-            $formatted_items[] = $this->prepareResponseForCollection($data);
+            $formatted_items[]              = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
         return response()->json($formatted_items);
