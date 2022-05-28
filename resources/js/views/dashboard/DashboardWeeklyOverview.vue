@@ -6,9 +6,7 @@
             <v-spacer></v-spacer>
 
             <v-btn icon small class="mt-n2 me-n3">
-                <v-icon size="22" icon="fas fa-plus">
-                    mdiDotsVertical
-                </v-icon>
+                <i class="fas fa-chart-pie fa-lg"></i>
             </v-btn>
         </v-card-title>
 

@@ -161,6 +161,21 @@ export default {
 
     fetchComponent(comp_path) {
         return fetchComponent(comp_path);
+    },
+
+    formatNumber(n) {
+
+        var ending = ['k', 'm', 'b', 't'];
+
+        var n_str = n.toString();
+
+
+        if (n_str.length < 4) {
+            return n;
+        } else {
+            //return n_str[0] + ending[Math.floor((n_str.length - 1) / 3) - 1];
+            return `${n_str[0]}${n_str[1]!='0'?`.${n_str[1]}`:''}${ending[Math.floor((n_str.length-1)/3)-1]}`;
+        }
     }
 
 };
