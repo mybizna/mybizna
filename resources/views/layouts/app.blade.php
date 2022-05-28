@@ -111,7 +111,7 @@
     <div id="app">
         <div id="loaderDiv" class="animate-bottom my-5">
             <h2 class="my-3">Loading!....</h2>
-            <p class="mb-5">Note the system is a vuejs client frontend based and needs javascript.</p>
+            <p class="mb-5">The system require javascript.</p>
         </div>
         <div>
             <div id="loader"></div>
