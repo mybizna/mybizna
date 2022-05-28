@@ -25,11 +25,13 @@ class InvoicesController extends Controller
     {
         $invoices = new Invoices();
 
+        $input = $request->all();
+
         $args = [
-            'number'     => $request['per_page'],
-            'offset'     => ($request['per_page'] * ($request['page'] - 1)),
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'number'     => $input['per_page'],
+            'offset'     => ($input['per_page'] * ($input['page'] - 1)),
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $formatted_items   = [];
@@ -46,8 +48,8 @@ class InvoicesController extends Controller
         );
 
         foreach ($invoice_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -71,7 +73,10 @@ class InvoicesController extends Controller
     {
         $trans = new Transactions();
         $invoices = new Invoices();
-        $id = (int) $request['id'];
+
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_invoice_invalid_id', __('Invalid resource id.'));
@@ -108,12 +113,14 @@ class InvoicesController extends Controller
         $invoices = new Invoices();
         $invoice_data = $this->prepareItemFDatabase($request);
 
+        $input = $request->all();
+
         $item_total          = 0;
         $item_discount_total = 0;
         $item_tax_total      = 0;
         $additional_fields   = [];
 
-        $items = $request['line_items'];
+        $items = $input['line_items'];
 
         foreach ($items as $value) {
             $sub_total = $value['qty'] * $value['unit_price'];
@@ -123,13 +130,13 @@ class InvoicesController extends Controller
             $item_discount_total += $value['discount'];
         }
 
-        $invoice_data['billing_address'] = maybe_serialize($request['billing_address']);
+        $invoice_data['billing_address'] = maybe_serialize($input['billing_address']);
         $invoice_data['discount']        = $item_discount_total;
-        $invoice_data['discount_type']   = $request['discount_type'];
-        $invoice_data['tax_rate_id']     = $request['tax_rate_id'];
+        $invoice_data['discount_type']   = $input['discount_type'];
+        $invoice_data['tax_rate_id']     = $input['tax_rate_id'];
         $invoice_data['tax']             = $item_tax_total;
         $invoice_data['amount']          = $item_total;
-        $invoice_data['attachments']     = maybe_serialize($request['attachments']);
+        $invoice_data['attachments']     = maybe_serialize($input['attachments']);
         $additional_fields['namespace']  = __NAMESPACE__;
 
         $invoice_id = $invoices->insertInvoice($invoice_data);
@@ -154,7 +161,10 @@ class InvoicesController extends Controller
     {
         $common = new CommonFunc();
         $invoices = new Invoices();
-        $id = (int) $request['id'];
+
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_invoice_invalid_id', __('Invalid resource id.'));
@@ -175,7 +185,7 @@ class InvoicesController extends Controller
         $item_tax_total      = 0;
         $additional_fields   = [];
 
-        $items = $request['line_items'];
+        $items = $input['line_items'];
 
         foreach ($items as $value) {
             $sub_total = $value['qty'] * $value['unit_price'];
@@ -185,13 +195,13 @@ class InvoicesController extends Controller
             $item_discount_total += $value['discount'];
         }
 
-        $invoice_data['billing_address'] = maybe_serialize($request['billing_address']);
+        $invoice_data['billing_address'] = maybe_serialize($input['billing_address']);
         $invoice_data['discount']        = $item_discount_total;
-        $invoice_data['discount_type']   = $request['discount_type'];
-        $invoice_data['tax_rate_id']     = $request['tax_rate_id'];
+        $invoice_data['discount_type']   = $input['discount_type'];
+        $invoice_data['tax_rate_id']     = $input['tax_rate_id'];
         $invoice_data['tax']             = $item_tax_total;
         $invoice_data['amount']          = $item_total;
-        $invoice_data['attachments']     = maybe_serialize($request['attachments']);
+        $invoice_data['attachments']     = maybe_serialize($input['attachments']);
         $additional_fields['namespace']  = __NAMESPACE__;
 
         $old_data = $invoices->getInvoice($id);
@@ -216,7 +226,9 @@ class InvoicesController extends Controller
      */
     public function voidInvoice(Request $request)
     {
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_invoice_invalid_id', __('Invalid resource id.'));
@@ -238,7 +250,8 @@ class InvoicesController extends Controller
     public function dueInvoices(Request $request)
     {
         $invoices = new Invoices();
-        $id = (int) $request['id'];
+        $input = $request->all();
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_invoice_invalid_id', __('Invalid resource id.'));
@@ -246,8 +259,8 @@ class InvoicesController extends Controller
         }
 
         $args = [
-            'number' => isset($request['per_page']) ? $request['per_page'] : 20,
-            'offset' => ($request['per_page'] * ($request['page'] - 1)),
+            'number' => isset($input['per_page']) ? $input['per_page'] : 20,
+            'offset' => ($input['per_page'] * ($input['page'] - 1)),
         ];
 
         $formatted_items   = [];
@@ -259,8 +272,8 @@ class InvoicesController extends Controller
         $total_items  = count($invoice_data);
 
         foreach ($invoice_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -344,56 +357,58 @@ class InvoicesController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['customer_id'])) {
-            $prepared_item['customer_id'] = $request['customer_id'];
+        $input = $request->all();
+
+        if (isset($input['customer_id'])) {
+            $prepared_item['customer_id'] = $input['customer_id'];
         }
 
-        if (isset($request['date'])) {
-            $prepared_item['date'] = $request['date'];
+        if (isset($input['date'])) {
+            $prepared_item['date'] = $input['date'];
         }
 
-        if (isset($request['due_date'])) {
-            $prepared_item['due_date'] = $request['due_date'];
+        if (isset($input['due_date'])) {
+            $prepared_item['due_date'] = $input['due_date'];
         }
 
-        if (isset($request['billing_address'])) {
-            $prepared_item['billing_address'] = maybe_serialize($request['billing_address']);
+        if (isset($input['billing_address'])) {
+            $prepared_item['billing_address'] = maybe_serialize($input['billing_address']);
         }
 
-        if (isset($request['line_items'])) {
-            $prepared_item['line_items'] = $request['line_items'];
+        if (isset($input['line_items'])) {
+            $prepared_item['line_items'] = $input['line_items'];
         }
 
-        if (isset($request['discount_type'])) {
-            $prepared_item['discount_type'] = $request['discount_type'];
+        if (isset($input['discount_type'])) {
+            $prepared_item['discount_type'] = $input['discount_type'];
         }
 
-        if (isset($request['tax_rate_id'])) {
-            $prepared_item['tax_rate_id'] = $request['tax_rate_id'];
+        if (isset($input['tax_rate_id'])) {
+            $prepared_item['tax_rate_id'] = $input['tax_rate_id'];
         }
 
-        if (isset($request['status'])) {
-            $prepared_item['status'] = $request['status'];
+        if (isset($input['status'])) {
+            $prepared_item['status'] = $input['status'];
         }
 
-        if (isset($request['estimate'])) {
-            $prepared_item['estimate'] = $request['estimate'];
+        if (isset($input['estimate'])) {
+            $prepared_item['estimate'] = $input['estimate'];
         }
 
-        if (isset($request['attachments'])) {
-            $prepared_item['attachments'] = maybe_serialize($request['attachments']);
+        if (isset($input['attachments'])) {
+            $prepared_item['attachments'] = maybe_serialize($input['attachments']);
         }
 
-        if (isset($request['particulars'])) {
-            $prepared_item['particulars'] = $request['particulars'];
+        if (isset($input['particulars'])) {
+            $prepared_item['particulars'] = $input['particulars'];
         }
 
-        if (isset($request['transaction_by'])) {
-            $prepared_item['transaction_by'] = $request['transaction_by'];
+        if (isset($input['transaction_by'])) {
+            $prepared_item['transaction_by'] = $input['transaction_by'];
         }
 
-        if (isset($request['convert'])) {
-            $prepared_item['convert'] = $request['convert'];
+        if (isset($input['convert'])) {
+            $prepared_item['convert'] = $input['convert'];
         }
 
         $prepared_item['request'] = $request;

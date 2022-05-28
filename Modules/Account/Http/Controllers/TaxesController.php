@@ -25,11 +25,13 @@ class TaxesController extends Controller
     {
         $taxes = new Taxes();
 
+        $input = $request->all();
+
         $args = [
-            'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
-            'offset'     => ($request['per_page'] * ($request['page'] - 1)),
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'number'     => !empty($input['per_page']) ? (int) $input['per_page'] : 20,
+            'offset'     => ($input['per_page'] * ($input['page'] - 1)),
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $formatted_items   = [];
@@ -46,8 +48,8 @@ class TaxesController extends Controller
         );
 
         foreach ($tax_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -72,7 +74,9 @@ class TaxesController extends Controller
 
         $taxes = new Taxes();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -102,7 +106,7 @@ class TaxesController extends Controller
 
         $tax_data = $this->prepareItemFDatabase($request);
 
-        $items = $request['tax_components'];
+        $items = $input['tax_components'];
 
         foreach ($items as $key => $item) {
             $item_rates[$key] = $item['tax_rate'];
@@ -134,7 +138,7 @@ class TaxesController extends Controller
     {
         $taxes = new Taxes();
 
-        $id         = (int) $request['id'];
+        $id         = (int) $input['id'];
         $item_rates = [];
 
         if (empty($id)) {
@@ -176,7 +180,9 @@ class TaxesController extends Controller
     {
         $taxes = new Taxes();
 
-        $id         = (int) $request['id'];
+        $input = $request->all();
+
+        $id         = (int) $input['id'];
         $item_rates = [];
 
         if (empty($id)) {
@@ -212,7 +218,9 @@ class TaxesController extends Controller
     {
          $taxes = new Taxes();
 
-        $id = (int) $request['id'];
+         $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -241,7 +249,9 @@ class TaxesController extends Controller
     {
         $taxes = new Taxes();
 
-        $id         = (int) $request['id'];
+        $input = $request->all();
+
+        $id         = (int) $input['id'];
         $item_rates = [];
 
         if (empty($id)) {
@@ -269,7 +279,9 @@ class TaxesController extends Controller
      */
     public function lineDeleteTaxRate(Request $request)
     {
-        $id = (int) $request['db_id'];
+
+        $input = $request->all();
+        $id = (int) $input['db_id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -292,7 +304,9 @@ class TaxesController extends Controller
     {
         $taxes = new Taxes();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -319,11 +333,13 @@ class TaxesController extends Controller
     {
         $taxes = new Taxes();
 
+        $input = $request->all();
+
         $args = [
-            'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
-            'offset'     => ($request['per_page'] * ($request['page'] - 1)),
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'number'     => !empty($input['per_page']) ? (int) $input['per_page'] : 20,
+            'offset'     => ($input['per_page'] * ($input['page'] - 1)),
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $formatted_items   = [];
@@ -340,8 +356,8 @@ class TaxesController extends Controller
         );
 
         foreach ($tax_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -365,7 +381,9 @@ class TaxesController extends Controller
     {
         $taxes = new Taxes();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_pay_invalid_id', __('Invalid resource id.'));
@@ -440,7 +458,9 @@ class TaxesController extends Controller
     {
         $taxes = new Taxes();
 
-        $ids = $request['ids'];
+        $input = $request->all();
+
+        $ids = $input['ids'];
         $ids = explode(',', $ids);
 
         if (!$ids) {
@@ -500,52 +520,54 @@ class TaxesController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['tax_rate_name'])) {
-            $prepared_item['tax_rate_name'] = $request['tax_rate_name'];
+        $input = $request->all();
+
+        if (isset($input['tax_rate_name'])) {
+            $prepared_item['tax_rate_name'] = $input['tax_rate_name'];
         }
 
-        if (isset($request['is_compound'])) {
-            $prepared_item['is_compound'] = $request['is_compound'];
+        if (isset($input['is_compound'])) {
+            $prepared_item['is_compound'] = $input['is_compound'];
         }
 
-        if (isset($request['tax_components'])) {
-            $prepared_item['tax_components'] = $request['tax_components'];
+        if (isset($input['tax_components'])) {
+            $prepared_item['tax_components'] = $input['tax_components'];
         }
 
-        if (isset($request['trn_date'])) {
-            $prepared_item['trn_date'] = $request['trn_date'];
+        if (isset($input['trn_date'])) {
+            $prepared_item['trn_date'] = $input['trn_date'];
         }
 
-        if (isset($request['trn_by'])) {
-            $prepared_item['trn_by'] = $request['trn_by'];
+        if (isset($input['trn_by'])) {
+            $prepared_item['trn_by'] = $input['trn_by'];
         }
 
-        if (isset($request['tax_category_id'])) {
-            $prepared_item['tax_category_id'] = $request['tax_category_id'];
+        if (isset($input['tax_category_id'])) {
+            $prepared_item['tax_category_id'] = $input['tax_category_id'];
         }
 
-        if (isset($request['particulars'])) {
-            $prepared_item['particulars'] = $request['particulars'];
+        if (isset($input['particulars'])) {
+            $prepared_item['particulars'] = $input['particulars'];
         }
 
-        if (isset($request['amount'])) {
-            $prepared_item['amount'] = $request['amount'];
+        if (isset($input['amount'])) {
+            $prepared_item['amount'] = $input['amount'];
         }
 
-        if (isset($request['ledger_id'])) {
-            $prepared_item['ledger_id'] = $request['ledger_id'];
+        if (isset($input['ledger_id'])) {
+            $prepared_item['ledger_id'] = $input['ledger_id'];
         }
 
-        if (isset($request['agency_id'])) {
-            $prepared_item['agency_id'] = $request['agency_id'];
+        if (isset($input['agency_id'])) {
+            $prepared_item['agency_id'] = $input['agency_id'];
         }
 
-        if (isset($request['voucher_type'])) {
-            $prepared_item['voucher_type'] = $request['voucher_type'];
+        if (isset($input['voucher_type'])) {
+            $prepared_item['voucher_type'] = $input['voucher_type'];
         }
 
-        if (isset($request['tax_rate'])) {
-            $prepared_item['tax_rate'] = $request['tax_rate'];
+        if (isset($input['tax_rate'])) {
+            $prepared_item['tax_rate'] = $input['tax_rate'];
         }
 
         return $prepared_item;
@@ -562,32 +584,34 @@ class TaxesController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['tax_id'])) {
-            $prepared_item['tax_id'] = $request['tax_id'];
+        $input = $request->all();
+
+        if (isset($input['tax_id'])) {
+            $prepared_item['tax_id'] = $input['tax_id'];
         }
 
-        if (isset($request['db_id'])) {
-            $prepared_item['db_id'] = $request['db_id'];
+        if (isset($input['db_id'])) {
+            $prepared_item['db_id'] = $input['db_id'];
         }
 
-        if (isset($request['row_id'])) {
-            $prepared_item['row_id'] = $request['row_id'];
+        if (isset($input['row_id'])) {
+            $prepared_item['row_id'] = $input['row_id'];
         }
 
-        if (isset($request['component_name'])) {
-            $prepared_item['component_name'] = $request['component_name'];
+        if (isset($input['component_name'])) {
+            $prepared_item['component_name'] = $input['component_name'];
         }
 
-        if (isset($request['agency_id'])) {
-            $prepared_item['agency_id'] = $request['agency_id'];
+        if (isset($input['agency_id'])) {
+            $prepared_item['agency_id'] = $input['agency_id'];
         }
 
-        if (isset($request['tax_cat_id'])) {
-            $prepared_item['tax_cat_id'] = $request['tax_cat_id'];
+        if (isset($input['tax_cat_id'])) {
+            $prepared_item['tax_cat_id'] = $input['tax_cat_id'];
         }
 
-        if (isset($request['tax_rate'])) {
-            $prepared_item['tax_rate'] = $request['tax_rate'];
+        if (isset($input['tax_rate'])) {
+            $prepared_item['tax_rate'] = $input['tax_rate'];
         }
 
         return $prepared_item;

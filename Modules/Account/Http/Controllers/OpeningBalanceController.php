@@ -23,9 +23,10 @@ class OpeningBalanceController extends Controller
     public function getOpeningBalances(Request $request)
     {
         $obalance = new OpeningBalances();
+        $input = $request->all();
 
-        $args['number'] = !empty($request['per_page']) ? $request['per_page'] : 20;
-        $args['offset'] = ($request['per_page'] * ($request['page'] - 1));
+        $args['number'] = !empty($input['per_page']) ? $input['per_page'] : 20;
+        $args['offset'] = ($input['per_page'] * ($input['page'] - 1));
 
         $additional_fields = [];
 
@@ -59,8 +60,9 @@ class OpeningBalanceController extends Controller
     {
 
         $obalance = new OpeningBalances();
+        $input = $request->all();
 
-        $id                = (int) $request['id'];
+        $id                = (int) $input['id'];
         $additional_fields = [];
 
         if (empty($id)) {
@@ -95,9 +97,9 @@ class OpeningBalanceController extends Controller
      */
     public function getOpeningBalanceCountByFy(Request $request)
     {
+        $input = $request->all();
 
-
-        $id                = (int) $request['id'];
+        $id                = (int) $input['id'];
         $additional_fields = [];
 
         if (empty($id)) {
@@ -121,8 +123,9 @@ class OpeningBalanceController extends Controller
     public function getVirtualAcctsByYear(Request $request)
     {
         $open_balances = new OpeningBalances();
+        $input = $request->all();
 
-        $id                = (int) $request['id'];
+        $id                = (int) $input['id'];
         $additional_fields = [];
 
         if (empty($id)) {
@@ -165,6 +168,7 @@ class OpeningBalanceController extends Controller
     public function createOpeningBalance(Request $request)
     {
         $obalance = new OpeningBalances();
+        $input = $request->all();
 
         $opening_balance_data = $this->prepareItemFDatabase($request);
 
@@ -174,8 +178,8 @@ class OpeningBalanceController extends Controller
         $total_dr = 0;
         $total_cr = 0;
 
-        $total_dr = (isset($request['total_dr']) ? $request['total_dr'] : 0);
-        $total_cr = (isset($request['total_dr']) ? $request['total_dr'] : 0);
+        $total_dr = (isset($input['total_dr']) ? $input['total_dr'] : 0);
+        $total_cr = (isset($input['total_dr']) ? $input['total_dr'] : 0);
 
         if ($total_dr !== $total_cr) {
             config('kernel.messageBag')->add('rest_opening_balance_invalid_amount', __('Summation of debit and credit must be equal.'), ['status' => 400]);
@@ -204,6 +208,8 @@ class OpeningBalanceController extends Controller
     public function getAccPayableReceivable(Request $request)
     {
         $open_balance = new OpeningBalances();
+        $input = $request->all();
+        
 
         $additional_fields = [];
 
@@ -211,8 +217,8 @@ class OpeningBalanceController extends Controller
 
         $acc_pay_rec = [];
 
-        $acc_pay_rec['invoice_acc']       = $open_balance->getOpbInvoiceAccountDetails($request['start_date']);
-        $acc_pay_rec['bill_purchase_acc'] = $this->getOpbBillPurchaseAccountDetails($request['start_date']);
+        $acc_pay_rec['invoice_acc']       = $open_balance->getOpbInvoiceAccountDetails($input['start_date']);
+        $acc_pay_rec['bill_purchase_acc'] = $this->getOpbBillPurchaseAccountDetails($input['start_date']);
 
         return response()->json($acc_pay_rec);
     }
@@ -239,28 +245,30 @@ class OpeningBalanceController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['year'])) {
-            $prepared_item['year'] = $request['year'];
+        $input = $request->all();
+
+        if (isset($input['year'])) {
+            $prepared_item['year'] = $input['year'];
         }
 
-        if (isset($request['ledgers'])) {
-            $prepared_item['ledgers'] = $request['ledgers'];
+        if (isset($input['ledgers'])) {
+            $prepared_item['ledgers'] = $input['ledgers'];
         }
 
-        if (isset($request['description'])) {
-            $prepared_item['description'] = $request['description'];
+        if (isset($input['description'])) {
+            $prepared_item['description'] = $input['description'];
         }
 
-        if (isset($request['acct_pay'])) {
-            $prepared_item['acct_pay'] = $request['acct_pay'];
+        if (isset($input['acct_pay'])) {
+            $prepared_item['acct_pay'] = $input['acct_pay'];
         }
 
-        if (isset($request['acct_rec'])) {
-            $prepared_item['acct_rec'] = $request['acct_rec'];
+        if (isset($input['acct_rec'])) {
+            $prepared_item['acct_rec'] = $input['acct_rec'];
         }
 
-        if (isset($request['tax_pay'])) {
-            $prepared_item['tax_pay'] = $request['tax_pay'];
+        if (isset($input['tax_pay'])) {
+            $prepared_item['tax_pay'] = $input['tax_pay'];
         }
 
         return $prepared_item;

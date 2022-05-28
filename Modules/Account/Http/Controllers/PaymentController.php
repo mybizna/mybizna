@@ -25,9 +25,12 @@ class PaymentController extends Controller
     public function getPayments(Request $request)
     {
         $recpayments = new RecPayments();
+
+        $input = $request->all();
+
         $args = [
-            'number' => isset($request['per_page']) ? $request['per_page'] : 20,
-            'offset' => ($request['per_page'] * ($request['page'] - 1)),
+            'number' => isset($input['per_page']) ? $input['per_page'] : 20,
+            'offset' => ($input['per_page'] * ($input['page'] - 1)),
         ];
 
         $formatted_items   = [];
@@ -44,8 +47,8 @@ class PaymentController extends Controller
         );
 
         foreach ($payment_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -69,7 +72,9 @@ class PaymentController extends Controller
     {
         $recpayments = new RecPayments();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
@@ -94,10 +99,12 @@ class PaymentController extends Controller
     public function createPayment(Request $request)
     {
         $recpayments = new RecPayments();
+
+        $input = $request->all();
         $additional_fields = [];
         $payment_data      = $this->prepareItemFDatabase($request);
 
-        $items      = $request['line_items'];
+        $items      = $input['line_items'];
         $item_total = [];
 
         foreach ($items as $key => $item) {
@@ -127,7 +134,9 @@ class PaymentController extends Controller
     public function updatePayment(Request $request)
     {
         $recpayments = new RecPayments();
-        $id = (int) $request['id'];
+
+        $input = $request->all();
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
@@ -136,7 +145,7 @@ class PaymentController extends Controller
 
         $payment_data = $this->prepareItemFDatabase($request);
 
-        $items      = $request['line_items'];
+        $items      = $input['line_items'];
         $item_total = [];
 
         foreach ($items as $key => $item) {
@@ -169,7 +178,9 @@ class PaymentController extends Controller
     {
         $payment = new RecPayments();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
@@ -217,84 +228,86 @@ class PaymentController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['id'])) {
-            $prepared_item['id'] = $request['id'];
+        $input = $request->all();
+
+        if (isset($input['id'])) {
+            $prepared_item['id'] = $input['id'];
         }
 
-        if (isset($request['customer_id'])) {
-            $prepared_item['customer_id'] = $request['customer_id'];
+        if (isset($input['customer_id'])) {
+            $prepared_item['customer_id'] = $input['customer_id'];
         }
 
-        if (isset($request['trn_date'])) {
-            $prepared_item['trn_date'] = $request['trn_date'];
+        if (isset($input['trn_date'])) {
+            $prepared_item['trn_date'] = $input['trn_date'];
         }
 
-        if (isset($request['line_items'])) {
-            $prepared_item['line_items'] = $request['line_items'];
+        if (isset($input['line_items'])) {
+            $prepared_item['line_items'] = $input['line_items'];
         }
 
-        if (isset($request['particulars'])) {
-            $prepared_item['particulars'] = $request['particulars'];
+        if (isset($input['particulars'])) {
+            $prepared_item['particulars'] = $input['particulars'];
         }
 
-        if (isset($request['invoice_no'])) {
-            $prepared_item['invoice_no'] = $request['invoice_no'];
+        if (isset($input['invoice_no'])) {
+            $prepared_item['invoice_no'] = $input['invoice_no'];
         }
 
-        if (isset($request['amount'])) {
-            $prepared_item['amount'] = $request['amount'];
+        if (isset($input['amount'])) {
+            $prepared_item['amount'] = $input['amount'];
         }
 
-        if (isset($request['ref'])) {
-            $prepared_item['ref'] = $request['ref'];
+        if (isset($input['ref'])) {
+            $prepared_item['ref'] = $input['ref'];
         }
 
-        if (isset($request['due'])) {
-            $prepared_item['due'] = $request['due'];
+        if (isset($input['due'])) {
+            $prepared_item['due'] = $input['due'];
         }
 
-        if (isset($request['line_total'])) {
-            $prepared_item['line_total'] = $request['line_total'];
+        if (isset($input['line_total'])) {
+            $prepared_item['line_total'] = $input['line_total'];
         }
 
-        if (isset($request['trn_by'])) {
-            $prepared_item['trn_by'] = $request['trn_by'];
+        if (isset($input['trn_by'])) {
+            $prepared_item['trn_by'] = $input['trn_by'];
         }
 
-        if (isset($request['type'])) {
-            $prepared_item['type'] = $request['type'];
+        if (isset($input['type'])) {
+            $prepared_item['type'] = $input['type'];
         }
 
-        if (isset($request['status'])) {
-            $prepared_item['status'] = $request['status'];
+        if (isset($input['status'])) {
+            $prepared_item['status'] = $input['status'];
         }
 
-        if (isset($request['attachments'])) {
-            $prepared_item['attachments'] = maybe_serialize($request['attachments']);
+        if (isset($input['attachments'])) {
+            $prepared_item['attachments'] = maybe_serialize($input['attachments']);
         }
 
-        if (isset($request['billing_address'])) {
-            $prepared_item['billing_address'] = maybe_serialize($request['billing_address']);
+        if (isset($input['billing_address'])) {
+            $prepared_item['billing_address'] = maybe_serialize($input['billing_address']);
         }
 
-        if (isset($request['deposit_to'])) {
-            $prepared_item['deposit_to'] = $request['deposit_to'];
+        if (isset($input['deposit_to'])) {
+            $prepared_item['deposit_to'] = $input['deposit_to'];
         }
 
-        if (isset($request['name'])) {
-            $prepared_item['name'] = $request['name'];
+        if (isset($input['name'])) {
+            $prepared_item['name'] = $input['name'];
         }
 
-        if (isset($request['bank'])) {
-            $prepared_item['bank'] = $request['bank'];
+        if (isset($input['bank'])) {
+            $prepared_item['bank'] = $input['bank'];
         }
 
-        if (isset($request['check_no'])) {
-            $prepared_item['check_no'] = $request['check_no'];
+        if (isset($input['check_no'])) {
+            $prepared_item['check_no'] = $input['check_no'];
         }
 
-        if (isset($request['bank_trn_charge'])) {
-            $prepared_item['bank_trn_charge'] = $request['bank_trn_charge'];
+        if (isset($input['bank_trn_charge'])) {
+            $prepared_item['bank_trn_charge'] = $input['bank_trn_charge'];
         }
 
         return $prepared_item;

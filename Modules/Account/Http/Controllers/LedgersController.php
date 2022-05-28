@@ -51,7 +51,10 @@ class LedgersController extends Controller
     public function getLedgerAccountsByChart(Request $request)
     {
         $ledger = new LedgerAccounts();
-        $id = $request['chart_id'];
+
+        $input = $request->all();
+
+        $id = $input['chart_id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_empty_chart_id', __('Chart ID is Empty.'));
@@ -74,9 +77,11 @@ class LedgersController extends Controller
     {
         $ledger = new LedgerAccounts();
 
+        $input = $request->all();
+
         $items = [];
 
-        $id = (int) $request['id'];
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_ledger_invalid_id', __('Invalid resource id.'));
@@ -100,8 +105,9 @@ class LedgersController extends Controller
     {
         $ledger = new LedgerAccounts();
 
+        $input = $request->all();
 
-        $exist = DB::scalar("SELECT name FROM account_ledger WHERE name = %s", [$request['name']]);
+        $exist = DB::scalar("SELECT name FROM account_ledger WHERE name = %s", [$input['name']]);
 
         if ($exist) {
             config('kernel.messageBag')->add('rest_ledger_name_already_exist', __('Name already exist.'));
@@ -130,9 +136,9 @@ class LedgersController extends Controller
     public function updateLedgerAccount(Request $request)
     {
         $ledger = new LedgerAccounts();
+        $input = $request->all();
 
-
-        $id = (int) $request['id'];
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_ledger_invalid_id', __('Invalid resource id.'));
@@ -163,9 +169,9 @@ class LedgersController extends Controller
     public function deleteLedgerAccount(Request $request)
     {
         $ledger = new LedgerAccounts();
+        $input = $request->all();
 
-
-        $id = (int) $request['id'];
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_ledger_invalid_id', __('Invalid resource id.'));
@@ -272,7 +278,8 @@ class LedgersController extends Controller
     public function getLedgerCategories(Request $request)
     {
         $ledger = new LedgerAccounts();
-        $chart_id = absint($request['chart_id']);
+        $input = $request->all();
+        $chart_id = absint($input['chart_id']);
 
         $categories = $ledger->getLedgerCategories($chart_id);
 
@@ -309,7 +316,8 @@ class LedgersController extends Controller
     public function updateLedgerCategory(Request $request)
     {
         $ledger = new LedgerAccounts();
-        $id = (int) $request['id'];
+        $input = $request->all();
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_ledger_invalid_id', __('Invalid resource id.'));
@@ -332,7 +340,8 @@ class LedgersController extends Controller
     public function deleteLedgerCategory(Request $request)
     {
         $ledger = new LedgerAccounts();
-        $id = (int) $request['id'];
+        $input = $request->all();
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
@@ -379,11 +388,12 @@ class LedgersController extends Controller
     protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
+        $input = $request->all();
 
-        $prepared_item['chart_id']    = !empty($request['chart_id']) ? (int) $request['chart_id'] : '';
-        $prepared_item['category_id'] = !empty($request['category_id']) ? (int) $request['category_id'] : null;
-        $prepared_item['name']        = !empty($request['name']) ? $request['name'] : '';
-        $prepared_item['code']        = !empty($request['code']) ? $request['code'] : null;
+        $prepared_item['chart_id']    = !empty($input['chart_id']) ? (int) $input['chart_id'] : '';
+        $prepared_item['category_id'] = !empty($input['category_id']) ? (int) $input['category_id'] : null;
+        $prepared_item['name']        = !empty($input['name']) ? $input['name'] : '';
+        $prepared_item['code']        = !empty($input['code']) ? $input['code'] : null;
 
         return $prepared_item;
     }

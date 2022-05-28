@@ -49,8 +49,10 @@ class AccountsController extends Controller
      */
     public function getAccount(Request $request)
     {
+        $input = $request->all();
+
         $bank = new Bank();
-        $id   = (int) $request['id'];
+        $id   = (int) $input['id'];
         $item = $bank->getBank($id);
 
         if (empty($id) || empty($item->id)) {
@@ -71,8 +73,9 @@ class AccountsController extends Controller
      */
     public function deleteAccount(Request $request)
     {
+        $input = $request->all();
         $bank = new Bank();
-        $id   = (int) $request['id'];
+        $id   = (int) $input['id'];
         $item = $bank->deleteBank($id);
 
         if (empty($id) || empty($item->id)) {
@@ -145,11 +148,12 @@ class AccountsController extends Controller
     public function getTransferList(Request $request)
     {
         $bank = new Bank();
+        $input = $request->all();
         $args = [
-            'order_by' => isset($request['order_by']) ? $request['order_by'] : 'id',
-            'order'    => isset($request['order']) ? $request['order'] : 'DESC',
-            'number'   => isset($request['per_page']) ? (int) $request['per_page'] : 20,
-            'offset'   => ($request['per_page'] * ($request['page'] - 1)),
+            'order_by' => isset($input['order_by']) ? $input['order_by'] : 'id',
+            'order'    => isset($input['order']) ? $input['order'] : 'DESC',
+            'number'   => isset($input['per_page']) ? (int) $input['per_page'] : 20,
+            'offset'   => ($input['per_page'] * ($input['page'] - 1)),
         ];
 
         $items    = $bank->getTransferVouchers($args);
@@ -174,7 +178,8 @@ class AccountsController extends Controller
     {
 
         $bank = new Bank();
-        $id       = !empty($request['id']) ? intval($request['id']) : 0;
+        $input = $request->all();
+        $id       = !empty($input['id']) ? intval($input['id']) : 0;
         $item     = $bank->getSingleVoucher($id);
         $accounts = $bank->getTransferAccounts();
         $accounts = wp_list_pluck($accounts, 'name', 'id');
@@ -256,13 +261,16 @@ class AccountsController extends Controller
      */
     protected function prepareItemFDatabase(Request $request)
     {
+
+        $input = $request->all();
+
         $prepared_item = [];
 
-        $prepared_item['date']            = date('Y-m-d', strtotime($request['date']));
-        $prepared_item['from_account_id'] = isset($request['from_account_id']) ? intval($request['from_account_id']) : 0;
-        $prepared_item['to_account_id']   = isset($request['to_account_id']) ? intval($request['to_account_id']) : 0;
-        $prepared_item['amount']          = isset($request['amount']) ? floatval($request['amount']) : 0;
-        $prepared_item['particulars']     = isset($request['particulars']) ? sanitize_text_field($request['particulars']) : '';
+        $prepared_item['date']            = date('Y-m-d', strtotime($input['date']));
+        $prepared_item['from_account_id'] = isset($input['from_account_id']) ? intval($input['from_account_id']) : 0;
+        $prepared_item['to_account_id']   = isset($input['to_account_id']) ? intval($input['to_account_id']) : 0;
+        $prepared_item['amount']          = isset($input['amount']) ? floatval($input['amount']) : 0;
+        $prepared_item['particulars']     = isset($input['particulars']) ? sanitize_text_field($input['particulars']) : '';
 
         return $prepared_item;
     }
@@ -280,14 +288,16 @@ class AccountsController extends Controller
     {
         $item = (object) $item;
 
+        $input = $request->all();
+
         $data = [
             'id'      => (int) $item->id,
             'name'    => $item->name,
             'balance' => !empty($item->balance) ? $item->balance : 0,
         ];
 
-        if (isset($request['include'])) {
-            $include_params = explode(',', str_replace(' ', '', $request['include']));
+        if (isset($input['include'])) {
+            $include_params = explode(',', str_replace(' ', '', $input['include']));
 
             if (in_array('created_by', $include_params, true)) {
                 $data['created_by'] = $this->get_user(intval($item->created_by));
@@ -311,8 +321,10 @@ class AccountsController extends Controller
      */
     public function prepareDashboardItemForResponse($item, Request $request, $additional_fields = [])
     {
-        if (isset($request['include'])) {
-            $include_params = explode(',', str_replace(' ', '', $request['include']));
+        $input = $request->all();
+
+        if (isset($input['include'])) {
+            $include_params = explode(',', str_replace(' ', '', $input['include']));
 
             if (in_array('created_by', $include_params, true)) {
                 $data['created_by'] = $this->get_user(intval($item->created_by));
@@ -337,6 +349,8 @@ class AccountsController extends Controller
     {
         $item = (object) $item;
 
+        $input = $request->all();
+
         $data = [
             'id'          => $item->id,
             'voucher'     => (int) $item->voucher_no,
@@ -349,8 +363,8 @@ class AccountsController extends Controller
             'created_by'  => $this->get_user(1),
         ];
 
-        if (isset($request['include'])) {
-            $include_params = explode(',', str_replace(' ', '', $request['include']));
+        if (isset($input['include'])) {
+            $include_params = explode(',', str_replace(' ', '', $input['include']));
 
             if (in_array('created_by', $include_params, true)) {
                 $data['created_by'] = $this->get_user(intval($item->created_by));

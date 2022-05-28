@@ -24,15 +24,15 @@ class EmployeesController extends Controller
     public function getEmployees(Request $request)
     {
         $hr = new Hr();
-
+        $input = $request->all();
         $args = [
-            'number'      => $request['per_page'],
-            'offset'      => ($request['per_page'] * ($request['page'] - 1)),
-            'status'      => ($request['status']) ? $request['status'] : 'active',
-            'department'  => ($request['department']) ? $request['department'] : '-1',
-            'designation' => ($request['designation']) ? $request['designation'] : '-1',
-            'location'    => ($request['location']) ? $request['location'] : '-1',
-            's'           => ($request['s']) ? $request['s'] : '',
+            'number'      => $input['per_page'],
+            'offset'      => ($input['per_page'] * ($input['page'] - 1)),
+            'status'      => ($input['status']) ? $input['status'] : 'active',
+            'department'  => ($input['department']) ? $input['department'] : '-1',
+            'designation' => ($input['designation']) ? $input['designation'] : '-1',
+            'location'    => ($input['location']) ? $input['location'] : '-1',
+            's'           => ($input['s']) ? $input['s'] : '',
         ];
 
         $items = $hr->hrGetEmployees($args);
@@ -66,7 +66,8 @@ class EmployeesController extends Controller
     {
 
         $people = new People();
-        $people_id = (int) $request['id'];
+        $input = $request->all();
+        $people_id = (int) $input['id'];
         $user_id   = $people->getUserIdByPeopleId($people_id);
 
         $employee = DB::table('hrm_employee')->where('user_id', $user_id)->first();
@@ -98,7 +99,8 @@ class EmployeesController extends Controller
     public function getTransactions(Request $request)
     {
         $people = new People();
-        $args['people_id'] = (int) $request['id'];
+        $input = $request->all();
+        $args['people_id'] = (int) $input['id'];
 
         $transactions = $people->getPeopleTransactions($args);
 
@@ -157,158 +159,160 @@ class EmployeesController extends Controller
         $prepared_item = [];
         $company       = new Company();
 
-        if (isset($request['id'])) {
-            $prepared_item['id'] = $request['id'];
+        $input = $request->all();
+
+        if (isset($input['id'])) {
+            $prepared_item['id'] = $input['id'];
         }
 
         // required arguments.
-        if (isset($request['first_name'])) {
-            $prepared_item['personal']['first_name'] = $request['first_name'];
+        if (isset($input['first_name'])) {
+            $prepared_item['personal']['first_name'] = $input['first_name'];
         }
 
-        if (isset($request['last_name'])) {
-            $prepared_item['personal']['last_name'] = $request['last_name'];
+        if (isset($input['last_name'])) {
+            $prepared_item['personal']['last_name'] = $input['last_name'];
         }
 
-        if (isset($request['employee_id'])) {
-            $prepared_item['work']['employee_id'] = $request['employee_id'];
+        if (isset($input['employee_id'])) {
+            $prepared_item['work']['employee_id'] = $input['employee_id'];
         }
 
-        if (isset($request['email'])) {
-            $prepared_item['user_email'] = $request['email'];
+        if (isset($input['email'])) {
+            $prepared_item['user_email'] = $input['email'];
         }
 
         // optional arguments.
-        if (isset($request['company'])) {
-            $prepared_item['company'] = isset($request['company']) ? $request['company'] : $company->name;
+        if (isset($input['company'])) {
+            $prepared_item['company'] = isset($input['company']) ? $input['company'] : $company->name;
         }
 
-        if (isset($request['user_id'])) {
-            $prepared_item['user_id'] = absint($request['user_id']);
+        if (isset($input['user_id'])) {
+            $prepared_item['user_id'] = absint($input['user_id']);
         }
 
-        if (isset($request['middle_name'])) {
-            $prepared_item['personal']['middle_name'] = $request['middle_name'];
+        if (isset($input['middle_name'])) {
+            $prepared_item['personal']['middle_name'] = $input['middle_name'];
         }
 
-        if (isset($request['designation'])) {
-            $prepared_item['work']['designation'] = $request['designation'];
+        if (isset($input['designation'])) {
+            $prepared_item['work']['designation'] = $input['designation'];
         }
 
-        if (isset($request['department'])) {
-            $prepared_item['work']['department'] = $request['department'];
+        if (isset($input['department'])) {
+            $prepared_item['work']['department'] = $input['department'];
         }
 
-        if (isset($request['reporting_to'])) {
-            $prepared_item['work']['reporting_to'] = $request['reporting_to'];
+        if (isset($input['reporting_to'])) {
+            $prepared_item['work']['reporting_to'] = $input['reporting_to'];
         }
 
-        if (isset($request['location'])) {
-            $prepared_item['work']['location'] = $request['location'];
+        if (isset($input['location'])) {
+            $prepared_item['work']['location'] = $input['location'];
         }
 
-        if (isset($request['hiring_source'])) {
-            $prepared_item['work']['hiring_source'] = $request['hiring_source'];
+        if (isset($input['hiring_source'])) {
+            $prepared_item['work']['hiring_source'] = $input['hiring_source'];
         }
 
-        if (isset($request['hiring_date'])) {
-            $prepared_item['work']['hiring_date'] = $request['hiring_date'];
+        if (isset($input['hiring_date'])) {
+            $prepared_item['work']['hiring_date'] = $input['hiring_date'];
         }
 
-        if (isset($request['date_of_birth'])) {
-            $prepared_item['work']['date_of_birth'] = $request['date_of_birth'];
+        if (isset($input['date_of_birth'])) {
+            $prepared_item['work']['date_of_birth'] = $input['date_of_birth'];
         }
 
-        if (isset($request['pay_rate'])) {
-            $prepared_item['work']['pay_rate'] = $request['pay_rate'];
+        if (isset($input['pay_rate'])) {
+            $prepared_item['work']['pay_rate'] = $input['pay_rate'];
         }
 
-        if (isset($request['pay_type'])) {
-            $prepared_item['work']['pay_type'] = $request['pay_type'];
+        if (isset($input['pay_type'])) {
+            $prepared_item['work']['pay_type'] = $input['pay_type'];
         }
 
-        if (isset($request['type'])) {
-            $prepared_item['work']['type'] = $request['type'];
+        if (isset($input['type'])) {
+            $prepared_item['work']['type'] = $input['type'];
         }
 
-        if (isset($request['status'])) {
-            $prepared_item['work']['status'] = $request['status'];
+        if (isset($input['status'])) {
+            $prepared_item['work']['status'] = $input['status'];
         }
 
-        if (isset($request['other_email'])) {
-            $prepared_item['personal']['other_email'] = $request['other_email'];
+        if (isset($input['other_email'])) {
+            $prepared_item['personal']['other_email'] = $input['other_email'];
         }
 
-        if (isset($request['phone'])) {
-            $prepared_item['personal']['phone'] = $request['phone'];
+        if (isset($input['phone'])) {
+            $prepared_item['personal']['phone'] = $input['phone'];
         }
 
-        if (isset($request['work_phone'])) {
-            $prepared_item['personal']['work_phone'] = $request['work_phone'];
+        if (isset($input['work_phone'])) {
+            $prepared_item['personal']['work_phone'] = $input['work_phone'];
         }
 
-        if (isset($request['mobile'])) {
-            $prepared_item['personal']['mobile'] = $request['mobile'];
+        if (isset($input['mobile'])) {
+            $prepared_item['personal']['mobile'] = $input['mobile'];
         }
 
-        if (isset($request['address'])) {
-            $prepared_item['personal']['address'] = $request['address'];
+        if (isset($input['address'])) {
+            $prepared_item['personal']['address'] = $input['address'];
         }
 
-        if (isset($request['gender'])) {
-            $prepared_item['personal']['gender'] = $request['gender'];
+        if (isset($input['gender'])) {
+            $prepared_item['personal']['gender'] = $input['gender'];
         }
 
-        if (isset($request['marital_status'])) {
-            $prepared_item['personal']['marital_status'] = $request['marital_status'];
+        if (isset($input['marital_status'])) {
+            $prepared_item['personal']['marital_status'] = $input['marital_status'];
         }
 
-        if (isset($request['nationality'])) {
-            $prepared_item['personal']['nationality'] = $request['nationality'];
+        if (isset($input['nationality'])) {
+            $prepared_item['personal']['nationality'] = $input['nationality'];
         }
 
-        if (isset($request['driving_license'])) {
-            $prepared_item['personal']['driving_license'] = $request['driving_license'];
+        if (isset($input['driving_license'])) {
+            $prepared_item['personal']['driving_license'] = $input['driving_license'];
         }
 
-        if (isset($request['hobbies'])) {
-            $prepared_item['personal']['hobbies'] = $request['hobbies'];
+        if (isset($input['hobbies'])) {
+            $prepared_item['personal']['hobbies'] = $input['hobbies'];
         }
 
-        if (isset($request['user_url'])) {
-            $prepared_item['personal']['user_url'] = $request['user_url'];
+        if (isset($input['user_url'])) {
+            $prepared_item['personal']['user_url'] = $input['user_url'];
         }
 
-        if (isset($request['description'])) {
-            $prepared_item['personal']['description'] = $request['description'];
+        if (isset($input['description'])) {
+            $prepared_item['personal']['description'] = $input['description'];
         }
 
-        if (isset($request['street_1'])) {
-            $prepared_item['personal']['street_1'] = $request['street_1'];
+        if (isset($input['street_1'])) {
+            $prepared_item['personal']['street_1'] = $input['street_1'];
         }
 
-        if (isset($request['street_2'])) {
-            $prepared_item['personal']['street_2'] = $request['street_2'];
+        if (isset($input['street_2'])) {
+            $prepared_item['personal']['street_2'] = $input['street_2'];
         }
 
-        if (isset($request['city'])) {
-            $prepared_item['personal']['city'] = $request['city'];
+        if (isset($input['city'])) {
+            $prepared_item['personal']['city'] = $input['city'];
         }
 
-        if (isset($request['country'])) {
-            $prepared_item['personal']['country'] = $request['country'];
+        if (isset($input['country'])) {
+            $prepared_item['personal']['country'] = $input['country'];
         }
 
-        if (isset($request['state'])) {
-            $prepared_item['personal']['state'] = $request['state'];
+        if (isset($input['state'])) {
+            $prepared_item['personal']['state'] = $input['state'];
         }
 
-        if (isset($request['postal_code'])) {
-            $prepared_item['personal']['postal_code'] = $request['postal_code'];
+        if (isset($input['postal_code'])) {
+            $prepared_item['personal']['postal_code'] = $input['postal_code'];
         }
 
-        if (isset($request['photo_id'])) {
-            $prepared_item['personal']['photo_id'] = $request['photo_id'];
+        if (isset($input['photo_id'])) {
+            $prepared_item['personal']['photo_id'] = $input['photo_id'];
         }
 
         return $prepared_item;

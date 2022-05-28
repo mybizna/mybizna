@@ -24,7 +24,9 @@ class TransactionsController extends Controller
     {
         $trans = new Transactions();
 
-        $voucher_no = !empty($request['voucher_no']) ? $request['voucher_no'] : 0;
+        $input = $request->all();
+
+        $voucher_no = !empty($input['voucher_no']) ? $input['voucher_no'] : 0;
 
         $voucher_type = $trans->getTransactionType($voucher_no);
 
@@ -56,14 +58,17 @@ class TransactionsController extends Controller
      */
     public function getSales(Request $request)
     {
+
+
+        $input = $request->all();
         $args = [
-            'number'     => empty($request['per_page']) ? 20 : (int) $request['per_page'],
-            'offset'     => ($request['per_page'] * ($request['page'] - 1)),
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
-            'status'     => empty($request['status']) ? '' : $request['status'],
-            'type'       => empty($request['type']) ? '' : $request['type'],
-            'customer_id' => empty($request['customer_id']) ? '' : $request['customer_id'],
+            'number'     => empty($input['per_page']) ? 20 : (int) $input['per_page'],
+            'offset'     => ($input['per_page'] * ($input['page'] - 1)),
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
+            'status'     => empty($input['status']) ? '' : $input['status'],
+            'type'       => empty($input['type']) ? '' : $input['type'],
+            'customer_id' => empty($input['customer_id']) ? '' : $input['customer_id'],
         ];
 
 
@@ -100,9 +105,11 @@ class TransactionsController extends Controller
     {
         $trans = new Transactions();
 
+        $input = $request->all();
+
         $args = [
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $chart_status = $trans->getSalesChartStatus($args);
@@ -117,9 +124,11 @@ class TransactionsController extends Controller
     {
         $trans = new Transactions();
 
+        $input = $request->all();
+
         $args = [
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $chart_payment = $trans->getSalesChartPayment($args);
@@ -152,9 +161,11 @@ class TransactionsController extends Controller
     {
         $trans = new Transactions();
 
+        $input = $request->all();
+
         $args = [
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $bill_payment    = $this->getBillChartData($args);
@@ -177,9 +188,11 @@ class TransactionsController extends Controller
     public function getExpenseChartStatus(Request $request)
     {
         $trans = new Transactions();
+
+        $input = $request->all();
         $args = [
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $chart_statuses = $trans->getBillChartStatus($args);
@@ -207,14 +220,16 @@ class TransactionsController extends Controller
     public function getExpenses(Request $request)
     {
         $trans = new Transactions();
+
+        $input = $request->all();
         $args = [
-            'number'     => empty($request['per_page']) ? 20 : (int) $request['per_page'],
-            'offset'     => ($request['per_page'] * ($request['page'] - 1)),
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
-            'status'     => empty($request['status']) ? '' : $request['status'],
-            'type'       => empty($request['type']) ? '' : $request['type'],
-            'vendor_id'  => empty($request['vendor_id']) ? '' : $request['vendor_id'],
+            'number'     => empty($input['per_page']) ? 20 : (int) $input['per_page'],
+            'offset'     => ($input['per_page'] * ($input['page'] - 1)),
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
+            'status'     => empty($input['status']) ? '' : $input['status'],
+            'type'       => empty($input['type']) ? '' : $input['type'],
+            'vendor_id'  => empty($input['vendor_id']) ? '' : $input['vendor_id'],
         ];
 
         $formatted_items   = [];
@@ -252,9 +267,11 @@ class TransactionsController extends Controller
     public function getPurchaseChartData(Request $request)
     {
         $trans = new Transactions();
+
+        $input = $request->all();
         $args = [
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $chart_payment = $trans->getPurchaseChartData($args);
@@ -273,9 +290,11 @@ class TransactionsController extends Controller
     {
         $trans = new Transactions();
 
+        $input = $request->all();
+
         $args = [
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $chart_status = $trans->getPurchaseChartStatus($args);
@@ -293,14 +312,16 @@ class TransactionsController extends Controller
     public function getPurchases(Request $request)
     {
         $trans = new Transactions();
+
+        $input = $request->all();
         $args = [
-            'number'     => (int) empty($request['per_page']) ? 20 : (int) $request['per_page'],
-            'offset'     => ($request['per_page'] * ($request['page'] - 1)),
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
-            'status'     => empty($request['status']) ? '' : $request['status'],
-            'type'       => empty($request['type']) ? '' : $request['type'],
-            'vendor_id'  => empty($request['vendor_id']) ? '' : $request['vendor_id'],
+            'number'     => (int) empty($input['per_page']) ? 20 : (int) $input['per_page'],
+            'offset'     => ($input['per_page'] * ($input['page'] - 1)),
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
+            'status'     => empty($input['status']) ? '' : $input['status'],
+            'type'       => empty($input['type']) ? '' : $input['type'],
+            'vendor_id'  => empty($input['vendor_id']) ? '' : $input['vendor_id'],
         ];
 
         $formatted_items   = [];
@@ -346,7 +367,9 @@ class TransactionsController extends Controller
     {
         $trans = new Transactions();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_voucher_type_invalid_id', __('Invalid resource id.'));
@@ -426,7 +449,9 @@ class TransactionsController extends Controller
     public function sendAsPdf($request)
     {
         $trans = new Transactions();
-        $id = (int) $request['id'];
+
+        $input = $request->all();
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_trn_invalid_id', __('Invalid resource id.'));
@@ -438,8 +463,8 @@ class TransactionsController extends Controller
             'message' => 'There was an error sending mail!',
         ];
 
-        $file_name   = $trans->getPdfFilename($request['trn_data']['voucher_no']);
-        $transaction = (object) $request['trn_data'];
+        $file_name   = $trans->getPdfFilename($input['trn_data']['voucher_no']);
+        $transaction = (object) $input['trn_data'];
 
         if ($trans->sendEmailWithPdfAttached($request, $transaction, $file_name, 'F')) {
             $response['status']  = 200;
@@ -453,12 +478,16 @@ class TransactionsController extends Controller
     public function getPeopleTrnAmountData($request)
     {
         $trans = new Transactions();
+
+        $input = $request->all();
+
+        $input = $request->all();
         $args = [
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
-        $args['people_id'] = $request['id'];
+        $args['people_id'] = $input['id'];
 
         $bill_payment     = $trans->getBillChartData($args);
         $expense_payment  = $trans->getExpenseChartData($args);
@@ -477,12 +506,14 @@ class TransactionsController extends Controller
     public function getPeopleTrnStatusData($request)
     {
         $trans = new Transactions();
+
+        $input = $request->all();
         $args = [
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
-        $args['people_id'] = $request['id'];
+        $args['people_id'] = $input['id'];
 
         $chart_statuses    = $trans->getBillChartStatus($args);
         $expense_status    = $trans->getExpenseChartStatus($args);

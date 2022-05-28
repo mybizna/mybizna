@@ -866,6 +866,8 @@ class Transactions
 
         $common = new CommonFunc();
 
+        $input = $request->all();
+
         if (is_array($transaction)) {
             $transaction = (object) $transaction;
         }
@@ -878,10 +880,10 @@ class Transactions
         $type    = $this->getTransactionType($transaction->voucher_no);
 
         if (!empty($request)) {
-            $receiver   = isset($request['receiver']) ? $request['receiver'] : $transaction->email;
-            $subject    = isset($request['subject']) ? $request['subject'] : $transaction->subject;
-            $body       = isset($request['message']) ? $request['message'] : $request['body'];
-            $attach_pdf = isset($request['attachment']) && 'on' === $request['attachment'] ? true : false;
+            $receiver   = isset($input['receiver']) ? $input['receiver'] : $transaction->email;
+            $subject    = isset($input['subject']) ? $input['subject'] : $transaction->subject;
+            $body       = isset($input['message']) ? $input['message'] : $input['body'];
+            $attach_pdf = isset($input['attachment']) && 'on' === $input['attachment'] ? true : false;
         }
 
         if (!empty($transaction->customer_id)) {
@@ -1454,13 +1456,14 @@ class Transactions
         $user_id   = null;
         $trn_id    = null;
         $result    = [];
+        $input = $request->all();
 
-        $type     = isset($request['type']) ? $request['type'] : $this->getTransactionType($transaction->voucher_no);
-        $receiver = isset($request['receiver']) ? $request['receiver'] : [];
+        $type     = isset($input['type']) ? $input['type'] : $this->getTransactionType($transaction->voucher_no);
+        $receiver = isset($input['receiver']) ? $input['receiver'] : [];
         // translators: %s: type
-        $subject = isset($request['subject']) ? $request['subject'] : sprintf(__('Transaction alert for %s'), $request['type']);
-        $body    = isset($request['message']) ? $request['message'] : __('Thank you for the transaction');
-        // $attach_pdf = isset( $request['attachment'] ) && 'on' === $request['attachment'] ? true : false;
+        $subject = isset($input['subject']) ? $input['subject'] : sprintf(__('Transaction alert for %s'), $input['type']);
+        $body    = isset($input['message']) ? $input['message'] : __('Thank you for the transaction');
+        // $attach_pdf = isset( $input['attachment'] ) && 'on' === $input['attachment'] ? true : false;
 
         $pdf_file = $this->generatePdf($request, $transaction, $file_name, 'F');
 
@@ -1488,6 +1491,7 @@ class Transactions
         $trn_id    = null;
         $request   = [];
         $result    = [];
+
 
         $request['type']       = !empty($transaction['type']) ? $transaction['type'] : $this->getTransactionType($voucher_no);
         $request['receiver'][] = !empty($transaction['email']) ? $transaction['email'] : [];
