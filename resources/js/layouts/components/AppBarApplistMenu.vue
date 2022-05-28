@@ -23,7 +23,7 @@
                         class="col-sm-6 col-md-4 p-1"
                     >
                         <div
-                            class="m-1 p-2 border border-light rounded text-center"
+                            class="p-1 border border-light rounded text-center"
                         >
 
                             <router-link
@@ -45,6 +45,34 @@
                         </div>
                     </div>
 
+                    <div
+                        v-for="(item, index) in menuIcons"
+                        :key="index"
+                        class="col-sm-6 col-md-4 p-1"
+                    >
+                        <div
+                            class="p-1 border border-light rounded text-center"
+                        >
+                            <router-link
+                                :to="item.url"
+                                :title="item.title"
+                                class="app-bar-link text-center text-decoration-none"
+                            >
+                                <h2
+                                    :class="
+                                        'border rounded-circle m-2 mt-0 ' +
+                                        item.class_str
+                                    "
+                                >
+                                    <i :class="item.icon"></i>
+                                </h2>
+
+                                <small class="text-black">{{
+                                    item.title
+                                }}</small>
+                            </router-link>
+                        </div>
+                    </div>
                 </div>
 
                 <v-card-actions>
