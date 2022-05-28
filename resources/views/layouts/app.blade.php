@@ -38,13 +38,9 @@
     <style>
         /* Center the loader */
         #loader {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            z-index: 1;
+            margin: 0 auto;
             width: 120px;
             height: 120px;
-            margin: -76px 0 0 -76px;
             border: 16px solid #f3f3f3;
             border-radius: 50%;
             border-top: 16px solid #3498db;
@@ -113,11 +109,13 @@
 
 <body>
     <div id="app">
-        <div id="loaderDiv" class="animate-bottom mt-3">
-            <h2>Loading!....</h2>
-            <p>Note the system is a vuejs client frontend based...</p>
+        <div id="loaderDiv" class="animate-bottom my-5">
+            <h2 class="my-3">Loading!....</h2>
+            <p class="mb-5">Note the system is a vuejs client frontend based and needs javascript.</p>
         </div>
-        <div id="loader"></div>
+        <div>
+            <div id="loader"></div>
+        </div>
     </div>
 </body>
 
