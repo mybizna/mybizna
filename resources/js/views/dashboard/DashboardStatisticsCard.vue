@@ -4,7 +4,7 @@
             <span class="font-weight-semibold">Statistics Card</span>
             <v-spacer></v-spacer>
             <v-btn icon small class="me-n3 mt-n2">
-                <i :class="'fas fa-cog'"></i>
+                <i :class="'fas fa-cog fa-lg'"></i>
             </v-btn>
         </v-card-title>
 
@@ -74,21 +74,22 @@ export default {
         const statisticsData = [
             {
                 title: "Sales",
-                total: parseInt(dashboard_data.value["sales"]) + "k",
+                total: window.$filters.formatNumber(parseInt(dashboard_data.value["sales"])),
             },
             {
                 title: "Customers",
-                total: parseInt(dashboard_data.value["customer"]) + "k",
+                total: window.$filters.formatNumber(parseInt(dashboard_data.value["customer"])),
             },
             {
                 title: "Product",
-                total: parseInt(dashboard_data.value["product"]) + "k",
+                total: window.$filters.formatNumber(parseInt(dashboard_data.value["product"])),
             },
             {
                 title: "Revenue",
-                total: "$" + parseInt(dashboard_data.value["revenue"]) + "00k",
+                total: "$" + window.$filters.formatNumber(parseInt(dashboard_data.value["revenue"])),
             },
         ];
+
 
         const resolveStatisticsIconVariation = (data) => {
             if (data === "Sales")

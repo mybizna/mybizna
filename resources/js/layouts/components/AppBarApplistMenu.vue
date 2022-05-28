@@ -9,25 +9,24 @@
             <template v-slot:activator="{ props }">
                 <v-badge color="success" content="3" v-bind="props">
                     <div class="text-white" v-bind="attrs" v-on="on">
-                        <i class="fas fa-th"></i>
+                        <i class="fas fa-tachometer-alt"></i>
                         Apps
                     </div>
                 </v-badge>
             </template>
 
-            <v-card max-width="300">
+            <v-card max-width="300" min-width="250">
                 <div class="row m-0">
                     <div
-                        v-for="(item, index) in menus"
+                        v-for="(item, index) in menuIcons"
                         :key="index"
                         class="col-sm-6 col-md-4 p-1"
                     >
                         <div
                             class="p-1 border border-light rounded text-center"
                         >
-
                             <router-link
-                                :to="item.path"
+                                :to="item.url"
                                 :title="item.title"
                                 class="app-bar-link text-center text-decoration-none"
                             >
@@ -40,13 +39,14 @@
                                     <i :class="item.icon"></i>
                                 </h2>
 
-                                <small class="text-black">{{ item.title }}</small>
+                                <small class="text-black">{{
+                                    item.title
+                                }}</small>
                             </router-link>
                         </div>
                     </div>
-
                     <div
-                        v-for="(item, index) in menuIcons"
+                        v-for="(item, index) in menus"
                         :key="index"
                         class="col-sm-6 col-md-4 p-1"
                     >
@@ -54,7 +54,7 @@
                             class="p-1 border border-light rounded text-center"
                         >
                             <router-link
-                                :to="item.url"
+                                :to="item.path"
                                 :title="item.title"
                                 class="app-bar-link text-center text-decoration-none"
                             >
@@ -102,24 +102,17 @@ export default {
             return store.state.system.menu;
         });
 
-        console.log('xxxxxxxxxxxxxxxxxxx-------xxxxxxxxxxxxxxxxxx');
-        console.log('');
-        console.log('');
-
-        console.log(menus.value);
-
-
-        return { menus, };
+        return { menus };
     },
 
-     computed: {
-          menups() {
-              var obj = window.$store.state.system.menu;
-              var result = Object.keys(obj).map((key) => [Number(key), obj[key]]);
+    computed: {
+        menups() {
+            var obj = window.$store.state.system.menu;
+            var result = Object.keys(obj).map((key) => [Number(key), obj[key]]);
 
             return result;
-          }
         },
+    },
     data: () => ({
         fav: true,
         menu: false,
@@ -127,40 +120,10 @@ export default {
         hints: true,
         menuIcons: [
             {
-                title: "Account",
-                icon: "fas fa-funnel-dollar",
-                url: "/account",
-                class_str: "text-primary border-primary",
-            },
-            {
-                title: "Expenses",
-                icon: "fas fa-money-bill",
-                url: "/expense",
-                class_str: "text-secondary border-secondary",
-            },
-            {
-                title: "Sales",
-                icon: "fas fa-receipt",
-                url: "/Sales",
-                class_str: "text-warning border-warning",
-            },
-            {
-                title: "Products",
-                icon: "fas fa-store",
-                url: "/products",
+                title: "dashboard",
+                icon: "fas fa-tachometer-alt",
+                url: "/dashboard",
                 class_str: "text-danger border-danger",
-            },
-            {
-                title: "Payment",
-                icon: "fas fa-file-invoice-dollar",
-                url: "/account",
-                class_str: "text-black border-black",
-            },
-            {
-                title: "Bill",
-                icon: "fas fa-hand-holding-usd",
-                url: "/expense",
-                class_str: "text-success border-success",
             },
         ],
     }),
@@ -182,12 +145,12 @@ export default {
         font-size: 24px;
         margin: 0 auto !important;
     }
-    small{
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
+    small {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
     }
 }
 </style>

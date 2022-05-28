@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Mybizna Erp') }}</title>
 
     <script>
         var base_url = '{{  url("/"); }}';
@@ -111,7 +111,7 @@
     <div id="app">
         <div id="loaderDiv" class="animate-bottom my-5">
             <h2 class="my-3">Loading!....</h2>
-            <p class="mb-5">The system require javascript.</p>
+            <p class="mb-5">The system require's javascript.</p>
         </div>
         <div>
             <div id="loader"></div>
