@@ -24,11 +24,13 @@ class TaxAgenciesController extends Controller
     {
         $tax_agencies = new TaxAgencies();
 
+        $input = $request->all();
+
         $args = [
-            'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
-            'offset'     => ($request['per_page'] * ($request['page'] - 1)),
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'number'     => !empty($input['per_page']) ? (int) $input['per_page'] : 20,
+            'offset'     => ($input['per_page'] * ($input['page'] - 1)),
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $formatted_items   = [];
@@ -45,8 +47,8 @@ class TaxAgenciesController extends Controller
         );
 
         foreach ($tax_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -71,7 +73,9 @@ class TaxAgenciesController extends Controller
 
         $tax_agencies = new TaxAgencies();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -125,7 +129,9 @@ class TaxAgenciesController extends Controller
 
         $tax_agencies = new TaxAgencies();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -158,7 +164,9 @@ class TaxAgenciesController extends Controller
 
         $tax_agencies = new TaxAgencies();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -181,7 +189,9 @@ class TaxAgenciesController extends Controller
     {
         $tax_agencies = new TaxAgencies();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -207,7 +217,9 @@ class TaxAgenciesController extends Controller
 
         $tax_agencies = new TaxAgencies();
 
-        $ids = $request['ids'];
+        $input = $request->all();
+
+        $ids = $input['ids'];
         $ids = explode(',', $ids);
 
         if (!$ids) {
@@ -264,8 +276,10 @@ class TaxAgenciesController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['agency_name'])) {
-            $prepared_item['agency_name'] = $request['agency_name'];
+        $input = $request->all();
+
+        if (isset($input['agency_name'])) {
+            $prepared_item['agency_name'] = $input['agency_name'];
         }
 
         return response()->json($prepared_item);

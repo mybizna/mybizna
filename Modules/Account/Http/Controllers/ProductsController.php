@@ -25,10 +25,12 @@ class ProductsController extends Controller
 
         $products = new Products();
 
+        $input = $request->all();
+
         $args = [
-            'number' => !empty($request['number']) ? (int) $request['number'] : 20,
-            'offset' => ($request['per_page'] * ($request['page'] - 1)),
-            's'      => !empty($request['s']) ? $request['s'] : ''
+            'number' => !empty($input['number']) ? (int) $input['number'] : 20,
+            'offset' => ($input['per_page'] * ($input['page'] - 1)),
+            's'      => !empty($input['s']) ? $input['s'] : ''
         ];
 
         $formatted_items   = [];
@@ -62,7 +64,9 @@ class ProductsController extends Controller
     {
         $products = new Products();
 
-        $id   = (int) $request['id'];
+        $input = $request->all();
+
+        $id   = (int) $input['id'];
         $item = $products->getAllProducts($id);
 
         if (empty($id)) {
@@ -115,7 +119,9 @@ class ProductsController extends Controller
     {
         $products = new Products();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
@@ -153,7 +159,9 @@ class ProductsController extends Controller
     {
         $products = new Products();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         $item = $products->getAllProducts($id);
 
@@ -175,15 +183,17 @@ class ProductsController extends Controller
     {
         $products = new Products();
 
+        $input = $request->all();
+
         $args = [
             'csv_file'        => !empty($_FILES['csv_file'])         ? $_FILES['csv_file']         : '',
-            'type'            => !empty($request['type'])            ? $request['type']            : '',
-            'category_id'     => !empty($request['category_id'])     ? $request['category_id']     : '',
-            'product_type_id' => !empty($request['product_type_id']) ? $request['product_type_id'] : '',
-            'tax_cat_id'      => !empty($request['tax_cat_id'])      ? $request['tax_cat_id']      : '',
-            'vendor'          => !empty($request['vendor'])          ? $request['vendor']          : '',
-            'update_existing' => !empty($request['update_existing']) ? $request['update_existing'] : '',
-            'fields'          => !empty($request['fields'])          ? $request['fields']          : '',
+            'type'            => !empty($input['type'])            ? $input['type']            : '',
+            'category_id'     => !empty($input['category_id'])     ? $input['category_id']     : '',
+            'product_type_id' => !empty($input['product_type_id']) ? $input['product_type_id'] : '',
+            'tax_cat_id'      => !empty($input['tax_cat_id'])      ? $input['tax_cat_id']      : '',
+            'vendor'          => !empty($input['vendor'])          ? $input['vendor']          : '',
+            'update_existing' => !empty($input['update_existing']) ? $input['update_existing'] : '',
+            'fields'          => !empty($input['fields'])          ? $input['fields']          : '',
         ];
 
         $data = $products->validateCsvData($args);
@@ -206,10 +216,12 @@ class ProductsController extends Controller
     {
         $products = new Products();
 
+        $input = $request->all();
+
         $args = [
-            'items'  => !empty($request['items'])  ? $request['items']   : '',
-            'update' => !empty($request['update']) ? $request['update']  : '',
-            'total'  => !empty($request['total'])  ? $request['total']   : '',
+            'items'  => !empty($input['items'])  ? $input['items']   : '',
+            'update' => !empty($input['update']) ? $input['update']  : '',
+            'total'  => !empty($input['total'])  ? $input['total']   : '',
         ];
 
         $imported = $products->importProducts($args);
@@ -255,34 +267,36 @@ class ProductsController extends Controller
      */
     protected function prepareItemFDatabase(Request $request)
     {
+
+        $input = $request->all();
         $prepared_item = [];
         // required arguments.
-        if (isset($request['name'])) {
-            $prepared_item['name'] = $request['name'];
+        if (isset($input['name'])) {
+            $prepared_item['name'] = $input['name'];
         }
 
-        if (isset($request['product_type_id'])) {
-            $prepared_item['product_type_id'] = $request['product_type_id']['id'];
+        if (isset($input['product_type_id'])) {
+            $prepared_item['product_type_id'] = $input['product_type_id']['id'];
         }
 
-        if (isset($request['category_id'])) {
-            $prepared_item['category_id'] = $request['category_id']['id'];
+        if (isset($input['category_id'])) {
+            $prepared_item['category_id'] = $input['category_id']['id'];
         }
 
-        if (isset($request['tax_cat_id'])) {
-            $prepared_item['tax_cat_id'] = $request['tax_cat_id']['id'];
+        if (isset($input['tax_cat_id'])) {
+            $prepared_item['tax_cat_id'] = $input['tax_cat_id']['id'];
         }
 
-        if (isset($request['vendor'])) {
-            $prepared_item['vendor'] = $request['vendor']['id'];
+        if (isset($input['vendor'])) {
+            $prepared_item['vendor'] = $input['vendor']['id'];
         }
 
-        if (isset($request['cost_price'])) {
-            $prepared_item['cost_price'] = $request['cost_price'];
+        if (isset($input['cost_price'])) {
+            $prepared_item['cost_price'] = $input['cost_price'];
         }
 
-        if (isset($request['sale_price'])) {
-            $prepared_item['sale_price'] = $request['sale_price'];
+        if (isset($input['sale_price'])) {
+            $prepared_item['sale_price'] = $input['sale_price'];
         }
 
         return $prepared_item;
@@ -479,7 +493,9 @@ class ProductsController extends Controller
     {
         $products = new Products();
 
-        $ids = $request['ids'];
+        $input = $request->all();
+
+        $ids = $input['ids'];
         $ids = explode(',', $ids);
 
         if (!$ids) {

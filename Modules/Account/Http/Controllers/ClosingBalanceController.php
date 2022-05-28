@@ -26,20 +26,22 @@ class ClosingBalanceController extends Controller
     {
         $cbalance = new ClosingBalance();
 
-        if (empty($request['start_date'])) {
+        $input = $request->all();
+
+        if (empty($input['start_date'])) {
             config('kernel.messageBag')->add('rest_invalid_date', __('Start date missing.'));
             return;
         }
 
-        if (empty($request['end_date'])) {
+        if (empty($input['end_date'])) {
             config('kernel.messageBag')->add('rest_invalid_date', __('End date missing.'));
             return;
         }
 
         $args = [
-            'f_year_id'  => (int) $request['f_year_id'],
-            'start_date' => $request['start_date'],
-            'end_date'   => $request['end_date'],
+            'f_year_id'  => (int) $input['f_year_id'],
+            'start_date' => $input['start_date'],
+            'end_date'   => $input['end_date'],
         ];
 
         $data     = $cbalance->closeBalanceSheetNow($args);
@@ -57,12 +59,14 @@ class ClosingBalanceController extends Controller
     {
         $cbalance = new ClosingBalance();
 
-        if (empty($request['date'])) {
+        $input = $request->all();
+
+        if (empty($input['date'])) {
             config('kernel.messageBag')->add('rest_invalid_date', __('Invalid resource date.'));
             return;
         }
 
-        $data     = $cbalance->getClosestNextFnYear($request['date']);
+        $data     = $cbalance->getClosestNextFnYear($input['date']);
         return response()->json($data);
     }
 

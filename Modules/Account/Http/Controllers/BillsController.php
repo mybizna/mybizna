@@ -24,9 +24,12 @@ class BillsController extends Controller
     {
 
         $bills = new Bills();
+
+        $input = $request->all();
+
         $args = [
-            'number' => isset($request['per_page']) ? $request['per_page'] : 20,
-            'offset' => ($request['per_page'] * ($request['page'] - 1)),
+            'number' => isset($input['per_page']) ? $input['per_page'] : 20,
+            'offset' => ($input['per_page'] * ($input['page'] - 1)),
         ];
 
         $formatted_items   = [];
@@ -43,8 +46,8 @@ class BillsController extends Controller
         );
 
         foreach ($bill_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -67,7 +70,10 @@ class BillsController extends Controller
     public function getBill(Request $request)
     {
         $bills = new Bills();
-        $id = (int) $request['id'];
+
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
@@ -93,12 +99,15 @@ class BillsController extends Controller
     public function createBill(Request $request)
     {
         $bills = new Bills();
+
+        $input = $request->all();
+
         $bill_data = $this->prepareItemFDatabase($request);
 
         $item_total        = [];
         $additional_fields = [];
 
-        $items = $request['bill_details'];
+        $items = $input['bill_details'];
 
         foreach ($items as $key => $item) {
             $item_total[$key] = $item['amount'];
@@ -129,7 +138,10 @@ class BillsController extends Controller
     {
         $common = new CommonFunc();
         $bills = new Bills();
-        $id = (int) $request['id'];
+
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
@@ -148,7 +160,7 @@ class BillsController extends Controller
         $item_total        = [];
         $additional_fields = [];
 
-        $items = $request['bill_details'];
+        $items = $input['bill_details'];
 
         foreach ($items as $key => $item) {
             $item_total[$key] = $item['amount'];
@@ -181,7 +193,9 @@ class BillsController extends Controller
     {
         $bills = new Bills();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
@@ -202,7 +216,9 @@ class BillsController extends Controller
      */
     public function dueBills(Request $request)
     {
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
@@ -210,8 +226,8 @@ class BillsController extends Controller
         }
 
         $args = [
-            'number' => !empty($request['per_page']) ? $request['per_page'] : 20,
-            'offset' => ($request['per_page'] * ($request['page'] - 1)),
+            'number' => !empty($input['per_page']) ? $input['per_page'] : 20,
+            'offset' => ($input['per_page'] * ($input['page'] - 1)),
         ];
 
         $formatted_items   = [];
@@ -229,8 +245,8 @@ class BillsController extends Controller
         );
 
         foreach ($bill_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -293,56 +309,58 @@ class BillsController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['vendor_id'])) {
-            $prepared_item['vendor_id'] = $request['vendor_id'];
+        $input = $request->all();
+
+        if (isset($input['vendor_id'])) {
+            $prepared_item['vendor_id'] = $input['vendor_id'];
         }
 
-        if (isset($request['trn_date'])) {
-            $prepared_item['trn_date'] = $request['trn_date'];
+        if (isset($input['trn_date'])) {
+            $prepared_item['trn_date'] = $input['trn_date'];
         }
 
-        if (isset($request['due_date'])) {
-            $prepared_item['due_date'] = $request['due_date'];
+        if (isset($input['due_date'])) {
+            $prepared_item['due_date'] = $input['due_date'];
         }
 
-        if (isset($request['amount'])) {
-            $prepared_item['total'] = (int) $request['amount'];
+        if (isset($input['amount'])) {
+            $prepared_item['total'] = (int) $input['amount'];
         }
 
-        if (isset($request['due'])) {
-            $prepared_item['due'] = (int) $request['due'];
+        if (isset($input['due'])) {
+            $prepared_item['due'] = (int) $input['due'];
         }
 
-        if (isset($request['trn_no'])) {
-            $prepared_item['trn_no'] = $request['trn_no'];
+        if (isset($input['trn_no'])) {
+            $prepared_item['trn_no'] = $input['trn_no'];
         }
 
-        if (isset($request['trn_by'])) {
-            $prepared_item['trn_by'] = $request['trn_by'];
+        if (isset($input['trn_by'])) {
+            $prepared_item['trn_by'] = $input['trn_by'];
         }
 
-        if (isset($request['bill_details'])) {
-            $prepared_item['bill_details'] = $request['bill_details'];
+        if (isset($input['bill_details'])) {
+            $prepared_item['bill_details'] = $input['bill_details'];
         }
 
-        if (isset($request['status'])) {
-            $prepared_item['status'] = $request['status'];
+        if (isset($input['status'])) {
+            $prepared_item['status'] = $input['status'];
         }
 
-        if (isset($request['particulars'])) {
-            $prepared_item['particulars'] = $request['particulars'];
+        if (isset($input['particulars'])) {
+            $prepared_item['particulars'] = $input['particulars'];
         }
 
-        if (isset($request['attachments'])) {
-            $prepared_item['attachments'] = $request['attachments'];
+        if (isset($input['attachments'])) {
+            $prepared_item['attachments'] = $input['attachments'];
         }
 
-        if (isset($request['billing_address'])) {
-            $prepared_item['billing_address'] = maybe_serialize($request['billing_address']);
+        if (isset($input['billing_address'])) {
+            $prepared_item['billing_address'] = maybe_serialize($input['billing_address']);
         }
 
-        if (isset($request['ref'])) {
-            $prepared_item['ref'] = $request['ref'];
+        if (isset($input['ref'])) {
+            $prepared_item['ref'] = $input['ref'];
         }
 
         $prepared_item['request'] = $request;

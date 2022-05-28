@@ -24,9 +24,11 @@ class PurchasesController extends Controller
     public function getPurchases(Request $request)
     {
         $purchases = new Purchases();
+
+        $input = $request->all();
         $args = [
-            'number' => (int) !empty($request['per_page']) ? intval($request['per_page']) : 20,
-            'offset' => ($request['per_page'] * ($request['page'] - 1)),
+            'number' => (int) !empty($input['per_page']) ? intval($input['per_page']) : 20,
+            'offset' => ($input['per_page'] * ($input['page'] - 1)),
         ];
 
         $formatted_items   = [];
@@ -43,8 +45,8 @@ class PurchasesController extends Controller
         );
 
         foreach ($purchase_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -66,7 +68,9 @@ class PurchasesController extends Controller
      */
     public function duePurchases(Request $request)
     {
-        $id = (int) $request['id'];
+
+        $input = $request->all();
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
@@ -75,8 +79,8 @@ class PurchasesController extends Controller
 
         $args = [];
 
-        $args['number']    = !empty($request['per_page']) ? $request['per_page'] : 20;
-        $args['offset']    = ($args['number'] * (intval($request['page']) - 1));
+        $args['number']    = !empty($input['per_page']) ? $input['per_page'] : 20;
+        $args['offset']    = ($args['number'] * (intval($input['page']) - 1));
         $args['vendor_id'] = $id;
         $formatted_items   = [];
         $additional_fields = [];
@@ -87,8 +91,8 @@ class PurchasesController extends Controller
         $total_items  = count($puchase_data);
 
         foreach ($puchase_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -113,7 +117,9 @@ class PurchasesController extends Controller
     public function getPurchase(Request $request)
     {
         $purchases = new Purchases();
-        $id = (int) $request['id'];
+
+        $input = $request->all();
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_purchase_invalid_id', __('Invalid resource id.'));
@@ -137,8 +143,10 @@ class PurchasesController extends Controller
      */
     public function createPurchase(Request $request)
     {
+
+        $input = $request->all();
         $purchase_data  = $this->prepareItemFDatabase($request);
-        $items          = $request['line_items'];
+        $items          = $input['line_items'];
         $item_total     = [];
         $item_tax_total = [];
 
@@ -149,7 +157,7 @@ class PurchasesController extends Controller
 
         $purchase_data['tax']           = array_sum($item_tax_total);
         $purchase_data['amount']        = array_sum($item_total) + $purchase_data['tax'];
-        $purchase_data['attachments']   = maybe_serialize($request['attachments']);
+        $purchase_data['attachments']   = maybe_serialize($input['attachments']);
         $additional_fields['namespace'] = __NAMESPACE__;
 
         $purchase_data = $this->insertPurchase($purchase_data);
@@ -173,7 +181,9 @@ class PurchasesController extends Controller
         $common = new CommonFunc();
         $purchases = new Purchases();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_purchase_invalid_id', __('Invalid resource id.'));
@@ -189,7 +199,7 @@ class PurchasesController extends Controller
 
         $purchase_data = $this->prepareItemFDatabase($request);
 
-        $items      = $request['line_items'];
+        $items      = $input['line_items'];
         $item_total = [];
         $tax_total  = [];
 
@@ -224,7 +234,9 @@ class PurchasesController extends Controller
      */
     public function voidPurchase(Request $request)
     {
-        $id = (int) $request['id'];
+
+        $input = $request->all();
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_purchase_invalid_id', __('Invalid resource id.'));
@@ -272,60 +284,62 @@ class PurchasesController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['vendor_id'])) {
-            $prepared_item['vendor_id'] = $request['vendor_id'];
+        $input = $request->all();
+
+        if (isset($input['vendor_id'])) {
+            $prepared_item['vendor_id'] = $input['vendor_id'];
         }
 
-        if (isset($request['vendor_name'])) {
-            $prepared_item['vendor_name'] = $request['vendor_name'];
+        if (isset($input['vendor_name'])) {
+            $prepared_item['vendor_name'] = $input['vendor_name'];
         }
 
-        if (isset($request['ref'])) {
-            $prepared_item['ref'] = $request['ref'];
+        if (isset($input['ref'])) {
+            $prepared_item['ref'] = $input['ref'];
         }
 
-        if (isset($request['trn_date'])) {
-            $prepared_item['trn_date'] = $request['trn_date'];
+        if (isset($input['trn_date'])) {
+            $prepared_item['trn_date'] = $input['trn_date'];
         }
 
-        if (isset($request['due_date'])) {
-            $prepared_item['due_date'] = $request['due_date'];
+        if (isset($input['due_date'])) {
+            $prepared_item['due_date'] = $input['due_date'];
         }
 
-        if (isset($request['particulars'])) {
-            $prepared_item['particulars'] = $request['particulars'];
+        if (isset($input['particulars'])) {
+            $prepared_item['particulars'] = $input['particulars'];
         }
 
-        if (isset($request['type'])) {
-            $prepared_item['type'] = $request['type'];
+        if (isset($input['type'])) {
+            $prepared_item['type'] = $input['type'];
         }
 
-        if (isset($request['status'])) {
-            $prepared_item['status'] = $request['status'];
+        if (isset($input['status'])) {
+            $prepared_item['status'] = $input['status'];
         }
 
-        if (isset($request['purchase_order'])) {
-            $prepared_item['purchase_order'] = $request['purchase_order'];
+        if (isset($input['purchase_order'])) {
+            $prepared_item['purchase_order'] = $input['purchase_order'];
         }
 
-        if (isset($request['line_items'])) {
-            $prepared_item['line_items'] = $request['line_items'];
+        if (isset($input['line_items'])) {
+            $prepared_item['line_items'] = $input['line_items'];
         }
 
-        if (isset($request['tax_rate'])) {
-            $prepared_item['tax_rate'] = $request['tax_rate'];
+        if (isset($input['tax_rate'])) {
+            $prepared_item['tax_rate'] = $input['tax_rate'];
         }
 
-        if (isset($request['attachments'])) {
-            $prepared_item['attachments'] = maybe_serialize($request['attachments']);
+        if (isset($input['attachments'])) {
+            $prepared_item['attachments'] = maybe_serialize($input['attachments']);
         }
 
-        if (isset($request['billing_address'])) {
-            $prepared_item['billing_address'] = maybe_serialize($request['billing_address']);
+        if (isset($input['billing_address'])) {
+            $prepared_item['billing_address'] = maybe_serialize($input['billing_address']);
         }
 
-        if (isset($request['convert'])) {
-            $prepared_item['convert'] = $request['convert'];
+        if (isset($input['convert'])) {
+            $prepared_item['convert'] = $input['convert'];
         }
 
         return $prepared_item;

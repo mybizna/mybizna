@@ -22,11 +22,13 @@ class PeopleController extends Controller
     public function getAllPeople(Request $request)
     {
         $people = new People();
+
+        $input = $request->all();
         $args = [
-            'number' => !empty($request['per_page']) ? $request['per_page'] : 20,
-            'offset' => ($request['per_page'] * ($request['page'] - 1)),
-            'type'   => !empty($request['type']) ? $request['type'] : ['customer', 'employee', 'vendor'],
-            's'      => !empty($request['search']) ? $request['search'] : '',
+            'number' => !empty($input['per_page']) ? $input['per_page'] : 20,
+            'offset' => ($input['per_page'] * ($input['page'] - 1)),
+            'type'   => !empty($input['type']) ? $input['type'] : ['customer', 'employee', 'vendor'],
+            's'      => !empty($input['search']) ? $input['search'] : '',
         ];
 
         $items       = $people->getPeoples($args);
@@ -44,8 +46,8 @@ class PeopleController extends Controller
         $additional_fields['namespace'] = __NAMESPACE__;
 
         foreach ($items as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('owner', $include_params, true)) {
                     $customer_owner_id = ($item->user_id) ? get_user_meta($item->user_id, 'contact_owner', true) : $people->peopleGetMeta($item->id, 'contact_owner', true);
@@ -73,7 +75,9 @@ class PeopleController extends Controller
 
         $people = new People();
         $common = new CommonFunc();
-        $id = (int) $request['id'];
+
+        $input = $request->all();
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_people_invalid_id', __('Invalid resource id.'));
@@ -100,7 +104,9 @@ class PeopleController extends Controller
 
         $people = new People();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_people_invalid_id', __('Invalid resource id.'));
@@ -124,7 +130,9 @@ class PeopleController extends Controller
     {
         $opening_balance = new OpeningBalance();
 
-        $id                = (int) $request['id'];
+        $input = $request->all();
+
+        $id                = (int) $input['id'];
         $args['people_id'] = $id;
 
         $transactions = $opening_balance->getPeopleOpeningBalance($args);
@@ -142,7 +150,9 @@ class PeopleController extends Controller
     public function checkPeopleEmail(Request $request)
     {
         $common = new CommonFunc();
-        $res      = $common->existPeople($request['email'], ['customer', 'vendor', 'contact', 'company']);
+
+        $input = $request->all();
+        $res      = $common->existPeople($input['email'], ['customer', 'vendor', 'contact', 'company']);
 
         return response()->json($res);
     }
@@ -157,74 +167,76 @@ class PeopleController extends Controller
     protected function prepareItemFDatabase(Request $request)
     {
         $prepared_item = [];
+
+        $input = $request->all();
         // required arguments.
-        if (isset($request['first_name'])) {
-            $prepared_item['first_name'] = $request['first_name'];
+        if (isset($input['first_name'])) {
+            $prepared_item['first_name'] = $input['first_name'];
         }
 
-        if (isset($request['last_name'])) {
-            $prepared_item['last_name'] = $request['last_name'];
+        if (isset($input['last_name'])) {
+            $prepared_item['last_name'] = $input['last_name'];
         }
 
-        if (isset($request['email'])) {
-            $prepared_item['email'] = $request['email'];
+        if (isset($input['email'])) {
+            $prepared_item['email'] = $input['email'];
         }
 
         // optional arguments.
-        if (isset($request['id'])) {
-            $prepared_item['id'] = absint($request['id']);
+        if (isset($input['id'])) {
+            $prepared_item['id'] = absint($input['id']);
         }
 
-        if (isset($request['phone'])) {
-            $prepared_item['phone'] = $request['phone'];
+        if (isset($input['phone'])) {
+            $prepared_item['phone'] = $input['phone'];
         }
 
-        if (isset($request['website'])) {
-            $prepared_item['website'] = $request['website'];
+        if (isset($input['website'])) {
+            $prepared_item['website'] = $input['website'];
         }
 
-        if (isset($request['other'])) {
-            $prepared_item['other'] = $request['other'];
+        if (isset($input['other'])) {
+            $prepared_item['other'] = $input['other'];
         }
 
-        if (isset($request['notes'])) {
-            $prepared_item['notes'] = $request['notes'];
+        if (isset($input['notes'])) {
+            $prepared_item['notes'] = $input['notes'];
         }
 
-        if (isset($request['street_1'])) {
-            $prepared_item['street_1'] = $request['street_1'];
+        if (isset($input['street_1'])) {
+            $prepared_item['street_1'] = $input['street_1'];
         }
 
-        if (isset($request['street_2'])) {
-            $prepared_item['street_2'] = $request['street_2'];
+        if (isset($input['street_2'])) {
+            $prepared_item['street_2'] = $input['street_2'];
         }
 
-        if (isset($request['city'])) {
-            $prepared_item['city'] = $request['city'];
+        if (isset($input['city'])) {
+            $prepared_item['city'] = $input['city'];
         }
 
-        if (isset($request['state'])) {
-            $prepared_item['state'] = $request['state']['id'];
+        if (isset($input['state'])) {
+            $prepared_item['state'] = $input['state']['id'];
         }
 
-        if (isset($request['postal_code'])) {
-            $prepared_item['postal_code'] = $request['postal_code'];
+        if (isset($input['postal_code'])) {
+            $prepared_item['postal_code'] = $input['postal_code'];
         }
 
-        if (isset($request['country'])) {
-            $prepared_item['country'] = $request['country']['id'];
+        if (isset($input['country'])) {
+            $prepared_item['country'] = $input['country']['id'];
         }
 
-        if (isset($request['company'])) {
-            $prepared_item['company'] = $request['company'];
+        if (isset($input['company'])) {
+            $prepared_item['company'] = $input['company'];
         }
 
-        if (isset($request['mobile'])) {
-            $prepared_item['mobile'] = $request['mobile'];
+        if (isset($input['mobile'])) {
+            $prepared_item['mobile'] = $input['mobile'];
         }
 
-        if ($request['fax']) {
-            $prepared_item['fax'] = $request['fax'];
+        if ($input['fax']) {
+            $prepared_item['fax'] = $input['fax'];
         }
 
         $prepared_item['type'] = 'customer';

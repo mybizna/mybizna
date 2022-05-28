@@ -21,8 +21,10 @@ class JournalsController extends Controller
      */
     public function getJournals(Request $request)
     {
-        $args['number'] = !empty($request['per_page']) ? $request['per_page'] : 20;
-        $args['offset'] = ($request['per_page'] * ($request['page'] - 1));
+        $input = $request->all();
+
+        $args['number'] = !empty($input['per_page']) ? $input['per_page'] : 20;
+        $args['offset'] = ($input['per_page'] * ($input['page'] - 1));
 
         $additional_fields = [];
 
@@ -56,7 +58,9 @@ class JournalsController extends Controller
     {
         $invoices = new Invoices();
 
-        $id                = (int) $request['id'];
+        $input = $request->all();
+
+        $id                = (int) $input['id'];
         $additional_fields = [];
 
         if (empty($id)) {
@@ -148,28 +152,30 @@ class JournalsController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['type'])) {
-            $prepared_item['type'] = $request['type'];
+        $input = $request->all();
+
+        if (isset($input['type'])) {
+            $prepared_item['type'] = $input['type'];
         }
 
-        if (isset($request['trn_date'])) {
-            $prepared_item['date'] = $request['trn_date'];
+        if (isset($input['trn_date'])) {
+            $prepared_item['date'] = $input['trn_date'];
         }
 
-        if (isset($request['attachments'])) {
-            $prepared_item['attachments'] = maybe_serialize($request['attachments']);
+        if (isset($input['attachments'])) {
+            $prepared_item['attachments'] = maybe_serialize($input['attachments']);
         }
 
-        if (isset($request['particulars'])) {
-            $prepared_item['particulars'] = $request['particulars'];
+        if (isset($input['particulars'])) {
+            $prepared_item['particulars'] = $input['particulars'];
         }
 
-        if (isset($request['line_items'])) {
-            $prepared_item['line_items'] = $request['line_items'];
+        if (isset($input['line_items'])) {
+            $prepared_item['line_items'] = $input['line_items'];
         }
 
-        if (isset($request['ref'])) {
-            $prepared_item['ref'] = $request['ref'];
+        if (isset($input['ref'])) {
+            $prepared_item['ref'] = $input['ref'];
         }
 
         return $prepared_item;
@@ -186,6 +192,8 @@ class JournalsController extends Controller
      */
     public function prepareItemForResponse($item, Request $request, $additional_fields = [])
     {
+        $input = $request->all();
+
         $item = (object) $item;
 
         $data = [
@@ -200,8 +208,8 @@ class JournalsController extends Controller
             'created_at'  => $item->created_at,
         ];
 
-        if (isset($request['include'])) {
-            $include_params = explode(',', str_replace(' ', '', $request['include']));
+        if (isset($input['include'])) {
+            $include_params = explode(',', str_replace(' ', '', $input['include']));
 
             if (in_array('created_by', $include_params, true)) {
                 $data['created_by'] = $this->get_user(intval($item->created_by));

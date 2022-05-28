@@ -27,9 +27,11 @@ class ReportsController extends Controller
     {
         $trial_bal = new TrialBalance();
 
+        $input = $request->all();
+
         $args = [
-            'start_date' => !empty($request['start_date']) ? $request['start_date'] : null,
-            'end_date'   => !empty($request['end_date']) ? $request['end_date'] : null,
+            'start_date' => !empty($input['start_date']) ? $input['start_date'] : null,
+            'end_date'   => !empty($input['end_date']) ? $input['end_date'] : null,
         ];
 
         $data =  $trial_bal->getTrialBalance($args);
@@ -45,9 +47,11 @@ class ReportsController extends Controller
 
         $trans = new Transactions();
 
+        $input = $request->all();
+
         $args = [
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $chart_status = $trans->getSalesChartStatus($args);
@@ -62,9 +66,11 @@ class ReportsController extends Controller
     {
         $trans = new Transactions();
 
+        $input = $request->all();
+
         $args = [
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $chart_payment = $trans->getSalesChartPayment($args);
@@ -83,9 +89,11 @@ class ReportsController extends Controller
     {
         $report = new Reports();
 
-        $ledger_id  = (int) $request['ledger_id'];
-        $start_date = empty($request['start_date']) ? date('Y-m-d') : $request['start_date'];
-        $end_date   = empty($request['end_date']) ? date('Y-m-d') : $request['end_date'];
+        $input = $request->all();
+
+        $ledger_id  = (int) $input['ledger_id'];
+        $start_date = empty($input['start_date']) ? date('Y-m-d') : $input['start_date'];
+        $end_date   = empty($input['end_date']) ? date('Y-m-d') : $input['end_date'];
 
         $data = $report->getLedgerReport($ledger_id, $start_date, $end_date);
 
@@ -105,12 +113,14 @@ class ReportsController extends Controller
     {
         $report = new Reports();
 
+        $input = $request->all();
+
         $args = [
-            'start_date'  => !empty($request['start_date'])  ? $request['start_date']  : null,
-            'end_date'    => !empty($request['end_date'])    ? $request['end_date']    : null,
-            'customer_id' => !empty($request['customer_id']) ? $request['customer_id'] : null,
-            'category_id' => !empty($request['category_id']) ? $request['category_id'] : null,
-            'agency_id'   => !empty($request['agency_id'])   ? $request['agency_id']   : null,
+            'start_date'  => !empty($input['start_date'])  ? $input['start_date']  : null,
+            'end_date'    => !empty($input['end_date'])    ? $input['end_date']    : null,
+            'customer_id' => !empty($input['customer_id']) ? $input['customer_id'] : null,
+            'category_id' => !empty($input['category_id']) ? $input['category_id'] : null,
+            'agency_id'   => !empty($input['agency_id'])   ? $input['agency_id']   : null,
         ];
 
         if (!empty($args['agency_id'])) {
@@ -133,8 +143,10 @@ class ReportsController extends Controller
     {
         $report = new Reports();
 
-        $start_date = $request['start_date'];
-        $end_date   = $request['end_date'];
+        $input = $request->all();
+
+        $start_date = $input['start_date'];
+        $end_date   = $input['end_date'];
         $args       = [
             'start_date' => $start_date,
             'end_date'   => $end_date,
@@ -156,8 +168,10 @@ class ReportsController extends Controller
     {
         $report = new Reports();
 
-        $start_date = $request['start_date'];
-        $end_date   = $request['end_date'];
+        $input = $request->all();
+
+        $start_date = $input['start_date'];
+        $end_date   = $input['end_date'];
         $args       = [
             'start_date' => $start_date,
             'end_date'   => $end_date,

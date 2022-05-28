@@ -25,11 +25,13 @@ class TaxRateNamesController extends Controller
     {
         $taxratenames = new TaxRateNames();
 
+        $input = $request->all();
+
         $args = [
-            'number'     => !empty($request['per_page']) ? (int) $request['per_page'] : 20,
-            'offset'     => ($request['per_page'] * ($request['page'] - 1)),
-            'start_date' => empty($request['start_date']) ? '' : $request['start_date'],
-            'end_date'   => empty($request['end_date']) ? date('Y-m-d') : $request['end_date'],
+            'number'     => !empty($input['per_page']) ? (int) $input['per_page'] : 20,
+            'offset'     => ($input['per_page'] * ($input['page'] - 1)),
+            'start_date' => empty($input['start_date']) ? '' : $input['start_date'],
+            'end_date'   => empty($input['end_date']) ? date('Y-m-d') : $input['end_date'],
         ];
 
         $formatted_items   = [];
@@ -46,8 +48,8 @@ class TaxRateNamesController extends Controller
         );
 
         foreach ($tax_data as $item) {
-            if (isset($request['include'])) {
-                $include_params = explode(',', str_replace(' ', '', $request['include']));
+            if (isset($input['include'])) {
+                $include_params = explode(',', str_replace(' ', '', $input['include']));
 
                 if (in_array('created_by', $include_params, true)) {
                     $item['created_by'] = $this->get_user($item['created_by']);
@@ -71,7 +73,9 @@ class TaxRateNamesController extends Controller
     {
         $taxratenames = new TaxRateNames();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -124,7 +128,9 @@ class TaxRateNamesController extends Controller
     {
         $taxratenames = new TaxRateNames();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -156,7 +162,9 @@ class TaxRateNamesController extends Controller
     {
         $taxratenames = new TaxRateNames();
 
-        $id = (int) $request['id'];
+        $input = $request->all();
+
+        $id = (int) $input['id'];
 
         if (empty($id)) {
             config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
@@ -183,7 +191,9 @@ class TaxRateNamesController extends Controller
     {
         $taxratenames = new TaxRateNames();
 
-        $ids = $request['ids'];
+        $input = $request->all();
+
+        $ids = $input['ids'];
         $ids = explode(',', $ids);
 
         if (!$ids) {
@@ -237,16 +247,18 @@ class TaxRateNamesController extends Controller
     {
         $prepared_item = [];
 
-        if (isset($request['tax_rate_name'])) {
-            $prepared_item['tax_rate_name'] = $request['tax_rate_name'];
+        $input = $request->all();
+
+        if (isset($input['tax_rate_name'])) {
+            $prepared_item['tax_rate_name'] = $input['tax_rate_name'];
         }
 
-        if (isset($request['tax_number'])) {
-            $prepared_item['tax_number'] = $request['tax_number'];
+        if (isset($input['tax_number'])) {
+            $prepared_item['tax_number'] = $input['tax_number'];
         }
 
-        if (isset($request['default'])) {
-            $prepared_item['default'] = $request['default'];
+        if (isset($input['default'])) {
+            $prepared_item['default'] = $input['default'];
         }
 
         return $prepared_item;
