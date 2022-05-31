@@ -695,7 +695,7 @@ class Taxes
         $args = array_merge($defaults, $args);
 
         if (empty($args['system_id']) || (empty($args['sync_slug']) && empty($args['sync_id']))) {
-            config('kernel.messageBag')->add('inconsistent-data', __('Inconsistent data provided'));
+            messageBag('inconsistent-data', __('Inconsistent data provided'));
         }
 
         $inserted = DB::table("account_synced_tax", $args, ['%d', '%s', '%s', '%d', '%s']);

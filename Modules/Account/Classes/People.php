@@ -823,12 +823,12 @@ class People
     public function deletePeople($data = [])
     {
         if (empty($data['id'])) {
-            config('kernel.messageBag')->add('not-ids', __('No data found'));
+            messageBag('not-ids', __('No data found'));
             return;
         }
 
         if (empty($data['type'])) {
-            config('kernel.messageBag')->add('not-types', __('No type found'));
+            messageBag('not-types', __('No type found'));
             return;
         }
 
@@ -885,12 +885,12 @@ class People
     public function restorePeople($data)
     {
         if (empty($data['id'])) {
-            config('kernel.messageBag')->add('not-ids', __('No data found'));
+            messageBag('not-ids', __('No data found'));
             return;
         }
 
         if (empty($data['type'])) {
-            config('kernel.messageBag')->add('not-types', __('No type found'));
+            messageBag('not-types', __('No type found'));
             return;
         }
 
@@ -979,12 +979,12 @@ class People
 
 
         if (empty($field)) {
-            config('kernel.messageBag')->add('no-field', __('No field provided'));
+            messageBag('no-field', __('No field provided'));
             return;
         }
 
         if (empty($value)) {
-            config('kernel.messageBag')->add('no-value', __('No value provided'));
+            messageBag('no-value', __('No value provided'));
             return;
         }
 
@@ -1092,7 +1092,7 @@ class People
         if (!$existing_people->id) {
             // if an empty type provided
             if ('' === $people_type) {
-                config('kernel.messageBag')->add('no-type', __('No user type provided.'));
+                messageBag('no-type', __('No user type provided.'));
                 return;
             }
 
@@ -1102,7 +1102,7 @@ class People
 
             // check if a valid people type exists in the database
             if (null === $type_obj) {
-                config('kernel.messageBag')->add('no-type_found', __('The people type is invalid.'));
+                messageBag('no-type_found', __('The people type is invalid.'));
                 return;
             }
         }
@@ -1111,16 +1111,16 @@ class People
             if (empty($args['user_id'])) {
                 // Check if contact first name or email or phone provided or not or provided name is valid
                 if (empty($args['first_name']) || empty($args['email'])) {
-                    config('kernel.messageBag')->add('no-basic-data', esc_attr__('You must need to fill up both first name and email fields'));
+                    messageBag('no-basic-data', esc_attr__('You must need to fill up both first name and email fields'));
                     return;
                 } else {
                     if (!$common->isValidName($args['first_name'])) {
-                        config('kernel.messageBag')->add('invalid-first-name', esc_attr__('Please provide a valid first name'));
+                        messageBag('invalid-first-name', esc_attr__('Please provide a valid first name'));
                         return;
                     }
 
                     if (!empty($args['last_name']) && !$common->isValidName($args['last_name'])) {
-                        config('kernel.messageBag')->add('invalid-last-name', esc_attr__('Please provide a valid last name'));
+                        messageBag('invalid-last-name', esc_attr__('Please provide a valid last name'));
                         return;
                     }
                 }
@@ -1130,11 +1130,11 @@ class People
         // Check if company name provide or not or provided name is valid
         if ('company' === $people_type) {
             if (empty($args['company']) || empty($args['email'])) {
-                config('kernel.messageBag')->add('no-company', esc_attr__('You must need to fill up both Company name and email fields'));
+                messageBag('no-company', esc_attr__('You must need to fill up both Company name and email fields'));
                 return;
             } else {
                 if ($common->containsDisallowedChars($args['company'])) {
-                    config('kernel.messageBag')->add('invalid-company', esc_attr__('Please provide a valid company name'));
+                    messageBag('invalid-company', esc_attr__('Please provide a valid company name'));
                     return;
                 }
             }
@@ -1142,44 +1142,44 @@ class People
 
         // Check if not empty and valid email
         if (!empty($args['email']) && !is_email($args['email'])) {
-            config('kernel.messageBag')->add('invalid-email', esc_attr__('Please provide a valid email address'));
+            messageBag('invalid-email', esc_attr__('Please provide a valid email address'));
             return;
         }
 
 
         if (!empty($args['phone']) && !$common->isValidContactNo($args['phone'])) {
-            config('kernel.messageBag')->add('invalid-phone', esc_attr__('Please provide a valid phone number'));
+            messageBag('invalid-phone', esc_attr__('Please provide a valid phone number'));
             return;
         }
 
         if (!empty($args['date_of_birth']) && !$common->isValidDate($args['date_of_birth'])) {
-            config('kernel.messageBag')->add('invalid-date-of-birth', esc_attr__('Please provide a valid date of birth'));
+            messageBag('invalid-date-of-birth', esc_attr__('Please provide a valid date of birth'));
             return;
         }
 
         if (!empty($args['contact_age']) && !$common->isValidAge($args['contact_age'])) {
-            config('kernel.messageBag')->add('invalid-age', esc_attr__('Please provide a valid age'));
+            messageBag('invalid-age', esc_attr__('Please provide a valid age'));
             return;
         }
 
         if (!empty($args['mobile']) && !$common->isValidContactNo($args['mobile'])) {
-            config('kernel.messageBag')->add('invalid-mobile', esc_attr__('Please provide a valid mobile number'));
+            messageBag('invalid-mobile', esc_attr__('Please provide a valid mobile number'));
             return;
         }
 
         if (!empty($args['website']) && !$common->isValidUrl($args['website'])) {
-            config('kernel.messageBag')->add('invalid-website', esc_attr__('Please provide a valid website'));
+            messageBag('invalid-website', esc_attr__('Please provide a valid website'));
             return;
         }
 
         if (!empty($args['fax']) && !$common->isValidContactNo($args['fax'])) {
-            config('kernel.messageBag')->add('invalid-fax', esc_attr__('Please provide a valid fax number'));
+            messageBag('invalid-fax', esc_attr__('Please provide a valid fax number'));
             return;
         }
 
 
         if (!empty($args['postal_code']) && !$common->isValidZipCode($args['postal_code'])) {
-            config('kernel.messageBag')->add('invalid-postal-code', esc_attr__('Please provide a valid postal code'));
+            messageBag('invalid-postal-code', esc_attr__('Please provide a valid postal code'));
             return;
         }
 
@@ -1231,7 +1231,7 @@ class People
             }
 
             if (!$people->id) {
-                config('kernel.messageBag')->add('people-not-created', __('Something went wrong, please try again'));
+                messageBag('people-not-created', __('Something went wrong, please try again'));
                 return;
             }
         } else {
@@ -1253,7 +1253,7 @@ class People
             ]);
 
             if (!$user_id) {
-                config('kernel.messageBag')->add('update-user', $user_id->get_error_message());
+                messageBag('update-user', $user_id->get_error_message());
                 return;
             } else {
                 $people->update(['user_id' => $user_id, 'email' => $args['email'], 'website' => $args['website'], 'contact_owner' => $args['contact_owner']]);
@@ -1457,7 +1457,7 @@ class People
      *
      * @param array $args Data Filter
      *
-     * @return int|object people_id on success and config('kernel.messageBag')->add( object on fail
+     * @return int|object people_id on success and messageBag object on fail
      */
     public function convertToPeople($args = [])
     {
@@ -1498,7 +1498,7 @@ class People
             $people_obj = DB::table('partner')->find($args['people_id']);
 
             if (empty($people_obj)) {
-                config('kernel.messageBag')->add('no-erp-people', __('People not exists'));
+                messageBag('no-erp-people', __('People not exists'));
                 return;
             }
 

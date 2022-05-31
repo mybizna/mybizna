@@ -207,15 +207,15 @@ class Company
 
         // validation
         if (empty($fields['name'])) {
-            config('kernel.messageBag')->add('no-name', __('No location name provided.'));
+            messageBag('no-name', __('No location name provided.'));
         }
 
         if (empty($fields['address_1'])) {
-            config('kernel.messageBag')->add('no-address_1', __('No address provided.'));
+            messageBag('no-address_1', __('No address provided.'));
         }
 
         if (empty($fields['country'])) {
-            config('kernel.messageBag')->add('no-country', __('No country provided.'));
+            messageBag('no-country', __('No country provided.'));
         }
 
         return DB::table("base_company_location")->insertGetId($fields);

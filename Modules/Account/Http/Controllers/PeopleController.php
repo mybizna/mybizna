@@ -80,7 +80,7 @@ class PeopleController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_people_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_people_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -109,7 +109,7 @@ class PeopleController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_people_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_people_invalid_id', __('Invalid resource id.'));
             return;
         }
 

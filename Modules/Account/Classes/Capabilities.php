@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Account\Classes\Reports;
+namespace Modules\Account\Classes;
 
 use Illuminate\Support\Facades\DB;
 

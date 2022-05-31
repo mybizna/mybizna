@@ -277,7 +277,7 @@ class PayPurchases
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('pay-purchase-exception', $e->getMessage());
+            messageBag('pay-purchase-exception', $e->getMessage());
             return;
         }
 
@@ -386,7 +386,7 @@ class PayPurchases
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('pay-purchase-exception', $e->getMessage());
+            messageBag('pay-purchase-exception', $e->getMessage());
             return;
         }
 

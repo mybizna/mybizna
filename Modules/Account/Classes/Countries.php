@@ -37,15 +37,6 @@ class Countries
         return $instance;
     }
 
-    /**
-     * Constructor for the Countries class
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->load_country_states();
-    }
 
     /**
      * Get all countries
@@ -54,7 +45,7 @@ class Countries
      */
     public function get_countries($default = '')
     {
-        $countries = DB::table('base_country')->all();
+        $countries = DB::table('base_country')->get();
 
         return $countries;
     }
@@ -62,29 +53,15 @@ class Countries
     /**
      * Load the states
      */
-    public function load_country_states()
+    public function load_country_states($cc = null)
     {
-        global $states;
+        $states = [];
 
-        // States set to array() are blank i.e. the country has no use for the state field.
-        $states = [
-            'SG' => [],
-        ];
-
-        // Load only the state files the shop owner wants/needs
-        $countries = $this->get_countries();
-
-        if ($countries) {
-            foreach ($countries as $code => $country) {
-                if (!isset($states[$code]) && file_exists(base_path() . '/i18n/states/' . $code . '.php')) {
-                    include base_path() . '/i18n/states/' . $code . '.php';
-                }
-            }
+        if ($cc) {
+            $states = DB::table('base_state')->where('country_code', $cc)->get();
         }
 
-        $this->states = apply_filters('states', $states);
-
-        return $this->states;
+        return $states;
     }
 
     /**
@@ -96,9 +73,12 @@ class Countries
      */
     public function get_states($cc = null)
     {
+        $states = [];
 
-        $states = DB::table('base_state')->all();
-        
+        if ($cc) {
+            $states = DB::table('base_state')->where('country_code', $cc)->get();
+        }
+
         return $states;
     }
 
@@ -109,7 +89,9 @@ class Countries
      */
     public function get_base_country()
     {
-        $country = '-1';
+        $cc = config('account.base_country');
+
+        $country = DB::table('base_country')->where('country_code', $cc)->frst();
 
         return apply_filters('countries_base_country', $country);
     }

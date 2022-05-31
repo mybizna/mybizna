@@ -10,7 +10,7 @@ use Modules\Account\Classes\Company;
 
 use Illuminate\Support\Facades\DB;
 
-class AccountsController extends Controller
+class CompanyController extends Controller
 {
     /**
      * Get a company logo

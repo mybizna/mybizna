@@ -27,7 +27,7 @@ class CustomersController extends Controller
         $people = new People();
 
         $input = $request->all();
-        
+
         $args = [
             'number' => $input['per_page'],
             'offset' => ($input['per_page'] * ($input['page'] - 1)),
@@ -76,7 +76,7 @@ class CustomersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getCustomer(Request $request)
+    public function getCustomer(Request $request, int $id)
     {
         $people = new People();
 
@@ -87,7 +87,7 @@ class CustomersController extends Controller
         $item = (array) $item;
 
         if (empty($id) || empty($item['id'])) {
-            config('kernel.messageBag')->add('rest_customer_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_customer_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -129,7 +129,7 @@ class CustomersController extends Controller
         $common = new CommonFunc();
         $input = $request->all();
         if ($common->existPeople($input['email'])) {
-            config('kernel.messageBag')->add('rest_customer_invalid_id', __('Email already exists!'));
+            messageBag('rest_customer_invalid_id', __('Email already exists!'));
             return;
         }
 
@@ -163,7 +163,7 @@ class CustomersController extends Controller
         $item = $people->getPeople($id);
 
         if (!$item) {
-            config('kernel.messageBag')->add('rest_customer_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_customer_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -198,7 +198,7 @@ class CustomersController extends Controller
         $exist = $people->checkAssociatedTranasaction($id);
 
         if ($exist) {
-            config('kernel.messageBag')->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+            messageBag('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
             return false;
         }
@@ -242,7 +242,7 @@ class CustomersController extends Controller
             $exist = $people->checkAssociatedTranasaction($id);
 
             if ($exist) {
-                config('kernel.messageBag')->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+                messageBag('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
                 return false;
             }
@@ -288,13 +288,17 @@ class CustomersController extends Controller
     public function getCountries(Request $request)
     {
         $countries  = new Countries();
-        
-        $c        = $countries->get_countries(); 
-        $state    = $countries->get_states();
+
+        $country_code = $request->get('cc');
+
+        $c        = $countries->get_countries();
+        $state    = $countries->get_states($country_code);
+
         $response = [
             'country' => $c,
             'state'   => $state,
         ];
+
         return response()->json($response);
     }
 

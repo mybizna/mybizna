@@ -57,7 +57,7 @@ class LedgersController extends Controller
         $id = $input['chart_id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_empty_chart_id', __('Chart ID is Empty.'));
+            messageBag('rest_empty_chart_id', __('Chart ID is Empty.'));
             return;
         }
 
@@ -84,7 +84,7 @@ class LedgersController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_ledger_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_ledger_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -110,7 +110,7 @@ class LedgersController extends Controller
         $exist = DB::scalar("SELECT name FROM account_ledger WHERE name = %s", [$input['name']]);
 
         if ($exist) {
-            config('kernel.messageBag')->add('rest_ledger_name_already_exist', __('Name already exist.'));
+            messageBag('rest_ledger_name_already_exist', __('Name already exist.'));
             return;
         }
 
@@ -141,7 +141,7 @@ class LedgersController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_ledger_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_ledger_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -174,7 +174,7 @@ class LedgersController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_ledger_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_ledger_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -216,7 +216,7 @@ class LedgersController extends Controller
         $items = $bank->getBanks(true, false, false);
 
         if (empty($items)) {
-            config('kernel.messageBag')->add('rest_empty_accounts', __('Bank accounts are empty.'));
+            messageBag('rest_empty_accounts', __('Bank accounts are empty.'));
             return;
         }
 
@@ -299,7 +299,7 @@ class LedgersController extends Controller
         $category = $ledger->createLedgerCategory($request);
 
         if (!$category) {
-            config('kernel.messageBag')->add('rest_ledger_already_exist', __('Category already exist.'));
+            messageBag('rest_ledger_already_exist', __('Category already exist.'));
             return;
         }
 
@@ -320,14 +320,14 @@ class LedgersController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_ledger_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_ledger_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $category = $ledger->updateLedgerCategory($request);
 
         if (!$category) {
-            config('kernel.messageBag')->add('rest_ledger_already_exist', __('Category already exist.'));
+            messageBag('rest_ledger_already_exist', __('Category already exist.'));
             return;
         }
 
@@ -344,7 +344,7 @@ class LedgersController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_payment_invalid_id', __('Invalid resource id.'));
             return;
         }
 

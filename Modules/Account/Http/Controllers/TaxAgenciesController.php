@@ -78,7 +78,7 @@ class TaxAgenciesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_tax_invalid_id', __('Invalid resource id.'));
             return response()->json(['status' => true]);
         }
 
@@ -134,7 +134,7 @@ class TaxAgenciesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_tax_invalid_id', __('Invalid resource id.'));
             return response()->json(['status' => true]);
         }
 
@@ -169,7 +169,7 @@ class TaxAgenciesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_tax_invalid_id', __('Invalid resource id.'));
             return response()->json(['status' => true]);
         }
 
@@ -194,7 +194,7 @@ class TaxAgenciesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_tax_invalid_id', __('Invalid resource id.'));
             return response()->json(['status' => true]);
         }
 
@@ -262,7 +262,7 @@ class TaxAgenciesController extends Controller
                 $operation = 'created';
         }
 
-        config('kernel.messageBag')->add('Accounting', __('Tax'));
+        messageBag('Accounting', __('Tax'));
     }
 
     /**

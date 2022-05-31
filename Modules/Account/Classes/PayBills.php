@@ -229,7 +229,7 @@ class PayBills
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('pay-bill-exception', $e->getMessage());
+            messageBag('pay-bill-exception', $e->getMessage());
             return;
         }
 
@@ -324,7 +324,7 @@ class PayBills
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('bill-exception', $e->getMessage());
+            messageBag('bill-exception', $e->getMessage());
             return;
         }
 

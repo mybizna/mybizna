@@ -297,7 +297,7 @@ class Purchases
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('purchase-exception', $e->getMessage());
+            messageBag('purchase-exception', $e->getMessage());
             return;
         }
 
@@ -521,7 +521,7 @@ class Purchases
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('purchase-exception', $e->getMessage());
+            messageBag('purchase-exception', $e->getMessage());
             return;
         }
 
@@ -609,7 +609,7 @@ class Purchases
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('purchase-exception', $e->getMessage());
+            messageBag('purchase-exception', $e->getMessage());
             return;
         }
 
@@ -705,7 +705,7 @@ class Purchases
         $purchase_ledger_id  = get_ledger_id_by_slug('purchase');
 
         if (!$purchase_ledger_id) {
-            config('kernel.messageBag')->add( 'Ledger ID not found for purchase', $purchase_data);
+            messageBag( 'Ledger ID not found for purchase', $purchase_data);
             return;
         }
 
@@ -731,7 +731,7 @@ class Purchases
         if ($purchase_data['tax']) {
             $purchase_vat_ledger_id = get_ledger_id_by_slug('purchase_vat');
             if (!$purchase_vat_ledger_id) {
-             config('kernel.messageBag')->add('500', __('Ledger ID not found for purchase vat'), $purchase_data);
+             messageBag('500', __('Ledger ID not found for purchase vat'), $purchase_data);
                 return;
             }
 
@@ -769,7 +769,7 @@ class Purchases
         $ledger_id  = get_ledger_id_by_slug('purchase');
 
         if (!$ledger_id) {
-             config('kernel.messageBag')->add('505', 'Ledger ID not found for purchase', $purchase_data);
+             messageBag('505', 'Ledger ID not found for purchase', $purchase_data);
         }
 
         // insert contra `account_ledger_detail`

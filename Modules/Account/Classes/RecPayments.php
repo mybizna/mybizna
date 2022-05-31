@@ -220,7 +220,7 @@ class RecPayments
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('payment-exception', $e->getMessage());
+            messageBag('payment-exception', $e->getMessage());
             return;
         }
 
@@ -361,7 +361,7 @@ class RecPayments
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('payment-exception', $e->getMessage());
+            messageBag('payment-exception', $e->getMessage());
             return;
         }
 

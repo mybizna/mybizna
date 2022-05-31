@@ -372,7 +372,7 @@ class TransactionsController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_voucher_type_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_voucher_type_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -454,7 +454,7 @@ class TransactionsController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_trn_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_trn_invalid_id', __('Invalid resource id.'));
             return;
         }
 

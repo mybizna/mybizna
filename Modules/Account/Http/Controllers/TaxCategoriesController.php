@@ -76,7 +76,7 @@ class TaxCategoriesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -131,7 +131,7 @@ class TaxCategoriesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -175,7 +175,7 @@ class TaxCategoriesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_tax_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_tax_invalid_id', __('Invalid resource id.'));
             return;
         }
 

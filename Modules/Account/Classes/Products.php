@@ -128,7 +128,7 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return config('kernel.messageBag')->add( | integer
+     * @return messageBag | integer
      */
     public function insertProduct($data)
     {
@@ -178,7 +178,7 @@ class Products
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-             config('kernel.messageBag')->add('duplicate-product', $e->getMessage());
+             messageBag('duplicate-product', $e->getMessage());
              return;
             }
 
@@ -193,7 +193,7 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return config('kernel.messageBag')->add( | Object
+     * @return messageBag | Object
      */
     public function updateProduct($data, $id)
     {
@@ -245,7 +245,7 @@ class Products
         } catch (\Exception $e) {
             DB::rollback();
 
-             config('kernel.messageBag')->add('duplicate-product', $e->getMessage());
+             messageBag('duplicate-product', $e->getMessage());
         }
 
 
@@ -400,14 +400,14 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return array|config('kernel.messageBag')->add(
+     * @return array|messageBag
      */
     public function validateCsvData($data)
     {
         $files = wp_check_filetype_and_ext($data['csv_file']['tmp_name'], $data['csv_file']['name']);
 
         if ('csv' !== $files['ext'] && 'text/csv' !== $files['type']) {
-             config('kernel.messageBag')->add('invalid-file-type', __('The file is not a valid CSV file! Please provide a valid one.'));
+             messageBag('invalid-file-type', __('The file is not a valid CSV file! Please provide a valid one.'));
             return;
         }
 
@@ -416,7 +416,7 @@ class Products
         $csv->parse($data['csv_file']['tmp_name']);
 
         if (empty($csv->data)) {
-             config('kernel.messageBag')->add('no-data', __('No data found to import!'));
+             messageBag('no-data', __('No data found to import!'));
              return;
             }
 
@@ -428,7 +428,7 @@ class Products
         }
 
         if (empty($csv_data)) {
-             config('kernel.messageBag')->add('no-data', __('No data found to import!'));
+             messageBag('no-data', __('No data found to import!'));
             return;
         }
 
@@ -449,7 +449,7 @@ class Products
         $errors = apply_filters('validate_csv_data', $csv_data, $data['fields'], $temp_type);
 
         if (!empty($errors)) {
-             config('kernel.messageBag')->add('import-error', $errors);
+             messageBag('import-error', $errors);
              return;
         }
 
@@ -570,7 +570,7 @@ class Products
      *
      * @param array $data Data Filter
      *
-     * @return int|config('kernel.messageBag')->add(
+     * @return int|messageBag
      */
     public function importProducts($data)
     {
@@ -584,7 +584,7 @@ class Products
             );
 
             if (!$inserted) {
-                 config('kernel.messageBag')->add('import-db-error', __('Something went wrong'));
+                 messageBag('import-db-error', __('Something went wrong'));
                 return;
             }
         }
@@ -602,7 +602,7 @@ class Products
         }
 
         if (0 >= (int) $data['total']) {
-             config('kernel.messageBag')->add('import-error', __('No data imported'));
+             messageBag('import-error', __('No data imported'));
             return;
         }
 

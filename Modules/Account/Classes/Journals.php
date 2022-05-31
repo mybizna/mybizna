@@ -204,7 +204,7 @@ class Journals
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('journal-exception', $e->getMessage());
+            messageBag('journal-exception', $e->getMessage());
             return;
         }
 
@@ -288,7 +288,7 @@ class Journals
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('journal-exception', $e->getMessage());
+            messageBag('journal-exception', $e->getMessage());
             return;
         }
 

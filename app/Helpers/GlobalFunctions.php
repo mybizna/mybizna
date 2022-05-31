@@ -14,7 +14,6 @@ if (!function_exists('sendmail')) {
             throw $e;
         }
     }
-
 }
 
 if (!function_exists('getRealQuery')) {
@@ -29,6 +28,17 @@ if (!function_exists('getRealQuery')) {
         }
         return $result;
     }
+}
+
+function messageBag($key, $message)
+{
+    $messageBag = [];
+
+    if (config()->has('core.messageBag')) {
+        $messageBag = config('core.messageBag');
+    }
+
+    config(['kernel.messageBag' => $messageBag]);
 }
 
 
