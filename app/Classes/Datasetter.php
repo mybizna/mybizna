@@ -73,27 +73,32 @@ class Datasetter
 
         $class_name = $this->getClassName($module, $model);
 
+        array_multisort($data);
+        $hash = md5(json_encode($data));
+
         $data_migrated = DataMigrated::where($data_to_migrate)
             ->whereNotNull('item_id')->first();
 
 
         if ($data_migrated && $data_migrated->item_id) {
-            $saved_record = $class_name::find($data_migrated->item_id);
+            if ($hash <> $data_migrated->hash) {
+                $saved_record = $class_name::find($data_migrated->item_id);
 
-            if (!$saved_record->is_modified) {
-                $saved_record->fill($data);
-                $saved_record->save();
+                if (!$saved_record->is_modified) {
+                    $saved_record->fill($data);
+                    $saved_record->save();
+                }
+
+                $data_migrated->counter = $data_migrated->counter + 1;
+                $data_migrated->save();
             }
-
-            $data_migrated->counter = $data_migrated->counter + 1;
-            $data_migrated->save();
         } else {
             $data = $class_name::create($data);
 
-            $saved_migration = DataMigrated::create($data_to_migrate);
+            $data_to_migrate['item_id'] = $data->id;
+            $data_to_migrate['hash'] = $hash;
 
-            $saved_migration->fill(['item_id' => $data->id]);
-            $saved_migration->save();
+            DataMigrated::create($data_to_migrate);
         }
     }
 

@@ -513,7 +513,6 @@ class People
             's'          => '',
             'no_object'  => false,
         ];
-        print_r($args); exit;
         $args     = array_merge($defaults, $args);
 
         $people_type = is_array($args['type']) ? implode('-', $args['type']) : $args['type'];
