@@ -28,7 +28,6 @@ class Datasetter
             foreach ($dir as $fileinfo) {
                 if (!$fileinfo->isDot() && $fileinfo->isDir()) {
                     $module_name = $fileinfo->getFilename();
-
                     $namespace = 'Modules\\'  . $module_name . '\\Entities\\Data';
                     $data_folder = $modules_path .  $DS . $module_name .  $DS . 'Entities' . $DS . 'Data';
 
@@ -47,6 +46,7 @@ class Datasetter
 
                                 if (method_exists($model, 'data')) {
                                     $models->push([
+                                        'data_folder' => $data_folder,
                                         'object' => $object = app($model),
                                         'order' => $object->ordering ?? 0,
                                     ]);
@@ -58,6 +58,8 @@ class Datasetter
             }
 
             foreach ($models->sortBy('order') as $model) {
+
+                $this->output('Model: ' . $model['data_folder'],true);
                 $model['object']->data($this);
             }
         }
@@ -74,7 +76,10 @@ class Datasetter
         $class_name = $this->getClassName($module, $model);
 
         array_multisort($data);
-        $hash = md5(json_encode($data));
+        $json_data = json_encode($data);
+        $hash = md5($json_data);
+
+        $this->output($json_data);
 
         $data_migrated = DataMigrated::where($data_to_migrate)
             ->whereNotNull('item_id')->first();
@@ -89,6 +94,7 @@ class Datasetter
                     $saved_record->save();
                 }
 
+                $data_migrated->hash = $hash;
                 $data_migrated->counter = $data_migrated->counter + 1;
                 $data_migrated->save();
             }
@@ -101,7 +107,18 @@ class Datasetter
             DataMigrated::create($data_to_migrate);
         }
     }
-
+    private function output($string, $with_space = false)
+    {
+        if ($with_space) {
+            print('' . "\n");
+            print('' . "\n");
+            print('-----------------------------------' . "\n");
+            print($string . "\n");
+            print('' . "\n");
+        } else {
+            print($string . "\n");
+        }
+    }
     private function getClassName($module, $model)
     {
         $classname = 'Modules\\' . ucfirst($module) . '\Entities\\' . ucfirst(Str::camel($model));
