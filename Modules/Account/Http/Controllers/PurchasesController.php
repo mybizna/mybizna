@@ -73,7 +73,7 @@ class PurchasesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_bill_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_bill_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -122,7 +122,7 @@ class PurchasesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_purchase_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_purchase_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -186,14 +186,14 @@ class PurchasesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_purchase_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_purchase_invalid_id', __('Invalid resource id.'));
             return;
         }
 
         $can_edit = $common->checkVoucherEditState($id);
 
         if (!$can_edit) {
-            config('kernel.messageBag')->add('rest_purchase_invalid_edit', __('Invalid edit permission for update.'));
+            messageBag('rest_purchase_invalid_edit', __('Invalid edit permission for update.'));
             return;
         }
 
@@ -239,7 +239,7 @@ class PurchasesController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_purchase_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_purchase_invalid_id', __('Invalid resource id.'));
             return;
         }
 

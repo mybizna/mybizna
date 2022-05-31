@@ -74,7 +74,7 @@ class EmployeesController extends Controller
         $item     = (array) $people->getPeople($people_id);
 
         if (empty($item['id'])) {
-            config('kernel.messageBag')->add('rest_employee_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_employee_invalid_id', __('Invalid resource id.'));
             return;
         }
 

@@ -4,7 +4,7 @@ namespace Modules\Account\Entities\Data;
 
 use App\Classes\Datasetter;
 
-class Currency
+class ChartOfAccount
 {
 
     public $ordering = 1;

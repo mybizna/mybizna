@@ -124,7 +124,7 @@ class Bank
         $banks = $ledger->getLedgersByChartId(7);
 
         if ($bank_only && empty($banks)) {
-            config('kernel.messageBag')->add('rest_empty_accounts', __('Bank accounts are empty.'));
+            messageBag('rest_empty_accounts', __('Bank accounts are empty.'));
             return false;
         }
 
@@ -230,7 +230,7 @@ class Bank
         } catch (\Exception $e) {
             DB::rollback();
 
-            return config('kernel.messageBag')->add('bank-account-exception', $e->getMessage());
+            return messageBag('bank-account-exception', $e->getMessage());
         }
 
         return $bank_data['ledger_id'];
@@ -254,7 +254,7 @@ class Bank
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('bank-account-exception', $e->getMessage());
+            messageBag('bank-account-exception', $e->getMessage());
             return;
         }
 
@@ -397,7 +397,7 @@ class Bank
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('transfer-exception', $e->getMessage());
+            messageBag('transfer-exception', $e->getMessage());
             return;
         }
     }

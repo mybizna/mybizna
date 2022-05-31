@@ -77,7 +77,7 @@ class PaymentController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_payment_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -139,7 +139,7 @@ class PaymentController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_payment_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -183,7 +183,7 @@ class PaymentController extends Controller
         $id = (int) $input['id'];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_payment_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_payment_invalid_id', __('Invalid resource id.'));
             return;
         }
 

@@ -73,7 +73,7 @@ class ProductCats
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('product-exception', $e->getMessage());
+            messageBag('product-exception', $e->getMessage());
             return;
         }
 
@@ -118,7 +118,7 @@ class ProductCats
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('product-exception', $e->getMessage());
+            messageBag('product-exception', $e->getMessage());
             return;
         }
 

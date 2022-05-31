@@ -56,7 +56,7 @@ class AccountsController extends Controller
         $item = $bank->getBank($id);
 
         if (empty($id) || empty($item->id)) {
-            config('kernel.messageBag')->add('rest_bank_account_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_bank_account_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -79,7 +79,7 @@ class AccountsController extends Controller
         $item = $bank->deleteBank($id);
 
         if (empty($id) || empty($item->id)) {
-            config('kernel.messageBag')->add('rest_bank_account_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_bank_account_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -103,7 +103,7 @@ class AccountsController extends Controller
         $item = $this->prepareItemFDatabase($request);
 
         if (empty($item['from_account_id']) || empty($item['to_account_id'])) {
-            config('kernel.messageBag')->add('rest_transfer_invalid_accounts', __('Both accounts should be present.'));
+            messageBag('rest_transfer_invalid_accounts', __('Both accounts should be present.'));
             return;
         }
         $args               = [];
@@ -116,14 +116,14 @@ class AccountsController extends Controller
         $ledger_details = $opening_balance->getLedgerBalanceWithOpeningBalance($item['from_account_id'], $args['start_date'], $args['end_date']);
 
         if (empty($ledger_details)) {
-            config('kernel.messageBag')->add('rest_transfer_invalid_account', __('Something Went Wrong! Account not found.'));
+            messageBag('rest_transfer_invalid_account', __('Something Went Wrong! Account not found.'));
             return;
         }
 
         $from_balance = $ledger_details['balance'];
 
         // if ( $from_balance < $item['amount'] ) {
-        //     config('kernel.messageBag')->add( 'rest_transfer_insufficient_funds', __( 'Not enough money on selected transfer source.' ), [ 'status' => 400 ] );
+        //     messageBag( 'rest_transfer_insufficient_funds', __( 'Not enough money on selected transfer source.' ), [ 'status' => 400 ] );
         // }
 
         $id = $bank->performTransfer($request);
@@ -200,7 +200,7 @@ class AccountsController extends Controller
         $items = $bank->getBanks(true, true, false);
 
         if (empty($items)) {
-            config('kernel.messageBag')->add('rest_empty_accounts', __('Bank accounts are empty.'));
+            messageBag('rest_empty_accounts', __('Bank accounts are empty.'));
             return;
         }
 
@@ -229,7 +229,7 @@ class AccountsController extends Controller
         $items           = $bank->getDashboardBanks();
 
         if (empty($items)) {
-            config('kernel.messageBag')->add('rest_empty_accounts', __('Bank accounts are empty.'));
+            messageBag('rest_empty_accounts', __('Bank accounts are empty.'));
             return;
         }
 

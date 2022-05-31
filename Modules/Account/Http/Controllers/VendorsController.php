@@ -89,7 +89,7 @@ class VendorsController extends Controller
         $item = (array) $item;
 
         if (empty($id) || empty($item['id'])) {
-            config('kernel.messageBag')->add('rest_vendor_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_vendor_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -130,7 +130,7 @@ class VendorsController extends Controller
 
         $input = $request->all();
         if ($common->existPeople($input['email'])) {
-            config('kernel.messageBag')->add('rest_customer_invalid_id', __('Email already exists!'));
+            messageBag('rest_customer_invalid_id', __('Email already exists!'));
         }
 
         $item = $this->prepareItemFDatabase($request);
@@ -165,7 +165,7 @@ class VendorsController extends Controller
         $item = $people->getPeople($id);
 
         if (!$item) {
-            config('kernel.messageBag')->add('rest_vendor_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_vendor_invalid_id', __('Invalid resource id.'));
         }
 
         $old_data = (array) $item;
@@ -204,7 +204,7 @@ class VendorsController extends Controller
         $exist = $people->checkAssociatedTranasaction($id);
 
         if ($exist) {
-            config('kernel.messageBag')->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+            messageBag('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
         }
 
         $data = [
@@ -248,7 +248,7 @@ class VendorsController extends Controller
             $exist = $people->checkAssociatedTranasaction($id);
 
             if ($exist) {
-                config('kernel.messageBag')->add('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
+                messageBag('rest_customer_has_trans', __('Can not remove! Customer has transactions.'));
 
                 return false;
             }

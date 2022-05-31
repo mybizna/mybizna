@@ -283,7 +283,7 @@ class Invoices
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('invoice-exception', $e->getMessage());
+            messageBag('invoice-exception', $e->getMessage());
             return;
         }
 
@@ -569,7 +569,7 @@ class Invoices
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('invoice-exception', $e->getMessage());
+            messageBag('invoice-exception', $e->getMessage());
             return;
         }
 
@@ -646,7 +646,7 @@ class Invoices
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('invoice-exception', $e->getMessage());
+            messageBag('invoice-exception', $e->getMessage());
             return;
         }
 

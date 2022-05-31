@@ -23,14 +23,14 @@ Route::group(
             ->middleware('abilities:view_bank_accounts');
 
         Route::get('/{id}', $apicontroller . '@getAccount')
-            ->middleware('abilities:view_bank_accounts');
+            ->middleware('abilities:view_bank_accounts')->where('id', '[0-9]+');
         Route::delete('/{id}', $apicontroller . '@deleteAccount')
-            ->middleware('abilities:create_bank_transfer');
+            ->middleware('abilities:create_bank_transfer')->where('id', '[0-9]+');
 
         Route::post('transfer/', $apicontroller . '@transferMoney')
             ->middleware('abilities:create_bank_transfer');
         Route::get('/transfers/{id}', $apicontroller . '@getSingleTransfer')
-            ->middleware('abilities:create_bank_transfer');
+            ->middleware('abilities:create_bank_transfer')->where('id', '[0-9]+');
         Route::get('/transfers/list', $apicontroller . '@getTransferList')
             ->middleware('abilities:create_bank_transfer');
 
@@ -53,18 +53,18 @@ Route::group(
             ->middleware('abilities:create_expenses_voucher');
 
         Route::get('/{id}', $apicontroller . '@getBill')
-            ->middleware('abilities:view_expense');
+            ->middleware('abilities:view_expense')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateBill')
-            ->middleware('abilities:view_expense');
+            ->middleware('abilities:view_expense')->where('id', '[0-9]+');
 
         Route::get('/due/{id}', $apicontroller . '@dueBills')
-            ->middleware('abilities:create_expenses_voucher');
+            ->middleware('abilities:create_expenses_voucher')->where('id', '[0-9]+');
 
         Route::post('/{id}/void', $apicontroller . '@voidBill')
-            ->middleware('abilities:publish_expenses_voucher');
+            ->middleware('abilities:publish_expenses_voucher')->where('id', '[0-9]+');
 
         Route::get('/{id}', $apicontroller . '@getOverviewPayables')
-            ->middleware('abilities:view_sales_summary');
+            ->middleware('abilities:view_sales_summary')->where('id', '[0-9]+');
     }
 );
 
@@ -109,27 +109,28 @@ Route::group(
     function () {
         $apicontroller = 'CustomersController';
 
+
         Route::get('/', $apicontroller . '@getCustomers')
             ->middleware('abilities:view_customer');
         Route::post('/', $apicontroller . '@createCustomer')
             ->middleware('abilities:create_customer');
 
         Route::get('/{id}', $apicontroller . '@getCustomer')
-            ->middleware('abilities:view_customer');
+            ->middleware('abilities:view_customer')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateCustomer')
-            ->middleware('abilities:edit_customer');
+            ->middleware('abilities:edit_customer')->where('id', '[0-9]+');
         Route::delete('/{id}', $apicontroller . '@deleteCustomer')
-            ->middleware('abilities:delete_customer');
+            ->middleware('abilities:delete_customer')->where('id', '[0-9]+');
 
         Route::delete('/delete/{id}', $apicontroller . '@bulkDeleteCustomers')
-            ->middleware('abilities:delete_customer');
+            ->middleware('abilities:delete_customer')->where('id', '[0-9]+');
 
         Route::get('/{id}/transactions', $apicontroller . '@getTransactions')
-            ->middleware('abilities:view_customer');
+            ->middleware('abilities:view_customer')->where('id', '[0-9]+');
 
 
         Route::get('/{id}/transactions/filter', $apicontroller . '@filterTransactions')
-            ->middleware('abilities:view_customer');
+            ->middleware('abilities:view_customer')->where('id', '[0-9]+');
 
         Route::get('/country', $apicontroller . '@getCountries')
             ->middleware('abilities:view_customer');
@@ -146,10 +147,10 @@ Route::group(
             ->middleware('abilities:view_list');
 
         Route::get('/{id}', $apicontroller . '@getEmployee')
-            ->middleware('abilities:list_employee');
+            ->middleware('abilities:list_employee')->where('id', '[0-9]+');
 
         Route::get('/{id}/transactions', $apicontroller . '@getTransactions')
-            ->middleware('abilities:view_list');
+            ->middleware('abilities:view_list')->where('id', '[0-9]+');
     }
 );
 
@@ -164,14 +165,14 @@ Route::group(
             ->middleware('abilities:create_expenses_voucher');
 
         Route::get('/{id}', $apicontroller . '@getTransactions')
-            ->middleware('abilities:view_list');
+            ->middleware('abilities:view_list')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateExpense')
-            ->middleware('abilities:create_expenses_voucher');
+            ->middleware('abilities:create_expenses_voucher')->where('id', '[0-9]+');
 
         Route::post('/{id}/void', $apicontroller . '@voidExpense')
-            ->middleware('abilities:publish_expenses_voucher');
+            ->middleware('abilities:publish_expenses_voucher')->where('id', '[0-9]+');
         Route::get('/checks/{id}', $apicontroller . '@getCheck')
-            ->middleware('abilities:view_expense');
+            ->middleware('abilities:view_expense')->where('id', '[0-9]+');
     }
 );
 
@@ -187,15 +188,15 @@ Route::group(
             ->middleware('abilities:create_sales_invoice');
 
         Route::get('/{id}', $apicontroller . '@getInvoice')
-            ->middleware('abilities:view_sales_summary');
+            ->middleware('abilities:view_sales_summary')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateInvoice')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::post('/{id}/void', $apicontroller . '@voidInvoice')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::get('/due/{id}', $apicontroller . '@dueInvoices')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::post('/attachments', $apicontroller . '@uploadAttachments')
             ->middleware('abilities:create_sales_invoice');
@@ -217,7 +218,7 @@ Route::group(
             ->middleware('abilities:create_journal');
 
         Route::get('/{id}', $apicontroller . '@getJournal')
-            ->middleware('abilities:view_journal');
+            ->middleware('abilities:view_journal')->where('id', '[0-9]+');
 
         Route::get('/next', $apicontroller . '@getNextJournalId')
             ->middleware('abilities:view_journal');
@@ -235,14 +236,14 @@ Route::group(
             ->middleware('abilities:create_account');
 
         Route::get('/{id}', $apicontroller . '@getLedgerAccount')
-            ->middleware('abilities:view_single_account');
+            ->middleware('abilities:view_single_account')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateLedgerAccount')
-            ->middleware('abilities:edit_account');
+            ->middleware('abilities:edit_account')->where('id', '[0-9]+');
         Route::delete('/{id}', $apicontroller . '@deleteLedgerAccount')
-            ->middleware('abilities:delete_account');
+            ->middleware('abilities:delete_account')->where('id', '[0-9]+');
 
         Route::get('/{id}/accounts', $apicontroller . '@getLedgerAccountsByChart')
-            ->middleware('abilities:view_account_lists');
+            ->middleware('abilities:view_account_lists')->where('id', '[0-9]+');
 
         Route::get('/accounts', $apicontroller . '@getChartAccounts')
             ->middleware('abilities:view_account_lists');
@@ -254,13 +255,13 @@ Route::group(
             ->middleware('abilities:view_account_lists');
         /*
         Route::get('/categories/{id}', $apicontroller . '@get_ledger_categories')
-        ->middleware('abilities:view_account_lists');
+        ->middleware('abilities:view_account_lists')->where('id', '[0-9]+');
         Route::post('/categories/{id}', $apicontroller . '@create_ledger_category')
-        ->middleware('abilities:create_account');
+        ->middleware('abilities:create_account')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/categories/{id}',  $apicontroller . '@update_ledger_category')
-        ->middleware('abilities:edit_account');
+        ->middleware('abilities:edit_account')->where('id', '[0-9]+');
         Route::delete('/categories/{id}', $apicontroller . '@delete_ledger_category')
-        ->middleware('abilities:delete_account');
+        ->middleware('abilities:delete_account')->where('id', '[0-9]+');
         */
     }
 );
@@ -279,10 +280,10 @@ Route::group(
             ->middleware('abilities:view_journal');
 
         Route::get('/{id}', $apicontroller . '@getOpeningBalance')
-            ->middleware('abilities:view_journal');
+            ->middleware('abilities:view_journal')->where('id', '[0-9]+');
 
         Route::get('/virtual-accts/{id}', $apicontroller . '@getVirtualAcctsByYear')
-            ->middleware('abilities:view_journal');
+            ->middleware('abilities:view_journal')->where('id', '[0-9]+');
 
 
         Route::get('/acc-payable-receivable', $apicontroller . '@getAccPayableReceivable')
@@ -302,12 +303,12 @@ Route::group(
             ->middleware('abilities:create_expenses_voucher');
 
         Route::get('/{id}', $apicontroller . '@getPayBill')
-            ->middleware('abilities:view_expense');
+            ->middleware('abilities:view_expense')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updatePayBill')
-            ->middleware('abilities:create_expenses_voucher');
+            ->middleware('abilities:create_expenses_voucher')->where('id', '[0-9]+');
 
         Route::post('/{id}/void', $apicontroller . '@voidPayBill')
-            ->middleware('abilities:publish_expenses_voucher');
+            ->middleware('abilities:publish_expenses_voucher')->where('id', '[0-9]+');
     }
 );
 
@@ -323,12 +324,12 @@ Route::group(
             ->middleware('abilities:create_expenses_voucher');
 
         Route::get('/{id}', $apicontroller . '@getPayPurchase')
-            ->middleware('abilities:view_expense');
+            ->middleware('abilities:view_expense')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updatePayPurchase')
-            ->middleware('abilities:create_expenses_voucher');
+            ->middleware('abilities:create_expenses_voucher')->where('id', '[0-9]+');
 
         Route::post('/{id}/void', $apicontroller . '@voidPayPurchase')
-            ->middleware('abilities:publish_expenses_voucher');
+            ->middleware('abilities:publish_expenses_voucher')->where('id', '[0-9]+');
     }
 );
 
@@ -341,13 +342,13 @@ Route::group(
             ->middleware('abilities:view_expense');
 
         Route::get('/{id}', $apicontroller . '@getPeople')
-            ->middleware('abilities:view_expense');
+            ->middleware('abilities:view_expense')->where('id', '[0-9]+');
 
         Route::get('/{id}/address', $apicontroller . '@getPeopleAddress')
-            ->middleware('abilities:view_expense');
+            ->middleware('abilities:view_expense')->where('id', '[0-9]+');
 
         Route::get('/{id}/opening-balance', $apicontroller . '@getOpeningBalance')
-            ->middleware('abilities:view_expense');
+            ->middleware('abilities:view_expense')->where('id', '[0-9]+');
 
         Route::get('/check-email', $apicontroller . '@checkPeopleEmail')
             ->middleware('abilities:view_expense');
@@ -365,14 +366,14 @@ Route::group(
             ->middleware('abilities:manager');
 
         Route::get('/{id}', $apicontroller . '@getInventoryProductCat')
-            ->middleware('abilities:manager');
+            ->middleware('abilities:manager')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateInventoryProductCat')
-            ->middleware('abilities:manager');
+            ->middleware('abilities:manager')->where('id', '[0-9]+');
         Route::delete('/{id}', $apicontroller . '@deleteInventoryProductCat')
-            ->middleware('abilities:manager');
+            ->middleware('abilities:manager')->where('id', '[0-9]+');
 
         Route::delete('/delete/{id}', $apicontroller . '@bulkDeleteCat')
-            ->middleware('abilities:manager');
+            ->middleware('abilities:manager')->where('id', '[0-9]+');
     }
 );
 
@@ -387,14 +388,14 @@ Route::group(
             ->middleware('abilities:manager');
 
         Route::get('/{id}', $apicontroller . '@getInventoryProduct')
-            ->middleware('abilities:manager');
+            ->middleware('abilities:manager')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateInventoryProduct')
-            ->middleware('abilities:manager');
+            ->middleware('abilities:manager')->where('id', '[0-9]+');
         Route::delete('/{id}', $apicontroller . '@deleteInventoryProduct')
-            ->middleware('abilities:manager');
+            ->middleware('abilities:manager')->where('id', '[0-9]+');
 
         Route::delete('/delete/{id}', $apicontroller . '@bulkDelete')
-            ->middleware('abilities:manager');
+            ->middleware('abilities:manager')->where('id', '[0-9]+');
 
         Route::post('/csv/validate', $apicontroller . '@validateCsvData')
             ->middleware('abilities:manager');
@@ -415,15 +416,15 @@ Route::group(
             ->middleware('abilities:create_expenses_voucher');
 
         Route::get('/{id}', $apicontroller . '@getPurchase')
-            ->middleware('abilities:view_expense');
+            ->middleware('abilities:view_expense')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updatePurchase')
-            ->middleware('abilities:create_expenses_voucher');
+            ->middleware('abilities:create_expenses_voucher')->where('id', '[0-9]+');
 
         Route::post('/{id}/void', $apicontroller . '@voidPurchase')
-            ->middleware('abilities:publish_expenses_voucher');
+            ->middleware('abilities:publish_expenses_voucher')->where('id', '[0-9]+');
 
         Route::get('/due/{id}', $apicontroller . '@duePurchases')
-            ->middleware('abilities:create_expenses_voucher');
+            ->middleware('abilities:create_expenses_voucher')->where('id', '[0-9]+');
     }
 );
 
@@ -438,12 +439,12 @@ Route::group(
             ->middleware('abilities:create_sales_payment');
 
         Route::get('/{id}', $apicontroller . '@getPayment')
-            ->middleware('abilities:view_sales_summary');
+            ->middleware('abilities:view_sales_summary')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updatePayment')
-            ->middleware('abilities:create_sales_payment');
+            ->middleware('abilities:create_sales_payment')->where('id', '[0-9]+');
 
         Route::post('/{id}/void', $apicontroller . '@voidPayment')
-            ->middleware('abilities:create_sales_payment');
+            ->middleware('abilities:create_sales_payment')->where('id', '[0-9]+');
     }
 );
 
@@ -483,17 +484,17 @@ Route::group(
             ->middleware('abilities:create_sales_invoice');
 
         Route::get('/{id}', $apicontroller . '@getTaxAgency')
-            ->middleware('abilities:view_sale');
+            ->middleware('abilities:view_sale')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateTaxAgency')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
         Route::delete('/{id}', $apicontroller . '@deleteTaxAgency')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::get('/due/{id}', $apicontroller . '@getAgencyDue')
-            ->middleware('abilities:view_sale');
+            ->middleware('abilities:view_sale')->where('id', '[0-9]+');
 
         Route::delete('/delete/{id}', $apicontroller . '@bulkDelete')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
     }
 );
 
@@ -508,14 +509,14 @@ Route::group(
             ->middleware('abilities:create_sales_invoice');
 
         Route::get('/{id}', $apicontroller . '@getTaxCat')
-            ->middleware('abilities:view_sale');
+            ->middleware('abilities:view_sale')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateTaxCat')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
         Route::delete('/{id}', $apicontroller . '@deleteTaxCat')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::delete('/delete/{id}', $apicontroller . '@bulkDelete')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
     }
 );
 
@@ -530,14 +531,14 @@ Route::group(
             ->middleware('abilities:create_sales_invoice');
 
         Route::get('/{id}', $apicontroller . '@getTaxRateName')
-            ->middleware('abilities:view_sale');
+            ->middleware('abilities:view_sale')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateTaxRateName')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
         Route::delete('/{id}', $apicontroller . '@deleteTaxRateName')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::delete('/delete/{id}', $apicontroller . '@bulkDelete')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
     }
 );
 
@@ -553,32 +554,32 @@ Route::group(
             ->middleware('abilities:create_sales_invoice');
 
         Route::get('/{id}', $apicontroller . '@getTaxRate')
-            ->middleware('abilities:view_sale');
+            ->middleware('abilities:view_sale')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateTaxRate')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
         Route::delete('/{id}', $apicontroller . '@deleteTaxRate')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::delete('/delete/{id}', $apicontroller . '@bulkDelete')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::match(['post', 'put', 'patch'], '/{id}/quick-edit',  $apicontroller . '@quickEditTaxRate')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::match(['post', 'put', 'patch'], '/{id}/line-add',  $apicontroller . '@lineAddTaxRate')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::match(['post', 'put', 'patch'], '/{id}/line-edit',  $apicontroller . '@lineEditTaxRate')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::delete('/{id}/line-delete', $apicontroller . '@lineDeleteTaxRate')
-            ->middleware('abilities:create_sales_invoice');
+            ->middleware('abilities:create_sales_invoice')->where('id', '[0-9]+');
 
         Route::get('/tax-records', $apicontroller . '@getTaxPayRecords')
             ->middleware('abilities:view_sale');
 
         Route::get('/tax-records/{id}', $apicontroller . '@getTaxPayRecord')
-            ->middleware('abilities:view_sale');
+            ->middleware('abilities:view_sale')->where('id', '[0-9]+');
 
         Route::post('/pay-tax', $apicontroller . '@payTax')
             ->middleware('abilities:create_sales_payment');
@@ -594,7 +595,7 @@ Route::group(
         $apicontroller = 'TransactionsController';
 
         Route::get('/{voucher_no}', $apicontroller . '@getTransactionType')
-            ->middleware('abilities:view_sales_summary');
+            ->middleware('abilities:view_sales_summary')->where('id', '[0-9]+');
 
         Route::get('/statuses', $apicontroller . '@getTrnStatuses')
             ->middleware('abilities:view_sales_summary');
@@ -633,13 +634,13 @@ Route::group(
             ->middleware('abilities:view_sales_summary');
 
         Route::get('/send-pdf/{id}', $apicontroller . '@sendAsPdf')
-            ->middleware('abilities:view_sales_summary');
+            ->middleware('abilities:view_sales_summary')->where('id', '[0-9]+');
 
         Route::get('/people-chart/trn-amount/{id}', $apicontroller . '@getPeopleTrnAmountData')
-            ->middleware('abilities:view_sales_summary');
+            ->middleware('abilities:view_sales_summary')->where('id', '[0-9]+');
 
         Route::get('/people-chart/trn-status/{id}', $apicontroller . '@getPeopleTrnStatusData')
-            ->middleware('abilities:view_sales_summary');
+            ->middleware('abilities:view_sales_summary')->where('id', '[0-9]+');
 
         Route::get('/voucher-type', $apicontroller . '@getVoucherType')
             ->middleware('abilities:view_sales_summary');
@@ -658,22 +659,22 @@ Route::group(
             ->middleware('abilities:create_vendor');
 
         Route::get('/{id}', $apicontroller . '@getVendor')
-            ->middleware('abilities:view_vendor');
+            ->middleware('abilities:view_vendor')->where('id', '[0-9]+');
         Route::match(['post', 'put', 'patch'], '/{id}',  $apicontroller . '@updateVendor')
-            ->middleware('abilities:edit_vendor');
+            ->middleware('abilities:edit_vendor')->where('id', '[0-9]+');
         Route::delete('/{id}', $apicontroller . '@deleteVendor')
-            ->middleware('abilities:delete_vendor');
+            ->middleware('abilities:delete_vendor')->where('id', '[0-9]+');
 
         Route::delete('/delete/{id}', $apicontroller . '@bulkDeleteVendors')
-            ->middleware('abilities:delete_vendor');
+            ->middleware('abilities:delete_vendor')->where('id', '[0-9]+');
 
         Route::get('/{id}/transactions', $apicontroller . '@getTransactions')
-            ->middleware('abilities:view_vendor');
+            ->middleware('abilities:view_vendor')->where('id', '[0-9]+');
 
         Route::get('/{id}/transactions/filter', $apicontroller . '@filterTransactions')
-            ->middleware('abilities:view_vendor');
+            ->middleware('abilities:view_vendor')->where('id', '[0-9]+');
 
         Route::get('/{id}/products', $apicontroller . '@getVendorProducts')
-            ->middleware('abilities:view_vendor');
+            ->middleware('abilities:view_vendor')->where('id', '[0-9]+');
     }
 );

@@ -64,7 +64,7 @@ class JournalsController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_journal_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_journal_invalid_id', __('Invalid resource id.'));
             return;
         }
 

@@ -242,7 +242,7 @@ class Modularize
 
                     if (!File::exists($public_folder)) {
 
-                        config('kernel.messageBag')->add('modularize_fold_missing_error', __('Folder Missing error.'));
+                        messageBag('modularize_fold_missing_error', __('Folder Missing error.'));
 
                         //File::makeDirectory($public_folder);
                         if (File::exists($module_folder)) {

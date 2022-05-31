@@ -371,7 +371,7 @@ class Expenses
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('expense-exception', $e->getMessage());
+            messageBag('expense-exception', $e->getMessage());
             return;
         }
 
@@ -475,7 +475,7 @@ class Expenses
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('expense-exception', $e->getMessage());
+            messageBag('expense-exception', $e->getMessage());
             return;
         }
 
@@ -593,7 +593,7 @@ class Expenses
         } catch (\Exception $e) {
             DB::rollback();
 
-            config('kernel.messageBag')->add('expense-exception', $e->getMessage());
+            messageBag('expense-exception', $e->getMessage());
             return;
         }
 

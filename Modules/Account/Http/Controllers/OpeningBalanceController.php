@@ -66,7 +66,7 @@ class OpeningBalanceController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_opening_balance_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_opening_balance_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -103,7 +103,7 @@ class OpeningBalanceController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_opening_balance_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_opening_balance_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -129,7 +129,7 @@ class OpeningBalanceController extends Controller
         $additional_fields = [];
 
         if (empty($id)) {
-            config('kernel.messageBag')->add('rest_opening_balance_invalid_id', __('Invalid resource id.'));
+            messageBag('rest_opening_balance_invalid_id', __('Invalid resource id.'));
             return;
         }
 
@@ -182,7 +182,7 @@ class OpeningBalanceController extends Controller
         $total_cr = (isset($input['total_dr']) ? $input['total_dr'] : 0);
 
         if ($total_dr !== $total_cr) {
-            config('kernel.messageBag')->add('rest_opening_balance_invalid_amount', __('Summation of debit and credit must be equal.'), ['status' => 400]);
+            messageBag('rest_opening_balance_invalid_amount', __('Summation of debit and credit must be equal.'), ['status' => 400]);
             return;
         }
 

@@ -29,12 +29,12 @@ class ClosingBalanceController extends Controller
         $input = $request->all();
 
         if (empty($input['start_date'])) {
-            config('kernel.messageBag')->add('rest_invalid_date', __('Start date missing.'));
+            messageBag('rest_invalid_date', __('Start date missing.'));
             return;
         }
 
         if (empty($input['end_date'])) {
-            config('kernel.messageBag')->add('rest_invalid_date', __('End date missing.'));
+            messageBag('rest_invalid_date', __('End date missing.'));
             return;
         }
 
@@ -62,7 +62,7 @@ class ClosingBalanceController extends Controller
         $input = $request->all();
 
         if (empty($input['date'])) {
-            config('kernel.messageBag')->add('rest_invalid_date', __('Invalid resource date.'));
+            messageBag('rest_invalid_date', __('Invalid resource date.'));
             return;
         }
 
