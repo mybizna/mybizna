@@ -18,5 +18,6 @@
     "Purchase": true,
     "Sale": true,
     "Stock": true,
-    "Taxonomy": true
+    "Taxonomy": true,
+    "Core": true
 }

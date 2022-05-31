@@ -23,7 +23,6 @@ Route::get('discover_modules', $apicontroller . '@discoverModules');
 Route::get('fetch_menus', $apicontroller . '@fetchMenus');
 Route::get('fetch_routes', $apicontroller . '@fetchRoutes');
 Route::get('current_user', $apicontroller . '@currentUser');
-Route::get('data_process', $apicontroller . '@dataProcess');
 Route::get('dashboard_data', $apicontroller . '@dashboardData');
 
 

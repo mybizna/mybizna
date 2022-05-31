@@ -121,15 +121,6 @@ class ApiController extends Controller
     }
 
 
-    public function dataProcess(Request $request)
-    {
-        $datasetter = new Datasetter();
-
-        $result = $datasetter->dataProcess();
-
-        return Response::json($result);
-    }
-
 
     public function fetchRoutes(Request $request)
     {

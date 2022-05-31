@@ -12,20 +12,5 @@
             "value": "Your Awesome Description is very Good."
         }]
     },
-    "rights": {
-        "post": {
-            "administrator":[true,true,true,true],
-            "manager": [true,true,true,true],
-            "supervisor": [true,true,true,true],
-            "staff": [true,true,true],
-            "registered": [true],
-            "guest": [true],
-            "guestref": {
-                "list": true,
-                "create": false,
-                "edit": false,
-                "delete": false
-            }
-        }
-    }
+
 }
