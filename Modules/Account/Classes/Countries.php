@@ -1,7 +1,8 @@
 <?php
 
-
 namespace Modules\Account\Classes;
+
+use Illuminate\Support\Facades\DB;
 
 /**
  * WP ERP countries
@@ -53,19 +54,9 @@ class Countries
      */
     public function get_countries($default = '')
     {
-        if (empty($this->countries)) {
-            $this->countries = apply_filters('countries', include(base_path() . '/i18n/countries.php'));
+        $countries = DB::table('base_country')->all();
 
-            if (apply_filters('sort_countries', true)) {
-                asort($this->countries);
-            }
-        }
-
-        if ('-1' == $default) {
-            $this->countries = ['-1' => __('- Select -')] + $this->countries;
-        }
-
-        return $this->countries;
+        return $countries;
     }
 
     /**
@@ -105,15 +96,10 @@ class Countries
      */
     public function get_states($cc = null)
     {
-        if (empty($this->states)) {
-            $this->load_country_states();
-        }
 
-        if (!is_null($cc)) {
-            return isset($this->states[$cc]) ? $this->states[$cc] : false;
-        } else {
-            return $this->states;
-        }
+        $states = DB::table('base_state')->all();
+        
+        return $states;
     }
 
     /**

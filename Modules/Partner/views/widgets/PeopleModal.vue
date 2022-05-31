@@ -448,7 +448,6 @@ export default {
 
     created() {
         this.url = this.generateUrl();
-        this.getCustomers();
         this.getCountries(() => this.setInputField());
     },
 
@@ -645,11 +644,6 @@ export default {
             }
         },
 
-        getCustomers() {
-            window.axios.get("/customers").then((response) => {
-                this.customers = response.data;
-            });
-        },
 
         setInputField() {
             if (this.people) {

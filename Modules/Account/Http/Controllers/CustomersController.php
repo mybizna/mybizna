@@ -287,9 +287,10 @@ class CustomersController extends Controller
      */
     public function getCountries(Request $request)
     {
-        $country  = Countries::instance();
-        $c        = $country->get_countries();
-        $state    = $country->get_states();
+        $countries  = new Countries();
+        
+        $c        = $countries->get_countries(); 
+        $state    = $countries->get_states();
         $response = [
             'country' => $c,
             'state'   => $state,

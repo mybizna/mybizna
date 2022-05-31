@@ -33,6 +33,7 @@ class DataMigrated extends Model
         'array_key',
         'item_id',
         'counter',
+        'hash',
     ];
 
     /**
@@ -90,6 +91,7 @@ class DataMigrated extends Model
         $table->string('module', 255);
         $table->string('table_name', 255);
         $table->string('array_key', 255);
+        $table->string('hash', 255);
         $table->integer('item_id')->nullable()->default(null);
         $table->integer('counter')->nullable()->default(0);
     }
