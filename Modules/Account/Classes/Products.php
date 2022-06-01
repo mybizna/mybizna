@@ -146,7 +146,7 @@ class Products
 
             $product_check =  DB::select(
 
-                "SELECT * FROM product where name = %s",
+                "SELECT * FROM product where name = ?",
                 [$product_data['name']]
             );
 
@@ -209,7 +209,7 @@ class Products
             $product_data = $products->getFormattedProductData($data);
 
             $product_name_check =  DB::select(
-                "SELECT * FROM product where name = %s AND id NOT IN(%d)",
+                "SELECT * FROM product where name = ? AND id NOT IN(?)",
                 [
                     $product_data['name'],
                     $id
@@ -323,7 +323,7 @@ class Products
     {
 
 
-        $type_id = DB::scalar("SELECT product_type_id FROM product WHERE id = %d", [$product_id]);
+        $type_id = DB::scalar("SELECT product_type_id FROM product WHERE id = ?", [$product_id]);
 
         return $type_id;
     }
@@ -530,7 +530,7 @@ class Products
 
                     if ($update_existing && !$product_checked && 'name' === $key) {
                         $product_exists_id =  DB::scalar(
-                            "SELECT id FROM product where name = %s",
+                            "SELECT id FROM product where name = ?",
                             [$value]
                         );
 

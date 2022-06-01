@@ -438,7 +438,6 @@ class CustomersController extends Controller
             $prepared_item['fax'] = $input['fax'];
         }
 
-        $prepared_item['raw_data'] = json_decode($request->get_body(), true);
         $prepared_item['type']     = 'customer';
 
         return $prepared_item;

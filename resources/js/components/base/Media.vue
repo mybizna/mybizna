@@ -48,7 +48,9 @@ export default {
 
     methods: {
         uploadImage() {
-            this.openMediaManager(this.onSelectImage);
+            alert('Upload Coming Soon');
+            return false;
+            // this.openMediaManager(this.onSelectImage);
         },
 
         onSelectImage(image) {

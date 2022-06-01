@@ -44,7 +44,7 @@ class Reports
             $sql1 =
                 "SELECT SUM(debit - credit) AS balance
             FROM account_ledger_detail
-            WHERE ledger_id = %d AND trn_date BETWEEN '%s' AND '%s' ORDER BY trn_date ASC";
+            WHERE ledger_id = ? AND trn_date BETWEEN ? AND ? ORDER BY trn_date ASC";
 
             $prev_ledger_details = DB::scalar(
                 $sql1,
@@ -64,7 +64,7 @@ class Reports
             "SELECT
         trn_no, particulars, debit, credit, trn_date, created_at
         FROM account_ledger_detail
-        WHERE ledger_id = %d AND trn_date BETWEEN '%s' AND '%s' ORDER BY trn_date ASC";
+        WHERE ledger_id = ? AND trn_date BETWEEN '?' AND '?' ORDER BY trn_date ASC";
 
         DB::statement("SET SESSION sql_mode='';");
 
@@ -154,7 +154,7 @@ class Reports
 
 
         $sql = "SELECT SUM(debit - credit) AS balance FROM account_opening_balance
-        WHERE financial_year_id = %d AND ledger_id = %d AND type = 'ledger' GROUP BY ledger_id";
+        WHERE financial_year_id = ? AND ledger_id = ? AND type = 'ledger' GROUP BY ledger_id";
 
         return DB::scalar($sql, [$id, $ledger_id]);
     }
@@ -188,7 +188,7 @@ class Reports
         $opening_balance    = (float) $db_opening_balance;
 
         // agency details
-        $details = DB::select("SELECT trn_no, particulars, debit, credit, trn_date, created_at FROM account_tax_agency_detail WHERE agency_id = %d AND trn_date BETWEEN '%s' AND '%s'", [$agency_id, $start_date, $end_date]);
+        $details = DB::select("SELECT trn_no, particulars, debit, credit, trn_date, created_at FROM account_tax_agency_detail WHERE agency_id = ? AND trn_date BETWEEN ? AND ?", [$agency_id, $start_date, $end_date]);
 
         $total_debit  = 0;
         $total_credit = 0;
@@ -291,18 +291,18 @@ class Reports
         }
 
         $sql['from']  = "invoice AS inv";
-        $sql['where'] = "inv.trn_date BETWEEN '%s' AND '%s'";
+        $sql['where'] = "inv.trn_date BETWEEN ? AND ?";
         $sql['extra'] = '';
         $values       = [$args['start_date'], $args['end_date']];
 
         if (!empty($args['customer_id'])) {
             $sql['select'] = 'inv.trn_date, inv.voucher_no, inv.tax AS tax_amount, inv.customer_id, inv.customer_name';
-            $sql['where'] .= " AND inv.tax > 0 AND inv.customer_id = %d";
+            $sql['where'] .= " AND inv.tax > 0 AND inv.customer_id = ?";
             $values[]      = $args['customer_id'];
         } elseif (!empty($args['category_id'])) {
             $sql['select'] = 'inv.trn_date, details.trn_no AS voucher_no, sum(details.tax) AS tax_amount, details.tax_cat_id';
             $sql['from']  .= " RIGHT JOIN invoice_detail AS details ON inv.voucher_no = details.trn_no";
-            $sql['where'] .= " AND details.tax > 0 AND details.tax_cat_id = %d";
+            $sql['where'] .= " AND details.tax > 0 AND details.tax_cat_id = ?";
             $sql['extra'] .= "GROUP BY details.trn_no";
             $values[]      = $args['category_id'];
         } else {
@@ -372,7 +372,7 @@ class Reports
         // get opening balance data within that(^) financial year
         $opening_balance = $this->isOpeningBalanceByFnYearId($closest_fy_date['id'], $chart_id);
 
-        $ledgers   = DB::select("SELECT ledger.id, ledger.name FROM account_ledger AS ledger WHERE ledger.chart_id = %d", [$chart_id]);
+        $ledgers   = DB::select("SELECT ledger.id, ledger.name FROM account_ledger AS ledger WHERE ledger.chart_id = ?", [$chart_id]);
         $temp_data = $this->getIsBalanceWithOpeningBalance($ledgers, $data, $opening_balance);
         $result    = [];
 
@@ -482,7 +482,7 @@ class Reports
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
         FROM account_ledger AS ledger
         LEFT JOIN account_opening_balance AS opb ON ledger.id = opb.ledger_id
-        WHERE opb.financial_year_id = %d {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
+        WHERE opb.financial_year_id = ? {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
         GROUP BY opb.ledger_id";
 
         return DB::select($sql, [$id]);
@@ -525,7 +525,7 @@ class Reports
         ledger.name,
         SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM account_ledger AS ledger
-        LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=1 AND ledger_detail.trn_date BETWEEN '%s' AND '%s'
+        LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=1 AND ledger_detail.trn_date BETWEEN ? AND ?
         GROUP BY ledger_detail.ledger_id";
 
         $sql2 = "SELECT
@@ -533,7 +533,7 @@ class Reports
         ledger.name,
         SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM account_ledger AS ledger
-        LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=2 AND ledger_detail.trn_date BETWEEN '%s' AND '%s'
+        LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=2 AND ledger_detail.trn_date BETWEEN ? AND ?
         GROUP BY ledger_detail.ledger_id";
 
         $sql3 = "SELECT
@@ -541,7 +541,7 @@ class Reports
         ledger.name,
         SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM account_ledger AS ledger
-        LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=3 AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '%s' AND '%s'
+        LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=3 AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN ? AND ?
         GROUP BY ledger_detail.ledger_id";
 
         $data1 = DB::select($sql1, [$args['start_date'], $args['end_date']]);
@@ -828,7 +828,7 @@ class Reports
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
         FROM account_ledger AS ledger
         LEFT JOIN account_opening_balance AS opb ON ledger.id = opb.ledger_id
-        WHERE opb.financial_year_id = %d {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
+        WHERE opb.financial_year_id = ? {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
         GROUP BY opb.ledger_id";
 
         return DB::select($sql, [$id]);
@@ -868,7 +868,7 @@ class Reports
         ledger.name,
         SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM account_ledger AS ledger
-        LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=4 AND ledger_detail.trn_date BETWEEN '%s' AND '%s'
+        LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=4 AND ledger_detail.trn_date BETWEEN ? AND ?
         GROUP BY ledger_detail.ledger_id";
 
         $sql2 = "SELECT
@@ -876,7 +876,7 @@ class Reports
         ledger.name,
         SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM account_ledger AS ledger
-        LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=5 AND ledger_detail.trn_date BETWEEN '%s' AND '%s'
+        LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id WHERE ledger.chart_id=5 AND ledger_detail.trn_date BETWEEN ? AND ?
         GROUP BY ledger_detail.ledger_id";
 
         $data1 = DB::select($sql1, [$args['start_date'], $args['end_date']]);

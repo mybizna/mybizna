@@ -146,7 +146,7 @@ function esc_url_raw($url)
 
 function wp_parse_args($args, $defaults)
 {
-    return array_merge($defaults, $args);
+    return array_merge($args, $defaults);
 }
 
 

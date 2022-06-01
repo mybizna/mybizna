@@ -519,14 +519,14 @@ class Invoices
                 $old_invoice = $this->getInvoice($invoice_no);
 
                 // insert contra `invoice` (basically a duplication of row)
-                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM invoice WHERE voucher_no = %d", [$invoice_no]);
+                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM invoice WHERE voucher_no = ?", [$invoice_no]);
                 DB::update(
 
-                    "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
+                    "UPDATE acct_tmptable SET id = ?, voucher_no = ?, particulars = ?, created_at = ?",
                     [
                         0,
                         $voucher_no,
-                        $invoice_no,
+                        'Contra entry for voucher no \#' + $invoice_no,
                         $data['created_at']
                     ]
                 );
@@ -536,7 +536,7 @@ class Invoices
                 // change invoice status and other things
                 $status_closed = 7;
                 DB::update(
-                    "UPDATE invoice SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
+                    "UPDATE invoice SET status = ?, updated_at =?, updated_by = ? WHERE voucher_no IN (?, ?)",
                     [
                         $status_closed,
                         $data['updated_at'],
@@ -825,7 +825,7 @@ class Invoices
 
         $sales_ledger_id              = get_ledger_id_by_slug('sales_revenue');
         $sales_discount_ledger_id     = get_ledger_id_by_slug('sales_discount');
-        $sales_shipping_ledger_id     =get_ledger_id_by_slug('shipment');
+        $sales_shipping_ledger_id     = get_ledger_id_by_slug('shipment');
         $sales_shipping_tax_ledger_id = get_ledger_id_by_slug('shipment_tax');
 
         if ($contra) {
@@ -1042,7 +1042,7 @@ class Invoices
     {
 
 
-        $result = DB::select("SELECT invoice_no, SUM( ia.debit - ia.credit) as due FROM invoice_account_detail as ia WHERE ia.invoice_no = %d GROUP BY ia.invoice_no", [$invoice_no]);
+        $result = DB::select("SELECT invoice_no, SUM( ia.debit - ia.credit) as due FROM invoice_account_detail as ia WHERE ia.invoice_no = ? GROUP BY ia.invoice_no", [$invoice_no]);
 
         $result = (!empty($result)) ? $result[0] : null;
 
@@ -1154,7 +1154,7 @@ class Invoices
         $result = DB::select(
             "SELECT ia.invoice_no, SUM( ia.debit - ia.credit) as due
             FROM invoice_account_detail as ia
-            WHERE ia.invoice_no = %d
+            WHERE ia.invoice_no = ?
             GROUP BY ia.invoice_no",
             [$invoice_no]
         );
@@ -1176,7 +1176,7 @@ class Invoices
 
 
         $tax_zone = DB::scalar(
-            "SELECT tax_zone_id FROM invoice WHERE voucher_no = %d",
+            "SELECT tax_zone_id FROM invoice WHERE voucher_no = ?",
             [(int) $invoice_no]
         );
 

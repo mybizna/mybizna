@@ -48,7 +48,7 @@ class ClosingBalance
         // remove next financial year data if exists
         DB::delete(
             "DELETE FROM account_opening_balance
-    WHERE financial_year_id = %d",
+    WHERE financial_year_id = ?",
             [$next_f_year_id]
         );
 

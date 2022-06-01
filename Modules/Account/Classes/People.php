@@ -3,6 +3,7 @@
 namespace Modules\Account\Classes;
 
 use Illuminate\Support\Facades\DB;
+use Modules\Partner\Entities\Partner;
 
 class People
 {
@@ -101,10 +102,14 @@ class People
     {
         $people = $this->getPeopleBy('email', $args['email']);
 
+        $args['type'] = $args['type'] && $args['type'] != '' ? $args['type'] : 'customer';
+
+
         // this $email belongs to nobody
         if (!$people) {
             return $this->insertPeopleDB($args);
         }
+
 
         foreach ($args as $key => $value) {
             if (empty($args[$key])) {
@@ -160,7 +165,7 @@ class People
         $row = [];
 
         $row = DB::select(
-            "SELECT street_1, street_2, city, state, postal_code, country FROM partner WHERE id = %d",
+            "SELECT street_1, street_2, city, state, postal_code, country FROM partner WHERE id = ?",
             [$people_id]
         );
 
@@ -344,12 +349,12 @@ class People
     {
 
 
-        $opening_balance_query     = "SELECT SUM(debit - credit) AS opening_balance FROM account_opening_balance where type = 'people' AND ledger_id = %d AND financial_year_id = %d";
+        $opening_balance_query     = "SELECT SUM(debit - credit) AS opening_balance FROM account_opening_balance where type = 'people' AND ledger_id = ? AND financial_year_id = ?";
         $opening_balance_result    = DB::select($opening_balance_query, [$args['people_id'], $args['financial_year_id']]);
         $opening_balance_result = (!empty($opening_balance_result)) ? $opening_balance_result[0] : null;
         $opening_balance           =  isset($opening_balance_result['opening_balance']) ? $opening_balance_result['opening_balance'] : 0;
 
-        $people_transaction_query  =  "SELECT SUM(debit - credit) AS balance FROM partner_transaction_detail where   people_id = %d AND trn_date BETWEEN %s AND %s";
+        $people_transaction_query  =  "SELECT SUM(debit - credit) AS balance FROM partner_transaction_detail where   people_id = ? AND trn_date BETWEEN ? AND ?";
         $people_transaction_result = DB::select($people_transaction_query, [$args['people_id'], $args['start_date'], $args['end_date']]);
         $people_transaction_result = (!empty($people_transaction_result)) ? $people_transaction_result[0] : null;
         $balance                   =  isset($people_transaction_result['balance']) ? $people_transaction_result['balance'] : 0;
@@ -368,7 +373,7 @@ class People
     {
 
 
-        $row = DB::select("SELECT people_types_id FROM partner_type_relation WHERE people_id = %d LIMIT 1", [$people_id]);
+        $row = DB::select("SELECT people_types_id FROM partner_type_relation WHERE people_id = ? LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $this->getPeopleTypeByTypeId($row->people_types_id);
     }
@@ -384,7 +389,7 @@ class People
     {
 
 
-        $row = DB::select("SELECT name FROM partner_type WHERE id = %d LIMIT 1", [$type_id]);
+        $row = DB::select("SELECT name FROM partner_type WHERE id = ? LIMIT 1", [$type_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row->name;
     }
@@ -399,11 +404,10 @@ class People
     public function getPeopleTypeIdByName($type_name)
     {
 
-
         $row = DB::select(
             "SELECT id
             FROM partner_type
-            WHERE name = %s LIMIT 1",
+            WHERE name = ? LIMIT 1",
             [$type_name]
         );
 
@@ -423,7 +427,7 @@ class People
     {
 
 
-        $row = DB::select("SELECT id FROM partner WHERE user_id = %d LIMIT 1", [$user_id]);
+        $row = DB::select("SELECT id FROM partner WHERE user_id = ? LIMIT 1", [$user_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->id;
@@ -440,7 +444,7 @@ class People
     {
 
 
-        $row = DB::select("SELECT first_name, last_name FROM partner WHERE id = %d LIMIT 1", [$people_id]);
+        $row = DB::select("SELECT first_name, last_name FROM partner WHERE id = ? LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->first_name . ' ' . $row->last_name;
@@ -461,7 +465,7 @@ class People
             return false;
         }
 
-        $res = DB::scalar("SELECT COUNT(1) FROM partner WHERE user_id = %d", [$user_id]);
+        $res = DB::scalar("SELECT COUNT(1) FROM partner WHERE user_id = ?", [$user_id]);
 
         if ('1' === $res) {
             return true;
@@ -481,7 +485,7 @@ class People
     {
 
 
-        $row = DB::select("SELECT user_id FROM partner WHERE id = %d LIMIT 1", [$people_id]);
+        $row = DB::select("SELECT user_id FROM partner WHERE id = ? LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->user_id;
@@ -516,7 +520,7 @@ class People
         $args     = array_merge($defaults, $args);
 
         $people_type = is_array($args['type']) ? implode('-', $args['type']) : $args['type'];
-       // print_r($args); exit;
+        // print_r($args); exit;
 
         $number        = $args['number'];
         $pep_tb      = 'partner';
@@ -647,7 +651,7 @@ class People
     public function checkAssociatedTranasaction($people_id)
     {
         return DB::scalar(
-            "SELECT id FROM partner_transaction_detail WHERE people_id = %d",
+            "SELECT id FROM partner_transaction_detail WHERE people_id = ?",
             [$people_id]
         );
     }
@@ -1033,11 +1037,15 @@ class People
      */
     public function insertPeopleDB($args = [], $return_object = false)
     {
+        $common = new CommonFunc();
+
         if (empty($args['id'])) {
             $args['id'] = 0;
         }
 
-        $existing_people = DB::table('partner')->firstOrNew(['id' => $args['id']]);
+        $defaults = [];
+
+        $existing_people = Partner::firstOrNew(['id' => $args['id']]);
 
         $defaults = [
             'id'            => $existing_people->id,
@@ -1064,6 +1072,7 @@ class People
             'hash'          => $existing_people->hash,
             'type'          => '',
         ];
+
 
         $args           = array_merge($defaults, $args);
         $errors         = [];
@@ -1114,12 +1123,12 @@ class People
                     messageBag('no-basic-data', esc_attr__('You must need to fill up both first name and email fields'));
                     return;
                 } else {
-                    if (!$common->isValidName($args['first_name'])) {
+                    if (!erp_is_valid_name($args['first_name'])) {
                         messageBag('invalid-first-name', esc_attr__('Please provide a valid first name'));
                         return;
                     }
 
-                    if (!empty($args['last_name']) && !$common->isValidName($args['last_name'])) {
+                    if (!empty($args['last_name']) && !erp_is_valid_name($args['last_name'])) {
                         messageBag('invalid-last-name', esc_attr__('Please provide a valid last name'));
                         return;
                     }
@@ -1133,7 +1142,7 @@ class People
                 messageBag('no-company', esc_attr__('You must need to fill up both Company name and email fields'));
                 return;
             } else {
-                if ($common->containsDisallowedChars($args['company'])) {
+                if (erp_contains_disallowed_chars($args['company'])) {
                     messageBag('invalid-company', esc_attr__('Please provide a valid company name'));
                     return;
                 }
@@ -1147,38 +1156,38 @@ class People
         }
 
 
-        if (!empty($args['phone']) && !$common->isValidContactNo($args['phone'])) {
+        if (!empty($args['phone']) && !erp_is_valid_contact_no($args['phone'])) {
             messageBag('invalid-phone', esc_attr__('Please provide a valid phone number'));
             return;
         }
 
-        if (!empty($args['date_of_birth']) && !$common->isValidDate($args['date_of_birth'])) {
+        if (!empty($args['date_of_birth']) && !erp_is_valid_date($args['date_of_birth'])) {
             messageBag('invalid-date-of-birth', esc_attr__('Please provide a valid date of birth'));
             return;
         }
 
-        if (!empty($args['contact_age']) && !$common->isValidAge($args['contact_age'])) {
+        if (!empty($args['contact_age']) && !erp_is_valid_age($args['contact_age'])) {
             messageBag('invalid-age', esc_attr__('Please provide a valid age'));
             return;
         }
 
-        if (!empty($args['mobile']) && !$common->isValidContactNo($args['mobile'])) {
+        if (!empty($args['mobile']) && !erp_is_valid_contact_no($args['mobile'])) {
             messageBag('invalid-mobile', esc_attr__('Please provide a valid mobile number'));
             return;
         }
 
-        if (!empty($args['website']) && !$common->isValidUrl($args['website'])) {
+        if (!empty($args['website']) && !erp_is_valid_url($args['website'])) {
             messageBag('invalid-website', esc_attr__('Please provide a valid website'));
             return;
         }
 
-        if (!empty($args['fax']) && !$common->isValidContactNo($args['fax'])) {
+        if (!empty($args['fax']) && !erp_is_valid_age($args['fax'])) {
             messageBag('invalid-fax', esc_attr__('Please provide a valid fax number'));
             return;
         }
 
 
-        if (!empty($args['postal_code']) && !$common->isValidZipCode($args['postal_code'])) {
+        if (!empty($args['postal_code']) && !erp_is_valid_zip_code($args['postal_code'])) {
             messageBag('invalid-postal-code', esc_attr__('Please provide a valid postal code'));
             return;
         }
@@ -1206,7 +1215,7 @@ class People
             $args['created_by'] = auth()->user()->id ? auth()->user()->id : 1;
             $args['hash']       = sha1(microtime() . 'erp-unique-hash-id' . $args['email']);
 
-            $existing_people_by_email = DB::table('partner')->where('email', $args['email'])->first();
+            $existing_people_by_email = Partner::where('email', $args['email'])->first();
 
             if (!empty($existing_people_by_email->email) && $existing_people_by_email->hasType($people_type)) {
                 $is_existing_people = true;
@@ -1217,7 +1226,7 @@ class People
                 $people->first_name = $args['first_name'];
                 $people->last_name  = $args['last_name'];
             } else {
-                $people = DB::table('partner')->insert([
+                $people = Partner::create([
                     'user_id'       => $user->ID,
                     'first_name'    => $args['first_name'],
                     'last_name'     => $args['last_name'],
@@ -1225,8 +1234,6 @@ class People
                     'website'       => !empty($args['website']) ? $args['website'] : $user->user_url,
                     'hash'          => $args['hash'],
                     'contact_owner' => $args['contact_owner'],
-                    'created_by'    => $args['created_by'],
-                    'created'       => current_time('mysql'),
                 ]);
             }
 
@@ -1291,30 +1298,9 @@ class People
             $people->update($main_fields);
         }
 
-        if (!empty($people_type) && !$people->hasType($people_type)) {
-            if (empty($is_existing_people) || ($people->hasType('employee') && 'contact' === $people_type)) {
-                $people->assignType($type_obj);
-            }
-        }
-
         //unset created_by from meta
         unset($meta_fields['created_by']);
 
-        if (!empty($meta_fields)) {
-            $people_metada = array_keys($this->peopleGetMeta($people->id));
-
-            foreach ($people_metada as $single_data) {
-                if (!array_key_exists($single_data, $meta_fields)) {
-                    $this->peopleDeleteMeta($people->id, $single_data);
-                }
-            }
-
-            foreach ($meta_fields as $key => $value) {
-                if ('raw_data' !== $key) {
-                    $this->peopleUpdateMeta($people->id, $key, $value);
-                }
-            }
-        }
 
         if (!$existing_people->id) {
             do_action('create_new_people', $people->id, $args, $people_type);
@@ -1541,7 +1527,7 @@ class People
 
 
         $trashed = DB::scalar(
-            "SELECT deleted_at FROM partner_type_relation WHERE people_id = %d",
+            "SELECT deleted_at FROM partner_type_relation WHERE people_id = ?",
             [absint($id)]
         );
 

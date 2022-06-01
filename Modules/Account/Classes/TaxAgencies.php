@@ -64,7 +64,7 @@ class TaxAgencies
     {
 
 
-        $row = DB::select("SELECT * FROM account_tax_agency WHERE id = %d LIMIT 1", [$tax_no]);
+        $row = DB::select("SELECT * FROM account_tax_agency WHERE id = ? LIMIT 1", [$tax_no]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -79,7 +79,7 @@ class TaxAgencies
     {
 
 
-        $row = DB::select("SELECT * FROM account_tax_agency WHERE id = %d LIMIT 1", [$id]);
+        $row = DB::select("SELECT * FROM account_tax_agency WHERE id = ? LIMIT 1", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -180,7 +180,7 @@ class TaxAgencies
 
 
         $row = DB::select(
-            "SELECT name FROM account_tax_agency WHERE id = %d LIMIT 1",
+            "SELECT name FROM account_tax_agency WHERE id = ? LIMIT 1",
             [$agency_id]
         );
         $row = (!empty($row)) ? $row[0] : null;
@@ -197,6 +197,6 @@ class TaxAgencies
      */
     public function getAgencyDue($agency_id)
     {
-        return DB::scalar("SELECT SUM( credit - debit ) as tax_due From account_tax_agency_detail WHERE agency_id = %d", [$agency_id]);
+        return DB::scalar("SELECT SUM( credit - debit ) as tax_due From account_tax_agency_detail WHERE agency_id = ?", [$agency_id]);
     }
 }

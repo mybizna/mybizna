@@ -540,9 +540,16 @@ export default {
                 type = "put";
             }
 
+            console.log(this.peopleFields);
+            console.log(peopleFields);
+            console.log('');
+            console.log('peopleFields');
+            console.log('peopleFields');
+            console.log('');
+
             var message = type === "post" ? "Created" : "Updated";
 
-            window.axios[type](url, peopleFields).then((response) => {
+            window.axios[type](url, this.peopleFields).then((response) => {
                 this.$root.$emit("peopleUpdate");
                 this.resetForm();
                 this.showAlert("success", message);
@@ -593,23 +600,14 @@ export default {
             window.axios.get("customers/country").then((response) => {
                 const country = response.data.country;
                 const states = response.data.state;
-                for (const x in country) {
-                    if (states[x] === undefined) {
-                        states[x] = [];
-                    }
 
+                for (const x in country) {
                     this.countries.push({
-                        id: x,
-                        name: this.decodeHtml(country[x]),
-                        state: states[x],
+                        id: x.id,
+                        name: x.name,
                     });
                 }
 
-                for (const state in states) {
-                    for (const x in states[state]) {
-                        this.get_states.push({ id: x, name: states[state][x] });
-                    }
-                }
                 if (typeof callBack !== "undefined") {
                     callBack();
                 }

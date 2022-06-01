@@ -78,7 +78,7 @@ class OpeningBalances
 
 
         $rows = DB::select(
-            "SELECT ob.id, ob.financial_year_id, ob.ledger_id, ledger.name, ob.chart_id, ob.debit, ob.credit FROM account_opening_balance as ob LEFT JOIN account_ledger as ledger ON ledger.id = ob.ledger_id WHERE financial_year_id = %d AND ob.type = 'ledger'",
+            "SELECT ob.id, ob.financial_year_id, ob.ledger_id, ledger.name, ob.chart_id, ob.debit, ob.credit FROM account_opening_balance as ob LEFT JOIN account_ledger as ledger ON ledger.id = ob.ledger_id WHERE financial_year_id = ? AND ob.type = 'ledger'",
             [$year_id]
         );
 
@@ -98,7 +98,7 @@ class OpeningBalances
 
         $rows = DB::select(
             "SELECT ob.id, ob.financial_year_id, ob.ledger_id, ob.type, ob.debit, ob.credit
-            FROM account_opening_balance as ob WHERE financial_year_id = %d AND ob.type <> 'ledger'",
+            FROM account_opening_balance as ob WHERE financial_year_id = ? AND ob.type <> 'ledger'",
             [$year_id]
         );
 
@@ -137,7 +137,7 @@ class OpeningBalances
 
             $year_id = $opening_balance_data['year'];
 
-            DB::delete("DELETE FROM account_opening_balance WHERE financial_year_id = %d", [$year_id]);
+            DB::delete("DELETE FROM account_opening_balance WHERE financial_year_id = ?", [$year_id]);
 
             foreach ($ledgers as $ledger) {
                 if ((isset($ledger['debit']) && (float) $ledger['debit'] > 0) || (isset($ledger['credit']) && (float) $ledger['credit'] > 0)) {
@@ -294,7 +294,7 @@ class OpeningBalances
         $dates = [];
 
 
-        $rows = DB::select("SELECT start_date, end_date FROM account_financial_year WHERE id = %d", [$year_id]);
+        $rows = DB::select("SELECT start_date, end_date FROM account_financial_year WHERE id = ?", [$year_id]);
         $rows = (!empty($rows)) ? $rows[0] : null;
 
 
@@ -317,11 +317,11 @@ class OpeningBalances
         $people = new People();
         $taxagencies = new TaxAgencies();
 
-        $vir_ac['acct_receivable'] = DB::select("SELECT ledger_id as people_id, debit, credit from account_opening_balance where financial_year_id = %d and credit=0 and type='people'", [$year_id]);
+        $vir_ac['acct_receivable'] = DB::select("SELECT ledger_id as people_id, debit, credit from account_opening_balance where financial_year_id = ? and credit=0 and type='people'", [$year_id]);
 
-        $vir_ac['acct_payable'] = DB::select("SELECT ledger_id as people_id, debit, credit from account_opening_balance where financial_year_id = %d and debit=0 and type='people'", [$year_id]);
+        $vir_ac['acct_payable'] = DB::select("SELECT ledger_id as people_id, debit, credit from account_opening_balance where financial_year_id = ? and debit=0 and type='people'", [$year_id]);
 
-        $vir_ac['tax_payable'] = DB::select("SELECT ledger_id as agency_id, debit, credit from account_opening_balance where financial_year_id = %d and debit=0 and type='tax_agency'", [$year_id]);
+        $vir_ac['tax_payable'] = DB::select("SELECT ledger_id as agency_id, debit, credit from account_opening_balance where financial_year_id = ? and debit=0 and type='tax_agency'", [$year_id]);
 
         for ($i = 0; $i < count($vir_ac['acct_payable']); $i++) {
             if (empty($vir_ac['acct_payable'][$i]['people_id'])) {
@@ -461,12 +461,12 @@ class OpeningBalances
          *? Expense is `direct expense`, and we don't include direct expense here
          */
         $bill_sql = "SELECT SUM(balance) AS amount
-        FROM ( SELECT SUM( debit - credit ) AS balance FROM bill_account_detail WHERE trn_date < '%s'
+        FROM ( SELECT SUM( debit - credit ) AS balance FROM bill_account_detail WHERE trn_date < ?
         GROUP BY bill_no HAVING balance < 0 )
         AS get_amount";
 
         $purchase_sql = "SELECT SUM(balance) AS amount
-        FROM ( SELECT SUM( debit - credit ) AS balance FROM purchase_account_details WHERE trn_date < '%s'
+        FROM ( SELECT SUM( debit - credit ) AS balance FROM purchase_account_details WHERE trn_date < ?
         GROUP BY purchase_no HAVING balance < 0 )
         AS get_amount";
 
@@ -506,7 +506,7 @@ class OpeningBalances
             $date = date('Y-m-d');
         }
 
-        $result = DB::select("SELECT id,name,start_date,end_date FROM account_financial_year WHERE '%s' between start_date AND end_date", [$date]);
+        $result = DB::select("SELECT id,name,start_date,end_date FROM account_financial_year WHERE ? between start_date AND end_date", [$date]);
 
         $result = (!empty($result)) ? $result[0] : null;
 

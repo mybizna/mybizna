@@ -7,7 +7,11 @@
             right
         >
             <template v-slot:activator="{ props }">
-                <v-badge color="success" content="3" v-bind="props">
+                <v-badge
+                    color="success"
+                    :content="$store.state.system.menu_length"
+                    v-bind="props"
+                >
                     <div class="text-white" v-bind="attrs" v-on="on">
                         <i class="fas fa-tachometer-alt"></i>
                         Apps
@@ -25,9 +29,10 @@
                         <div
                             class="p-1 border border-light rounded text-center"
                         >
-                            <router-link
-                                :to="item.url"
+                            <a
+                                href="#"
                                 :title="item.title"
+                                @click="loadModule(item.path, 'account')"
                                 class="app-bar-link text-center text-decoration-none"
                             >
                                 <h2
@@ -42,20 +47,21 @@
                                 <small class="text-black">{{
                                     item.title
                                 }}</small>
-                            </router-link>
+                            </a>
                         </div>
                     </div>
                     <div
-                        v-for="(item, index) in menus"
+                        v-for="(item, index) in $store.state.system.menu"
                         :key="index"
                         class="col-sm-6 col-md-4 p-1"
                     >
                         <div
                             class="p-1 border border-light rounded text-center"
                         >
-                            <router-link
-                                :to="item.path"
+                            <a
+                                href="#"
                                 :title="item.title"
+                                @click="loadModule(item.path, index)"
                                 class="app-bar-link text-center text-decoration-none"
                             >
                                 <h2
@@ -70,7 +76,7 @@
                                 <small class="text-black">{{
                                     item.title
                                 }}</small>
-                            </router-link>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -97,22 +103,8 @@ export default {
         }
 
         console.log(store.state.system.has_menu);
-
-        let menus = computed(function () {
-            return store.state.system.menu;
-        });
-
-        return { menus };
     },
 
-    computed: {
-        menups() {
-            var obj = window.$store.state.system.menu;
-            var result = Object.keys(obj).map((key) => [Number(key), obj[key]]);
-
-            return result;
-        },
-    },
     data: () => ({
         fav: true,
         menu: false,
@@ -122,11 +114,18 @@ export default {
             {
                 title: "dashboard",
                 icon: "fas fa-tachometer-alt",
-                url: "/dashboard",
+                path: "/dashboard",
                 class_str: "text-danger border-danger",
             },
         ],
     }),
+
+    methods: {
+        loadModule(path, app) {
+            this.$store.commit("system/active_menu", app);
+            window.$router.push(path);
+        },
+    },
 };
 </script>
 

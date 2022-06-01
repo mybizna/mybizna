@@ -418,7 +418,7 @@ class Taxes
             tax.ledger_id,
             tax.created_at
             FROM account_tax_pay AS tax
-            WHERE tax.voucher_no = %d LIMIT 1",
+            WHERE tax.voucher_no = ? LIMIT 1",
             [$voucher_no]
         );
 
@@ -698,7 +698,7 @@ class Taxes
             messageBag('inconsistent-data', __('Inconsistent data provided'));
         }
 
-        $inserted = DB::table("account_synced_tax", $args, ['%d', '%s', '%s', '%d', '%s']);
+        $inserted = DB::table("account_synced_tax")->insert($args);
 
         return $inserted;
     }
@@ -719,18 +719,18 @@ class Taxes
 
         $sql  = "SELECT system_id
             FROM account_synced_tax
-            WHERE sync_type = %s
-            AND sync_source = %s";
+            WHERE sync_type = ?
+            AND sync_source = ?";
 
         $args = [$sync_type, $sync_source];
 
         if (false !== $sync_id) {
-            $sql   .= " AND sync_id = %d";
+            $sql   .= " AND sync_id = ?";
             $args[] = $sync_id;
         }
 
         if (false !== $sync_slug) {
-            $sql   .= " AND sync_slug = %s";
+            $sql   .= " AND sync_slug = ?";
             $args[] = $sync_slug;
         }
 

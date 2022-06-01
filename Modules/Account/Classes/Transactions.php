@@ -474,8 +474,8 @@ class Transactions
               From $ledger_details as ld
               Inner Join $ledgers as al on al.id = ld.ledger_id
               Inner Join $chart_of_accs as ca on ca.id = al.chart_id
-              Where ca.id = %d
-              AND ld.trn_date BETWEEN %s AND %s
+              Where ca.id = ?
+              AND ld.trn_date BETWEEN ? AND ?
               Group By Month(ld.trn_date)";
 
         $results = DB::select($query, [$chart_id, $start_date, $end_date]);
@@ -563,8 +563,8 @@ class Transactions
               From $ledger_details as ld
               Inner Join $ledgers as al on al.id = ld.ledger_id
               Inner Join $chart_of_accs as ca on ca.id = al.chart_id
-              Where ca.id = %d
-              AND ld.trn_date BETWEEN %s AND %s
+              Where ca.id = ?
+              AND ld.trn_date BETWEEN ? AND ?
               Group By ld.trn_date";
 
         $results = DB::select($query, [$chart_id, $start_date, $end_date]);
@@ -1591,7 +1591,7 @@ class Transactions
     {
 
 
-        return DB::scalar("SELECT type FROM purchase_voucher_no WHERE id = %d", [$voucher_no]);
+        return DB::scalar("SELECT type FROM purchase_voucher_no WHERE id = ?", [$voucher_no]);
     }
 
     /**

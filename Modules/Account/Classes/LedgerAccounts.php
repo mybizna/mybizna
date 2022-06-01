@@ -35,7 +35,7 @@ class LedgerAccounts
     {
 
 
-        $row = DB::select("SELECT id, name  FROM account_ledger WHERE id = %d", [$ledger_id]);
+        $row = DB::select("SELECT id, name  FROM account_ledger WHERE id = ?", [$ledger_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row->name;
     }
@@ -68,7 +68,7 @@ class LedgerAccounts
     {
 
 
-        $exist = DB::scalar("SELECT name FROM account_ledger_category WHERE name = %s", [$args['name']]);
+        $exist = DB::scalar("SELECT name FROM account_ledger_category WHERE name = ?", [$args['name']]);
 
         if (!$exist) {
             $id = DB::table("account_ledger_category")
@@ -97,7 +97,7 @@ class LedgerAccounts
     {
 
 
-        $exist = DB::scalar("SELECT name FROM account_ledger_category WHERE name = %s AND id <> %d", [$args['name'], $args['id']]);
+        $exist = DB::scalar("SELECT name FROM account_ledger_category WHERE name = ? AND id <> ?", [$args['name'], $args['id']]);
 
         if (!$exist) {
             return DB::table("account_ledger_category")
@@ -126,7 +126,7 @@ class LedgerAccounts
     {
 
 
-        $parent_id = DB::scalar("SELECT parent_id FROM account_ledger_category WHERE id = %d", [$id]);
+        $parent_id = DB::scalar("SELECT parent_id FROM account_ledger_category WHERE id = ?", [$id]);
 
         $table = "account_ledger_category";
 
@@ -169,7 +169,7 @@ class LedgerAccounts
     {
 
 
-        $ledger = DB::select("SELECT COUNT(*) as count FROM account_ledger_detail WHERE ledger_id = %d", [$ledger_id]);
+        $ledger = DB::select("SELECT COUNT(*) as count FROM account_ledger_detail WHERE ledger_id = ?", [$ledger_id]);
 
         $ledger = (!empty($ledger)) ? $ledger[0] : null;
 
@@ -187,7 +187,7 @@ class LedgerAccounts
     {
 
 
-        $ledger = DB::select("SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance FROM account_ledger AS ledger LEFT JOIN account_ledger_detail as ld ON ledger.id = ld.ledger_id WHERE ledger.id = %d", [$ledger_id]);
+        $ledger = DB::select("SELECT ledger.id, ledger.name, SUM(ld.debit - ld.credit) as balance FROM account_ledger AS ledger LEFT JOIN account_ledger_detail as ld ON ledger.id = ld.ledger_id WHERE ledger.id = ?", [$ledger_id]);
         $ledger = (!empty($ledger)) ? $ledger[0] : null;
 
         return $ledger['balance'];
@@ -208,7 +208,7 @@ class LedgerAccounts
     {
 
 
-        $row = DB::select("SELECT * FROM account_ledger WHERE id = %d", [$id]);
+        $row = DB::select("SELECT * FROM account_ledger WHERE id = ?", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -337,7 +337,7 @@ class LedgerAccounts
 
 
         return DB::select(
-            "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance FROM account_ledger AS ledger LEFT JOIN account_opening_balance AS opb ON ledger.id = opb.ledger_id WHERE opb.financial_year_id = %d opb.type = 'ledger' GROUP BY opb.ledger_id",
+            "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance FROM account_ledger AS ledger LEFT JOIN account_opening_balance AS opb ON ledger.id = opb.ledger_id WHERE opb.financial_year_id = ? opb.type = 'ledger' GROUP BY opb.ledger_id",
             [$id]
         );
     }
