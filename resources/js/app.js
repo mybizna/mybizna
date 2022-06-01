@@ -76,8 +76,8 @@ app.config.globalProperties.$mybizna_var = {
     "user_id": "1",
     "site_url": window.base_url,
     "logout_url": window.base_url,
-    "assets": window.base_url + "/public/",
-    "mybizna_assets": window.base_url+"/public/",
+    "assets": window.base_url,
+    "mybizna_assets": window.base_url,
     "menus": {
 
     },

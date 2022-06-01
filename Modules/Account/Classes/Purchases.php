@@ -377,7 +377,7 @@ class Purchases
                  *? that's why we can't update because the foreach will iterate only 2 times, not 5 times
                  *? so, remove previous rows and insert new rows
                  */
-                $prev_detail_ids = DB::select("SELECT id FROM purchase_details WHERE trn_no = %s", [$purchase_id]);
+                $prev_detail_ids = DB::select("SELECT id FROM purchase_details WHERE trn_no = ?", [$purchase_id]);
 
                 $prev_detail_ids = implode(',', array_map('absint', $prev_detail_ids));
 
@@ -450,13 +450,13 @@ class Purchases
                 $old_purchase = $this->getPurchases($purchase_id);
 
                 // insert contra `purchase` (basically a duplication of row)
-                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM purchase WHERE voucher_no = %d", [$purchase_id]);
+                DB::statement("CREATE TEMPORARY TABLE acct_tmptable SELECT * FROM purchase WHERE voucher_no = ?", [$purchase_id]);
                 DB::update(
-                    "UPDATE acct_tmptable SET id = %d, voucher_no = %d, particulars = 'Contra entry for voucher no \#%d', created_at = '%s'",
+                    "UPDATE acct_tmptable SET id = ?, voucher_no = ?, particulars = ?, created_at = ?",
                     [
                         0,
                         $voucher_no,
-                        $purchase_id,
+                        'Contra entry for voucher no \#' . $purchase_id,
                         $data['created_at']
                     ]
                 );
@@ -466,7 +466,7 @@ class Purchases
                 // change purchase status and other things
                 $status_closed = 7;
                 DB::update(
-                    "UPDATE purchase SET status = %d, updated_at ='%s', updated_by = %d WHERE voucher_no IN (%d, %d)",
+                    "UPDATE purchase SET status = ?, updated_at =?, updated_by = ? WHERE voucher_no IN (?, ?)",
                     [
                         $status_closed,
                         $data['updated_at'],
@@ -705,7 +705,7 @@ class Purchases
         $purchase_ledger_id  = get_ledger_id_by_slug('purchase');
 
         if (!$purchase_ledger_id) {
-            messageBag( 'Ledger ID not found for purchase', $purchase_data);
+            messageBag('Ledger ID not found for purchase', $purchase_data);
             return;
         }
 
@@ -731,7 +731,7 @@ class Purchases
         if ($purchase_data['tax']) {
             $purchase_vat_ledger_id = get_ledger_id_by_slug('purchase_vat');
             if (!$purchase_vat_ledger_id) {
-             messageBag('500', __('Ledger ID not found for purchase vat'), $purchase_data);
+                messageBag('500', __('Ledger ID not found for purchase vat'), $purchase_data);
                 return;
             }
 
@@ -769,7 +769,7 @@ class Purchases
         $ledger_id  = get_ledger_id_by_slug('purchase');
 
         if (!$ledger_id) {
-             messageBag('505', 'Ledger ID not found for purchase', $purchase_data);
+            messageBag('505', 'Ledger ID not found for purchase', $purchase_data);
         }
 
         // insert contra `account_ledger_detail`
@@ -869,7 +869,7 @@ class Purchases
     {
 
 
-        $result = DB::select("SELECT purchase_no, SUM( debit - credit) as due FROM purchase_account_details WHERE purchase_no = %d GROUP BY purchase_no", [$purchase_no]);
+        $result = DB::select("SELECT purchase_no, SUM( debit - credit) as due FROM purchase_account_details WHERE purchase_no = ? GROUP BY purchase_no", [$purchase_no]);
         $result = (!empty($result)) ? $result[0] : null;
 
         return $result['due'];

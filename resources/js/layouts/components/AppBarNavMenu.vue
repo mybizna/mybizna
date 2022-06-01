@@ -18,7 +18,7 @@
                         >
                             <ul class="list-group list-group-flush">
                                 <li
-                                    v-for="(item, index) in menus"
+                                    v-for="(item, index) in $store.state.system.menu[$store.state.system.active_menu]['menus']"
                                     :key="index"
                                     class="list-group-item text-black"
                                 >
@@ -50,7 +50,7 @@
                     <div id="navbarSupportedContent" class="d-none d-md-block">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li
-                                v-for="(item, index) in menus"
+                                v-for="(item, index) in $store.state.system.menu[$store.state.system.active_menu]['menus']"
                                 :key="index"
                                 class="nav-item dropdown"
                             >
@@ -241,19 +241,12 @@ export default {
     setup() {
         const store = useStore();
 
-
         if (!store.state.system.has_menu) {
             store.dispatch("system/getMenu");
         }
 
-        let menus = computed(function () {
-            return store.state.system.menu["account"]["menus"];
-        });
-
-        console.log(menus);
-
-        return { menus };
     },
+
     data: () => ({
         searchform: [
             {
@@ -285,6 +278,7 @@ export default {
         menu: false,
         message: false,
         hints: true,
+        menulist: [],
     }),
 };
 </script>

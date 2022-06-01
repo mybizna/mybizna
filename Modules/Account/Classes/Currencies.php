@@ -57,7 +57,7 @@ class Currencies
         $active_currency_id = $common->getCurrency(true);
 
         return DB::scalar(
-            "SELECT sign FROM account_currency_info WHERE id = %d",
+            "SELECT sign FROM account_currency_info WHERE id = ?",
             [absint($active_currency_id)]
         );
     }

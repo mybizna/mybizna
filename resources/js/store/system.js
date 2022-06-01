@@ -4,6 +4,8 @@ export default {
         sidebar_show: false,
         layout: false,
         has_menu: false,
+        active_menu: 'account',
+        menu_length: 0,
         menu: [],
     },
     mutations: {
@@ -20,6 +22,12 @@ export default {
         has_menu(state, payload) {
             state.has_menu = payload;
         },
+        active_menu(state, payload) {
+            state.active_menu = payload;
+        },
+        menu_length(state, payload) {
+            state.menu_length = payload;
+        },
     },
     actions: {
         async getMenu({
@@ -30,6 +38,16 @@ export default {
                 .then(
                     response => {
 
+                        var counter = 0;
+
+                        if (Array.isArray(response.data)) {
+                            counter = response.data.length;
+                        }else{
+                            counter = Object.keys(response.data).length;
+                        }
+                        Object.keys(response.data).length;
+
+                        commit('menu_length', counter);
                         commit('menu', response.data);
                         commit('has_menu', true);
 

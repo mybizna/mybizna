@@ -32,7 +32,7 @@ class ProductCats
     {
 
 
-        $row = DB::select("SELECT * FROM product_category WHERE id = %d GROUP BY parent", [$product_cat_id]);
+        $row = DB::select("SELECT * FROM product_category WHERE id = ? GROUP BY parent", [$product_cat_id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }

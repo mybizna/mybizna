@@ -37,7 +37,7 @@ class TrialBalance
 
         if ($ledger_ids) {
             $sql2 = "SELECT SUM(ledger_details.balance) as balance from (SELECT SUM( debit - credit ) AS balance
-        FROM account_ledger_detail WHERE ledger_id IN ({$ledger_ids}) AND trn_date BETWEEN '%s' AND '%s'
+        FROM account_ledger_detail WHERE ledger_id IN ({$ledger_ids}) AND trn_date BETWEEN ? AND ?
         GROUP BY ledger_id) AS ledger_details";
 
             $data = DB::scalar($sql2, [$args['start_date'], $args['end_date']]);
@@ -102,7 +102,7 @@ class TrialBalance
 
         $sql = "SELECT SUM(balance) AS amount
         FROM ( SELECT SUM( debit - credit ) AS balance FROM account_tax_agency_detail
-        WHERE trn_date BETWEEN '%s' AND '%s' GROUP BY agency_id {$having} ) AS get_amount";
+        WHERE trn_date BETWEEN ? AND ? GROUP BY agency_id {$having} ) AS get_amount";
 
         $data = DB::scalar($sql, [$args['start_date'], $args['end_date']]);
 
@@ -124,7 +124,7 @@ class TrialBalance
         // mainly ( debit - credit )
         $sql = "SELECT SUM(balance) AS amount
         FROM ( SELECT SUM( debit - credit ) AS balance
-            FROM invoice_account_detail WHERE trn_date BETWEEN '%s' AND '%s'
+            FROM invoice_account_detail WHERE trn_date BETWEEN ? AND ?
             GROUP BY invoice_no HAVING balance <> 0 )
         AS get_amount";
 
@@ -150,12 +150,12 @@ class TrialBalance
          *? Expense is `direct expense`, and we don't include direct expense here
          */
         $bill_sql = "SELECT SUM(balance) AS amount
-        FROM ( SELECT SUM( debit - credit ) AS balance FROM bill_account_detail WHERE trn_date <= '%s'
+        FROM ( SELECT SUM( debit - credit ) AS balance FROM bill_account_detail WHERE trn_date <= ?
         GROUP BY bill_no HAVING balance < 0 )
         AS get_amount";
 
         $purchase_sql = "SELECT SUM(balance) AS amount
-        FROM ( SELECT SUM( debit - credit ) AS balance FROM purchase_account_details WHERE trn_date <= '%s'
+        FROM ( SELECT SUM( debit - credit ) AS balance FROM purchase_account_details WHERE trn_date <= ?
         GROUP BY purchase_no HAVING balance <> 0 )
         AS get_amount";
 
@@ -190,7 +190,7 @@ class TrialBalance
         $sql = "SELECT SUM( debit - credit ) AS balance
         FROM account_ledger AS ledger
         LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id
-        WHERE ledger.slug = 'owner_s_equity' AND trn_date BETWEEN '%s' AND '%s' GROUP BY ledger.id {$having}";
+        WHERE ledger.slug = 'owner_s_equity' AND trn_date BETWEEN ? AND ? GROUP BY ledger.id {$having}";
 
         $data = DB::scalar($sql, [$args['start_date'], $args['end_date']]);
 
@@ -574,7 +574,7 @@ class TrialBalance
         // mainly ( debit - credit )
         $sql = "SELECT SUM(balance) AS amount FROM (
                 SELECT SUM( debit - credit ) AS balance
-                FROM partner_account_detail WHERE trn_date BETWEEN '%s' AND '%s'
+                FROM partner_account_detail WHERE trn_date BETWEEN ? AND ?
                 GROUP BY people_id {$having} )
             AS get_amount";
 
@@ -639,7 +639,7 @@ class TrialBalance
     {
 
 
-        $sql = "SELECT id, name, start_date, end_date FROM account_financial_year WHERE start_date <= '%s' ORDER BY start_date DESC LIMIT 1";
+        $sql = "SELECT id, name, start_date, end_date FROM account_financial_year WHERE start_date <= ? ORDER BY start_date DESC LIMIT 1";
 
         return DB::select($sql, [$date]);
     }
@@ -659,13 +659,13 @@ class TrialBalance
         $where = '';
 
         if ($chart_id) {
-            $where = 'AND ledger.chart_id = %d' . $chart_id;
+            $where = 'AND ledger.chart_id = ?' . $chart_id;
         }
 
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
         FROM account_ledger AS ledger
         LEFT JOIN account_opening_balance AS opb ON ledger.id = opb.ledger_id
-        WHERE opb.financial_year_id = %d {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
+        WHERE opb.financial_year_id = ? {$where} AND opb.type = 'ledger' AND ledger.slug <> 'owner_s_equity'
         GROUP BY opb.ledger_id";
 
         return DB::select($sql, [$id]);
@@ -683,7 +683,7 @@ class TrialBalance
 
 
         $sql = "SELECT SUM(opb.balance) AS balance FROM (SELECT SUM( debit - credit ) AS balance
-            FROM account_opening_balance WHERE financial_year_id = %d AND chart_id = 7
+            FROM account_opening_balance WHERE financial_year_id = ? AND chart_id = 7
             GROUP BY ledger_id) AS opb";
 
         return DB::select($sql, [$id]);
@@ -709,7 +709,7 @@ class TrialBalance
 
         $sql = "SELECT SUM(opb.balance) AS balance FROM ( SELECT SUM( debit - credit ) AS balance
             FROM account_opening_balance
-            WHERE financial_year_id = %d AND type = 'tax_agency' GROUP BY ledger_id {$having} ) AS opb";
+            WHERE financial_year_id = ? AND type = 'tax_agency' GROUP BY ledger_id {$having} ) AS opb";
 
         return DB::select($sql, [$id]);
     }
@@ -728,7 +728,7 @@ class TrialBalance
         $sql = "SELECT ledger.id, ledger.name, SUM(opb.debit - opb.credit) AS balance
         FROM account_ledger AS ledger
         LEFT JOIN account_opening_balance AS opb ON ledger.id = opb.ledger_id
-        WHERE opb.financial_year_id = %d AND ledger.chart_id = 7 GROUP BY opb.ledger_id";
+        WHERE opb.financial_year_id = ? AND ledger.chart_id = 7 GROUP BY opb.ledger_id";
 
         return DB::select($sql, [$id]);
     }
@@ -754,7 +754,7 @@ class TrialBalance
         $sql = "SELECT SUM(opb.debit - opb.credit) AS balance
         FROM account_ledger AS ledger
         LEFT JOIN account_opening_balance AS opb ON ledger.id = opb.ledger_id
-        WHERE opb.financial_year_id = %d AND opb.type = 'ledger' AND ledger.slug = 'owner_s_equity' {$having}";
+        WHERE opb.financial_year_id = ? AND opb.type = 'ledger' AND ledger.slug = 'owner_s_equity' {$having}";
 
         return DB::scalar($sql, [$id]);
     }
@@ -779,7 +779,7 @@ class TrialBalance
 
         $sql = "SELECT SUM(opb.balance) AS balance FROM ( SELECT SUM( debit - credit ) AS balance
         FROM account_opening_balance
-        WHERE financial_year_id = %d AND type = 'people' GROUP BY ledger_id {$having} ) AS opb";
+        WHERE financial_year_id = ? AND type = 'people' GROUP BY ledger_id {$having} ) AS opb";
 
         return DB::scalar($sql, [$id]);
     }
@@ -798,7 +798,7 @@ class TrialBalance
         $sql = "SELECT ledger.id, ledger.chart_id, ledger.name, SUM(ledger_detail.debit - ledger_detail.credit) AS balance
         FROM account_ledger AS ledger
         LEFT JOIN account_ledger_detail AS ledger_detail ON ledger.id = ledger_detail.ledger_id
-        WHERE ledger.chart_id <> 7 AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN '%s' AND '%s' GROUP BY ledger_detail.ledger_id";
+        WHERE ledger.chart_id <> 7 AND ledger.slug <> 'owner_s_equity' AND ledger_detail.trn_date BETWEEN ? AND ? GROUP BY ledger_detail.ledger_id";
 
         $data = DB::select($sql, [$args['start_date'], $args['end_date']]);
 

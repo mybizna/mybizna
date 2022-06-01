@@ -87,7 +87,7 @@ class PayPurchases
                 pay_purchase.attachments,
                 pay_purchase.trn_by_ledger_id
             FROM payment_pay_purchase AS pay_purchase
-            WHERE pay_purchase.voucher_no = %d",
+            WHERE pay_purchase.voucher_no = ?",
             [$purchase_no]
         );
 
@@ -116,7 +116,7 @@ class PayPurchases
             ON pay_purchase.voucher_no = pay_purchase_detail.voucher_no
             LEFT JOIN purchase_voucher_no AS voucher
             ON pay_purchase_detail.voucher_no = voucher.id
-            WHERE pay_purchase.voucher_no = %d",
+            WHERE pay_purchase.voucher_no = ?",
             [$voucher_no]
         );
     }

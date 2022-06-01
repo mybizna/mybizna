@@ -164,8 +164,8 @@ class FinalAccounts
                 FROM account_ledger_detail AS ld
                 INNER JOIN account_ledger AS ledger
                 ON ledger.id = ld.ledger_id
-                WHERE ledger.chart_id = %d
-                AND ld.trn_date >= '%s' AND ld.trn_date < '%s'
+                WHERE ledger.chart_id = ?
+                AND ld.trn_date >= ? AND ld.trn_date < ?
                 GROUP BY ld.ledger_id";
 
         $balance = DB::select(
@@ -199,8 +199,8 @@ class FinalAccounts
                 FROM account_opening_balance AS ob
                 INNER JOIN account_ledger AS ledger
                 ON ledger.id = ob.ledger_id
-                WHERE ob.financial_year_id = %d
-                AND ob.chart_id = %d
+                WHERE ob.financial_year_id = ?
+                AND ob.chart_id = ?
                 GROUP BY ob.ledger_id";
 
         $balances = DB::select(
@@ -234,8 +234,8 @@ class FinalAccounts
                 FROM account_ledger_detail AS ld
                 INNER JOIN account_ledger AS ledger
                 ON ledger.id = ld.ledger_id
-                WHERE ledger.chart_id = %d
-                AND ld.trn_date BETWEEN '%s' AND '%s'
+                WHERE ledger.chart_id = ?
+                AND ld.trn_date BETWEEN ? AND ?
                 GROUP BY ld.ledger_id";
 
         $details = DB::select(

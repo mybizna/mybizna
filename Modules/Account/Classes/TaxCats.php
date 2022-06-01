@@ -66,7 +66,7 @@ class TaxCats
     {
 
 
-        $row = DB::select("SELECT * FROM account_tax_category WHERE id = %d LIMIT 1", [$tax_no]);
+        $row = DB::select("SELECT * FROM account_tax_category WHERE id = ? LIMIT 1", [$tax_no]);
 $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
@@ -82,7 +82,7 @@ $row = (!empty($row)) ? $row[0] : null;
     {
 
 
-        $row = DB::select("SELECT * FROM account_tax_category WHERE id = %d LIMIT 1", [$id]);
+        $row = DB::select("SELECT * FROM account_tax_category WHERE id = ? LIMIT 1", [$id]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }

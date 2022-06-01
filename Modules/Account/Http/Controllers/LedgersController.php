@@ -107,7 +107,7 @@ class LedgersController extends Controller
 
         $input = $request->all();
 
-        $exist = DB::scalar("SELECT name FROM account_ledger WHERE name = %s", [$input['name']]);
+        $exist = DB::scalar("SELECT name FROM account_ledger WHERE name = ?", [$input['name']]);
 
         if ($exist) {
             messageBag('rest_ledger_name_already_exist', __('Name already exist.'));

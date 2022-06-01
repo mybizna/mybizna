@@ -76,7 +76,7 @@ class PayBills
             pay_bill.attachments,
             pay_bill.status
             FROM payment_pay_bill AS pay_bill
-            WHERE pay_bill.voucher_no = %d",
+            WHERE pay_bill.voucher_no = ?",
             [$bill_no]
         );
 
@@ -106,7 +106,7 @@ class PayBills
             pay_bill_detail.amount
             FROM payment_pay_bill AS pay_bill
             LEFT JOIN payment_pay_bill_details as pay_bill_detail ON pay_bill.voucher_no = pay_bill_detail.voucher_no
-            WHERE pay_bill.voucher_no = %d",
+            WHERE pay_bill.voucher_no = ?",
             [$voucher_no]
         );
     }

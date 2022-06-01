@@ -55,7 +55,7 @@ class CommonFunc
         }
 
         $currency_name = DB::scalar(
-            "SELECT name FROM account_currency_info WHERE id = %d",
+            "SELECT name FROM account_currency_info WHERE id = ?",
             [$currency_id]
         );
 
@@ -319,7 +319,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT first_name, last_name, email FROM `partner` WHERE id = %d LIMIT 1", [$people_id]);
+        $row = DB::select("SELECT first_name, last_name, email FROM `partner` WHERE id = ? LIMIT 1", [$people_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -336,7 +336,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name, slug, code FROM account_ledger WHERE id = %d LIMIT 1", [$ledger_id]);
+        $row = DB::select("SELECT name, slug, code FROM account_ledger WHERE id = ? LIMIT 1", [$ledger_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -365,7 +365,7 @@ class CommonFunc
         }
 
         $row = DB::select(
-            "SELECT * FROM account_ledger WHERE $field = %s LIMIT 1",
+            "SELECT * FROM account_ledger WHERE $field = ? LIMIT 1",
             [$value]
         );
 
@@ -384,7 +384,7 @@ class CommonFunc
     public function getProductTypeById($product_type_id)
     {
 
-        $row = DB::select("SELECT name FROM product_type WHERE id = %d LIMIT 1", [$product_type_id]);
+        $row = DB::select("SELECT name FROM product_type WHERE id = ? LIMIT 1", [$product_type_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -401,7 +401,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name FROM product_category WHERE id = %d LIMIT 1", [$cat_id]);
+        $row = DB::select("SELECT name FROM product_category WHERE id = ? LIMIT 1", [$cat_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row;
@@ -418,7 +418,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name FROM account_tax_agency WHERE id = %d LIMIT 1", [$agency_id]);
+        $row = DB::select("SELECT name FROM account_tax_agency WHERE id = ? LIMIT 1", [$agency_id]);
         $row = (!empty($row)) ? $row[0] : null;
 
         return $row->name;
@@ -436,7 +436,7 @@ class CommonFunc
 
 
         if (null !== $cat_id) {
-            return DB::scalar("SELECT name FROM account_tax_category WHERE id = %d", [$cat_id]);
+            return DB::scalar("SELECT name FROM account_tax_category WHERE id = ?", [$cat_id]);
         }
 
         return '';
@@ -457,7 +457,7 @@ class CommonFunc
             return 'pending';
         }
 
-        $row = DB::select("SELECT type_name FROM account_transaction_status_type WHERE id = %d", [$trn_id]);
+        $row = DB::select("SELECT type_name FROM account_transaction_status_type WHERE id = ?", [$trn_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -475,7 +475,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name FROM payment_method WHERE id = %d LIMIT 1", [$method_id]);
+        $row = DB::select("SELECT name FROM payment_method WHERE id = ? LIMIT 1", [$method_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -493,7 +493,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name FROM payment_method WHERE id = %d LIMIT 1", [$method_id]);
+        $row = DB::select("SELECT name FROM payment_method WHERE id = ? LIMIT 1", [$method_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -511,7 +511,7 @@ class CommonFunc
     {
 
 
-        $row = DB::select("SELECT name FROM expense_check WHERE id = %d LIMIT 1", [$trn_type_id]);
+        $row = DB::select("SELECT name FROM expense_check WHERE id = ? LIMIT 1", [$trn_type_id]);
 
         $row = (!empty($row)) ? $row[0] : null;
 
@@ -659,7 +659,7 @@ class CommonFunc
      */
     public function checkVoucherEditState($id)
     {
-        $res = DB::scalar("SELECT editable FROM purchase_voucher_no WHERE id = %d", [$id]);
+        $res = DB::scalar("SELECT editable FROM purchase_voucher_no WHERE id = ?", [$id]);
 
         return !empty($res) ? true : false;
     }
@@ -707,7 +707,7 @@ class CommonFunc
     {
 
 
-        return DB::scalar("SELECT id FROM account_transaction_status_type WHERE slug = %s", [$slug]);
+        return DB::scalar("SELECT id FROM account_transaction_status_type WHERE slug = ?", [$slug]);
     }
 
     /**
@@ -870,7 +870,7 @@ class CommonFunc
 
         $sql = "SELECT id, name, start_date, end_date
                 FROM account_financial_year
-                WHERE start_date <= '%s'
+                WHERE start_date <= ?
                 ORDER BY start_date DESC
                 LIMIT 1";
 

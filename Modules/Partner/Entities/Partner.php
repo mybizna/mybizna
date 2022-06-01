@@ -28,6 +28,7 @@ class Partner extends Model
         $table->unsignedBigInteger('user_id')->default(0)->index('user_id');
         $table->string('first_name', 60)->nullable();
         $table->string('last_name', 60)->nullable();
+        $table->string('type', 60)->nullable();
         $table->string('company', 60)->nullable();
         $table->string('email', 100)->nullable()->index('email');
         $table->string('phone', 20)->nullable();

@@ -64,7 +64,7 @@ class TaxRateNames
     {
 
 
-        $row = DB::select("SELECT * FROM account_tax WHERE id = %d LIMIT 1", [$tax_no]);
+        $row = DB::select("SELECT * FROM account_tax WHERE id = ? LIMIT 1", [$tax_no]);
         $row = (!empty($row)) ? $row[0] : null;
         return $row;
     }
