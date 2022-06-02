@@ -17,7 +17,7 @@
                     <v-spacer></v-spacer>
 
                     <v-app-bar-title class="text-center">
-                        Accounting
+                        {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
                     </v-app-bar-title>
 
                     <v-spacer></v-spacer>

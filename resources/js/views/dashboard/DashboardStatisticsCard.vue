@@ -18,7 +18,7 @@
         <v-card-text>
             <v-row>
                 <v-col
-                    v-for="data in statisticsData"
+                    v-for="data in $store.state.dashboard.dashboard_data"
                     :key="data.title"
                     cols="6"
                     md="3"
@@ -26,17 +26,13 @@
                 >
                     <v-avatar
                         size="44"
-                        :color="
-                            resolveStatisticsIconVariation(data.title).color
-                        "
+                        :color="data.color"
                         rounded
                         class="elevation-1"
                     >
                         <i
                             class="text-white dashboard-card-icon"
-                            :class="
-                                resolveStatisticsIconVariation(data.title).icon
-                            "
+                            :class="data.icon"
                         ></i>
                     </v-avatar>
                     <div class="ms-3">
@@ -56,7 +52,6 @@
 <script>
 // eslint-disable-next-line object-curly-newline
 
-import { computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -67,48 +62,7 @@ export default {
             store.dispatch("dashboard/getDashboardData");
         }
 
-        let dashboard_data = computed(function () {
-            return store.state.dashboard.dashboard_data;
-        });
-
-        const statisticsData = [
-            {
-                title: "Sales",
-                total: window.$filters.formatNumber(parseInt(dashboard_data.value["sales"])),
-            },
-            {
-                title: "Customers",
-                total: window.$filters.formatNumber(parseInt(dashboard_data.value["customer"])),
-            },
-            {
-                title: "Product",
-                total: window.$filters.formatNumber(parseInt(dashboard_data.value["product"])),
-            },
-            {
-                title: "Revenue",
-                total: "$" + window.$filters.formatNumber(parseInt(dashboard_data.value["revenue"])),
-            },
-        ];
-
-
-        const resolveStatisticsIconVariation = (data) => {
-            if (data === "Sales")
-                return { icon: "fas fa-chart-line", color: "primary" };
-            if (data === "Customers")
-                return { icon: "fas fa-users", color: "success" };
-            if (data === "Product")
-                return { icon: "fas fa-store", color: "warning" };
-            if (data === "Revenue")
-                return { icon: "fas fa-sack-dollar", color: "info" };
-
-            return { icon: "fas fa-cogs", color: "success" };
-        };
-
-        return {
-            dashboard_data,
-            statisticsData,
-            resolveStatisticsIconVariation,
-        };
+        return {};
     },
 };
 </script>
