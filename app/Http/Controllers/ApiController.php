@@ -147,11 +147,6 @@ class ApiController extends Controller
 
         $user = $request->user();
 
-        print_r($request->user());
-        print_r(Auth::user());
-        print_r(auth()->user());
-
-
         return Response::json($user);
     }
 
@@ -159,10 +154,34 @@ class ApiController extends Controller
     {
 
         $result = [
-            'sales' => DB::table('purchase')->count(),
-            'customer' => DB::table('partner')->count(),
-            'product' => DB::table('product')->count(),
-            'revenue' => DB::table('sale')->count(),
+            [
+                'is_amount' => false,
+                'title' => "Purchase",
+                'icon' => "fas fa-chart-line",
+                'color' => "primary",
+                'total' => DB::table('purchase')->count(),
+            ],
+            [
+                'is_amount' => false,
+                'title' => "Partner",
+                'icon' => "fas fa-users",
+                'color' => "success",
+                'total' => DB::table('partner')->count()
+            ],
+            [
+                'is_amount' => false,
+                'title' => "Product",
+                'icon' => "fas fa-store",
+                'color' => "warning",
+                'total' => DB::table('product')->count()
+            ],
+            [
+                'is_amount' => true,
+                'title' => "Sales",
+                'icon' => "fas fa-sack-dollar",
+                'color' => "info",
+                'total' => DB::table('sale')->count()
+            ],
         ];
 
         return Response::json($result);
