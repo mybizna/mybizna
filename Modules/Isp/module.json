@@ -1,0 +1,13 @@
+{
+    "name": "Isp",
+    "alias": "isp",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

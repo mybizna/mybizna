@@ -11,5 +11,5 @@ $this->add_module_info("products", [
 
 $this->add_menu("products", "dashboard", "Dashboard", "/dashboard", "fas fa-cogs", 1);
 $this->add_menu("products", "products", "Products & Services", "/products/product-service", "fas fa-cogs", 5);
-$this->add_menu("products", "category", "Products Categories", "/products/product-categories", "fas fa-cogs", 5);
+$this->add_menu("products", "category", "Categories", "/products/product-categories", "fas fa-cogs", 5);
 $this->add_menu("products", "inventory", "Inventory", "/products/inventory", "fas fa-cogs", 5);

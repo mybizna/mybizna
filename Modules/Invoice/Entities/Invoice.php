@@ -14,7 +14,7 @@ class Invoice extends Model
         'shipping_tax', 'tax', 'tax_zone_id', 'estimate', 'attachments',
         'status', 'particulars'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 2;
     protected $table = "invoice";
 
     /**

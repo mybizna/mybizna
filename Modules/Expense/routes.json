@@ -4,6 +4,11 @@
         "component": "router_view",
         "children": [
             {
+                "path": "",
+                "name": "Expenses",
+                "component": "account/admin/expense/list.vue"
+            },
+            {
                 "path": "new",
                 "name": "ExpenseCreate",
                 "component": "expense/admin/expense/create.vue"
@@ -17,7 +22,12 @@
                 "path": ":id/edit",
                 "name": "ExpenseEdit",
                 "component": "expense/admin/expense/create.vue"
+            },
+            {
+                "path": "page/:page",
+                "name": "PaginateExpenses",
+                "component": "account/admin/expense/list.vue"
             }
         ]
-    },
+    }
 ]

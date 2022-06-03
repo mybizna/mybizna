@@ -116,13 +116,13 @@ export default {
             {
                 title: "Expenses",
                 icon: "fas fa-money-bill",
-                url: "/expense",
+                url: "/expenses",
                 class_str: "text-secondary border-secondary",
             },
             {
                 title: "Sales",
                 icon: "fas fa-receipt",
-                url: "/Sales",
+                url: "/sales",
                 class_str: "text-warning border-warning",
             },
             {
@@ -140,7 +140,7 @@ export default {
             {
                 title: "Bill",
                 icon: "fas fa-hand-holding-usd",
-                url: "/expense",
+                url: "/bills",
                 class_str: "text-success border-success",
             },
         ];

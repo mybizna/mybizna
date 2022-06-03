@@ -1,4 +1,3 @@
-
 import {
     RouterView
 } from 'vue-router';
@@ -24,8 +23,6 @@ function path_updater(route) {
     if (route.component == 'router_view') {
         route.component = RouterView;
     } else {
-        console.log(route.component);
-
         route.component = fetchComponentFunc(route.component);
     }
 
@@ -42,19 +39,14 @@ function path_updater(route) {
 
 export default async function (router) {
 
-    console.log('sdfsdfdsfds');
-    // Make a request for a user with a given ID
+    // Make a request for a auto discovering modules.
     await window.axios.get(window.base_url + '/api/discover_modules');
 
-    console.log('sdfsdfdsfds');
-    // Make a request for a user with a given ID
+    // Make a request for available Fetch Routes.
     await window.axios.get(window.base_url + '/api/fetch_routes')
         .then(function (response) {
             // handle success
-            console.log(response);
-
             response.data.routes.forEach(route => {
-
 
                 var new_routes = path_updater(route);
 

@@ -40,7 +40,12 @@
                             {{ data.title }}
                         </p>
                         <h3 class="text-xl font-weight-semibold">
-                            {{ data.total }}
+                            <template v-if="data.is_amount">
+                                ${{ this.$func.formatNumber(data.total) }}
+                            </template>
+                             <template v-else>
+                                {{ this.$func.formatNumber(data.total) }}
+                            </template>
                         </h3>
                     </div>
                 </v-col>

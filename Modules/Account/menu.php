@@ -10,16 +10,12 @@ $this->add_module_info("account", [
 
 //$this->add_menu("module", "key", "title","path", "icon", "position");
 $this->add_menu("account", "dashboard", "Dashboard", "/dashboard", "fas fa-cogs", 1);
-$this->add_menu("account", "transactions", "Transactions", "/transactions", "fas fa-cogs", 5);
+$this->add_menu("account", "journals", "Journal", "/journals", "fas fa-cogs", 1);
+$this->add_menu("account", "invoices", "Invoices", "/invoices", "fas fa-cogs", 1);
 $this->add_menu("account", "settings", "Settings", "/settings", "fas fa-cogs", 5);
 $this->add_menu("account", "reports", "Reports", "/reports", "fas fa-cogs", 5);
 
 //$this->add_submenu("module", "key", "title","path", "position");
-
-$this->add_submenu("account", "transactions", "Sales", "/transactions/sales", 5);
-$this->add_submenu("account", "transactions", "Expenses", "/transactions/expenses", 5);
-$this->add_submenu("account", "transactions", "Purchases", "/transactions/purchases", 5);
-$this->add_submenu("account", "transactions", "Reimbursements", "/transactions/reimbursements", 5);
 
 $this->add_submenu("account", "settings", "Chart of Accounts", "/settings/charts", 5);
 $this->add_submenu("account", "settings", "Bank Accounts", "/settings/banks", 5);
