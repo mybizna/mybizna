@@ -9,7 +9,7 @@ class TransactionStatusType extends Model
 {
 
     protected $fillable = ['type_name', 'slug'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "account_transaction_status_type";
 
     /**

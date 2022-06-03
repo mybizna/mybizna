@@ -9,7 +9,7 @@ class EmployeeNote extends Model
 {
 
     protected $fillable = ['user_id', 'comment', 'comment_by'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_employee_note";
 
     /**

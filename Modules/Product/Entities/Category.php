@@ -9,7 +9,7 @@ class Category extends Model
 {
 
     protected $fillable = ['name', 'parent'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "product_category";
 
     /**

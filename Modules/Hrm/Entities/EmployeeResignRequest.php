@@ -9,7 +9,7 @@ class EmployeeResignRequest extends Model
 {
 
     protected $fillable = ['user_id', 'reason', 'date', 'status'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_employee_resign_request";
 
     /**

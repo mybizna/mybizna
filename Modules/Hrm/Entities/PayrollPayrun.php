@@ -9,7 +9,7 @@ class PayrollPayrun extends Model
 {
 
     protected $fillable = ['pay_cal_id', 'payment_date', 'from_date', 'to_date', 'approve_status', 'jr_tran_id'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_payroll_payrun";
 
     /**

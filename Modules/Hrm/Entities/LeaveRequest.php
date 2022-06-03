@@ -12,7 +12,7 @@ class LeaveRequest extends Model
         'user_id', 'leave_id', 'leave_entitlement_id', 'day_status_id', 'days',
         'start_date', 'end_date', 'reason', 'last_status'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "leave_request";
 
     /**

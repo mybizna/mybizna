@@ -12,7 +12,7 @@ class LeaveUnpaid extends Model
         'leave_id', 'leave_request_id', 'leave_approval_status_id', 'user_id', 'days',
         'amount', 'total', 'f_year'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_leave_unpaid";
 
     /**

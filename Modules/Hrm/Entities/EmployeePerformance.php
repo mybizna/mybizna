@@ -14,7 +14,7 @@ class EmployeePerformance extends Model
         'goal_description', 'employee_assessment', 'supervisor', 'supervisor_assessment',
         'type', 'performance_date'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_employee_performance";
 
     /**

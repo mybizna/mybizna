@@ -5,12 +5,12 @@ namespace Modules\Isp\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class BillingCycle extends Model
+class ConnectionSetupItem extends Model
 {
 
-    protected $fillable = ['title', 'description', 'duration', 'duration_type', 'published'];
-    protected $migrationOrder = 1;
-    protected $table = "isp_billing_cycle";
+    protected $fillable = ['title', 'connection_id', 'description', 'amount'];
+    protected $migrationOrder = 6;
+    protected $table = "isp_connection_setup_item";
 
     /**
      * List of fields for managing postings.
@@ -22,9 +22,8 @@ class BillingCycle extends Model
     {
         $table->increments('id');
         $table->string('title');
+        $table->foreign('connection_id')->references('id')->on('isp_connection')->nullOnDelete();
         $table->string('description')->nullable();
-        $table->string('duration')->nullable();
-        $table->enum('duration_type', ['hour', 'day', 'week', 'month'])->default('month')->nullable();
-        $table->boolean('published')->default(true)->nullable();
+        $table->double('amount', 8, 2)->nullable();
     }
 }

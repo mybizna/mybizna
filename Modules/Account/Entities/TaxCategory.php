@@ -9,7 +9,7 @@ class TaxCategory extends Model
 {
 
     protected $fillable = ['name', 'description'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "account_tax_category";
 
     /**

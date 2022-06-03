@@ -12,7 +12,7 @@ class IReturn extends Model
         'invoice_id', 'voucher_no', 'vendor_id', 'vendor_name', 'trn_date', 'amount',
         'discount', 'discount_type', 'tax', 'reason', 'comments', 'status'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "purchase_return";
 
     /**

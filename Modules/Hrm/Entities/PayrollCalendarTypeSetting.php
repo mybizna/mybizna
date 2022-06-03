@@ -11,7 +11,7 @@ class PayrollCalendarTypeSetting extends Model
     protected $fillable = [
         'pay_calendar_id', 'cal_type', 'pay_day', 'custom_month_day', 'pay_day_mode'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_payroll_calendar_type_setting";
 
     /**

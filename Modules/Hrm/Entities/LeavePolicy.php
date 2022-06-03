@@ -14,7 +14,7 @@ class LeavePolicy extends Model
         'carryover_days', 'carryover_uses_limit', 'encashment_based_on', 'forward_default',
         'applicable_from_days', 'accrued_amount', 'accrued_max_days', 'halfday_enable'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_leave_policy";
 
     /**

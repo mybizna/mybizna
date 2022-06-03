@@ -9,7 +9,7 @@ class BillingItem extends Model
 {
 
     protected $fillable = ['title', 'billing_id', 'description', 'amount'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 1;
     protected $table = "isp_billing_item";
 
     /**

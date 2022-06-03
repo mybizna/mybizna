@@ -11,7 +11,7 @@ class AccountDetail extends Model
     protected $fillable = [
         'purchase_no', 'trn_no', 'trn_date', 'particulars', 'debit', 'credit'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "purchase_account_detail";
 
     /**

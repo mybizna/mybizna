@@ -12,7 +12,7 @@ class LeaveRequestDetail extends Model
         'leave_request_id', 'leave_approval_status_id', 'workingday_status',
         'user_id', 'f_year', 'leave_date'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_leave_request_detail";
 
     /**

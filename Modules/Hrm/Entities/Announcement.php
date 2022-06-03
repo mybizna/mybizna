@@ -9,7 +9,7 @@ class Announcement extends Model
 {
 
     protected $fillable = ['user_id', 'post_id', 'status', 'email_status'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_announcement";
 
     /**

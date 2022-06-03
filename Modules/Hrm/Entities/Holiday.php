@@ -9,7 +9,7 @@ class Holiday extends Model
 {
 
     protected $fillable = ['title', 'start', 'end', 'description', 'range_status'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_holiday";
 
     /**

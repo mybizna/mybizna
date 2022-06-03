@@ -12,7 +12,7 @@ class ReturnDetail extends Model
         'invoice_details_id', 'trn_no', 'product_id', 'qty',
         'price', 'discount', 'tax'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "purchase_return_detail";
 
     /**

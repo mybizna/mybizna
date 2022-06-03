@@ -9,7 +9,7 @@ class Designation extends Model
 {
 
     protected $fillable = ['title', 'slug', 'description', 'status'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_designation";
 
     /**

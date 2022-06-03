@@ -12,7 +12,7 @@ class LeavePolicySegregation extends Model
         'leave_policy_id', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul',
          'aug', 'sep', 'oct', 'nov', 'decem'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_leave_policy_segregation";
 
     /**

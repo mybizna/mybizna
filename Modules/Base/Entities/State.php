@@ -10,7 +10,7 @@ class State extends Model
 
     protected $table = "base_state";
 
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
 
     protected $fillable = ['name', 'country_code', 'type', 'item_id','state_code', 'latitude', 'longitude'];
 
