@@ -12,7 +12,7 @@ class AccountDetail extends Model
         'people_id', 'trn_no', 'trn_date', 'trn_by', 'voucher_type',
         'particulars', 'debit', 'credit'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "partner_account_detail";
 
     /**

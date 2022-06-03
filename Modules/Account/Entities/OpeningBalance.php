@@ -9,7 +9,7 @@ class OpeningBalance extends Model
 {
 
     protected $fillable = ['financial_year_id', 'chart_id', 'ledger_id', 'type', 'debit', 'credit'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "account_opening_balance";
 
     /**

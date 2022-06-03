@@ -8,8 +8,8 @@ use Illuminate\Database\Schema\Blueprint;
 class Connection extends Model
 {
 
-    protected $fillable = ['title', 'connection_id', 'invoice_id', 'description', 'start_date', 'end_date', 'is_paid'];
-    protected $migrationOrder = 6;
+    protected $fillable = ['package_id', 'partner_id', 'invoice_id', 'username', 'password', 'params', 'expiry_date', 'billing_date', 'is_paid', 'is_setup', 'status'];
+    protected $migrationOrder = 3;
     protected $table = "isp_connection";
 
     /**
@@ -26,13 +26,12 @@ class Connection extends Model
         $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
         $table->string('username');
         $table->string('password');
-        $table->string('username');
         $table->string('params')->nullable();
         $table->dateTime('expiry_date')->nullable();
         $table->dateTime('billing_date')->nullable();
         $table->boolean('is_paid')->default(false)->nullable();
         $table->boolean('is_setup')->default(false)->nullable();
-        $table->enum('duration_type', ['new', 'active', 'inactive', 'closed'])->default('new')->nullable();
+        $table->enum('status', ['new', 'active', 'inactive', 'closed'])->default('new')->nullable();
     }
 
 /**

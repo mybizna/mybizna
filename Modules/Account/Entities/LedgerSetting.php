@@ -9,7 +9,7 @@ class LedgerSetting extends Model
 {
 
     protected $fillable = ['ledger_id', 'short_code'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "account_ledger_setting";
 
     /**

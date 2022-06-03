@@ -9,7 +9,7 @@ class UserLeave extends Model
 {
 
     protected $fillable = ['user_id', 'request_id', 'title', 'date'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_user_leave";
 
     /**

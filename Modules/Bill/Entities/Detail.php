@@ -9,7 +9,7 @@ class Detail extends Model
 {
 
     protected $fillable = ['trn_no', 'ledger_id', 'particulars', 'amount'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "bill_detail";
 
     /**

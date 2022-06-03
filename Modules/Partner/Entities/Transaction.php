@@ -11,7 +11,7 @@ class Transaction extends Model
     protected $fillable = [
         'people_id', 'voucher_no','amount','trn_date','trn_by','particulars','voucher_type'
 ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "partner_transaction";
 
     /**

@@ -9,7 +9,7 @@ class ContactSubscriber extends Model
 {
 
     protected $fillable = ['user_id', 'group_id', 'status', 'subscribe_at', 'unsubscribe_at', 'hash'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "crm_contact_subscriber";
 
     /**

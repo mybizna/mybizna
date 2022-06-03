@@ -11,7 +11,7 @@ class TransactionDetail extends Model
     protected $fillable = [
         'people_id', 'voucher_no', 'trn_date', 'particulars', 'debit', 'credit'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "partner_transaction_detail";
 
     /**

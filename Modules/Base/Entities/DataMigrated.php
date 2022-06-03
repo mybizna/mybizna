@@ -43,7 +43,7 @@ class DataMigrated extends Model
      */
     protected $table = 'base_data_migrated';
 
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
 
     /**
      * Get the user that created the record.

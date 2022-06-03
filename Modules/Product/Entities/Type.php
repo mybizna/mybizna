@@ -9,7 +9,7 @@ class Type extends Model
 {
 
     protected $fillable = ['name', 'slug'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "product_type";
 
     /**

@@ -12,7 +12,7 @@ class Receipt extends Model
         'voucher_no', 'customer_id', 'customer_name', 'trn_date', 'amount', 'transaction_charge',
         'ref', 'particulars', 'attachments', 'status', 'trn_by', 'trn_by_ledger_id'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "invoice_receipt";
 
     /**

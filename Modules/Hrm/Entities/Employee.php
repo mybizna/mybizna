@@ -13,7 +13,7 @@ class Employee extends Model
         'termination_date', 'date_of_birth', 'reporting_to', 'pay_rate', 'pay_type', 'type',
         'status'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_employee";
 
     /**

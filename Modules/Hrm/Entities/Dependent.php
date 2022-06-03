@@ -9,7 +9,7 @@ class Dependent extends Model
 {
 
     protected $fillable = ['employee_id', 'name', 'relation', 'dob'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_dependent";
 
     /**

@@ -1,85 +1,86 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 
-class Billing extends Model
+
+use Modules\Account\Classes\Invoices;
+
+class Billing
 {
-    public function  generate_invoice( billing)
-{
-invoice_line_ids = []
+    public function generateInvoice($billing)
+    {
+        $invoices = new Invoices();
 
-items = self.env['mybizna.isp.billing_items'].search([("billing_id.id", "=", billing.id)])
+        $partner_id = 1;
+        $user_id = 1;
+        $invoice_line_ids = collect([]);
 
-for item in items:
+        $items = DB::table('mybizna.isp.billing_items')->where("billing_id", $billing->id)->get();
 
-    invoice_line_ids.append((0, 0, {
-            'name': item.title,
-            'quantity': 1,
-            'price_unit': item.amount,
-            'price_subtotal' : item.amount,
-            'account_id': 21,
-    }))
+        foreach ($items as $item) {
+            $invoice_line_ids->push([
+                'name' => $item->title,
+                'quantity' => 1,
+                'price_unit' => $item->amount,
+                'price_subtotal' => $item->amount,
+                'account_id' => 21
+            ]);
+        }
 
-invoice = self.env['account.move'].create({
-    'move_type': 'out_invoice',
-    'partner_id': billing.connection_id.partner_id.id,
-    'user_id': self.env.user.id,
-    'invoice_line_ids': invoice_line_ids,
-})
-
-
-invoice.action_post()
-
-self.reconcile_invoice(invoice)
-}
+        $invoice = $invoices->insertInvoice([
+            'move_type' => 'out_invoice',
+            'partner_id' => $partner_id,
+            'user_id' => $user_id,
+            'invoice_line_ids' => $invoice_line_ids
+        ]);
 
 
-public function reconcile_invoice(invoice){
+        //$invoice.action_post();
 
-if invoice.state != 'posted' \
-        or invoice.payment_state not in ('not_paid', 'partial') \
-        or not invoice.is_invoice(include_receipts=True):
-    return False
-
-pay_term_lines = invoice.line_ids\
-    .filtered(lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
-
-domain = [
-    ('account_id', 'in', pay_term_lines.account_id.ids),
-    ('move_id.state', '=', 'posted'),
-    ('partner_id', '=', invoice.commercial_partner_id.id),
-    ('reconciled', '=', False),
-    '|', ('amount_residual', '!=',
-          0.0), ('amount_residual_currency', '!=', 0.0),
-]
-
-if invoice.is_inbound():
-    domain.append(('balance', '<', 0.0))
-else:
-    domain.append(('balance', '>', 0.0))
-
-for line in self.env['account.move.line'].search(domain):
-
-    lines = self.env['account.move.line'].browse(line.id)
-    lines += invoice.line_ids.filtered(
-        lambda line: line.account_id == lines[0].account_id and not line.reconciled)
-    lines.reconcile()
+        //self.reconcile_invoice(invoice);
     }
-    public function  processBilling(self){
 
-billings = self.env['mybizna.isp.billing'].search([
-        ("is_paid", "=", True),
-        ("invoice_id.payment_state", "=", 'paid'),
-])
 
-for billing in billings:
-    billing.write({'is_paid':True})
-    billing.connection_id.write({
-        'is_paid':True
-    })
+    public function processPackages()
+    {
 
-    self.env.cr.commit()
+        $packages = DB::table('mybizna.isp.packages')->where("published", true)->get();
 
-    billing.connection_id.addToRadius(billing.connection_id.id)
+        foreach ($packages as $package) {
+            $db_ext = DB::connection('mysql_ext');
 
-}
+            try {
+                $speed = $package->speed . $package->speed_type;
+                $double_speed = ($package->speed * 2) . $package->speed_type;
+
+                $microtik_limit = '' . $speed . '/' . $speed . ' ' . $double_speed .  '/' . $double_speed . ' ' . $speed . '/' . $speed . ' 40/40';
+
+                $db_ext->delete("DELETE FROM radgroupcheck WHERE groupname='" .
+                    $speed . "' and attribute='Framed-Protocol'");
+
+                $db_ext->delete('insert into radgroupcheck (groupname,attribute,op,value) values ("' .
+                    $speed . '","Framed-Protocol","==","PPP");');
+
+                $db_ext->delete("DELETE FROM radgroupreply WHERE groupname='" .
+                    $speed . "' and attribute='Framed-Pool'");
+
+                $db_ext->delete('insert into radgroupreply (groupname,attribute,op,value) values ("' .
+                    $speed . '","Framed-Pool","=","' . $speed . '_pool");');
+
+                $db_ext->delete("DELETE FROM radgroupreply WHERE groupname='" .
+                    $speed . "' and attribute='Mikrotik-Rate-Limit'");
+
+                $db_ext->delete('insert into radgroupreply (groupname,attribute,op,value) values ("' .
+                    $speed . '","Mikrotik-Rate-Limit","=","' . $microtik_limit . '");');
+
+                $db_ext->delete("DELETE FROM radusergroup WHERE username='" .
+                    $speed . "_Profile' and groupname='" . $speed . "'");
+
+                $db_ext->delete('insert into radusergroup (username,groupname,priority) values ("' .
+                    $speed . '_Profile","' . $speed . '",10);');
+            } catch (\Throwable $th) {
+                throw $th;
+            }
+        }
+    }
 }

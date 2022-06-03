@@ -9,7 +9,7 @@ class VoucherNo extends Model
 {
 
     protected $fillable = ['type', 'currency', 'editable'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "purchase_voucher_no";
 
     /**

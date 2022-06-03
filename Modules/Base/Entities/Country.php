@@ -10,7 +10,7 @@ class Country extends Model
 
     protected $table = "base_country";
     
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
 
     protected $fillable = ['name', 'code', 'code3', 'latitude', 'longitude'];
 

@@ -9,7 +9,7 @@ class TransferVoucher extends Model
 {
 
     protected $fillable = ['voucher_no', 'trn_date', 'amount', 'ac_from', 'ac_to', 'particulars'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "purchase_transfer_voucher";
 
     /**

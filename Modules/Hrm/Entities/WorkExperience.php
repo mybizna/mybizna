@@ -9,7 +9,7 @@ class WorkExperience extends Model
 {
 
     protected $fillable = ['employee_id', 'company_name', 'job_title', 'from', 'to', 'description'];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "hrm_work_experience";
 
     /**

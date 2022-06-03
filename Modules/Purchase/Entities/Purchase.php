@@ -13,7 +13,7 @@ class Purchase extends Model
         'due_date', 'amount', 'tax', 'tax_zone_id', 'ref', 'status', 'purchase_order',
         'attachments', 'particulars'
     ];
-    protected $migrationOrder = 5;
+    protected $migrationOrder = 10;
     protected $table = "purchase";
 
     /**
