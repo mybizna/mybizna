@@ -1,6 +1,6 @@
 [
     {
-        "path": "purchases",
+        "path": "/purchases",
         "component": "router_view",
         "children": [
             {

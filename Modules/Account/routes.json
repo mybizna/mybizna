@@ -13,72 +13,36 @@
                 "path": "",
                 "name": "Transactions",
                 "component": "sale/admin/sale/list.vue"
-            },
-            {
-                "path": "sales",
-                "component": "router_view",
-                "children": [
-                    {
-                        "path": "",
-                        "name": "Sales",
-                        "component": "sale/admin/sale/list.vue"
-                    },
-                    {
-                        "path": ":id",
-                        "name": "SalesSingle",
-                        "component": "sale/widgets/SalesSingle.vue"
-                    },
-                    {
-                        "path": "page/:page",
-                        "name": "PaginateSales",
-                        "component": "sale/admin/sale/list.vue"
-                    }
-                ]
-            },
-            {
-                "path": "expenses",
-                "component": "router_view",
-                "children": [
-                    {
-                        "path": "",
-                        "name": "Expenses",
-                        "component": "account/admin/expense/list.vue"
-                    },
-                    {
-                        "path": "page/:page",
-                        "name": "PaginateExpenses",
-                        "component": "account/admin/expense/list.vue"
-                    }
-                ]
-            },
-            {
-                "path": "journals",
-                "component": "router_view",
-                "children": [
-                    {
-                        "path": "",
-                        "name": "Journals",
-                        "component": "account/admin/journal/list.vue"
-                    },
-                    {
-                        "path": "new",
-                        "name": "JournalCreate",
-                        "component": "account/admin/journal/create.vue"
-                    },
-                    {
-                        "path": ":id",
-                        "name": "JournalSingle",
-                        "component": "account/widgets/JournalSingle.vue"
-                    },
-                    {
-                        "path": "page/:page",
-                        "name": "PaginateJournals",
-                        "component": "account/admin/journal/list.vue"
-                    }
-                ]
             }
         ]
     },
+    {
+        "path": "/journals",
+        "component": "router_view",
+        "children": [
+            {
+                "path": "",
+                "name": "Journals",
+                "component": "account/admin/journal/list.vue"
+            },
+            {
+                "path": "new",
+                "name": "JournalCreate",
+                "component": "account/admin/journal/create.vue"
+            },
+            {
+                "path": ":id",
+                "name": "JournalSingle",
+                "component": "account/widgets/JournalSingle.vue"
+            },
+            {
+                "path": "page/:page",
+                "name": "PaginateJournals",
+                "component": "account/admin/journal/list.vue"
+            }
+        ]
+    },
+
     {
         "path": "/settings",
         "component": "router_view",
@@ -257,6 +221,11 @@
         "component": "router_view",
         "children": [
             {
+                "path": "",
+                "name": "Invoice",
+                "component": "invoice/admin/invoice/list.vue"
+            },
+            {
                 "path": "new",
                 "name": "InvoiceCreate",
                 "component": "invoice/admin/invoice/create.vue"
@@ -272,6 +241,11 @@
         "path": "/estimates",
         "component": "router_view",
         "children": [
+            {
+                "path": "",
+                "name": "Estimate",
+                "component": "invoice/admin/invoice/list.vue"
+            },
             {
                 "path": "new",
                 "name": "EstimateCreate",
@@ -289,6 +263,11 @@
         "component": "router_view",
         "children": [
             {
+                "path": "",
+                "name": "Payment",
+                "component": "payment/admin/payment/list.vue"
+            },
+            {
                 "path": "new",
                 "name": "RecPaymentCreate",
                 "component": "payment/admin/payment/create.vue"
@@ -303,7 +282,11 @@
     {
         "path": "/bills",
         "component": "router_view",
-        "children": [
+        "children": [{
+            "path": "",
+            "name": "Bill",
+            "component": "bill/admin/bill/list.vue"
+        },
             {
                 "path": "new",
                 "name": "BillCreate",

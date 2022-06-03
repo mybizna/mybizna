@@ -111,12 +111,13 @@ class Modularize
                     }
 
                     $routes_file = $modules_path . DIRECTORY_SEPARATOR . $module_name . DIRECTORY_SEPARATOR . 'routes.json';
+
+
                     if (file_exists($routes_file)) {
                         $routes_arr = json_decode(file_get_contents($routes_file), true);
                         if (!empty($routes_arr)) {
                             $routes = array_merge($routes, $routes_arr);
                         }
-                        //$this->routes = $routes_arr;
                     }
                 }
             }

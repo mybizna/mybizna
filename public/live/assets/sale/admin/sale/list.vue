@@ -167,7 +167,6 @@ export default {
         },
     },
     created() {
-        alert("created");
 
         const filters = {};
         // Get start & end date from url on page load

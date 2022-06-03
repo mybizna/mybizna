@@ -1,0 +1,22 @@
+{
+    "name": "mybizna/discussion",
+    "description": "",
+    "authors": [
+        {
+            "name": "Dedan Irungu",
+            "homepage": "https://mybizna.com",
+            "email": "info@mybizna.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Discussion\\": ""
+        }
+    }
+}

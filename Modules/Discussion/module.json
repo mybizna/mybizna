@@ -1,0 +1,13 @@
+{
+    "name": "Discussion",
+    "alias": "discussion",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

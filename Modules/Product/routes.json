@@ -4,8 +4,13 @@
         "component": "router_view",
         "children": [
             {
-                "path": "product-service",
+                "path": "",
                 "name": "Products",
+                "component": "account/admin/product/list.vue"
+            },
+            {
+                "path": "product-service",
+                "name": "ProductsService",
                 "component": "account/admin/product/list.vue",
                 "alias": "/products"
             },
@@ -20,5 +25,5 @@
                 "component": "account/admin/category/list.vue"
             }
         ]
-    },
+    }
 ]

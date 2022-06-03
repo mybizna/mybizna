@@ -2,7 +2,6 @@ import {
     createApp
 } from 'vue';
 import router from '@/components/router';
-import App from '@/components/App';
 import vuetify from './plugins/vuetify';
 import {
     loadFonts
@@ -29,7 +28,6 @@ import {
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 
 import 'vue-form-generator/dist/vfg.css';
-import 'nprogress/nprogress.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import "nprogress/nprogress.css";
@@ -42,7 +40,8 @@ window.$filters = window.$func =  window.$helper = filters;
 import autorouter from "@/components/router/autorouter";
 import Calendar from "@/components/common/Calendar";
 
-
+import App from '@/components/App';
+import "../css/app.css";
 
 const app = createApp(App)
     .use(vuetify)
@@ -1769,6 +1768,8 @@ app.component('calendar', Calendar);
     await autorouter(router);
 
     app.config.globalProperties.$router = window.$router = router;
+
+    console.log(window.$router.getRoutes());
 
     app.use(router);
 
