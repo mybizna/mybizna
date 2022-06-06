@@ -7,6 +7,7 @@
             color="indigo darken-4"
             height="36px"
             class="p-0"
+            v-if="$store.getters['auth/loggedIn']"
         >
             <div class="boxed-container w-100 p-0">
                 <div class="d-flex align-center mx-6">
@@ -27,7 +28,7 @@
             </div>
         </v-app-bar>
 
-        <app-bar-nav-menu></app-bar-nav-menu>
+        <app-bar-nav-menu v-if="$store.getters['auth/loggedIn']"></app-bar-nav-menu>
 
         <v-main class="p-0">
             <div class="app-content-container boxed-container">
@@ -35,18 +36,18 @@
             </div>
         </v-main>
 
-        <v-footer
+        <footer
             app
             inset
             color="transparent"
             absolute
             height="56"
-            class="px-0"
+            class="footer mt-auto py-3 bg-light"
         >
-            <div class="boxed-container w-full">
-                <div class="mx-6 d-flex justify-space-between">
+            <div class="container">
+                <div class="text-muted text-center">
                     <span>
-                        &copy; 2021
+                        &copy; 2022
                         <a
                             href="https://mybizna.com"
                             class="text-decoration-none"
@@ -56,7 +57,7 @@
                     >
                 </div>
             </div>
-        </v-footer>
+        </footer>
     </v-app>
 </template>
 

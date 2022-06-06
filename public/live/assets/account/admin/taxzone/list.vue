@@ -59,7 +59,7 @@ export default {
             "components/tax/NewTaxZone.vue"
         ),
         ListTable: window.$func.fetchComponent(
-            "components/list-table/ListTable.vue"
+            "components/common/ListTable.vue"
         ),
         TaxShortcuts: window.$func.fetchComponent(
             "components/tax/TaxShortcuts.vue"

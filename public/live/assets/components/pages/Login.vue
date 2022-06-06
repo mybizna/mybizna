@@ -3,12 +3,11 @@
     <div class="container h-100">
       <div class="row justify-content-center h-100 align-items-center">
         <div class="col-md-6">
-          <div class="authincation-content">
-            <div class="row no-gutters">
-              <div class="col-xl-12">
+          <div class="authincation-content border rounded shadow bg-white">
+            <div class="m-3">
                 <div class="auth-form">
                   <div class="text-center mb-3">
-                    <img src="images/logo.jpg" alt="" />
+                    <img class="m-2" src="images/logo.png" alt="" style="max-width:120px;" />
                   </div>
                   <h4 class="text-center mb-4">Login to your account</h4>
                   <div>
@@ -62,7 +61,7 @@
                       </button>
                     </div>
                   </div>
-                  <div class="new-account mt-5">
+                  <div class="new-account mt-5" v-if="has_register">
                     <p>
                       Don't have an account? <br />
                       <b-button variant="success">
@@ -73,7 +72,6 @@
                     </p>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
         </div>
@@ -103,6 +101,7 @@ export default {
   },
   data: () => ({
     loading: false,
+    has_register: false,
     model: {
       username: "",
       password: "",

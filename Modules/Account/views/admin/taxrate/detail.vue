@@ -50,7 +50,7 @@
 
 export default {
     components: {
-        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        ListTable: window.$func.fetchComponent('components/common/ListTable.vue'),
         TaxRateLineAdd: window.$func.fetchComponent('components/tax/TaxRateLineAdd.vue'),
         TaxRateLineEdit: window.$func.fetchComponent('components/tax/TaxRateLineEdit.vue'),
     },

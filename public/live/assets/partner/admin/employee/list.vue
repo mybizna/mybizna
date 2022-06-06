@@ -48,7 +48,7 @@
 
 export default {
     components: {
-        ListTable: window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        ListTable: window.$func.fetchComponent('components/common/ListTable.vue'),
     },
 
     data() {

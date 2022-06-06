@@ -22,4 +22,3 @@ $this->add_submenu("account", "settings", "Bank Accounts", "/settings/banks", 5)
 $this->add_submenu("account", "settings", "Tax Rates", "/settings/taxes/tax-rates", 5);
 $this->add_submenu("account", "settings", "Tax Payments", "/settings/taxes/tax-records", 5);
 $this->add_submenu("account", "settings", "Tax Rates", "/settings/taxes/tax-rates", 5);
-

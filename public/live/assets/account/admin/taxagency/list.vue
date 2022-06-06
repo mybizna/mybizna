@@ -55,7 +55,7 @@
 
 export default {
     components: {
-        ListTable: window.$func.fetchComponent("components/list-table/ListTable.vue"),
+        ListTable: window.$func.fetchComponent("components/common/ListTable.vue"),
         NewTaxAgency: window.$func.fetchComponent("components/tax/NewTaxAgency.vue"),
         TaxShortcuts: window.$func.fetchComponent("components/tax/TaxShortcuts.vue"),
     },
