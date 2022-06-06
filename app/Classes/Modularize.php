@@ -5,7 +5,6 @@ namespace App\Classes;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 
-
 class Modularize
 {
     public $module;
@@ -49,7 +48,6 @@ class Modularize
             if (method_exists($classname, 'getAllRecords')) {
                 $classname->getAllRecords($params);
             } else {
-
                 $query = $classname::select('*')
                     ->limit($params['limit']);
 
@@ -59,7 +57,6 @@ class Modularize
                     if (is_array($s)) {
                         $query->where($field, $s['ope'], $s['str']);
                     } else {
-
                         $query->where($field, $s);
                     }
                 }
@@ -90,7 +87,6 @@ class Modularize
     //Fetching Routes
     public function fetchRoutes()
     {
-
         $DS = DIRECTORY_SEPARATOR;
 
         $modules_path = realpath(base_path()) . $DS . 'Modules';
@@ -98,12 +94,10 @@ class Modularize
         $routes = [];
 
         if (is_dir($modules_path)) {
-
             $dir = new \DirectoryIterator($modules_path);
 
             foreach ($dir as $fileinfo) {
                 if (!$fileinfo->isDot() && $fileinfo->isDir()) {
-
                     $module_name = $fileinfo->getFilename();
 
                     if ($module_name != '') {
@@ -111,7 +105,6 @@ class Modularize
                     }
 
                     $routes_file = $modules_path . DIRECTORY_SEPARATOR . $module_name . DIRECTORY_SEPARATOR . 'routes.json';
-
 
                     if (file_exists($routes_file)) {
                         $routes_arr = json_decode(file_get_contents($routes_file), true);
@@ -131,7 +124,6 @@ class Modularize
 
     public function getModuleRoute($module_name, $routes)
     {
-
         $DS = DIRECTORY_SEPARATOR;
 
         $module_path = realpath(base_path()) . $DS . 'Modules' . $DS . $module_name;
@@ -140,7 +132,6 @@ class Modularize
         $module_route = $this->addRouteToList('/' . $module_name, $m_folder_path, 'router_view');
 
         foreach (['admin', 'web'] as $folder) {
-
             $vue_folders = $module_path . $DS  . 'views' . $DS . $folder;
 
             $f_folder_path =  $m_folder_path . '/' . $folder;
@@ -148,14 +139,10 @@ class Modularize
 
 
             if (is_dir($vue_folders)) {
-
                 $dir = new \DirectoryIterator($vue_folders);
 
                 foreach ($dir as $fileinfo) {
-
-
                     if (!$fileinfo->isDot() && $fileinfo->isDir()) {
-
                         $vs_foldername = $fileinfo->getFilename();
                         $vs_folders = $vue_folders  . $DS . $vs_foldername;
                         $v_folder_path =  $f_folder_path . '/' . $vs_foldername;
@@ -163,21 +150,22 @@ class Modularize
                         $vs_route = $this->addRouteToList($vs_foldername, $v_folder_path, 'router_view');
 
                         if (is_dir($vs_folders)) {
-
                             $vs_dir = new \DirectoryIterator($vs_folders);
 
                             foreach ($vs_dir as $vs_fileinfo) {
-
-
                                 if (!$vs_fileinfo->isDot() && !$vs_fileinfo->isDir()) {
-
                                     $vs_filename = $vs_fileinfo->getFilename();
                                     $vs_sx_filename = str_replace('.vue', '', $vs_filename);
                                     $vs_path = $module_name . '/' . $folder . '/' . $vs_foldername  . '/'  . $vs_sx_filename;
 
                                     $t_folder_path =  $v_folder_path . '/' . $vs_sx_filename;
 
-                                    $vs_route['children'][] = $this->addRouteToList($vs_sx_filename, $t_folder_path, $vs_path . '.vue');
+                                    if ($vs_sx_filename == 'list') {
+                                        $vs_route['children'][] = $this->addRouteToList($vs_sx_filename, $t_folder_path, $vs_path . '.vue', true);
+                                        $vs_route['children'][] = $this->addRouteToList($vs_sx_filename, $t_folder_path, $vs_path . '.vue');
+                                    } else {
+                                        $vs_route['children'][] = $this->addRouteToList($vs_sx_filename, $t_folder_path, $vs_path . '.vue');
+                                    }
 
                                     if (!in_array($vs_filename, ['create.vue', 'edit.vue', 'modify.vue', 'new.vue', 'update.vue'])) {
                                         $this->layouts[$module_name][$folder][$vs_foldername][] = $vs_filename;
@@ -198,23 +186,20 @@ class Modularize
             }
         }
 
-
-
         if (!empty($module_route['children'])) {
             $routes[] = $module_route;
         }
-
 
         return $routes;
     }
 
 
-    public function addRouteToList($path, $name, $component)
+    public function addRouteToList($path, $name, $component, $no_path = false)
     {
 
         return [
-            'path' => Str::lower($path),
-            'name' => ucfirst(Str::camel(str_replace('/', '_', $name))),
+            'path' => $no_path ? '' : Str::lower($path),
+            'name' => $no_path ? ucfirst(Str::camel(str_replace('/', '_', $name))) .'Default' : ucfirst(Str::camel(str_replace('/', '_', $name))),
             'component' => Str::lower($component)
         ];
     }
@@ -230,19 +215,16 @@ class Modularize
         $modules_path = realpath(base_path()) . $DS . 'Modules';
 
         if (is_dir($modules_path)) {
-
             $dir = new \DirectoryIterator($modules_path);
 
             foreach ($dir as $fileinfo) {
                 if (!$fileinfo->isDot() && $fileinfo->isDir()) {
-
                     $module_name = $fileinfo->getFilename();
 
                     $module_folder = $modules_path . $DS . $module_name . $DS . 'views';
                     $public_folder = realpath(base_path()) . $DS . 'public' . $DS . 'assets' . $DS . Str::lower($module_name);
 
                     if (!File::exists($public_folder)) {
-
                         messageBag('modularize_fold_missing_error', __('Folder Missing error.'));
 
                         //File::makeDirectory($public_folder);
@@ -274,7 +256,6 @@ class Modularize
         $modules_path = realpath(base_path()) . $DS . 'Modules';
 
         if (is_dir($modules_path)) {
-
             $dir = new \DirectoryIterator($modules_path);
 
             foreach ($dir as $fileinfo) {
@@ -295,11 +276,10 @@ class Modularize
     public function add_module_info($module, $data)
     {
         if (!array_key_exists($module, $this->menus)) {
-            $this->menus[$module] = ['menus'=>[]];
+            $this->menus[$module] = ['menus' => []];
         }
 
         $this->menus[$module] = array_merge($this->menus[$module], $data);
-
     }
 
     public function add_menu($module, $key, $title, $path, $icon, $position)

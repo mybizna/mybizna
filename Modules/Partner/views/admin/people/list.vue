@@ -92,7 +92,7 @@
 export default {
     components: {
         ListTable: window.$func.fetchComponent(
-            "components/list-table/ListTable.vue"
+            "components/common/ListTable.vue"
         ),
         ImportModal: window.$func.fetchComponent(
             "partner/widgets/PeopleModal.vue"

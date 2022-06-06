@@ -230,7 +230,7 @@
 export default {
     components: {
         MultiSelect: window.$func.fetchComponent("components/select/MultiSelect.vue"),
-        ListTable: window.$func.fetchComponent("components/list-table/ListTable.vue"),
+        ListTable: window.$func.fetchComponent("components/common/ListTable.vue"),
         Datepicker: window.$func.fetchComponent("components/base/Datepicker.vue"),
     },
 

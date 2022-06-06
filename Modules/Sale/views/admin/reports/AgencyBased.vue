@@ -121,7 +121,7 @@ export default {
     name: "SalesTaxReportCategoryBased",
 
     components: {
-        ListTable:window.$func.fetchComponent('components/list-table/ListTable.vue'),
+        ListTable:window.$func.fetchComponent('components/common/ListTable.vue'),
         Datepicker:window.$func.fetchComponent('components/base/Datepicker.vue'),
         MultiSelect:window.$func.fetchComponent('components/select/MultiSelect.vue'),
     },

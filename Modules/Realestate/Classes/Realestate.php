@@ -1,97 +1,87 @@
 <?php
 
+namespace Modules\Realestate\Classes;
+
 use Illuminate\Support\Facades\DB;
 
 
 use Modules\Account\Classes\Invoices;
 
-class Realestate{
-    def generate_units(self):
+class Realestate
+{
+    public function generateUnits($unit)
+    {
 
-    for item in range(self.generator_total):
+        foreach (range(1, $unit['total']) as $item) {
+            # code...
 
-        house_name = self.generator_prefix + str(item + 1)
+            $house_name = $unit['prefix'] . $item + 1;
 
-        items = self.env['mybizna.realestate.unit'].search(
-            [("title", "=", house_name)])
+            $unit = DB::table('realestate_unit')->where("title", $house_name)->first();
 
-        setups = self.env['mybizna.realestate.building_unit_setup'].search(
-            [("building_id.id", "=", self.id)])
+            $setups = DB::table('realestate_building_unit_setup')->where("building_id.id", "=", $unit['id'])->get();
 
-        if not len(items):
-            res = self.env['mybizna.realestate.unit'].create(
-                {
-                    'title': house_name,
-                    'building_id': self.id,
-                    'currency_id': self.currency_id.id,
-                    'amount': self.generator_amount,
-                    'type': self.generator_type,
-                    'deposit': self.generator_deposit,
-                    'goodwill': self.generator_goodwill,
-                    'rooms': self.generator_rooms,
-                    'bathrooms': self.generator_bathrooms,
+
+            if ($unit) {
+                $res_id = DB::table('mybizna.realestate.unit')->insertGetId(
+                    [
+                        'title' => $house_name,
+                        'building_id' => $unit['id'],
+                        'currency_id' => $unit['currency_id'],
+                        'amount' => $unit['amount'],
+                        'type' => $unit['type'],
+                        'deposit' => $unit['deposit'],
+                        'goodwill' => $unit['goodwill'],
+                        'rooms' => $unit['rooms'],
+                        'bathrooms' => $unit['bathrooms'],
+                    ]
+                );
+                foreach ($setups as $setup) {
+                    # code...
+                    DB::table('mybizna.realestate.unit_setup')->insert([
+                        'title' => $setup->title,
+                        'unit_id' => $res_id,
+                        'currency_id' => $setup->currency_id,
+                        'amount' => $setup->amount
+                    ]);
                 }
-            )
-            self.env.cr.commit()
+            }
+        }
 
-            for setup in setups:
+        $unit->fill(['has_units' => true]);
+        $unit->save();
+    }
 
-                objects = {
-                    'title': setup.title,
-                    'unit_id': res.id,
-                    'currency_id': setup.currency_id.id,
-                    'amount': setup.amount,
-                }
-
-                self.env['mybizna.realestate.unit_setup'].create(
-                    objects)
-            self.env.cr.commit()
-
-    return self.write({'has_units': True})
-
-def auto_fill(self):
-
-    params = self.env['ir.config_parameter'].sudo()
-
-    currency_id = params.get_param('mybizna_mpesa_currency_id')
-
-    self.env['mybizna.realestate.building_unit_setup'].create(
-        {'title': "Garbage Collection", 'building_id': self.id,
-            'currency_id': currency_id, 'amount': 100}
-    )
-    self.env['mybizna.realestate.building_unit_setup'].create(
-        {'title': "Internet", 'building_id': self.id,
-            'currency_id': currency_id, 'amount': 500}
-    )
-
-    self.env['mybizna.realestate.building_unit_setup'].create(
-        {'title': "Security", 'building_id': self.id,
-            'currency_id': currency_id, 'amount': 500}
-    )
-
-    return self.write({'is_filled': True})
+    public function autoFill($id)
+    {
 
 
-    def auto_fill(self):
+        $currency_id = config('mybizna_mpesa_currency_id');
 
-    params = self.env['ir.config_parameter'].sudo()
+        DB::table('mybizna.realestate.building_unit_setup')->create(
+            [
+                'title' => "Garbage Collection",
+                'building_id' => $id,
+                'currency_id' => $currency_id,
+                'amount' => 100
+            ]
+        );
+        DB::table('mybizna.realestate.building_unit_setup')->create(
+            [
+                'title' => "Internet",
+                'building_id' => $id,
+                'currency_id' => $currency_id,
+                'amount' => 500
+            ]
+        );
 
-    currency_id = params.get_param('mybizna_mpesa_currency_id')
-
-    self.env['mybizna.realestate.unit_setup'].create(
-        {'title': "Garbage Collection", 'building_id': self.id,
-            'currency_id': currency_id, 'amount': 100}
-    )
-    self.env['mybizna.realestate.unit_setup'].create(
-        {'title': "Internet", 'building_id': self.id,
-            'currency_id': currency_id, 'amount': 500}
-    )
-
-    self.env['mybizna.realestate.unit_setup'].create(
-        {'title': "Security", 'building_id': self.id,
-            'currency_id': currency_id, 'amount': 500}
-    )
-
-    return self.write({'is_filled': True})
-
+        DB::table('mybizna.realestate.building_unit_setup')->create(
+            [
+                'title' => "Security",
+                'building_id' => $id,
+                'currency_id' => $currency_id,
+                'amount' => 500
+            ]
+        );
+    }
 }

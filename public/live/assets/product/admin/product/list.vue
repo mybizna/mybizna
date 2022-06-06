@@ -56,7 +56,7 @@
 export default {
     components: {
         ListTable: window.$func.fetchComponent(
-            "components/list-table/ListTable.vue"
+            "components/common/ListTable.vue"
         ),
         ProductModal: window.$func.fetchComponent(
             "components/ProductModal.vue"

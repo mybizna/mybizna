@@ -104,20 +104,11 @@
 </template>
 
 <script>
-import TdRender from "@/components/common/widgets/list/TdRender";
-import MenuDropdown from "@/components/common/widgets/link/MenuDropdown";
-//import VueFormGenerator from "vue-form-generator";
-//import { validators } from "vue-form-generator";
-import { formInputProcessorHelper } from "@/components/helpers";
-import { fetchOptionsHelper } from "@/components/helpers";
-import { fetchRecordsHelper } from "@/components/helpers";
-import { deleteRecordHelper } from "@/components/helpers";
-import { pathParamHelper } from "@/components/helpers";
 
 export default {
     components: {
-        TdRender,
-        MenuDropdown,
+        TdRender: window.$func.fetchComponent("components/common/widgets/list/TdRender.vue"),
+        MenuDropdown: window.$func.fetchComponent("components/common/widgets/list/MenuDropdown.vue"),
     },
     props: {
         classes: String,
@@ -228,7 +219,7 @@ export default {
             this.$set(this.expanded, id, !expanded[id]);
         },
         preparePathParam() {
-            this.processed_path_param = pathParamHelper(this.path_param);
+            this.processed_path_param = window.$func.pathParamHelper(this.path_param);
         },
         processDropdownMenu() {
             const t = this;
@@ -334,7 +325,7 @@ export default {
 
             t.search_fields.forEach(function (search_field) {
                 if (!search_field.hidden) {
-                    var search_field_obj = formInputProcessorHelper(
+                    var search_field_obj = window.$func.formInputProcessorHelper(
                         search_field,
                         t
                     );
@@ -361,9 +352,9 @@ export default {
             });
         },
         getSelectList(t, select_name, field_source) {
-            var path_param_obj = pathParamHelper(field_source.path_param);
+            var path_param_obj = window.$func.pathParamHelper(field_source.path_param);
 
-            fetchOptionsHelper(
+            window.$func.fetchOptionsHelper(
                 t,
                 select_name,
                 path_param_obj,
@@ -420,7 +411,7 @@ export default {
                 }
             }
 
-            fetchRecordsHelper(
+            window.$func.fetchRecordsHelper(
                 this,
                 this.processed_path_param,
                 this.search_fields,
@@ -429,7 +420,7 @@ export default {
         },
 
         deleteRecord() {
-            deleteRecordHelper(this, this.processed_path_param, this.returnUrl);
+            window.$func.deleteRecordHelper(this, this.processed_path_param, this.returnUrl);
 
             this.fetchRecords();
         },
