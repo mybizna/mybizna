@@ -32,27 +32,16 @@ Route::post('/register', [AuthenticationController::class, 'register']);
 //login user
 Route::post('/login', [AuthenticationController::class, 'login']);
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     $apicontroller = 'App\Http\Controllers\ApiController';
 
-    Route::get('{module}/{model}', $apicontroller . '@getAllRecords');
-    Route::get('{module}/{model}/{id}', $apicontroller . '@getRecord');
-    Route::post('{module}/{model}', $apicontroller . '@createRecord');
-    Route::put('{module}/{model}/{id}', $apicontroller . '@updateRecord');
-    Route::delete('{module}/{model}/{id}', $apicontroller . '@deleteRecord');
-    Route::match(['get', 'post'], '{module}/{model}/{function}/',  $apicontroller . '@functionCall');
+    Route::get('{module}/admin/{model}', $apicontroller . '@getAllRecords');
+    Route::get('{module}/admin/{model}/{id}', $apicontroller . '@getRecord');
+    Route::post('{module}/admin/{model}', $apicontroller . '@createRecord');
+    Route::put('{module}/admin/{model}/{id}', $apicontroller . '@updateRecord');
+    Route::delete('{module}/admin/{model}/{id}', $apicontroller . '@deleteRecord');
+    Route::match(['get', 'post'], '{module}/admin/{model}/{function}/',  $apicontroller . '@functionCall');
 });
-
-
-Route::middleware('throttle:240,1')->group(
-    function () {
-
-        $apicontroller = 'App\Http\Controllers\ApiController';
-
-        Route::get('{module}/{side}/{model}/{name}.vue', $apicontroller . '@fetchVue');
-        Route::get('{module}/widgets/{name}.vue', $apicontroller . '@fetchVueWidgets');
-    }
-);
 
 //using middleware
 Route::group(['middleware' => ['auth:sanctum']], function () {

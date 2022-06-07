@@ -78,21 +78,47 @@
                                     <a
                                         v-else
                                         class="btn btn-primary btn-sm text-white"
-                                        @click="recordPicker(item.pk)"
+                                        @click="recordPicker(item.id)"
                                         >Select</a
                                     >
                                 </td>
+                                <th
+                                    v-if="hide_action_button"
+                                    scope="row"
+                                    class="col--check check-column"
+                                >
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input
+                                                :value="item.id"
+                                                v-model="checkedItems"
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                name="item[]"
+                                            />
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </th>
 
                                 <template
                                     v-for="(table_field, index) in table_fields"
                                 >
-                                    <td-render
-                                        :key="index"
-                                        :field_list="field_list"
-                                        :pitem="item"
-                                        :data_field="table_field"
-                                        :class_name="getClassName(table_field)"
-                                    ></td-render>
+                                    <slot :name="key" :row="row">
+                                        <template v-if="'actions' !== key">
+                                            <td-render
+                                                :key="index"
+                                                :field_list="field_list"
+                                                :pitem="item"
+                                                :data_field="table_field"
+                                                :class_name="
+                                                    getClassName(table_field)
+                                                "
+                                            ></td-render>
+                                        </template>
+                                    </slot>
                                 </template>
                             </tr>
                         </tbody>
@@ -104,11 +130,14 @@
 </template>
 
 <script>
-
 export default {
     components: {
-        TdRender: window.$func.fetchComponent("components/common/widgets/list/TdRender.vue"),
-        MenuDropdown: window.$func.fetchComponent("components/common/widgets/list/MenuDropdown.vue"),
+        TdRender: window.$func.fetchComponent(
+            "components/common/widgets/list/TdRender.vue"
+        ),
+        MenuDropdown: window.$func.fetchComponent(
+            "components/common/widgets/list/MenuDropdown.vue"
+        ),
     },
     props: {
         classes: String,
@@ -160,6 +189,7 @@ export default {
             show_delete_btn: false,
             show_advance_form: false,
             select_list: {},
+            checkedItems:[],
             items: [],
             field_list: [],
             pages: 1,
@@ -219,7 +249,9 @@ export default {
             this.$set(this.expanded, id, !expanded[id]);
         },
         preparePathParam() {
-            this.processed_path_param = window.$func.pathParamHelper(this.path_param);
+            this.processed_path_param = window.$func.pathParamHelper(
+                this.path_param
+            );
         },
         processDropdownMenu() {
             const t = this;
@@ -325,10 +357,8 @@ export default {
 
             t.search_fields.forEach(function (search_field) {
                 if (!search_field.hidden) {
-                    var search_field_obj = window.$func.formInputProcessorHelper(
-                        search_field,
-                        t
-                    );
+                    var search_field_obj =
+                        window.$func.formInputProcessorHelper(search_field, t);
                     t.schema.fields.push(search_field_obj);
                 }
 
@@ -352,7 +382,9 @@ export default {
             });
         },
         getSelectList(t, select_name, field_source) {
-            var path_param_obj = window.$func.pathParamHelper(field_source.path_param);
+            var path_param_obj = window.$func.pathParamHelper(
+                field_source.path_param
+            );
 
             window.$func.fetchOptionsHelper(
                 t,
@@ -420,7 +452,11 @@ export default {
         },
 
         deleteRecord() {
-            window.$func.deleteRecordHelper(this, this.processed_path_param, this.returnUrl);
+            window.$func.deleteRecordHelper(
+                this,
+                this.processed_path_param,
+                this.returnUrl
+            );
 
             this.fetchRecords();
         },
