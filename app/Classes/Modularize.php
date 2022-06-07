@@ -199,7 +199,7 @@ class Modularize
 
         return [
             'path' => $no_path ? '' : Str::lower($path),
-            'name' => $no_path ? ucfirst(Str::camel(str_replace('/', '_', $name))) .'Default' : ucfirst(Str::camel(str_replace('/', '_', $name))),
+            'name' => $no_path ?  Str::lower(str_replace('/', '.', $name)).'.default' :  Str::lower(str_replace('/', '.', $name)),
             'component' => Str::lower($component)
         ];
     }

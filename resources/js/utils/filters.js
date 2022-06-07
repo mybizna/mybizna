@@ -188,12 +188,6 @@ export default {
         var dotted_side_selector = '';
         var underscore_side_selector = '';
 
-        if (!window.is_frontend) {
-            //side_selector = 'user';
-            //path_side_selector = side_selector + '/';
-            //dotted_side_selector = side_selector + '.';
-            //underscore_side_selector = side_selector + '_';
-        }
 
         var side_selector_ucword = side_selector.charAt(0).toUpperCase() + side_selector.slice(1);
 
@@ -203,26 +197,12 @@ export default {
             'dotted': dotted_side_selector + path_list[0] + '.' + path_list[1],
             'underscore': underscore_side_selector + path_list[0] + '_' + path_list[1],
             'connected': side_selector_ucword + first_ucword + second_ucword,
-            'graphql_name': '',
         };
 
-        if (window.is_frontend) {
-            var reqular_graphql_name = (second_ucword == first_ucword) ? path_list[0] + 's' : path_list[0] + second_ucword + 's';
-
-            reqular_const.graphql_name = 'user' + reqular_graphql_name.charAt(0).toUpperCase() + reqular_graphql_name.slice(1);
-        } else {
-            reqular_const.graphql_name = (second_ucword == first_ucword) ? path_list[0] + 's' : path_list[0] + second_ucword + 's';
-
+        if (window.is_backend) {
+            reqular_const.path = path_side_selector + path_list[0] + '/admin/' + path_list[1];
+            reqular_const.dotted = dotted_side_selector + path_list[0] + '.admin.' + path_list[1];
         }
-
-
-        console.log(reqular_const.graphql_name);
-        console.log('');
-        console.log('');
-        console.log('');
-        console.log('');
-
-
 
         return reqular_const;
     },
@@ -348,61 +328,13 @@ export default {
     saveRecordHelper(this_var, path_param, schema_fields, return_url) {
 
         const t = this_var;
-        var input_fields_arr = [
-            "",
-            "id", "created_at", "createdBy{id,name,email,username}", "updated_at", "updatedBy{id,name,email,username}",
-        ];
 
-
-        var save_str = "";
-        save_str = "mutation{  create" + path_param.connected + "( ";
-
-        if (t.model.id) {
-            save_str =
-                "mutation{  update" + path_param.connected + "(  id:" + t.model.id + ", ";
-        }
-
-        schema_fields.forEach(function (single_field) {
-
-            var is_needed = (input_fields_arr.indexOf(single_field.name) > 0) ? false : true;
-
-            if (single_field.name && is_needed) {
-
-                var field_name = single_field.name;
-                var field_prefix = single_field.prefix;
-                var field_suffix = single_field.suffix;
-
-                var field_value = t.model[field_name];
-
-                /*
-                if (!field_prefix.length) {
-                    if (field_value === null || field_value === undefined) {
-                        field_value = 0;
-                    }
-                }
-                */
-
-                if (t.model[field_name] && t.model[field_name] !== null) {
-
-                    save_str = save_str + field_name + ':' + field_prefix + field_value + field_suffix + ',';
-                }
-
-            }
-        });
-
-        save_str = save_str + ' ){ id, } }';
 
         window.axios
-            .post("/graphql", {
-                query: save_str
-            })
+            .post(path_param.path, t.model)
             .then(response => {
-                var tmpitem;
-                if (t.model.id) {
-                    tmpitem = response.data.data['update' + path_param.connected];
-                } else {
-                    tmpitem = response.data.data['create' + path_param.connected];
-                }
+
+                var tmpitem = response.data;
 
                 if (!t.no_redirect) {
                     if (return_url) {
@@ -430,29 +362,17 @@ export default {
         t.show_delete_btn = false;
         t.loading_message = "Fetching Data. Please Wait...";
 
-        var query_str = "query { " + path_param.graphql_name + "( first:100 ) { ";
-
-        query_str = query_str + "edges {cursor node  { ";
-
-        field_list.forEach(function (single_field) {
-            query_str = query_str + single_field + ',';
-        });
-
-        query_str = query_str + "  } } } }";
-
-        window.axios.post("/graphql", {
-            query: query_str
+        window.axios.post(path_param.path, {
+            field_list: field_list
         }).then(response => {
 
-            if (response.data.data) {
+            if (response.data) {
 
                 var returned_data = [];
-                var tmpitems_arr = JSON.parse(JSON.stringify(response.data.data[path_param.graphql_name].edges));
 
-                tmpitems_arr.forEach(function (tmptmpitem) {
+                response.data.forEach(function (tmpitem) {
 
                     var string_name = '';
-                    var tmpitem = tmptmpitem.node;
 
                     field_list.forEach(function (single_field) {
                         if (single_field != 'id') {
@@ -474,14 +394,6 @@ export default {
 
                 //t.select_list[listName] = returned_data;
                 //t.$set(t.select_list, listName, returned_data);
-
-            } else {
-
-                var message = '';
-
-                response.data.errors.forEach(function (error) {
-                    message = message + error.message;
-                });
             }
         });
 
@@ -495,65 +407,25 @@ export default {
         t.loading_message = "Fetching Data. Please Wait...";
 
         const tmp_return_to = return_to || false;
-        const tmp_prefix = prefix || 'find_';
-        const tmp_query_str = query_str || "id: " + t.id;
-
 
         if (!t.id && query_str === '') {
             return;
         }
 
-        if (query_str === '') {
-
-            query_str = "query {" + tmp_prefix + path_param.underscore + "( " + tmp_query_str + ") {";
-
-            schema_fields.forEach(function (single_field) {
-                query_str = query_str + single_field + ',';
-            });
-
-            query_str = query_str + " }  }";
-        }
-
-
-
-
-
         window.axios
-            .post("/graphql", {
-                query: query_str
-            })
+            .get(path_param.path + '/' + t.id)
             .then(response => {
 
-                if (response.data.data) {
-                    var tmpitem = response.data.data[tmp_prefix + path_param.underscore];
+                if (response.data) {
+                    var tmpitem = response.data;
 
                     if (!tmp_return_to) {
                         schema_fields.forEach(function (single_field) {
-
-                            if (single_field.includes("{")) {
-
-                                var str_split = single_field.split('{')[0];
-                                str_split = str_split.trim();
-
-                                if (tmpitem[str_split]) {
-                                    t.model[str_split] = tmpitem[str_split].id;
-                                }
-
-                            } else {
-                                t.model[single_field] = tmpitem[single_field];
-                            }
-
+                            t.model[single_field] = tmpitem[single_field];
                         });
                     } else {
                         t[tmp_return_to] = tmpitem;
                     }
-                } else {
-
-                    var message = '';
-
-                    response.data.errors.forEach(function (error) {
-                        message = message + error.message;
-                    });
                 }
 
             });
@@ -567,139 +439,45 @@ export default {
 
         const tmp_return_raw = return_raw || false;
 
-        var query_str = "query { " + path_param.graphql_name + "(";
-
-        if (t.pagination) {
-            query_str = query_str + "first:" + t.pagination.limit + ",";
-            query_str = query_str + 'orderBy:"-id",';
-        }
-
-        if (Array.isArray(query_fields)) {
-            if (!tmp_return_raw) {
-                query_fields.forEach(function (single_field) {
-
-                    var field_name = single_field.name;
-                    var field_prefix = single_field.prefix;
-                    var field_suffix = single_field.suffix;
-
-                    if (field_prefix == '"') {
-                        if (t.model[field_name].length) {
-                            query_str = query_str + ' ' + field_name + ':' + field_prefix + t.model[field_name] + field_suffix + ",";
-                        }
-                    } else {
-                        if (t.model[field_name]) {
-                            query_str = query_str + ' ' + field_name + ':' + t.model[field_name] + ",";
-                        }
-                    }
-
-                });
-            } else {
-                query_fields.forEach(function (single_field) {
-                    query_str = query_str + single_field;
-                });
-            }
-        } else {
-            query_str = query_str + query_fields;
-        }
-
-        if (!query_str.includes('skip:')) {
-            //query_str = query_str + "skip:10";
-        }
-
-        query_str = query_str + ") { ";
-
-        query_str = query_str + "edges {cursor node { ";
-
-        field_list.forEach(function (single_field) {
-            query_str = query_str + single_field + ',';
-        });
-
-        query_str = query_str + "  }}  ";
-
-        if (t.pagination) {
-            query_str = query_str + " pageInfo { hasNextPage, hasPreviousPage, startCursor,endCursor }";
-        }
-
-        query_str = query_str + "  } \
-        }";
-
-        console.log(query_str)
+        var data = {};
 
 
-
+        data['query_fields'] = query_fields;
+        data['model'] = t.model;
 
         window.axios
-            .post("/graphql", {
-                query: query_str
-            })
+            .post(path_param.path, data)
             .then(response => {
-                if (response.data.data) {
+                if (response.data) {
 
-                    var tmppagination = "";
                     var tmpitems = [];
-                    var res_tmpitems = response.data.data[path_param.graphql_name].edges;
 
                     if (t.pagination) {
-                        tmppagination = response.data.data[path_param.graphql_name].pageInfo;
+                        t.pagination = response.data.pagination;
                     }
 
-                    if (!tmp_return_raw) {
+                    t.items = response.data.records;
 
-
-                        var semi_tmpitems = JSON.parse(JSON.stringify(res_tmpitems));
-
-                        semi_tmpitems.forEach((newitem) => {
-
-                            var node_data = newitem.node;
-
-                            for (var prop in node_data) {
-                                if (Object.prototype.hasOwnProperty.call(node_data, prop)) {
-                                    if (typeof node_data[prop] === 'string' && node_data[prop].charAt(0) === "{") {
-                                        try {
-                                            node_data[prop] = JSON.parse(node_data[prop])
-                                        } catch (e) {
-                                            // is not a valid JSON string
-                                        }
-                                    }
-                                }
-                            }
-
-                            tmpitems.push(node_data);
-                        });
-
-
-                        t.items = JSON.parse(JSON.stringify(tmpitems));
-
-                        if (t.items.length < 1) {
-                            t.show_delete_btn = false;
-                            t.loading_message = "No Data Available.";
-                        } else {
-                            if (t.pagination) {
-                                t.pagination.totalItems = tmppagination.total;
-                                t.pagination.pages = tmppagination.lastPage;
-                                t.pagination.page = tmppagination.currentPage;
-                            }
-
-                            t.show_delete_btn = true;
-
-                            t.items.forEach(i => {
-                                t.$set(t.expanded, i.id, false);
-                            });
-
+                    if (t.items.length < 1) {
+                        t.show_delete_btn = false;
+                        t.loading_message = "No Data Available.";
+                    } else {
+                        if (t.pagination) {
+                            t.pagination = response.data.pagination;
                         }
 
-                        t.postProcessing(t, field_list);
+                        t.show_delete_btn = true;
 
-                    } else {
-                        t.$set(t, target_var, JSON.parse(JSON.stringify(tmpitems)));
+                        t.items.forEach(i => {
+                            t.$set(t.expanded, i.id, false);
+                        });
+
                     }
+
+                    t.postProcessing(t, field_list);
+
                 } else {
-
-                    var message = '';
-
-                    response.data.errors.forEach(function (error) {
-                        message = message + error.message;
-                    });
+                    t.$set(t, target_var, JSON.parse(JSON.stringify(tmpitems)));
                 }
             });
 
@@ -716,7 +494,7 @@ export default {
             var selected_item = selected_items[index];
 
             window.axios
-                .post("/graphql", {
+                .post(path_param.path, {
                     query: 'mutation {  \
               delete' + path_param.connected + '(id: "' +
                         selected_item.id +

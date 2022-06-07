@@ -3,7 +3,6 @@
     :path_param="path_param"
     :form_fields="form_fields"
     :form_groups="form_groups"
-    :schema_fields="schema_fields"
     :model="model"
   ></table-edit>
 </template>
@@ -17,7 +16,7 @@ export default {
   data() {
     return {
       id: null,
-      path_param: ["deposit", "deposit"],
+      path_param: ["realestate", "reading_electricity"],
       form_groups: [
         {
           name: "setting",
@@ -86,19 +85,6 @@ export default {
           suffix: '"'
         }
       ],
-      schema_fields: [
-        "id",
-        "description",
-        "user_id",
-        "payment_id",
-        "amount",
-        "completed",
-        "successful",
-        "created_at",
-        "createdBy{id,name,email,username}",
-        "updated_at",
-        "updatedBy{id,name,email,username}"
-      ]
     };
   }
 };

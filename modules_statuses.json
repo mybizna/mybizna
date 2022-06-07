@@ -16,10 +16,8 @@
     "Partner": true,
     "Payment": true,
     "Product": true,
-    "Purchase": true,
     "Realestate": true,
     "Sale": true,
-    "Stock": true,
     "Taxonomy": true,
     "Core": true
 }

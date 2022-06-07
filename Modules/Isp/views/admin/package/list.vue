@@ -5,7 +5,6 @@
     :search_fields="search_fields"
     :model="model"
     :table_fields="table_fields"
-    :schema_fields="schema_fields"
   ></table-list>
 </template>
 
@@ -17,7 +16,7 @@ export default {
   },
   data() {
     return {
-      path_param: ["deposit", "deposit"],
+      path_param: ["isp", "package"],
       model: {
         id: "",
         description: "",
@@ -101,19 +100,6 @@ export default {
           is_boolean: true
         }
       ],
-      schema_fields: [
-        "id",
-        "description",
-        "user{id, name, username, email}",
-        "payment_id",
-        "amount",
-        "completed",
-        "successful",
-        "created_at",
-        "createdBy{id,name,email,username}",
-        "updated_at",
-        "updatedBy{id,name,email,username}"
-      ]
     };
   }
 };
