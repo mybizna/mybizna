@@ -431,30 +431,35 @@ export default {
             });
     },
 
-    fetchRecordsHelper(this_var, path_param, query_fields, field_list, target_var, return_raw) {
+    fetchRecordsHelper(this_var, path_param, query_fields, field_list) {
 
         const t = this_var;
         t.show_delete_btn = false;
         t.loading_message = "Fetching Data. Please Wait...";
 
-        const tmp_return_raw = return_raw || false;
+        var data = {
+            's': {}
+        };
 
-        var data = {};
+        query_fields.forEach(function (query_field) {
 
+            if (t.model[query_field.name] && t.model[query_field.name] !== '') {
+                data['s'][query_field.name] = {
+                    'str': t.model[query_field.name]
+                };
 
-        data['query_fields'] = query_fields;
-        data['model'] = t.model;
+                if (query_field.ope !== '') {
+                    data['s'][query_field.name] = {
+                        'ope': t.opeList[query_field.name]
+                    };
+                }
+            }
+        });
 
         window.axios
-            .post(path_param.path, data)
+            .get(path_param.path, data)
             .then(response => {
                 if (response.data) {
-
-                    var tmpitems = [];
-
-                    if (t.pagination) {
-                        t.pagination = response.data.pagination;
-                    }
 
                     t.items = response.data.records;
 
@@ -463,7 +468,8 @@ export default {
                         t.loading_message = "No Data Available.";
                     } else {
                         if (t.pagination) {
-                            t.pagination = response.data.pagination;
+                            t.pagination.page = Math.floor(response.data.total / t.pagination.limit);
+                            t.pagination.totalItems = response.data.total;
                         }
 
                         t.show_delete_btn = true;
@@ -476,8 +482,6 @@ export default {
 
                     t.postProcessing(t, field_list);
 
-                } else {
-                    t.$set(t, target_var, JSON.parse(JSON.stringify(tmpitems)));
                 }
             });
 

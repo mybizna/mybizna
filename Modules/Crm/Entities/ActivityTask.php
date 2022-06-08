@@ -9,7 +9,7 @@ class ActivityTask extends Model
 {
 
     protected $fillable = ['activity_id', 'user_id'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "crm_activity_task";
 
     /**

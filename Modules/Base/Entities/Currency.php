@@ -27,6 +27,7 @@ class Currency extends Model
      * @var array
      */
     protected $dates = ['created_by', 'updated_by', 'deleted_at'];
+    public $migrationDependancy = [];
 
     protected $fillable = [
         "country_id",
@@ -109,5 +110,4 @@ class Currency extends Model
         $table->integer('published')->nullable()->default(0);
         $table->integer('is_fetched')->nullable()->default(0);
     }
-
 }

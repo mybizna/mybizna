@@ -9,7 +9,7 @@ class SaveEmailReply extends Model
 {
 
     protected $fillable = ['name', 'subject', 'template'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "crm_save_email_reply";
 
     /**

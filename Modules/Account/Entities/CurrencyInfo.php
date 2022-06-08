@@ -9,7 +9,7 @@ class CurrencyInfo extends Model
 {
 
     protected $fillable = ['name', 'sign'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_currency_info";
 
     /**

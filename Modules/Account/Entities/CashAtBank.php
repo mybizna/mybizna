@@ -9,7 +9,7 @@ class CashAtBank extends Model
 {
 
     protected $fillable = ['ledger_id', 'name', 'balance'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_cash_at_bank";
 
     /**

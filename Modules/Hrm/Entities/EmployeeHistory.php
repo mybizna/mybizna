@@ -9,7 +9,7 @@ class EmployeeHistory extends Model
 {
 
     protected $fillable = ['user_id', 'module', 'category', 'type', 'comment', 'data', 'date'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_employee_history";
 
     /**

@@ -9,7 +9,7 @@ class HolidayIndv extends Model
 {
 
     protected $fillable = ['holiday_id', 'title', 'date'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_holiday_indv";
 
     /**

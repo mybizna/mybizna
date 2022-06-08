@@ -4,13 +4,14 @@ namespace Modules\Realestate\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class Town extends Model
 {
 
     protected $fillable = ['name', 'region_id', 'description'];
-    protected $migrationOrder = 4;
-    protected $table = "realestate_building";
+    public $migrationDependancy = ['realestate_region'];
+    protected $table = "realestate_town";
 
     /**
      * List of fields for managing postings.
@@ -22,7 +23,14 @@ class Town extends Model
     {
         $table->increments('id');
         $table->string('name');
-        $table->foreign('region_id')->references('id')->on('realestate_region')->nullOnDelete();
+        $table->integer('region_id')->unsigned()->nullable();
         $table->string('description')->nullable();
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('realestate_region', 'region_id')) {
+            $table->foreign('region_id')->references('id')->on('realestate_region')->nullOnDelete();
+        }
     }
 }

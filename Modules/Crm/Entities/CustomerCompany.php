@@ -9,7 +9,7 @@ class CustomerCompany extends Model
 {
 
     protected $fillable = ['customer_id', 'company_id'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "crm_customer_company";
 
     /**

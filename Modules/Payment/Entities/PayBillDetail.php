@@ -9,7 +9,7 @@ class PayBillDetail extends Model
 {
 
     protected $fillable = ['voucher_no', 'bill_no', 'amount'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "payment_pay_bill_detail";
 
     /**

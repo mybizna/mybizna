@@ -10,7 +10,7 @@ class CompanyLocation extends Model
 
     protected $table = "base_company_location";
 
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
 
     protected $fillable = [
         'company_id', 'name', 'address_1', 'address_2', 'city', 'state',

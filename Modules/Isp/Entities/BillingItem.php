@@ -4,12 +4,13 @@ namespace Modules\Isp\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class BillingItem extends Model
 {
 
     protected $fillable = ['title', 'billing_id', 'description', 'amount'];
-    protected $migrationOrder = 1;
+    public $migrationDependancy = ['isp_connection'];
     protected $table = "isp_billing_item";
 
     /**
@@ -22,8 +23,15 @@ class BillingItem extends Model
     {
         $table->increments('id');
         $table->string('title');
-        $table->foreign('billing_id')->references('id')->on('isp_connection')->nullOnDelete();
+        $table->integer('billing_id')->unsigned()->nullable();
         $table->string('description')->nullable();
         $table->double('amount', 8, 2)->nullable();
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('isp_connection', 'billing_id')) {
+            $table->foreign('billing_id')->references('id')->on('isp_connection')->nullOnDelete();
+        }
     }
 }

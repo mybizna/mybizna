@@ -9,7 +9,7 @@ class Leave extends Model
 {
 
     protected $fillable = ['name', 'description'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_leave";
 
     /**

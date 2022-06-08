@@ -9,7 +9,7 @@ class TypeRelation extends Model
 {
 
     protected $fillable = ['people_id', 'people_types_id'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "partner_type_relation";
 
     /**

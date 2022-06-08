@@ -4,12 +4,13 @@ namespace Modules\Realestate\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class UnitSetup extends Model
 {
 
     protected $fillable = ['title', 'unit_id', 'amount'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = ['realestate_unit'];
     protected $table = "realestate_unit_setup";
 
     /**
@@ -22,7 +23,14 @@ class UnitSetup extends Model
     {
         $table->increments('id');
         $table->string('title');
-        $table->foreign('unit_id')->references('id')->on('realestate_unit')->nullOnDelete();
+        $table->integer('unit_id')->unsigned()->nullable();
         $table->double('amount', 8, 2)->nullable();
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('realestate_unit', 'unit_id')) {
+            $table->foreign('unit_id')->references('id')->on('realestate_unit')->nullOnDelete();
+        }
     }
 }

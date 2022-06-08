@@ -9,7 +9,7 @@ class Account extends Model
 {
 
     protected $fillable = ['name'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account";
 
     /**

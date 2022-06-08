@@ -9,7 +9,7 @@ class ChartOfAccount extends Model
 {
 
     protected $fillable = ['name', 'slug'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_chart_of_account";
 
     /**

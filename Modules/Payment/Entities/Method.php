@@ -9,7 +9,7 @@ class Method extends Model
 {
 
     protected $fillable = ['name'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "payment_method";
 
     /**

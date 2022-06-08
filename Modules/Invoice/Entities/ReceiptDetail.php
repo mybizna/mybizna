@@ -9,7 +9,7 @@ class ReceiptDetail extends Model
 {
 
     protected $fillable = ['voucher_no', 'invoice_no', 'amount'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "invoice_receipt_detail";
 
     /**

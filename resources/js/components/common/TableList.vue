@@ -190,6 +190,7 @@ export default {
             show_advance_form: false,
             select_list: {},
             checkedItems:[],
+            opeList:[],
             items: [],
             field_list: [],
             pages: 1,
@@ -197,7 +198,8 @@ export default {
             processed_path_param: "",
             // search: "",
             pagination: {
-                descending: true,
+                orderby: 'id',
+                order: 'DESC',
                 limit: 10,
                 page: 1,
                 totalItems: 0,

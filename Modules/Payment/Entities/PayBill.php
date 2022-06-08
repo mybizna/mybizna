@@ -13,7 +13,7 @@ class PayBill extends Model
         'trn_by', 'trn_by_ledger_id', 'particulars', 'ref', 'attachments',
         'status'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "payment_pay_bill";
 
     /**

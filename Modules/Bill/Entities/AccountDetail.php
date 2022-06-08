@@ -9,7 +9,7 @@ class AccountDetail extends Model
 {
 
     protected $fillable = ['bill_no', 'trn_no', 'trn_date', 'particulars', 'debit', 'credit'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "bill_account_detail";
 
     /**

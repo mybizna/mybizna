@@ -12,7 +12,7 @@ class SaleReturn extends Model
         'invoice_id', 'voucher_no', 'customer_id', 'customer_name', 'trn_date', 'amount',
         'discount', 'discount_type', 'tax', 'reason', 'comments', 'status'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "sale_return";
 
     /**

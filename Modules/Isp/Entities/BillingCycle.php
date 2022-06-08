@@ -9,7 +9,7 @@ class BillingCycle extends Model
 {
 
     protected $fillable = ['title', 'description', 'duration', 'duration_type', 'published'];
-    protected $migrationOrder = 1;
+    public $migrationDependancy = [];
     protected $table = "isp_billing_cycle";
 
     /**

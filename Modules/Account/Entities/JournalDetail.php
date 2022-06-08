@@ -9,7 +9,7 @@ class JournalDetail extends Model
 {
 
     protected $fillable = ['trn_no', 'ledger_id', 'particulars', 'debit', 'credit'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_journal_detail";
 
     /**

@@ -12,7 +12,7 @@ class Bill extends Model
         'voucher_no', 'vendor_id', 'vendor_name', 'address', 'trn_date',
         'due_date', 'ref', 'amount', 'particulars', 'status', 'attachments'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "bill";
 
     /**

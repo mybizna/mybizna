@@ -13,7 +13,7 @@ class Partner extends Model
         'fax', 'notes', 'street_1', 'street_2', 'city', 'state', 'postal_code',
         'country', 'currency', 'life_stage', 'contact_owner', 'hash'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "partner";
 
     /**

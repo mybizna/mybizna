@@ -9,7 +9,7 @@ class LedgerDetail extends Model
 {
 
     protected $fillable = ['ledger_id', 'trn_no', 'particulars', 'debit', 'credit', 'trn_date'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_ledger_detail";
 
     /**
