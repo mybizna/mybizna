@@ -9,7 +9,7 @@ class FinancialYear extends Model
 {
 
     protected $fillable = ['fy_name', 'start_date', 'end_date', 'description'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_financial_year";
 
     /**

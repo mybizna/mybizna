@@ -9,7 +9,7 @@ class SyncedTax extends Model
 {
 
     protected $fillable = ['system_id', 'sync_id', 'sync_slug', 'sync_type', 'sync_source'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_synced_tax";
 
     /**

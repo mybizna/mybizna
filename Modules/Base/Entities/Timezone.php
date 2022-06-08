@@ -28,8 +28,9 @@ class Timezone extends Model
      */
     protected $dates = ['created_by', 'updated_by', 'deleted_at'];
 
-    protected $fillable = [
+    public $migrationDependancy = [];
 
+    protected $fillable = [
         "name",
         "country_id",
     ];

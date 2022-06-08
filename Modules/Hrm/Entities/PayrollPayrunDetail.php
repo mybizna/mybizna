@@ -12,7 +12,7 @@ class PayrollPayrunDetail extends Model
         'payrun_id', 'pay_cal_id','payment_date','empid','pay_item_id','pay_item_amount',
         'pay_item_add_or_deduct','note','approve_status'
        ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_payroll_payrun_detail";
 
     /**

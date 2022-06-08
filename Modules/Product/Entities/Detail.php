@@ -9,7 +9,7 @@ class Detail extends Model
 {
 
     protected $fillable = ['product_id', 'trn_no', 'stock_in', 'stock_out'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "product_detail";
 
     /**

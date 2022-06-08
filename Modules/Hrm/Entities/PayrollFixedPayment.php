@@ -11,7 +11,7 @@ class PayrollFixedPayment extends Model
     protected $fillable = [
         'pay_item_id', 'pay_item_amount', 'empid', 'pay_item_add_or_deduct', 'note'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_payroll_fixed_payment";
 
     /**

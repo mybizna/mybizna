@@ -4,13 +4,14 @@ namespace Modules\Realestate\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class Tenancy extends Model
 {
 
     protected $fillable = ['title', 'description', 'unit_id', 'partner_id', 'type', 'amount', 'deposit', 'goodwill', 'rooms', 'billing_date', 'is_merged_bill', 'is_started', 'is_closed', 'bill_gas', 'bill_water', 'bill_electricity'];
-    protected $migrationOrder = 7;
-    protected $table = "realestate_unit";
+    public $migrationDependancy = ['realestate_unit', 'partner'];
+    protected $table = "realestate_tenancy";
 
     /**
      * List of fields for managing postings.
@@ -24,8 +25,8 @@ class Tenancy extends Model
         $table->increments('id');
         $table->string('title');
         $table->string('description')->nullable();
-        $table->foreign('unit_id')->references('id')->on('realestate_unit')->nullOnDelete();
-        $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
+        $table->integer('unit_id')->unsigned()->nullable();
+        $table->integer('partner_id')->unsigned()->nullable();
         $table->enum('type', ['weekly', 'bi_weekly', 'monthly', 'quarterly', 'bi_annually', 'annually',])->default('monthly');
         $table->double('amount', 8, 2)->nullable();
         $table->double('deposit', 8, 2)->nullable();
@@ -38,6 +39,16 @@ class Tenancy extends Model
         $table->boolean('bill_gas')->default(false)->nullable();
         $table->boolean('bill_water')->default(false)->nullable();
         $table->boolean('bill_electricity')->default(false)->nullable();
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('realestate_unit', 'unit_id')) {
+            $table->foreign('unit_id')->references('id')->on('realestate_unit')->nullOnDelete();
+        }
+        if (Migration::checkKeyExist('partner', 'partner_id')) {
+            $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
+        }
     }
 
 

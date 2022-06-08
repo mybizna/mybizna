@@ -4,12 +4,13 @@ namespace Modules\Isp\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class PackageSetupItem extends Model
 {
 
     protected $fillable = ['title', 'description', 'package_id', 'amount', 'published'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = ['isp_package'];
     protected $table = "isp_package_setup_item";
 
     /**
@@ -23,11 +24,15 @@ class PackageSetupItem extends Model
         $table->increments('id');
         $table->string('title');
         $table->string('description')->nullable();
-        $table->foreign('package_id')->references('id')->on('isp_package')->nullOnDelete();
+        $table->integer('package_id')->unsigned()->nullable();
         $table->double('amount', 8, 2)->nullable();
         $table->boolean('published')->default(true)->nullable();
     }
 
-
-
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('isp_package', 'package_id')) {
+            $table->foreign('package_id')->references('id')->on('isp_package')->nullOnDelete();
+        }
+    }
 }

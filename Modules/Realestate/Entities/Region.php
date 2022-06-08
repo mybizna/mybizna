@@ -4,13 +4,14 @@ namespace Modules\Realestate\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class Region extends Model
 {
 
     protected $fillable = ['name', 'description', 'country_id', 'state_id'];
-    protected $migrationOrder = 3;
-    protected $table = "realestate_building";
+    public $migrationDependancy = ['base_country', 'base_state'];
+    protected $table = "realestate_region";
 
     /**
      * List of fields for managing postings.
@@ -23,7 +24,17 @@ class Region extends Model
         $table->increments('id');
         $table->string('name');
         $table->string('description')->nullable();
-        $table->foreign('country_id')->references('id')->on('base_country')->nullOnDelete();
-        $table->foreign('state_id')->references('id')->on('base_state')->nullOnDelete();
+        $table->integer('country_id')->unsigned()->nullable();
+        $table->integer('state_id')->unsigned()->nullable();
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('base_country', 'country_id')) {
+            $table->foreign('country_id')->references('id')->on('base_country')->nullOnDelete();
+        }
+        if (Migration::checkKeyExist('base_state', 'state_id')) {
+            $table->foreign('state_id')->references('id')->on('base_state')->nullOnDelete();
+        }
     }
 }

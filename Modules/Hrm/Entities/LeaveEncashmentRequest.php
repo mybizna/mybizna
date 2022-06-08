@@ -12,7 +12,7 @@ class LeaveEncashmentRequest extends Model
         'user_id', 'leave_id', 'approved_by', 'approval_status_id', 'encash_days',
         'forward_days', 'amount', 'total', 'f_year'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_leave_encashment_request";
 
     /**

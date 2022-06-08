@@ -9,7 +9,7 @@ class LifeStage extends Model
 {
 
     protected $fillable = ['slug', 'title', 'title_plural', 'position'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "partner_life_stage";
 
     /**

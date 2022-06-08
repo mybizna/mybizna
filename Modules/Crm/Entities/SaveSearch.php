@@ -9,7 +9,7 @@ class SaveSearch extends Model
 {
 
     protected $fillable = ['user_id', 'type', 'global', 'search_name', 'search_val'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "crm_save_search";
 
     /**

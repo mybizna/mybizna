@@ -4,12 +4,13 @@ namespace Modules\Isp\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class ConnectionSetupItem extends Model
 {
 
     protected $fillable = ['title', 'connection_id', 'description', 'amount'];
-    protected $migrationOrder = 6;
+    public $migrationDependancy = ['isp_connection'];
     protected $table = "isp_connection_setup_item";
 
     /**
@@ -22,8 +23,16 @@ class ConnectionSetupItem extends Model
     {
         $table->increments('id');
         $table->string('title');
-        $table->foreign('connection_id')->references('id')->on('isp_connection')->nullOnDelete();
+        $table->integer('connection_id')->unsigned()->nullable();
         $table->string('description')->nullable();
         $table->double('amount', 8, 2)->nullable();
+    }
+
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('isp_connection', 'connection_id')) {
+            $table->foreign('connection_id')->references('id')->on('isp_connection')->nullOnDelete();
+        }
     }
 }

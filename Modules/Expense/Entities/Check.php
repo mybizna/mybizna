@@ -9,7 +9,7 @@ class Check extends Model
 {
 
     protected $fillable = ['trn_no', 'check_no', 'voucher_type', 'amount', 'bank', 'name', 'pay_to'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "expense_check";
 
     /**

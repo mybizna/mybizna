@@ -13,7 +13,7 @@ class Expense extends Model
         'ref', 'check_no', 'particulars', 'status', 'trn_by', 'transaction_charge',
         'trn_by_ledger_id', 'attachments'
     ];
-    protected $migrationOrder = 1;
+    public $migrationDependancy = [];
     protected $table = "expense";
 
     /**

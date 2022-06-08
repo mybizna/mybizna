@@ -9,7 +9,7 @@ class PayrollPayCalendarEmployee extends Model
 {
 
     protected $fillable = ['pay_calendar_id', 'empid'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_payroll_pay_calendar_employee";
 
     /**

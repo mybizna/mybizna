@@ -9,7 +9,7 @@ class TaxPay extends Model
 {
 
     protected $fillable = ['voucher_no', 'trn_date', 'particulars', 'amount', 'voucher_type', 'trn_by', 'agency_id', 'ledger_id'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_tax_pay";
 
     /**

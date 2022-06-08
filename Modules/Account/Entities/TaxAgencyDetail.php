@@ -9,7 +9,7 @@ class TaxAgencyDetail extends Model
 {
 
     protected $fillable = ['agency_id', 'trn_no', 'trn_date', 'particulars', 'debit', 'credit'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_tax_agency_detail";
 
     /**

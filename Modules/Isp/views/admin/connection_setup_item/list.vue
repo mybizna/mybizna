@@ -30,43 +30,37 @@ export default {
         {
           type: "text",
           name: "description",
-          prefix: '"',
-          suffix: '"',
+          ope: '',
           styleClasses: "flex col-lg-3 col-sm-12"
         },
         {
           type: "text",
           name: "user_id",
-          prefix: "",
-          suffix: "",
+          ope: '',
           styleClasses: "flex col-lg-3 col-sm-12"
         },
         {
           type: "text",
           name: "payment_id",
-          prefix: "",
-          suffix: "",
+          ope: '',
           styleClasses: "flex col-lg-3 col-sm-12"
         },
         {
           type: "text",
           name: "amount",
-          prefix: '"',
-          suffix: '"',
+          ope: '',
           styleClasses: "flex col-lg-3 col-sm-12"
         },
         {
           type: "text",
           name: "completed",
-          prefix: "",
-          suffix: "",
+          ope: '',
           styleClasses: "flex col-lg-3 col-sm-12"
         },
         {
           type: "text",
           name: "successful",
-          prefix: "",
-          suffix: "",
+          ope: '',
           styleClasses: "flex col-lg-3 col-sm-12"
         }
       ],

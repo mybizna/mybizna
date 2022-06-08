@@ -9,7 +9,7 @@ class Ledger extends Model
 {
 
     protected $fillable = ['chart_id', 'category_id', 'name', 'slug', 'code', 'unused', 'system'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_ledger";
 
     /**

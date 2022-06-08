@@ -12,7 +12,7 @@ class Detail extends Model
         'trn_no', 'product_id', 'qty', 'unit_price', 'discount', 'shipping',
         'tax', 'tax_cat_id', 'item_total', 'ecommerce_type'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "invoice_detail";
 
     /**

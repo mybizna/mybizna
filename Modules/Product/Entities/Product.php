@@ -9,7 +9,7 @@ class Product extends Model
 {
 
     protected $fillable = ['name', 'product_type_id', 'category_id', 'tax_cat_id', 'vendor', 'cost_price', 'sale_price'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "product";
 
     /**

@@ -9,7 +9,7 @@ class Tax extends Model
 {
 
     protected $fillable = ['tax_rate_name', 'tax_number', 'default'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_tax";
 
     /**

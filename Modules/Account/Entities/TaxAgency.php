@@ -9,7 +9,7 @@ class TaxAgency extends Model
 {
 
     protected $fillable = ['name', 'ecommerce_type'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_tax_agency";
 
     /**

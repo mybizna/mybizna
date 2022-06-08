@@ -12,7 +12,7 @@ class CustomerActivity extends Model
         'user_id', 'type', 'message', 'email_subject', 'log_type',
         'start_date', 'end_date', 'extra', 'sent_notification', 'done_at'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "crm_customer_activity";
 
     /**

@@ -9,7 +9,7 @@ class Department extends Model
 {
 
     protected $fillable = ['title', 'slug', 'description', 'lead', 'parent', 'status'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_department";
 
     /**

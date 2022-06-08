@@ -11,7 +11,7 @@ class Detail extends Model
     protected $fillable = [
         'trn_no', 'product_id', 'qty', 'price', 'amount', 'tax', 'tax_cat_id'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "sale_detail";
 
     /**

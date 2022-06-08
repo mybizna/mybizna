@@ -13,7 +13,7 @@ class Sale extends Model
         'due_date', 'amount', 'tax', 'tax_zone_id', 'ref', 'status', 'purchase_order',
         'attachments', 'particulars'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "sale";
 
     /**

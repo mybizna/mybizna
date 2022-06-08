@@ -4,12 +4,13 @@ namespace Modules\Isp\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class Connection extends Model
 {
 
     protected $fillable = ['package_id', 'partner_id', 'invoice_id', 'username', 'password', 'params', 'expiry_date', 'billing_date', 'is_paid', 'is_setup', 'status'];
-    protected $migrationOrder = 3;
+    public $migrationDependancy = ['isp_package', 'invoice', 'partner'];
     protected $table = "isp_connection";
 
     /**
@@ -21,11 +22,11 @@ class Connection extends Model
     public function migration(Blueprint $table)
     {
         $table->increments('id');
-        $table->foreign('package_id')->references('id')->on('isp_package')->nullOnDelete();
-        $table->foreign('invoice_id')->references('id')->on('invoice')->nullOnDelete();
-        $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
         $table->string('username');
         $table->string('password');
+        $table->integer('package_id')->unsigned()->nullable();
+        $table->integer('invoice_id')->unsigned()->nullable();
+        $table->integer('partner_id')->unsigned()->nullable();
         $table->string('params')->nullable();
         $table->dateTime('expiry_date')->nullable();
         $table->dateTime('billing_date')->nullable();
@@ -34,7 +35,21 @@ class Connection extends Model
         $table->enum('status', ['new', 'active', 'inactive', 'closed'])->default('new')->nullable();
     }
 
-/**
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('isp_package', 'package_id')) {
+            $table->foreign('package_id')->references('id')->on('isp_package')->nullOnDelete();
+        }
+        if (Migration::checkKeyExist('invoice', 'invoice_id')) {
+            $table->foreign('invoice_id')->references('id')->on('invoice')->nullOnDelete();
+        }
+        if (Migration::checkKeyExist('partner', 'partner_id')) {
+            $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
+        }
+    }
+
+    /**
     connections_setupitems_ids = fields.One2many('mybizna.isp.connections_setupitems', 'connection_id',
                                                  'Setup Items',
                                                  track_visibility='onchange')
@@ -42,5 +57,5 @@ class Connection extends Model
     connections_invoices_ids = fields.One2many('mybizna.isp.connections_invoices', 'connection_id',
                                                'Invoices',
                                                track_visibility='onchange')
-*/
+     */
 }

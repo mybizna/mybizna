@@ -9,7 +9,7 @@ class PayrollPayitem extends Model
 {
 
     protected $fillable = ['type', 'payitem', 'slug', 'pay_item_add_or_deduct'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_payroll_payitem";
 
     /**

@@ -9,7 +9,7 @@ class ContactGroup extends Model
 {
 
     protected $fillable = ['name', 'description', 'private'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "crm_contact_group";
 
     /**

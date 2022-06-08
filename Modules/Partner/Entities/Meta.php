@@ -9,7 +9,7 @@ class Meta extends Model
 {
 
     protected $fillable = ['people_id', 'meta_key', 'meta_value'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "partner_meta";
 
     /**

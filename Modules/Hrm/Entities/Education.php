@@ -12,7 +12,7 @@ class Education extends Model
         'employee_id', 'school', 'degree', 'field', 'result', 'result_type',
         'finished', 'notes', 'interest'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "hrm_education";
 
     /**

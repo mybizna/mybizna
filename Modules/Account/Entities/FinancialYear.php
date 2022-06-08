@@ -9,7 +9,7 @@ class FinancialYear extends Model
 {
 
     protected $fillable = ['name', 'start_date', 'end_date', 'description'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "account_financial_year";
 
     /**

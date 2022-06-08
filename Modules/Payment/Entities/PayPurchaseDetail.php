@@ -9,7 +9,7 @@ class PayPurchaseDetail extends Model
 {
 
     protected $fillable = ['voucher_no', 'purchase_no', 'amount', 'tax_cat_id'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "payment_pay_purchase_detail";
 
     /**

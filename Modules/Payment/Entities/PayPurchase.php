@@ -13,7 +13,7 @@ class PayPurchase extends Model
         'trn_by', 'transaction_charge', 'ref', 'trn_by_ledger_id',
         'particulars', 'attachments', 'status'
     ];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "payment_pay_purchase";
 
     /**

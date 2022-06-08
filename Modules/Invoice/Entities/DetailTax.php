@@ -9,7 +9,7 @@ class DetailTax extends Model
 {
 
     protected $fillable = ['invoice_details_id', 'agency_id', 'tax_rate', 'tax_amount'];
-    protected $migrationOrder = 10;
+    public $migrationDependancy = [];
     protected $table = "invoice_detail_tax";
 
     /**

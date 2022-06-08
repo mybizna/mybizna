@@ -9,7 +9,7 @@ class Fleet extends Model
 {
 
     protected $fillable = ['name'];
-    protected $migrationOrder = 1;
+    public $migrationDependancy = [];
     protected $table = "fleet";
 
     /**
