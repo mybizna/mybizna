@@ -4,12 +4,13 @@ namespace Modules\Account\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class CashAtBank extends Model
 {
 
     protected $fillable = ['ledger_id', 'name', 'balance'];
-    public $migrationDependancy = [];
+    public $migrationDependancy = ['account_ledger'];
     protected $table = "account_cash_at_bank";
 
     /**
@@ -24,5 +25,12 @@ class CashAtBank extends Model
         $table->integer('ledger_id')->nullable();
         $table->string('name')->nullable();
         $table->decimal('balance', 20, 2)->default(0.00);
+    }
+    
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('account_ledger', 'ledger_id')) {
+            $table->foreign('ledger_id')->references('id')->on('account_ledger')->nullOnDelete();
+        }
     }
 }
