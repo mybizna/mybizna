@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class Timezone extends Model
 {
@@ -28,7 +29,7 @@ class Timezone extends Model
      */
     protected $dates = ['created_by', 'updated_by', 'deleted_at'];
 
-    public $migrationDependancy = [];
+    public $migrationDependancy = ['base_country'];
 
     protected $fillable = [
         "name",
@@ -88,5 +89,12 @@ class Timezone extends Model
         $table->increments('id');
         $table->string('name', 255);
         $table->unsignedInteger('country_id')->nullable()->default(null);
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('base_country', 'country_id')) {
+            $table->foreign('country_id')->references('id')->on('base_country')->nullOnDelete();
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace Modules\Bill\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use App\Classes\Migration;
 
 class Bill extends Model
 {
@@ -12,7 +13,7 @@ class Bill extends Model
         'voucher_no', 'vendor_id', 'vendor_name', 'address', 'trn_date',
         'due_date', 'ref', 'amount', 'particulars', 'status', 'attachments'
     ];
-    public $migrationDependancy = [];
+    public $migrationDependancy = ['partner'];
     protected $table = "bill";
 
     /**
@@ -25,8 +26,8 @@ class Bill extends Model
     {
         $table->increments('id');
         $table->integer('voucher_no')->nullable();
-        $table->integer('vendor_id')->nullable();
-        $table->string('vendor_name')->nullable();
+        $table->integer('partner_id')->nullable();
+        $table->string('partner_name')->nullable();
         $table->string('address')->nullable();
         $table->date('trn_date')->nullable();
         $table->date('due_date')->nullable();
@@ -35,5 +36,12 @@ class Bill extends Model
         $table->string('particulars')->nullable();
         $table->integer('status')->nullable();
         $table->string('attachments')->nullable();
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('partner', 'partner_id')) {
+            $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
+        }
     }
 }

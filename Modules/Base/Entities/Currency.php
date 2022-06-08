@@ -7,6 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
+use App\Classes\Migration;
 
 class Currency extends Model
 {
@@ -27,7 +28,7 @@ class Currency extends Model
      * @var array
      */
     protected $dates = ['created_by', 'updated_by', 'deleted_at'];
-    public $migrationDependancy = [];
+    public $migrationDependancy = ['base_country'];
 
     protected $fillable = [
         "country_id",
@@ -109,5 +110,12 @@ class Currency extends Model
         $table->decimal('selling', 11, 2)->nullable()->default(null);
         $table->integer('published')->nullable()->default(0);
         $table->integer('is_fetched')->nullable()->default(0);
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('base_country', 'country_id')) {
+            $table->foreign('country_id')->references('id')->on('base_country')->nullOnDelete();
+        }
     }
 }

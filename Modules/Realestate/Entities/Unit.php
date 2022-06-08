@@ -37,7 +37,6 @@ class Unit extends Model
 
     public function post_migration(Blueprint $table)
     {
-        print_r( $table); exit;
         if (Migration::checkKeyExist('realestate_building', 'building_id')) {
             $table->foreign('building_id')->references('id')->on('realestate_building')->nullOnDelete();
         }
