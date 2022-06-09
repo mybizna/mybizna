@@ -2,55 +2,23 @@
     <div :class="classes">
         <div
             v-if="!is_recordpicker"
-            class="form-head mb-1 d-flex flex-wrap align-items-center"
+            class="form-head d-flex flex-wrap align-items-center"
         >
-            <h2 class="font-w600 mr-auto">{{ title }}</h2>
-            <b-button
+            <h3 class="mr-5 mb-0">{{ title }}</h3>
+            <a
                 v-if="!hideAddButton"
-                variant="success"
-                :href="addLink"
-                size="sm"
-                class="text-white"
+                @click="addLink()"
+                class="btn btn-sm btn-success text-white m-1"
             >
                 <i class="fa fa-plus"></i>
                 Add New
-            </b-button>
+            </a>
         </div>
 
         <div class="card">
-            <div class="card-header">
-                <div class="row table-search">
-                    <div class="col-sm-12">
-                        <vue-form-generator
-                            :schema="schema"
-                            :model="model"
-                            :options="formOptions"
-                        ></vue-form-generator>
-
-                        <div class="form-group table-search-button">
-                            <b-link
-                                color="info"
-                                @click="fetchRecords"
-                                size="sm"
-                            >
-                                <b-icon icon="times"></b-icon> Reset Form
-                            </b-link>
-                            <div class="field-wrap text-center">
-                                <b-button
-                                    variant="primary"
-                                    @click="fetchRecords"
-                                    size="sm"
-                                >
-                                    <b-icon icon="search"></b-icon> Search
-                                </b-button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive" v-bind:style="table_style">
-                    <table class="table">
+            <div class="card-body p-0">
+                <div class="table-responsive table-responsive-sm" v-bind:style="table_style">
+                    <table class="table table-sm table-striped  table-hover p-0">
                         <thead>
                             <tr>
                                 <th
@@ -572,7 +540,9 @@ export default {
         addLink: function () {
             var t = this;
 
-            var url_obj = t.$router.resolve({
+            a
+
+            var url_obj = window.$router.resolve({
                 name: t.processed_path_param.dotted + ".new",
             });
 

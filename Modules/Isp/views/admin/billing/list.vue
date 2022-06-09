@@ -1,5 +1,6 @@
 <template>
     <table-list
+        title="Isp Billing"
         :path_param="path_param"
         :search_fields="search_fields"
         :model="model"
