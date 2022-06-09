@@ -51,7 +51,7 @@ class Modularize
                 $query = $classname::select('*')
                     ->limit($params['limit']);
 
-                ($params['order'] == 'DESC') ? $query->orderByDesc($params['order']) : $query->orderBy($params['order']);
+                ($params['order'] == 'DESC') ? $query->orderByDesc($params['orderby']) : $query->orderBy($params['orderby']);
 
                 foreach ($params['s'] as $field => $s) {
                     if (is_array($s)) {

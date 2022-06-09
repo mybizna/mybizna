@@ -139,10 +139,6 @@ header ::v-deep {
     }
 }
 
-.v-main {
-    padding: 15px 10px !important;
-}
-
 .boxed-container {
     max-width: 1440px;
     margin-left: auto;

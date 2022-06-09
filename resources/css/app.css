@@ -1,3 +1,11 @@
+.v-main{
+    padding:0 !important;
+}
+
+.table th, .table td{
+    font-size: 14px !important;
+}
+
 #nprogress .bar {
     background: #FFBB00 !important;
     height: 3px;
