@@ -35,7 +35,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 import filters from "@/utils/filters";
 
-window.$filters = window.$func =  window.$helper = filters;
+window.$filters = window.$func = window.$helper = filters;
 
 import autorouter from "@/components/router/autorouter";
 import Calendar from "@/components/common/Calendar";
@@ -46,7 +46,13 @@ import "../css/app.css";
 const app = createApp(App)
     .use(vuetify)
     .use(VueSweetalert2)
-    .use(plugin, defaultConfig);
+    .use(plugin, defaultConfig({
+        config: {
+            classes: {
+                input: 'form-control form-control-sm'
+            }
+        }
+    }));
 
 loadFonts();
 
@@ -1555,7 +1561,7 @@ app.config.globalProperties.$mybizna_var = {
         "flex-height": true
     },
     "rest": {
-        "root": window.base_url+"/php/wordpressisp/wp-json/",
+        "root": window.base_url + "/php/wordpressisp/wp-json/",
         "nonce": "8c27af5d3c",
         "version": "erp/v1"
     }
@@ -1653,10 +1659,10 @@ window.axios.interceptors.request.use(function (config) {
                 /* other methods you want to add here */
             ) && !Cookies.get('XSRF-TOKEN')) {
 
-                 console.log("Cookies.get('XSRF-TOKEN')");
+            console.log("Cookies.get('XSRF-TOKEN')");
 
-                await window.axios.get(window.base_url + '/sanctum/csrf-cookie')
-                .then(function(response){
+            await window.axios.get(window.base_url + '/sanctum/csrf-cookie')
+                .then(function (response) {
                     console.log(response);
                 });
 
@@ -1697,9 +1703,7 @@ const store = createStore({
 });
 
 
-
-
-if(store.state.auth.token){
+if (store.state.auth.token) {
     window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.auth.token;
 }
 

@@ -350,6 +350,9 @@ export default {
                     t.getSelectList(t, select_name, search_field.source);
                 }
             });
+
+            window.$store.commit('system/has_search', { has_search: true });
+            window.$store.commit('system/search', { search: t.search_fields });
         },
         getSelectList(t, select_name, field_source) {
             var path_param_obj = window.$func.pathParamHelper(

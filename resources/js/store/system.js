@@ -4,9 +4,11 @@ export default {
         sidebar_show: false,
         layout: false,
         has_menu: false,
+        menu: [],
         active_menu: 'account',
         menu_length: 0,
-        menu: [],
+        has_search: false,
+        search: [],
     },
     mutations: {
         sidebar_show(state, payload) {
@@ -21,6 +23,12 @@ export default {
         },
         has_menu(state, payload) {
             state.has_menu = payload;
+        },
+        search(state, payload) {
+            state.search = payload;
+        },
+        has_search(state, payload) {
+            state.has_search = payload;
         },
         active_menu(state, payload) {
             state.active_menu = payload;
