@@ -18,7 +18,10 @@
                         >
                             <ul class="list-group list-group-flush">
                                 <li
-                                    v-for="(item, index) in $store.state.system.menu[$store.state.system.active_menu]['menus']"
+                                    v-for="(item, index) in $store.state.system
+                                        .menu[$store.state.system.active_menu][
+                                        'menus'
+                                    ]"
                                     :key="index"
                                     class="list-group-item text-black"
                                 >
@@ -50,7 +53,10 @@
                     <div id="navbarSupportedContent" class="d-none d-md-block">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li
-                                v-for="(item, index) in $store.state.system.menu[$store.state.system.active_menu]['menus']"
+                                v-for="(item, index) in $store.state.system
+                                    .menu[$store.state.system.active_menu][
+                                    'menus'
+                                ]"
                                 :key="index"
                                 class="nav-item dropdown"
                             >
@@ -95,7 +101,10 @@
                     </div>
                 </div>
                 <div class="col-6 col-md-4">
-                    <div class="d-none d-md-block mt-1 mx-1">
+                    <div
+                        v-if="$store.state.system.has_search"
+                        class="d-none d-md-block mt-1 mx-1"
+                    >
                         <div class="input-group input-group-sm">
                             <input
                                 type="text"
@@ -122,23 +131,18 @@
                                 <b>Search</b>
                                 <div class="row">
                                     <div
-                                        v-for="(item, index) in searchform"
+                                        v-for="(item, index) in $store.state.system.search"
                                         :key="index"
                                         class="col-sm-6 col-md-4 col-lg-2"
                                     >
-                                        <div class="form-group">
-                                            <b>
-                                                <small style="font-size: 12px">
-                                                    {{ item.label }}
-                                                </small>
-                                            </b>
-                                            <input
-                                                :id="item.name"
-                                                :placeholder="item.placeholder"
-                                                type="text"
-                                                class="form-control form-control-sm"
-                                            />
-                                        </div>
+                                        <FormKit
+                                            :label="item.label"
+                                            :id="item.name"
+                                            type="text"
+                                            help="Pick a new username"
+                                            validation="required"
+                                        />
+
                                     </div>
                                     <div class="col-sm-6 col-md-4 col-lg-2">
                                         <b> &nbsp; </b>
@@ -167,7 +171,10 @@
                             </small>
                         </a>
                     </div>
-                    <div class="d-block d-md-none mt-1 mx-1 text-right">
+                    <div
+                        v-if="$store.state.system.has_search"
+                        class="d-block d-md-none mt-1 mx-1 text-right"
+                    >
                         <button
                             class="btn btn-outline-primary"
                             type="button"
@@ -202,23 +209,18 @@
                                     </div>
                                 </div>
                                 <div
-                                    v-for="(item, index) in searchform"
+                                    v-for="(item, index) in $store.state.system.search"
                                     :key="index"
                                     class="col-sm-6 col-md-4 col-lg-2"
                                 >
-                                    <div class="form-group">
-                                        <b>
-                                            <small style="font-size: 12px">
-                                                {{ item.label }}
-                                            </small>
-                                        </b>
-                                        <input
-                                            :id="item.name"
-                                            :placeholder="item.placeholder"
-                                            type="text"
-                                            class="form-control form-control-sm"
-                                        />
-                                    </div>
+                                    <FormKit
+                                        :label="item.label"
+                                        :id="item.name"
+                                        type="text"
+                                        help="Pick a new username"
+                                        validation="required"
+                                    />
+
                                 </div>
                             </div>
                             <a>
@@ -244,7 +246,6 @@ export default {
         if (!store.state.system.has_menu) {
             store.dispatch("system/getMenu");
         }
-
     },
 
     data: () => ({
