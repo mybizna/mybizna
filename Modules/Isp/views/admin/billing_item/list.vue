@@ -1,10 +1,6 @@
 <template>
-    <table-list
-        :path_param="path_param"
-        :search_fields="search_fields"
-        :model="model"
-        :table_fields="table_fields"
-    ></table-list>
+    <table-list :path_param="path_param" :search_fields="search_fields" :model="model" :table_fields="table_fields">
+    </table-list>
 </template>
 
 <script>
@@ -14,7 +10,7 @@ export default {
             "components/common/TableList.vue"
         ),
     },
-    data() {
+    data () {
         return {
             path_param: ["isp", "billing_item"],
             model: {
@@ -30,38 +26,38 @@ export default {
                 {
                     type: "text",
                     name: "description",
+                    label: "Description",
                     ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
                 },
                 {
                     type: "text",
                     name: "user_id",
+                    label: "User Id",
                     ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
                 },
                 {
                     type: "text",
                     name: "payment_id",
+                    label: "Payment",
                     ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
                 },
                 {
                     type: "text",
                     name: "amount",
+                    label: "Amount",
                     ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
                 },
                 {
                     type: "text",
                     name: "completed",
+                    label: "Completed",
                     ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
                 },
                 {
                     type: "text",
                     name: "successful",
+                    label: "Successful",
                     ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
                 },
             ],
             table_fields: [

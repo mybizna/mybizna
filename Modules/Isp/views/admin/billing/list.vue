@@ -31,38 +31,26 @@ export default {
                 {
                     type: "text",
                     name: "description",
+                    label: "Description",
                     ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
                 },
                 {
                     type: "text",
                     name: "user_id",
+                    label: "User Id",
                     ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
-                },
-                {
-                    type: "text",
-                    name: "payment_id",
-                    ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
-                },
-                {
-                    type: "text",
-                    name: "amount",
-                    ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
                 },
                 {
                     type: "text",
                     name: "completed",
+                    label: "Completed",
                     ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
                 },
                 {
                     type: "text",
                     name: "successful",
+                    label: "Successful",
                     ope: "",
-                    styleClasses: "flex col-lg-3 col-sm-12",
                 },
             ],
             table_fields: [
