@@ -131,7 +131,8 @@
                                 <b>Search</b>
                                 <div class="row">
                                     <div
-                                        v-for="(item, index) in $store.state.system.search"
+                                        v-for="(item, index) in $store.state
+                                            .system.search"
                                         :key="index"
                                         class="col-sm-6 col-md-4 col-lg-2"
                                     >
@@ -142,7 +143,6 @@
                                             help="Pick a new username"
                                             validation="required"
                                         />
-
                                     </div>
                                     <div class="col-sm-6 col-md-4 col-lg-2">
                                         <b> &nbsp; </b>
@@ -209,7 +209,8 @@
                                     </div>
                                 </div>
                                 <div
-                                    v-for="(item, index) in $store.state.system.search"
+                                    v-for="(item, index) in $store.state.system
+                                        .search"
                                     :key="index"
                                     class="col-sm-6 col-md-4 col-lg-2"
                                 >
@@ -220,7 +221,6 @@
                                         help="Pick a new username"
                                         validation="required"
                                     />
-
                                 </div>
                             </div>
                             <a>
@@ -248,39 +248,7 @@ export default {
         }
     },
 
-    data: () => ({
-        searchform: [
-            {
-                name: "title",
-                label: "Title",
-                value: "Title",
-                placeholder: "Title",
-            },
-            {
-                name: "name",
-                label: "Name",
-                value: "Name",
-                placeholder: "Title",
-            },
-            {
-                name: "gender",
-                label: "Gender",
-                value: "Gender",
-                placeholder: "Title",
-            },
-            {
-                name: "country",
-                label: "Country",
-                value: "Country",
-                placeholder: "Title",
-            },
-        ],
-        fav: true,
-        menu: false,
-        message: false,
-        hints: true,
-        menulist: [],
-    }),
+    data: () => ({}),
 };
 </script>
 
