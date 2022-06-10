@@ -39,6 +39,7 @@ window.$filters = window.$func = window.$helper = filters;
 
 import autorouter from "@/components/router/autorouter";
 import Calendar from "@/components/common/Calendar";
+import FormBuilder from "@/components/common/FormBuilder";
 
 import App from '@/components/App';
 import "../css/app.css";
@@ -1765,6 +1766,7 @@ router.afterEach((to, from) => {
 
 
 app.component('calendar', Calendar);
+app.component('form-builder', FormBuilder);
 
 
 (async () => {
