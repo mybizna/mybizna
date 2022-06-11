@@ -1,15 +1,8 @@
 <template>
     <div :class="classes">
-        <div
-            v-if="!is_recordpicker"
-            class="form-head d-flex flex-wrap align-items-center"
-        >
+        <div v-if="!is_recordpicker" class="form-head d-flex flex-wrap align-items-center">
             <h3 class="mr-5 mb-0">{{ title }}</h3>
-            <a
-                v-if="!hideAddButton"
-                @click="addLink()"
-                class="btn btn-sm btn-success text-white m-1"
-            >
+            <a v-if="!hideAddButton" @click="addLink()" class="btn btn-sm btn-success text-white m-1">
                 <i class="fa fa-plus"></i>
                 Add New
             </a>
@@ -21,15 +14,10 @@
                     <table class="table table-sm table-striped  table-hover p-0">
                         <thead>
                             <tr>
-                                <th
-                                    scope="col"
-                                    v-for="(
+                                <th scope="col" v-for="(
                                         table_field, index
-                                    ) in table.headers"
-                                    :key="index"
-                                    :style="table_field.style"
-                                    :class="table_field.class"
-                                >
+                                    ) in table.headers" :key="index" :style="table_field.style"
+                                    :class="table_field.class">
                                     {{ table_field.label }}
                                 </th>
                             </tr>
@@ -37,33 +25,16 @@
                         <tbody>
                             <tr v-for="(item, index) in items" :key="index">
                                 <td v-if="!hide_action_button">
-                                    <menu-dropdown
-                                        v-if="!is_recordpicker"
-                                        :field_list="field_list"
-                                        :pitem="item"
-                                        :dropdown_menu_list="dropdown_menu_list"
-                                    ></menu-dropdown>
-                                    <a
-                                        v-else
-                                        class="btn btn-primary btn-sm text-white"
-                                        @click="recordPicker(item.id)"
-                                        >Select</a
-                                    >
+                                    <menu-dropdown v-if="!is_recordpicker" :field_list="field_list" :pitem="item"
+                                        :dropdown_menu_list="dropdown_menu_list"></menu-dropdown>
+                                    <a v-else class="btn btn-primary btn-sm text-white"
+                                        @click="recordPicker(item.id)">Select</a>
                                 </td>
-                                <th
-                                    v-if="hide_action_button"
-                                    scope="row"
-                                    class="col--check check-column"
-                                >
+                                <th v-if="hide_action_button" scope="row" class="col--check check-column">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input
-                                                :value="item.id"
-                                                v-model="checkedItems"
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                name="item[]"
-                                            />
+                                            <input :value="item.id" v-model="checkedItems" class="form-check-input"
+                                                type="checkbox" name="item[]" />
                                             <span class="form-check-sign">
                                                 <span class="check"></span>
                                             </span>
@@ -71,20 +42,13 @@
                                     </div>
                                 </th>
 
-                                <template
-                                    v-for="(table_field, index) in table_fields"
-                                >
+                                <template v-for="(table_field, index) in table_fields">
                                     <slot :name="key" :row="row">
                                         <template v-if="'actions' !== key">
-                                            <td-render
-                                                :key="index"
-                                                :field_list="field_list"
-                                                :pitem="item"
-                                                :data_field="table_field"
-                                                :class_name="
+                                            <td-render :key="index" :field_list="field_list" :pitem="item"
+                                                :data_field="table_field" :class_name="
                                                     getClassName(table_field)
-                                                "
-                                            ></td-render>
+                                                "></td-render>
                                         </template>
                                     </slot>
                                 </template>
@@ -108,11 +72,11 @@ export default {
         ),
     },
     props: {
-        classes: String,
-        title: String,
         model: Object,
         table_snippet: Object,
-        passed_return_url: String,
+        title: {  type: String, default: "Listing", },
+        classes: {  type: String, default: "", },
+        passed_return_url: { type: String, default: "", },
         dropdown_menu: { type: Array, default: () => [] },
         path_param: { type: Array, default: () => [] },
         search: { type: Array, default: () => [] },
@@ -120,7 +84,7 @@ export default {
         table_fields: { type: Array, default: () => [] },
         schema_fields: { type: Array, default: () => [] },
         loop_fields: { type: Array, default: () => [] },
-        recordPicker: { type: Object, default: () => {} },
+        recordPicker: { type: Object, default: () => { } },
         is_recordpicker: { type: Boolean, default: false },
         has_add_button: { type: Boolean, default: true },
         hide_toolbar: { type: Boolean, default: false },
@@ -129,7 +93,7 @@ export default {
         hide_search_form: { type: Boolean, default: false },
         hide_select_checkbox: { type: Boolean, default: false },
     },
-    created() {
+    created () {
         this.preparePathParam();
         this.processDropdownMenu();
         this.processFieldList();
@@ -149,7 +113,7 @@ export default {
             return true;
         },
     },
-    data() {
+    data () {
         return {
             expanded: {},
             table_style: { "padding-bottom": "0px" },
@@ -157,8 +121,8 @@ export default {
             show_delete_btn: false,
             show_advance_form: false,
             select_list: {},
-            checkedItems:[],
-            opeList:[],
+            checkedItems: [],
+            opeList: [],
             items: [],
             field_list: [],
             pages: 1,
@@ -188,16 +152,16 @@ export default {
         };
     },
     watch: {
-        pagination() {
+        pagination () {
             this.fetchRecords();
         },
         model: {
-            handler() {
+            handler () {
                 this.fetchRecords();
             },
             deep: true,
         },
-        show_advance_form() {
+        show_advance_form () {
             const t = this;
 
             if (t.show_advance_form) {
@@ -207,7 +171,7 @@ export default {
     },
 
     methods: {
-        getClassName(table_field) {
+        getClassName (table_field) {
             var full_class_name = "text-xs-left";
 
             if (Object.prototype.hasOwnProperty.call(table_field, "align")) {
@@ -215,15 +179,15 @@ export default {
             }
             return full_class_name;
         },
-        changeExpandStatus(id, expanded) {
+        changeExpandStatus (id, expanded) {
             this.$set(this.expanded, id, !expanded[id]);
         },
-        preparePathParam() {
+        preparePathParam () {
             this.processed_path_param = window.$func.pathParamHelper(
                 this.path_param
             );
         },
-        processDropdownMenu() {
+        processDropdownMenu () {
             const t = this;
 
             t.dropdown_menu.forEach(function (dropdown_menu_single) {
@@ -237,7 +201,7 @@ export default {
                 param: ["pk"],
             });
         },
-        processFieldList() {
+        processFieldList () {
             var t = this;
 
             t.schema_fields.forEach(function (schema_field) {
@@ -262,7 +226,7 @@ export default {
                 }
             });
         },
-        processSingleField(schema_field, process_str) {
+        processSingleField (schema_field, process_str) {
             var t = this;
 
             if (schema_field.indexOf("{") > 0) {
@@ -309,7 +273,7 @@ export default {
                 }
             }
         },
-        processCommaField(schema_field, process_str) {
+        processCommaField (schema_field, process_str) {
             var t = this;
 
             var field_group = schema_field.split(",");
@@ -322,7 +286,7 @@ export default {
                 }
             });
         },
-        presetSearchForm() {
+        presetSearchForm () {
             var t = this;
 
             t.search_fields.forEach(function (search_field) {
@@ -354,7 +318,7 @@ export default {
             window.$store.commit('system/has_search', true);
             window.$store.commit('system/search', t.search_fields);
         },
-        getSelectList(t, select_name, field_source) {
+        getSelectList (t, select_name, field_source) {
             var path_param_obj = window.$func.pathParamHelper(
                 field_source.path_param
             );
@@ -366,7 +330,7 @@ export default {
                 field_source.fields
             );
         },
-        presetTableStructure() {
+        presetTableStructure () {
             var t = this;
 
             if (window.is_backend) {
@@ -406,7 +370,7 @@ export default {
                 });
             });
         },
-        fetchRecords() {
+        fetchRecords () {
             var t = this;
             var query_params = t.$route.query;
 
@@ -424,7 +388,7 @@ export default {
             );
         },
 
-        deleteRecord() {
+        deleteRecord () {
             window.$func.deleteRecordHelper(
                 this,
                 this.processed_path_param,
@@ -434,11 +398,11 @@ export default {
             this.fetchRecords();
         },
 
-        updatePagination(pagination) {
+        updatePagination (pagination) {
             this.fetchRecords();
         },
 
-        postProcessing(t, field_list) {
+        postProcessing (t, field_list) {
             var curr_this = this;
             var offset = new Date().getTimezoneOffset();
 
@@ -468,7 +432,7 @@ export default {
                 });
             });
         },
-        getValueByPerPath(t, field_path, item_index) {
+        getValueByPerPath (t, field_path, item_index) {
             var item_value = "";
 
             if (field_path.length == 1) {
@@ -494,7 +458,7 @@ export default {
 
             return item_value;
         },
-        setValueByPerPath(t, field_path, item_index, tmp_value) {
+        setValueByPerPath (t, field_path, item_index, tmp_value) {
             var tmp_obj = t.items[item_index];
 
             if (field_path.length == 1) {
@@ -519,6 +483,17 @@ export default {
 
             t.$set(t.items, item_index, tmp_obj);
         },
+
+        // a computed getter
+        addLink: function () {
+            var t = this;
+
+            window.$router.push({
+                name: t.processed_path_param.dotted + ".edit",
+            });
+
+        },
+
     },
     computed: {
         returnUrl: function () {
@@ -539,18 +514,7 @@ export default {
 
             return false;
         },
-        // a computed getter
-        addLink: function () {
-            var t = this;
 
-            a
-
-            var url_obj = window.$router.resolve({
-                name: t.processed_path_param.dotted + ".new",
-            });
-
-            return url_obj.href;
-        },
     },
 };
 </script>

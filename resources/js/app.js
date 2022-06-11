@@ -50,10 +50,10 @@ const app = createApp(App)
     .use(plugin, defaultConfig({
         config: {
             classes: {
-                input: 'form-control form-control-sm',
-                outer: "form-group",
+                input: 'form-control form-control-sm bg-light border-none border-bottom',
+                outer: "form-group  mb-1",
                 help: 'text-secondary fs-6 w-lighter',
-                label: 'fw-bold',
+                label: 'fs-14 fw-400',
                 message: 'text-danger fs-6 w-lighter',
             }
         }

@@ -1,61 +1,46 @@
 <template>
-    <div :class="classes">
-        <div class="form-head mb-1 d-flex flex-wrap align-items-center">
-            <h2 class="font-w600 mr-auto">{{ title }}</h2>
+    <div :class="'table-edit ' + classes">
+        <div class="table-edit-wrapper border shadow bg-white mx-auto p-3">
 
-            <b-button
-                v-if="has_save"
-                variant="success"
-                size="sm"
-                @click="saveRecord"
-                class="text-white mr-1"
-            >
-                <i class="fa fa-save"></i> Save
-            </b-button>
+            <div class="form-head mb-1 d-flex flex-wrap align-items-center pb-3">
 
-            <b-button
-                v-if="has_cancel"
-                variant="danger"
-                size="sm"
-                :to="cancelUrl"
-            >
-                <i class="fa fa-times"></i> Cancel
-            </b-button>
+                <h3 class="mr-5 mb-0">{{ title }}</h3>
+
+                <a v-if="has_save" class="btn btn-success btn-sm text-white mr-1" @click="saveRecord()">
+                    <i class="fa fa-save"></i> Save
+                </a>
+
+                <a v-if="has_cancel" class="btn btn-danger btn-sm" @click="cancelUrl()">
+                    <i class="fa fa-times"></i> Cancel
+                </a>
+
+            </div>
+
+            <slot>
+                <h2>Error!</h2>
+                <p>Editing Field Not set!</p>
+            </slot>
+
         </div>
 
-        <b-card>
-            <form>
-                <vue-form-generator
-                    :schema="schema"
-                    :model="model"
-                    :options="formOptions"
-                    class="row table-edit"
-                ></vue-form-generator>
 
-                <div class="text-center"></div>
-            </form>
-        </b-card>
+
+
     </div>
 </template>
 
 <script>
 /*eslint no-undef: 2*/
 /* eslint-disable vue/no-unused-components */
-import { formInputProcessorHelper } from "@/components/helpers";
-import { fetchOptionsHelper } from "@/components/helpers";
-import { fetchRecordHelper } from "@/components/helpers";
-import { saveRecordHelper } from "@/components/helpers";
-import { pathParamHelper } from "@/components/helpers";
+
+
 
 export default {
     props: {
-        title: String,
         model: Object,
-        passed_return_url: String,
-        main_column_css: {
-            type: String,
-            default: "flex col-md-6  main-group",
-        },
+        title: { type: String, default: "Editing", },
+        passed_return_url: { type: String, default: "", },
+        main_column_css: { type: String, default: "", },
         no_redirect: { type: Boolean, default: false },
         has_modified: { type: Boolean, default: true },
         has_save: { type: Boolean, default: true },
@@ -65,7 +50,7 @@ export default {
         form_groups: { type: Array, default: () => [] },
         schema_fields: { type: Array, default: () => [] },
     },
-    created() {
+    created () {
         this.preparePathParam();
         this.addGeneralFields();
         this.processFormFields();
@@ -80,9 +65,9 @@ export default {
             this.fetchRecord(this.id);
         }
 
-        window.$store.commit("system/has_search", { has_search: true });
+        window.$store.commit("system/has_search", true);
     },
-    data() {
+    data () {
         return {
             id: null,
             group_list: [],
@@ -99,10 +84,10 @@ export default {
         };
     },
     methods: {
-        preparePathParam() {
-            this.processed_path_param = pathParamHelper(this.path_param);
+        preparePathParam () {
+            this.processed_path_param = window.$func.pathParamHelper(this.path_param);
         },
-        addGeneralFields() {
+        addGeneralFields () {
             var t = this;
 
             if (t.has_modified && t.id) {
@@ -162,7 +147,7 @@ export default {
                 );
             }
         },
-        processFormFields() {
+        processFormFields () {
             var t = this;
             var groups = [];
 
@@ -185,7 +170,7 @@ export default {
                     : "main";
 
                 groups[group_name].fields.push(
-                    formInputProcessorHelper(form_field, t)
+                    window.$func.formInputProcessorHelper(form_field, t)
                 );
 
                 if (form_field.type === "selectrecord") {
@@ -202,22 +187,22 @@ export default {
                 t.schema.groups.push(tmp_group);
             });
         },
-        getSelectList(t, select_name, field_source) {
-            var path_param_obj = pathParamHelper(field_source.path_param);
+        getSelectList (t, select_name, field_source) {
+            var path_param_obj = window.$func.pathParamHelper(field_source.path_param);
 
-            fetchOptionsHelper(
+            window.$func.fetchOptionsHelper(
                 t,
                 select_name,
                 path_param_obj,
                 field_source.fields
             );
         },
-        beforeFormFields(groups) {
+        beforeFormFields (groups) {
             var t = this;
             //To be developed if needed
             return groups;
         },
-        mainFormFields(groups) {
+        mainFormFields (groups) {
             var t = this;
 
             groups["main"] = {
@@ -230,7 +215,7 @@ export default {
 
             return groups;
         },
-        afterFormFields(groups) {
+        afterFormFields (groups) {
             var t = this;
 
             if (t.has_modified && t.id) {
@@ -244,34 +229,30 @@ export default {
             }
             return groups;
         },
-        fetchRecord(id) {
-            fetchRecordHelper(
+        fetchRecord (id) {
+            window.$func.fetchRecordHelper(
                 this,
                 this.processed_path_param,
                 this.schema_fields
             );
         },
 
-        saveRecord() {
-            saveRecordHelper(
+        saveRecord () {
+            window.$func.saveRecordHelper(
                 this,
                 this.processed_path_param,
                 this.form_fields,
                 this.returnUrl
             );
         },
-    },
-    computed: {
         cancelUrl: function () {
             var t = this;
-            var side_selector = "/";
 
-            if (!window.is_frontend) {
-                side_selector = side_selector + "manage/";
-            }
-
-            return side_selector + t.path_param[0] + "/" + t.path_param[1];
+            window.$router.push({ name: t.path_param[0] + ".admin." + t.path_param[1] })
         },
+    },
+    computed: {
+
         returnUrl: function () {
             var t = this;
 
@@ -302,3 +283,18 @@ export default {
     },
 };
 </script>
+
+<style>
+.table-edit .table-edit-wrapper {
+    width: 90%;
+    margin-top: 15px;
+}
+
+@media screen and (max-width: 481px) {
+    .table-edit .table-edit-wrapper {
+        width: 98%;
+        margin-top: 5px;
+
+    }
+}
+</style>
