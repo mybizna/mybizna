@@ -7,7 +7,7 @@
         "prod": "npm run production",
         "production": "mix --production",
         "watch": "mix watch",
-        "build": "vue-cli-service build",
+        "build": "vue-cli-service build && npx tailwindcss -i ./resources/css/tw-input.css -o ./public/live/css/output.css",
         "watch-poll": "mix watch -- --watch-options-poll=1000"
     },
     "dependencies": {
@@ -57,6 +57,7 @@
         "sass": "^1.38.0",
         "sass-loader": "^10.0.0",
         "style-loader": "^3.3.1",
+        "tailwindcss": "^3.1.2",
         "terser-webpack-plugin": "^5.3.1",
         "vue-cli-plugin-vuetify": "~2.4.8",
         "vue-template-compiler": "^2.6.14",
