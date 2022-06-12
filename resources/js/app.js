@@ -50,7 +50,8 @@ const app = createApp(App)
     .use(plugin, defaultConfig({
         config: {
             classes: {
-                input: 'form-control form-control-sm bg-light border-none border-bottom',
+                //input: 'form-control form-control-sm bg-light border-none border-bottom',
+                input: 'focus:outline-none focus:ring-2 focus:ring-indigo-400 w-64 bg-blue-50 text-sm font-medium leading-none text-gray-800 p-3 border rounded border-gray-200',
                 outer: "form-group  mb-1",
                 help: 'text-secondary fs-6 w-lighter',
                 label: 'fs-14 fw-400',
