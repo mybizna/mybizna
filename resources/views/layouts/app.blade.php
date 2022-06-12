@@ -19,8 +19,10 @@
 
     </script>
 
-    <script defer="defer" src="/live/js/app.js?{{ rand(10000,50000) }}"></script>
-    <link href="/live/css/app.css?{{ rand(10000,50000) }}" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer="defer" src="/live/js/app.js?{{ rand(10000,50000) }}"></script>
+<link href="/live/css/app.css?{{ rand(10000,50000) }}" rel="stylesheet">
+<link href="/live/css/output.css?{{ rand(10000,50000) }}" rel="stylesheet">
 
     <!--
     <script src="{{ asset('js/app.js') }}" defer></script>
