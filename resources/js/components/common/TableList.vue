@@ -13,8 +13,8 @@
                 <div class="table-responsive table-responsive-sm" v-bind:style="table_style">
                     <table class="table table-sm table-striped  table-hover p-0">
                         <thead>
-                            <tr>
-                                <th scope="col" v-for="(
+                            <tr class="bg-slate-100 px-7">
+                                <th class="uppercase" scope="col" v-for="(
                                         table_field, index
                                     ) in table.headers" :key="index" :style="table_field.style"
                                     :class="table_field.class">
