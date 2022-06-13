@@ -21,9 +21,16 @@
 
     <script defer="defer" src="/live/js/app.js?{{ rand(10000,50000) }}"></script>
     <link href="/live/css/app.css?{{ rand(10000,50000) }}" rel="stylesheet">
-    <link href="https://mybizna.github.io/bootstrapwind/dist/output.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            important: true,
+        }
+    </script>
 
     <!--
+        <link href="https://mybizna.github.io/bootstrapwind/dist/output.min.css" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/webfontloader.js') }}" defer></script>
     <script src="{{ asset('js/backend-dashboard.js') }}" defer></script>

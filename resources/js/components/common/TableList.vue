@@ -1,17 +1,20 @@
 <template>
     <div :class="classes">
-        <div v-if="!is_recordpicker" class="form-head d-flex flex-wrap align-items-center">
-            <h3 class="mr-5 mb-0">{{ title }}</h3>
-            <a v-if="!hideAddButton" @click="addLink()" class="btn btn-sm btn-success text-white m-1">
-                <i class="fa fa-plus"></i>
-                Add New
-            </a>
-        </div>
 
-        <div class="card">
+
+        <div class="card shadow-md m-1 mt-3">
+            <div class="card-head">
+                <div v-if="!is_recordpicker" class="form-head d-flex flex-wrap align-items-center">
+                    <h3 class="font-medium text-lg text-gray ml-2 mr-5 mb-0">{{ title }}</h3>
+                    <a v-if="!hideAddButton" @click="addLink()" class="btn btn-sm btn-success text-white m-1">
+                        <i class="fa fa-plus"></i>
+                        Add New
+                    </a>
+                </div>
+            </div>
             <div class="card-body p-0">
                 <div class="table-responsive table-responsive-sm" v-bind:style="table_style">
-                    <table class="table table-sm table-striped  table-hover p-0">
+                    <table class="table m-0 p-0">
                         <thead>
                             <tr class="bg-slate-100 px-7">
                                 <th class="uppercase" scope="col" v-for="(
@@ -22,8 +25,9 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in items" :key="index">
+                        <tbody class="border-none">
+                            <tr v-if="items.length" v-for="(item, index) in items" :key="index"
+                                class="border-b-sky-200 hover:bg-slate-50">
                                 <td v-if="!hide_action_button">
                                     <menu-dropdown v-if="!is_recordpicker" :field_list="field_list" :pitem="item"
                                         :dropdown_menu_list="dropdown_menu_list"></menu-dropdown>
@@ -53,8 +57,120 @@
                                     </slot>
                                 </template>
                             </tr>
+                            <tr class="border-b-sky-200" v-else>
+                                <td class="text-center" colspan="20" class="hover:bg-slate-50">
+                                    <img class="inline-block w-36 m-6" src="images/no_data_found.svg">
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="card-foot">
+                <div class="bg-white px-4 py-3 flex items-center justify-between sm:px-6">
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        <a href="#"
+                            class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            Previous </a>
+                        <div class="relative inline-flex">
+                            <select class="form-select form-select-sm
+                                    appearance-none
+                                    inline-block
+                                    w-16
+                                    px-2
+                                    py-1
+                                    text-sm
+                                    font-normal
+                                    text-gray-700
+                                    bg-white bg-clip-padding bg-no-repeat
+                                    border border-solid border-gray-300
+                                    rounded
+                                    transition
+                                    ease-in-out
+                                    m-0
+                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                aria-label=".form-select-sm example">
+                                <option selected value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                            </select>
+                        </div>
+                        <a href="#"
+                            class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            Next </a>
+                    </div>
+                    <div class="w-full row">
+                        <div class="col-sm-4">
+                            <select class="form-select form-select-sm
+                                    appearance-none
+                                    inline-block
+                                    w-16
+                                    px-2
+                                    py-1
+                                    text-sm
+                                    font-normal
+                                    text-gray-700
+                                    bg-white bg-clip-padding bg-no-repeat
+                                    border border-solid border-gray-300
+                                    rounded
+                                    transition
+                                    ease-in-out
+                                    m-0
+                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                aria-label=".form-select-sm example">
+                                <option selected value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4 text-center pt-3">
+
+                            <p class="text-center text-sm text-gray-700">
+                                Showing
+                                <span class="font-medium">1</span>
+                                to
+                                <span class="font-medium">10</span>
+                                of
+                                <span class="font-medium">97</span>
+                                results
+                            </p>
+                        </div>
+                        <div class="col-sm-4">
+                            <nav class="text-right" aria-label="Pagination">
+                                <a href="#"
+                                    class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
+                                    <i class="fa-solid fa-caret-left"></i>
+                                </a>
+                                <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
+                                <a href="#" aria-current="page"
+                                    class="inline-block bg-indigo-200 border-indigo-500 text-indigo-800 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
+                                    1 </a>
+                                <a href="#"
+                                    class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
+                                    2 </a>
+
+                                <span
+                                    class="inline-block  text-gray-600  leading-9 text-sm font-medium m-1 text-center">
+                                    ... </span>
+                                <a href="#"
+                                    class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
+                                    4 </a>
+                                <a href="#"
+                                    class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
+                                    5 </a>
+                                <a href="#"
+                                    class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
+                                    <i class="fa-solid fa-caret-right"></i>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,8 +190,8 @@ export default {
     props: {
         model: Object,
         table_snippet: Object,
-        title: {  type: String, default: "Listing", },
-        classes: {  type: String, default: "", },
+        title: { type: String, default: "Listing", },
+        classes: { type: String, default: "", },
         passed_return_url: { type: String, default: "", },
         dropdown_menu: { type: Array, default: () => [] },
         path_param: { type: Array, default: () => [] },
