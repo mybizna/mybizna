@@ -9,7 +9,7 @@ module.exports = defineConfig({
     outputDir: __dirname + '/public/live',
     publicPath: "/live/",
     css: {
-        extract: false,
+        extract: true,
     },
     configureWebpack: {
 

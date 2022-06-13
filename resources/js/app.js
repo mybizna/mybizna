@@ -52,9 +52,10 @@ const app = createApp(App)
             classes: {
                 input: 'form-control form-control-sm bg-light border-none border-bottom',
                 outer: "form-group  mb-1",
-                help: 'text-secondary fs-6 w-lighter',
-                label: 'fs-14 fw-400',
-                message: 'text-danger fs-6 w-lighter',
+                help: 'text-gray-600 text-xs italic',
+                label: ' text-gray-700 text-sm font-bold',
+                messages: 'list-none p-0 mt-0 mb-0',
+                message: 'text-red-500 text-xs italic fs-10 w-lighter',
             }
         }
     }));
