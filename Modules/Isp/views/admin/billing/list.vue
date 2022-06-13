@@ -52,6 +52,12 @@ export default {
                     label: "Successful",
                     ope: "",
                 },
+                 {
+                    type: "text",
+                    name: "limit",
+                    label: "limit",
+                    ope: "",
+                },
             ],
             table_fields: [
                 {
