@@ -11,7 +11,6 @@ import {
     createStore
 } from 'vuex';
 
-import VueFormGenerator from "vue-form-generator";
 
 import Cookies from "js-cookie";
 import createPersistedState from "vuex-persistedstate";
@@ -21,13 +20,11 @@ import Axios from 'axios';
 import VueSweetalert2 from 'vue-sweetalert2';
 import {
     plugin,
-    defaultConfig
+    defaultConfig,
 } from '@formkit/vue';
 
 //import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/js/bootstrap.bundle.js';
-
-import 'vue-form-generator/dist/vfg.css';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import "nprogress/nprogress.css";
@@ -39,26 +36,17 @@ window.$filters = window.$func = window.$helper = filters;
 
 import autorouter from "@/components/router/autorouter";
 import Calendar from "@/components/common/Calendar";
-import FormBuilder from "@/components/common/FormBuilder";
 
 import App from '@/components/App';
 import "../css/app.css";
 
+
+import config from "@/formkit/config";
+
 const app = createApp(App)
     .use(vuetify)
     .use(VueSweetalert2)
-    .use(plugin, defaultConfig({
-        config: {
-            classes: {
-                input: 'form-input rounded border py-2 px-3 focus:border-sky-500 hover:border-sky-500 text-grey-800 h-8 w-full',
-                outer: "form-group  mb-1",
-                help: 'text-gray-600 text-xs italic',
-                label: ' text-gray-700 text-sm font-bold',
-                messages: 'list-none p-0 mt-0 mb-0',
-                message: 'text-red-500 text-xs italic fs-10 w-lighter',
-            }
-        }
-    }));
+    .use(plugin, defaultConfig(config));
 
 loadFonts();
 
@@ -1771,7 +1759,6 @@ router.afterEach((to, from) => {
 
 
 app.component('calendar', Calendar);
-app.component('form-builder', FormBuilder);
 
 
 (async () => {
@@ -1787,7 +1774,6 @@ app.component('form-builder', FormBuilder);
     //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Mount App  xxxxxxxxxxxxxxxxxxxxxxxxxxxx
     //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    app.use(VueFormGenerator);
     app.mount('#app');
 
 })();
