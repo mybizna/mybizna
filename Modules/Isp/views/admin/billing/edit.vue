@@ -24,9 +24,19 @@
 
         <div class="row">
             <div class="col-md-6">
-
+                <FormKit label="Payment" id="payment_id" type="checkbox" validation="required" :options="[
+                    'Monaco',
+                    'Vatican City',
+                    'Maldives',
+                    'Tuvalu',
+                ]" placeholder="Select a planet" />
+                <FormKit label="Payment" id="payment_id" type="radio" validation="required" :options="[
+                    'Monaco',
+                    'Vatican City',
+                    'Maldives',
+                    'Tuvalu',
+                ]" placeholder="Select a planet" />
                 <FormKit label="Dropzone" id="user_id" type="dropzone" validation="required" />
-                <FormKit label="Editor" id="user_id" type="editor" validation="required" />
                 <FormKit label="Face" id="user_id" type="face" validation="required" />
                 <FormKit label="File" id="user_id" type="file" validation="required" />
                 <FormKit label="Media" id="user_id" type="media" validation="required" />
@@ -34,6 +44,7 @@
                 <FormKit label="RecordAutoComplete" id="user_id" type="recordautocomplete" validation="required" />
                 <FormKit label="RecordPicker" id="user_id" type="recordpicker" validation="required" />
                 <FormKit label="RecordSelect" id="user_id" type="recordselect" validation="required" />
+                <FormKit label="Editor" id="user_id" type="editor" validation="required" />
 
 
             </div>
