@@ -19,8 +19,9 @@
                             <i class="fa-solid fa-circle-xmark"></i>
                         </button>
                     </div>
+
                     <div class="modal-body">
-                        <component :is="currentComp"></component>
+                        <component :is="currentComp" :is_recordpicker="is_recordpicker"></component>
                     </div>
                 </div>
             </div>
@@ -44,21 +45,23 @@ export default {
     data () {
         return {
             currentComp: Loading,
+            is_recordpicker: true
         }
     },
 
     methods: {
         async loadcomponent () {
-            console.log('start');
-            console.log(Loading);
+            console.log(this.context.attrs.comp_url);
+            this.currentComp = await fetchComponent(
+                this.context.attrs.comp_url
+            )
+        },
+        recordPicker (id) {
 
-          /*  this.currentComp = await fetchComponent(
-                "isp/admin/billing/list.vue"
-            );*/
-
-            console.log('end');
+            alert(id+'ddddddddds');
         }
     }
+
 };
 </script>
 

@@ -27,12 +27,12 @@
 
         <div class="row">
             <div class="col-md-6">
-                <FormKit label="RecordPicker" id="user_id" type="recordpicker" validation="required" />
+                <FormKit label="RecordPicker" id="user_id" type="recordpicker" comp_url="isp/admin/billing/list.vue"  validation="required" />
                 <FormKit label="RecordSelect" id="user_id" type="recordselect" validation="required" />
             </div>
             <!--
              <div class="col-md-6">
-                 
+
                  <FormKit label="Face" id="user_id" type="face" validation="required" />
                  <FormKit label="OneTimePassword" id="user_id" type="otp" digits="4" validation="required" />
                  <FormKit label="Dropzone" id="user_id" type="dropzone" validation="required" />
