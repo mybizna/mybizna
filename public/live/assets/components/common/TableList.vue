@@ -60,7 +60,7 @@
                                 </template>
                             </tr>
                             <tr class="border-b-sky-200" v-else>
-                                <td class="text-center" colspan="20" class="hover:bg-slate-50">
+                                <td colspan="20" class="text-center hover:bg-slate-50">
                                     <img class="inline-block w-36 m-6" src="images/no_data_found.svg">
                                 </td>
                             </tr>

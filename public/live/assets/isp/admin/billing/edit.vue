@@ -27,21 +27,20 @@
 
         <div class="row">
             <div class="col-md-6">
-                <FormKit label="Face" id="user_id" type="face" validation="required" />
-                <FormKit label="RecordAutoComplete" id="user_id" type="recordautocomplete" validation="required" />
                 <FormKit label="RecordPicker" id="user_id" type="recordpicker" validation="required" />
                 <FormKit label="RecordSelect" id="user_id" type="recordselect" validation="required" />
-
-                 <FormKit label="OneTimePassword" id="user_id" type="otp" digits="4" validation="required" />
-
             </div>
+            <!--
              <div class="col-md-6">
-
+                 
+                 <FormKit label="Face" id="user_id" type="face" validation="required" />
+                 <FormKit label="OneTimePassword" id="user_id" type="otp" digits="4" validation="required" />
                  <FormKit label="Dropzone" id="user_id" type="dropzone" validation="required" />
                  <FormKit label="Media" id="user_id" type="media" validation="required" />
                  <FormKit label="Editor" id="user_id" type="editor" validation="required" />
 
             </div>
+            -->
         </div>
 
 
