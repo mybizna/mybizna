@@ -2,7 +2,7 @@
     <div :class="classes">
 
 
-        <div class="card shadow-md m-1 mt-3">
+        <div :class="'card ' + getCardClassName()">
             <div class="card-head">
                 <div v-if="!is_recordpicker" class="form-head d-flex flex-wrap align-items-center py-2">
                     <h3 class="font-medium text-lg text-gray ml-2 mr-5 mb-0">{{ title }}</h3>
@@ -15,6 +15,9 @@
                 </div>
             </div>
             <div class="card-body p-0">
+                <div v-if="!is_recordpicker">
+                    <search-form></search-form>
+                </div>
                 <div class="table-responsive table-responsive-sm" v-bind:style="table_style">
                     <table class="table m-0 p-0">
                         <thead>
@@ -28,37 +31,39 @@
                             </tr>
                         </thead>
                         <tbody class="border-none">
-                            <tr v-if="items.length" v-for="(item, index) in items" :key="index"
-                                class="border-b-sky-200 hover:bg-slate-50">
-                                <td v-if="!hide_action_button">
-                                    <menu-dropdown v-if="!is_recordpicker" :field_list="field_list" :pitem="item"
-                                        :dropdown_menu_list="dropdown_menu_list"></menu-dropdown>
-                                    <a v-else class="btn btn-primary btn-sm text-white"
-                                        @click="recordPicker(item.id)">Select</a>
-                                </td>
-                                <th v-if="hide_action_button" scope="row" class="col--check check-column">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input :value="item.id" v-model="checkedItems" class="form-check-input"
-                                                type="checkbox" name="item[]" />
-                                            <span class="form-check-sign">
-                                                <span class="check"></span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </th>
+                            <template v-if="items.length">
+                                <tr v-for="(item, index) in items" :key="index"
+                                    class="border-b-sky-200 hover:bg-slate-50">
+                                    <td v-if="!hide_action_button">
+                                        <menu-dropdown v-if="!is_recordpicker" :field_list="field_list" :pitem="item"
+                                            :dropdown_menu_list="dropdown_menu_list"></menu-dropdown>
+                                        <a v-else class="btn btn-primary btn-sm text-white"
+                                            @click="recordPicker(item.id)">Select</a>
+                                    </td>
+                                    <th v-if="hide_action_button" scope="row" class="col--check check-column">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input :value="item.id" v-model="checkedItems" class="form-check-input"
+                                                    type="checkbox" name="item[]" />
+                                                <span class="form-check-sign">
+                                                    <span class="check"></span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </th>
 
-                                <template v-for="(table_field, index) in table_fields">
-                                    <slot :name="key" :row="row">
-                                        <template v-if="'actions' !== key">
-                                            <td-render :key="index" :field_list="field_list" :pitem="item"
-                                                :data_field="table_field" :class_name="
-                                                    getClassName(table_field)
-                                                "></td-render>
-                                        </template>
-                                    </slot>
-                                </template>
-                            </tr>
+                                    <template v-for="(table_field, index) in table_fields">
+                                        <slot :name="key" :row="row">
+                                            <template v-if="'actions' !== key">
+                                                <td-render :key="index" :field_list="field_list" :pitem="item"
+                                                    :data_field="table_field" :class_name="
+                                                        getClassName(table_field)
+                                                    "></td-render>
+                                            </template>
+                                        </slot>
+                                    </template>
+                                </tr>
+                            </template>
                             <tr class="border-b-sky-200" v-else>
                                 <td colspan="20" class="text-center hover:bg-slate-50">
                                     <img class="inline-block w-36 m-6" src="images/no_data_found.svg">
@@ -152,6 +157,9 @@ export default {
         ),
         MenuDropdown: window.$func.fetchComponent(
             "components/common/widgets/list/MenuDropdown.vue"
+        ),
+        SearchForm: window.$func.fetchComponent(
+            "components/common/SearchForm.vue"
         ),
     },
     props: {
@@ -254,6 +262,12 @@ export default {
     },
 
     methods: {
+
+        getCardClassName (prefix = '') {
+
+            return (!this.is_recordpicker) ? prefix + ' shadow-md m-1 mt-3' : ' border-0';
+
+        },
         getClassName (table_field) {
             var full_class_name = "text-xs-left";
 

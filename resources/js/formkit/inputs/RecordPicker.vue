@@ -20,7 +20,7 @@
                         </button>
                     </div>
 
-                    <div class="modal-body">
+                    <div class="modal-body p-0">
                         <component :is="currentComp" :is_recordpicker="is_recordpicker"></component>
                     </div>
                 </div>
