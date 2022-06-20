@@ -1,41 +1,102 @@
-.fs-8{font-size:8px}
-.fs-12{font-size:12px}
-.fs-14{font-size:14px}
-.fs-16{font-size:16px}
-.fs-18{font-size:18px}
-.fs-20{font-size:20px}
-.fs-24{font-size:24px}
-.fs-36{font-size:36px}
-.fs-42{font-size:42px}
-.fs-48{font-size:48px}
-.fs-60{font-size:60px}
-.fs-72{font-size:72px}
-
-.fw-100{font-weight:100px}
-.fw-200{font-weight:200px}
-.fw-300{font-weight:300px}
-.fw-400{font-weight:400px}
-.fw-500{font-weight:500px}
-.fw-600{font-weight:600px}
-.fw-700{font-weight:700px}
-.fw-800{font-weight:800px}
-.fw-900{font-weight:900px}
-.fw-1000{font-weight:1000px}
-
-.v-main{
-    padding:0 !important;
+.fs-8 {
+    font-size: 8px
 }
 
-.table th, .table td{
+.fs-12 {
+    font-size: 12px
+}
+
+.fs-14 {
+    font-size: 14px
+}
+
+.fs-16 {
+    font-size: 16px
+}
+
+.fs-18 {
+    font-size: 18px
+}
+
+.fs-20 {
+    font-size: 20px
+}
+
+.fs-24 {
+    font-size: 24px
+}
+
+.fs-36 {
+    font-size: 36px
+}
+
+.fs-42 {
+    font-size: 42px
+}
+
+.fs-48 {
+    font-size: 48px
+}
+
+.fs-60 {
+    font-size: 60px
+}
+
+.fs-72 {
+    font-size: 72px
+}
+
+.fw-100 {
+    font-weight: 100px
+}
+
+.fw-200 {
+    font-weight: 200px
+}
+
+.fw-300 {
+    font-weight: 300px
+}
+
+.fw-400 {
+    font-weight: 400px
+}
+
+.fw-500 {
+    font-weight: 500px
+}
+
+.fw-600 {
+    font-weight: 600px
+}
+
+.fw-700 {
+    font-weight: 700px
+}
+
+.fw-800 {
+    font-weight: 800px
+}
+
+.fw-900 {
+    font-weight: 900px
+}
+
+.fw-1000 {
+    font-weight: 1000px
+}
+
+.v-main {
+    padding: 0 !important;
+}
+
+.table th,
+.table td {
     font-size: 14px !important;
 }
 
-.modal-backdrop{
+.modal-backdrop {
     display: none !important;
-}
-
-.modal-dialog{
-    max-width: 90%;
 }
 
 #nprogress .bar {
@@ -53,4 +114,19 @@
     border: 3px solid transparent;
     border-top-color: #FFBB00;
     border-left-color: #FFBB00;
+}
+
+.search-dropdown .formkit-label {
+    width: 100% !important;
+}
+
+.search-dropdown .formkit-inner {
+    width: 100% !important;
+}
+
+@media only screen and (min-width: 576px) {
+
+    .modal-dialog {
+        max-width: 90%;
+    }
 }

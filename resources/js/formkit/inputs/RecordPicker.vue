@@ -13,10 +13,10 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog ">
                 <div class="modal-content shadow-2xl shadow-indigo-500/50">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <i class="fa-solid fa-circle-xmark"></i>
+                    <div class="modal-header p-2">
+                        <h5 class="modal-title font-semibold" id="exampleModalLabel">Modal title</h5>
+                        <button @click="modalToggle" type="button" class="" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa-solid fa-circle-xmark text-2xl	text-red"></i>
                         </button>
                     </div>
 
@@ -48,6 +48,14 @@ export default {
             is_recordpicker: true
         }
     },
+    mounted () {
+        const myModalEl = document.getElementById('myModal')
+        myModalEl.addEventListener('hidden.bs.modal', event => {
+            // do something...
+            alert('sfdsfdsfds');
+            this.modalToggle();
+        })
+    },
 
     methods: {
         async loadcomponent () {
@@ -56,9 +64,15 @@ export default {
                 this.context.attrs.comp_url
             )
         },
+        modalToggle () {
+            window.$store.commit("system/has_search", false);
+            window.$store.commit("system/is_list", false);
+            window.$store.commit("system/is_edit", true);
+            window.$store.commit("system/is_recordpicker", false);
+        },
         recordPicker (id) {
 
-            alert(id+'ddddddddds');
+            alert(id + 'ddddddddds');
         }
     }
 

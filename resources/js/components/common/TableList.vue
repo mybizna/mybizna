@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <div v-if="!is_recordpicker">
+                <div v-if="is_recordpicker">
                     <search-form></search-form>
                 </div>
                 <div class="table-responsive table-responsive-sm" v-bind:style="table_style">
@@ -191,6 +191,16 @@ export default {
         this.presetSearchForm();
         this.presetTableStructure();
         this.fetchRecords();
+
+        window.$store.commit("system/has_search", true);
+        window.$store.commit("system/is_list", true);
+        window.$store.commit("system/is_edit", false);
+
+        if (this.is_recordpicker) {
+            window.$store.commit("system/is_recordpicker", true);
+        }else{
+            window.$store.commit("system/is_recordpicker", false);
+        }
     },
 
     emits: {
