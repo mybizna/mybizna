@@ -2,7 +2,7 @@
     <div :class="classes">
 
 
-        <div class="card shadow-md m-1 mt-3">
+        <div :class="'card ' + getCardClassName()">
             <div class="card-head">
                 <div v-if="!is_recordpicker" class="form-head d-flex flex-wrap align-items-center py-2">
                     <h3 class="font-medium text-lg text-gray ml-2 mr-5 mb-0">{{ title }}</h3>
@@ -15,6 +15,9 @@
                 </div>
             </div>
             <div class="card-body p-0">
+                <div v-if="!is_recordpicker">
+
+                </div>
                 <div class="table-responsive table-responsive-sm" v-bind:style="table_style">
                     <table class="table m-0 p-0">
                         <thead>
@@ -254,6 +257,12 @@ export default {
     },
 
     methods: {
+
+        getCardClassName (prefix='') {
+
+            return (!this.is_recordpicker) ? prefix + ' shadow-md m-1 mt-3' : ' border-0';
+
+        },
         getClassName (table_field) {
             var full_class_name = "text-xs-left";
 
