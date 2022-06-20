@@ -8,6 +8,8 @@ export default {
         active_menu: 'account',
         menu_length: 0,
         has_search: false,
+        is_list: false,
+        is_edit: false,
         search: [],
     },
     mutations: {
@@ -29,6 +31,12 @@ export default {
         },
         has_search(state, payload) {
             state.has_search = payload;
+        },
+        is_list(state, payload) {
+            state.is_list = payload;
+        },
+        is_edit(state, payload) {
+            state.is_edit = payload;
         },
         active_menu(state, payload) {
             state.active_menu = payload;

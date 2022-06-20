@@ -69,7 +69,10 @@ export default {
             this.fetchRecord(this.id);
         }
 
-        window.$store.commit("system/has_search", true);
+        window.$store.commit("system/has_search", false);
+        window.$store.commit("system/is_list", false);
+        window.$store.commit("system/is_recordpicker", false);
+        window.$store.commit("system/is_edit", true);
     },
     data () {
         return {
