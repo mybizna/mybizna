@@ -1,20 +1,12 @@
 <template>
-  <v-runtime-template
-    v-if="is_template"
-    :template="pass_template"
-  ></v-runtime-template>
-  <td v-else :class="class_name" v-html="reversedData"></td>
+  <td v-if="is_template" :class="class_name">{{ pass_string }}</td>
+  <td v-else :class="class_name" v-html="reversedData">
 </template>
 
 <script>
 /* eslint-disable vue/no-unused-components */
-import VRuntimeTemplate from "v-runtime-template";
-import MoneyFormat from 'vue-money-format'
-
 export default {
   components: {
-    VRuntimeTemplate,
-    MoneyFormat,
   },
   props: {
     pitem: Object,

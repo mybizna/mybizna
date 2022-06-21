@@ -10,7 +10,7 @@ import {
 import {
     createStore
 } from 'vuex';
-
+import moment from 'moment';
 
 import Cookies from "js-cookie";
 import createPersistedState from "vuex-persistedstate";
@@ -69,6 +69,8 @@ app.config.globalProperties.$in_progress = window.in_progress = true;
 app.config.globalProperties.$loading = window.loading = {
     in_progress: true
 };
+app.config.globalProperties.$moment = window.$moment = moment;
+
 app.config.devtools = true;
 app.config.globalProperties.$mybizna_var = {
 
