@@ -40,10 +40,10 @@ export default {
                 { text: "Invoice", prop: "invoice_id", name: "invoice_id", },
                 {
                     text: "Connecx",
-                    prop: "[isp_connection_username]-[isp_connection_package_id_isp_package_title]",
+                    prop: "[isp_connection__username]-[isp_connection__package_id_title] [isp_connection__package_id_speed] [isp_connection__package_id_speed_type]",
                     name: "connection_id",
                     foreign: ['isp.connection.username', 'isp.connection.package_id.isp.package.title'],
-                    foreign2: ['isp.connection' = ['username', 'package_id' = ['isp.package' = ['title', 'speed', 'speed_type']]]],
+                    foreign2: ['isp.connection' = ['username', { 'package_id': { 'isp.package': ['title', 'speed', 'speed_type'] } }],
                 },
                 { text: "Start Time", prop: "start_date", is_datetime: true, name: "start_date", },
                 { text: "End Time", prop: "end_date", is_datetime: true, name: "end_date", },
