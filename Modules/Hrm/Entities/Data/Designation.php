@@ -2,7 +2,7 @@
 
 namespace Modules\Hrm\Entities\Data;
 
-use App\Classes\Datasetter;
+use Modules\Core\Classes\Datasetter;
 
 class Designation
 {

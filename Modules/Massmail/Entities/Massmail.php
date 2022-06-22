@@ -2,7 +2,7 @@
 
 namespace Modules\Massmail\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Schema\Blueprint;
 
 class Massmail extends Model

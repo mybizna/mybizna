@@ -2,9 +2,9 @@
 
 namespace Modules\Account\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Schema\Blueprint;
-use App\Classes\Migration;
+use Modules\Core\Classes\Migration;
 
 class LedgerSetting extends Model
 {
@@ -26,7 +26,7 @@ class LedgerSetting extends Model
         $table->integer('ledger_id')->nullable();
         $table->string('short_code')->nullable();
     }
-    
+
     public function post_migration(Blueprint $table)
     {
         if (Migration::checkKeyExist('account_ledger', 'ledger_id')) {

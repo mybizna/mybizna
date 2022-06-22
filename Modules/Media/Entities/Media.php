@@ -3,7 +3,7 @@
 namespace Modules\Media\Entities;
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\BaseModel AS Model;
 
 class Media extends Model
 {

@@ -6,8 +6,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
-use App\Classes\Modularize;
-use App\Classes\Datasetter;
+use Modules\Core\Classes\Modularize;
+use Modules\Core\Classes\Datasetter;
 
 use Illuminate\Support\Facades\Auth;
 

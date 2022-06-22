@@ -11,9 +11,6 @@ export default {
         ),
     },
     data () {
-
-
-
         return {
             path_param: ["isp", "billing"],
             model: {
@@ -40,9 +37,9 @@ export default {
                 { text: "Invoice", prop: "invoice_id", name: "invoice_id", },
                 {
                     text: "Connecx",
-                    prop: "[isp_connection__username]-[isp_connection__package_id__title] [isp_connection__package_id__speed] [isp_connection__package_id__speed_type]",
+                    prop: "[isp_connection__username]-[isp_connection__package_id.isp_package__title] [isp_connection__package_id.isp_package__speed] [isp_connection__package_id.isp_package__speed_type]",
                     name: "connection_id",
-                    foreign: ['isp_connection__username', 'isp_connection__package_id.isp_package__title'],
+                    foreign: ['isp_connection__username', 'isp_connection__package_id.isp_package__title', 'isp_connection__package_id.isp_package__speed', 'isp_connection__package_id.isp_package__speed_type'],
                 },
                 { text: "Start Time", prop: "start_date", is_datetime: true, name: "start_date", },
                 { text: "End Time", prop: "end_date", is_datetime: true, name: "end_date", },

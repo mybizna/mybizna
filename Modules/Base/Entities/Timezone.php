@@ -2,12 +2,12 @@
 
 namespace Modules\Base\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
 use Illuminate\Database\Schema\Blueprint;
-use App\Classes\Migration;
+use Modules\Core\Classes\Migration;
 
 class Timezone extends Model
 {

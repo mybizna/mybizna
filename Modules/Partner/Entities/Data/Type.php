@@ -2,7 +2,7 @@
 
 namespace Modules\Partner\Entities\Data;
 
-use App\Classes\Datasetter;
+use Modules\Core\Classes\Datasetter;
 
 class Type
 {

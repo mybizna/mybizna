@@ -3,7 +3,7 @@
 namespace Modules\Base\Entities\Data;
 
 use Illuminate\Support\Facades\DB;
-use App\Classes\Datasetter;
+use Modules\Core\Classes\Datasetter;
 
 class Timezone
 {
