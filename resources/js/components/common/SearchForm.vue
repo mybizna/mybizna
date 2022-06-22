@@ -1,6 +1,6 @@
 <template>
     <template v-if="$store.state.system.has_search && !$store.state.system.is_recordpicker">
-        <div class="d-none d-md-block m-2">
+        <div class="d-none d-md-block mt-1 mx-1">
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control" aria-label="Text input with dropdown button" />
                 <button class="btn btn-outline-primary" type="button" aria-expanded="false">
@@ -39,7 +39,7 @@
             </a>
         </div>
 
-        <div class="d-block d-md-none m-2 text-right">
+        <div class="d-block d-md-none  m-2 text-right">
             <button class="btn btn-outline-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <v-icon size="12" icon="fas fa-search"></v-icon>
                 Search

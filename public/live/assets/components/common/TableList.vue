@@ -198,7 +198,7 @@ export default {
 
         if (this.is_recordpicker) {
             window.$store.commit("system/is_recordpicker", true);
-        }else{
+        } else {
             window.$store.commit("system/is_recordpicker", false);
         }
     },
@@ -460,7 +460,19 @@ export default {
 
                 t.table_fields[index]["path"] = table_field.prop.split(".");
 
-                var tmp_label = table_field.text
+                var table_field_name = '';
+                if (
+                    Object.prototype.hasOwnProperty.call(table_field, "text")
+                ) {
+                    table_field_name = table_field.text;
+                }
+                if (
+                    Object.prototype.hasOwnProperty.call(table_field, "name")
+                ) {
+                    table_field_name = table_field.name;
+                }
+
+                var tmp_label = table_field_name
                     .replace("_id", "")
                     .replace("_", " ")
                     .replace(/\w\S*/g, function (word) {
@@ -491,7 +503,7 @@ export default {
                 this,
                 this.processed_path_param,
                 this.search_fields,
-                this.schema_fields
+                this.table_fields
             );
         },
 
