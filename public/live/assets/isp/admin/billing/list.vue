@@ -25,93 +25,28 @@ export default {
                 end_date: "",
                 is_paid: "",
             },
-            search_fields: [{
-                    type: "text",
-                    name: "title",
-                    label: "Title",
-                    ope: "",
-                },
-                {
-                    type: "text",
-                    name: "description",
-                    label: "Description",
-                    ope: "",
-                },
-                {
-                    type: "text",
-                    name: "connection_id",
-                    label: "Connection Id",
-                    ope: "",
-                },
-
-                {
-                    type: "text",
-                    name: "invoice_id",
-                    label: "Invoice Id",
-                    ope: "",
-                },
-                {
-                    type: "datetime",
-                    name: "start_date",
-                    label: "Start Date",
-                    ope: "",
-                },
-                {
-                    type: "datetime",
-                    name: "end_date",
-                    label: "End Date",
-                    ope: "",
-                },
-                {
-                    type: "switch",
-                    name: "is_paid",
-                    label: "Is Paid",
-                    ope: "",
-                },
+            search_fields: [
+                { type: "text", name: "title", label: "Title", ope: "", },
+                { type: "text", name: "description", label: "Description", ope: "", },
+                { type: "text", name: "connection_id", label: "Connection Id", ope: "", },
+                { type: "text", name: "invoice_id", label: "Invoice Id", ope: "", },
+                { type: "datetime", name: "start_date", label: "Start Date", ope: "", },
+                { type: "datetime", name: "end_date", label: "End Date", ope: "", },
+                { type: "switch", name: "is_paid", label: "Is Paid", ope: "", },
             ],
             table_fields: [
-                {
-                    text: "Title",
-                    prop: "title",
-                    name: "title",
-
-                },
-                {
-                    text: "Description",
-                    prop: "description",
-                    name: "description",
-                },
-                {
-                    text: "Invoice",
-                    prop: "invoice_id",
-                    name: "invoice_id",
-                },
-
+                { text: "Title", prop: "title", name: "title", },
+                { text: "Description", prop: "description", name: "description", },
+                { text: "Invoice", prop: "invoice_id", name: "invoice_id", },
                 {
                     text: "Connecx",
-                    prop: "connection_id",
+                    prop: "[isp_connection__username]-[isp_connection__package_id__title] [isp_connection__package_id__speed] [isp_connection__package_id__speed_type]",
                     name: "connection_id",
+                    foreign: ['isp_connection__username', 'isp_connection__package_id.isp_package__title'],
                 },
-                {
-                    text: "Start Time",
-                    prop: "start_date",
-                    is_datetime: true,
-                    name: "start_date",
-                },
-                {
-                    text: "End Time",
-                    prop: "end_date",
-                    is_datetime: true,
-                    name: "end_date",
-                },
-
-                {
-                    text: "Completed",
-                    prop: "completed",
-                    align: "center",
-                    is_boolean: true,
-                    name: "completed",
-                },
+                { text: "Start Time", prop: "start_date", is_datetime: true, name: "start_date", },
+                { text: "End Time", prop: "end_date", is_datetime: true, name: "end_date", },
+                { text: "Completed", prop: "completed", align: "center", is_boolean: true, name: "completed", },
             ],
         };
     },

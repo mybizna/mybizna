@@ -442,6 +442,15 @@ export default {
             'f': []
         };
 
+        table_fields.forEach(function (table_field) {
+            data['f'].push(table_field.name);
+            if (Object.prototype.hasOwnProperty.call(table_field, 'foreign')) {
+                table_field.foreign.forEach(function (table_field_name) {
+                    data['f'].push(table_field_name);
+                });
+            }
+        });
+
         search_fields.forEach(function (search_field) {
             data['f'].push(search_field.name);
         });
