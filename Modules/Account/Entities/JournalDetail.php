@@ -2,9 +2,9 @@
 
 namespace Modules\Account\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Schema\Blueprint;
-use App\Classes\Migration;
+use Modules\Core\Classes\Migration;
 
 class JournalDetail extends Model
 {
@@ -29,7 +29,7 @@ class JournalDetail extends Model
         $table->decimal('debit', 20, 2)->default(0.00);
         $table->decimal('credit', 20, 2)->default(0.00);
     }
-    
+
     public function post_migration(Blueprint $table)
     {
         if (Migration::checkKeyExist('account_ledger', 'ledger_id')) {

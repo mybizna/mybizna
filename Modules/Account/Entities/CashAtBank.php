@@ -2,9 +2,9 @@
 
 namespace Modules\Account\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Schema\Blueprint;
-use App\Classes\Migration;
+use Modules\Core\Classes\Migration;
 
 class CashAtBank extends Model
 {
@@ -26,7 +26,7 @@ class CashAtBank extends Model
         $table->string('name')->nullable();
         $table->decimal('balance', 20, 2)->default(0.00);
     }
-    
+
     public function post_migration(Blueprint $table)
     {
         if (Migration::checkKeyExist('account_ledger', 'ledger_id')) {

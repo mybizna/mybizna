@@ -451,11 +451,6 @@ export default {
             }
         });
 
-        search_fields.forEach(function (search_field) {
-            data['f'].push(search_field.name);
-        });
-
-
         search_fields.forEach(function (query_field) {
 
             if (t.model[query_field.name] && t.model[query_field.name] !== '') {
@@ -471,8 +466,11 @@ export default {
             }
         });
 
+
         window.axios
-            .get(path_param.path, data)
+            .get(path_param.path, {
+                params: data
+            })
             .then(response => {
                 if (response.data) {
 
@@ -488,11 +486,6 @@ export default {
                         }
 
                         t.show_delete_btn = true;
-
-                        t.items.forEach(i => {
-                            t.$set(t.expanded, i.id, false);
-                        });
-
                     }
 
                     t.postProcessing(t, search_fields);

@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Classes\Datasetter;
+use Modules\Core\Classes\Datasetter;
 
 class DataProcessor extends Command
 {

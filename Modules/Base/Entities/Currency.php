@@ -2,12 +2,12 @@
 
 namespace Modules\Base\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
-use App\Classes\Migration;
+use Modules\Core\Classes\Migration;
 
 class Currency extends Model
 {

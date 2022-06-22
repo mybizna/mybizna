@@ -2,7 +2,7 @@
 
 namespace Modules\Fleet\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Schema\Blueprint;
 
 class Fleet extends Model
