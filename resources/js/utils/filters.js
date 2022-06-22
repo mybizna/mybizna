@@ -431,17 +431,23 @@ export default {
             });
     },
 
-    fetchRecordsHelper(this_var, path_param, query_fields, field_list) {
+    fetchRecordsHelper(this_var, path_param, search_fields, table_fields) {
 
         const t = this_var;
         t.show_delete_btn = false;
         t.loading_message = "Fetching Data. Please Wait...";
 
         var data = {
-            's': {}
+            's': {},
+            'f': []
         };
 
-        query_fields.forEach(function (query_field) {
+        search_fields.forEach(function (search_field) {
+            data['f'].push(search_field.name);
+        });
+
+
+        search_fields.forEach(function (query_field) {
 
             if (t.model[query_field.name] && t.model[query_field.name] !== '') {
                 data['s'][query_field.name] = {
@@ -480,7 +486,7 @@ export default {
 
                     }
 
-                    t.postProcessing(t, field_list);
+                    t.postProcessing(t, search_fields);
 
                 }
             });

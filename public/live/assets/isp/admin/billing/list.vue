@@ -71,38 +71,46 @@ export default {
             ],
             table_fields: [
                 {
-                    text: "title",
+                    text: "Title",
                     prop: "title",
+                    name: "title",
+
                 },
                 {
-                    text: "description",
+                    text: "Description",
                     prop: "description",
+                    name: "description",
                 },
                 {
-                    text: "invoice_id",
+                    text: "Invoice",
                     prop: "invoice_id",
+                    name: "invoice_id",
                 },
 
                 {
-                    text: "connection_id",
+                    text: "Connecx",
                     prop: "connection_id",
+                    name: "connection_id",
                 },
                 {
-                    text: "start_date",
+                    text: "Start Time",
                     prop: "start_date",
                     is_datetime: true,
+                    name: "start_date",
                 },
                 {
-                    text: "end_date",
+                    text: "End Time",
                     prop: "end_date",
                     is_datetime: true,
+                    name: "end_date",
                 },
 
                 {
-                    text: "completed",
+                    text: "Completed",
                     prop: "completed",
                     align: "center",
                     is_boolean: true,
+                    name: "completed",
                 },
             ],
         };
