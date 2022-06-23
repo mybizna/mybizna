@@ -43,6 +43,9 @@ class Modularize
         $params = array_merge($defaults, $args);
 
         $classname = $this->getClassName($this->module, $this->model);
+        $query = $classname::query();
+
+        $alias = [];
 
         if ($classname) {
             if (method_exists($classname, 'getAllRecords')) {
@@ -52,7 +55,7 @@ class Modularize
                 if (is_array($params['f'])) {
                     $select = [];
                     $main_field = '';
-                    $table_name = $classname::$table;
+                    $table_name = $classname::getTableName();
 
                     foreach ($params['f'] as $field => $f) {
                         $base_leftjoin_alias = $table_name;
@@ -62,19 +65,26 @@ class Modularize
                             foreach ($table_levels as $key => $table_level) {
                                 $table_parts = explode('__', $table_level);
 
-                                $leftjoin_alias = $table_parts[0] + '_' + $main_field;
-                                $leftjoin_table = $table_parts[0] + ' AS ' + $leftjoin_alias;
+                                $leftjoin_alias = $table_parts[0] . '_' . $main_field;
+                                $leftjoin_table = $table_parts[0] . ' AS ' . $leftjoin_alias;
 
-                                $classname::leftJoin($leftjoin_table, $base_leftjoin_alias + '.id', '=', $leftjoin_alias + '.' + $main_field);
+                                if (in_array($leftjoin_alias, $alias)) {
+                                    $query->leftJoin($leftjoin_table, $leftjoin_alias . '.id', '=', $base_leftjoin_alias . '.' . $main_field);
 
-                                $base_leftjoin_alias = $leftjoin_alias;
+                                    $base_leftjoin_alias = $leftjoin_alias;
+                                    $alias[] = $leftjoin_alias;
+                                }
                             }
-
                         } elseif (strpos($f, '__')) {
                             $table_parts = explode('__', $f);
 
-                            $classname::leftJoin($table_parts[0], $table_parts[0] + '.id', '=', $table_name + '.' + $main_field);
+                            $leftjoin_alias = $table_parts[0];
 
+                            if (in_array($leftjoin_alias, $alias)) {
+                                $query->leftJoin($leftjoin_alias, $leftjoin_alias . '.id', '=', $table_name . '.' . $main_field);
+
+                                $alias[] = $leftjoin_alias;
+                            }
                         } else {
                             $main_field = $f;
                             array_push($select, $f);
@@ -82,7 +92,7 @@ class Modularize
                     }
                 }
 
-                $query = $classname::select(implode($select))
+                $query = $query->select(implode($select,  ', '))
                     ->limit($params['limit']);
 
                 ($params['order'] == 'DESC') ? $query->orderByDesc($params['orderby']) : $query->orderBy($params['orderby']);
