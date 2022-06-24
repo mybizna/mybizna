@@ -47,12 +47,6 @@ export default {
 
       data_str = this.getDataStr(has_multiple_fields, prop_str);
 
-      if (prop_str.indexOf("pitem") != -1) {
-        t.is_template = true;
-
-        data_str = prop_str;
-      }
-
       if (t.data_field.is_boolean) {
         if (parseInt(data_str)) {
           data_str =
