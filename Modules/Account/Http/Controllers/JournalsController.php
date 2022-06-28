@@ -6,6 +6,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Account\Classes\Invoices;
+use Modules\Account\Classes\Journals;
+
 
 use Illuminate\Support\Facades\DB;
 
@@ -21,6 +23,7 @@ class JournalsController extends Controller
      */
     public function getJournals(Request $request)
     {
+        $journals = new Journals();
         $input = $request->all();
 
         $args['number'] = !empty($input['per_page']) ? $input['per_page'] : 20;
@@ -30,8 +33,8 @@ class JournalsController extends Controller
 
         $additional_fields['namespace'] = __NAMESPACE__;
 
-        $items       = $this->getAllJournals($args);
-        $total_items = $this->getAllJournals(
+        $items       = $journals->getAllJournals($args);
+        $total_items = $journals->getAllJournals(
             [
                 'count'  => true,
                 'number' => -1,
@@ -44,7 +47,11 @@ class JournalsController extends Controller
             $formatted_items[]              = $this->prepareItemForResponse($item, $request, $additional_fields);
         }
 
-        return response()->json($formatted_items);
+        return response()->json($formatted_items)
+            ->withHeaders([
+                'x-wp-total' => $total_items,
+                'x-wp-totalpages' => $total_items ? floor($total_items / $args['number']) : 1
+            ]);
     }
 
     /**

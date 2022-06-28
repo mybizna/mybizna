@@ -79,7 +79,7 @@ export default {
             const items = this.rows;
             items.map((item) => {
                 item.l_id = item.voucher_no;
-                item.l_date = this.formatDate(item.trn_date);
+                item.l_date = this.$func.formatDate(item.trn_date);
                 item.l_particulars = item.particulars;
                 item.amount = item.total;
             });
@@ -101,6 +101,7 @@ export default {
                     },
                 })
                 .then((response) => {
+                    console.log(response);
                     this.rows = response.data;
                     this.paginationData.totalItems = parseInt(
                         response.headers["x-wp-total"]

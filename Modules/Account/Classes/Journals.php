@@ -57,8 +57,10 @@ class Journals
             $sql .= " FROM account_journal AS journal LEFT JOIN account_journal_detail AS journal_detail";
             $sql .= " ON journal.voucher_no = journal_detail.trn_no {$where} GROUP BY journal.voucher_no ORDER BY journal.{$args['orderby']} {$args['order']} {$limit}";
 
+            // print_r($args); exit;
             if ($args['count']) {
-                $journals_count = DB::scalar($sql);;
+                $tmp_journals = DB::select($sql);
+                $journals_count = is_array($tmp_journals) ? $tmp_journals[0]->total_number : 0;
             } else {
                 $journals = DB::select($sql);
             }
