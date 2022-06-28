@@ -8,7 +8,7 @@
             </div>
         </div>
 
-        <table :class="tableClass">
+        <table :class="tableClass + ' table-responsive table-responsive-sm' ">
             <thead class="table-light shadow-sm">
                 <div v-if="checkedItems.length">Bulk Action TPl</div>
 

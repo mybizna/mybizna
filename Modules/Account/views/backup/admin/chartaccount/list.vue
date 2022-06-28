@@ -27,7 +27,7 @@
 
         <ul v-if="search">
             <list-table
-                ="table table-sm table-striped widefat table2 chart-list"
+                class="table table-sm table-striped widefat table2 chart-list"
                 action-column="actions"
                 :columns="columns"
                 :actions="actions"
