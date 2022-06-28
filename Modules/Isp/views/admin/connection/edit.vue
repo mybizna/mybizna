@@ -1,18 +1,6 @@
 <template>
     <table-edit :path_param="path_param" :model="model">
 
-  $table->increments('id');
-        $table->string('username');
-        $table->string('password');
-        $table->integer('package_id')->unsigned()->nullable();
-        $table->integer('invoice_id')->unsigned()->nullable();
-        $table->integer('partner_id')->unsigned()->nullable();
-        $table->string('params')->nullable();
-        $table->dateTime('expiry_date')->nullable();
-        $table->dateTime('billing_date')->nullable();
-        $table->boolean('is_paid')->default(false)->nullable();
-        $table->boolean('is_setup')->default(false)->nullable();
-        $table->enum('status', ['new', 'active', 'inactive', 'closed'])->default('new')->nullable();
 
         <div class="row">
             <div class="col-md-6">
@@ -28,14 +16,11 @@
 
             </div>
             <div class="col-md-6">
-                <FormKit label="Payment" id="payment_id" type="select" validation="required" :options="[
-                    'Monaco',
-                    'Vatican City',
-                    'Maldives',
-                    'Tuvalu',
-                ]" placeholder="Select a planet" />
+                <FormKit label="Payment" id="payment_id" type="select" validation="required"
+                    :options="['new', 'active', 'inactive', 'closed']" placeholder="Select a planet" />
                 <FormKit label="Description" id="description" type="textarea" validation="required" />
                 <FormKit label="Is Paid" id="is_paid" type="switch" validation="required" />
+                <FormKit label="Is Setup" id="is_setup" type="switch" validation="required" />
 
             </div>
         </div>
@@ -52,19 +37,27 @@ export default {
     data () {
         return {
             id: null,
-            path_param: ["isp", "billing"],
+            path_param: ["isp", "connection"],
             model: {
                 id: "",
-                title: "",
-                connection_id: "",
+                username: "",
+                password: "",
+                package_id: "",
                 invoice_id: "",
-                description: "",
-                start_date: "",
-                end_date: "",
+                partner_id: "",
+                params: "",
+                expiry_date: "",
+                billing_date: "",
                 is_paid: "",
+                is_setup: "",
+                status: "",
             },
 
         };
+
+
+
+
     }
 };
 </script>

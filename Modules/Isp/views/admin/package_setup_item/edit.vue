@@ -6,21 +6,13 @@
 
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
                 <FormKit label="Title" id="title" type="text" validation="required" />
-                <FormKit label="Connection" id="connection_id" type="text" validation="required" />
-                <FormKit label="Invoice" id="invoice_id" type="text" validation="required" />
-                <FormKit label="Start Date" id="start_date" type="datetime" validation="required" />
-                <FormKit label="End Date" id="end_date" type="datetime" validation="required" />
+                <FormKit label="Package" id="package_id" type="text" validation="required" />
+                <FormKit label="Amount" id="amount" type="text" validation="required" />
 
             </div>
             <div class="col-md-6">
-                <FormKit label="Payment" id="payment_id" type="select" validation="required" :options="[
-                    'Monaco',
-                    'Vatican City',
-                    'Maldives',
-                    'Tuvalu',
-                ]" placeholder="Select a planet" />
                 <FormKit label="Description" id="description" type="textarea" validation="required" />
-                <FormKit label="Is Paid" id="is_paid" type="switch" validation="required" />
+                <FormKit label="Published" id="published" type="switch" validation="required" />
 
             </div>
         </div>
@@ -37,16 +29,14 @@ export default {
     data () {
         return {
             id: null,
-            path_param: ["isp", "billing"],
+            path_param: ["isp", "package_setup_item"],
             model: {
                 id: "",
                 title: "",
-                connection_id: "",
-                invoice_id: "",
+                package_id: "",
                 description: "",
-                start_date: "",
-                end_date: "",
-                is_paid: "",
+                amount: "",
+                published: "",
             },
 
         };
