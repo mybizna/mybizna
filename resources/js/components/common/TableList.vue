@@ -174,7 +174,6 @@ export default {
         search_fields: { type: Array, default: () => [] },
         table_fields: { type: Array, default: () => [] },
         schema_fields: { type: Array, default: () => [] },
-        loop_fields: { type: Array, default: () => [] },
         recordPicker: { type: Object, default: () => { } },
         is_recordpicker: { type: Boolean, default: false },
         has_add_button: { type: Boolean, default: true },
@@ -188,7 +187,6 @@ export default {
         this.preparePathParam();
         this.processDropdownMenu();
         this.processFieldList();
-        this.presetSearchForm();
         this.presetTableStructure();
         this.fetchRecords();
 
@@ -311,132 +309,21 @@ export default {
         processFieldList () {
             var t = this;
 
-            t.schema_fields.forEach(function (schema_field) {
-                t.processSingleField(schema_field, "");
-            });
+            console.log('t.table_fields');
+            console.log(t.table_fields);
+            t.table_fields.forEach(function (table_field) {
+                t.field_list.push(table_field.name);
 
-            t.loop_fields.forEach(function (loop_field, tmp_index) {
-                var name = loop_field.name;
-                var start = loop_field.start;
-                var end = loop_field.end;
-                var fields = loop_field.fields;
-
-                for (let index = 0; index <= end; index++) {
-                    var tmp_field_name = name;
-
-                    tmp_field_name = tmp_field_name + "." + index;
-
-                    fields.forEach(function (field) {
-                        var new_tmp_field_name = tmp_field_name + "." + field;
-                        t.field_list.push(new_tmp_field_name);
+                if (Object.prototype.hasOwnProperty.call(table_field, "foreign")) {
+                    table_field.foreign.forEach(function (table_field_foreign) {
+                        t.field_list.push(table_field_foreign);
                     });
                 }
             });
+
+
         },
-        processSingleField (schema_field, process_str) {
-            var t = this;
 
-            if (schema_field.indexOf("{") > 0) {
-                var first_brace_index = schema_field.indexOf("{");
-                var last_brace_index = schema_field.lastIndexOf("}");
-
-                var first_part = schema_field.substring(0, first_brace_index);
-                var main_part = schema_field.substring(
-                    first_brace_index + 1,
-                    last_brace_index
-                );
-
-                process_str = process_str + first_part.trim() + ".";
-
-                var total_braces = main_part.split("{").length - 1;
-
-                if (total_braces) {
-                    for (let index = 1; index <= total_braces; index++) {
-                        var first_subbrace_start = main_part.indexOf("{");
-                        var first_subbrace_end = main_part.indexOf("}");
-                        var closest_comma_index = main_part.lastIndexOf(
-                            ",",
-                            first_subbrace_start
-                        );
-                        var sub_main_part = main_part.substring(
-                            closest_comma_index + 1,
-                            first_subbrace_end + 1
-                        );
-
-                        main_part = main_part.replace(sub_main_part, "");
-
-                        t.processSingleField(sub_main_part, process_str);
-                    }
-                }
-
-                t.processCommaField(main_part, process_str);
-            } else {
-                var schema_field_clean = schema_field.trim();
-
-                if (schema_field_clean.indexOf(",") > 0) {
-                    t.processCommaField(schema_field_clean, process_str);
-                } else {
-                    t.field_list.push(process_str + schema_field_clean);
-                }
-            }
-        },
-        processCommaField (schema_field, process_str) {
-            var t = this;
-
-            var field_group = schema_field.split(",");
-
-            field_group.forEach(function (single_field) {
-                var single_field_clean = single_field.trim();
-
-                if (single_field_clean !== "") {
-                    t.field_list.push(process_str + single_field_clean);
-                }
-            });
-        },
-        presetSearchForm () {
-            var t = this;
-
-            t.search_fields.forEach(function (search_field) {
-                if (!search_field.hidden) {
-                    var search_field_obj =
-                        window.$func.formInputProcessorHelper(search_field, t);
-                    t.schema.fields.push(search_field_obj);
-                }
-
-                if (
-                    search_field.type === "select" ||
-                    search_field.type === "selectrecord"
-                ) {
-                    var select_name = search_field.name;
-
-                    if (
-                        !Object.prototype.hasOwnProperty.call(
-                            t.select_list,
-                            select_name
-                        )
-                    ) {
-                        t.select_list[select_name] = [];
-                    }
-
-                    t.getSelectList(t, select_name, search_field.source);
-                }
-            });
-
-            window.$store.commit('system/has_search', true);
-            window.$store.commit('system/search', t.search_fields);
-        },
-        getSelectList (t, select_name, field_source) {
-            var path_param_obj = window.$func.pathParamHelper(
-                field_source.path_param
-            );
-
-            window.$func.fetchOptionsHelper(
-                t,
-                select_name,
-                path_param_obj,
-                field_source.fields
-            );
-        },
         presetTableStructure () {
             var t = this;
 
@@ -519,88 +406,6 @@ export default {
 
         updatePagination (pagination) {
             this.fetchRecords();
-        },
-
-        postProcessing (t, field_list) {
-            var curr_this = this;
-            var offset = new Date().getTimezoneOffset();
-
-            t.items.forEach(function (item, item_index) {
-                t.table_fields.forEach(function (field, field_index) {
-                    if (field.pre_timezone) {
-                        var tmp_value = curr_this.getValueByPerPath(
-                            t,
-                            field.path,
-                            item_index
-                        );
-
-                        if (offset !== 0 && tmp_value !== null) {
-                            tmp_value = curr_this
-                                .$moment(tmp_value)
-                                .add(offset * -1, "minutes")
-                                .format("D MMM YYYY, HH:mm:ss A");
-                        }
-
-                        curr_this.setValueByPerPath(
-                            t,
-                            field.path,
-                            item_index,
-                            tmp_value
-                        );
-                    }
-                });
-            });
-        },
-        getValueByPerPath (t, field_path, item_index) {
-            var item_value = "";
-
-            if (field_path.length == 1) {
-                var path_0_1 = field_path[0];
-                item_value = t.items[item_index][path_0_1];
-            } else if (field_path.length == 2) {
-                var path_0_2 = field_path[0];
-                var path_1_2 = field_path[1];
-                item_value = t.items[item_index][path_0_2][path_1_2];
-            } else if (field_path.length == 3) {
-                var path_0_3 = field_path[0];
-                var path_1_3 = field_path[1];
-                var path_2_3 = field_path[2];
-                item_value = t.items[item_index][path_0_3][path_1_3][path_2_3];
-            } else if (field_path.length == 4) {
-                var path_0_4 = field_path[0];
-                var path_1_4 = field_path[1];
-                var path_2_4 = field_path[2];
-                var path_3_4 = field_path[3];
-                item_value =
-                    t.items[item_index][path_0_4][path_1_4][path_2_4][path_3_4];
-            }
-
-            return item_value;
-        },
-        setValueByPerPath (t, field_path, item_index, tmp_value) {
-            var tmp_obj = t.items[item_index];
-
-            if (field_path.length == 1) {
-                var path_0_1 = field_path[0];
-                tmp_obj[path_0_1] = tmp_value;
-            } else if (field_path.length == 2) {
-                var path_0_2 = field_path[0];
-                var path_1_2 = field_path[1];
-                tmp_obj[path_0_2][path_1_2] = tmp_value;
-            } else if (field_path.length == 3) {
-                var path_0_3 = field_path[0];
-                var path_1_3 = field_path[1];
-                var path_2_3 = field_path[2];
-                tmp_obj[path_0_3][path_1_3][path_2_3] = tmp_value;
-            } else if (field_path.length == 4) {
-                var path_0_4 = field_path[0];
-                var path_1_4 = field_path[1];
-                var path_2_4 = field_path[2];
-                var path_3_4 = field_path[3];
-                tmp_obj[path_0_4][path_1_4][path_2_4][path_3_4] = tmp_value;
-            }
-
-            t.$set(t.items, item_index, tmp_obj);
         },
 
         // a computed getter

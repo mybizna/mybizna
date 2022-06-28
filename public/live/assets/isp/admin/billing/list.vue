@@ -43,7 +43,7 @@ export default {
                 },
                 { text: "Start Time", prop: "start_date", is_datetime: true, name: "start_date", },
                 { text: "End Time", prop: "end_date", is_datetime: true, name: "end_date", },
-                { text: "Completed", prop: "completed", align: "center", is_boolean: true, name: "completed", },
+                { text: "Is Paid", prop: "is_paid", align: "center", is_boolean: true, name: "is_paid", },
             ],
         };
     },
