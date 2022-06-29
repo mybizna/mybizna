@@ -5,16 +5,13 @@
             <div class="col-md-6">
 
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Title" id="title" type="text" validation="required" />
-                <FormKit label="Connection" id="connection_id" type="text" validation="required" />
-                <FormKit label="Invoice" id="invoice_id" type="text" validation="required" />
-                <FormKit label="Start Date" id="start_date" type="datetime" validation="required" />
-                <FormKit label="End Date" id="end_date" type="datetime" validation="required" />
+                <FormKit label="Tax Rate Name" id="tax_rate_name" type="text" validation="required" />
+                <FormKit label="Tax Number" id="tax_number" type="text" validation="required" />
+                <FormKit label="Default" id="default" type="text" validation="required" />
 
             </div>
+
             <div class="col-md-6">
-                <FormKit label="Description" id="description" type="textarea" validation="required" />
-                <FormKit label="Is Paid" id="is_paid" type="switch" validation="required" />
 
             </div>
         </div>
@@ -31,16 +28,12 @@ export default {
     data () {
         return {
             id: null,
-            path_param: ["account", "billing"],
+            path_param: ["account", "tax"],
             model: {
                 id: "",
-                title: "",
-                connection_id: "",
-                invoice_id: "",
-                description: "",
-                start_date: "",
-                end_date: "",
-                is_paid: "",
+                tax_rate_name: "",
+                tax_number: "",
+                default: "",
             },
 
         };

@@ -5,16 +5,16 @@
             <div class="col-md-6">
 
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Title" id="title" type="text" validation="required" />
-                <FormKit label="Connection" id="connection_id" type="text" validation="required" />
-                <FormKit label="Invoice" id="invoice_id" type="text" validation="required" />
-                <FormKit label="Start Date" id="start_date" type="datetime" validation="required" />
-                <FormKit label="End Date" id="end_date" type="datetime" validation="required" />
+                <FormKit label="Type" id="type" type="text" validation="required" />
+                <FormKit label="Financial Year" id="financial_year_id" type="text" validation="required" />
+                <FormKit label="Chart" id="chart_id" type="text" validation="required" />
+                <FormKit label="Ledger" id="ledger_id" type="text" validation="required" />
 
             </div>
             <div class="col-md-6">
-                <FormKit label="Description" id="description" type="textarea" validation="required" />
-                <FormKit label="Is Paid" id="is_paid" type="switch" validation="required" />
+
+                <FormKit label="Debit" id="debit" type="text" validation="required" />
+                <FormKit label="Credit" id="credit" type="text" validation="required" />
 
             </div>
         </div>
@@ -31,16 +31,15 @@ export default {
     data () {
         return {
             id: null,
-            path_param: ["account", "billing"],
+            path_param: ["account", "opening_balance"],
             model: {
                 id: "",
-                title: "",
-                connection_id: "",
-                invoice_id: "",
-                description: "",
-                start_date: "",
-                end_date: "",
-                is_paid: "",
+                financial_year_id: "",
+                chart_id: "",
+                ledger_id: "",
+                type: "",
+                debit: "",
+                credit: "",
             },
 
         };

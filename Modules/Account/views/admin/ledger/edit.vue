@@ -1,20 +1,19 @@
 <template>
     <table-edit :path_param="path_param" :model="model">
-
         <div class="row">
             <div class="col-md-6">
 
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Title" id="title" type="text" validation="required" />
-                <FormKit label="Connection" id="connection_id" type="text" validation="required" />
-                <FormKit label="Invoice" id="invoice_id" type="text" validation="required" />
-                <FormKit label="Start Date" id="start_date" type="datetime" validation="required" />
-                <FormKit label="End Date" id="end_date" type="datetime" validation="required" />
+                <FormKit label="Name" id="name" type="text" validation="required" />
+                <FormKit label="Code" id="code" type="text" validation="required" />
+                <FormKit label="Slug" id="slug" type="text" validation="required" />
+                <FormKit label="Category" id="category_id" type="text" validation="required" />
+                <FormKit label="Chart" id="chart_id" type="text" validation="required" />
 
             </div>
             <div class="col-md-6">
-                <FormKit label="Description" id="description" type="textarea" validation="required" />
-                <FormKit label="Is Paid" id="is_paid" type="switch" validation="required" />
+                <FormKit label="Unused" id="unused" type="switch" validation="required" />
+                <FormKit label="System" id="system" type="switch" validation="required" />
 
             </div>
         </div>
