@@ -1,5 +1,5 @@
 <template>
-    <table-list title="Account Billing" :path_param="path_param" :search_fields="search_fields" :model="model"
+    <table-list title="Account Tax" :path_param="path_param" :search_fields="search_fields" :model="model"
         :table_fields="table_fields"></table-list>
 </template>
 
@@ -12,38 +12,21 @@ export default {
     },
     data () {
         return {
-            path_param: ["account", "billing"],
+            path_param: ["account", "tax"],
             model: {
-                title: "",
-                connection_id: "",
-                invoice_id: "",
-                description: "",
-                start_date: "",
-                end_date: "",
-                is_paid: "",
+                tax_rate_name: "",
+                tax_number: "",
+                default: "",
             },
             search_fields: [
-                { type: "text", name: "title", label: "Title", ope: "", },
-                { type: "text", name: "description", label: "Description", ope: "", },
-                { type: "text", name: "connection_id", label: "Connection Id", ope: "", },
-                { type: "text", name: "invoice_id", label: "Invoice Id", ope: "", },
-                { type: "datetime", name: "start_date", label: "Start Date", ope: "", },
-                { type: "datetime", name: "end_date", label: "End Date", ope: "", },
-                { type: "switch", name: "is_paid", label: "Is Paid", ope: "", },
+                { type: "text", name: "tax_rate_name", label: "Tax Rate Name", ope: "", },
+                { type: "text", name: "tax_number", label: "Tax Number", ope: "", },
+                { type: "text", name: "default", label: "Default", ope: "", },
             ],
             table_fields: [
-                { text: "Title", prop: "title", name: "title", },
-                { text: "Description", prop: "description", name: "description", },
-                { text: "Invoice", prop: "invoice_id", name: "invoice_id", },
-                {
-                    text: "Connecx",
-                    prop: "[account_connection__username]-[account_connection__package_id.account_package__title] [account_connection__package_id.account_package__speed] [account_connection__package_id.account_package__speed_type]",
-                    name: "connection_id",
-                    foreign: ['account_connection__username', 'account_connection__package_id.account_package__title', 'account_connection__package_id.account_package__speed', 'account_connection__package_id.account_package__speed_type'],
-                },
-                { text: "Start Time", prop: "start_date", is_datetime: true, name: "start_date", },
-                { text: "End Time", prop: "end_date", is_datetime: true, name: "end_date", },
-                { text: "Is Paid", prop: "is_paid", align: "center", is_boolean: true, name: "is_paid", },
+                { text: "Tax Rate Name", prop: "tax_rate_name", name: "tax_rate_name", },
+                { text: "Tax Number", prop: "tax_number", name: "tax_number", },
+                { text: "Default", prop: "default", name: "default", },
             ],
         };
     },

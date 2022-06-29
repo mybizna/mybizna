@@ -1,5 +1,5 @@
 <template>
-    <table-list title="Account Billing" :path_param="path_param" :search_fields="search_fields" :model="model"
+    <table-list title="Account Opening Balance" :path_param="path_param" :search_fields="search_fields" :model="model"
         :table_fields="table_fields"></table-list>
 </template>
 
@@ -12,38 +12,30 @@ export default {
     },
     data () {
         return {
-            path_param: ["account", "billing"],
+            path_param: ["account", "opening_balance"],
             model: {
-                title: "",
-                connection_id: "",
-                invoice_id: "",
-                description: "",
-                start_date: "",
-                end_date: "",
-                is_paid: "",
+                financial_year_id: "",
+                chart_id: "",
+                ledger_id: "",
+                type: "",
+                debit: "",
+                credit: "",
             },
             search_fields: [
-                { type: "text", name: "title", label: "Title", ope: "", },
-                { type: "text", name: "description", label: "Description", ope: "", },
-                { type: "text", name: "connection_id", label: "Connection Id", ope: "", },
-                { type: "text", name: "invoice_id", label: "Invoice Id", ope: "", },
-                { type: "datetime", name: "start_date", label: "Start Date", ope: "", },
-                { type: "datetime", name: "end_date", label: "End Date", ope: "", },
-                { type: "switch", name: "is_paid", label: "Is Paid", ope: "", },
+                { type: "text", name: "type", label: "Type", ope: "", },
+                { type: "text", name: "financial_year_id", label: "Financial Year", ope: "", },
+                { type: "text", name: "chart_id", label: "Chart Id", ope: "", },
+                { type: "text", name: "ledger_id", label: "Ledger Id", ope: "", },
+                { type: "text", name: "debit", label: "Debit", ope: "", },
+                { type: "text", name: "credit", label: "Credit", ope: "", },
             ],
             table_fields: [
-                { text: "Title", prop: "title", name: "title", },
-                { text: "Description", prop: "description", name: "description", },
-                { text: "Invoice", prop: "invoice_id", name: "invoice_id", },
-                {
-                    text: "Connecx",
-                    prop: "[account_connection__username]-[account_connection__package_id.account_package__title] [account_connection__package_id.account_package__speed] [account_connection__package_id.account_package__speed_type]",
-                    name: "connection_id",
-                    foreign: ['account_connection__username', 'account_connection__package_id.account_package__title', 'account_connection__package_id.account_package__speed', 'account_connection__package_id.account_package__speed_type'],
-                },
-                { text: "Start Time", prop: "start_date", is_datetime: true, name: "start_date", },
-                { text: "End Time", prop: "end_date", is_datetime: true, name: "end_date", },
-                { text: "Is Paid", prop: "is_paid", align: "center", is_boolean: true, name: "is_paid", },
+                { text: "Type", prop: "type", name: "type", },
+                { text: "Financial Year", prop: "financial_year_id", name: "financial_year_id", },
+                { text: "Chart", prop: "chart_id", name: "chart_id", },
+                { text: "Ledger", prop: "ledger_id", name: "ledger_id", },
+                { text: "Debit", prop: "debit", name: "debit", },
+                { text: "Credit", prop: "credit", name: "credit", },
             ],
         };
     },

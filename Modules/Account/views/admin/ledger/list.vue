@@ -1,5 +1,5 @@
 <template>
-    <table-list title="Account Billing" :path_param="path_param" :search_fields="search_fields" :model="model"
+    <table-list title="Account Ledger" :path_param="path_param" :search_fields="search_fields" :model="model"
         :table_fields="table_fields"></table-list>
 </template>
 
