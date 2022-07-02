@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Journal extends Model
 {
 
-    protected $fillable = ['trn_date', 'ref', 'voucher_no', 'voucher_amount', 'particulars', 'attachments'];
+    protected $fillable = ['transaction_date', 'debit', 'credit', 'note', 'particulars'];
     public $migrationDependancy = [];
     protected $table = "account_journal";
 
@@ -21,11 +21,10 @@ class Journal extends Model
     public function migration(Blueprint $table)
     {
         $table->increments('id');
-        $table->date('trn_date')->nullable();
-        $table->string('ref')->nullable();
-        $table->integer('voucher_no')->nullable();
-        $table->decimal('voucher_amount', 20, 2)->default(0.00);
+        $table->date('transaction_date')->nullable();
+        $table->decimal('debit', 20, 2)->default(0.00);
+        $table->decimal('credit', 20, 2)->default(0.00);
+        $table->string('note')->nullable();
         $table->string('particulars')->nullable();
-        $table->string('attachments')->nullable();
     }
 }

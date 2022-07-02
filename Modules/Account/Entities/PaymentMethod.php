@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Account\Entities;
+namespace Modules\Payment\Entities;
 
 use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class CurrencyInfo extends Model
+class PaymentMethod extends Model
 {
 
-    protected $fillable = ['name', 'sign'];
+    protected $fillable = ['name'];
     public $migrationDependancy = [];
-    protected $table = "account_currency_info";
+    protected $table = "payment_method";
 
     /**
      * List of fields for managing postings.
@@ -22,6 +22,6 @@ class CurrencyInfo extends Model
     {
         $table->increments('id');
         $table->string('name')->nullable();
-        $table->string('sign')->nullable();
+
     }
 }
