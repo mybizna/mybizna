@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Account\Entities;
+namespace Modules\Payment\Entities;
 
 use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class TaxCategory extends Model
+class Payment extends Model
 {
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name'];
     public $migrationDependancy = [];
-    protected $table = "account_tax_category";
+    protected $table = "payment";
 
     /**
      * List of fields for managing postings.
@@ -21,7 +21,6 @@ class TaxCategory extends Model
     public function migration(Blueprint $table)
     {
         $table->increments('id');
-        $table->string('name', 100)->nullable();
-        $table->string('description')->nullable();
+        $table->string('name');
     }
 }

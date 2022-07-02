@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Account\Entities;
+namespace Modules\Payment\Entities;
 
 use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class TaxAgency extends Model
+class Payment extends Model
 {
 
-    protected $fillable = ['name', 'ecommerce_type'];
+    protected $fillable = ['name'];
     public $migrationDependancy = [];
-    protected $table = "account_tax_agency";
+    protected $table = "payment";
 
     /**
      * List of fields for managing postings.
@@ -21,7 +21,6 @@ class TaxAgency extends Model
     public function migration(Blueprint $table)
     {
         $table->increments('id');
-        $table->string('name')->nullable();
-        $table->string('ecommerce_type')->nullable();
+        $table->string('name');
     }
 }
