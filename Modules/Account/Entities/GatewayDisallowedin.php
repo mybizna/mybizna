@@ -2,15 +2,15 @@
 
 namespace Modules\Payment\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Payment extends Model
+class GatewayDisallowedin extends Model
 {
 
-    protected $fillable = ['name'];
+    protected $fillable = ['country_id', 'gateway_id'];
     public $migrationDependancy = [];
-    protected $table = "payment";
+    protected $table = "account_gateway_disallowedin";
 
     /**
      * List of fields for managing postings.
@@ -21,6 +21,7 @@ class Payment extends Model
     public function migration(Blueprint $table)
     {
         $table->increments('id');
-        $table->string('name');
+        $table->integer('country_id');
+        $table->integer('gateway_id');
     }
 }

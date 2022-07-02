@@ -2,15 +2,17 @@
 
 namespace Modules\Payment\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Payment extends Model
+class PaymentItem extends Model
 {
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'payment_id', 'amount', 'description', 'quantity', 'source_ident', 'source_id'
+    ];
     public $migrationDependancy = [];
-    protected $table = "payment";
+    protected $table = "account_payment_item";
 
     /**
      * List of fields for managing postings.
@@ -21,6 +23,11 @@ class Payment extends Model
     public function migration(Blueprint $table)
     {
         $table->increments('id');
-        $table->string('name');
+        $table->integer('payment_id');
+        $table->decimal('amount', 20, 2)->default(0.00);
+        $table->string('description')->nullable();
+        $table->integer('quantity')->nullable();
+        $table->string('source_ident')->nullable();
+        $table->integer('source_id')->nullable();
     }
 }

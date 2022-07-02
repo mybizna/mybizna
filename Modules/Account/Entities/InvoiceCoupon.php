@@ -2,20 +2,18 @@
 
 namespace Modules\Invoice\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Invoice extends Model
+class InvoiceCoupon extends Model
 {
 
     protected $fillable = [
-        'voucher_no', 'customer_id', 'customer_name', 'trn_date', 'due_date',
-        'billing_address', 'amount', 'discount', 'discount_type', 'shipping',
-        'shipping_tax', 'tax', 'tax_zone_id', 'estimate', 'attachments',
-        'status', 'particulars'
+        'code', 'description', 'value', 'amount', 'start_amount', 'end_amount',
+        'start_date', 'end_date', 'applied', 'is_percent',  'published', 'is_visible'
     ];
     public $migrationDependancy = [];
-    protected $table = "invoice";
+    protected $table = "account_invoice_coupon";
 
     /**
      * List of fields for managing postings.
@@ -25,25 +23,18 @@ class Invoice extends Model
      */
     public function migration(Blueprint $table)
     {
-
-
         $table->increments('id');
-        $table->integer('voucher_no')->nullable();
-        $table->integer('customer_id')->nullable();
-        $table->string('customer_name')->nullable();
-        $table->date('trn_date')->nullable();
-        $table->date('due_date')->nullable();
-        $table->string('billing_address')->nullable();
+        $table->string('code')->nullable();
+        $table->string('description')->nullable();
+        $table->string('value')->nullable();
         $table->decimal('amount', 20, 2)->default(0.00);
-        $table->decimal('discount', 20, 2)->default(0.00);
-        $table->string('discount_type')->nullable();
-        $table->decimal('shipping', 20, 2)->default(0.00);
-        $table->decimal('shipping_tax', 20, 2)->default(0.00);
-        $table->decimal('tax', 20, 2)->default(0.00);
-        $table->integer('tax_zone_id')->nullable();
-        $table->tinyInteger('estimate')->nullable();
-        $table->string('attachments')->nullable();
-        $table->integer('status')->nullable();
-        $table->string('particulars')->nullable();
+        $table->decimal('start_amount', 20, 2)->default(0.00);
+        $table->decimal('end_amount', 20, 2)->default(0.00);
+        $table->date('start_date')->nullable();
+        $table->date('end_date')->nullable();
+        $table->string('applied')->nullable();
+        $table->tinyInteger('is_percent')->nullable();
+        $table->tinyInteger('published')->nullable();
+        $table->tinyInteger('is_visible')->nullable();
     }
 }
