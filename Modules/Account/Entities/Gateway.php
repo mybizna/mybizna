@@ -9,7 +9,7 @@ class Gateway extends Model
 {
 
     protected $fillable = [
-        'short_name', 'long_name', 'currency_id', 'image', 'url',
+        'title', 'slug', 'currency_id', 'image', 'url',
         'ordering', 'is_default', 'is_hidden', 'published'
 
     ];
@@ -25,8 +25,8 @@ class Gateway extends Model
     public function migration(Blueprint $table)
     {
         $table->increments('id');
-        $table->string('short_name');
-        $table->string('long_name');
+        $table->string('title');
+        $table->string('slug');
         $table->integer('currency_id')->nullable();
         $table->string('image')->nullable();
         $table->string('url')->nullable();

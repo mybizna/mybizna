@@ -4,7 +4,7 @@ namespace Modules\Account\Entities\Data;
 
 use Modules\Core\Classes\Datasetter;
 
-class TransactionStatusType
+class InvoiceStatus
 {
 
     public $ordering = 1;
@@ -12,16 +12,8 @@ class TransactionStatusType
     public function data(Datasetter $datasetter)
     {
         $datasetter->add_data('account', 'transaction_status_type', 'slug', [
-            "type_name" => "Asset",
-            "slug" => "asset",
-        ]);
-        $datasetter->add_data('account', 'transaction_status_type', 'slug', [
             "type_name" => "Draft",
             "slug" => "draft"
-        ]);
-        $datasetter->add_data('account', 'transaction_status_type', 'slug', [
-            "type_name" => "Awaiting Payment",
-            "slug" => "awaiting_payment"
         ]);
         $datasetter->add_data('account', 'transaction_status_type', 'slug', [
             "type_name" => "Pending",
@@ -32,12 +24,8 @@ class TransactionStatusType
             "slug" => "paid"
         ]);
         $datasetter->add_data('account', 'transaction_status_type', 'slug', [
-            "type_name" => "Partially Paid",
-            "slug" => "partially_paid"
-        ]);
-        $datasetter->add_data('account', 'transaction_status_type', 'slug', [
-            "type_name" => "Approved",
-            "slug" => "approved"
+            "type_name" => "Partial",
+            "slug" => "partial"
         ]);
         $datasetter->add_data('account', 'transaction_status_type', 'slug', [
             "type_name" => "Closed",
@@ -46,14 +34,6 @@ class TransactionStatusType
         $datasetter->add_data('account', 'transaction_status_type', 'slug', [
             "type_name" => "Void",
             "slug" => "void"
-        ]);
-        $datasetter->add_data('account', 'transaction_status_type', 'slug', [
-            "type_name" => "Returned",
-            "slug" => "returned"
-        ]);
-        $datasetter->add_data('account', 'transaction_status_type', 'slug', [
-            "type_name" => "Partially Returned",
-            "slug" => "partially_returned"
         ]);
     }
 }
