@@ -2,15 +2,15 @@
 
 namespace Modules\Payment\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
 
 class PaymentMethod extends Model
 {
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
     public $migrationDependancy = [];
-    protected $table = "payment_method";
+    protected $table = "account_payment_method";
 
     /**
      * List of fields for managing postings.
@@ -22,6 +22,6 @@ class PaymentMethod extends Model
     {
         $table->increments('id');
         $table->string('name')->nullable();
-
+        $table->string('description')->nullable();
     }
 }
