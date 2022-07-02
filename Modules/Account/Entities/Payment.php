@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Account\Entities;
+namespace Modules\Payment\Entities;
 
 use Modules\Core\Entities\BaseModel AS Model;
 use Illuminate\Database\Schema\Blueprint;
 
-class Account extends Model
+class Payment extends Model
 {
 
     protected $fillable = ['name'];
     public $migrationDependancy = [];
-    protected $table = "account";
+    protected $table = "payment";
 
     /**
      * List of fields for managing postings.
@@ -23,5 +23,4 @@ class Account extends Model
         $table->increments('id');
         $table->string('name');
     }
-
 }
