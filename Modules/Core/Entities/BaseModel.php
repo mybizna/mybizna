@@ -7,21 +7,16 @@ use Illuminate\Support\Str;
 class BaseModel extends \Illuminate\Database\Eloquent\Model
 {
 
-    /**
-     * The table associated with the model. Copies $table in Model
-     *
-     * @var string
-     */
-    protected static string $tableName;
 
     /**
      * Get the table associated with the model. Copies getTable() in Model
      *
      * @return string
      */
-    public static function getTableName(): string
+    public function getTableName(): string
     {
-        return static::$tableName ?? Str::snake(Str::pluralStudly(class_basename(static::class)));
+        $table =  $this->table;
+        return $table ?? Str::snake(Str::pluralStudly(class_basename(static::class)));
     }
 
     /**
@@ -31,7 +26,7 @@ class BaseModel extends \Illuminate\Database\Eloquent\Model
      */
     public function getTable(): string
     {
-        return $this::getTableName();
+        return $this->getTableName();
     }
 
     public function getAllRecords($args)
@@ -151,7 +146,7 @@ class BaseModel extends \Illuminate\Database\Eloquent\Model
         $query = $query->select($select->all())
             ->limit($params['limit']);
 
-        ($params['order'] == 'DESC') ? $query->orderByDesc($main_table_alias.'.'.$params['orderby']) : $query->orderBy($main_table_alias.'.'.$params['orderby']);
+        ($params['order'] == 'DESC') ? $query->orderByDesc($main_table_alias . '.' . $params['orderby']) : $query->orderBy($main_table_alias . '.' . $params['orderby']);
 
         if (is_array($params['s'])) {
             foreach ($params['s'] as $field => $s) {

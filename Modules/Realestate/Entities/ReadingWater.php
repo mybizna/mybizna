@@ -10,7 +10,7 @@ class ReadingWater extends Model
 {
 
     protected $fillable = ['name', 'tenancy_id', 'invoice_id', 'reading', 'units', 'billing_period', 'billing_date'];
-    public $migrationDependancy = ['invoice', 'realestate_tenancy'];
+    public $migrationDependancy = ['account_invoice', 'realestate_tenancy'];
     protected $table = "realestate_reading_water";
 
     /**

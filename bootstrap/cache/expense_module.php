@@ -1,8 +1,11 @@
-<?php return array(
-    'providers' =>
-    array(),
-    'eager' =>
-    array(),
-    'deferred' =>
-    array(),
+<?php return array (
+  'providers' => 
+  array (
+  ),
+  'eager' => 
+  array (
+  ),
+  'deferred' => 
+  array (
+  ),
 );

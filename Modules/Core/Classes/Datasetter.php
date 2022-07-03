@@ -73,6 +73,8 @@ class Datasetter
             "array_key" => $data[$main_field],
         );
 
+        print_r($module);
+
         $class_name = $this->getClassName($module, $model);
 
         array_multisort($data);
@@ -122,6 +124,8 @@ class Datasetter
     private function getClassName($module, $model)
     {
         $classname = 'Modules\\' . ucfirst($module) . '\Entities\\' . ucfirst(Str::camel($model));
+
+        print_r($classname);
 
         return (class_exists($classname)) ? new $classname() : false;
     }

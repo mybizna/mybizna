@@ -10,7 +10,7 @@ class Connection extends Model
 {
 
     protected $fillable = ['package_id', 'partner_id', 'invoice_id', 'username', 'password', 'params', 'expiry_date', 'billing_date', 'is_paid', 'is_setup', 'status'];
-    public $migrationDependancy = ['isp_package', 'invoice', 'partner'];
+    public $migrationDependancy = ['isp_package', 'account_invoice', 'partner'];
     protected $table = "isp_connection";
 
     /**

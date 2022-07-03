@@ -10,7 +10,7 @@ class Billing extends Model
 {
 
     protected $fillable = ['title', 'connection_id', 'invoice_id', 'description', 'start_date', 'end_date', 'is_paid'];
-    public $migrationDependancy = ['isp_connection', 'invoice'];
+    public $migrationDependancy = ['isp_connection', 'account_invoice'];
     protected $table = "isp_billing";
 
     /**
