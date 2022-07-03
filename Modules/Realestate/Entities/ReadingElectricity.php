@@ -10,7 +10,7 @@ class ReadingElectricity extends Model
 {
 
     protected $fillable = ['name', 'tenancy_id', 'invoice_id', 'reading', 'units', 'billing_period', 'billing_date'];
-    public $migrationDependancy = ['realestate_tenancy', 'invoice'];
+    public $migrationDependancy = ['realestate_tenancy', 'account_invoice'];
     protected $table = "realestate_reading_electricity";
 
     /**

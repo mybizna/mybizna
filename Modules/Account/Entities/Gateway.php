@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Payment\Entities;
+namespace Modules\Account\Entities;
 
 use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,7 +14,7 @@ class Gateway extends Model
         'ordering', 'is_default', 'is_hidden', 'published'
 
     ];
-    public $migrationDependancy = [];
+    public $migrationDependancy = ['base_currency'];
     protected $table = "account_gateway";
 
     /**

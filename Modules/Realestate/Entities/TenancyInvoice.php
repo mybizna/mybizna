@@ -10,7 +10,7 @@ class TenancyInvoice extends Model
 {
 
     protected $fillable = ['title', 'tenancy_id', 'invoice_id',  'billing_period'];
-    public $migrationDependancy = ['realestate_tenancy','invoice'];
+    public $migrationDependancy = ['realestate_tenancy','account_invoice'];
     protected $table = "realestate_tenancy_invoice";
 
     /**

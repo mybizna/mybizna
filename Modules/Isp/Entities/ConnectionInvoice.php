@@ -2,7 +2,7 @@
 
 namespace Modules\Isp\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
@@ -10,7 +10,7 @@ class ConnectionInvoice extends Model
 {
 
     protected $fillable = ['connection_id', 'invoice_id'];
-    public $migrationDependancy = ['isp_connection','invoice'];
+    public $migrationDependancy = ['isp_connection', 'account_invoice'];
     protected $table = "isp_connection_invoice";
 
     /**

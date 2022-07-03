@@ -11,7 +11,7 @@ use Modules\Account\Classes\PayBills;
 
 
 use Illuminate\Support\Facades\DB;
-use Modules\Payment\Entities\PayBill;
+use Modules\Account\Entities\PayBill;
 
 class PayBillsController extends Controller
 {

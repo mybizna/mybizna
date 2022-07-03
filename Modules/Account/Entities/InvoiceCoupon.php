@@ -1,6 +1,7 @@
 <?php
 
-namespace Modules\Payment\Entities;
+namespace Modules\Account
+\Entities;
 
 use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
