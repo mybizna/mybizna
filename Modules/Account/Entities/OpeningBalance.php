@@ -29,16 +29,16 @@ class OpeningBalance extends Model
         $table->decimal('debit', 20, 2)->default(0.00);
         $table->decimal('credit', 20, 2)->default(0.00);
     }
-    
+
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('account_financial_year', 'financial_year_id')) {
+        if (Migration::checkKeyExist('account_opening_balance', 'financial_year_id')) {
             $table->foreign('financial_year_id')->references('id')->on('account_financial_year')->nullOnDelete();
         }
-        if (Migration::checkKeyExist('account_chart_of_account', 'chart_id')) {
+        if (Migration::checkKeyExist('account_opening_balance', 'chart_id')) {
             $table->foreign('chart_id')->references('id')->on('account_chart_of_account')->nullOnDelete();
         }
-        if (Migration::checkKeyExist('account_ledger', 'ledger_id')) {
+        if (Migration::checkKeyExist('account_opening_balance', 'ledger_id')) {
             $table->foreign('ledger_id')->references('id')->on('account_ledger')->nullOnDelete();
         }
     }

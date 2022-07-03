@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
@@ -10,7 +10,7 @@ class LedgerCategory extends Model
 {
 
     protected $fillable = ['name', 'slug', 'chart_id', 'parent_id', 'system'];
-    public $migrationDependancy = ['account_chart_of_account'];
+    public $migrationDependancy = ['account_chart_of_account', 'account_ledger_category'];
     protected $table = "account_ledger_category";
 
     /**
@@ -28,10 +28,10 @@ class LedgerCategory extends Model
         $table->integer('parent_id')->nullable();
         $table->tinyInteger('system')->nullable();
     }
-     
+
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('account_chart_of_account', 'chart_id')) {
+        if (Migration::checkKeyExist('account_ledger_category', 'chart_id')) {
             $table->foreign('chart_id')->references('id')->on('account_chart_of_account')->nullOnDelete();
         }
         if (Migration::checkKeyExist('account_ledger_category', 'parent_id')) {

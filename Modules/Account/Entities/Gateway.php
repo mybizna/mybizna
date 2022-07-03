@@ -4,6 +4,7 @@ namespace Modules\Payment\Entities;
 
 use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
+use Modules\Core\Classes\Migration;
 
 class Gateway extends Model
 {
@@ -34,5 +35,13 @@ class Gateway extends Model
         $table->tinyInteger('is_default')->nullable();
         $table->tinyInteger('is_hidden')->nullable();
         $table->tinyInteger('published')->nullable();
+    }
+
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('account_gateway', 'currency_id')) {
+            $table->foreign('currency_id')->references('id')->on('base_currency')->nullOnDelete();
+        }
     }
 }

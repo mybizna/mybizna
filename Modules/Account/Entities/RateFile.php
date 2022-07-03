@@ -4,6 +4,7 @@ namespace Modules\Payment\Entities;
 
 use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
+use Modules\Core\Classes\Migration;
 
 class RateFile extends Model
 {
@@ -11,7 +12,7 @@ class RateFile extends Model
     protected $fillable = [
         'rate_id', 'year', 'month', 'token', 'type', 'max_limit', 'file', 'is_processed'
     ];
-    public $migrationDependancy = [];
+    public $migrationDependancy = ['account_rate'];
     protected $table = "account_rate_file";
 
     /**
@@ -31,5 +32,12 @@ class RateFile extends Model
         $table->integer('max_limit');
         $table->string('file');
         $table->tinyInteger('is_processed')->nullable();
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('account_rate_file', 'rate_id')) {
+            $table->foreign('rate_id')->references('id')->on('account_rate')->nullOnDelete();
+        }
     }
 }

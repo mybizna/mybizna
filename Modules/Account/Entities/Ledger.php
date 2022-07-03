@@ -33,10 +33,10 @@ class Ledger extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('account_chart_of_account', 'chart_id')) {
+        if (Migration::checkKeyExist('account_ledger', 'chart_id')) {
             $table->foreign('chart_id')->references('id')->on('account_chart_of_account')->nullOnDelete();
         }
-        if (Migration::checkKeyExist('account_ledger_category', 'category_id')) {
+        if (Migration::checkKeyExist('account_ledger', 'category_id')) {
             $table->foreign('category_id')->references('id')->on('account_ledger_category')->nullOnDelete();
         }
     }

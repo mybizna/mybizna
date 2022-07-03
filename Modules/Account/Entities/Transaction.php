@@ -4,16 +4,17 @@ namespace Modules\Payment\Entities;
 
 use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
+use Modules\Core\Classes\Migration;
 
 class Transaction extends Model
 {
 
     protected $fillable = [
-        'partner_id', 'source_id', 'from_user_id', 'payment_id', 'rate_id',
-        'amount', 'description', 'source_ident', 'type', 'level', 'token',
+        'partner_id', 'from_user_id', 'payment_id', 'rate_id',
+        'amount', 'description', 'type', 'level', 'token',
         'is_capped', 'is_processed', 'is_profitshare'
     ];
-    public $migrationDependancy = [];
+    public $migrationDependancy = ['partner', 'users', 'account_payment', 'account_rate'];
     protected $table = "account_transaction";
 
     /**
@@ -26,18 +27,37 @@ class Transaction extends Model
     {
         $table->increments('id');
         $table->integer('partner_id');
-        $table->integer('source_id');
         $table->integer('from_user_id');
         $table->integer('payment_id');
         $table->integer('rate_id');
         $table->decimal('amount', 20, 2)->default(0.00);
         $table->string('description');
-        $table->integer('source_ident');
         $table->string('type')->nullable();
         $table->string('level')->nullable();
         $table->string('token')->nullable();
         $table->tinyInteger('is_capped')->nullable();
         $table->tinyInteger('is_processed')->nullable();
         $table->tinyInteger('is_profitshare')->nullable();
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+
+
+        if (Migration::checkKeyExist('account_transaction', 'partner_id')) {
+            $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
+        }
+
+        if (Migration::checkKeyExist('account_transaction', 'from_user_id')) {
+            $table->foreign('from_user_id')->references('id')->on('users')->nullOnDelete();
+        }
+
+        if (Migration::checkKeyExist('account_transaction', 'payment_id')) {
+            $table->foreign('payment_id')->references('id')->on('account_payment')->nullOnDelete();
+        }
+
+        if (Migration::checkKeyExist('account_transaction', 'rate_id')) {
+            $table->foreign('rate_id')->references('id')->on('account_rate')->nullOnDelete();
+        }
     }
 }
