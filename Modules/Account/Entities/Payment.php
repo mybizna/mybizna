@@ -4,6 +4,7 @@ namespace Modules\Payment\Entities;
 
 use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
+use Modules\Core\Classes\Migration;
 
 class Payment extends Model
 {
@@ -12,7 +13,7 @@ class Payment extends Model
         'gateway_id', 'amount', 'invoice_id', 'description', 'receipt_no',
         'code', "completed", 'successful', 'canceled'
     ];
-    public $migrationDependancy = [];
+    public $migrationDependancy = ['account_gateway'];
     protected $table = "account_payment";
 
     /**
@@ -33,5 +34,16 @@ class Payment extends Model
         $table->tinyInteger('completed')->nullable();
         $table->tinyInteger('successful')->nullable();
         $table->tinyInteger('canceled')->nullable();
+    }
+
+
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('account_payment', 'gateway_id')) {
+            $table->foreign('gateway_id')->references('id')->on('account_gateway')->nullOnDelete();
+        }
+
+
     }
 }

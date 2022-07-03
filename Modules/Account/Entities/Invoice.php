@@ -4,6 +4,7 @@ namespace Modules\Invoice\Entities;
 
 use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
+use Modules\Core\Classes\Migration;
 
 class Invoice extends Model
 {
@@ -11,7 +12,7 @@ class Invoice extends Model
     protected $fillable = [
         'partner_id', 'description', 'status', 'completed', 'successful'
     ];
-    public $migrationDependancy = [];
+    public $migrationDependancy = ['partner'];
     protected $table = "account_invoice";
 
     /**
@@ -28,5 +29,13 @@ class Invoice extends Model
         $table->enum('status', ['draft', 'pending', 'partial', 'paid', 'closed', 'void'])->default('draft')->nullable();
         $table->tinyInteger('completed')->nullable();
         $table->tinyInteger('successful')->nullable();
+    }
+
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('account_invoice', 'partner_id')) {
+            $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
+        }
     }
 }

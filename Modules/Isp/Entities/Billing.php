@@ -2,7 +2,7 @@
 
 namespace Modules\Isp\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
@@ -10,7 +10,7 @@ class Billing extends Model
 {
 
     protected $fillable = ['title', 'connection_id', 'invoice_id', 'description', 'start_date', 'end_date', 'is_paid'];
-    public $migrationDependancy = ['isp_connection','invoice'];
+    public $migrationDependancy = ['isp_connection', 'invoice'];
     protected $table = "isp_billing";
 
     /**
@@ -29,24 +29,16 @@ class Billing extends Model
         $table->dateTime('start_date')->nullable();
         $table->dateTime('end_date')->nullable();
         $table->boolean('is_paid')->default(false)->nullable();
-
-       
     }
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('isp_connection', 'connection_id')) {
+        if (Migration::checkKeyExist('isp_billing', 'connection_id')) {
             $table->foreign('connection_id')->references('id')->on('isp_connection')->nullOnDelete();
         }
 
-        if (Migration::checkKeyExist('invoice', 'invoice_id')) {
+        if (Migration::checkKeyExist('isp_billing', 'invoice_id')) {
             $table->foreign('invoice_id')->references('id')->on('invoice')->nullOnDelete();
         }
     }
-
-    /**
-     *     billing_items_ids = fields.One2many('mybizna.isp.billing_items', 'billing_id',
-                                        'Billing Items',
-                                        track_visibility='onchange')
-     */
 }
