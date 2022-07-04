@@ -36,15 +36,5 @@ class ChartOfAccount
             "slug" => "expense",
         ]);
 
-        $datasetter->add_data('account', 'chart_of_account', 'slug', [
-            "name" => "Asset & Liability",
-            "slug" => "asset_liability",
-        ]);
-
-
-        $datasetter->add_data('account', 'chart_of_account', 'slug', [
-            "name" => "Bank",
-            "slug" => "bank",
-        ]);
     }
 }

@@ -4,13 +4,12 @@
         <div class="row">
             <div class="col-md-6">
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Trn Date" id="trn_date" type="text" validation="required" />
-                <FormKit label="Ref" id="ref" type="text" validation="required" />
-                <FormKit label="Voucher No" id="voucher_no" type="text" validation="required" />
-                <FormKit label="Voucher Amount" id="voucher_amount" type="text" validation="required" />
+                <FormKit label="note" id="note" type="text" validation="required" />
+                <FormKit label="transaction_date" id="transaction_date" type="text" validation="required" />
+                <FormKit label="debit" id="debit" type="text" validation="required" />
+                <FormKit label="credit" id="credit" type="text" validation="required" />
             </div>
             <div class="col-md-6">
-                <FormKit label="Attachments" id="attachments" type="text" validation="required" />
                 <FormKit label="Particulars" id="particulars" type="text" validation="required" />
             </div>
         </div>
@@ -30,12 +29,11 @@ export default {
             path_param: ["account", "journal"],
             model: {
                 id: "",
-                trn_date: "",
-                ref: "",
-                voucher_no: "",
-                voucher_amount: "",
+                transaction_date: "",
+                debit: "",
+                credit: "",
+                note: "",
                 particulars: "",
-                attachments: "",
             },
 
         };

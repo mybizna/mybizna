@@ -5,7 +5,7 @@
             <div class="col-md-6">
 
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Title" id="title" type="text" validation="required" />
+                <FormKit label="Name" id="name" type="text" validation="required" />
                 <FormKit label="Start Date" id="start_date" type="datetime" validation="required" />
                 <FormKit label="End Date" id="end_date" type="datetime" validation="required" />
 

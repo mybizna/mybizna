@@ -27,7 +27,7 @@ export default {
     data () {
         return {
             id: null,
-            path_param: ["account", "journal"],
+            path_param: ["account", "transaction"],
             model: {
                 id: "",
                 trn_date: "",
