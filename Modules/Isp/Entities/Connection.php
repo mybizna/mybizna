@@ -38,24 +38,15 @@ class Connection extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('isp_package', 'package_id')) {
+        if (Migration::checkKeyExist('isp_connection', 'package_id')) {
             $table->foreign('package_id')->references('id')->on('isp_package')->nullOnDelete();
         }
-        if (Migration::checkKeyExist('invoice', 'invoice_id')) {
-            $table->foreign('invoice_id')->references('id')->on('invoice')->nullOnDelete();
+        if (Migration::checkKeyExist('isp_connection', 'invoice_id')) {
+            $table->foreign('invoice_id')->references('id')->on('account_invoice')->nullOnDelete();
         }
-        if (Migration::checkKeyExist('partner', 'partner_id')) {
+        if (Migration::checkKeyExist('isp_connection', 'partner_id')) {
             $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
         }
     }
 
-    /**
-    connections_setupitems_ids = fields.One2many('mybizna.isp.connections_setupitems', 'connection_id',
-                                                 'Setup Items',
-                                                 track_visibility='onchange')
-
-    connections_invoices_ids = fields.One2many('mybizna.isp.connections_invoices', 'connection_id',
-                                               'Invoices',
-                                               track_visibility='onchange')
-     */
 }

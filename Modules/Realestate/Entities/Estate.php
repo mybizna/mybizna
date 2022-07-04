@@ -30,7 +30,7 @@ class Estate extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('realestate_town', 'town_id')) {
+        if (Migration::checkKeyExist('realestate_estate', 'town_id')) {
             $table->foreign('town_id')->references('id')->on('realestate_town')->nullOnDelete();
         }
     }

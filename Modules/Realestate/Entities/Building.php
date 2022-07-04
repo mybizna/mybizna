@@ -2,7 +2,7 @@
 
 namespace Modules\Realestate\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
@@ -36,19 +36,8 @@ class Building extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('realestate_estate', 'estate_id')) {
+        if (Migration::checkKeyExist('realestate_building', 'estate_id')) {
             $table->foreign('estate_id')->references('id')->on('realestate_estate')->nullOnDelete();
         }
     }
-
-
-    /**
-     *        setup_ids = fields.One2many('mybizna.realestate.building_unit_setup', 'building_id',
-                                'Building Unit Setup',
-                                track_visibility='onchange')
-
-    unit_ids = fields.One2many('mybizna.realestate.unit', 'building_id',
-                               'Units',
-                               track_visibility='onchange')
-     */
 }

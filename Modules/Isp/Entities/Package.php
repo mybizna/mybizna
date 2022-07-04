@@ -2,7 +2,7 @@
 
 namespace Modules\Isp\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Core\Entities\BaseModel as Model;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
@@ -35,13 +35,8 @@ class Package extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('isp_billing_cycle', 'billing_cycle_id')) {
+        if (Migration::checkKeyExist('isp_package', 'billing_cycle_id')) {
             $table->foreign('billing_cycle_id')->references('id')->on('isp_billing_cycle')->nullOnDelete();
         }
     }
-
-
-    /*packages_setupitems_ids = fields.One2many('mybizna.isp.packages_setupitems', 'package_id',
-                                              'Package Setup Items',
-                                              track_visibility='onchange')*/
 }

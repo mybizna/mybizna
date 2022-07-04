@@ -38,7 +38,7 @@ class Billing extends Model
         }
 
         if (Migration::checkKeyExist('isp_billing', 'invoice_id')) {
-            $table->foreign('invoice_id')->references('id')->on('invoice')->nullOnDelete();
+            $table->foreign('invoice_id')->references('id')->on('account_invoice')->nullOnDelete();
         }
     }
 }

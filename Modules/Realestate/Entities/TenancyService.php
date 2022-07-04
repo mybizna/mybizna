@@ -31,7 +31,7 @@ class TenancyService extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('realestate_tenancy', 'tenancy_id')) {
+        if (Migration::checkKeyExist('realestate_tenancy_service', 'tenancy_id')) {
             $table->foreign('tenancy_id')->references('id')->on('realestate_tenancy')->nullOnDelete();
         }
     }

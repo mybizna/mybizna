@@ -30,10 +30,10 @@ class Region extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('base_country', 'country_id')) {
+        if (Migration::checkKeyExist('realestate_region', 'country_id')) {
             $table->foreign('country_id')->references('id')->on('base_country')->nullOnDelete();
         }
-        if (Migration::checkKeyExist('base_state', 'state_id')) {
+        if (Migration::checkKeyExist('realestate_region', 'state_id')) {
             $table->foreign('state_id')->references('id')->on('base_state')->nullOnDelete();
         }
     }

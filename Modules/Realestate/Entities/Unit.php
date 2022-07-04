@@ -37,15 +37,8 @@ class Unit extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('realestate_building', 'building_id')) {
+        if (Migration::checkKeyExist('realestate_unit', 'building_id')) {
             $table->foreign('building_id')->references('id')->on('realestate_building')->nullOnDelete();
         }
     }
-
-    /**record_name = fields.Char(string='Record Name',
-                              compute='_compute_record_name')
-
-    setup_ids = fields.One2many('mybizna.realestate.unit_setup', 'unit_id',
-                                'Unit Setup',
-                                track_visibility='onchange')*/
 }

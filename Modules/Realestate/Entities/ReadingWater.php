@@ -33,10 +33,10 @@ class ReadingWater extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('invoice', 'invoice_id')) {
-            $table->foreign('invoice_id')->references('id')->on('invoice')->nullOnDelete();
+        if (Migration::checkKeyExist('realestate_reading_water', 'invoice_id')) {
+            $table->foreign('invoice_id')->references('id')->on('account_invoice')->nullOnDelete();
         }
-        if (Migration::checkKeyExist('realestate_tenancy', 'tenancy_id')) {
+        if (Migration::checkKeyExist('realestate_reading_water', 'tenancy_id')) {
             $table->foreign('tenancy_id')->references('id')->on('realestate_tenancy')->nullOnDelete();
         }
     }

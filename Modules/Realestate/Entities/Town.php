@@ -29,7 +29,7 @@ class Town extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('realestate_region', 'region_id')) {
+        if (Migration::checkKeyExist('realestate_town', 'region_id')) {
             $table->foreign('region_id')->references('id')->on('realestate_region')->nullOnDelete();
         }
     }
