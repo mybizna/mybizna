@@ -1,5 +1,5 @@
 <template>
-    <table-list title="Account Journal" :path_param="path_param" :search_fields="search_fields" :model="model"
+    <table-list title="Transaction" :path_param="path_param" :search_fields="search_fields" :model="model"
         :table_fields="table_fields"></table-list>
 </template>
 
@@ -12,7 +12,7 @@ export default {
     },
     data () {
         return {
-            path_param: ["account", "journal"],
+            path_param: ["account", "transaction"],
             model: {
                 trn_date: "",
                 ref: "",

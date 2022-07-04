@@ -9,7 +9,7 @@ class Coupon extends Model
 {
 
     protected $fillable = [
-        'code', 'description', 'value', 'amount', 'start_amount', 'end_amount',
+        'code', 'description', 'value', 'start_amount', 'end_amount',
         'start_date', 'end_date', 'applied', 'is_percent',  'published', 'is_visible'
     ];
     public $migrationDependancy = [];
@@ -27,7 +27,6 @@ class Coupon extends Model
         $table->string('code')->nullable();
         $table->string('description')->nullable();
         $table->string('value')->nullable();
-        $table->decimal('amount', 20, 2)->default(0.00);
         $table->decimal('start_amount', 20, 2)->default(0.00);
         $table->decimal('end_amount', 20, 2)->default(0.00);
         $table->date('start_date')->nullable();

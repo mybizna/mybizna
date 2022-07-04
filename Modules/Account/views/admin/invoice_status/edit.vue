@@ -5,11 +5,11 @@
             <div class="col-md-6">
 
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Name" id="name" type="text" validation="required" />
+                <FormKit label="Type Name" id="type_name" type="text" validation="required" />
+                <FormKit label="Slug" id="slug" type="text" validation="required" />
 
             </div>
             <div class="col-md-6">
-                <FormKit label="Description" id="description" type="textarea" validation="required" />
 
             </div>
         </div>
@@ -26,11 +26,11 @@ export default {
     data () {
         return {
             id: null,
-            path_param: ["account", "tax_category"],
+            path_param: ["account", "invoice_status"],
             model: {
                 id: "",
-                name: "",
-                description: "",
+                type_name: "",
+                slug: "",
             },
 
         };

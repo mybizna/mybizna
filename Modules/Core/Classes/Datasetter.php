@@ -58,7 +58,6 @@ class Datasetter
             }
 
             foreach ($models->sortBy('order') as $model) {
-
                 $this->output('Model: ' . $model['data_folder'],true);
                 $model['object']->data($this);
             }

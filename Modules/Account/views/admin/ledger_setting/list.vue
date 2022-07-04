@@ -1,5 +1,5 @@
 <template>
-    <table-list title="Account Ledger Setting" :path_param="path_param" :search_fields="search_fields" :model="model"
+    <table-list title="Ledger Setting" :path_param="path_param" :search_fields="search_fields" :model="model"
         :table_fields="table_fields"></table-list>
 </template>
 
@@ -14,16 +14,27 @@ export default {
         return {
             path_param: ["account", "ledger_setting"],
             model: {
-                ledger_id: "",
-                short_code: "",
+                title: "",
+                slug: "",
+                left_ledger_id: "",
+                right_chart_of_account_id: "",
+                right_ledger_id: "",
             },
+
+
             search_fields: [
-                { type: "text", name: "ledger_id", label: "Ledger", ope: "", },
-                { type: "text", name: "short_code", label: "Short Code", ope: "", },
+                { type: "text", name: "title", label: "title", ope: "", },
+                { type: "text", name: "slug", label: "slug", ope: "", },
+                { type: "text", name: "left_ledger_id", label: "left_ledger_id", ope: "", },
+                { type: "text", name: "right_chart_of_account_id", label: "right_chart_of_account_id", ope: "", },
+                { type: "text", name: "right_ledger_id", label: "right_ledger_id", ope: "", },
             ],
             table_fields: [
-                { text: "Ledger", prop: "ledger_id", name: "ledger_id", },
-                { text: "Short Code", prop: "short_code", name: "short_code", },
+                { text: "title", prop: "title", name: "title", },
+                { text: "slug", prop: "slug", name: "slug", },
+                { text: "Short", prop: "left_ledger_id", name: "left_ledger_id", },
+                { text: "Short", prop: "right_chart_of_account_id", name: "right_chart_of_account_id", },
+                { text: "Short", prop: "right_ledger_id", name: "right_ledger_id", },
             ],
         };
     },

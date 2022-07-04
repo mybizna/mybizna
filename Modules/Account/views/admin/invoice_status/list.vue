@@ -1,5 +1,5 @@
 <template>
-    <table-list title="Account Transaction Status Type" :path_param="path_param" :search_fields="search_fields" :model="model"
+    <table-list title="Invoice Status" :path_param="path_param" :search_fields="search_fields" :model="model"
         :table_fields="table_fields"></table-list>
 </template>
 
@@ -12,7 +12,7 @@ export default {
     },
     data () {
         return {
-            path_param: ["account", "transaction_status_type"],
+            path_param: ["account", "invoice_status"],
             model: {
                 type_name: "",
                 slug: "",
