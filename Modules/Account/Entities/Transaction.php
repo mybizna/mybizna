@@ -26,12 +26,14 @@ class Transaction extends Model
     public function migration(Blueprint $table)
     {
         $table->increments('id');
-        $table->integer('partner_id');
-        $table->integer('from_user_id');
-        $table->integer('payment_id');
-        $table->integer('rate_id');
         $table->decimal('amount', 20, 2)->default(0.00);
         $table->string('description');
+        $table->integer('partner_id');
+        $table->integer('payment_id');
+        $table->integer('rate_id');
+        $table->integer('left_ledger_id')->nullable();
+        $table->integer('right_chart_of_account_id')->nullable();
+        $table->integer('right_ledger_id')->nullable();
         $table->string('type')->nullable();
         $table->string('level')->nullable();
         $table->string('token')->nullable();
@@ -46,10 +48,6 @@ class Transaction extends Model
 
         if (Migration::checkKeyExist('account_transaction', 'partner_id')) {
             $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
-        }
-
-        if (Migration::checkKeyExist('account_transaction', 'from_user_id')) {
-            $table->foreign('from_user_id')->references('id')->on('users')->nullOnDelete();
         }
 
         if (Migration::checkKeyExist('account_transaction', 'payment_id')) {
