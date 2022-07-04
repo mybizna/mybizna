@@ -31,7 +31,7 @@ class ConnectionSetupItem extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('isp_connection', 'connection_id')) {
+        if (Migration::checkKeyExist('isp_connection_setup_item', 'connection_id')) {
             $table->foreign('connection_id')->references('id')->on('isp_connection')->nullOnDelete();
         }
     }

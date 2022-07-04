@@ -31,7 +31,7 @@ class PackageSetupItem extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('isp_package', 'package_id')) {
+        if (Migration::checkKeyExist('isp_package_setup_item', 'package_id')) {
             $table->foreign('package_id')->references('id')->on('isp_package')->nullOnDelete();
         }
     }

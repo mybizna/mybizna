@@ -30,7 +30,7 @@ class BuildingUnitSetup extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('realestate_building', 'building_id')) {
+        if (Migration::checkKeyExist('realestate_building_unit_setup', 'building_id')) {
             $table->foreign('building_id')->references('id')->on('realestate_building')->nullOnDelete();
         }
     }

@@ -30,7 +30,7 @@ class BillingItem extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('isp_connection', 'billing_id')) {
+        if (Migration::checkKeyExist('isp_billing_item', 'billing_id')) {
             $table->foreign('billing_id')->references('id')->on('isp_connection')->nullOnDelete();
         }
     }

@@ -29,11 +29,11 @@ class ConnectionInvoice extends Model
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('isp_connection', 'connection_id')) {
+        if (Migration::checkKeyExist('isp_connection_invoice', 'connection_id')) {
             $table->foreign('connection_id')->references('id')->on('isp_connection')->nullOnDelete();
         }
-        if (Migration::checkKeyExist('invoice', 'invoice_id')) {
-            $table->foreign('invoice_id')->references('id')->on('invoice')->nullOnDelete();
+        if (Migration::checkKeyExist('isp_connection_invoice', 'invoice_id')) {
+            $table->foreign('invoice_id')->references('id')->on('account_invoice')->nullOnDelete();
         }
     }
 }

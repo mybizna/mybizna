@@ -14,7 +14,7 @@ class Transaction extends Model
         'amount', 'description', 'type', 'level', 'token',
         'is_capped', 'is_processed', 'is_profitshare'
     ];
-    public $migrationDependancy = ['partner', 'users', 'account_payment', 'account_rate'];
+    public $migrationDependancy = ['partner', 'account_payment', 'account_rate'];
     protected $table = "account_transaction";
 
     /**
