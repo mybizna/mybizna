@@ -10,9 +10,8 @@ class Transaction extends Model
 {
 
     protected $fillable = [
-        'partner_id', 'from_user_id', 'payment_id', 'rate_id',
-        'amount', 'description', 'type', 'level', 'token',
-        'is_capped', 'is_processed', 'is_profitshare'
+        'amount', 'description', 'partner_id', 'left_ledger_id',
+        'right_chart_of_account_id', 'right_ledger_id', 'type', 'is_processed'
     ];
     public $migrationDependancy = ['partner', 'account_payment', 'account_rate'];
     protected $table = "account_transaction";
@@ -29,33 +28,30 @@ class Transaction extends Model
         $table->decimal('amount', 20, 2)->default(0.00);
         $table->string('description');
         $table->integer('partner_id');
-        $table->integer('payment_id');
-        $table->integer('rate_id');
         $table->integer('left_ledger_id')->nullable();
         $table->integer('right_chart_of_account_id')->nullable();
         $table->integer('right_ledger_id')->nullable();
         $table->string('type')->nullable();
-        $table->string('level')->nullable();
-        $table->string('token')->nullable();
-        $table->tinyInteger('is_capped')->nullable();
         $table->tinyInteger('is_processed')->nullable();
-        $table->tinyInteger('is_profitshare')->nullable();
     }
 
     public function post_migration(Blueprint $table)
     {
 
-
         if (Migration::checkKeyExist('account_transaction', 'partner_id')) {
             $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
         }
 
-        if (Migration::checkKeyExist('account_transaction', 'payment_id')) {
-            $table->foreign('payment_id')->references('id')->on('account_payment')->nullOnDelete();
+        if (Migration::checkKeyExist('account_transaction', 'left_ledger_id')) {
+            $table->foreign('left_ledger_id')->references('id')->on('account_ledger')->nullOnDelete();
         }
 
-        if (Migration::checkKeyExist('account_transaction', 'rate_id')) {
-            $table->foreign('rate_id')->references('id')->on('account_rate')->nullOnDelete();
+        if (Migration::checkKeyExist('account_transaction', 'right_chart_of_account_id')) {
+            $table->foreign('right_chart_of_account_id')->references('id')->on('account_chart_of_account')->nullOnDelete();
+        }
+
+        if (Migration::checkKeyExist('account_transaction', 'right_ledger_id')) {
+            $table->foreign('right_ledger_id')->references('id')->on('account_ledger')->nullOnDelete();
         }
     }
 }

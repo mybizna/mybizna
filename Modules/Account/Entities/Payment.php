@@ -10,7 +10,7 @@ class Payment extends Model
 {
 
     protected $fillable = [
-        'gateway_id', 'amount', 'invoice_id', 'description', 'receipt_no',
+        'gateway_id', 'amount', 'invoice_id', 'transaction_id', 'description', 'receipt_no',
         'code', "completed", 'successful', 'canceled'
     ];
     public $migrationDependancy = ['account_gateway'];
@@ -27,6 +27,7 @@ class Payment extends Model
         $table->increments('id');
         $table->integer('gateway_id');
         $table->decimal('amount', 20, 2)->default(0.00);
+        $table->integer('transaction_id')->nullable();
         $table->integer('invoice_id')->nullable();
         $table->string('description')->nullable();
         $table->string('receipt_no')->nullable();
@@ -36,14 +37,18 @@ class Payment extends Model
         $table->tinyInteger('canceled')->nullable();
     }
 
-
-
     public function post_migration(Blueprint $table)
     {
         if (Migration::checkKeyExist('account_payment', 'gateway_id')) {
             $table->foreign('gateway_id')->references('id')->on('account_gateway')->nullOnDelete();
         }
 
+        if (Migration::checkKeyExist('account_payment', 'transaction_id')) {
+            $table->foreign('transaction_id')->references('id')->on('account_transaction')->nullOnDelete();
+        }
 
+        if (Migration::checkKeyExist('account_payment', 'invoice_id')) {
+            $table->foreign('invoice_id')->references('id')->on('account_invoice')->nullOnDelete();
+        }
     }
 }
