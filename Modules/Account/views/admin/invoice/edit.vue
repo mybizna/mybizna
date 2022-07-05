@@ -5,12 +5,12 @@
             <div class="col-md-6">
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
                 <FormKit label="Partner" id="partner_id" type="text" validation="required" />
-                <FormKit label="status" id="status" type="switch" validation="required" />
-                <FormKit label="completed" id="completed" type="switch" validation="required" />
-                <FormKit label="successful" id="successful" type="switch" validation="required" />
+                <FormKit label="Status" id="status" type="switch" validation="required" />
+                <FormKit label="Completed" id="completed" type="switch" validation="required" />
+                <FormKit label="Successful" id="successful" type="switch" validation="required" />
             </div>
             <div class="col-md-6">
-                <FormKit label="description" id="description" type="text" validation="required" />
+                <FormKit label="Description" id="description" type="text" validation="required" />
             </div>
         </div>
 

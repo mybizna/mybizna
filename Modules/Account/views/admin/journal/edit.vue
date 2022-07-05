@@ -4,10 +4,10 @@
         <div class="row">
             <div class="col-md-6">
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="note" id="note" type="text" validation="required" />
-                <FormKit label="transaction_date" id="transaction_date" type="text" validation="required" />
-                <FormKit label="debit" id="debit" type="text" validation="required" />
-                <FormKit label="credit" id="credit" type="text" validation="required" />
+                <FormKit label="Note" id="note" type="text" validation="required" />
+                <FormKit label="Transaction Date" id="transaction_date" type="text" validation="required" />
+                <FormKit label="Debit" id="debit" type="text" validation="required" />
+                <FormKit label="Credit" id="credit" type="text" validation="required" />
             </div>
             <div class="col-md-6">
                 <FormKit label="Particulars" id="particulars" type="text" validation="required" />

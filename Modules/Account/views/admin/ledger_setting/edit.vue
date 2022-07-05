@@ -3,11 +3,11 @@
         <div class="row">
             <div class="col-md-6">
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="title" id="title" type="text" validation="required" />
-                <FormKit label="slug" id="slug" type="text" validation="required" />
-                <FormKit label="left_ledger_id" id="left_ledger_id" type="text" validation="required" />
-                <FormKit label="right_chart_of_account_id" id="right_chart_of_account_id" type="text" validation="required" />
-                <FormKit label="right_ledger_id" id="right_ledger_id" type="text" validation="required" />
+                <FormKit label="Title" id="title" type="text" validation="required" />
+                <FormKit label="Slug" id="slug" type="text" validation="required" />
+                <FormKit label="Left Ledger" id="left_ledger_id" type="text" validation="required" />
+                <FormKit label="Right Chart Of Account" id="right_chart_of_account_id" type="text" validation="required" />
+                <FormKit label="Right Ledger" id="right_ledger_id" type="text" validation="required" />
             </div>
             <div class="col-md-6">
 

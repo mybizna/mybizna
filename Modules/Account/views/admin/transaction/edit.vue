@@ -1,17 +1,19 @@
 <template>
     <table-edit :path_param="path_param" :model="model">
-
         <div class="row">
             <div class="col-md-6">
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Trn Date" id="trn_date" type="text" validation="required" />
-                <FormKit label="Ref" id="ref" type="text" validation="required" />
-                <FormKit label="Voucher No" id="voucher_no" type="text" validation="required" />
-                <FormKit label="Voucher Amount" id="voucher_amount" type="text" validation="required" />
+                <FormKit label="Amount" id="amount" type="text" validation="required" />
+                <FormKit label="Partner" id="partner_id" type="text" validation="required" />
+                <FormKit label="Left Ledger" id="left_ledger_id" type="text" validation="required" />
+                <FormKit label="Right Chart of Account" id="right_chart_of_account_id" type="text"
+                    validation="required" />
+                <FormKit label="Right Ledger" id="right_ledger_id" type="text" validation="required" />
+                <FormKit label="Type" id="type" type="text" validation="required" />
+                <FormKit label="Is Processed" id="is_processed" type="text" validation="required" />
             </div>
             <div class="col-md-6">
-                <FormKit label="Attachments" id="attachments" type="text" validation="required" />
-                <FormKit label="Particulars" id="particulars" type="text" validation="required" />
+                <FormKit label="Description" id="description" type="text" validation="required" />
             </div>
         </div>
 
@@ -30,12 +32,14 @@ export default {
             path_param: ["account", "transaction"],
             model: {
                 id: "",
-                trn_date: "",
-                ref: "",
-                voucher_no: "",
-                voucher_amount: "",
-                particulars: "",
-                attachments: "",
+                amount: "",
+                description: "",
+                partner_id: "",
+                left_ledger_id: "",
+                right_chart_of_account_id: "",
+                right_ledger_id: "",
+                type: "",
+                is_processed: "",
             },
 
         };
