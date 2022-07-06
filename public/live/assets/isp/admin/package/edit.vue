@@ -1,91 +1,48 @@
 <template>
-  <table-edit
-    :path_param="path_param"
-    :form_fields="form_fields"
-    :form_groups="form_groups"
-    :model="model"
-  ></table-edit>
+    <table-edit :path_param="path_param" :model="model">
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <FormKit label="Id" id="id" type="hidden" validation="required" />
+                <FormKit label="Title" id="title" type="text" validation="required" />
+                <FormKit label="Billing Cycle" id="billing_cycle_id" type="text" validation="required" />
+                <FormKit label="Speed" id="speed" type="text" validation="required" />
+                <FormKit label="Speed Type" id="speed_type" type="select" validation="required" :option="['kilobyte', 'megabyte']" />
+
+            </div>
+            <div class="col-md-6">
+                <FormKit label="Description" id="description" type="textarea" validation="required" />
+                <FormKit label="Published" id="published" type="switch" validation="required" />
+
+            </div>
+        </div>
+
+
+    </table-edit>
 </template>
 
 <script>
-
 export default {
-  components: {
-    TableEdit: window.$func.fetchComponent("components/common/TableEdit.vue")
-  },
-  data() {
-    return {
-      id: null,
-      path_param: ["isp", "package"],
-      form_groups: [
-        {
-          name: "setting",
-          legend: "Setting",
-          styleClasses: "flex col-lg-6 col-sm-12 setting-group"
-        },
-        {
-          name: "description",
-          legend: "Description",
-          styleClasses: "flex col-lg-6 col-sm-12 description-group"
-        }
-      ],
-      model: {
-        id: "",
-        description: "",
-        user_id: "",
-        payment_id: "",
-        amount: "",
-        completed: "",
-        successful: ""
-      },
+    components: {
+        TableEdit: window.$func.fetchComponent("components/common/TableEdit.vue")
+    },
+    data () {
+        return {
+            id: null,
+            path_param: ["isp", "package"],
+            model: {
+                id: "",
+                title: "",
+                description: "",
+                billing_cycle_id: "",
+                speed: "",
+                speed_type: "",
+                published: "",
+                amount: "",
+            },
 
-      form_fields: [
-        {
-          type: "editor",
-          name: "description",
-          group: "description",
-          prefix: '"',
-          suffix: '"'
-        },
-        {
-          type: "text",
-          name: "user_id",
-          group: "main",
-          prefix: '"',
-          suffix: '"'
-        },
-        {
-          type: "text",
-          name: "payment_id",
-          group: "main",
-          prefix: '"',
-          suffix: '"',
-          readonly: true,
-          disabled: true
-        },
-        {
-          type: "text",
-          name: "amount",
-          group: "main",
-          prefix: '"',
-          suffix: '"'
-        },
-        {
-          type: "yesno",
-          name: "completed",
-          group: "setting",
-          prefix: '"',
-          suffix: '"'
-        },
-        {
-          type: "yesno",
-          name: "successful",
-          group: "setting",
-          prefix: '"',
-          suffix: '"'
-        }
-      ],
-    };
-  }
+        };
+    }
 };
 </script>

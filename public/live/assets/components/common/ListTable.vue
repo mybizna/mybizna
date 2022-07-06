@@ -8,41 +8,32 @@
             </div>
         </div>
 
-        <table :class="tableClass">
+        <table :class="tableClass + ' table table-responsive table-responsive-sm'">
             <thead class="table-light shadow-sm">
-                <div v-if="checkedItems.length">Bulk Action TPl</div>
+                <tr v-if="checkedItems.length">
+                    <td colspan="10">Bulk Action TPl</td>
+                </tr>
 
-                <tr v-else>
-                    <td
-                        v-if="showCb"
-                        class="manage-column column-cb check-column col--check"
-                    >
+                <tr v-else class="bg-slate-100 px-7">
+                    <td v-if="showCb" class="manage-column column-cb check-column col--check">
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input
-                                    v-model="selectAll"
-                                    type="checkbox"
-                                    class="form-check-input"
-                                />
+                                <input v-model="selectAll" type="checkbox" class="form-check-input" />
                                 <span class="form-check-sign">
                                     <span class="check"></span>
                                 </span>
                             </label>
                         </div>
                     </td>
-                    <th
-                        v-for="(value, key) in columns"
-                        :key="key"
-                        :class="[
-                            'column',
-                            key,
-                            value.isColPrimary ? 'column-primary' : '',
-                            { sortable: isSortable(value) },
-                            { sorted: isSorted(key) },
-                            { asc: isSorted(key) && sortOrder === 'asc' },
-                            { desc: isSorted(key) && sortOrder === 'desc' },
-                        ]"
-                    >
+                    <th v-for="(value, key) in columns" :key="key" :class="[
+                        'column',
+                        key,
+                        value.isColPrimary ? 'column-primary' : '',
+                        { sortable: isSortable(value) },
+                        { sorted: isSorted(key) },
+                        { asc: isSorted(key) && sortOrder === 'asc' },
+                        { desc: isSorted(key) && sortOrder === 'desc' },
+                    ]">
                         <template v-if="!isSortable(value)">
                             {{ value.label }}
                         </template>
@@ -56,62 +47,37 @@
 
             <tbody>
                 <template v-if="rows.length">
-                    <tr
-                        v-for="(row, i) in rows"
-                        :key="row[index]"
-                        :class="collapsRow(row)"
-                    >
-                        <th
-                            v-if="showCb"
-                            scope="row"
-                            class="col--check check-column"
-                        >
+                    <tr v-for="(row, i) in rows" :key="row[index]" :class="collapsRow(row)">
+                        <th v-if="showCb" scope="row" class="col--check check-column">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input
-                                        :value="row[index]"
-                                        v-model="checkedItems"
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        name="item[]"
-                                    />
+                                    <input :value="row[index]" v-model="checkedItems" class="form-check-input"
+                                        type="checkbox" name="item[]" />
                                     <span class="form-check-sign">
                                         <span class="check"></span>
                                     </span>
                                 </label>
                             </div>
                         </th>
-                        <td
-                            v-for="(value, key) in columns"
-                            :key="key"
-                            :data-colname="ucFirst(key)"
-                            :class="[
-                                'column',
-                                key,
-                                value.isColPrimary ? 'column-primary' : '',
-                                { selected: checkedItems.includes(row[index]) },
-                            ]"
-                        >
+                        <td v-for="(value, key) in columns" :key="key" :data-colname="ucFirst(key)" :class="[
+                            'column',
+                            key,
+                            value.isColPrimary ? 'column-primary' : '',
+                            { selected: checkedItems.includes(row[index]) },
+                        ]">
                             <slot :name="key" :row="row">
                                 <template v-if="'actions' !== key">
                                     {{ row[key] ? row[key] : "-" }}
                                 </template>
                             </slot>
-                            <button
-                                v-if="value.isColPrimary"
-                                type="button"
-                                class="mybizna-toggle-row"
-                                @click.prevent="toggleRow(row)"
-                            >
+                            <button v-if="value.isColPrimary" type="button" class="mybizna-toggle-row"
+                                @click.prevent="toggleRow(row)">
                                 <span class="screen-reader-text">{{
-                                    this.$func.__("Show more details", "erp")
+                                        this.$func.__("Show more details", "erp")
                                 }}</span>
                             </button>
 
-                            <div
-                                v-if="actionColumn === key"
-                                class="row-actions"
-                            >
+                            <div v-if="actionColumn === key" class="row-actions">
                                 <slot :row="row" name="row-actions"> </slot>
                             </div>
                         </td>
@@ -124,38 +90,17 @@
         </table>
         <div class="tablenav bottom">
             <div class="tablenav-pages">
-                <span v-if="showItemNumbers" class="displaying-num"
-                    >{{ itemsTotal }} {{ this.$func.__("items", "erp") }}</span
-                >
+                <span v-if="showItemNumbers" class="displaying-num">{{ itemsTotal }} {{ this.$func.__("items", "erp")
+                }}</span>
 
                 <span v-if="hasPagination" class="pagination-links">
-                    <span
-                        v-if="disableFirst"
-                        class="tablenav-pages-navspan"
-                        aria-hidden="true"
-                        >&laquo;</span
-                    >
-                    <a
-                        v-else
-                        href="#"
-                        class="first-page"
-                        @click.prevent="goToPage(1)"
-                        ><span aria-hidden="true">&laquo;</span></a
-                    >
+                    <span v-if="disableFirst" class="tablenav-pages-navspan" aria-hidden="true">&laquo;</span>
+                    <a v-else href="#" class="first-page" @click.prevent="goToPage(1)"><span
+                            aria-hidden="true">&laquo;</span></a>
 
-                    <span
-                        v-if="disablePrev"
-                        class="tablenav-pages-navspan"
-                        aria-hidden="true"
-                        >&lsaquo;</span
-                    >
-                    <a
-                        v-else
-                        href="#"
-                        class="prev-page"
-                        @click.prevent="goToPage(currentPage - 1)"
-                        ><span aria-hidden="true">&lsaquo;</span></a
-                    >
+                    <span v-if="disablePrev" class="tablenav-pages-navspan" aria-hidden="true">&lsaquo;</span>
+                    <a v-else href="#" class="prev-page" @click.prevent="goToPage(currentPage - 1)"><span
+                            aria-hidden="true">&lsaquo;</span></a>
 
                     <span class="paging-input">
                         <span class="tablenav-paging-text">
@@ -164,33 +109,13 @@
                         </span>
                     </span>
 
-                    <span
-                        v-if="disableNext"
-                        class="tablenav-pages-navspan"
-                        aria-hidden="true"
-                        >&rsaquo;</span
-                    >
-                    <a
-                        v-else
-                        href="#"
-                        class="next-page"
-                        @click.prevent="goToPage(currentPage + 1)"
-                        ><span aria-hidden="true">&rsaquo;</span></a
-                    >
+                    <span v-if="disableNext" class="tablenav-pages-navspan" aria-hidden="true">&rsaquo;</span>
+                    <a v-else href="#" class="next-page" @click.prevent="goToPage(currentPage + 1)"><span
+                            aria-hidden="true">&rsaquo;</span></a>
 
-                    <span
-                        v-if="disableLast"
-                        class="tablenav-pages-navspan"
-                        aria-hidden="true"
-                        >&raquo;</span
-                    >
-                    <a
-                        v-else
-                        href="#"
-                        class="last-page"
-                        @click.prevent="goToPage(totalPages)"
-                        ><span aria-hidden="true">&raquo;</span></a
-                    >
+                    <span v-if="disableLast" class="tablenav-pages-navspan" aria-hidden="true">&raquo;</span>
+                    <a v-else href="#" class="last-page" @click.prevent="goToPage(totalPages)"><span
+                            aria-hidden="true">&raquo;</span></a>
                 </span>
             </div>
         </div>
@@ -203,7 +128,7 @@ export default {
         columns: {
             type: Object,
             required: true,
-            default: () => {},
+            default: () => { },
         },
         rows: {
             type: Array, // String, Number, Boolean, Function, Object, Array
@@ -274,7 +199,7 @@ export default {
         },
     },
 
-    data() {
+    data () {
         return {
             bulkLocal: "-1",
             checkedItems: [],
@@ -283,19 +208,19 @@ export default {
     },
 
     computed: {
-        hasActions() {
+        hasActions () {
             return this.actions.length > 0;
         },
 
-        itemsTotal() {
+        itemsTotal () {
             return this.totalItems || this.rows.length;
         },
 
-        hasPagination() {
+        hasPagination () {
             return this.itemsTotal > this.perPage;
         },
 
-        disableFirst() {
+        disableFirst () {
             if (this.currentPage === 1 || this.currentPage === 2) {
                 return true;
             }
@@ -303,7 +228,7 @@ export default {
             return false;
         },
 
-        disablePrev() {
+        disablePrev () {
             if (this.currentPage === 1) {
                 return true;
             }
@@ -311,7 +236,7 @@ export default {
             return false;
         },
 
-        disableNext() {
+        disableNext () {
             if (this.currentPage === this.totalPages) {
                 return true;
             }
@@ -319,7 +244,7 @@ export default {
             return false;
         },
 
-        disableLast() {
+        disableLast () {
             if (
                 this.currentPage === this.totalPages ||
                 this.currentPage === this.totalPages - 1
@@ -330,11 +255,11 @@ export default {
             return false;
         },
 
-        columnsCount() {
+        columnsCount () {
             return Object.keys(this.columns).length;
         },
 
-        colspan() {
+        colspan () {
             let columns = Object.keys(this.columns).length;
 
             if (this.showCb) {
@@ -345,7 +270,7 @@ export default {
         },
 
         selectAll: {
-            get() {
+            get () {
                 if (!this.rows.length) {
                     return false;
                 }
@@ -355,7 +280,7 @@ export default {
                     : false;
             },
 
-            set(value) {
+            set (value) {
                 const selected = [];
                 const self = this;
 
@@ -389,7 +314,7 @@ export default {
     },
 
     methods: {
-        collapsRow(obj) {
+        collapsRow (obj) {
             if (this.isRowExpanded.findIndex((x) => x === obj.id) === -1) {
                 return "";
             } else {
@@ -397,7 +322,7 @@ export default {
             }
         },
 
-        toggleRow(obj) {
+        toggleRow (obj) {
             const i = this.isRowExpanded.findIndex((x) => x === obj.id);
             if (i === -1) {
                 this.isRowExpanded.push(obj.id);
@@ -407,23 +332,23 @@ export default {
         },
 
         // Capitalize First Letter
-        ucFirst(string) {
+        ucFirst (string) {
             return string.replace(/^./, string[0].toUpperCase());
         },
 
-        hideActionSeparator(action) {
+        hideActionSeparator (action) {
             return action === this.actions[this.actions.length - 1].key;
         },
 
-        actionClicked(action, row, index) {
+        actionClicked (action, row, index) {
             this.$emit("action:click", action, row, index);
         },
 
-        goToPage(page) {
+        goToPage (page) {
             this.$emit("pagination", page);
         },
 
-        goToCustomPage(event) {
+        goToCustomPage (event) {
             const page = parseInt(event.target.value, 10);
 
             if (!isNaN(page) && page > 0 && page <= this.totalPages) {
@@ -431,7 +356,7 @@ export default {
             }
         },
 
-        handleBulkAction() {
+        handleBulkAction () {
             if (this.bulkLocal === "-1") {
                 return;
             }
@@ -439,7 +364,7 @@ export default {
             this.$emit("bulk:click", this.bulkLocal, this.checkedItems);
         },
 
-        isSortable(column) {
+        isSortable (column) {
             if (
                 Object.prototype.hasOwnProperty.call(column, "sortable") &&
                 column.sortable === true
@@ -450,11 +375,11 @@ export default {
             return false;
         },
 
-        isSorted(column) {
+        isSorted (column) {
             return column === this.sortBy;
         },
 
-        handleSortBy(column) {
+        handleSortBy (column) {
             const order = this.sortOrder === "asc" ? "desc" : "asc";
 
             this.$emit("sort", column, order);
@@ -469,6 +394,7 @@ export default {
     color: #d7dee2;
     position: static;
 }
+
 .row-actions span {
     font-size: 25px;
     font-weight: bold;
@@ -478,12 +404,14 @@ export default {
 .table-loading {
     position: relative;
 }
+
 .table-loading .table-loader-wrap {
     position: absolute;
     width: 100%;
     height: 100%;
     z-index: 9;
 }
+
 .table-loading .table-loader-wrap .table-loader-center {
     position: absolute;
     top: 50%;
@@ -504,31 +432,21 @@ export default {
     height: 4em;
     border-radius: 50%;
     background: #1a9ed4;
-    background: -moz-linear-gradient(
-        left,
-        #1a9ed4 10%,
-        rgba(255, 255, 255, 0) 42%
-    );
-    background: -webkit-linear-gradient(
-        left,
-        #1a9ed4 10%,
-        rgba(255, 255, 255, 0) 42%
-    );
-    background: -o-linear-gradient(
-        left,
-        #1a9ed4 10%,
-        rgba(255, 255, 255, 0) 42%
-    );
-    background: -ms-linear-gradient(
-        left,
-        #1a9ed4 10%,
-        rgba(255, 255, 255, 0) 42%
-    );
-    background: linear-gradient(
-        to right,
-        #1a9ed4 10%,
-        rgba(255, 255, 255, 0) 42%
-    );
+    background: -moz-linear-gradient(left,
+            #1a9ed4 10%,
+            rgba(255, 255, 255, 0) 42%);
+    background: -webkit-linear-gradient(left,
+            #1a9ed4 10%,
+            rgba(255, 255, 255, 0) 42%);
+    background: -o-linear-gradient(left,
+            #1a9ed4 10%,
+            rgba(255, 255, 255, 0) 42%);
+    background: -ms-linear-gradient(left,
+            #1a9ed4 10%,
+            rgba(255, 255, 255, 0) 42%);
+    background: linear-gradient(to right,
+            #1a9ed4 10%,
+            rgba(255, 255, 255, 0) 42%);
     position: relative;
     -webkit-animation: tableLoading 1s infinite linear;
     animation: tableLoading 1s infinite linear;
@@ -536,6 +454,7 @@ export default {
     -ms-transform: translateZ(0);
     transform: translateZ(0);
 }
+
 .table-loader:before {
     width: 50%;
     height: 50%;
@@ -580,6 +499,7 @@ export default {
         -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
     }
+
     100% {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
@@ -591,6 +511,7 @@ export default {
         -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
     }
+
     100% {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
@@ -616,7 +537,8 @@ export default {
         transform-origin: right top;
         transform: rotate(-90deg) translateY(-30px);
     }
-    .dropdown-popper .horizontal-scroll-wrapper > li {
+
+    .dropdown-popper .horizontal-scroll-wrapper>li {
         margin-top: 20px;
         width: 30px;
         height: 150px;

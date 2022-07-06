@@ -1,7 +1,7 @@
 
 <template>
-    <table-list :path_param="path_param" :search_fields="search_fields" :model="model" :table_fields="table_fields">
-    </table-list>
+    <table-list title="Isp Package Setup Item" :path_param="path_param" :search_fields="search_fields" :model="model"
+        :table_fields="table_fields"></table-list>
 </template>
 
 <script>
@@ -15,80 +15,25 @@ export default {
             path_param: ["isp", "package_setup_item"],
             model: {
                 id: "",
+                title: "",
                 description: "",
-                user_id: "",
-                payment_id: "",
+                package_id: "",
                 amount: "",
-                completed: "",
-                successful: ""
+                published: "",
             },
             search_fields: [
-                {
-                    type: "text",
-                    name: "description",
-                    label: "Description",
-                    ope: '',
-                },
-                {
-                    type: "text",
-                    name: "user_id",
-                    label: "User Id",
-                    ope: '',
-                },
-                {
-                    type: "text",
-                    name: "payment_id",
-                    label: "Payment",
-                    ope: '',
-                },
-                {
-                    type: "text",
-                    name: "amount",
-                    label: "Amount",
-                    ope: '',
-                },
-                {
-                    type: "text",
-                    name: "completed",
-                    label: "Completed",
-                    ope: '',
-                },
-                {
-                    type: "text",
-                    name: "successful",
-                    label: "Successful",
-                    ope: '',
-                }
+                { type: "text", name: "title", label: "Title", ope: "", },
+                { type: "text", name: "description", label: "Description", ope: "", },
+                { type: "text", name: "package_id", label: "Package", ope: "", },
+                { type: "select", name: "amount", label: "amount", ope: "",  },
+                { type: "switch", name: "published", label: "Is Paid", ope: "", },
             ],
             table_fields: [
-                {
-                    text: "user_id",
-                    prop: "[user.name] (user.username) <i>[user.email]</i>"
-                },
-                {
-                    text: "description",
-                    prop: "description"
-                },
-                {
-                    text: "payment_id",
-                    prop: "payment_id"
-                },
-                {
-                    text: "amount",
-                    prop: "amount"
-                },
-                {
-                    text: "completed",
-                    prop: "completed",
-                    align: "center",
-                    is_boolean: true
-                },
-                {
-                    text: "successful",
-                    prop: "successful",
-                    align: "center",
-                    is_boolean: true
-                }
+                { text: "Title", prop: "title", name: "title", },
+                { text: "Description", prop: "description", name: "description", },
+                { text: "Package", prop: "package_id", name: "package_id", },
+                { text: "Amount", prop: "amount", name: "amount", },
+                { text: "Published", prop: "published", align: "center", is_boolean: true, name: "published", },
             ],
         };
     }

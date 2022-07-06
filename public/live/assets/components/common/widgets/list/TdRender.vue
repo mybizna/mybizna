@@ -87,9 +87,8 @@ export default {
             var data_str = '';
 
             if (has_multiple_fields) {
-                console.log('t.field_list');
-                console.log(t.field_list);
-                console.log(t.pitem);
+
+                data_str = prop_str;
 
                 t.field_list.forEach(function (field_name) {
 
@@ -99,12 +98,15 @@ export default {
                         tmp_data_str = '';
                     }
 
-                    data_str = prop_str.replace(
+                    data_str = data_str.replace(
                         "[" + field_name + "]",
                         tmp_data_str
                     );
 
+
                 });
+
+
             } else {
                 data_str = t.pitem[prop_str];
             }

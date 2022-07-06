@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('{module}/admin/{model}', $apicontroller . '@getAllRecords');
     Route::get('{module}/admin/{model}/{id}', $apicontroller . '@getRecord');
+    Route::get('{module}/admin/{model}/recordselect', $apicontroller . '@getRecordSelect');
     Route::post('{module}/admin/{model}', $apicontroller . '@createRecord');
     Route::put('{module}/admin/{model}/{id}', $apicontroller . '@updateRecord');
     Route::delete('{module}/admin/{model}/{id}', $apicontroller . '@deleteRecord');
