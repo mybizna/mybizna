@@ -47,9 +47,22 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
-            ->namespace($this->moduleNamespace)
-            ->group(module_path('Core', '/Routes/web.php'));
+        $DS = DIRECTORY_SEPARATOR;
+        $modules_path = realpath(base_path()) . $DS . 'Modules';
+
+        if (is_dir($modules_path)) {
+            $dir = new \DirectoryIterator($modules_path);
+
+            foreach ($dir as $fileinfo) {
+                if (!$fileinfo->isDot() && $fileinfo->isDir()) {
+                    $module_name = $fileinfo->getFilename();
+
+                    Route::middleware('web')
+                        ->namespace('Modules\\' . $module_name . '\Http\Controllers')
+                        ->group(module_path($module_name, '/Routes/web.php'));
+                }
+            }
+        }
     }
 
     /**
@@ -61,9 +74,22 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->moduleNamespace)
-            ->group(module_path('Core', '/Routes/api.php'));
+        $DS = DIRECTORY_SEPARATOR;
+        $modules_path = realpath(base_path()) . $DS . 'Modules';
+
+        if (is_dir($modules_path)) {
+            $dir = new \DirectoryIterator($modules_path);
+
+            foreach ($dir as $fileinfo) {
+                if (!$fileinfo->isDot() && $fileinfo->isDir()) {
+                    $module_name = $fileinfo->getFilename();
+
+                    Route::prefix('api')
+                        ->middleware('api')
+                        ->namespace('Modules\\' . $module_name . '\Http\Controllers')
+                        ->group(module_path($module_name, '/Routes/api.php'));
+                }
+            }
+        }
     }
 }

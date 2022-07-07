@@ -38,7 +38,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('{module}/admin/{model}/{id}', $apicontroller . '@deleteRecord');
     Route::match(['get', 'post'], '{module}/admin/{model}/{function}/',  $apicontroller . '@functionCall');
 
-
     $DS = DIRECTORY_SEPARATOR;
     $modules_path = realpath(base_path()) . $DS . 'Modules';
     print_r($modules_path); exit;
