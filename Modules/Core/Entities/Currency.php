@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
-use Modules\Core\Classes\Migration;
+use Modules\Base\Classes\Migration;
 
 class Currency extends BaseModel
 {

@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-use Modules\Core\Classes\Modularize;
-use Modules\Core\Classes\Datasetter;
+use Modules\Base\Classes\Modularize;
+use Modules\Base\Classes\Datasetter;
 use Modules\Base\Classes\Autocomplete;
 
 class BaseController extends Controller

@@ -17,11 +17,4 @@ use App\Http\Controllers\AuthenticationController;
 |
 */
 
-Route::group(
-    ['prefix' => 'base', 'middleware' => ['auth:sanctum']],
-    function () {
-        $apicontroller = 'CoreController';
 
-        Route::get('/base/autocomplete', $apicontroller . '@autocomplete');
-    }
-);

@@ -4,7 +4,7 @@ namespace Modules\Account\Entities;
 
 use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
-use Modules\Core\Classes\Migration;
+use Modules\Base\Classes\Migration;
 
 class PaymentRate extends BaseModel
 {

@@ -2,7 +2,7 @@
 
 namespace Modules\Hrm\Entities\Data;
 
-use Modules\Core\Classes\Datasetter;
+use Modules\Base\Classes\Datasetter;
 
 class PayrollPayitem
 {

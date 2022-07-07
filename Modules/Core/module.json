@@ -4,9 +4,7 @@
     "description": "",
     "keywords": [],
     "priority": 0,
-    "providers": [
-        "Modules\\Core\\Providers\\CoreServiceProvider"
-    ],
+    "providers": [],
     "aliases": {},
     "files": [],
     "requires": []
