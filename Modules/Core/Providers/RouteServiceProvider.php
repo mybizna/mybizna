@@ -58,7 +58,7 @@ class RouteServiceProvider extends ServiceProvider
                 if (!$fileinfo->isDot() && $fileinfo->isDir()) {
                     $module_name = $fileinfo->getFilename();
 
-                    if (file_exists($modules_path . $DS . $module_name . $DS . 'Routes/api.php')) {
+                    if (file_exists($modules_path . $DS . $module_name . $DS . 'Routes/web.php')) {
                         Route::middleware('web')
                             ->namespace('Modules\\' . $module_name . '\Http\Controllers')
                             ->group(module_path($module_name, '/Routes/web.php'));
@@ -111,15 +111,16 @@ class RouteServiceProvider extends ServiceProvider
         Route::get('dashboard_data', $apicontroller . '@dashboardData');
 
         Route::group(['middleware' => ['auth:sanctum']], function () {
+            $prefix ='{module}/admin/{model}';
             $apicontroller = 'Modules\Core\Http\Controllers\BaseController';
 
-            Route::get('{module}/admin/{model}', $apicontroller . '@getAllRecords');
-            Route::get('{module}/admin/{model}/{id}', $apicontroller . '@getRecord');
-            Route::get('{module}/admin/{model}/recordselect', $apicontroller . '@getRecordSelect');
-            Route::post('{module}/admin/{model}', $apicontroller . '@createRecord');
-            Route::put('{module}/admin/{model}/{id}', $apicontroller . '@updateRecord');
-            Route::delete('{module}/admin/{model}/{id}', $apicontroller . '@deleteRecord');
-            Route::match(['get', 'post'], '{module}/admin/{model}/{function}/',  $apicontroller . '@functionCall');
+            Route::get($prefix, $apicontroller . '@getAllRecords');
+            Route::get($prefix . '/{id}', $apicontroller . '@getRecord');
+            Route::get($prefix . '/recordselect', $apicontroller . '@getRecordSelect');
+            Route::post($prefix, $apicontroller . '@createRecord');
+            Route::put($prefix . '/{id}', $apicontroller . '@updateRecord');
+            Route::delete($prefix . '/{id}', $apicontroller . '@deleteRecord');
+            Route::match(['get', 'post'], $prefix . '/{function}/',  $apicontroller . '@functionCall');
         });
 
         Route::group(['middleware' => ['auth:sanctum']], function () {
