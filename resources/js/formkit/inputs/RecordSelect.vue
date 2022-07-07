@@ -1,8 +1,6 @@
 
 <template>
-    <FormKit type="select" name="state"  :options="recordlist" />
-
-
+    <FormKit type="select" :name="context.id"  :options="recordlist" :classes="classes" />
 </template>
 
 <script>
@@ -20,6 +18,9 @@ export default {
             is_recordpicker: true,
             recordlist: {
                 '': 'Loading List'
+            },
+            classes:{
+                inner:"$reset",
             }
         }
     },
