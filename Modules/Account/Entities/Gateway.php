@@ -14,7 +14,7 @@ class Gateway extends BaseModel
         'ordering', 'is_default', 'is_hidden', 'published'
 
     ];
-    public $migrationDependancy = ['base_currency'];
+    public $migrationDependancy = ['core_currency'];
     protected $table = "account_gateway";
 
     /**
@@ -41,7 +41,7 @@ class Gateway extends BaseModel
     public function post_migration(Blueprint $table)
     {
         if (Migration::checkKeyExist('account_gateway', 'currency_id')) {
-            $table->foreign('currency_id')->references('id')->on('base_currency')->nullOnDelete();
+            $table->foreign('currency_id')->references('id')->on('core_currency')->nullOnDelete();
         }
     }
 }

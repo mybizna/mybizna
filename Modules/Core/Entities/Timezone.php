@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Base\Entities;
+namespace Modules\Core\Entities;
 
 use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,7 +29,7 @@ class Timezone extends BaseModel
      */
     protected $dates = ['created_by', 'updated_by', 'deleted_at'];
 
-    public $migrationDependancy = ['base_country'];
+    public $migrationDependancy = ['core_country'];
 
     protected $fillable = [
         "name",
@@ -41,7 +41,7 @@ class Timezone extends BaseModel
      *
      * @var string
      */
-    protected $table = 'base_timezone';
+    protected $table = 'core_timezone';
 
     /**
      * Get the user that created the record.
@@ -93,8 +93,8 @@ class Timezone extends BaseModel
 
     public function post_migration(Blueprint $table)
     {
-        if (Migration::checkKeyExist('base_country', 'country_id')) {
-            $table->foreign('country_id')->references('id')->on('base_country')->nullOnDelete();
+        if (Migration::checkKeyExist('core_country', 'country_id')) {
+            $table->foreign('country_id')->references('id')->on('core_country')->nullOnDelete();
         }
     }
 }

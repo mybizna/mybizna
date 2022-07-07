@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Base\Entities;
+namespace Modules\Core\Entities;
 
 use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class State extends BaseModel
 {
 
-    protected $table = "base_state";
+    protected $table = "core_state";
 
     public $migrationDependancy = [];
 

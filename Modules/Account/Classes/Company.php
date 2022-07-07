@@ -179,7 +179,7 @@ class Company
 
     public function get_locations()
     {
-        $locations = DB::select("SELECT * FROM base_company_location");
+        $locations = DB::select("SELECT * FROM core_company_location");
 
         return $locations;
     }
@@ -218,6 +218,6 @@ class Company
             messageBag('no-country', __('No country provided.'));
         }
 
-        return DB::table("base_company_location")->insertGetId($fields);
+        return DB::table("core_company_location")->insertGetId($fields);
     }
 }

@@ -10,7 +10,7 @@ class RateDisallowedin extends BaseModel
 {
 
     protected $fillable = ['country_id', 'rate_id'];
-    public $migrationDependancy = ['base_country', 'account_rate'];
+    public $migrationDependancy = ['core_country', 'account_rate'];
     protected $table = "account_rate_disallowedin";
 
     /**
@@ -29,7 +29,7 @@ class RateDisallowedin extends BaseModel
     public function post_migration(Blueprint $table)
     {
         if (Migration::checkKeyExist('account_rate_disallowedin', 'country_id')) {
-            $table->foreign('country_id')->references('id')->on('base_country')->nullOnDelete();
+            $table->foreign('country_id')->references('id')->on('core_country')->nullOnDelete();
         }
 
         if (Migration::checkKeyExist('account_rate_disallowedin', 'rate_id')) {

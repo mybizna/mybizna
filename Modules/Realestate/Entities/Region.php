@@ -10,7 +10,7 @@ class Region extends BaseModel
 {
 
     protected $fillable = ['name', 'description', 'country_id', 'state_id'];
-    public $migrationDependancy = ['base_country', 'base_state'];
+    public $migrationDependancy = ['core_country', 'core_state'];
     protected $table = "realestate_region";
 
     /**
@@ -31,10 +31,10 @@ class Region extends BaseModel
     public function post_migration(Blueprint $table)
     {
         if (Migration::checkKeyExist('realestate_region', 'country_id')) {
-            $table->foreign('country_id')->references('id')->on('base_country')->nullOnDelete();
+            $table->foreign('country_id')->references('id')->on('core_country')->nullOnDelete();
         }
         if (Migration::checkKeyExist('realestate_region', 'state_id')) {
-            $table->foreign('state_id')->references('id')->on('base_state')->nullOnDelete();
+            $table->foreign('state_id')->references('id')->on('core_state')->nullOnDelete();
         }
     }
 }
