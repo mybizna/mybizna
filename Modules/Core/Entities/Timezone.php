@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
 use Illuminate\Database\Schema\Blueprint;
-use Modules\Core\Classes\Migration;
+use Modules\Base\Classes\Migration;
 
 class Timezone extends BaseModel
 {

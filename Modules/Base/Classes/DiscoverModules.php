@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\Classes;
+namespace Modules\Base\Classes;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;

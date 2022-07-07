@@ -2,7 +2,7 @@
 
 namespace Modules\Partner\Entities\Data;
 
-use Modules\Core\Classes\Datasetter;
+use Modules\Base\Classes\Datasetter;
 use Illuminate\Support\Facades\DB;
 
 class Partner

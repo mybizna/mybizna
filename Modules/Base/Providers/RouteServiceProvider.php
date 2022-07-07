@@ -113,7 +113,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::group(['middleware' => ['auth:sanctum']], function () {
             $prefix ='{module}/admin/{model}';
             $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
-
+            
             Route::get($prefix, $apicontroller . '@getAllRecords');
             Route::get($prefix . '/{id}', $apicontroller . '@getRecord');
             Route::get($prefix . '/recordselect', $apicontroller . '@getRecordSelect');
@@ -122,6 +122,15 @@ class RouteServiceProvider extends ServiceProvider
             Route::delete($prefix . '/{id}', $apicontroller . '@deleteRecord');
             Route::match(['get', 'post'], $prefix . '/{function}/',  $apicontroller . '@functionCall');
         });
+
+        Route::group(
+            ['prefix' => 'base', 'middleware' => ['auth:sanctum']],
+            function () {
+                $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
+        
+                Route::get('/base/autocomplete', $apicontroller . '@autocomplete');
+            }
+        );
 
         Route::group(['middleware' => ['auth:sanctum']], function () {
             $DS = DIRECTORY_SEPARATOR;

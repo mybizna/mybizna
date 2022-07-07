@@ -2,7 +2,7 @@
 
 namespace Modules\Base\Entities\Data;
 
-use Modules\Core\Classes\Datasetter;
+use Modules\Base\Classes\Datasetter;
 
 class State
 {
