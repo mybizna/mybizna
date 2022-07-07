@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Base\Entities;
+namespace Modules\Core\Entities;
 
 use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Country extends BaseModel
 {
 
-    protected $table = "base_country";
+    protected $table = "core_country";
 
     public $migrationDependancy = [];
 

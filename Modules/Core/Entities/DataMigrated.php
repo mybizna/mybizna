@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Base\Entities;
+namespace Modules\Core\Entities;
 
 use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,7 +41,7 @@ class DataMigrated extends BaseModel
      *
      * @var string
      */
-    protected $table = 'base_data_migrated';
+    protected $table = 'core_data_migrated';
 
     public $migrationDependancy = [];
 

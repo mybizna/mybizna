@@ -45,7 +45,7 @@ class Countries
      */
     public function get_countries($default = '')
     {
-        $countries = DB::table('base_country')->get();
+        $countries = DB::table('core_country')->get();
 
         return $countries;
     }
@@ -58,7 +58,7 @@ class Countries
         $states = [];
 
         if ($cc) {
-            $states = DB::table('base_state')->where('country_code', $cc)->get();
+            $states = DB::table('core_state')->where('country_code', $cc)->get();
         }
 
         return $states;
@@ -76,7 +76,7 @@ class Countries
         $states = [];
 
         if ($cc) {
-            $states = DB::table('base_state')->where('country_code', $cc)->get();
+            $states = DB::table('core_state')->where('country_code', $cc)->get();
         }
 
         return $states;
@@ -87,13 +87,13 @@ class Countries
      *
      * @return string
      */
-    public function get_base_country()
+    public function get_core_country()
     {
-        $cc = config('account.base_country');
+        $cc = config('account.core_country');
 
-        $country = DB::table('base_country')->where('country_code', $cc)->frst();
+        $country = DB::table('core_country')->where('country_code', $cc)->frst();
 
-        return apply_filters('countries_base_country', $country);
+        return apply_filters('countries_core_country', $country);
     }
 
     /**
@@ -107,7 +107,7 @@ class Countries
     {
         $dropdown  = sprintf('<option value="-1">%s</option>', __('- Select -'));
         $countries = $this->get_countries();
-        $selected  = empty($selected) ? $this->get_base_country() : $selected;
+        $selected  = empty($selected) ? $this->get_core_country() : $selected;
 
         foreach ($countries as $key => $value) {
             $select = ($key == $selected) ? ' selected="selected"' : '';
