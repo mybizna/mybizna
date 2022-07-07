@@ -110,29 +110,16 @@ class RouteServiceProvider extends ServiceProvider
         Route::get('current_user', $apicontroller . '@currentUser');
         Route::get('dashboard_data', $apicontroller . '@dashboardData');
 
-        Route::group(['middleware' => ['auth:sanctum']], function () {
-            $prefix ='{module}/admin/{model}';
-            $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
-            
-            Route::get($prefix, $apicontroller . '@getAllRecords');
-            Route::get($prefix . '/{id}', $apicontroller . '@getRecord');
-            Route::get($prefix . '/recordselect', $apicontroller . '@getRecordSelect');
-            Route::post($prefix, $apicontroller . '@createRecord');
-            Route::put($prefix . '/{id}', $apicontroller . '@updateRecord');
-            Route::delete($prefix . '/{id}', $apicontroller . '@deleteRecord');
-            Route::match(['get', 'post'], $prefix . '/{function}/',  $apicontroller . '@functionCall');
-        });
-
         Route::group(
-            ['prefix' => 'base', 'middleware' => ['auth:sanctum']],
+            ['prefix' => 'api/base', 'middleware' => ['auth:sanctum']],
             function () {
                 $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
-        
+
                 Route::get('/base/autocomplete', $apicontroller . '@autocomplete');
             }
         );
 
-        Route::group(['middleware' => ['auth:sanctum']], function () {
+        Route::group(['prefix' => 'api', 'middleware' => ['auth:sanctum']], function () {
             $DS = DIRECTORY_SEPARATOR;
             $modules_path = realpath(base_path()) . $DS . 'Modules';
 
@@ -162,6 +149,7 @@ class RouteServiceProvider extends ServiceProvider
                                     $controller = 'Modules\\' . $camel_module_name . '\Http\Controllers\\' . $camel_entity_name . 'Controller';
                                     $prefix = $snake_module_name . '/admin/' . $snake_entity_name;
 
+
                                     if (file_exists($controller_path)) {
                                         Route::get($prefix, $controller . '@getAllRecords');
                                         Route::get($prefix . '/{id}', $controller . '@getRecord');
@@ -176,6 +164,34 @@ class RouteServiceProvider extends ServiceProvider
                         }
                     }
                 }
+            }
+        });
+
+
+        Route::group(['prefix' => 'api', 'middleware' => ['auth:sanctum']], function () {
+            $prefix = '{module}/admin/{model}';
+            $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
+
+            if (method_exists($apicontroller, 'getAllRecords')) {
+                Route::get($prefix, $apicontroller . '@getAllRecords');
+            }
+            if (method_exists($apicontroller, 'getRecord')) {
+                Route::get($prefix . '/{id}', $apicontroller . '@getRecord');
+            }
+            if (method_exists($apicontroller, 'getRecordSelect')) {
+                Route::get($prefix . '/recordselect', $apicontroller . '@getRecordSelect');
+            }
+            if (method_exists($apicontroller, 'createRecord')) {
+                Route::post($prefix, $apicontroller . '@createRecord');
+            }
+            if (method_exists($apicontroller, 'updateRecord')) {
+                Route::put($prefix . '/{id}', $apicontroller . '@updateRecord');
+            }
+            if (method_exists($apicontroller, 'deleteRecord')) {
+                Route::delete($prefix . '/{id}', $apicontroller . '@deleteRecord');
+            }
+            if (method_exists($apicontroller, 'functionCall')) {
+                Route::match(['get', 'post'], $prefix . '/{function}/',  $apicontroller . '@functionCall');
             }
         });
     }
