@@ -5,7 +5,6 @@
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Modules\\Account\\Providers\\AccountServiceProvider"
     ],
     "aliases": {},
     "files": [],
