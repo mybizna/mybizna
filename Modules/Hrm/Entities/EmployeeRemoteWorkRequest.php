@@ -2,10 +2,10 @@
 
 namespace Modules\Hrm\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class EmployeeRemoteWorkRequest extends Model
+class EmployeeRemoteWorkRequest extends BaseModel
 {
 
     protected $fillable = ['user_id', 'reason', 'start_date', 'end_date', 'days', 'status'];

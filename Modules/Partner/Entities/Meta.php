@@ -2,10 +2,10 @@
 
 namespace Modules\Partner\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class Meta extends Model
+class Meta extends BaseModel
 {
 
     protected $fillable = ['people_id', 'meta_key', 'meta_value'];

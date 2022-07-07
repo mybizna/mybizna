@@ -1,6 +1,6 @@
 <?php
 
-namespace Base\Classes;
+namespace Module\Base\Classes;
 
 use DB;
 

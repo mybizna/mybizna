@@ -2,10 +2,10 @@
 
 namespace Modules\Hrm\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class PayrollPayCalendar extends Model
+class PayrollPayCalendar extends BaseModel
 {
 
     protected $fillable = ['pay_calendar_name', 'pay_calendar_type'];

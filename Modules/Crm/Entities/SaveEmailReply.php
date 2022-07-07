@@ -2,10 +2,11 @@
 
 namespace Modules\Crm\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel
+;
 use Illuminate\Database\Schema\Blueprint;
 
-class SaveEmailReply extends Model
+class SaveEmailReply extends BaseModel
 {
 
     protected $fillable = ['name', 'subject', 'template'];

@@ -2,10 +2,10 @@
 
 namespace Modules\Account\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class ChartOfAccount extends Model
+class ChartOfAccount extends BaseModel
 {
 
     protected $fillable = ['name', 'slug'];

@@ -2,11 +2,11 @@
 
 namespace Modules\Isp\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class ConnectionSetupItem extends Model
+class ConnectionSetupItem extends BaseModel
 {
 
     protected $fillable = ['title', 'connection_id', 'description', 'amount'];

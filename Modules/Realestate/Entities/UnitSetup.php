@@ -2,11 +2,11 @@
 
 namespace Modules\Realestate\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class UnitSetup extends Model
+class UnitSetup extends BaseModel
 {
 
     protected $fillable = ['title', 'unit_id', 'amount'];

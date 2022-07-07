@@ -2,10 +2,10 @@
 
 namespace Modules\Crm\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class ActivityTask extends Model
+class ActivityTask extends BaseModel
 {
 
     protected $fillable = ['activity_id', 'user_id'];

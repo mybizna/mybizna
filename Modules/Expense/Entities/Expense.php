@@ -2,10 +2,10 @@
 
 namespace Modules\Expense\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class Expense extends Model
+class Expense extends BaseModel
 {
 
     protected $fillable = [

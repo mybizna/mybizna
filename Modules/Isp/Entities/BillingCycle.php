@@ -2,10 +2,10 @@
 
 namespace Modules\Isp\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class BillingCycle extends Model
+class BillingCycle extends BaseModel
 {
 
     protected $fillable = ['title', 'description', 'duration', 'duration_type', 'published'];

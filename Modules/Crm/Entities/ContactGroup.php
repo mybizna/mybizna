@@ -2,10 +2,10 @@
 
 namespace Modules\Crm\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class ContactGroup extends Model
+class ContactGroup extends BaseModel
 {
 
     protected $fillable = ['name', 'description', 'private'];

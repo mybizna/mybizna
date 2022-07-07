@@ -2,10 +2,10 @@
 
 namespace Modules\Hrm\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class HolidayIndv extends Model
+class HolidayIndv extends BaseModel
 {
 
     protected $fillable = ['holiday_id', 'title', 'date'];

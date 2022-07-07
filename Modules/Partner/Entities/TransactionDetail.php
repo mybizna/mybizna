@@ -2,10 +2,10 @@
 
 namespace Modules\Partner\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class TransactionDetail extends Model
+class TransactionDetail extends BaseModel
 {
 
     protected $fillable = [

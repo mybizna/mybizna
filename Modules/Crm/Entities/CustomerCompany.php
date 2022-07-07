@@ -2,10 +2,10 @@
 
 namespace Modules\Crm\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class CustomerCompany extends Model
+class CustomerCompany extends BaseModel
 {
 
     protected $fillable = ['customer_id', 'company_id'];

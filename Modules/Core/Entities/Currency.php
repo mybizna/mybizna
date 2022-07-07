@@ -2,14 +2,16 @@
 
 namespace Modules\Base\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Schema\Blueprint;
 use Wildside\Userstamps\Userstamps;
+use Modules\Core\Classes\Migration;
 
-class DataMigrated extends Model
+class Currency extends BaseModel
 {
+
     /**
      * Trait to allow softdeleting of records.
      */
@@ -26,14 +28,18 @@ class DataMigrated extends Model
      * @var array
      */
     protected $dates = ['created_by', 'updated_by', 'deleted_at'];
+    public $migrationDependancy = ['base_country'];
 
     protected $fillable = [
-        'module',
-        'table_name',
-        'array_key',
-        'item_id',
-        'counter',
-        'hash',
+        "country_id",
+        "name",
+        "code",
+        "symbol",
+        "rate",
+        "buying",
+        "selling",
+        "published",
+        "is_fetched",
     ];
 
     /**
@@ -41,9 +47,15 @@ class DataMigrated extends Model
      *
      * @var string
      */
-    protected $table = 'base_data_migrated';
+    protected $table = 'base_currency';
 
-    public $migrationDependancy = [];
+    /**
+     * Get the country record associated with this record.
+     */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo('Modules\Base\Entities\Country', 'country_id');
+    }
 
     /**
      * Get the user that created the record.
@@ -79,6 +91,7 @@ class DataMigrated extends Model
     {
         return $query->orderBy('created_at', 'DESC');
     }
+
     /**
      * List of fields for managing postings.
      *
@@ -87,12 +100,22 @@ class DataMigrated extends Model
      */
     public function migration(Blueprint $table)
     {
-        $table->bigIncrements('id');
-        $table->string('module', 255);
-        $table->string('table_name', 255);
-        $table->string('array_key', 255);
-        $table->string('hash', 255);
-        $table->integer('item_id')->nullable()->default(null);
-        $table->integer('counter')->nullable()->default(0);
+        $table->increments('id');
+        $table->string('name', 255);
+        $table->unsignedInteger('country_id')->nullable()->default(null);
+        $table->string('code', 255)->nullable()->default(null);
+        $table->string('symbol', 255)->nullable()->default(null);
+        $table->decimal('rate', 11, 2)->nullable()->default(null);
+        $table->decimal('buying', 11, 2)->nullable()->default(null);
+        $table->decimal('selling', 11, 2)->nullable()->default(null);
+        $table->integer('published')->nullable()->default(0);
+        $table->integer('is_fetched')->nullable()->default(0);
+    }
+
+    public function post_migration(Blueprint $table)
+    {
+        if (Migration::checkKeyExist('base_country', 'country_id')) {
+            $table->foreign('country_id')->references('id')->on('base_country')->nullOnDelete();
+        }
     }
 }

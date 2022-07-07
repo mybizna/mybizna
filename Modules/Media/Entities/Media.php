@@ -3,9 +3,9 @@
 namespace Modules\Media\Entities;
 
 use Illuminate\Database\Schema\Blueprint;
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 
-class Media extends Model
+class Media extends BaseModel
 {
 
     protected $fillable = ['name'];

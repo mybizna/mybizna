@@ -2,10 +2,10 @@
 
 namespace Modules\Sale\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class ReturnDetail extends Model
+class ReturnDetail extends BaseModel
 {
 
     protected $fillable = [

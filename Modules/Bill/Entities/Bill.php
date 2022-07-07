@@ -2,11 +2,11 @@
 
 namespace Modules\Bill\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class Bill extends Model
+class Bill extends BaseModel
 {
 
     protected $fillable = [

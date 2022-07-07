@@ -2,10 +2,10 @@
 
 namespace Modules\Sale\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class DetailTax extends Model
+class DetailTax extends BaseModel
 {
 
     protected $fillable = ['invoice_details_id', 'agency_id', 'tax_rate'];

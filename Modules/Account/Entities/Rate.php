@@ -2,10 +2,10 @@
 
 namespace Modules\Account\Entities;
 
-use Modules\Core\Entities\BaseModel as Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class Rate extends Model
+class Rate extends BaseModel
 {
 
     protected $fillable = [

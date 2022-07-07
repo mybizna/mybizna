@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\Entities;
+namespace Modules\Base\Entities;
 
 use Illuminate\Support\Str;
 

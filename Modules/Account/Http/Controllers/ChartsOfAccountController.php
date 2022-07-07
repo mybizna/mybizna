@@ -2,7 +2,7 @@
 
 namespace Modules\Account\Http\Controllers;
 
-use Modules\Core\Http\Controllers\BaseController;
+use Modules\Base\Http\Controllers\BaseController;
 
 class ChartsOfAccountController extends BaseController
 {

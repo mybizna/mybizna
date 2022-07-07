@@ -2,10 +2,10 @@
 
 namespace Modules\Account\Entities;
 
-use Modules\Core\Entities\BaseModel as Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class Coupon extends Model
+class Coupon extends BaseModel
 {
 
     protected $fillable = [

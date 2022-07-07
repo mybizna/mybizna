@@ -2,11 +2,11 @@
 
 namespace Modules\Account\Entities;
 
-use Modules\Core\Entities\BaseModel as Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class LedgerSetting extends Model
+class LedgerSetting extends BaseModel
 {
 
     protected $fillable = ['title', 'slug', 'left_ledger_id', 'right_chart_of_account_id', 'right_ledger_id'];

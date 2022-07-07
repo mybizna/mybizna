@@ -2,10 +2,10 @@
 
 namespace Modules\Mrp\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class Mrp extends Model
+class Mrp extends BaseModel
 {
 
     protected $fillable = ['name'];

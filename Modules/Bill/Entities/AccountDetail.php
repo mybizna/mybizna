@@ -2,10 +2,10 @@
 
 namespace Modules\Bill\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class AccountDetail extends Model
+class AccountDetail extends BaseModel
 {
 
     protected $fillable = ['bill_no', 'trn_no', 'trn_date', 'particulars', 'debit', 'credit'];

@@ -2,11 +2,11 @@
 
 namespace Modules\Isp\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class PackageSetupItem extends Model
+class PackageSetupItem extends BaseModel
 {
 
     protected $fillable = ['title', 'description', 'package_id', 'amount', 'published'];
