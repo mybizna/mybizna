@@ -2,10 +2,10 @@
 
 namespace Modules\Account\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class FinancialYear extends Model
+class FinancialYear extends BaseModel
 {
 
     protected $fillable = ['name', 'start_date', 'end_date', 'description'];

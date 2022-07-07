@@ -2,11 +2,11 @@
 
 namespace Modules\Account\Entities;
 
-use Modules\Core\Entities\BaseModel as Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class RateAllowedin extends Model
+class RateAllowedin extends BaseModel
 {
 
     protected $fillable = ['country_id', 'rate_id'];

@@ -2,10 +2,10 @@
 
 namespace Modules\Expense\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class Detail extends Model
+class Detail extends BaseModel
 {
 
     protected $fillable = ['trn_no', 'ledger_id', 'particulars', 'amount'];

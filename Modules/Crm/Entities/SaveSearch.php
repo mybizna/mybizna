@@ -2,10 +2,10 @@
 
 namespace Modules\Crm\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class SaveSearch extends Model
+class SaveSearch extends BaseModel
 {
 
     protected $fillable = ['user_id', 'type', 'global', 'search_name', 'search_val'];

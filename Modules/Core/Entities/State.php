@@ -2,10 +2,10 @@
 
 namespace Modules\Base\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class State extends Model
+class State extends BaseModel
 {
 
     protected $table = "base_state";

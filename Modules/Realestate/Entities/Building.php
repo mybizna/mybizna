@@ -2,11 +2,11 @@
 
 namespace Modules\Realestate\Entities;
 
-use Modules\Core\Entities\BaseModel as Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class Building extends Model
+class Building extends BaseModel
 {
 
     protected $fillable = ['name', 'estate_id', 'type', 'description', 'units', 'default_deposit', 'default_goodwill', 'default_amount', 'is_full'];

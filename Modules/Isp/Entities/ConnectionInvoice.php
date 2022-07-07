@@ -2,11 +2,11 @@
 
 namespace Modules\Isp\Entities;
 
-use Modules\Core\Entities\BaseModel as Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class ConnectionInvoice extends Model
+class ConnectionInvoice extends BaseModel
 {
 
     protected $fillable = ['connection_id', 'invoice_id'];

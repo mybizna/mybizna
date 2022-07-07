@@ -2,11 +2,11 @@
 
 namespace Modules\Realestate\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class ReadingGas extends Model
+class ReadingGas extends BaseModel
 {
 
     protected $fillable = ['name', 'tenancy_id', 'invoice_id', 'reading', 'units', 'billing_period', 'billing_date'];

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\Providers;
+namespace Modules\Base\Providers;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
@@ -13,7 +13,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $moduleNamespace = 'Modules\Core\Http\Controllers';
+    protected $moduleNamespace = 'Modules\Base\Http\Controllers';
 
     /**
      * Called before routes are registered.
@@ -102,7 +102,7 @@ class RouteServiceProvider extends ServiceProvider
 
     private function mapGeneralApiRoutes()
     {
-        $apicontroller = 'Modules\Core\Http\Controllers\BaseController';
+        $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
 
         Route::get('discover_modules', $apicontroller . '@discoverModules');
         Route::get('fetch_menus', $apicontroller . '@fetchMenus');
@@ -112,7 +112,7 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::group(['middleware' => ['auth:sanctum']], function () {
             $prefix ='{module}/admin/{model}';
-            $apicontroller = 'Modules\Core\Http\Controllers\BaseController';
+            $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
 
             Route::get($prefix, $apicontroller . '@getAllRecords');
             Route::get($prefix . '/{id}', $apicontroller . '@getRecord');

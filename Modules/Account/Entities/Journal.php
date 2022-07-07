@@ -2,11 +2,11 @@
 
 namespace Modules\Account\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class Journal extends Model
+class Journal extends BaseModel
 {
 
     protected $fillable = ['transaction_id', 'debit', 'credit', 'note', 'particulars'];

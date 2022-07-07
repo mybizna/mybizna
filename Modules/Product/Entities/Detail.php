@@ -2,10 +2,10 @@
 
 namespace Modules\Product\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class Detail extends Model
+class Detail extends BaseModel
 {
 
     protected $fillable = ['product_id', 'trn_no', 'stock_in', 'stock_out'];

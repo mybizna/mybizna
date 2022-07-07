@@ -2,10 +2,10 @@
 
 namespace Modules\Massmail\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class Massmail extends Model
+class Massmail extends BaseModel
 {
 
     protected $fillable = ['name'];

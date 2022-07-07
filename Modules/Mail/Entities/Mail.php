@@ -2,10 +2,10 @@
 
 namespace Modules\Mail\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class Mail extends Model
+class Mail extends BaseModel
 {
 
     protected $fillable = ['name'];

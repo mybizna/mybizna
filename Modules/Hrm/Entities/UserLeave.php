@@ -2,10 +2,10 @@
 
 namespace Modules\Hrm\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class UserLeave extends Model
+class UserLeave extends BaseModel
 {
 
     protected $fillable = ['user_id', 'request_id', 'title', 'date'];

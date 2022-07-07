@@ -2,10 +2,10 @@
 
 namespace Modules\Sale\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class TransferVoucher extends Model
+class TransferVoucher extends BaseModel
 {
 
     protected $fillable = ['voucher_no', 'trn_date', 'amount', 'ac_from', 'ac_to', 'particulars'];

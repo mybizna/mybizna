@@ -2,11 +2,11 @@
 
 namespace Modules\Isp\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class Connection extends Model
+class Connection extends BaseModel
 {
 
     protected $fillable = ['package_id', 'partner_id', 'invoice_id', 'username', 'password', 'params', 'expiry_date', 'billing_date', 'is_paid', 'is_setup', 'status'];

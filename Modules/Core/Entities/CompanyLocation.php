@@ -2,10 +2,10 @@
 
 namespace Modules\Base\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class CompanyLocation extends Model
+class CompanyLocation extends BaseModel
 {
 
     protected $table = "base_company_location";

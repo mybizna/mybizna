@@ -2,10 +2,10 @@
 
 namespace Modules\Account\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class InvoiceStatus extends Model
+class InvoiceStatus extends BaseModel
 {
 
     protected $fillable = ['type_name', 'slug'];

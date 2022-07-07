@@ -2,10 +2,10 @@
 
 namespace Modules\Hrm\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 
-class Dependent extends Model
+class Dependent extends BaseModel
 {
 
     protected $fillable = ['employee_id', 'name', 'relation', 'dob'];

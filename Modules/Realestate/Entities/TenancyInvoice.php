@@ -2,11 +2,11 @@
 
 namespace Modules\Realestate\Entities;
 
-use Modules\Core\Entities\BaseModel AS Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class TenancyInvoice extends Model
+class TenancyInvoice extends BaseModel
 {
 
     protected $fillable = ['title', 'tenancy_id', 'invoice_id',  'billing_period'];

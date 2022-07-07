@@ -2,11 +2,11 @@
 
 namespace Modules\Invoice\Entities;
 
-use Modules\Core\Entities\BaseModel as Model;
+use Modules\Base\Entities\BaseModel;
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Core\Classes\Migration;
 
-class InvoiceItem extends Model
+class InvoiceItem extends BaseModel
 {
 
     protected $fillable = [

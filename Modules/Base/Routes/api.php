@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ApiController;
+use App\Http\Controllers\AuthenticationController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     ['prefix' => 'base', 'middleware' => ['auth:sanctum']],
     function () {
-        $apicontroller = 'BaseController';
+        $apicontroller = 'CoreController';
 
         Route::get('/base/autocomplete', $apicontroller . '@autocomplete');
     }
