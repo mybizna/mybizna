@@ -102,22 +102,35 @@ class RouteServiceProvider extends ServiceProvider
 
     private function mapGeneralApiRoutes()
     {
-        $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
 
-        Route::get('discover_modules', $apicontroller . '@discoverModules');
-        Route::get('fetch_menus', $apicontroller . '@fetchMenus');
-        Route::get('fetch_routes', $apicontroller . '@fetchRoutes');
-        Route::get('current_user', $apicontroller . '@currentUser');
-        Route::get('dashboard_data', $apicontroller . '@dashboardData');
+        Route::middleware('api')
+            ->namespace('Modules\Base\Http\Controllers')
+            ->group(module_path('Base', '/Routes/api.php'));
 
         Route::group(
             ['prefix' => 'api/base', 'middleware' => ['auth:sanctum']],
             function () {
                 $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
-
                 Route::get('/base/autocomplete', $apicontroller . '@autocomplete');
             }
         );
+
+        Route::group(['prefix' => 'api'], function () {
+            $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
+        });
+
+        Route::prefix('api')
+            ->middleware(['api', 'auth:sanctum'])
+            ->group(function () {
+                $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
+            });
+
+        // Route::group(['prefix' => 'api', 'middleware' => ['auth:sanctum']], function () {
+        Route::middleware('auth:sanctum')->group(function () {
+            // Route::group(['prefix' => 'api'], function () {
+
+            // });
+        });
 
         Route::group(['prefix' => 'api', 'middleware' => ['auth:sanctum']], function () {
             $DS = DIRECTORY_SEPARATOR;
@@ -151,47 +164,33 @@ class RouteServiceProvider extends ServiceProvider
 
 
                                     if (file_exists($controller_path)) {
-                                        Route::get($prefix, $controller . '@getAllRecords');
-                                        Route::get($prefix . '/{id}', $controller . '@getRecord');
-                                        Route::get($prefix . '/recordselect', $controller . '@getRecordSelect');
-                                        Route::post($prefix, $controller . '@createRecord');
-                                        Route::put($prefix . '/{id}', $controller . '@updateRecord');
-                                        Route::delete($prefix . '/{id}', $controller . '@deleteRecord');
-                                        Route::match(['get', 'post'], $prefix . '/{function}//',  $controller . '@functionCall');
+                                        if (method_exists($controller, 'getAllRecords')) {
+                                            Route::get($prefix, $controller . '@getAllRecords');
+                                        }
+                                        if (method_exists($controller, 'getAllRecords')) {
+                                            Route::get($prefix . '/{id}', $controller . '@getRecord');
+                                        }
+                                        if (method_exists($controller, 'getAllRecords')) {
+                                            Route::get($prefix . '/recordselect', $controller . '@getRecordSelect');
+                                        }
+                                        if (method_exists($controller, 'getAllRecords')) {
+                                            Route::post($prefix, $controller . '@createRecord');
+                                        }
+                                        if (method_exists($controller, 'getAllRecords')) {
+                                            Route::put($prefix . '/{id}', $controller . '@updateRecord');
+                                        }
+                                        if (method_exists($controller, 'getAllRecords')) {
+                                            Route::delete($prefix . '/{id}', $controller . '@deleteRecord');
+                                        }
+                                        if (method_exists($controller, 'getAllRecords')) {
+                                            Route::match(['get', 'post'], $prefix . '/{function}//',  $controller . '@functionCall');
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
-        });
-
-
-        Route::group(['prefix' => 'api', 'middleware' => ['auth:sanctum']], function () {
-            $prefix = '{module}/admin/{model}';
-            $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
-
-            if (method_exists($apicontroller, 'getAllRecords')) {
-                Route::get($prefix, $apicontroller . '@getAllRecords');
-            }
-            if (method_exists($apicontroller, 'getRecord')) {
-                Route::get($prefix . '/{id}', $apicontroller . '@getRecord');
-            }
-            if (method_exists($apicontroller, 'getRecordSelect')) {
-                Route::get($prefix . '/recordselect', $apicontroller . '@getRecordSelect');
-            }
-            if (method_exists($apicontroller, 'createRecord')) {
-                Route::post($prefix, $apicontroller . '@createRecord');
-            }
-            if (method_exists($apicontroller, 'updateRecord')) {
-                Route::put($prefix . '/{id}', $apicontroller . '@updateRecord');
-            }
-            if (method_exists($apicontroller, 'deleteRecord')) {
-                Route::delete($prefix . '/{id}', $apicontroller . '@deleteRecord');
-            }
-            if (method_exists($apicontroller, 'functionCall')) {
-                Route::match(['get', 'post'], $prefix . '/{function}/',  $apicontroller . '@functionCall');
             }
         });
     }
