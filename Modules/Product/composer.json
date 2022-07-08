@@ -1,19 +1,21 @@
 {
     "name": "mybizna/product",
     "description": "",
+    "type": "asgard-module",
     "authors": [
         {
             "name": "Dedan Irungu",
-"homepage": "https://mybizna.com",
+            "homepage": "https://mybizna.com",
             "email": "info@mybizna.com"
         }
     ],
+    "require": {
+        "composer/installers": "~1.0"
+    },
     "extra": {
         "laravel": {
             "providers": [],
-            "aliases": {
-
-            }
+            "aliases": {}
         }
     },
     "autoload": {

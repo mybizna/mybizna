@@ -1,6 +1,7 @@
 {
     "name": "mybizna/mrp",
     "description": "",
+    "type": "asgard-module",
     "authors": [
         {
             "name": "Dedan Irungu",
@@ -8,6 +9,9 @@
             "email": "info@mybizna.com"
         }
     ],
+    "require": {
+        "composer/installers": "~1.0"
+    },
     "extra": {
         "laravel": {
             "providers": [],

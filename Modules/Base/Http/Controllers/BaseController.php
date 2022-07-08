@@ -115,7 +115,7 @@ class BaseController extends Controller
                 'title' => "Purchase",
                 'icon' => "fas fa-chart-line",
                 'color' => "primary",
-                'total' => DB::table('purchase')->count(),
+                'total' => DB::table('account_transaction')->count(),
             ],
             [
                 'is_amount' => false,
