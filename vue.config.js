@@ -6,8 +6,8 @@ module.exports = defineConfig({
     transpileDependencies: true,
     runtimeCompiler: true,
     filenameHashing: false,
-    outputDir: __dirname + '/public/live',
-    publicPath: "/live/",
+    outputDir: __dirname + '/public/mybizna',
+    publicPath: "/mybizna/",
     css: {
         extract: true,
     },
