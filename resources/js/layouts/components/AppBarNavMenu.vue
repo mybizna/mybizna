@@ -46,10 +46,13 @@
                                     {{ item.title }}
                                 </a>
                                 <ul v-if="item.list.length" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li v-for="(subitem, index) in item.list" :key="index">
-                                        <a class="dropdown-item text-black" :href="'#' + subitem.path">{{ subitem.title
+                                    <template v-for="(subitem, index) in item.list" :key="index">
+                                    <li v-if="subitem.title !== ''" class="dropdown-item text-black">
+                                        <a :href="'#' + subitem.path">{{ subitem.title
                                         }}</a>
                                     </li>
+                                    <div v-else class="dropdown-divider"></div>
+                                    </template>
                                 </ul>
                             </li>
                         </ul>
