@@ -1,0 +1,60 @@
+[submodule "Modules/Account"]
+	path = Modules/Account
+	url = https://github.com/mybizna/account.git
+[submodule "Modules/Base"]
+	path = Modules/Base
+	url = https://github.com/mybizna/base.git
+[submodule "Modules/Bill"]
+	path = Modules/Bill
+	url = https://github.com/mybizna/bill.git
+[submodule "Modules/Calendar"]
+	path = Modules/Calendar
+	url = https://github.com/mybizna/calendar.git
+[submodule "Modules/core"]
+	path = Modules/core
+	url = https://github.com/mybizna/core.git
+[submodule "Modules/Crm"]
+	path = Modules/Crm
+	url = https://github.com/mybizna/crm.git
+[submodule "Modules/Discussion"]
+	path = Modules/Discussion
+	url = https://github.com/mybizna/discussion.git
+[submodule "Modules/Expense"]
+	path = Modules/Expense
+	url = https://github.com/mybizna/expense.git
+[submodule "Modules/Fleet"]
+	path = Modules/Fleet
+	url = https://github.com/mybizna/fleet.git
+[submodule "Modules/Hrm"]
+	path = Modules/Hrm
+	url = https://github.com/mybizna/hrm.git
+[submodule "Modules/Isp"]
+	path = Modules/Isp
+	url = https://github.com/mybizna/isp.git
+[submodule "Modules/Mail"]
+	path = Modules/Mail
+	url = https://github.com/mybizna/mail.git
+[submodule "Modules/Massmail"]
+	path = Modules/Massmail
+	url = https://github.com/mybizna/massmail.git
+[submodule "Modules/Media"]
+	path = Modules/Media
+	url = https://github.com/mybizna/media.git
+[submodule "Modules/Mrp"]
+	path = Modules/Mrp
+	url = https://github.com/mybizna/mrp.git
+[submodule "Modules/Partner"]
+	path = Modules/Partner
+	url = https://github.com/mybizna/partner.git
+[submodule "Modules/Product"]
+	path = Modules/Product
+	url = https://github.com/mybizna/product.git
+[submodule "Modules/Realestate"]
+	path = Modules/Realestate
+	url = https://github.com/mybizna/realestate.git
+[submodule "Modules/Sale"]
+	path = Modules/Sale
+	url = https://github.com/mybizna/sale.git
+[submodule "Modules/Core"]
+	path = Modules/Core
+	url = https://github.com/mybizna/core.git
