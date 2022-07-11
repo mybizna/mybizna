@@ -5,12 +5,21 @@
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
                 <FormKit label="Amount" id="amount" type="text" validation="required" />
                 <FormKit label="Partner" id="partner_id" type="recordpicker" validation="required" />
-                <FormKit label="Left Ledger" id="left_ledger_id" type="recordselect"
-                    comp_url="account/admin/chart_of_account/recordselect?type=left" validation="required" />
-                <FormKit label="Right Chart of Account" id="right_chart_of_account_id" type="recordselect"
-                    comp_url="account/admin/ledger/recordselect?type=right" validation="required" />
-                <FormKit label="Right Ledger" id="right_ledger_id" type="recordselect"
-                    comp_url="account/admin/ledger/recordselect?type=right" validation="required" />
+
+                <div class="border border-gray rounded p-2 mb-2">
+                    <label class="text-gray-700 fs-12">Left Move</label>
+                    <FormKit label="Left Chart of Account" id="left_chart_of_account_id" type="recordselect"
+                        comp_url="account/admin/chart_of_account/recordselect" validation="required" />
+                    <FormKit label="Left Ledger" id="left_ledger_id" type="recordselect"
+                        comp_url="account/admin/ledger/recordselect?type=left" validation="required" />
+                </div>
+                <div class="border border-gray rounded p-2 mb-2">
+                    <label class="text-gray-700 fs-12">Right Move</label>
+                    <FormKit label="Right Chart of Account" id="right_chart_of_account_id" type="recordselect"
+                        comp_url="account/admin/chart_of_account/recordselect" validation="required" />
+                    <FormKit label="Right Ledger" id="right_ledger_id" type="recordselect"
+                        comp_url="account/admin/ledger/recordselect?type=right" validation="required" />
+                </div>
             </div>
             <div class="col-md-6">
                 <FormKit label="Description" id="description" type="textarea" validation="required" />
