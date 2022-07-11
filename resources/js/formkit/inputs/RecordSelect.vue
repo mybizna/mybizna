@@ -1,9 +1,6 @@
 
 <template>
-    <FormKit type="select" :name="context.id" :options="recordlist" :classes="classes" />
-    <button @click="loadResource" type="button" class="" data-bs-dismiss="modal" aria-label="Close">
-        <i class="fa-solid fa-circle-xmark text-2xl	text-red"></i>
-    </button>
+    <FormKit type="select" :name="context.id" :options="recordlist" :classes="classes" v-model="selected" />
 </template>
 
 <script>
@@ -14,9 +11,18 @@ export default {
     props: {
         context: Object,
     },
+    watch: {
+        'context.attrs.filter': function (newVal, oldVal) {
+            this.loadResource();
+        },
+        selected: function (newVal, oldVal) {
+            this.context.node.input(newVal);
+        },
 
+    },
     data () {
         return {
+            selected: '',
             currentComp: Loading,
             is_recordpicker: true,
             recordlist: {
@@ -27,17 +33,19 @@ export default {
             }
         }
     },
-
-     mounted () {
-
-
+    mounted () {
+        this.loadResource();
     },
     methods: {
         async loadResource () {
-            console.log(this.context.attrs.comp_url);
-            console.log('response');
+            var comp_url = this.context.attrs.comp_url
+            var filter = this.context.attrs.filter;
 
-            await window.axios.get(this.context.attrs.comp_url)
+            if (filter) {
+                comp_url = comp_url + filter;
+            }
+
+            await window.axios.get(comp_url)
                 .then(
                     response => {
                         console.log(response);
