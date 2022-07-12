@@ -71,8 +71,23 @@ export default {
             window.$store.commit("system/is_recordpicker", false);
         },
         recordPicker (id) {
+            this.context.node.input(id);
+        },
+         async loadRecord (id) {
+              await window.axios.get(comp_url)
+                .then(
+                    response => {
+                        console.log(response);
+                        this.recordlist = response.data;
 
-            alert(id + 'ddddddddds');
+                    })
+                .catch(
+                    response => {
+                        if (response.status === 401) {
+                            console.log('Issues Fetching Data.');
+                        }
+                    });
+            this.context.node.input(id);
         }
     }
 
