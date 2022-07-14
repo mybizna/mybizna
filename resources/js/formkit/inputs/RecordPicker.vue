@@ -7,7 +7,7 @@
             Select Record
         </button>
 
-        John Doe(john@doe.com)
+        {{ message }}
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -45,6 +45,8 @@ export default {
     data () {
         return {
             currentComp: Loading,
+            record: {},
+            message: '',
             is_recordpicker: true
         }
     },
@@ -54,7 +56,9 @@ export default {
             // do something...
             alert('sfdsfdsfds');
             this.modalToggle();
-        })
+        });
+
+
     },
 
     methods: {
@@ -73,21 +77,40 @@ export default {
         recordPicker (id) {
             this.context.node.input(id);
         },
-         async loadRecord (id) {
-              await window.axios.get(comp_url)
-                .then(
-                    response => {
-                        console.log(response);
-                        this.recordlist = response.data;
+        async loadRecord (id) {
+            var part1 = this.context.attrs.setting.path_param[0];
+            var part2 = this.context.attrs.setting.path_param[1];
 
-                    })
-                .catch(
-                    response => {
-                        if (response.status === 401) {
-                            console.log('Issues Fetching Data.');
-                        }
-                    });
-            this.context.node.input(id);
+            if (id) {
+
+                var comp_url = part1 + "/admin/" + part2 + "/" + id;
+
+                await window.axios.get(comp_url, { params: { f: this.context.attrs.setting.fields } })
+                    .then(
+                        response => {
+                            console.log(response);
+                            this.record = response.data.record;
+
+                            this.message = this.context.attrs.setting.template;
+                            var fields = this.context.attrs.setting.fields;
+
+                            fields.forEach(item => {
+                                this.message.replaceAll('[' + item + ']', this.record[item]);
+                            })
+
+
+
+                        })
+                    .catch(
+                        response => {
+                            if (response.status === 401) {
+                                console.log('Issues Fetching Data.');
+                            }
+                        });
+
+                this.context.node.input(id);
+            }
+
         }
     }
 
