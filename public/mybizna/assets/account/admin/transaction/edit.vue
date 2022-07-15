@@ -3,9 +3,16 @@
         <div class="row">
             <div class="col-md-6">
                 <FormKit label="Id" id="id" type="hidden" v-model="model.id" validation="required" />
-                <FormKit label="Amount" id="amount" type="text" v-model="model.amount" validation="required" />
                 <FormKit label="Partner" id="partner_id" type="recordpicker" comp_url="partner/admin/partner/list.vue"
                     :setting="recordpicker.partner_id" v-model="model.partner_id" validation="required" />
+                <FormKit label="Amount" id="amount" type="text" v-model="model.amount" validation="required" />
+                <FormKit label="Description" id="description" type="textarea" v-model="model.description"
+                    validation="required" />
+                <FormKit label="Is Processed" id="is_processed" type="switch" v-model="model.is_processed"
+                    validation="required" />
+            </div>
+            <div class="col-md-6">
+                <FormKit label="Type" id="type" type="select" v-model="model.type" validation="required" />
 
                 <div class="border border-gray rounded p-2 mb-2">
                     <label class="text-gray-700 fs-12">Left Move</label>
@@ -25,13 +32,7 @@
                         v-model="model.right_ledger_id" comp_url="ledger/recordselect?chart_of_account_id="
                         :filter="model.right_chart_of_account_id" validation="required" />
                 </div>
-            </div>
-            <div class="col-md-6">
-                <FormKit label="Description" id="description" type="textarea" v-model="model.description"
-                    validation="required" />
-                <FormKit label="Type" id="type" type="select" v-model="model.type" validation="required" />
-                <FormKit label="Is Processed" id="is_processed" type="switch" v-model="model.is_processed"
-                    validation="required" />
+
             </div>
         </div>
 

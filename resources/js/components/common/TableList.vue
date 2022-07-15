@@ -1,7 +1,5 @@
 <template>
     <div :class="classes">
-
-
         <div :class="'card ' + getCardClassName()">
             <div class="card-head">
                 <div v-if="!is_recordpicker" class="form-head d-flex flex-wrap align-items-center py-2">
