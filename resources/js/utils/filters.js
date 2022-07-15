@@ -488,7 +488,7 @@ export default {
                         t.show_delete_btn = true;
                     }
 
-                    t.postProcessing(t, search_fields);
+                    //t.postProcessing(t, search_fields);
 
                 }
             });

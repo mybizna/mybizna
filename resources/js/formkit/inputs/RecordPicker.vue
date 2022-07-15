@@ -10,18 +10,20 @@
         {{ message }}
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" :id="context.id + 'Modal'" tabindex="-1" :aria-labelledby="context.id + 'ModalLabel'"
+            aria-hidden="true">
             <div class="modal-dialog ">
                 <div class="modal-content shadow-2xl shadow-indigo-500/50">
                     <div class="modal-header p-2">
-                        <h5 class="modal-title font-semibold" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title font-semibold" :id="context.id + 'ModalLabel'">Modal title</h5>
                         <button @click="modalToggle" type="button" class="" data-bs-dismiss="modal" aria-label="Close">
                             <i class="fa-solid fa-circle-xmark text-2xl	text-red"></i>
                         </button>
                     </div>
 
                     <div class="modal-body p-0">
-                        <component :is="currentComp" :is_recordpicker="is_recordpicker"></component>
+                        <component :is="currentComp" :recordPicker="recordPicker" :is_recordpicker="is_recordpicker">
+                        </component>
                     </div>
                 </div>
             </div>
@@ -51,7 +53,9 @@ export default {
         }
     },
     mounted () {
-        const myModalEl = document.getElementById('myModal')
+
+        console.log(this.context);
+        const myModalEl = document.getElementById(this.context.id + 'Modal');
         myModalEl.addEventListener('hidden.bs.modal', event => {
             // do something...
             alert('sfdsfdsfds');
@@ -63,7 +67,6 @@ export default {
 
     methods: {
         async loadcomponent () {
-            console.log(this.context.attrs.comp_url);
             this.currentComp = await fetchComponent(
                 this.context.attrs.comp_url
             )
@@ -75,7 +78,11 @@ export default {
             window.$store.commit("system/is_recordpicker", false);
         },
         recordPicker (id) {
+            const myModalEl = document.getElementById(this.context.id + 'Modal');
+
+            myModalEl.hide();
             this.context.node.input(id);
+            this.modalToggle();
         },
         async loadRecord (id) {
             var part1 = this.context.attrs.setting.path_param[0];
