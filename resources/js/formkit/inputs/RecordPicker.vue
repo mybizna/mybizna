@@ -95,20 +95,14 @@ export default {
                     .then(
                         response => {
 
-                            console.log('response');
-                            console.log('');
-                            console.log('');
-                            console.log('');
-                            console.log('');
-                            console.log(response);
+
 
                             t.record = response.data.record;
-
 
                             var fields = t.context.attrs.setting.fields;
 
                             fields.forEach(item => {
-                                t.message.replaceAll('[' + item + ']', t.record[item]);
+                                t.message = t.message.replaceAll('[' + item + ']', t.record[item]);
                             })
 
 

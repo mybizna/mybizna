@@ -52,8 +52,8 @@ export default {
             recordpicker: {
                 partner_id: {
                     path_param: ["partner", "partner"],
-                    fields: ['first_name', 'plast_name', 'email'],
-                    template: ['[first_name] [last_name] - [email]'],
+                    fields: ['first_name', 'last_name', 'email'],
+                    template: '[first_name] [last_name] - [email]',
                 }
             },
             model: {
