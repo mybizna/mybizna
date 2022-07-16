@@ -23,6 +23,7 @@ import {
     defaultConfig,
 } from '@formkit/vue';
 
+import '@popperjs/core';
 //import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 
