@@ -35,7 +35,7 @@
 
 
 <script>
-import { Modal } from "bootstrap";
+import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
 import Loading from "@/formkit/inputs/Loading";
 import fetchComponent from "@/utils/fetchComponent";
 

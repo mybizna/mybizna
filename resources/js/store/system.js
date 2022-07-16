@@ -63,6 +63,8 @@ export default {
                         }
                         Object.keys(response.data).length;
 
+                        console.log(response.data);
+
                         commit('menu_length', counter);
                         commit('menu', response.data);
                         commit('has_menu', true);

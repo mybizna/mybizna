@@ -37,8 +37,8 @@
                                 .menu[$store.state.system.active_menu][
                                 'menus'
                             ]" :key="index" class="nav-item dropdown">
-                                <a v-if="item.list.length" class="nav-link dropdown-toggle text-black" href="#"
-                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a v-if="item.list.length" class="nav-link dropdown-toggle text-black"  href="#"
+                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                                     {{ item.title }}
                                 </a>
                                 <a v-else class="nav-link text-black" :href="'#' + item.path"
