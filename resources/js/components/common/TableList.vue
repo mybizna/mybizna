@@ -359,7 +359,7 @@ export default {
 
                 var tmp_label = table_field_name
                     .replace("_id", "")
-                    .replace("_", " ")
+                    .replaceAll("_", " ")
                     .replace(/\w\S*/g, function (word) {
                         return (
                             word.charAt(0).toUpperCase() +
