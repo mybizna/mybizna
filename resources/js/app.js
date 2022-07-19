@@ -1640,7 +1640,6 @@ app.config.globalProperties.$http = app.config.globalProperties.$axios = window.
 // Create axios instance with base url and credentials support
 window.axios.interceptors.request.use(function (config) {
 
-    console.log(Cookies.get('XSRF-TOKEN'));
 
     // If http method is `post | put | delete` and XSRF-TOKEN cookie is
     // not present, call '/sanctum/csrf-cookie' to set CSRF token, then
@@ -1656,11 +1655,10 @@ window.axios.interceptors.request.use(function (config) {
                 /* other methods you want to add here */
             ) && !Cookies.get('XSRF-TOKEN')) {
 
-            console.log("Cookies.get('XSRF-TOKEN')");
 
             await window.axios.get(window.base_url + '/sanctum/csrf-cookie')
                 .then(function (response) {
-                    console.log(response);
+                    //console.log(response);
                 });
 
             return await window.axios.get(window.base_url + '/sanctum/csrf-cookie')
@@ -1769,8 +1767,6 @@ app.component('calendar', Calendar);
     await autorouter(router);
 
     app.config.globalProperties.$router = window.$router = router;
-
-    console.log(window.$router.getRoutes());
 
     app.use(router);
 

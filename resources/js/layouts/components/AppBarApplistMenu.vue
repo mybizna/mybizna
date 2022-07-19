@@ -12,41 +12,46 @@
 
             <v-card max-width="300" min-width="250">
                 <div class="row m-0">
-                    <div v-for="(item, index) in menuIcons" :key="index" class="col-sm-6 col-md-4 p-1">
-                        <div class="p-1 border border-light rounded text-center">
-                            <a href="#" :title="item.title" @click="loadModule(item.path, 'account')"
-                                class="app-bar-link text-center text-decoration-none">
-                                <h2 :class="
-                                    'border rounded-circle m-2 mt-0 ' +
-                                    item.class_str
-                                ">
-                                    <i :class="item.icon"></i>
-                                </h2>
+                    <template v-if="menuIcons.length">
+                        <div v-for="(item, index) in menuIcons" :key="index" class="col-sm-6 col-md-4 p-1">
+                            <div class="p-1 border border-light rounded text-center">
+                                <a href="#" :title="item.title" @click="loadModule(item.path, 'account')"
+                                    class="app-bar-link text-center text-decoration-none">
+                                    <h2 :class="
+                                        'border rounded-circle m-2 mt-0 ' +
+                                        item.class_str
+                                    ">
+                                        <i :class="item.icon"></i>
+                                    </h2>
 
-                                <small class="text-black">{{
-                                        item.title
-                                }}</small>
-                            </a>
+                                    <small class="text-black">{{
+                                            item.title
+                                    }}</small>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </template>
 
-                    <div v-for="(item, index) in $store.state.system.menu" :key="index" class="col-sm-6 col-md-4 p-1">
-                        <div class="p-1 border border-light rounded text-center">
-                            <a href="#" :title="item.title" @click="loadModule(item.path, index)"
-                                class="app-bar-link text-center text-decoration-none">
-                                <h2 :class="
-                                    'border rounded-circle m-2 mt-0 ' +
-                                    item.class_str
-                                ">
-                                    <i :class="item.icon"></i>
-                                </h2>
+                    <template v-if="$store.state.system.menu_length">
+                        <div v-for="(item, index) in $store.state.system.menu" :key="index"
+                            class="col-sm-6 col-md-4 p-1">
+                            <div class="p-1 border border-light rounded text-center">
+                                <a href="#" :title="item.title" @click="loadModule(item.path, index)"
+                                    class="app-bar-link text-center text-decoration-none">
+                                    <h2 :class="
+                                        'border rounded-circle m-2 mt-0 ' +
+                                        item.class_str
+                                    ">
+                                        <i :class="item.icon"></i>
+                                    </h2>
 
-                                <small class="text-black">{{
-                                        item.title
-                                }}</small>
-                            </a>
+                                    <small class="text-black">{{
+                                            item.title
+                                    }}</small>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </template>
                 </div>
 
                 <v-card-actions>
@@ -68,9 +73,6 @@ export default {
         if (!store.state.system.has_menu) {
             store.dispatch("system/getMenu");
         }
-
-        console.log(window.$store.state.system.has_menu);
-        console.log(window.$store.state.system.menu);
 
     },
 
