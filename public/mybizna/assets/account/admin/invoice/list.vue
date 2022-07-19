@@ -31,10 +31,16 @@ export default {
             ],
             table_fields: [
                 { text: "partner_id", prop: "partner_id", name: "partner_id", },
+                {
+                    text: "Partner",
+                    prop: "[partner__first_name] [partner__last_name]",
+                    name: "partner_id",
+                    foreign: ['partner__first_name', 'partner__last_name'],
+                },
                 { text: "description", prop: "description", name: "description", },
-                { text: "status", prop: "status", name: "status", },
-                { text: "completed", prop: "completed", name: "completed", },
-                { text: "successful", prop: "successful", name: "successful", },
+                { text: "status", prop: "status", name: "status", is_boolean: true, },
+                { text: "completed", prop: "completed", name: "completed", is_boolean: true, },
+                { text: "successful", prop: "successful", name: "successful", is_boolean: true, },
             ],
         };
     },

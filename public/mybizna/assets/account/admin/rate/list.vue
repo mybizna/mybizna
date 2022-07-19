@@ -44,9 +44,9 @@ export default {
                 { text: "value", prop: "value", name: "value", },
                 { text: "start_amount", prop: "start_amount", name: "start_amount", },
                 { text: "end_amount", prop: "end_amount", name: "end_amount", },
-                { text: "is_visible", prop: "is_visible", name: "is_visible", },
-                { text: "is_percent", prop: "is_percent", name: "is_percent", },
-                { text: "published", prop: "published", name: "published", },
+                { text: "is_visible", prop: "is_visible", is_boolean: true, name: "is_visible", },
+                { text: "is_percent", prop: "is_percent", is_boolean: true, name: "is_percent", },
+                { text: "published", prop: "published", is_boolean: true, name: "published", },
             ],
         };
     },

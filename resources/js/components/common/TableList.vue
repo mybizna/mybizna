@@ -301,7 +301,7 @@ export default {
                 title: "Edit",
                 icon: "fa fa-pencil",
                 name: this.processed_path_param.dotted + ".edit",
-                param: ["pk"],
+                param: ["id"],
             });
         },
         processFieldList () {
