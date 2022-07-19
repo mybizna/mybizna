@@ -32,8 +32,18 @@ export default {
             table_fields: [
                 { text: "Name", prop: "name", name: "name", },
                 { text: "Slug", prop: "description", name: "description", },
-                { text: "Chart", prop: "chart_id", name: "chart_id", },
-                { text: "Parent", prop: "parent_id", name: "parent_id", },
+                {
+                    text: "Chart of Account",
+                    prop: "[account_chart_of_account__name]",
+                    name: "chart_id",
+                    foreign: ['account_chart_of_account__name'],
+                },
+                {
+                    text: "Parent",
+                    prop: "[account_ledger__name]",
+                    name: "parent_id",
+                    foreign: ['account_ledger__name'],
+                },
                 { text: "System", prop: "system", align: "center", is_boolean: true, name: "system", },
             ],
         };

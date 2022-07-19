@@ -31,9 +31,25 @@ export default {
             ],
             table_fields: [
                 { text: "Type", prop: "type", name: "type", },
-                { text: "Financial Year", prop: "financial_year_id", name: "financial_year_id", },
-                { text: "Chart", prop: "chart_id", name: "chart_id", },
-                { text: "Ledger", prop: "ledger_id", name: "ledger_id", },
+
+                {
+                    text: "Financial Year",
+                    prop: "[account_financial_year__name]",
+                    name: "financial_year_id",
+                    foreign: ['account_financial_year__name'],
+                },
+                 {
+                    text: "Chart of Account",
+                    prop: "[account_chart_of_account__name]",
+                    name: "chart_id",
+                    foreign: ['account_chart_of_account__name'],
+                },
+                {
+                    text: "Ledger",
+                    prop: "[account_ledger__name]",
+                    name: "ledger_id",
+                    foreign: ['account_ledger__name'],
+                },
                 { text: "Debit", prop: "debit", name: "debit", },
                 { text: "Credit", prop: "credit", name: "credit", },
             ],

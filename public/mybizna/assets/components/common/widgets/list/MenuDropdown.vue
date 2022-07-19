@@ -6,12 +6,12 @@
             <i class="fas fa-ellipsis-v text-primary"></i>
         </a>
         <ul class="dropdown-menu m-0 p-0 -mt-9" aria-labelledby="dropdownMenuButton1">
-            <template v-for="(dropdown_menu, index) in dropdown_menu_list">
+            <template :key="index" v-for="(dropdown_menu, index) in dropdown_menu_list">
 
-                <li :key="index" v-if="dropdown_menu.title == 'separator'">
+                <li v-if="dropdown_menu.title == 'separator'">
                     <hr class="dropdown-divider">
                 </li>
-                <li :key="index" v-else>
+                <li v-else>
                     <a class="dropdown-item" :href="dropdown_menu.link" :alt="dropdown_menu.title">
                         {{ dropdown_menu.title }}
                     </a>
@@ -26,7 +26,7 @@
 <script>
 export default {
     props: {
-        prop_item: Object,
+        pitem: Object,
         dropdown_menu_list: Array,
         field_list: Array,
     },
@@ -52,7 +52,7 @@ export default {
                     var param = {};
 
                     param_list.forEach(function (param_single) {
-                        param[param_single] = t.prop_item[param_single];
+                        param[param_single] = t.pitem[param_single];
                     });
 
                     url_obj = t.$router.resolve({

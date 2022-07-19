@@ -2,8 +2,8 @@
     <table-edit :path_param="path_param" :model="model">
         <div class="row">
             <div class="col-md-6">
-                <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Title" id="title" type="text" validation="required" />
+                <FormKit label="Id" id="id" type="hidden" v-model="model.id" validation="required" />
+                <FormKit label="Title" id="title" type="text" v-model="model.title" validation="required" />
                 <div class="border border-gray rounded p-2 mb-2 mt-3">
                     <label class="text-gray-700 fs-12">Left Move</label>
                     <FormKit label="Left Chart of Account" id="left_chart_of_account_id" type="recordselect"
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <FormKit label="Slug" id="slug" type="text" validation="required" />
+                <FormKit label="Slug" id="slug" type="text" v-model="model.slug" validation="required" />
                 <div class="border border-gray rounded p-2 mb-2 mt-3">
                     <label class="text-gray-700 fs-12">Right Move</label>
                     <FormKit label="Right Chart of Account" id="right_chart_of_account_id" type="recordselect"

@@ -6,8 +6,6 @@
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
                 <FormKit label="Amount" id="amount" type="text" validation="required" />
                 <FormKit label="Gateway" id="gateway_id" type="text" validation="required" />
-                <FormKit label="Invoice" id="invoice_id" type="text" validation="required" />
-                <FormKit label="Transaction" id="transaction_id" type="text" validation="required" />
                 <FormKit label="Receipt No" id="receipt_no" type="text" validation="required" />
                 <FormKit label="Code" id="code" type="text" validation="required" />
             </div>
@@ -36,8 +34,6 @@ export default {
                 id: "",
                 gateway_id: "",
                 amount: "",
-                transaction_id: "",
-                invoice_id: "",
                 description: "",
                 receipt_no: "",
                 code: "",

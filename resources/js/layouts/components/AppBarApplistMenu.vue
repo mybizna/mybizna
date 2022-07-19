@@ -1,17 +1,8 @@
 <template>
     <div class="text-center">
-        <v-menu
-            v-model="menu"
-            :close-on-content-click="false"
-            anchor="bottom"
-            right
-        >
+        <v-menu v-model="menu" :close-on-content-click="false" anchor="bottom" right>
             <template v-slot:activator="{ props }">
-                <v-badge
-                    color="success"
-                    :content="$store.state.system.menu_length"
-                    v-bind="props"
-                >
+                <v-badge color="success" :content="$store.state.system.menu_length" v-bind="props">
                     <div class="text-white" v-bind="attrs" v-on="on">
                         <i class="fas fa-tachometer-alt"></i>
                         Apps
@@ -21,60 +12,37 @@
 
             <v-card max-width="300" min-width="250">
                 <div class="row m-0">
-                    <div
-                        v-for="(item, index) in menuIcons"
-                        :key="index"
-                        class="col-sm-6 col-md-4 p-1"
-                    >
-                        <div
-                            class="p-1 border border-light rounded text-center"
-                        >
-                            <a
-                                href="#"
-                                :title="item.title"
-                                @click="loadModule(item.path, 'account')"
-                                class="app-bar-link text-center text-decoration-none"
-                            >
-                                <h2
-                                    :class="
-                                        'border rounded-circle m-2 mt-0 ' +
-                                        item.class_str
-                                    "
-                                >
+                    <div v-for="(item, index) in menuIcons" :key="index" class="col-sm-6 col-md-4 p-1">
+                        <div class="p-1 border border-light rounded text-center">
+                            <a href="#" :title="item.title" @click="loadModule(item.path, 'account')"
+                                class="app-bar-link text-center text-decoration-none">
+                                <h2 :class="
+                                    'border rounded-circle m-2 mt-0 ' +
+                                    item.class_str
+                                ">
                                     <i :class="item.icon"></i>
                                 </h2>
 
                                 <small class="text-black">{{
-                                    item.title
+                                        item.title
                                 }}</small>
                             </a>
                         </div>
                     </div>
-                    <div
-                        v-for="(item, index) in $store.state.system.menu"
-                        :key="index"
-                        class="col-sm-6 col-md-4 p-1"
-                    >
-                        <div
-                            class="p-1 border border-light rounded text-center"
-                        >
-                            <a
-                                href="#"
-                                :title="item.title"
-                                @click="loadModule(item.path, index)"
-                                class="app-bar-link text-center text-decoration-none"
-                            >
-                                <h2
-                                    :class="
-                                        'border rounded-circle m-2 mt-0 ' +
-                                        item.class_str
-                                    "
-                                >
+
+                    <div v-for="(item, index) in $store.state.system.menu" :key="index" class="col-sm-6 col-md-4 p-1">
+                        <div class="p-1 border border-light rounded text-center">
+                            <a href="#" :title="item.title" @click="loadModule(item.path, index)"
+                                class="app-bar-link text-center text-decoration-none">
+                                <h2 :class="
+                                    'border rounded-circle m-2 mt-0 ' +
+                                    item.class_str
+                                ">
                                     <i :class="item.icon"></i>
                                 </h2>
 
                                 <small class="text-black">{{
-                                    item.title
+                                        item.title
                                 }}</small>
                             </a>
                         </div>
@@ -91,18 +59,19 @@
 </template>
 
 <script>
-import { computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
-    setup() {
+    setup () {
         const store = useStore();
 
         if (!store.state.system.has_menu) {
             store.dispatch("system/getMenu");
         }
 
-        console.log(store.state.system.has_menu);
+        console.log(window.$store.state.system.has_menu);
+        console.log(window.$store.state.system.menu);
+
     },
 
     data: () => ({
@@ -121,7 +90,7 @@ export default {
     }),
 
     methods: {
-        loadModule(path, app) {
+        loadModule (path, app) {
             this.$store.commit("system/active_menu", app);
             window.$router.push(path);
         },
@@ -135,8 +104,10 @@ export default {
         min-height: 2.5rem !important;
     }
 }
+
 .app-bar-link {
     margin: 0 auto;
+
     h2 {
         height: 48px;
         width: 48px;
@@ -144,6 +115,7 @@ export default {
         font-size: 24px;
         margin: 0 auto !important;
     }
+
     small {
         font-size: 12px;
         white-space: nowrap;

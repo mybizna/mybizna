@@ -301,24 +301,21 @@ export default {
                 title: "Edit",
                 icon: "fa fa-pencil",
                 name: this.processed_path_param.dotted + ".edit",
-                param: ["pk"],
+                param: ["id"],
             });
         },
         processFieldList () {
             var t = this;
 
-            console.log('t.table_fields');
-            console.log(t.table_fields);
             t.table_fields.forEach(function (table_field) {
                 t.field_list.push(table_field.name);
 
                 if (Object.prototype.hasOwnProperty.call(table_field, "foreign")) {
                     table_field.foreign.forEach(function (table_field_foreign) {
-                        t.field_list.push(table_field_foreign);
+                        t.field_list.push(table_field.name + '.' + table_field_foreign);
                     });
                 }
             });
-
 
         },
 
@@ -359,7 +356,7 @@ export default {
 
                 var tmp_label = table_field_name
                     .replace("_id", "")
-                    .replace("_", " ")
+                    .replaceAll("_", " ")
                     .replace(/\w\S*/g, function (word) {
                         return (
                             word.charAt(0).toUpperCase() +

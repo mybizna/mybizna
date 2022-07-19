@@ -14,26 +14,30 @@ export default {
         return {
             path_param: ["account", "journal"],
             model: {
-                transaction_date: "",
+                transaction_id: "",
                 debit: "",
                 credit: "",
                 note: "",
                 particulars: "",
             },
-
             search_fields: [
-                { type: "text", name: "transaction_date", label: "transaction_date", ope: "", },
+                { type: "text", name: "transaction_id", label: "transaction_id", ope: "", },
                 { type: "text", name: "debit", label: "debit", ope: "", },
                 { type: "text", name: "credit", label: "credit", ope: "", },
                 { type: "text", name: "note", label: "note", ope: "", },
                 { type: "text", name: "particulars", label: "particulars", ope: "", },
             ],
             table_fields: [
-                { text: "Title", prop: "transaction_date", name: "transaction_date", },
-                { text: "Ref", prop: "debit", name: "debit", },
-                { text: "Ref", prop: "credit", name: "credit", },
-                { text: "Ref", prop: "note", name: "note", },
-                { text: "Ref", prop: "particulars", name: "particulars", },
+                {
+                    text: "Transaction",
+                    prop: "[account_transaction__amount] : [account_transaction__description]",
+                    name: "transaction_id",
+                    foreign: ['account_transaction__amount', 'account_transaction__description'],
+                },
+                { text: "Debit", prop: "debit", name: "debit", },
+                { text: "Credit", prop: "credit", name: "credit", },
+                { text: "Note", prop: "note", name: "note", },
+                { text: "Particulars", prop: "particulars", name: "particulars", },
             ],
         };
     },

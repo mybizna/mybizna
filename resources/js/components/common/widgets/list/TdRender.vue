@@ -1,6 +1,6 @@
 <template>
     <td v-if="is_template" :class="class_name">{{ pass_string }}</td>
-    <td v-else :class="class_name" v-html="reversedData">
+    <td v-else :class="class_name" v-html="reversedData"></td>
 </template>
 
 <script>
@@ -92,9 +92,6 @@ export default {
 
                 t.data_field.foreign.forEach(function (field_name) {
 
-                    console.log(t.pitem);
-                    console.log(t.data_field.name + '.' + field_name);
-
                     var tmp_data_str = t.pitem[t.data_field.name + '.' + field_name];
 
                     if (tmp_data_str === '' && tmp_data_str === 'null') {
@@ -106,26 +103,20 @@ export default {
                         tmp_data_str
                     );
 
+                });
+
+                t.field_list.forEach(function (field_name) {
+
+                    var tmp_data_str = t.pitem[field_name];
+
+                    data_str = data_str.replace(
+                        "[" + field_name + "]",
+                        tmp_data_str
+                    );
+
 
                 });
 
-                /*
-                                t.field_list.forEach(function (field_name) {
-
-                                    var tmp_data_str = t.pitem[field_name];
-
-                                    if (tmp_data_str !== '' && tmp_data_str !== 'null') {
-                                        tmp_data_str = '';
-                                    }
-
-                                    data_str = data_str.replace(
-                                        "[" + field_name + "]",
-                                        tmp_data_str
-                                    );
-
-
-                                });
-                */
 
             } else {
                 data_str = t.pitem[prop_str];

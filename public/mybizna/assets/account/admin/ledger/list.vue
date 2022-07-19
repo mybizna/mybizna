@@ -35,8 +35,19 @@ export default {
                 { text: "Name", prop: "name", name: "name", },
                 { text: "Slug", prop: "slug", name: "slug", },
                 { text: "Code", prop: "code", name: "code", },
-                { text: "Chart", prop: "chart_id", name: "chart_id", },
-                { text: "Category", prop: "category_id", name: "category_id", },
+
+                 {
+                    text: "Chart of Account",
+                    prop: "[account_chart_of_account__name]",
+                    name: "chart_id",
+                    foreign: ['account_chart_of_account__name'],
+                },
+                 {
+                    text: "Category",
+                    prop: "[account_ledger_category__name]",
+                    name: "category_id",
+                    foreign: ['account_ledger_category__name'],
+                },
                 { text: "Unused", prop: "unused", align: "center", is_boolean: true, name: "unused", },
                 { text: "System", prop: "system", align: "center", is_boolean: true, name: "system", },
             ],
