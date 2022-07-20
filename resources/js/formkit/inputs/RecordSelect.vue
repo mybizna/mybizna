@@ -46,18 +46,18 @@ export default {
                 url = this.context.attrs.setting.url;
             }
 
-            if (Object.prototype.hasOwnProperty.call(setting, 'filter')) {
-                filter = this.context.attrs.setting.filter;
+            if (Object.prototype.hasOwnProperty.call(this.context.attrs, 'filter')) {
+                filter = this.context.attrs.filter;
             }
 
             if (Object.prototype.hasOwnProperty.call(setting, 'filter_field')) {
-                filter = this.context.attrs.setting.filter_name + '=' + filter;
+                filter = '?' + this.context.attrs.setting.filter_name + '=' + filter;
             }
 
             if (url == '' && Object.prototype.hasOwnProperty.call(setting, 'path_param')) {
                 var param1 = this.context.attrs.setting.path_param[0];
                 var param2 = this.context.attrs.setting.path_param[1];
-                url = param1 + '/admin/' + param2 + 'recordselect';
+                url = param1 + '/admin/' + param2 + '/recordselect';
             }
 
 
@@ -65,7 +65,7 @@ export default {
                 url = url + filter;
             }
 
-            if (url == '') {
+            if (url !== '') {
                 await window.axios.get(url)
                     .then(
                         response => {
