@@ -38,26 +38,48 @@ export default {
     },
     methods: {
         async loadResource () {
-            var comp_url = this.context.attrs.comp_url
-            var filter = this.context.attrs.filter;
+            var url = '';
+            var filter = '';
+            var setting = this.context.attrs.setting;
 
-            if (filter) {
-                comp_url = comp_url + filter;
+            if (Object.prototype.hasOwnProperty.call(setting, 'url')) {
+                url = this.context.attrs.setting.url;
             }
 
-            await window.axios.get(comp_url)
-                .then(
-                    response => {
-                        console.log(response);
-                        this.recordlist = response.data;
+            if (Object.prototype.hasOwnProperty.call(setting, 'filter')) {
+                filter = this.context.attrs.setting.filter;
+            }
 
-                    })
-                .catch(
-                    response => {
-                        if (response.status === 401) {
-                            console.log('Issues Fetching Data.');
-                        }
-                    });
+            if (Object.prototype.hasOwnProperty.call(setting, 'filter_field')) {
+                filter = this.context.attrs.setting.filter_name + '=' + filter;
+            }
+
+            if (url == '' && Object.prototype.hasOwnProperty.call(setting, 'path_param')) {
+                var param1 = this.context.attrs.setting.path_param[0];
+                var param2 = this.context.attrs.setting.path_param[1];
+                url = param1 + '/admin/' + param2 + 'recordselect';
+            }
+
+
+            if (filter) {
+                url = url + filter;
+            }
+
+            if (url == '') {
+                await window.axios.get(url)
+                    .then(
+                        response => {
+                            console.log(response);
+                            this.recordlist = response.data.records;
+
+                        })
+                    .catch(
+                        response => {
+                            if (response.status === 401) {
+                                console.log('Issues Fetching Data.');
+                            }
+                        });
+            }
         },
     }
 }
