@@ -17,10 +17,10 @@ export default {
                 amount: "",
                 description: "",
                 partner_id: "",
+                left_chart_of_account_id: "",
                 left_ledger_id: "",
                 right_chart_of_account_id: "",
                 right_ledger_id: "",
-                type: "",
                 is_processed: "",
             },
 
@@ -32,7 +32,6 @@ export default {
                 { type: "text", name: "left_ledger_id", label: "left_ledger_id", ope: "", },
                 { type: "text", name: "right_chart_of_account_id", label: "right_chart_of_account_id", ope: "", },
                 { type: "text", name: "right_ledger_id", label: "right_ledger_id", ope: "", },
-                { type: "text", name: "type", label: "type", ope: "", },
                 { type: "text", name: "is_processed", label: "is_processed", ope: "", },
             ],
             table_fields: [
@@ -69,7 +68,6 @@ export default {
                     name: "right_ledger_id",
                     foreign: ['account_ledger__name'],
                 },
-                { text: "type", prop: "type", name: "type", },
                 { text: "is_processed", prop: "is_processed", is_boolean: true, name: "is_processed", },
             ],
         };
