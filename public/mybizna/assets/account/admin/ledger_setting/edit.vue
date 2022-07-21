@@ -43,10 +43,10 @@ export default {
             id: null,
             path_param: ["account", "ledger_setting"],
             setting: {
-                left_chart_of_account_id: { url: "chart_of_account/recordselect?type=left" },
-                left_ledger_id: { url: "ledger/recordselect?chart_of_account_id=", filter: this.model.left_chart_of_account_id },
-                right_chart_of_account_id: { url: "chart_of_account/recordselect?type=right" },
-                right_ledger_id: { url: "ledger/recordselect?chart_of_account_id=", filter: this.model.right_chart_of_account_id },
+                left_chart_of_account_id: { url: "chart_of_account/recordselect", params: { type: 'left' } },
+                left_ledger_id: { url: "ledger/recordselect", filter_field: 'chart_of_account_id' },
+                right_chart_of_account_id: { url: "chart_of_account/recordselect", params: { type: 'right' } },
+                right_ledger_id: { url: "ledger/recordselect", filter_field: 'chart_of_account_id' },
             },
             model: {
                 id: "",

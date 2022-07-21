@@ -18,14 +18,14 @@
             </div>
         </div>
 
-        <div class="row">
+        <div v-if="!model.ledger_setting_id" class="row">
             <div class="col-md-6">
                 <div class="border border-gray rounded p-2 mb-2">
                     <label class="text-gray-700 fs-12">Left Move</label>
                     <FormKit label="Left Chart of Account" id="left_chart_of_account_id" type="recordselect"
                         v-model="model.left_chart_of_account_id" :setting="setting.left_chart_of_account_id"
                         validation="required" />
-                    <FormKit :disabled="true" label="Left Ledger" id="left_ledger_id"
+                    <FormKit :disabled="!model.left_chart_of_account_id" label="Left Ledger" id="left_ledger_id"
                         type="recordselect" v-model="model.left_ledger_id" :filter="model.left_chart_of_account_id"
                         :setting="setting.left_ledger_id" validation="required" />
                 </div>
@@ -68,10 +68,10 @@ export default {
                     fields: ['title'],
                     template: '[title]',
                 },
-                left_chart_of_account_id: { url: "chart_of_account/recordselect?type=left" },
-                left_ledger_id: { url: "ledger/recordselect?chart_of_account_id=", },
-                right_chart_of_account_id: { url: "chart_of_account/recordselect?type=right" },
-                right_ledger_id: { url: "ledger/recordselect?chart_of_account_id=", },
+                left_chart_of_account_id: { url: "chart_of_account/recordselect", params: { type: 'left' } },
+                left_ledger_id: { url: "ledger/recordselect", filter_field: 'chart_of_account_id' },
+                right_chart_of_account_id: { url: "chart_of_account/recordselect", params: { type: 'right' } },
+                right_ledger_id: { url: "ledger/recordselect", filter_field: 'chart_of_account_id' },
             },
             model: {
                 id: "",
