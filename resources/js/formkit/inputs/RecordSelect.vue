@@ -42,20 +42,28 @@ export default {
         async loadResource () {
             var url = '';
             var filter = '';
+            var params = {};
             var setting = this.context.attrs.setting;
-
-            console.log(this.context);
 
             if (Object.prototype.hasOwnProperty.call(setting, 'url')) {
                 url = this.context.attrs.setting.url;
             }
 
-            if (Object.prototype.hasOwnProperty.call(this.context.attrs, 'filter')) {
-                filter = this.context.attrs.filter;
+
+            if (Object.prototype.hasOwnProperty.call(setting, 'params')) {
+                params = this.context.attrs.setting.params;
             }
 
             if (Object.prototype.hasOwnProperty.call(setting, 'filter_field')) {
-                filter = '?' + this.context.attrs.setting.filter_name + '=' + filter;
+                params[this.context.attrs.setting.filter_field] = this.context.attrs.filter;
+            }
+
+               if (Object.prototype.hasOwnProperty.call(setting, 'fields')) {
+                   params['f'] = this.context.attrs.setting.fields;
+            }
+
+            if (Object.prototype.hasOwnProperty.call(setting, 'fields')) {
+                params['template'] = this.context.attrs.setting.template;
             }
 
             if (url == '' && Object.prototype.hasOwnProperty.call(setting, 'path_param')) {
@@ -69,8 +77,13 @@ export default {
                 url = url + filter;
             }
 
+            if (Object.prototype.hasOwnProperty.call(setting, 'fields')) {
+
+                url = url + filter;
+            }
+
             if (url !== '') {
-                await window.axios.get(url)
+                await window.axios.get(url, { params: params })
                     .then(
                         response => {
                             console.log(response);
