@@ -1,6 +1,8 @@
 
 <template>
-    <FormKit type="select" :name="context.id" :options="recordlist" :classes="classes" v-model="selected" />
+    <FormKit type="select" :name="context.id" :disabled="context.disabled" :validation="context.validation"
+        :help="context.help" :errors="context.errors" :placeholder="context.placeholder" :options="recordlist"
+        :classes="classes" v-model="selected" />
 </template>
 
 <script>
@@ -41,6 +43,8 @@ export default {
             var url = '';
             var filter = '';
             var setting = this.context.attrs.setting;
+
+            console.log(this.context);
 
             if (Object.prototype.hasOwnProperty.call(setting, 'url')) {
                 url = this.context.attrs.setting.url;

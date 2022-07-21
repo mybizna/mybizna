@@ -6,31 +6,38 @@
                 <FormKit label="Partner" id="partner_id" type="recordpicker" comp_url="partner/admin/partner/list.vue"
                     :setting="setting.partner_id" v-model="model.partner_id" validation="required" />
                 <FormKit label="Amount" id="amount" type="text" v-model="model.amount" validation="required" />
-                <FormKit label="Description" id="description" type="textarea" v-model="model.description"
-                    validation="required" />
-                <FormKit label="Is Processed" id="is_processed" type="switch" v-model="model.is_processed"
-                    validation="required" />
-            </div>
-            <div class="col-md-6">
                 <FormKit label="Ledger Setting" id="ledger_setting_id" type="recordselect"
                     v-model="model.ledger_setting_id" :setting="setting.ledger_setting_id" validation="required" />
 
+            </div>
+            <div class="col-md-6">
+                <FormKit label="Is Processed" id="is_processed" type="switch" v-model="model.is_processed"
+                    validation="required" />
+                <FormKit label="Description" id="description" type="textarea" v-model="model.description"
+                    validation="required" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
                 <div class="border border-gray rounded p-2 mb-2">
                     <label class="text-gray-700 fs-12">Left Move</label>
                     <FormKit label="Left Chart of Account" id="left_chart_of_account_id" type="recordselect"
                         v-model="model.left_chart_of_account_id" :setting="setting.left_chart_of_account_id"
                         validation="required" />
-                    <FormKit label="Left Ledger" id="left_ledger_id" type="recordselect" v-model="model.left_ledger_id"
-                        :filter="model.left_chart_of_account_id" :setting="setting.left_ledger_id"
-                        validation="required" />
+                    <FormKit :disabled="true" label="Left Ledger" id="left_ledger_id"
+                        type="recordselect" v-model="model.left_ledger_id" :filter="model.left_chart_of_account_id"
+                        :setting="setting.left_ledger_id" validation="required" />
                 </div>
+            </div>
+            <div class="col-md-6">
                 <div class="border border-gray rounded p-2 mb-2">
                     <label class="text-gray-700 fs-12">Right Move</label>
                     <FormKit label="Right Chart of Account" id="right_chart_of_account_id" type="recordselect"
                         :setting="setting.right_chart_of_account_id" v-model="model.right_chart_of_account_id"
                         validation="required" />
-                    <FormKit label="Right Ledger" id="right_ledger_id" type="recordselect"
-                        v-model="model.right_ledger_id" :filter="model.right_chart_of_account_id"
+                    <FormKit :disabled="!model.right_chart_of_account_id" label="Right Ledger" id="right_ledger_id"
+                        type="recordselect" v-model="model.right_ledger_id" :filter="model.right_chart_of_account_id"
                         :setting="setting.right_ledger_id" validation="required" />
                 </div>
 
