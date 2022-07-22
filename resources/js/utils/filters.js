@@ -167,7 +167,7 @@ export default {
 
         if (Array.isArray(comp_path)) {
             comp_path =
-                "assets/" +
+                //"assets/" +
                 comp_path[0] +
                 "/admin/" +
                 comp_path[1] +
