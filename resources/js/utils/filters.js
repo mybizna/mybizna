@@ -37,7 +37,7 @@ export default {
     },
     money(val) {
         if (typeof val === "number") {
-            return `$${val.toFixed(2)}`;
+            return `${val.toFixed(2)}`;
         }
     },
     formatAmount(val, prefix = false) {
