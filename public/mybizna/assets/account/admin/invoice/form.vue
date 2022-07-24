@@ -30,7 +30,6 @@
             <div class="col-md-4">
                 <b>Invoice #007612</b><br>
                 <br>
-                <b>Order ID:</b> 4F3S8J<br>
                 <b>Payment Due:</b> 2/22/2014<br>
             </div>
         </div>
@@ -63,11 +62,61 @@
                             validation="required" min="0" step="0.01" />
                     </td>
                     <td>
-                        <span v-for="( rate, rate_index) in item.rates" :key="rate_index"
-                            class="badge bg-secondary mr-1">{{ rate.title }}</span>
-                        <a class="badge bg-blue-700 text-white cursor-pointer"  @click="addRate(rate)">
+                        <span v-for="( item_rate, rate_index) in item.rates" :key="rate_index"
+                            class="badge bg-secondary mr-1">{{ item_rate.title }} ({{ item_rate.value }}<span
+                                v-if="item_rate.is_percent">%</span>)</span>
+                        <a class="badge bg-blue-700 text-white cursor-pointer" data-bs-toggle="modal"
+                            :data-bs-target="'#' + rate_index + 'Modal'">
                             <i class="fa-solid fa-plus"></i> Add Rate
                         </a>
+
+                        <div class="modal fade" :id="rate_index + 'Modal'" tabindex="-1"
+                            :aria-labelledby="rate_index + 'ModalLabel'" aria-hidden="true">
+                            <div class="modal-dialog ">
+                                <div class="modal-content shadow-2xl shadow-indigo-500/50">
+                                    <div class="modal-header p-2">
+                                        <h5 class="modal-title font-semibold" :id="rate_index + 'ModalLabel'">Select
+                                            Rate</h5>
+                                        <button type="button" class="" data-bs-dismiss="modal" aria-label="Close">
+                                            <i class="fa-solid fa-circle-xmark text-2xl	text-red"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body p-0">
+                                        <table class="table m-0 p-0">
+                                            <thead>
+                                                <tr class="bg-slate-100 px-7">
+                                                    <th class="uppercase" scope="col"></th>
+                                                    <th class="uppercase" scope="col">Title</th>
+                                                    <th class="uppercase" scope="col">Value</th>
+                                                    <th class="uppercase" scope="col">Is Percent</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="( rate, r_index) in rates" :key="r_index">
+                                                    <td>
+                                                        <a v-if="item.rate_ids.includes(rate.id)"
+                                                            class="btn btn-danger btn-sm">Remove</a>
+                                                        <a v-else class="btn btn-primary btn-sm"
+                                                            @click="addRate(r_index, item, rate)">Add</a>
+                                                    </td>
+                                                    <td>
+                                                        {{ rate.title }}
+                                                    </td>
+                                                    <td>
+                                                        {{ rate.value }}
+                                                    </td>
+                                                    <td>
+                                                        <span v-if="rate.is_percent"> Yes </span>
+                                                        <span v-else> No </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                     <td class="font-semibold fs-16 text-right">{{ this.$func.money(item.total) }}</td>
                 </tr>
@@ -151,10 +200,26 @@ export default {
                     quantity: 1,
                     price: 0.00,
                     rates: [],
+                    rate_ids: [],
                     total: 0.00,
                 }],
             },
         };
+    },
+    created () {
+        var comp_url = 'rate/recordselect';
+
+        const getdata = async (t) => {
+
+            await window.axios.get(comp_url)
+                .then(
+                    response => {
+                        t.rates = response.data.records;
+                    });
+        };
+
+        getdata(this);
+
     },
     methods: {
         addRow () {
@@ -166,14 +231,19 @@ export default {
                 quantity: 1,
                 price: 0.00,
                 rates: [],
+                rate_ids: [],
                 total: 0.00,
             });
 
             this.addCalculate();
 
         },
-        addRate () {
-            console.log('addRate');
+        addRate (r_index, item, rate) {
+            window.$Modal.getOrCreateInstance(document.getElementById(r_index + 'Modal')).hide()
+
+            item.rates.push(rate);
+            item.rate_ids.push(rate.id);
+
             this.addCalculate();
         },
         addCalculate () {
