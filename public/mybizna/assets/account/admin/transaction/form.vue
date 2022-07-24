@@ -6,9 +6,6 @@
                 <FormKit label="Partner" id="partner_id" type="recordpicker" comp_url="partner/admin/partner/list.vue"
                     :setting="setting.partner_id" v-model="model.partner_id" validation="required" />
                 <FormKit label="Amount" id="amount" type="text" v-model="model.amount" validation="required" />
-                <FormKit label="Ledger Setting" id="ledger_setting_id" type="recordselect"
-                    v-model="model.ledger_setting_id" :setting="setting.ledger_setting_id" validation="required" />
-
             </div>
             <div class="col-md-6">
                 <FormKit label="Is Processed" id="is_processed" type="switch" v-model="model.is_processed"

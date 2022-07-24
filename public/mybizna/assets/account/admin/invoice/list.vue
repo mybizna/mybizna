@@ -30,7 +30,6 @@ export default {
                 { type: "text", name: "successful", label: "successful", ope: "", },
             ],
             table_fields: [
-                { text: "partner_id", prop: "partner_id", name: "partner_id", },
                 {
                     text: "Partner",
                     prop: "[partner__first_name] [partner__last_name]",
