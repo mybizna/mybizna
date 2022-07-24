@@ -26,12 +26,15 @@ import {
 import '@popperjs/core';
 //import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/js/bootstrap.bundle.js';
+import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import "nprogress/nprogress.css";
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 import filters from "@/utils/filters";
+
+window.$Modal = Modal;
 
 window.$filters = window.$func = window.$helper = filters;
 
