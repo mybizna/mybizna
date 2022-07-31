@@ -4,7 +4,7 @@
 <a href="https://packagist.org/packages/mybizna/mybizna"><img src="https://img.shields.io/packagist/dt/mybizna/mybizna" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/mybizna/mybizna"><img src="https://img.shields.io/packagist/v/mybizna/mybizna" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/mybizna/mybizna"><img src="https://img.shields.io/packagist/l/mybizna/mybizna" alt="License"></a>
-</p>
+</p> 
 
 ## About Mybizna
 
