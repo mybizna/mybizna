@@ -86,8 +86,6 @@ export default {
         loadRecord (id) {
 
             const getdata = async (t, id) => {
-                alert('getdata');
-
                 t.message = t.context.attrs.setting.template;
 
                 var part1 = t.context.attrs.setting.path_param[0];
