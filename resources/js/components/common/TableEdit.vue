@@ -94,6 +94,9 @@ export default {
     methods: {
         preparePathParam () {
             this.processed_path_param = window.$func.pathParamHelper(this.path_param);
+            if (this.passed_form_url != '') {
+                this.processed_path_param.path = this.passed_form_url;
+            }
         },
         addGeneralFields () {
             var t = this;
