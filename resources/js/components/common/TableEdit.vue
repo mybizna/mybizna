@@ -43,6 +43,7 @@ export default {
     props: {
         model: Object,
         title: { type: String, default: "Editing", },
+        passed_form_url: { type: String, default: "", },
         passed_return_url: { type: String, default: "", },
         main_column_css: { type: String, default: "", },
         no_redirect: { type: Boolean, default: false },
