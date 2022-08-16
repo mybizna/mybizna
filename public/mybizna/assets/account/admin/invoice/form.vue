@@ -1,5 +1,5 @@
 <template>
-    <table-edit :path_param="path_param" :model="model">
+    <table-edit :path_param="path_param" :model="model" passed_form_url="invoice/savedata">
 
         <FormKit button_label="Select Customer" id="partner_id" type="recordpicker"
             comp_url="partner/admin/partner/list.vue" :setting="setting.partner_id" v-model="model.partner_id"
@@ -55,7 +55,7 @@
                             <FormKit id="title" type="text" v-model="item.title" validation="required" />
                         </td>
                         <td>
-                            <FormKit id="lerger" type="select" v-model="item.lerger" :options="ledgers"
+                            <FormKit id="ledger_id" type="select" v-model="item.ledger_id" :options="ledgers"
                                 validation="required" />
                         </td>
                         <td class="w-28">
@@ -228,7 +228,7 @@ export default {
                 items: [{
                     id: "",
                     title: "",
-                    lerger: "",
+                    ledger_id: "",
                     quantity: 1,
                     price: 0.00,
                     rates: [],
@@ -299,7 +299,7 @@ export default {
             this.model.items.push({
                 id: "",
                 title: "",
-                lerger: "",
+                ledger_id: "",
                 quantity: 1,
                 price: 0.00,
                 rates: [],

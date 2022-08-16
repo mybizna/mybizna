@@ -249,12 +249,22 @@ export default {
         },
 
         saveRecord () {
+            var t = this;
+
             window.$func.saveRecordHelper(
                 this,
                 this.processed_path_param,
                 this.form_fields,
                 this.returnUrl
             );
+
+            if (t.passed_return_url) {
+                window.$router.push(t.passed_return_url)
+            }
+
+            window.$router.push({ name: t.path_param[0] + ".admin." + t.path_param[1] })
+
+
         },
         cancelUrl: function () {
             var t = this;
