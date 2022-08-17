@@ -17,6 +17,7 @@ import createPersistedState from "vuex-persistedstate";
 import NProgress from 'nprogress';
 
 import Axios from 'axios';
+import axiosRetry from 'axios-retry';
 import VueSweetalert2 from 'vue-sweetalert2';
 import {
     plugin,
@@ -1636,6 +1637,7 @@ Axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
+axiosRetry(Axios, { retries: 3 });
 
 app.config.globalProperties.$http = app.config.globalProperties.$axios = window.axios = Axios;
 
