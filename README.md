@@ -38,13 +38,17 @@ npm install
 npm run build
 
 php artisan lucid:migrate
-php artisan mybizna:dataprocessor
 
+php artisan tinker
 $user = new App\Models\User();
 $user->password = Hash::make('johndoe');
 $user->email = 'johndoe@johndoe.com';
 $user->name = 'John Doe';
 $user->save();
+
+php artisan mybizna:dataprocessor
+
+
 
 ```
 
