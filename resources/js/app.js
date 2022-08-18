@@ -1629,7 +1629,6 @@ Axios.interceptors.response.use(function (response) {
     NProgress.done();
     return response;
 }, function (error) {
-
     app.config.globalProperties.$loading = {
         in_progress: false
     };
