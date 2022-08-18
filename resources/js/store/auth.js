@@ -4,10 +4,9 @@ export default {
         affiliate: {},
         userprofile: {},
         token: null,
-        user: {}
+        user: {},
     },
     mutations: {
-
         affiliate(state, payload) {
             state.affiliate = payload;
         },
@@ -23,121 +22,109 @@ export default {
             state.affiliate = {};
             state.userprofile = {};
             state.user = {};
-        }
+        },
     },
     actions: {
-        async authenticate({
-            commit
-        }, {
-            username,
-            password
-        }) {
-
-           /* await window.axios.get("/sanctum/csrf-cookie")
+        async authenticate({ commit }, { username, password }) {
+            /* await window.axios.get("/sanctum/csrf-cookie")
                 .then(response => {
                     console.log(JSON.stringify(response))
                 }); */
 
             await window.axios
-                .post('/login', {
+                .post("/login", {
                     email: username,
-                    password: password
+                    password: password,
                 })
-                .then(
-                    response => {
+                .then((response) => {
+                    commit("login", response.data.token);
+                    commit("user", response.data.user);
 
-                        commit('login', response.data.token);
-                        commit('user', response.data.user);
-
-                        window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
-
-                    })
-                .catch(
-                    response => {
-                        console.log(response);
-                    });
-
+                    window.axios.defaults.headers.common["Authorization"] =
+                        "Bearer " + response.data.token;
+                })
+                .catch((response) => {
+                    console.log(response);
+                });
         },
-        async getUser({
-            commit
-        }, {
-            that
-        }) {
+        async getUser({ commit }, { that }) {
+            window.axios
+                .get("/profile")
+                .then((response) => {
+                    var user = response.data;
 
-            window.axios.get("/api/profile")
-                .then(
-                    response => {
+                    if (user.profile.image) {
+                        user.profile.image =
+                            that.$base_url + user.profile.image;
+                    } else {
+                        user.profile.image =
+                            user.profile.gender == "A_1"
+                                ? that.$male_default_avatar
+                                : that.$female_default_avatar;
+                    }
 
-                        var user = response.data;
+                    commit("user", user);
 
-                        if (user.profile.image) {
-                            user.profile.image = that.$base_url + user.profile.image;
-                        } else {
-                            user.profile.image = (user.profile.gender == 'A_1') ? that.$male_default_avatar : that.$female_default_avatar;
-                        }
-
-                        commit('user', user);
-
-
-                        /*that.$store.dispatch("auth/affiliate", {
+                    /*that.$store.dispatch("auth/affiliate", {
                             user_id: user.id
                         });*/
-
-                    })
-                .catch(
-                    response => {
-                        if (response.status === 401) {
-                            commit('logout');
-                        }
-                    });
-
+                })
+                .catch((response) => {
+                    if (response.status === 401) {
+                        commit("logout");
+                    }
+                });
         },
-        async affiliate({
-            commit
-        }, {
-            user_id,
-        }) {
-
-            let query_str = 'query { userAffiliates(first:1) { edges {cursor node { id,pk,user{id, firstName, lastName, username, email,dateJoined},matrix{id, title},inviter{id, firstName, lastName, username, email},package{id, title},rank{id, name},status,summary,expiryDate,upgradeDate,lastUpgradeDate,createdAt,createdBy{id,firstName,lastName,email,username},updatedAt,updatedBy{id,firstName,lastName,email,username}, setting }}   pageInfo { hasNextPage, hasPreviousPage, startCursor,endCursor }  }     }';
+        async affiliate({ commit }, { user_id }) {
+            let query_str =
+                "query { userAffiliates(first:1) { edges {cursor node { id,pk,user{id, firstName, lastName, username, email,dateJoined},matrix{id, title},inviter{id, firstName, lastName, username, email},package{id, title},rank{id, name},status,summary,expiryDate,upgradeDate,lastUpgradeDate,createdAt,createdBy{id,firstName,lastName,email,username},updatedAt,updatedBy{id,firstName,lastName,email,username}, setting }}   pageInfo { hasNextPage, hasPreviousPage, startCursor,endCursor }  }     }";
 
             console.log(query_str);
 
             window.axios
                 .post("/graphql?query=" + query_str)
-                .then(
-                    response => {
+                .then((response) => {
+                    console.log(response);
 
-                        console.log(response);
+                    var tmpitems = {};
+                    var node_data = JSON.parse(
+                        JSON.stringify(
+                            response.data.data.userAffiliates.edges[0].node
+                        )
+                    );
 
-                        var tmpitems = {};
-                        var node_data = JSON.parse(JSON.stringify(response.data.data.userAffiliates.edges[0].node));
-
-
-
-                        for (var prop in node_data) {
-                            if (Object.prototype.hasOwnProperty.call(node_data, prop)) {
-                                if (typeof node_data[prop] === 'string' && node_data[prop].charAt(0) === "{") {
-                                    try {
-                                        node_data[prop] = JSON.parse(node_data[prop]);
-                                    } catch (e) {
-                                        // is not a valid JSON string
-                                    }
+                    for (var prop in node_data) {
+                        if (
+                            Object.prototype.hasOwnProperty.call(
+                                node_data,
+                                prop
+                            )
+                        ) {
+                            if (
+                                typeof node_data[prop] === "string" &&
+                                node_data[prop].charAt(0) === "{"
+                            ) {
+                                try {
+                                    node_data[prop] = JSON.parse(
+                                        node_data[prop]
+                                    );
+                                } catch (e) {
+                                    // is not a valid JSON string
                                 }
                             }
                         }
+                    }
 
-                        commit('affiliate', node_data);
-                    })
-                .catch(
-                    response => {
-                        console.log(response);
-                    });
-
+                    commit("affiliate", node_data);
+                })
+                .catch((response) => {
+                    console.log(response);
+                });
         },
     },
     getters: {
         loggedIn(state) {
             return state.token !== null;
-        }
-    }
-}
+        },
+    },
+};

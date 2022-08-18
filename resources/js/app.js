@@ -1619,7 +1619,7 @@ Axios.interceptors.response.use(function (response) {
         in_progress: false
     };
 
-    if (Object.prototype.hasOwnProperty.call(response.data, 'errors') && response.data.errors[0].message == "Signature has expired") {
+    if (Object.prototype.hasOwnProperty.call(response.data, 'message') && response.data.message == "Unauthenticated") {
         store.commit('auth/logout');
     }
 

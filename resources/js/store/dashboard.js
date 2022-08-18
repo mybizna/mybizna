@@ -13,24 +13,19 @@ export default {
         },
     },
     actions: {
-        async getDashboardData({
-            commit
-        }) {
-
-            await window.axios.get("/dashboard_data")
-                .then(
-                    response => {
-                        commit('dashboard_data', response.data);
-                        commit('has_dashboard_data', true);
-
-                    })
-                .catch(
-                    response => {
-                        if (response.status === 401) {
-                            console.log('Issues Getting Menu');
-                        }
-                    });
+        async getDashboardData({ commit }) {
+            await window.axios
+                .get("/dashboard_data")
+                .then((response) => {
+                    commit("dashboard_data", response.data);
+                    commit("has_dashboard_data", true);
+                })
+                .catch((response) => {
+                    if (response.status === 401) {
+                        console.log("Issues Getting Menu");
+                    }
+                });
         },
     },
-    getters: {}
-}
+    getters: {},
+};
