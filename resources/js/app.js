@@ -1619,6 +1619,8 @@ Axios.interceptors.response.use(function (response) {
         in_progress: false
     };
 
+    console.log(response.data);
+
     if (Object.prototype.hasOwnProperty.call(response.data, 'message') && response.data.message == "Unauthenticated") {
         store.commit('auth/logout');
     }
