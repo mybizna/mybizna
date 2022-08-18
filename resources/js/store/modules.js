@@ -1,12 +1,12 @@
-import auth from '@/store/auth';
-import system from '@/store/system';
-import dashboard from '@/store/dashboard';
+import auth from "@/store/auth";
+import system from "@/store/system";
+import dashboard from "@/store/dashboard";
 
 export default {
     auth,
     system,
     dashboard,
-}
+};
 
 /*
   // State
