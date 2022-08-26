@@ -1,9 +1,16 @@
 <template>
     <table-edit :path_param="path_param" :model="model" passed_form_url="invoice/savedata">
 
-        <FormKit button_label="Select Customer" id="partner_id" type="recordpicker"
-            comp_url="partner/admin/partner/list.vue" :setting="setting.partner_id" v-model="model.partner_id"
-            validation="required" />
+        <div class="row">
+            <div class="col-sm-6">
+                <FormKit label="Title" id="title" type="text" v-model="model.title" validation="required" :classes="{inner: 'formkit-inner', wrapper:'formkit-wrapper'}"/>
+            </div>
+            <div class="col-sm-6">
+                <FormKit label="Customer" button_label="Select Customer" id="partner_id" type="recordpicker"
+                    comp_url="partner/admin/partner/list.vue" :setting="setting.partner_id" v-model="model.partner_id"
+                    validation="required" :classes="{inner: 'formkit-inner', wrapper:'formkit-wrapper'}"/>
+            </div>
+        </div>
 
         <div v-if="has_partner" class="invoice-form">
             <div class="row">
@@ -134,15 +141,42 @@
                 <div class="col-6">
                     <p class="lead">Payment Methods:</p>
 
-                    <FormKit label="Methods" id="methods" type="select" validation="required"
-                        v-model="model.payment_method" :options="gateways" />
-                    <div class="mb-1"></div>
-                    <FormKit label="Amount" id="methods" type="number" validation="required"
-                        v-model="model.paid_amount" />
+                    <div>
+                        <ul class="nav nav-tabs" id="myPayment" role="tablist">
+                            <li v-for="(gateway, g_index) in model.gateways" v-bind:key="g_index" class="nav-item"
+                                role="presentation">
+                                <button :class="!g_index ? 'nav-link active' : 'nav-link'" :id="gateway.slug + '-tab'"
+                                    data-bs-toggle="tab" :data-bs-target="'#' + gateway.slug" type="button" role="tab"
+                                    :aria-controls="gateway.slug" :aria-selected="!g_index ? 'true' : 'false'">
+                                    <i v-if="gateway.paid_amount > 0" class="fas fa-check-circle"></i>
+                                    {{
+                                            gateway.title
+                                    }}</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myPaymentContent">
+                            <div v-for="(gateway, g_index) in model.gateways" v-bind:key="g_index"
+                                :class="!g_index ? 'tab-pane fade show active' : 'tab-pane fade'" :id="gateway.slug"
+                                role="tabpanel" :aria-labelledby="gateway.slug + '-tab'">
+                                <div class="p-2">
+                                    <FormKit label="Amount" id="amount" type="number" validation="required"
+                                        v-model="gateway.paid_amount" @keyup="calculateTotal" />
+                                    <template v-if="gateway.slug != 'cash'">
+                                        <FormKit label="Reference" id="reference" type="text"
+                                            v-model="gateway.reference" />
+                                        <FormKit label="Others" id="others" type="text" v-model="gateway.others" />
+                                    </template>
 
-                    <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                        Payment instructions goes here.
-                    </p>
+                                    <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                                        {{ gateway.instruction }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
                 </div>
 
                 <div class="col-6">
@@ -153,16 +187,49 @@
                                     <th style="width:60%">Subtotal:</th>
                                     <td class="text-right font-semibold">{{ this.$func.money(model.subtotal) }}</td>
                                 </tr>
-                                <tr v-for="( rate, index) in rates" :key="index">
-                                    <th>{{ rate.title }} ({{ rate.value }}<span v-if="rate.is_percent">%</span>)</th>
-                                    <td class="text-right font-semibold">{{ this.$func.money(rate.total) }}</td>
-                                </tr>
+                                <template v-for="( rate, index) in rates" :key="index">
+                                    <tr v-if="rate.total > 0 || rate.total < 0">
+                                        <th>{{ rate.title }} (<span
+                                                v-if="rate.method == '-' || rate.method == '-%'">-</span>{{ rate.value
+                                                }}<span v-if="rate.method == '-%' || rate.method == '+%'">%</span>)
+                                        </th>
+                                        <td class="text-right font-semibold">{{ this.$func.money(rate.total) }}</td>
+                                    </tr>
+                                </template>
                                 <tr>
                                     <th>Total:</th>
                                     <td class="text-right font-semibold">{{ this.$func.money(model.total) }}</td>
                                 </tr>
+
                             </tbody>
                         </table>
+
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th colspan="2">Paid:</th>
+                                </tr>
+                                <template v-for="(gateway, g_index) in model.gateways" v-bind:key="g_index">
+                                    <tr v-if="gateway.paid_amount > 0">
+                                        <th>{{ gateway.title }} on Now:</th>
+                                        <td class="text-right font-semibold">{{ this.$func.money(gateway.paid_amount) }}
+                                            {{ gateway.paid_amount }}
+                                        </td>
+                                    </tr>
+                                </template>
+                                <tr v-if="model.balance > 0" class="bg-red-200">
+                                    <th>Balance:</th>
+                                    <td class="text-right font-semibold">{{ model.balance }}
+                                    </td>
+                                </tr>
+                                <tr v-else-if="model.balance < 0" class="bg-green-200">
+                                    <th>OverPayment:</th>
+                                    <td class="text-right font-semibold">{{ Math.abs(model.balance) }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
             </div>
@@ -207,7 +274,6 @@ export default {
                 },
             },
             invoice: {},
-            gateways: [],
             rates: [],
             ledgers: [],
             partner: {},
@@ -220,11 +286,11 @@ export default {
                 phone: "+254 713 034 569",
                 email: "info@mybizna.com",
             },
-
             model: {
                 partner_id: '',
                 total: 0.00,
                 subtotal: 0.00,
+                gateways: [],
                 items: [{
                     id: "",
                     title: "",
@@ -235,9 +301,12 @@ export default {
                     rate_ids: [],
                     total: 0.00,
                 }],
-                payment_method: '',
+                title: 'Invoice #',
+                rates_used: [],
                 paid_amount: 0.00,
+                balance: 0.00,
                 notation: '',
+                status: 'draft',
             },
         };
     },
@@ -264,7 +333,7 @@ export default {
             this.has_partner = true;
 
             this.fetchData();
-        }
+        },
     },
     methods: {
         getNow: function () {
@@ -273,6 +342,25 @@ export default {
             const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             const dateTime = date + ' ' + time;
             this.timestamp = dateTime;
+        },
+        calculateTotal () {
+            var paid_amount = 0.00;
+
+            this.model.gateways.forEach(gateway => {
+                console.log(parseFloat(paid_amount));
+                console.log(parseFloat(gateway.paid_amount));
+                paid_amount = parseFloat(paid_amount) + parseFloat(gateway.paid_amount);
+            });
+
+            if (paid_amount > 0) {
+                this.model.status = 'pending';
+            }
+
+            this.model.paid_amount = paid_amount;
+
+            this.model.balance = this.model.total - this.model.paid_amount;
+
+
         },
 
         fetchData () {
@@ -284,10 +372,19 @@ export default {
                 await window.axios.get(comp_url, { params: { partner_id: this.model.partner_id } })
                     .then(
                         response => {
-                            t.gateways = response.data.gateways;
+
+                            t.model.gateways = response.data.gateways;
                             t.rates = response.data.rates;
                             t.ledgers = response.data.ledgers;
                             t.partner = response.data.partner;
+
+                            t.model.gateways.forEach(gateway => {
+                                gateway.reference = '';
+                                gateway.others = '';
+                                gateway.paid_amount = 0.00;
+                            });
+
+                            t.rates.sort(function (a, b) { return a.ordering - b.ordering; });
                         });
             };
 
@@ -315,12 +412,20 @@ export default {
 
             item.rates.push(rate);
             item.rate_ids.push(rate.id);
+            this.model.rates_used.push(rate.id);
+
+            item.rates.sort(function (a, b) { return a.ordering - b.ordering; });
+            this.model.rates_used = [...new Set(this.model.rates_used)];
 
             this.addCalculate();
         },
         addCalculate () {
             this.model.total = 0;
             this.model.subtotal = 0;
+
+            this.rates.forEach(main_rate => {
+                main_rate.total = 0.00;
+            });
 
             this.model.items.forEach(item => {
                 item.total = item.quantity * item.price;
@@ -329,21 +434,29 @@ export default {
 
                 item.rates.forEach(rate => {
                     var new_val = rate.value;
-                    var operation = '+';
+                    var operation = rate.method;
 
-                    if (rate.is_percent) {
-                        new_val = item.total * rate.value / 100;
+                    if (new_val != 0) {
+                        if (operation == '-') {
+                            new_val = -1 * new_val;
+                        } else if (operation == '-%') {
+                            new_val = -1 * item.total * new_val / 100;
+                        } else if (operation == '+%') {
+                            new_val = item.total * new_val / 100;
+                        }
                     }
 
                     this.rates.forEach(main_rate => {
-                        if (main_rate.id == rate.id) {
+                        //main_rate.total = 0.00;
+                        if (main_rate.id === rate.id) {
+                            console.log(main_rate.id + '' + rate.id);
                             main_rate.total = (Object.prototype.hasOwnProperty.call(main_rate, "total"))
                                 ? main_rate.total + new_val
                                 : new_val;
                         }
                     });
 
-                    item.total = (operation == '-') ? item.total - new_val : item.total + new_val;
+                    item.total = item.total + new_val;
 
                 });
 
