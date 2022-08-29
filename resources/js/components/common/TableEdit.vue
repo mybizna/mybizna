@@ -4,7 +4,7 @@
 
             <div class="form-head mb-1 d-flex flex-wrap align-items-center pb-3">
 
-                <h3 class="font-medium text-lg text-gray mr-5 mb-0">{{ title }}</h3>
+                <h3 class="font-medium text-lg text-gray mr-5 mb-0">{{  title  }}</h3>
 
                 <a class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
                     @click="saveRecord()">
@@ -80,6 +80,7 @@ export default {
             id: null,
             group_list: [],
             processed_path_param: {},
+            record: {},
             select_list: {},
             schema: {
                 groups: [],
@@ -258,18 +259,19 @@ export default {
                 this.returnUrl
             );
 
-            if (t.passed_return_url) {
-                window.$router.push(t.passed_return_url)
+            if (!t.no_redirect) {
+                if (t.passed_return_url) {
+                    window.$router.push(t.passed_return_url)
+                }
+
+                window.$router.push('/' + t.path_param[0] + "/admin/" + t.path_param[1])
             }
-
-            window.$router.push({ name: t.path_param[0] + ".admin." + t.path_param[1] })
-
 
         },
         cancelUrl: function () {
             var t = this;
 
-            window.$router.push({ name: t.path_param[0] + ".admin." + t.path_param[1] })
+            window.$router.push('/' + t.path_param[0] + "/admin/" + t.path_param[1])
         },
     },
     computed: {

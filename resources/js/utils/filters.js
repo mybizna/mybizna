@@ -164,15 +164,10 @@ export default {
     },
 
     fetchComponent(comp_path) {
-
         if (Array.isArray(comp_path)) {
             comp_path =
                 //"assets/" +
-                comp_path[0] +
-                "/admin/" +
-                comp_path[1] +
-                "/" +
-                comp_path[2];
+                comp_path[0] + "/admin/" + comp_path[1] + "/" + comp_path[2];
         }
 
         return fetchComponent(comp_path);
@@ -359,19 +354,8 @@ export default {
         window.axios.post(path_param.path, t.model).then((response) => {
             var tmpitem = response.data;
 
-            if (!t.no_redirect) {
-                if (return_url) {
-                    t.$router.push({
-                        path: return_url,
-                    });
-                } else {
-                    t.$router.push({
-                        name: path_param.dotted + ".edit",
-                        params: {
-                            id: tmpitem.id,
-                        },
-                    });
-                }
+            if (Object.prototype.hasOwnProperty.call(tmpitem, "record")) {
+                t.record = tmpitem.record;
             }
         });
     },

@@ -60,6 +60,12 @@ export default {
                         params: param,
                     });
 
+                    console.log('url_obj');
+                    console.log(url_obj);
+
+                    console.log('param');
+                    console.log(param);
+
                     dropdown_menu_single["link"] = url_obj.href;
                 } else {
                     url_obj = t.$router.resolve({
@@ -71,6 +77,9 @@ export default {
 
                 t.dropdown_menu = dropdown_menu_single;
             });
+
+            console.log('t.dropdown_menu_list');
+            console.log(t.dropdown_menu_list);
         },
     },
 };
