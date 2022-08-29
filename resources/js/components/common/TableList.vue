@@ -408,7 +408,7 @@ export default {
             var t = this;
 
             window.$router.push({
-                name: t.processed_path_param.dotted + ".edit",
+                name: t.processed_path_param.dotted + ".create",
             });
 
         },

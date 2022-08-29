@@ -80,6 +80,7 @@ export default {
             id: null,
             group_list: [],
             processed_path_param: {},
+            record: {},
             select_list: {},
             schema: {
                 groups: [],
@@ -258,12 +259,15 @@ export default {
                 this.returnUrl
             );
 
-            if (t.passed_return_url) {
-                window.$router.push(t.passed_return_url)
+            console.log('saveRecord');
+
+            if (!t.no_redirect) {
+                if (t.passed_return_url) {
+                    window.$router.push(t.passed_return_url)
+                }
+
+                window.$router.push({ name: t.path_param[0] + ".admin." + t.path_param[1] })
             }
-
-            window.$router.push({ name: t.path_param[0] + ".admin." + t.path_param[1] })
-
 
         },
         cancelUrl: function () {
