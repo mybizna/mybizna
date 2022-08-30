@@ -58,3 +58,9 @@
 [submodule "Modules/Core"]
 	path = Modules/Core
 	url = https://github.com/mybizna/core.git
+[submodule "Modules/Mpesa"]
+	path = Modules/Mpesa
+	url = https://github.com/mybizna/mpesa.git
+[submodule "Modules/Kopokopo"]
+	path = Modules/Kopokopo
+	url = https://github.com/mybizna/kopokopo.git
