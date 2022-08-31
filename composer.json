@@ -16,7 +16,8 @@
         "mybizna/lucid": "^1.0",
         "nwidart/laravel-modules": "^8.3",
         "parsecsv/php-parsecsv": "^1.3",
-        "wildside/userstamps": "^2.2"
+        "wildside/userstamps": "^2.2",
+        "composer/installers": "~1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -62,7 +63,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
