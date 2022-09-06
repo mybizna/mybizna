@@ -4,7 +4,7 @@
         <button type="button"
             class="mr-4 py-2 px-4 rounded-full border-0 text-sm font-semibold bg-blue-500 text-white hover:bg-blue-800"
             @click="loadcomponent()" data-bs-toggle="modal" :data-bs-target="'#' + context.id + 'Modal'">
-            {{button_label}}
+            {{ button_label }}
         </button>
 
         {{ message }}
@@ -60,7 +60,9 @@ export default {
             this.modalToggle();
         });
 
-        this.button_label = this.context.attrs.button_label;
+        if (this.context.attrs.button_label == '') {
+            this.button_label = this.context.attrs.button_label;
+        }
     },
 
     methods: {

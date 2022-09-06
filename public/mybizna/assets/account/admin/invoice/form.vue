@@ -316,7 +316,7 @@ export default {
             },
         };
     },
-    created () {
+    updated () {
         var t = this;
 
         this.invoice = {
@@ -324,7 +324,7 @@ export default {
             date_created: '',
         };
 
-        if ((Object.prototype.hasOwnProperty.call(t.$router.params, "id"))) {
+        if (Object.prototype.hasOwnProperty.call(t.$router, "params") && Object.prototype.hasOwnProperty.call(t.$router.params, "id")) {
             alert(t.$router.params.id);
         }
 
