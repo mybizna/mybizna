@@ -442,6 +442,11 @@ export default {
         var data = {
             s: {},
             f: [],
+            limit: t.pagination.limit,
+            offset:
+                t.pagination.page == 1
+                    ? 0
+                    : t.pagination.page * t.pagination.limit,
         };
 
         table_fields.forEach(function (table_field) {
@@ -480,10 +485,14 @@ export default {
                         t.loading_message = "No Data Available.";
                     } else {
                         if (t.pagination) {
-                            t.pagination.page = Math.floor(
-                                response.data.total / t.pagination.limit
-                            );
-                            t.pagination.totalItems = response.data.total;
+                            t.pagination.pages =
+                                t.pagination.limit >= response.data.total
+                                    ? 1
+                                    : Math.floor(
+                                          response.data.total /
+                                              t.pagination.limit
+                                      );
+                            t.pagination.total = response.data.total;
                         }
 
                         t.show_delete_btn = true;

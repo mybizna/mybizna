@@ -74,7 +74,8 @@
             <div class="card-foot">
                 <div class="w-full row">
                     <div class="col-4 col-sm-4">
-                        <select class="form-select form-select-sm
+                        <FormKit id="page_limit" type="select" v-model="pagination.limit" :options="pagination.limits"
+                            validation="required" input-class="$reset form-select form-select-sm
                                     mt-2
                                     ml-2
                                     appearance-none
@@ -91,54 +92,60 @@
                                     transition
                                     ease-in-out
                                     m-0
-                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                            aria-label=".form-select-sm example">
-                            <option selected value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="200">200</option>
-                        </select>
+                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
+
+
                     </div>
                     <div class="col-8 col-sm-4 text-center pt-3">
 
                         <p class="text-center text-sm text-gray-700">
-                            Showing
-                            <span class="font-medium">1</span>
-                            to
-                            <span class="font-medium">10</span>
+                            Showing Page
+                            <span class="font-medium">{{ pagination.page }}</span>
                             of
-                            <span class="font-medium">97</span>
-                            results
+                            <span class="font-medium">{{ pagination.pages }}</span>
+                            results.
                         </p>
                     </div>
                     <div class="col-sm-4">
                         <nav class="text-right" aria-label="Pagination">
-                            <a href="#"
-                                class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
-                                <i class="fa-solid fa-caret-left"></i>
-                            </a>
-                            <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-                            <a href="#" aria-current="page"
-                                class="inline-block bg-indigo-200 border-indigo-500 text-indigo-800 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
-                                1 </a>
-                            <a href="#"
-                                class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
-                                2 </a>
 
-                            <span class="inline-block  text-gray-600  leading-9 text-sm font-medium m-1 text-center">
-                                ... </span>
-                            <a href="#"
-                                class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
-                                4 </a>
-                            <a href="#"
-                                class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
-                                5 </a>
-                            <a href="#"
-                                class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center">
-                                <i class="fa-solid fa-caret-right"></i>
-                            </a>
+                            <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
+
+                            <template v-if="pagination.pages<=5">
+                                <a v-for="index in getNumbers(1, pagination.pages)" :key="index" href="#"
+                                    :aria-current="index==pagination.page?'page':''"
+                                    :class="[(index==pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
+                                    class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
+                                    @click="loadPage(index)">
+                                    {{ index }} </a>
+                            </template>
+
+                            <template v-else>
+                                <a class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
+                                    @click="loadPage(1)">
+                                    <i class="fa-solid fa-caret-left"></i>
+                                </a>
+                                <a v-for="index in getNumbers(1, 3)" :key="index"
+                                    :aria-current="index==pagination.page?'page':''"
+                                    :class="[(index==pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
+                                    class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
+                                    @click="loadPage(index)">
+                                    {{ index }} </a>
+                                <span
+                                    class="inline-block  text-gray-600  leading-9 text-sm font-medium m-1 text-center">
+                                    ... </span>
+                                <a v-for="index in getNumbers(pagination.pages-2, pagination.pages)" :key="index"
+                                    :aria-current="index==pagination.page?'page':''"
+                                    :class="[(index==pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
+                                    class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
+                                    @click="loadPage(index)">
+                                    {{ index }} </a>
+                                <a :class="[(index==pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
+                                    class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
+                                    @click="loadPage(pagination.pages)">
+                                    <i class="fa-solid fa-caret-right"></i>
+                                </a>
+                            </template>
                         </nav>
                     </div>
                 </div>
@@ -229,10 +236,11 @@ export default {
             pagination: {
                 orderby: 'id',
                 order: 'DESC',
-                limit: 10,
                 page: 1,
-                totalItems: 0,
-                limitItems: [5, 10, 20, 50, 100, 200],
+                pages: 1,
+                total: 0,
+                limit: 10,
+                limits: [5, 10, 20, 50, 100, 200],
             },
             schema: {
                 fields: [],
@@ -249,9 +257,14 @@ export default {
         };
     },
     watch: {
-        pagination () {
+        // whenever question changes, this function will run
+        'pagination.limit' (newQuestion, oldQuestion) {
+            this.pagination.page = 1;
             this.fetchRecords();
         },
+        /*pagination () {
+            this.fetchRecords();
+        },*/
         model: {
             handler () {
                 this.fetchRecords();
@@ -268,11 +281,27 @@ export default {
     },
 
     methods: {
+        loadPage: function (page) {
 
+            if (page < 1) {
+                page = 1;
+            } else if (page > this.pagination.pages) {
+                page = this.pagination.pages;
+            }
+
+            this.pagination.page = page;
+
+            this.fetchRecords();
+        },
+        getNumbers: function (start, stop) {
+            console.log(start);
+            console.log(stop);
+            var tmp_array = new Array(stop - start).fill(start).map((n, i) => n + i);
+            tmp_array.push(stop);
+            return tmp_array;
+        },
         getCardClassName (prefix = '') {
-
             return (!this.is_recordpicker) ? prefix + ' shadow-md m-1 mt-3' : ' border-0';
-
         },
         getClassName (table_field) {
             var full_class_name = "text-xs-left";
