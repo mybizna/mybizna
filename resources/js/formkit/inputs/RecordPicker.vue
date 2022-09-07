@@ -98,18 +98,14 @@ export default {
                     .then(
                         response => {
 
-
-
                             t.record = response.data.record;
 
                             var fields = t.context.attrs.setting.fields;
 
-                            fields.forEach(item => {
-                                t.message = t.message.replaceAll('[' + item + ']', t.record[item]);
-                            })
-
-
-
+                            Object.keys(t.record).forEach(key => {
+                                console.log(key, t.record[key]);
+                                t.message = t.message.replaceAll('[' + key + ']', t.record[key]);
+                            });
                         })
                     .catch(
                         response => {
