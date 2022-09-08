@@ -54,9 +54,9 @@ export default {
         }
     },
     mounted () {
-        console.log(this.context);
-
-        this.loadRecord(this.context.value);
+        if (parseInt(this.context.value)) {
+            this.loadRecord(this.context.value);
+        }
 
         const myModalEl = document.getElementById(this.context.id + 'Modal');
 
@@ -90,13 +90,6 @@ export default {
             this.loadRecord(id);
         },
         loadRecord (id) {
-
-            console.log('sdfdsfdsf');
-            console.log('');
-            console.log('sdfdsfdsf');
-            console.log('');
-            console.log(this.context.value);
-
             const getdata = async (t, id) => {
                 t.message = t.context.attrs.setting.template;
 
