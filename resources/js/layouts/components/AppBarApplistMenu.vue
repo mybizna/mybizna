@@ -93,6 +93,7 @@ export default {
 
     methods: {
         loadModule (path, app) {
+            alert(path);
             this.$store.commit("system/active_menu", app);
             window.$router.push(path);
         },

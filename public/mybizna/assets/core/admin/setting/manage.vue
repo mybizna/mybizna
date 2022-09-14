@@ -47,7 +47,7 @@ export default {
     data () {
         return {
             path_param: ["core", "setting"],
-            current_tab: 'account',
+            current_tab: 'core',
             model: { settings: {} }
         }
     },
