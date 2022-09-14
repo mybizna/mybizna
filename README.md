@@ -29,7 +29,6 @@ Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Larave
 git clone https://github.com/mybizna/mybizna
 
 cd mybizna
-npm install
 
 composer install
 composer dump-autoload -o
