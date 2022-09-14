@@ -6,6 +6,7 @@
 
                 <FormKit label="Id" id="id" type="hidden" validation="required" />
                 <FormKit label="Title" id="title" type="text" validation="required" />
+                <FormKit label="Slug" id="slug" type="text" validation="required" />
                 <FormKit label="Billing Cycle" id="billing_cycle_id" type="text" validation="required" />
                 <FormKit label="Speed" id="speed" type="text" validation="required" />
                 <FormKit label="Speed Type" id="speed_type" type="select" validation="required" :option="['kilobyte', 'megabyte']" />
@@ -34,6 +35,7 @@ export default {
             model: {
                 id: "",
                 title: "",
+                slug: "",
                 description: "",
                 billing_cycle_id: "",
                 speed: "",
@@ -41,7 +43,6 @@ export default {
                 published: "",
                 amount: "",
             },
-
         };
     }
 };
