@@ -25,7 +25,7 @@
                                     </h2>
 
                                     <small class="text-black">{{
-                                            item.title
+                                    item.title
                                     }}</small>
                                 </a>
                             </div>
@@ -46,7 +46,7 @@
                                     </h2>
 
                                     <small class="text-black">{{
-                                            item.title
+                                    item.title
                                     }}</small>
                                 </a>
                             </div>
@@ -93,9 +93,10 @@ export default {
 
     methods: {
         loadModule (path, app) {
-            alert(path);
             this.$store.commit("system/active_menu", app);
-            window.$router.push(path);
+            window.$router.push({
+                name: path,
+            });
         },
     },
 };
