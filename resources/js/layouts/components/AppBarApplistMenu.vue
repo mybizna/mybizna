@@ -36,7 +36,7 @@
                         <div v-for="(item, index) in $store.state.system.menu" :key="index"
                             class="col-sm-6 col-md-4 p-1">
                             <div class="p-1 border border-light rounded text-center">
-                                <a href="'#' + item.path" :title="item.title" @click="loadModule(item.path, index)"
+                                <a :href="'#' + item.path" :title="item.title" @click="loadModule(item.path, index)"
                                     class="cursor-pointer app-bar-link text-center text-decoration-none">
                                     <h2 :class="
                                         'border rounded-circle m-2 mt-0 ' +
@@ -85,7 +85,7 @@ export default {
             {
                 title: "dashboard",
                 icon: "fas fa-tachometer-alt",
-                path: "manage.dashboard",
+                path: "/manage/dashboard",
                 class_str: "text-danger border-danger",
             },
         ],
@@ -95,7 +95,10 @@ export default {
         loadModule (path, app) {
             this.$store.commit("system/active_menu", app);
             console.log(path);
-            this.router.push(path);
+            //this.router.push(path);
+            this.$router.push(path);
+            //window.$router.push(path);
+
         },
     },
 };
