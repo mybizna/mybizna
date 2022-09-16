@@ -6,13 +6,13 @@
 
                 <h3 class="font-medium text-lg text-gray mr-5 mb-0">{{  title  }}</h3>
 
-                <a class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
+                <a class="cursor-pointer text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
                     @click="saveRecord()">
                     <i class="fa fa-save"></i>
                     Save
                 </a>
 
-                <a class=" rounded-lg text-sm ring ring-2 ring-inset ring-red-400 text-red-600 py-2 px-3  text-center mr-2"
+                <a class="cursor-pointer rounded-lg text-sm ring ring-2 ring-inset ring-red-400 text-red-600 py-2 px-3  text-center mr-2"
                     @click="cancelUrl()">
                     <i class="fa fa-plus"></i>
                     Cancel
