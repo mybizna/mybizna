@@ -2,8 +2,7 @@
     <div class="p-3">
         <v-row class="match-height">
             <v-col
-                v-for="(item, index) in menuIcons"
-                :key="index"
+                v-for="(item, index) in $store.state.system.menu" :key="index"
                 cols="6"
                 sm="3"
                 md="2"
@@ -20,10 +19,10 @@
         <v-row>
             <v-col cols="12" md="4">
                 <dashboard-congratulation-john></dashboard-congratulation-john>
-                <dashboard-weekly-overview></dashboard-weekly-overview>
-            </v-col>
-            <v-col cols="12" md="8">
                 <dashboard-statistics-card></dashboard-statistics-card>
+            </v-col>
+            
+            <v-col cols="12" md="8">
                 <v-card class="mt-3">
                     <div class="d-flex flex-sm-row flex-column">
                         <div class="flex-grow-1">
@@ -59,14 +58,12 @@ import ImageLink from "@/components/common/widgets/link/ImageLink.vue";
 // demos
 import DashboardCongratulationJohn from "./DashboardCongratulationJohn.vue";
 import DashboardStatisticsCard from "./DashboardStatisticsCard.vue";
-import DashboardWeeklyOverview from "./DashboardWeeklyOverview.vue";
 
 export default {
     components: {
         ImageLink,
         DashboardCongratulationJohn,
         DashboardStatisticsCard,
-        DashboardWeeklyOverview,
     },
     setup() {
         const totalProfit = {
@@ -107,42 +104,7 @@ export default {
         };
 
         const menuIcons = [
-            {
-                title: "Account",
-                icon: "fas fa-funnel-dollar",
-                url: "/account",
-                class_str: "text-primary border-primary",
-            },
-            {
-                title: "Expenses",
-                icon: "fas fa-money-bill",
-                url: "/expenses",
-                class_str: "text-secondary border-secondary",
-            },
-            {
-                title: "Sales",
-                icon: "fas fa-receipt",
-                url: "/sales",
-                class_str: "text-warning border-warning",
-            },
-            {
-                title: "Products",
-                icon: "fas fa-store",
-                url: "/products",
-                class_str: "text-danger border-danger",
-            },
-            {
-                title: "Payment",
-                icon: "fas fa-file-invoice-dollar",
-                url: "/account",
-                class_str: "text-black border-black",
-            },
-            {
-                title: "Bill",
-                icon: "fas fa-hand-holding-usd",
-                url: "/bills",
-                class_str: "text-success border-success",
-            },
+          
         ];
 
         return {
