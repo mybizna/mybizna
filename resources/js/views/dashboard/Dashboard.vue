@@ -1,18 +1,9 @@
 <template>
     <div class="p-3">
         <v-row class="match-height">
-            <v-col
-                v-for="(item, index) in $store.state.system.menu" :key="index"
-                cols="6"
-                sm="3"
-                md="2"
-            >
-                <image-link
-                    :title="item.title"
-                    :url="'#' + item.path"
-                    :icon="item.icon"
-                    :class_str="item.class_str"
-                ></image-link>
+            <v-col v-for="(item, index) in $store.state.system.menu" :key="index" cols="6" sm="3" md="2">
+                <image-link :title="item.title" :url="item.path" :icon="item.icon" :class_str="item.class_str">
+                </image-link>
             </v-col>
         </v-row>
 
@@ -24,16 +15,16 @@
                 <v-card class="mt-3">
                     <div class="d-flex flex-sm-row flex-column">
                         <div class="flex-grow-1">
-                            <v-card-title>
-                                <span class="me-3">Deposit</span>
-                                <v-spacer></v-spacer>
-                                <span
-                                    class="text-xs text--disabled cursor-pointer"
-                                    >View All</span
-                                >
-                            </v-card-title>
+                            <div class="d-flex justify-content-between">
+                                <div class="me-3">Events</div>
+                                <div class="text-xs text--disabled cursor-pointer">
+                                    View All
+                                </div>
+                            </div>
 
-                            <v-card-text> <calendar></calendar> </v-card-text>
+                            <v-card-text>
+                                <calendar></calendar>
+                            </v-card-text>
                         </div>
                     </div>
                 </v-card>
@@ -55,13 +46,11 @@ import ImageLink from "@/components/common/widgets/link/ImageLink.vue";
 
 // demos
 import DashboardCongratulationJohn from "./DashboardCongratulationJohn.vue";
-import DashboardStatisticsCard from "./DashboardStatisticsCard.vue";
 
 export default {
     components: {
         ImageLink,
         DashboardCongratulationJohn,
-        DashboardStatisticsCard,
     },
     setup() {
         const totalProfit = {
