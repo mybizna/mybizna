@@ -3,7 +3,7 @@
     <v-row class="ma-0 pa-0">
       <v-col cols="8">
         <v-card-title class="text-no-wrap pt-1 ps-2">
-          Welcome Back John! 🥳
+          Welcome Back {{ $store.state.auth.user.name }}! 🥳
         </v-card-title>
         <v-card-subtitle class="text-no-wrap ps-2">
           Keep improving the sales.
@@ -14,7 +14,7 @@
               small
               color="primary"
             >
-              View Sales
+              View Invoices
             </v-btn>
           </div>
         </v-card-text>
