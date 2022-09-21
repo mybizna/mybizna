@@ -35,7 +35,7 @@ var paths = [
             public: true,
         },
         name: "NotFound",
-        component: () => import(`@/views/dashboard/Dashboard.vue`),
+        component: () => import(`@/components/pages/NotFound.vue`),
     },
     {
         path: "/403",
