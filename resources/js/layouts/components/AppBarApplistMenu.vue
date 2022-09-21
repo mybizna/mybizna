@@ -27,8 +27,6 @@
                                     </h2>
 
                                     <small class="text-black">
-                                        {{ index }}
-                                        {{ index }}
                                         {{
                                     item.title
                                     }}</small>
@@ -71,7 +69,6 @@ export default {
         loadModule(path, app) {
             this.$store.commit("system/active_menu", app);
             this.$router.push(path);
-            console.log('loadModule');
         },
     },
 };
