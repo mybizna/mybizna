@@ -49,6 +49,7 @@ import { useStore } from "vuex";
 export default {
     setup () {
         const store = useStore();
+        store.dispatch("system/getMenu");
 
         if (!store.state.system.has_menu) {
             store.dispatch("system/getMenu");
@@ -61,19 +62,12 @@ export default {
         menu: false,
         message: false,
         hints: true,
-        menuIcons: [
-            {
-                title: "dashboard",
-                icon: "fas fa-tachometer-alt",
-                path: "/manage/dashboard",
-                class_str: "text-danger border-danger",
-            },
-        ],
     }),
     methods: {
         loadModule (path, app) {
             this.$store.commit("system/active_menu", app);
             this.$router.push(path);
+            console.log('loadModule');
         },
     },
 };

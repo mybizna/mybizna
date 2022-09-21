@@ -1,8 +1,8 @@
 <template>
     <div class="card card-coin">
         <div class="card-body text-center image-link p-2">
-            <router-link
-                :to="url"
+            <a
+                :href="url"
                 :title="title"
                 class="text-center text-decoration-none"
             >
@@ -11,7 +11,7 @@
                 </h2>
 
                 <p class="text-black">{{ title }}</p>
-            </router-link>
+            </a>
         </div>
     </div>
 </template>
