@@ -1,17 +1,13 @@
 <template>
     <div class="card card-coin">
         <div class="card-body text-center image-link p-2">
-            <router-link
-                :to="url"
-                :title="title"
-                class="text-center text-decoration-none"
-            >
+            <a :href="url" :title="title" class="text-center text-decoration-none">
                 <h2 :class="'border rounded-circle m-2 mt-0 ' + class_str">
                     <i :class="icon"></i>
                 </h2>
 
                 <p class="text-black">{{ title }}</p>
-            </router-link>
+            </a>
         </div>
     </div>
 </template>
@@ -28,14 +24,15 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .image-link {
     margin: 0 auto;
-    h2 {
-        height: 64px;
-        width: 64px;
-        line-height: 64px;
-        font-size: 36px;
-    }
+}
+
+.image-link h2 {
+    height: 64px;
+    width: 64px;
+    line-height: 64px;
+    font-size: 36px;
 }
 </style>
