@@ -15,7 +15,8 @@
                     <template v-if="$store.state.system.menu_length">
                         <div v-for="(item, index) in $store.state.system.menu" :key="index"
                             class="col-sm-6 col-md-4 p-1">
-                            <div class="p-1 border border-light rounded text-center">
+                            <div
+                                :class="'p-1 border rounded text-center '+($store.state.system.active_menu == index ?'border-primary':'border-light')">
                                 <a :href="'#' + item.path" :title="item.title" @click="loadModule(item.path, index)"
                                     class="cursor-pointer app-bar-link text-center text-decoration-none">
                                     <h2 :class="
@@ -25,7 +26,10 @@
                                         <i :class="item.icon"></i>
                                     </h2>
 
-                                    <small class="text-black">{{
+                                    <small class="text-black">
+                                        {{ index }}
+                                        {{ index }}
+                                        {{
                                     item.title
                                     }}</small>
                                 </a>
@@ -47,7 +51,7 @@
 import { useStore } from "vuex";
 
 export default {
-    setup () {
+    setup() {
         const store = useStore();
         store.dispatch("system/getMenu");
 
@@ -64,7 +68,7 @@ export default {
         hints: true,
     }),
     methods: {
-        loadModule (path, app) {
+        loadModule(path, app) {
             this.$store.commit("system/active_menu", app);
             this.$router.push(path);
             console.log('loadModule');

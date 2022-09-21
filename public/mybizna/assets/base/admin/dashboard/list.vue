@@ -1,35 +1,33 @@
 <template>
     <div class="p-3">
-        <v-row class="match-height">
-            <v-col v-for="(item, index) in $store.state.system.menu" :key="index" cols="6" sm="3" md="2">
+        <div class="row match-height">
+            <div v-for="(item, index) in $store.state.system.menu" :key="index" class="col-6 col-sm-3 col-md-2">
                 <image-link :title="item.title" :url="'#'+item.path" :icon="item.icon" :class_str="item.class_str">
                 </image-link>
-            </v-col>
-        </v-row>
+            </div>
+        </div>
 
-        <v-row>
-            <v-col cols="12" md="4">
+        <div class="row mt-3">
+            <div class="col-12 col-md-4">
                 <dashboard-congratulation-john></dashboard-congratulation-john>
-            </v-col>
-            <v-col cols="12" md="8">
-                <v-card class="mt-3">
-                    <div class="d-flex flex-sm-row flex-column">
-                        <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between">
-                                <div class="me-3 p-1">Events</div>
-                                <div class="text-xs text--disabled cursor-pointer p-1">
-                                    View All
-                                </div>
-                            </div>
+            </div>
+            <div class="col-12 col-md-8">
 
-                            <div class="py-1">
-                                <calendar></calendar>
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="me-3 p-1">Events</h3>
+                            <div class="text-xs text--disabled cursor-pointer p-1">
+                                View All
                             </div>
                         </div>
+                        <div class="py-1">
+                            <calendar></calendar>
+                        </div>
                     </div>
-                </v-card>
-            </v-col>
-        </v-row>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -46,11 +44,6 @@ export default {
             "base/admin/dashboard/DashboardCongratulationJohn.vue"
         )
     },
-    updated () {
-        alert('updated sdfsdfdsfdsf');
-    },
-    mounted () {
-        alert('mounted sdfsdfdsfdsf');
-    },
+
 };
 </script>

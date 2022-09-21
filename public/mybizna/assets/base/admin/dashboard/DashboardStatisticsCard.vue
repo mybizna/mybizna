@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .dashboard-card-icon {
     font-size: 18px;
 }
