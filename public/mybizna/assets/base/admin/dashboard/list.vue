@@ -2,7 +2,7 @@
     <div class="p-3">
         <div class="row match-height">
             <div v-for="(item, index) in $store.state.system.menu" :key="index" class="col-6 col-sm-3 col-md-2">
-                <image-link :title="item.title" :url="'#'+item.path" :icon="item.icon" :class_str="item.class_str">
+                <image-link :title="item.title" :url="'#'+item.path" :icon="item.icon" :class_str="item.class_str" @click="loadModule(item.path, index)">
                 </image-link>
             </div>
         </div>
@@ -14,7 +14,7 @@
             <div class="col-12 col-md-8">
 
                 <div class="card">
-                    <div class="card-body p-0">
+                    <div class="card-body p-1">
                         <div class="d-flex justify-content-between">
                             <h3 class="me-3 p-1">Events</h3>
                             <div class="text-xs text--disabled cursor-pointer p-1">
@@ -43,6 +43,12 @@ export default {
         DashboardCongratulationJohn: window.$func.fetchComponent(
             "base/admin/dashboard/DashboardCongratulationJohn.vue"
         )
+    },
+    methods: {
+        loadModule(path, app) {
+            this.$store.commit("system/active_menu", app);
+            this.$router.push(path);
+        },
     },
 
 };
