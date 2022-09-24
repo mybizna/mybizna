@@ -28,7 +28,6 @@ export default {
         async authenticate({ commit }, { username, password }) {
             /* await window.axios.get("/sanctum/csrf-cookie")
                 .then(response => {
-                    console.log(JSON.stringify(response))
                 }); */
 
             await window.axios
@@ -44,7 +43,6 @@ export default {
                         "Bearer " + response.data.token;
                 })
                 .catch((response) => {
-                    console.log(response);
                 });
         },
         async getUser({ commit }, { that }) {
@@ -79,13 +77,10 @@ export default {
             let query_str =
                 "query { userAffiliates(first:1) { edges {cursor node { id,pk,user{id, firstName, lastName, username, email,dateJoined},matrix{id, title},inviter{id, firstName, lastName, username, email},package{id, title},rank{id, name},status,summary,expiryDate,upgradeDate,lastUpgradeDate,createdAt,createdBy{id,firstName,lastName,email,username},updatedAt,updatedBy{id,firstName,lastName,email,username}, setting }}   pageInfo { hasNextPage, hasPreviousPage, startCursor,endCursor }  }     }";
 
-            console.log(query_str);
 
             window.axios
                 .post("/graphql?query=" + query_str)
                 .then((response) => {
-                    console.log(response);
-
                     var tmpitems = {};
                     var node_data = JSON.parse(
                         JSON.stringify(
@@ -118,7 +113,6 @@ export default {
                     commit("affiliate", node_data);
                 })
                 .catch((response) => {
-                    console.log(response);
                 });
         },
     },

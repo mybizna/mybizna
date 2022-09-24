@@ -16,12 +16,8 @@ const options = {
         vue: Vue
     },
     async getFile(url) {
-
-        console.log(url);
-
         const res = await fetch(url);
         if (!res.ok)
-            console.log(res.statusText + ' ' + url);
         return {
             getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text(),
         }
@@ -75,9 +71,6 @@ const options = {
 }
 
 const fetchComponent = (comp_path) => {
-
-
-    console.log(comp_path);
     let path_url = window.base_url + '/assets/' + comp_path;
 
     return Vue.defineAsyncComponent(() => loadModule(path_url, options));

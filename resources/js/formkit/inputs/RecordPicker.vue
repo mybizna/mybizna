@@ -106,7 +106,6 @@ export default {
                             var fields = t.context.attrs.setting.fields;
 
                             Object.keys(t.record).forEach(key => {
-                                console.log(key, t.record[key]);
                                 t.message = t.message.replaceAll('[' + key + ']', t.record[key]);
                             });
                         })

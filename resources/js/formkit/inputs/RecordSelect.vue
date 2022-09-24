@@ -86,7 +86,6 @@ export default {
                 await window.axios.get(url, { params: params })
                     .then(
                         response => {
-                            console.log(response);
                             this.recordlist = response.data.records;
 
                         })

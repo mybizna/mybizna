@@ -294,8 +294,6 @@ export default {
             this.fetchRecords();
         },
         getNumbers: function (start, stop) {
-            console.log(start);
-            console.log(stop);
             var tmp_array = new Array(stop - start).fill(start).map((n, i) => n + i);
             tmp_array.push(stop);
             return tmp_array;

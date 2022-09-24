@@ -83,7 +83,6 @@ export default {
         }
     },
     mounted () {
-        console.log(window.$store.state.system.search);
     },
     data: () => ({}),
 };
