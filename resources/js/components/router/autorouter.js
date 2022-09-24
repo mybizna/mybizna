@@ -56,7 +56,6 @@ export default async function (router) {
         })
         .catch(function (error) {
             // handle error
-            console.log(error);
         });
 
 

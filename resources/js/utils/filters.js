@@ -392,7 +392,6 @@ export default {
                     var fiel = this_var.schema.fields.find(
                         (field) => field.model === listName
                     );
-                    //console.log(fiel);
                     fiel.values = returned_data;
 
                     //t.select_list[listName] = returned_data;

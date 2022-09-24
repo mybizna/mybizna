@@ -95,8 +95,6 @@ export default {
         this.$recaptcha("login").then((token) => {
           var tmp_query_str = "?email=" + this.email;
 
-          console.log(tmp_query_str);
-
           window.axios
             .get("/user/forgotpasswordcode/" + tmp_query_str)
             .then((res) => {
@@ -120,8 +118,6 @@ export default {
               this.password +
               "&code=" +
               this.code;
-
-            console.log(this.password);
 
             window.axios
               .get("/user/forgotpassword/" + tmp_query_str)

@@ -60,11 +60,6 @@ export default {
                         params: param,
                     });
 
-                    console.log('url_obj');
-                    console.log(url_obj);
-
-                    console.log('param');
-                    console.log(param);
 
                     dropdown_menu_single["link"] = url_obj.href;
                 } else {
@@ -78,8 +73,6 @@ export default {
                 t.dropdown_menu = dropdown_menu_single;
             });
 
-            console.log('t.dropdown_menu_list');
-            console.log(t.dropdown_menu_list);
         },
     },
 };

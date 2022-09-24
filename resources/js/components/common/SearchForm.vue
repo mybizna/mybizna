@@ -79,7 +79,6 @@
 <script>
 export default {
      setup () {
-        console.log(window.$store)
      }
 };
 </script>

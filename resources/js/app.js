@@ -1608,7 +1608,6 @@ Axios.interceptors.request.use(function (config) {
     }
 
     // Do something with request error
-    console.log(error);
     return Promise.reject(error);
 });
 
@@ -1618,8 +1617,6 @@ Axios.interceptors.response.use(function (response) {
     app.config.globalProperties.$loading = {
         in_progress: false
     };
-
-    console.log(response.data);
 
     if (Object.prototype.hasOwnProperty.call(response.data, 'message') && response.data.message == "Unauthenticated") {
         store.commit('auth/logout');
@@ -1634,7 +1631,6 @@ Axios.interceptors.response.use(function (response) {
     };
 
     // Do something with response error
-    console.log(error);
     return Promise.reject(error);
 });
 
@@ -1664,7 +1660,6 @@ window.axios.interceptors.request.use(function (config) {
 
             await window.axios.get(window.base_url + '/sanctum/csrf-cookie')
                 .then(function (response) {
-                    //console.log(response);
                 });
 
             return await window.axios.get(window.base_url + '/sanctum/csrf-cookie')
