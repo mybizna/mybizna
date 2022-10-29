@@ -22,7 +22,7 @@ export default {
         },
 
     },
-    data () {
+    data() {
         return {
             selected: '',
             currentComp: Loading,
@@ -35,11 +35,11 @@ export default {
             }
         }
     },
-    mounted () {
+    mounted() {
         this.loadResource();
     },
     methods: {
-        async loadResource () {
+        async loadResource() {
             var url = '';
             var filter = '';
             var params = {};
@@ -49,7 +49,6 @@ export default {
                 url = this.context.attrs.setting.url;
             }
 
-
             if (Object.prototype.hasOwnProperty.call(setting, 'params')) {
                 params = this.context.attrs.setting.params;
             }
@@ -58,8 +57,8 @@ export default {
                 params[this.context.attrs.setting.filter_field] = this.context.attrs.filter;
             }
 
-               if (Object.prototype.hasOwnProperty.call(setting, 'fields')) {
-                   params['f'] = this.context.attrs.setting.fields;
+            if (Object.prototype.hasOwnProperty.call(setting, 'fields')) {
+                params['f'] = this.context.attrs.setting.fields;
             }
 
             if (Object.prototype.hasOwnProperty.call(setting, 'fields')) {
