@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Mybizna Erp') }}</title>
 
     <script>
-        var base_url = '{{  url("/"); }}';
+        var base_url = '{{  secure_url("/"); }}';
 
         function __(title, select){
             return title;
