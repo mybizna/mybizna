@@ -3,12 +3,12 @@
         <div class="row">
             <div class="col-md-6">
 
-                <FormKit label="Id" id="id" type="hidden" :readonly="true" validation="required" />
-                <FormKit label="Module" id="module" type="text" :readonly="true" validation="required" />
-                <FormKit label="Model" id="model" type="text" :readonly="true" validation="required" />
-                <FormKit label="Name" id="name" type="text" :readonly="true" validation="required" />
-                <FormKit label="Type" id="type" type="text" :readonly="true" validation="required" />
-                <FormKit label="Value" id="value" type="text" validation="required" />
+                <FormKit v-model="model.id" label="Id" id="id" type="hidden" :readonly="true" validation="required" />
+                <FormKit v-model="model.module" label="Module" id="module" type="text" :readonly="true" validation="required" />
+                <FormKit v-model="model.model" label="Model" id="model" type="text" :readonly="true" validation="required" />
+                <FormKit v-model="model.name" label="Name" id="name" type="text" :readonly="true" validation="required" />
+                <FormKit v-model="model.type" label="Type" id="type" type="text" :readonly="true" validation="required" />
+                <FormKit v-model="model.value" label="Value" id="value" type="text" validation="required" />
             </div>
         </div>
     </table-edit>

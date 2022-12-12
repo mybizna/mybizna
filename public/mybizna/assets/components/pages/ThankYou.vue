@@ -53,7 +53,6 @@ export default {
     },
     validation() {
       this.$recaptchaLoaded().then(() => {
-        console.log("recaptcha loaded");
         this.$recaptcha("login").then((token) => {
           var tmp_query_str = "?code=" + this.code;
 

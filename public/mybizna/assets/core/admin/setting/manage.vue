@@ -7,7 +7,7 @@
                     <button :class="s_index == current_tab ? 'nav-link active' : 'nav-link'"
                         :id="'v-pills-' + s_index + '-tab'" data-bs-toggle="tab"
                         :data-bs-target="'#v-pills-' + + s_index" type="button" role="tab" :aria-controls="s_index"
-                        :aria-selected="!s_index ? 'true' : 'false'">
+                        :aria-selected="!s_index ? 'true' : 'false'" @click="current_tab=s_index">
                         {{
                         setting.title
                         }}</button>
@@ -18,14 +18,14 @@
                     :class="s_index == current_tab ? 'tab-pane fade show active' : 'tab-pane fade'" :id="s_index"
                     role="tabpanel" :aria-labelledby="s_index + '-tab'">
                     <div class="p-2">
-                        <div v-for="(subsetting, s_index) in setting.settings" v-bind:key="s_index">
-                            <h3>{{ subsetting.title }}</h3>
-                            <template v-for="(field, s_index) in subsetting.list" v-bind:key="s_index">
+                        <div v-for="(subsetting, ss_index) in setting.settings" v-bind:key="ss_index">
+                            <h3 class="my-3 border-b-2 border-indigo-200 ">{{ subsetting.title }}</h3>
+                            <template v-for="(field, ssl_index) in subsetting.list" v-bind:key="ssl_index">
                                 <FormKit v-if="field.params.type == 'recordpicker'" :label="field.params.title"
                                     :id="field.params.name" :type="field.params.type" :comp_url="field.params.comp_url"
                                     :setting="field.params.setting" v-model="field.params.value" />
 
-                                <FormKit v-else :label="field.title" :id="field.params.name" :type="field.params.type"
+                                <FormKit v-else :label="field.params.title" :id="field.params.name"  :type="field.params.type"
                                     v-model="field.params.value" />
 
                             </template>
@@ -71,6 +71,16 @@ export default {
                         response => {
                             t.model.settings = response.data;
                             console.log(response.data);
+
+                            var arr_tabs = Object.keys(t.model.settings);
+
+                            console.log(' ');
+                            console.log(' ');
+                            console.log(arr_tabs);
+                            console.log(t.model.settings);
+
+
+                            t.current_tab = arr_tabs[0];
                         });
             };
 

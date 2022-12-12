@@ -3,12 +3,12 @@
 
         <div class="row">
             <div class="col-md-6">
-                <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Package Charge" id="package_charge_id" type="text" validation="required" />
-                <FormKit label="Rate" id="rate_id" type="text" validation="required" />
+                <FormKit v-model="model.id"  label="Id" id="id" type="hidden" validation="required" />
+                <FormKit v-model="model.package_charge_id"  label="Package Charge" id="package_charge_id" type="text" validation="required" />
+                <FormKit v-model="model.rate_id"  label="Rate" id="rate_id" type="text" validation="required" />
             </div>
             <div class="col-md-6">
-                <FormKit label="Published" id="published" type="switch" validation="required" />
+                <FormKit v-model="model.published"  label="Published" id="published" type="switch" validation="required" />
             </div>
         </div>
 

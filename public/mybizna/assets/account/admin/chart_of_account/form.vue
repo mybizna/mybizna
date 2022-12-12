@@ -4,9 +4,9 @@
         <div class="row">
             <div class="col-md-6">
 
-                <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Name" id="name" type="text" validation="required" />
-                <FormKit label="Slug" id="slug" type="text" validation="required" />
+                <FormKit v-model="model.id" label="Id" id="id" type="hidden" validation="required" />
+                <FormKit v-model="model.name" label="Name" id="name" type="text" validation="required" />
+                <FormKit v-model="model.slug" label="Slug" id="slug" type="text" validation="required" />
 
             </div>
             <div class="col-md-6">

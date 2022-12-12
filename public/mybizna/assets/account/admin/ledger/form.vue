@@ -3,17 +3,17 @@
         <div class="row">
             <div class="col-md-6">
 
-                <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Name" id="name" type="text" validation="required" />
-                <FormKit label="Code" id="code" type="text" validation="required" />
-                <FormKit label="Slug" id="slug" type="text" validation="required" />
-                <FormKit label="Category" id="category_id" type="text" validation="required" />
-                <FormKit label="Chart" id="chart_id" type="text" validation="required" />
+                <FormKit v-model="model.id" label="Id" id="id" type="hidden" validation="required" />
+                <FormKit v-model="model.name" label="Name" id="name" type="text" validation="required" />
+                <FormKit v-model="model.code" label="Code" id="code" type="text" validation="required" />
+                <FormKit v-model="model.slug" label="Slug" id="slug" type="text" validation="required" />
+                <FormKit v-model="model.category_id" label="Category" id="category_id" type="text" validation="required" />
+                <FormKit v-model="model.chart_id" label="Chart" id="chart_id" type="text" validation="required" />
 
             </div>
             <div class="col-md-6">
-                <FormKit label="Unused" id="unused" type="switch" validation="required" />
-                <FormKit label="System" id="system" type="switch" validation="required" />
+                <FormKit v-model="model.unused" label="Unused" id="unused" type="switch" validation="required" />
+                <FormKit v-model="model.system" label="System" id="system" type="switch" validation="required" />
 
             </div>
         </div>

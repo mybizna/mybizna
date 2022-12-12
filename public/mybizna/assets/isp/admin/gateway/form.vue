@@ -3,15 +3,17 @@
 
         <div class="row">
             <div class="col-md-6">
-                <FormKit label="Title" id="title" type="text" validation="required" />
-                <FormKit label="Username" id="username" type="text" validation="required" />
-                <FormKit label="Password" id="password" type="text" validation="required" />
-                <FormKit label="Database" id="database" type="text" validation="required" />
+                <FormKit v-model="model.id" label="Id" id="id" type="text" validation="required" />
+                
+                <FormKit v-model="model.title" label="Title" id="title" type="text" validation="required" />
+                <FormKit v-model="model.username" label="Username" id="username" type="text" validation="required" />
+                <FormKit v-model="model.password" label="Password" id="password" type="text" validation="required" />
+                <FormKit v-model="model.database" label="Database" id="database" type="text" validation="required" />
             </div>
             <div class="col-md-6">
-                <FormKit label="IP Address" id="ip_address" type="text" validation="required" />
-                <FormKit label="Type" id="type" type="text" validation="required" />
-                <FormKit label="Published" id="published" type="switch" validation="required" />
+                <FormKit v-model="model.ip_address" label="IP Address" id="ip_address" type="text" validation="required" />
+                <FormKit v-model="model.type" label="Type" id="type" type="text" validation="required" />
+                <FormKit v-model="model.published" label="Published" id="published" type="switch" validation="required" />
             </div>
         </div>
         

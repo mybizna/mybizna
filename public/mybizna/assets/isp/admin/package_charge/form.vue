@@ -3,16 +3,16 @@
 
         <div class="row">
             <div class="col-md-6">
-                <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Title" id="title" type="text" validation="required" />
-                <FormKit label="Package" id="package_id" type="text" validation="required" />
-                <FormKit label="Ledger" id="ledger_id" type="text" validation="required" />
+                <FormKit v-model="model.id"  label="Id" id="id" type="hidden" validation="required" />
+                <FormKit v-model="model.title"  label="Title" id="title" type="text" validation="required" />
+                <FormKit v-model="model.package_id"  label="Package" id="package_id" type="text" validation="required" />
+                <FormKit v-model="model.ledger_id"  label="Ledger" id="ledger_id" type="text" validation="required" />
             </div>
             <div class="col-md-6">
-                <FormKit label="Price" id="price" type="text" validation="required" />
-                <FormKit label="Quantity" id="quantity" type="text" validation="required" />
-                <FormKit label="Description" id="description" type="textarea" validation="required" />
-                <FormKit label="Published" id="published" type="switch" validation="required" />
+                <FormKit v-model="model.price"  label="Price" id="price" type="text" validation="required" />
+                <FormKit v-model="model.quantity"  label="Quantity" id="quantity" type="text" validation="required" />
+                <FormKit v-model="model.description"  label="Description" id="description" type="textarea" validation="required" />
+                <FormKit v-model="model.published"  label="Published" id="published" type="switch" validation="required" />
             </div>
         </div>
 

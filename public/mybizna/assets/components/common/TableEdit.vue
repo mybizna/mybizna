@@ -62,9 +62,7 @@ export default {
 
         var path_part = this.path_param[0] + "/" + this.path_param[1];
 
-        if (this.$route.path.indexOf(path_part) !== -1) {
-            this.id = this.$route.params.id;
-        }
+        this.id = this.$route.params.id;
 
         if (this.id) {
             this.fetchRecord(this.id);
@@ -242,6 +240,11 @@ export default {
             return groups;
         },
         fetchRecord (id) {
+
+
+            console.log(this.processed_path_param.path);
+            console.log(this.schema_fields);
+
             window.$func.fetchRecordHelper(
                 this,
                 this.processed_path_param,
