@@ -1491,7 +1491,6 @@ export default {
 
       window.axios.get("/user/fetch/" + query_str).then((res) => {
         const inviter = res.data;
-        console.log(inviter);
 
         this.inviter_username_searched = this.inviter_username;
         this.is_search_inviter = true;
@@ -1597,7 +1596,6 @@ export default {
       }
 
       this.$recaptchaLoaded().then(() => {
-        console.log("recaptcha loaded");
         this.$recaptcha("login").then((token) => {
           let query_str =
             "mutation{createUser(" +
@@ -1664,8 +1662,6 @@ export default {
                 .post("/graphql?query=" + query_str)
                 .then((response) => {
 
-                  console.log(response);
-
                   if (response.data.data.createUser.successful) {
                     this.$router.push("thankyou");
                   }
@@ -1677,7 +1673,6 @@ export default {
 
                   this.notification("Unable to contact the server.");
 
-                  console.log(response);
 
                 });
             } else {

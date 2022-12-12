@@ -3,10 +3,10 @@
 
         <div class="row">
             <div class="col-md-6">
-                <FormKit label="Id" id="id" type="hidden" validation="required" />
-                <FormKit label="Username" id="username" type="text" validation="required" />
-                <FormKit label="Password" id="password" type="text" validation="required" />
-                <FormKit label="Partner" id="partner_id" type="text" validation="required" />
+                <FormKit v-model="model.id" label="Id" id="id" type="hidden" validation="required" />
+                <FormKit v-model="model.username" label="Username" id="username" type="text" validation="required" />
+                <FormKit v-model="model.password" label="Password" id="password" type="text" validation="required" />
+                <FormKit v-model="model.partner_id" label="Partner" id="partner_id" type="text" validation="required" />
             </div>
             <div class="col-md-6">
 

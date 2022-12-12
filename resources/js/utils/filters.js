@@ -419,8 +419,9 @@ export default {
         }
 
         window.axios.get(path_param.path + "/" + t.id).then((response) => {
+            console.log(response.data);
             if (response.data) {
-                var tmpitem = response.data;
+                var tmpitem = response.data.record;
 
                 if (!tmp_return_to) {
                     schema_fields.forEach(function (single_field) {
