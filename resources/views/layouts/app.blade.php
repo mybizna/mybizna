@@ -11,7 +11,11 @@
     <title>{{ config('app.name', 'Mybizna Erp') }}</title>
 
     <script>
-        var base_url = '{{  secure_url("/"); }}';
+        @if(config('mybizna.is_local'))
+            var base_url = '{{  url("/"); }}';
+        @else
+            var base_url = '{{  secure_url("/"); }}';
+        @endif
 
         function __(title, select){
             return title;
@@ -42,7 +46,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link href="https://use.fontawesome.comreleases/v5.0.13/css/all.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
 
 
     <style>
