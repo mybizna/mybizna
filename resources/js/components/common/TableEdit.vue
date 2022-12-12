@@ -62,6 +62,8 @@ export default {
 
         var path_part = this.path_param[0] + "/" + this.path_param[1];
 
+        console.log(path_part);
+
         if (this.$route.path.indexOf(path_part) !== -1) {
             this.id = this.$route.params.id;
         }
