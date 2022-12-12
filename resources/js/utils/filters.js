@@ -419,13 +419,14 @@ export default {
         }
 
         window.axios.get(path_param.path + "/" + t.id).then((response) => {
-            console.log(response.data);
             if (response.data) {
                 var tmpitem = response.data.record;
 
                 if (!tmp_return_to) {
-                    schema_fields.forEach(function (single_field) {
-                        t.model[single_field] = tmpitem[single_field];
+                    Object.keys(t.model).forEach(function(key, index) {
+                        if (Object.prototype.hasOwnProperty.call(tmpitem, key)) {
+                            t.model[key] = tmpitem[key];
+                        }
                     });
                 } else {
                     t[tmp_return_to] = tmpitem;

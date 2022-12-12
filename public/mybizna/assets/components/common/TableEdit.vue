@@ -241,7 +241,7 @@ export default {
         },
         fetchRecord (id) {
 
-
+            console.log(id);
             console.log(this.processed_path_param.path);
             console.log(this.schema_fields);
 
