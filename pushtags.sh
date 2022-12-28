@@ -2,7 +2,7 @@
 #   mybizna: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@
 #sudo chmod +x pushtags.sh && sudo ./pushtags.sh
 
-VERSION=0.9.7.2
+VERSION=0.9.7.3
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
@@ -21,24 +21,22 @@ if [ $VERSION != $OLDVERSION ]
     echo "
 
 
-git submodule foreach git tag $VERSION
 
 git submodule foreach git add .
 git submodule foreach git commit --allow-empty -m 'Update'
 git submodule foreach git push origin main
 
+git submodule foreach git tag $VERSION
 git submodule foreach git push --tags
 
-git submodule foreach gh release create $VERSION --generate-notes
-
-
-git tag $VERSION
 git add .
 git commit --allow-empty -m 'Update'
 git push origin main
 
+git tag $VERSION
 git push --tags
 
+git submodule foreach gh release create $VERSION --generate-notes
 gh release create $VERSION --generate-notes
     "
     #git release $VERSION 
