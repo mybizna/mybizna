@@ -4,7 +4,7 @@
     "description": "An ERP system developed in laravel with Accounting, HRM and CRM.",
     "keywords": ["erp", "laravel","accounting", "hrm","crm"],
     "license": "GPL-3.0-or-later",
-    "version": "0.9.7.3",
+    "version": "0.9.7.4",
     "require": {
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
