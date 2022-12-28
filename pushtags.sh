@@ -1,8 +1,8 @@
 #!/bin/sh
-#   mybizna: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@
-#sudo chmod +x pushtags.sh && sudo ./pushtags.sh
+# mybizna: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@
+# sudo chmod +x pushtags.sh && sudo ./pushtags.sh
 
-VERSION=0.9.7.3
+VERSION=0.9.7.4
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
