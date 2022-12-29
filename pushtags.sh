@@ -27,7 +27,7 @@ update_assets () {
 commit_assets () {
     cd ../assets
 
-    sed -i 's/$OLDVERSION/$VERSION/g'  composer.json
+    sed -i s/$OLDVERSION/$VERSION/g  composer.json
 
     git add .
     git commit --allow-empty -m 'Update'
@@ -39,8 +39,8 @@ commit_assets () {
 }
 
 commit_erp_versioned () {
-    sed -i 's/$OLDVERSION/$VERSION/g'  composer.json
-    sed -i 's/$OLDVERSION/$VERSION/g'  Modules/*/composer.json
+    sed -i s/$OLDVERSION/$VERSION/g  composer.json
+    sed -i s/$OLDVERSION/$VERSION/g  Modules/*/composer.json
 
     git submodule foreach git add .
     git submodule foreach git commit --allow-empty -m 'Update'
