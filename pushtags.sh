@@ -56,8 +56,8 @@ commit_erp_versioned () {
     git tag $VERSION
     git push --tags
 
-    git submodule foreach gh release create $VERSION --generate-notes
-    gh release create $VERSION --generate-notes
+    # git submodule foreach gh release create $VERSION --generate-notes
+    # gh release create $VERSION --generate-notes
 }
 commit_erp () {
     git submodule foreach git add .
