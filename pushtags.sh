@@ -1,6 +1,6 @@
 #!/bin/sh
 # mybizna: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@
-# sudo chmod +x pushtags.sh && sudo ./pushtags.sh
+# chmod +x pushtags.sh && ./pushtags.sh
 
 VERSION=0.9.8.1
 FOLDER=$(pwd)
@@ -11,17 +11,17 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 COPY COMMANDS BELOW
 "
 update_assets () {
-    sudo rm -r ../assets/src/mybizna/css
-    sudo rm -r ../assets/src/mybizna/fonts
-    sudo rm -r ../assets/src/mybizna/images
-    sudo rm -r ../assets/src/mybizna/js
-    sudo rm -r ../assets/src/mybizna/tinymce
+    rm -r ../assets/src/mybizna/css
+    rm -r ../assets/src/mybizna/fonts
+    rm -r ../assets/src/mybizna/images
+    rm -r ../assets/src/mybizna/js
+    rm -r ../assets/src/mybizna/tinymce
 
-    sudo cp -r public/mybizna/css ../assets/src/mybizna/css
-    sudo cp -r public/mybizna/fonts ../assets/src/mybizna/fonts
-    sudo cp -r public/mybizna/images ../assets/src/mybizna/images
-    sudo cp -r public/mybizna/js ../assets/src/mybizna/js
-    sudo cp -r public/mybizna/tinymce ../assets/src/mybizna/tinymce
+    cp -r public/mybizna/css ../assets/src/mybizna/css
+    cp -r public/mybizna/fonts ../assets/src/mybizna/fonts
+    cp -r public/mybizna/images ../assets/src/mybizna/images
+    cp -r public/mybizna/js ../assets/src/mybizna/js
+    cp -r public/mybizna/tinymce ../assets/src/mybizna/tinymce
 }
 
 commit_assets () {
