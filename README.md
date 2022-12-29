@@ -47,7 +47,7 @@ $user->save();
 
 php artisan mybizna:dataprocessor
 
-
+php artisan vendor:publish --provider="Mybizna\Assets\Providers\MybiznaAssetsProvider"
 
 ```
 
