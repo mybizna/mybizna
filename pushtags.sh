@@ -1,7 +1,7 @@
 #!/bin/sh
 # chmod +x pushtags.sh && ./pushtags.sh
 
-VERSION=1.0.6
+VERSION=1.0.7
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
@@ -26,7 +26,8 @@ update_assets () {
 commit_assets () {
     cd ../assets
 
-    sed -i s/$OLDVERSION/$VERSION/g  composer.json
+    #sed -i s/$OLDVERSION/$VERSION/g  composer.json 
+    jq ".version=\"$VERSION\"" composer.json > composer.json
 
     git add .
     git commit --allow-empty -m 'Update'
@@ -41,8 +42,15 @@ commit_assets () {
 }
 
 commit_erp_versioned () {
-    sed -i s/$OLDVERSION/$VERSION/g  composer.json
-    sed -i s/$OLDVERSION/$VERSION/g  Modules/*/composer.json
+
+    #sed -i s/$OLDVERSION/$VERSION/g  composer.json
+    jq ".version=\"$VERSION\"" composer.json > tmp_composer.json
+    echo yes | mv tmp_composer.json composer.json
+
+    for module in `ls -U Modules| sort`; do
+        jq ".version=\"$VERSION\"" Modules/$module/composer.json > Modules/$module/tmp_composer.json
+        echo yes | mv Modules/$module/tmp_composer.json Modules/$module/composer.json
+    done
 
     git submodule foreach git add .
     git submodule foreach git commit --allow-empty -m 'Update'
