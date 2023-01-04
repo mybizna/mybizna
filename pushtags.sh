@@ -1,7 +1,7 @@
 #!/bin/sh
 # chmod +x pushtags.sh && ./pushtags.sh
 
-VERSION=1.0.7
+VERSION=1.0.9
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
@@ -27,7 +27,8 @@ commit_assets () {
     cd ../assets
 
     #sed -i s/$OLDVERSION/$VERSION/g  composer.json 
-    jq ".version=\"$VERSION\"" composer.json > composer.json
+    jq ".version=\"$VERSION\"" composer.json > tmp_composer.json
+    echo yes | mv tmp_composer.json composer.json
 
     git add .
     git commit --allow-empty -m 'Update'
