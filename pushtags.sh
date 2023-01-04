@@ -1,8 +1,7 @@
 #!/bin/sh
-# mybizna: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@
 # chmod +x pushtags.sh && ./pushtags.sh
 
-VERSION=1.0.5
+VERSION=1.0.6
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
