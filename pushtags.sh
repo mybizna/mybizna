@@ -1,7 +1,7 @@
 #!/bin/sh
 # chmod +x pushtags.sh && ./pushtags.sh
 
-VERSION=1.2.21
+VERSION=1.2.22
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
@@ -19,7 +19,7 @@ update_assets () {
     rm -r ../assets/src/mybizna/js
     rm -r ../assets/src/mybizna/tinymce
 
-    cp -r resources/js/components ../assets/src/components
+    cp -r resources/js/components ../assets/src/mybizna/components
     cp -r public/mybizna/css ../assets/src/mybizna/css
     cp -r public/mybizna/fonts ../assets/src/mybizna/fonts
     cp -r public/mybizna/images ../assets/src/mybizna/images
