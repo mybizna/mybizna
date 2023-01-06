@@ -45,10 +45,12 @@ export default {
                 .catch((response) => {
                 });
         },
-        async autologin({ commit }) {
+        async autologin({ commit }, { that }) {
             /* await window.axios.get("/sanctum/csrf-cookie")
                 .then(response => {
                 }); */
+
+            alert('autologin');
 
             await window.axios
                 .get("/autologin")
@@ -58,6 +60,8 @@ export default {
 
                     window.axios.defaults.headers.common["Authorization"] =
                         "Bearer " + response.data.token;
+
+                    that.$router.push("/manage/dashboard");
                 })
                 .catch((response) => {
                 });
@@ -90,7 +94,7 @@ export default {
                     }
                 });
         },
-       
+
     },
     getters: {
         loggedIn(state) {
