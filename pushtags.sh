@@ -1,13 +1,15 @@
 #!/bin/sh
 # chmod +x pushtags.sh && ./pushtags.sh
 
-VERSION=1.2.14
+VERSION=1.2.15
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
+echo "Enter Your Commit Message: "  
+read MESSAGE  
 echo "
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-COPY COMMANDS BELOW
+Starting Commit Process
 "
 update_assets () {
     rm -r ../assets/src/mybizna/css
@@ -31,7 +33,27 @@ commit_assets () {
     echo yes | mv tmp_composer.json composer.json
 
     git add .
-    git commit --allow-empty -m 'Update'
+    git commit --allow-empty -m "$MESSAGE"
+    git push origin main
+    git tag $VERSION
+    git push --tags
+
+    gh repo set-default
+    gh release create $VERSION --generate-notes
+
+    cd ../erp
+}
+
+
+commit_migration () {
+    cd ../migration
+
+    #sed -i s/$OLDVERSION/$VERSION/g  composer.json 
+    jq ".version=\"$VERSION\"" composer.json > tmp_composer.json
+    echo yes | mv tmp_composer.json composer.json
+
+    git add .
+    git commit --allow-empty -m "$MESSAGE"
     git push origin main
     git tag $VERSION
     git push --tags
@@ -54,14 +76,14 @@ commit_erp_versioned () {
     done
 
     git submodule foreach git add .
-    git submodule foreach git commit --allow-empty -m 'Update'
+    git submodule foreach git commit --allow-empty -m "$MESSAGE"
     git submodule foreach git push origin main
 
     git submodule foreach git tag $VERSION
     git submodule foreach git push --tags
 
     git add .
-    git commit --allow-empty -m 'Update'
+    git commit --allow-empty -m "$MESSAGE"
     git push origin main
 
     git tag $VERSION
@@ -75,7 +97,7 @@ commit_erp_versioned () {
 }
 commit_erp () {
     git submodule foreach git add .
-    git submodule foreach  git commit --allow-empty -m 'Update'
+    git submodule foreach  git commit --allow-empty -m "$MESSAGE"
     git submodule foreach git push origin main
 }
 
@@ -83,6 +105,7 @@ if [ $VERSION != $OLDVERSION ]
  then
     update_assets
     commit_assets
+    commit_migration
     commit_erp_versioned
 else
     commit_erp
