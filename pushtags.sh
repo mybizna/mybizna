@@ -1,7 +1,7 @@
 #!/bin/sh
 # chmod +x pushtags.sh && ./pushtags.sh
 
-VERSION=1.2.22
+VERSION=1.2.23
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
@@ -12,14 +12,16 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 Starting Commit Process
 "
 update_assets () {
-    rm -r ../assets/src/mybizna/components
+    rm -r ../assets/src/mybizna/assets/components
     rm -r ../assets/src/mybizna/css
     rm -r ../assets/src/mybizna/fonts
     rm -r ../assets/src/mybizna/images
     rm -r ../assets/src/mybizna/js
     rm -r ../assets/src/mybizna/tinymce
 
-    cp -r resources/js/components ../assets/src/mybizna/components
+    mkdir ../assets/src/mybizna/assets
+
+    cp -r resources/js/components ../assets/src/mybizna/assets/components
     cp -r public/mybizna/css ../assets/src/mybizna/css
     cp -r public/mybizna/fonts ../assets/src/mybizna/fonts
     cp -r public/mybizna/images ../assets/src/mybizna/images
