@@ -73,48 +73,7 @@ export default {
                     }
                 });
         },
-        async affiliate({ commit }, { user_id }) {
-            let query_str =
-                "query { userAffiliates(first:1) { edges {cursor node { id,pk,user{id, firstName, lastName, username, email,dateJoined},matrix{id, title},inviter{id, firstName, lastName, username, email},package{id, title},rank{id, name},status,summary,expiryDate,upgradeDate,lastUpgradeDate,createdAt,createdBy{id,firstName,lastName,email,username},updatedAt,updatedBy{id,firstName,lastName,email,username}, setting }}   pageInfo { hasNextPage, hasPreviousPage, startCursor,endCursor }  }     }";
-
-
-            window.axios
-                .post("/graphql?query=" + query_str)
-                .then((response) => {
-                    var tmpitems = {};
-                    var node_data = JSON.parse(
-                        JSON.stringify(
-                            response.data.data.userAffiliates.edges[0].node
-                        )
-                    );
-
-                    for (var prop in node_data) {
-                        if (
-                            Object.prototype.hasOwnProperty.call(
-                                node_data,
-                                prop
-                            )
-                        ) {
-                            if (
-                                typeof node_data[prop] === "string" &&
-                                node_data[prop].charAt(0) === "{"
-                            ) {
-                                try {
-                                    node_data[prop] = JSON.parse(
-                                        node_data[prop]
-                                    );
-                                } catch (e) {
-                                    // is not a valid JSON string
-                                }
-                            }
-                        }
-                    }
-
-                    commit("affiliate", node_data);
-                })
-                .catch((response) => {
-                });
-        },
+       
     },
     getters: {
         loggedIn(state) {
