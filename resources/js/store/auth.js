@@ -45,6 +45,23 @@ export default {
                 .catch((response) => {
                 });
         },
+        async autologin({ commit }) {
+            /* await window.axios.get("/sanctum/csrf-cookie")
+                .then(response => {
+                }); */
+
+            await window.axios
+                .get("/autologin")
+                .then((response) => {
+                    commit("login", response.data.token);
+                    commit("user", response.data.user);
+
+                    window.axios.defaults.headers.common["Authorization"] =
+                        "Bearer " + response.data.token;
+                })
+                .catch((response) => {
+                });
+        },
         async getUser({ commit }, { that }) {
             window.axios
                 .get("/profile")
