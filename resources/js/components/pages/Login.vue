@@ -73,7 +73,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("auth/autologin");
+    this.$store.dispatch("auth/autologin", { that: this });
   },
   data: () => ({
     loading: false,
