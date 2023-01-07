@@ -90,7 +90,7 @@ const options = {
 }
 
 const fetchComponent = (comp_path) => {
-    let path_url = window.base_url + '/assets/' + comp_path;
+    let path_url = window.assets_url + '/assets/' + comp_path;
 
     return Vue.defineAsyncComponent(() => loadModule(path_url, options));
 }
