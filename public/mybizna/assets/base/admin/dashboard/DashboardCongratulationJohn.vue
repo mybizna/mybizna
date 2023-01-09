@@ -20,7 +20,8 @@
         </div>
 
         <div class="col-4 greeting-card-trophy-wrapper">
-          <img height="108px" style="max-width:83px;" class="greeting-card-trophy" src="images/misc/trophy.png" />
+          <img height="108px" style="max-width:83px;" class="greeting-card-trophy"
+            :src="this.$assets_url + '/images/misc/trophy.png'" />
         </div>
 
       </div>
