@@ -73,7 +73,9 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("auth/autologin", { that: this });
+    if(window.autologin){
+      this.$store.dispatch("auth/autologin", { that: this });
+    }
   },
   data: () => ({
     loading: false,

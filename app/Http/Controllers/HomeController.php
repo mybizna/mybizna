@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
     /**
@@ -33,6 +31,9 @@ class HomeController extends Controller
      */
     public function manage()
     {
-        return view('manage');
+        $url = url("/");
+        $assets_url = $url;
+        
+        return view('base::manage', ['url' => $url, 'assets_url' => $assets_url, 'autologin' => FALSE]);
     }
 }
