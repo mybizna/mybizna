@@ -65,7 +65,7 @@
                             <tr class="border-b-sky-200" v-else>
                                 <td colspan="20" class="text-center hover:bg-slate-50">
                                     <img class="inline-block w-36 m-6"
-                                        :src='window.assets_url + "/images/no_data_found.svg"'>
+                                        :src='this.$assets_url + "/images/no_data_found.svg"'>
                                 </td>
                             </tr>
                         </tbody>
