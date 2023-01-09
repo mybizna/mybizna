@@ -57,11 +57,13 @@ const app = createApp(App)
 loadFonts();
 
 let base_url = window.base_url + '/api';
+let assets_url = window.assets_url;
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxx  App Initializer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 app.config.globalProperties.$base_url = base_url;
+app.config.globalProperties.$assets_url = assets_url;
 app.config.globalProperties.$male_default_avatar = 'images/avatar.png';
 app.config.globalProperties.$female_default_avatar = 'images/avatar2.png';
 
