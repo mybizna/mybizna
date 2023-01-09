@@ -64,7 +64,8 @@
                             </template>
                             <tr class="border-b-sky-200" v-else>
                                 <td colspan="20" class="text-center hover:bg-slate-50">
-                                    <img class="inline-block w-36 m-6" src="images/no_data_found.svg">
+                                    <img class="inline-block w-36 m-6"
+                                        :src='window.assets_url + "images/no_data_found.svg"'>
                                 </td>
                             </tr>
                         </tbody>
@@ -111,10 +112,10 @@
 
                             <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
 
-                            <template v-if="pagination.pages<=5">
+                            <template v-if="pagination.pages <= 5">
                                 <a v-for="index in getNumbers(1, pagination.pages)" :key="index" href="#"
-                                    :aria-current="index==pagination.page?'page':''"
-                                    :class="[(index==pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
+                                    :aria-current="index == pagination.page ? 'page' : ''"
+                                    :class="[(index == pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
                                     class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
                                     @click="loadPage(index)">
                                     {{ index }} </a>
@@ -126,21 +127,21 @@
                                     <i class="fa-solid fa-caret-left"></i>
                                 </a>
                                 <a v-for="index in getNumbers(1, 3)" :key="index"
-                                    :aria-current="index==pagination.page?'page':''"
-                                    :class="[(index==pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
+                                    :aria-current="index == pagination.page ? 'page' : ''"
+                                    :class="[(index == pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
                                     class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
                                     @click="loadPage(index)">
                                     {{ index }} </a>
                                 <span
                                     class="inline-block  text-gray-600  leading-9 text-sm font-medium m-1 text-center">
                                     ... </span>
-                                <a v-for="index in getNumbers(pagination.pages-2, pagination.pages)" :key="index"
-                                    :aria-current="index==pagination.page?'page':''"
-                                    :class="[(index==pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
+                                <a v-for="index in getNumbers(pagination.pages - 2, pagination.pages)" :key="index"
+                                    :aria-current="index == pagination.page ? 'page' : ''"
+                                    :class="[(index == pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
                                     class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
                                     @click="loadPage(index)">
                                     {{ index }} </a>
-                                <a :class="[(index==pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
+                                <a :class="[(index == pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
                                     class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
                                     @click="loadPage(pagination.pages)">
                                     <i class="fa-solid fa-caret-right"></i>
@@ -188,7 +189,7 @@ export default {
         hide_search_form: { type: Boolean, default: false },
         hide_select_checkbox: { type: Boolean, default: false },
     },
-    created () {
+    created() {
         this.preparePathParam();
         this.processDropdownMenu();
         this.processFieldList();
@@ -217,7 +218,7 @@ export default {
             return true;
         },
     },
-    data () {
+    data() {
         return {
             expanded: {},
             table_style: { "padding-bottom": "0px" },
@@ -258,7 +259,7 @@ export default {
     },
     watch: {
         // whenever question changes, this function will run
-        'pagination.limit' (newQuestion, oldQuestion) {
+        'pagination.limit'(newQuestion, oldQuestion) {
             this.pagination.page = 1;
             this.fetchRecords();
         },
@@ -266,12 +267,12 @@ export default {
             this.fetchRecords();
         },*/
         model: {
-            handler () {
+            handler() {
                 this.fetchRecords();
             },
             deep: true,
         },
-        show_advance_form () {
+        show_advance_form() {
             const t = this;
 
             if (t.show_advance_form) {
@@ -298,26 +299,26 @@ export default {
             tmp_array.push(stop);
             return tmp_array;
         },
-        getCardClassName (prefix = '') {
+        getCardClassName(prefix = '') {
             return (!this.is_recordpicker) ? prefix + ' shadow-md m-1 mt-3' : ' border-0';
         },
-        getClassName (table_field) {
-            var full_class_name = "text-xs-left";
+        getClassName(table_field) {
+            var full_class_name = "text-left";
 
             if (Object.prototype.hasOwnProperty.call(table_field, "align")) {
-                full_class_name = "text-xs-" + table_field.align;
+                full_class_name = "text-" + table_field.align;
             }
             return full_class_name;
         },
-        changeExpandStatus (id, expanded) {
+        changeExpandStatus(id, expanded) {
             this.$set(this.expanded, id, !expanded[id]);
         },
-        preparePathParam () {
+        preparePathParam() {
             this.processed_path_param = window.$func.pathParamHelper(
                 this.path_param
             );
         },
-        processDropdownMenu () {
+        processDropdownMenu() {
             const t = this;
 
             t.dropdown_menu.forEach(function (dropdown_menu_single) {
@@ -331,7 +332,7 @@ export default {
                 param: ["id"],
             });
         },
-        processFieldList () {
+        processFieldList() {
             var t = this;
 
             t.table_fields.forEach(function (table_field) {
@@ -346,7 +347,7 @@ export default {
 
         },
 
-        presetTableStructure () {
+        presetTableStructure() {
             var t = this;
 
             if (window.is_backend) {
@@ -398,7 +399,7 @@ export default {
                 });
             });
         },
-        fetchRecords () {
+        fetchRecords() {
             var t = this;
             var query_params = t.$route.query;
 
@@ -416,7 +417,7 @@ export default {
             );
         },
 
-        deleteRecord () {
+        deleteRecord() {
             window.$func.deleteRecordHelper(
                 this,
                 this.processed_path_param,
@@ -426,7 +427,7 @@ export default {
             this.fetchRecords();
         },
 
-        updatePagination (pagination) {
+        updatePagination(pagination) {
             this.fetchRecords();
         },
 

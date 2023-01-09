@@ -50,10 +50,10 @@ export default {
             if (t.data_field.is_boolean) {
                 if (parseInt(data_str)) {
                     data_str =
-                        '<i class="fa fa-check-circle fa-2x" style="color:#4caf50;"></i>';
+                        '<i class="fa fa-check-circle text-xl" style="color:#4caf50;"></i>';
                 } else {
                     data_str =
-                        '<i class="fa fa-times-circle fa-2x" style="color:#ff5252;"></i>';
+                        '<i class="fa fa-times-circle text-xl" style="color:#ff5252;"></i>';
                 }
             }
 
