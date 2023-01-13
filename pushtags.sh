@@ -27,6 +27,7 @@ update_assets () {
     cp -r public/mybizna/images ../assets/src/mybizna/images
     cp -r public/mybizna/js ../assets/src/mybizna/js
     cp -r public/mybizna/tinymce ../assets/src/mybizna/tinymce
+    cp -r public/mybizna/fontawesome ../assets/src/mybizna/fontawesome
 }
 
 commit_assets () {
