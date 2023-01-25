@@ -95,6 +95,10 @@
     font-size: 14px !important;
 }
 
+.table>:not(caption,thead)>*>* {
+    padding: 0.1rem 0.2rem !important;
+}
+
 .modal-backdrop {
     display: none !important;
 }

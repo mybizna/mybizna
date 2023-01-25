@@ -10,7 +10,7 @@
                             Menu List
                         </button>
                         <div class="dropdown-menu dropdown-menu-end mobile-dropdown search-dropdown p-2 shadow-lg">
-                            <ul class="list-group list-group-flush">
+                            <ul v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]" class="list-group list-group-flush">
                                 <li v-for="(item, index) in $store.state.system
                                     .menu[$store.state.system.active_menu][
                                     'menus'
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div id="navbarSupportedContent" class="d-none d-md-block">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <ul v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]" class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li v-for="(item, index) in $store.state.system
                                 .menu[$store.state.system.active_menu][
                                 'menus'
