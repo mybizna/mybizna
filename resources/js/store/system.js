@@ -4,6 +4,7 @@ export default {
         sidebar_show: false,
         layout: false,
         has_menu: false,
+        subtitle: '',
         menu: [],
         active_menu: 'account',
         menu_length: 0,
@@ -25,6 +26,9 @@ export default {
         },
         has_menu(state, payload) {
             state.has_menu = payload;
+        },
+        subtitle(state, payload) {
+            state.subtitle = payload;
         },
         search(state, payload) {
             state.search = payload;

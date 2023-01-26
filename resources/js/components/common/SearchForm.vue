@@ -4,7 +4,7 @@
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control" aria-label="Text input with dropdown button" />
                 <button class="btn btn-outline-primary" type="button" aria-expanded="false">
-                    <v-icon size="12" icon="fas fa-search"></v-icon>
+                    <i class="fas fa-search"></i>
                     Search
                 </button>
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -41,7 +41,7 @@
 
         <div class="d-block d-md-none  m-2 text-right">
             <button class="btn btn-outline-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <v-icon size="12" icon="fas fa-search"></v-icon>
+                <i class="fas fa-search"></i>
                 Search
             </button>
             <div class="dropdown-menu dropdown-menu-end mobile-dropdown search-dropdown p-2">
@@ -78,8 +78,8 @@
 
 <script>
 export default {
-     setup () {
-     }
+    setup() {
+    }
 };
 </script>
 

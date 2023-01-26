@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div id="navbarSupportedContent" class="d-none d-md-block">
-                        <ul v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]" class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <ul v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]" class="navbar-nav me-auto mb-0 mb-lg-0">
                             <li v-for="(item, index) in $store.state.system
                                 .menu[$store.state.system.active_menu][
                                 'menus'
@@ -58,9 +58,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-6 col-md-4">
-                    <search-form></search-form>
-                </div>
             </div>
         </nav>
     </div>
@@ -69,12 +66,8 @@
 <script>
 
 import { useStore } from "vuex";
-import SearchForm from "@/components/common/SearchForm.vue";
 
 export default {
-    components: {
-        SearchForm,
-    },
     setup () {
         const store = useStore();
 

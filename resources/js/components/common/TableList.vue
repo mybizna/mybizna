@@ -2,20 +2,23 @@
     <div :class="classes">
         <div :class="'card ' + getCardClassName()">
             <div class="card-head">
-                <div v-if="!is_recordpicker" class="form-head d-flex flex-wrap align-items-center py-2">
-                    <h3 class="font-medium text-lg text-gray ml-2 mr-5 mb-0">{{ title }}</h3>
-                    <a class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
-                        @click="addLink()">
-                        <i class="fa fa-plus"></i>
-                        Add New
-                    </a>
-
+                <div class="flex">
+                    <div class="flex-auto">
+                        <div v-if="!is_recordpicker" class="py-2">
+                            <h3 class="inline-block font-medium text-lg text-gray ml-2 mr-5 mb-0">{{ title }}</h3>
+                            <a class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
+                                @click="addLink()">
+                                <i class="fa fa-plus"></i>
+                                Add New
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex-auto max-w-sm">
+                        <search-form></search-form>
+                    </div>
                 </div>
             </div>
             <div class="card-body p-0">
-                <div v-if="is_recordpicker">
-                    <search-form></search-form>
-                </div>
                 <div class="table-responsive table-responsive-sm" v-bind:style="table_style">
                     <table class="table m-0 p-0">
                         <thead>
@@ -196,6 +199,7 @@ export default {
         this.presetTableStructure();
         this.fetchRecords();
 
+        window.$store.commit("system/subtitle", this.title);
         window.$store.commit("system/has_search", true);
         window.$store.commit("system/is_list", true);
         window.$store.commit("system/is_edit", false);
