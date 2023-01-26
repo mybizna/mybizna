@@ -1,4 +1,5 @@
 <template>
+    
     <v-app class="mybizna-app">
         <v-app-bar
             app
@@ -18,7 +19,9 @@
                     <v-spacer></v-spacer>
 
                     <v-app-bar-title v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]" class="text-center">
-                        {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
+                        {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }} - 
+                        <small>{{ $store.state.system.subtitle }}</small> 
+
                     </v-app-bar-title>
 
                     <v-spacer></v-spacer>
