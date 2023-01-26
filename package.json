@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build  && rm -r public/mybizna/assets",
+    "build": "vue-cli-service build && chmod +x package_post_build.sh && ./package_post_build.sh",
     "dev": "npm run development",
     "development": "mix",
     "hot": "mix watch --hot",
