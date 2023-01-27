@@ -10,7 +10,7 @@
     "crm"
   ],
   "license": "GPL-3.0-or-later",
-  "version": "1.2.47",
+  "version": "1.2.48",
   "require": {
     "php": "^7.3|^8.0",
     "fruitcake/laravel-cors": "^2.0",
