@@ -10,8 +10,8 @@
 [submodule "Modules/Calendar"]
 	path = Modules/Calendar
 	url = https://github.com/mybizna/calendar.git
-[submodule "Modules/core"]
-	path = Modules/core
+[submodule "Modules/Core"]
+	path = Modules/Core
 	url = https://github.com/mybizna/core.git
 [submodule "Modules/Crm"]
 	path = Modules/Crm
@@ -34,9 +34,9 @@
 [submodule "Modules/Mail"]
 	path = Modules/Mail
 	url = https://github.com/mybizna/mail.git
-[submodule "Modules/Massmail"]
-	path = Modules/Massmail
-	url = https://github.com/mybizna/massmail.git
+[submodule "Modules/Mailmass"]
+	path = Modules/Mailmass
+	url = https://github.com/mybizna/mailmass.git
 [submodule "Modules/Media"]
 	path = Modules/Media
 	url = https://github.com/mybizna/media.git
@@ -64,3 +64,12 @@
 [submodule "Modules/Mpesa"]
 	path = Modules/Mpesa
 	url = https://github.com/mybizna/mpesa.git
+[submodule "Modules/Sms"]
+	path = Modules/Sms
+	url = https://github.com/mybizna/sms.git
+[submodule "Modules/Smsmass"]
+	path = Modules/Smsmass
+	url = https://github.com/mybizna/smsmass.git
+[submodule "Modules/Smsreader"]
+	path = Modules/Smsreader
+	url = https://github.com/mybizna/smsreader.git
