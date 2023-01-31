@@ -73,3 +73,6 @@
 [submodule "Modules/Smsreader"]
 	path = Modules/Smsreader
 	url = https://github.com/mybizna/smsreader.git
+[submodule "commands"]
+	path = commands
+	url = https://github.com/mybizna/commands.git
