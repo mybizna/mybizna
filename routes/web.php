@@ -17,7 +17,9 @@ Route::get('/', function () {
     $url = url("/");
     $assets_url = $url;
 
-    return view('base::manage', ['url' => $url, 'assets_url' => $assets_url, 'autologin' => FALSE]);
+    return redirect('manage');
+
+    //return view('base::manage', ['url' => $url, 'assets_url' => $assets_url, 'autologin' => FALSE]);
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
