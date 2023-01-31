@@ -112,10 +112,17 @@ if [ $VERSION != $OLDVERSION ]
     commit_assets
     commit_migration
     commit_erp_versioned
+
+    if [ -d commands/ ]; then
+        cd commands
+        chmod +x process.sh && ./process.sh
+    fi
+
 else
     commit_erp
 fi
 
 
 echo "$VERSION" > 'version' 
+
 

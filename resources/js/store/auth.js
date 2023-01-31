@@ -36,11 +36,18 @@ export default {
                     password: password,
                 })
                 .then((response) => {
-                    commit("login", response.data.token);
-                    commit("user", response.data.user);
+                    if (response.data.status) {
+                        commit("login", response.data.token);
+                        commit("user", response.data.user);
 
-                    window.axios.defaults.headers.common["Authorization"] =
-                        "Bearer " + response.data.token;
+                        window.axios.defaults.headers.common["Authorization"] =
+                            "Bearer " + response.data.token;
+                    } else {
+                        alert('Error: '.response.data.message);
+                    }
+
+
+
                 })
                 .catch((response) => {
                 });
@@ -49,8 +56,6 @@ export default {
             /* await window.axios.get("/sanctum/csrf-cookie")
                 .then(response => {
                 }); */
-
-            alert('autologin');
 
             await window.axios
                 .get("/autologin")
