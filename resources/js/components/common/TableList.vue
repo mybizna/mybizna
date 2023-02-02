@@ -6,15 +6,14 @@
                     <div class="flex-auto">
                         <div v-if="!is_recordpicker" class="py-2">
                             <h3 class="inline-block font-medium text-lg text-gray ml-2 mr-5 mb-0">{{ title }}</h3>
-                            <a class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
-                                @click="addLink()">
-                                <i class="fa fa-plus"></i>
-                                Add New
-                            </a>
                         </div>
                     </div>
-                    <div class="flex-auto max-w-sm">
-                        <search-form></search-form>
+                    <div class="flex-auto">
+                        <a class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
+                            @click="addLink()">
+                            <i class="fa fa-plus"></i>
+                            Add New
+                        </a>
                     </div>
                 </div>
             </div>
@@ -166,9 +165,6 @@ export default {
         ),
         MenuDropdown: window.$func.fetchComponent(
             "components/common/widgets/list/MenuDropdown.vue"
-        ),
-        SearchForm: window.$func.fetchComponent(
-            "components/common/SearchForm.vue"
         ),
     },
     props: {

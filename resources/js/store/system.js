@@ -11,13 +11,16 @@ export default {
         has_search: false,
         is_list: false,
         is_edit: false,
+        loading: true,
         search: [],
     },
     mutations: {
         sidebar_show(state, payload) {
             state.sidebar_show = payload;
         },
-
+        loading(state, payload) {
+            state.loading = payload;
+        },
         layout(state, payload) {
             state.layout = payload;
         },

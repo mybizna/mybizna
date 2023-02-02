@@ -49,15 +49,7 @@
 import { useStore } from "vuex";
 
 export default {
-    setup() {
-        const store = useStore();
-        store.dispatch("system/getMenu");
 
-        if (!store.state.system.has_menu) {
-            store.dispatch("system/getMenu");
-        }
-
-    },
 
     data: () => ({
         fav: true,

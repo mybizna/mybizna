@@ -10,7 +10,7 @@
             <v-avatar size="28px">
                 <v-img src="images/avatars/1.png"></v-img>
             </v-avatar>
-            <div style="line-height: 28px">{{ $store.state.auth.user.name }}</div>
+            <div style="line-height: 28px">{{ $store.state.auth.user.username }}</div>
         </v-badge>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
