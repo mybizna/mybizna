@@ -20,7 +20,7 @@ Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Larave
 
 ## Minimum Requirement
 
--   PHP 7.0^
+-   PHP 8.1^
 
 
 ## Installation
@@ -30,11 +30,10 @@ git clone https://github.com/mybizna/mybizna
 
 cd mybizna
 
+git submodule update --init --recursive
+
 composer install
 composer dump-autoload -o
-
-npm install
-npm run build
 
 php artisan automigrator:migrate
 
@@ -51,7 +50,14 @@ php artisan vendor:publish --provider="Mybizna\Assets\Providers\MybiznaAssetsPro
 
 ```
 
+If you want to run build for js and css Resources from scratch.
 
+```
+
+npm install
+npm run build
+
+```
 
 ## Who's behind?
 

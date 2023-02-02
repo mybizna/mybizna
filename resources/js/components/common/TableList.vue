@@ -9,11 +9,14 @@
                         </div>
                     </div>
                     <div class="flex-auto">
-                        <a class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
-                            @click="addLink()">
-                            <i class="fa fa-plus"></i>
-                            Add New
-                        </a>
+                        <div class="text-center">
+                            <a class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
+                                @click="addLink()">
+                                <i class="fa fa-plus"></i>
+                                Add New
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>
