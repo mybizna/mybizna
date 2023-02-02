@@ -12,14 +12,13 @@ window.$methods = filters;
 
 
 const fetchComponentFunc = (comp_path) => {
-
     return fetchComponent(comp_path);
-
 }
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 function path_updater(route) {
+
     if (route.component == 'router_view') {
         route.component = RouterView;
     } else {
@@ -39,6 +38,8 @@ function path_updater(route) {
 
 export default async function (router) {
 
+    var routes = [];
+
     // Make a request for a auto discovering modules.
     await window.axios.get(window.base_url + '/api/discover_modules');
 
@@ -46,17 +47,19 @@ export default async function (router) {
     await window.axios.get(window.base_url + '/api/fetch_routes')
         .then(function (response) {
             // handle success
-            response.data.routes.forEach(route => {
-
-                var new_routes = path_updater(route);
-
-                router.addRoute(new_routes);
-
-            });
+            routes = response.data.routes;
         })
         .catch(function (error) {
             // handle error
         });
 
 
+    let routes_keys = Object.keys(routes);
+
+    routes_keys.forEach(key => {
+        var new_routes = path_updater(routes[key]);
+
+        router.addRoute(new_routes);
+
+    })
 }

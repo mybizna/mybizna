@@ -18,7 +18,8 @@ import createPersistedState from "vuex-persistedstate";
 import NProgress from 'nprogress';
 
 import Axios from 'axios';
-import axiosRetry from 'axios-retry';
+//import axiosRetry from 'axios-retry';
+const rax = require('retry-axios');
 import VueSweetalert2 from 'vue-sweetalert2';
 import {
     plugin,
@@ -74,9 +75,7 @@ app.config.globalProperties.$is_stockist = window.is_stockist = false;
 app.config.globalProperties.$is_backend = window.is_backend = true;
 
 app.config.globalProperties.$in_progress = window.in_progress = true;
-app.config.globalProperties.$loading = window.loading = {
-    in_progress: true
-};
+app.config.globalProperties.$loading = window.loading = true;
 app.config.globalProperties.$moment = window.$moment = moment;
 
 app.config.devtools = true;
@@ -101,35 +100,22 @@ Axios.defaults.baseURL = base_url;
 Axios.defaults.withCredentials = true;
 
 
-Axios.defaults.timeout = 10000;
+Axios.defaults.timeout = 30000;
 Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 // Add a request interceptor
 Axios.interceptors.request.use(function (config) {
-
-    app.config.globalProperties.$loading = {
-        in_progress: true
-    }
-
-    // Do something before request is sent
+    store.commit('system/loading',true);
     NProgress.start();
     return config;
 }, function (error) {
-
-    app.config.globalProperties.$loading = {
-        in_progress: false
-    }
-
-    // Do something with request error
+    store.commit('system/loading',false);
     return Promise.reject(error);
 });
 
 // Add a response interceptor
 Axios.interceptors.response.use(function (response) {
-
-    app.config.globalProperties.$loading = {
-        in_progress: false
-    };
+    store.commit('system/loading',false);
 
     if (Object.prototype.hasOwnProperty.call(response.data, 'message') && response.data.message == "Unauthenticated") {
         store.commit('auth/logout');
@@ -139,16 +125,22 @@ Axios.interceptors.response.use(function (response) {
     NProgress.done();
     return response;
 }, function (error) {
-    app.config.globalProperties.$loading = {
-        in_progress: false
-    };
-
-    // Do something with response error
+    store.commit('system/loading',false);
     return Promise.reject(error);
 });
 
-axiosRetry(Axios, { retries: 3 });
 
+rax.attach();
+//axiosRetry(Axios, { retries: 3, shouldResetTimeout: true, retryDelay: axiosRetry.exponentialDelay });
+Axios.defaults.raxConfig = {
+    retry: 3, // number of retry when facing 4xx or 5xx
+    noResponseRetries: 3, // number of retry when facing connection error
+    retryDelay: 5000,
+    onRetryAttempt: err => {
+        const cfg = rax.getConfig(err);
+        console.log(`Retry attempt #${cfg.currentRetryAttempt}`); // track current trial
+    }
+};
 app.config.globalProperties.$http = app.config.globalProperties.$axios = window.axios = Axios;
 
 
@@ -163,12 +155,12 @@ window.axios.interceptors.request.use(function (config) {
     const tmp_config = async (config) => {
 
         if ((
-                config.method == 'patch' ||
-                config.method == 'post' ||
-                config.method == 'put' ||
-                config.method == 'delete'
-                /* other methods you want to add here */
-            ) && !Cookies.get('XSRF-TOKEN')) {
+            config.method == 'patch' ||
+            config.method == 'post' ||
+            config.method == 'put' ||
+            config.method == 'delete'
+            /* other methods you want to add here */
+        ) && !Cookies.get('XSRF-TOKEN')) {
 
 
             await window.axios.get(window.base_url + '/sanctum/csrf-cookie')
@@ -227,10 +219,7 @@ app.use(store);
 
 router.beforeEach((to, from, next) => {
 
-    app.config.globalProperties.$loading = {
-        in_progress: true
-    };
-
+    store.commit('system/loading',true);
     NProgress.start();
 
     if (to.meta.middlewareAuth) {
@@ -265,10 +254,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
     // ...
-    app.config.globalProperties.$loading = {
-        in_progress: false
-    };
-
+    store.commit('system/loading',false);
     NProgress.done();
 });
 

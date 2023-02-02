@@ -10,7 +10,8 @@
                             Menu List
                         </button>
                         <div class="dropdown-menu dropdown-menu-end mobile-dropdown search-dropdown p-2 shadow-lg">
-                            <ul v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]" class="list-group list-group-flush">
+                            <ul v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]"
+                                class="list-group list-group-flush">
                                 <li v-for="(item, index) in $store.state.system
                                     .menu[$store.state.system.active_menu][
                                     'menus'
@@ -23,7 +24,7 @@
                                                 subitem, index
                                             ) in item.list" :key="index" class="list-group-item">
                                             <a class="dropdown-item text-black" :href="'#' + subitem.path">{{
-                                                    subitem.title
+                                                subitem.title
                                             }}</a>
                                         </li>
                                     </ul>
@@ -32,12 +33,13 @@
                         </div>
                     </div>
                     <div id="navbarSupportedContent" class="d-none d-md-block">
-                        <ul v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]" class="navbar-nav me-auto mb-0 mb-lg-0">
+                        <ul v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]"
+                            class="navbar-nav me-auto mb-0 mb-lg-0">
                             <li v-for="(item, index) in $store.state.system
                                 .menu[$store.state.system.active_menu][
                                 'menus'
                             ]" :key="index" class="nav-item dropdown">
-                                <a v-if="item.list.length" class="nav-link dropdown-toggle text-black"  href="#"
+                                <a v-if="item.list.length" class="nav-link dropdown-toggle text-black" href="#"
                                     id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                                     {{ item.title }}
                                 </a>
@@ -47,16 +49,20 @@
                                 </a>
                                 <ul v-if="item.list.length" class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <template v-for="(subitem, index) in item.list" :key="index">
-                                    <li v-if="subitem.title !== ''" class="dropdown-item text-black">
-                                        <a :href="'#' + subitem.path">{{ subitem.title
-                                        }}</a>
-                                    </li>
-                                    <div v-else class="dropdown-divider"></div>
+                                        <li v-if="subitem.title !== ''" class="dropdown-item text-black">
+                                            <a :href="'#' + subitem.path">{{
+                                                subitem.title
+                                            }}</a>
+                                        </li>
+                                        <div v-else class="dropdown-divider"></div>
                                     </template>
                                 </ul>
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <search-form></search-form>
                 </div>
             </div>
         </nav>
@@ -68,14 +74,19 @@
 import { useStore } from "vuex";
 
 export default {
-    setup () {
+    components: {
+        SearchForm: window.$func.fetchComponent(
+            "components/common/SearchForm.vue"
+        ),
+    },
+    setup() {
         const store = useStore();
 
         if (!store.state.system.has_menu) {
             store.dispatch("system/getMenu");
         }
     },
-    mounted () {
+    mounted() {
     },
     data: () => ({}),
 };
