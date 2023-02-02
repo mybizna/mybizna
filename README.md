@@ -36,7 +36,7 @@ composer dump-autoload -o
 npm install
 npm run build
 
-php artisan lucid:migrate
+php artisan automigrator:migrate
 
 php artisan tinker
 $user = new App\Models\User();
