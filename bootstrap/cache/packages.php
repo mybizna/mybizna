@@ -17,20 +17,6 @@
       0 => 'Fruitcake\\Cors\\CorsServiceProvider',
     ),
   ),
-  'joselfonseca/lighthouse-graphql-passport-auth' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Joselfonseca\\LighthouseGraphQLPassport\\Providers\\LighthouseGraphQLPassportServiceProvider',
-    ),
-  ),
-  'laravel/passport' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Passport\\PassportServiceProvider',
-    ),
-  ),
   'laravel/sail' => 
   array (
     'providers' => 
@@ -43,17 +29,6 @@
     'providers' => 
     array (
       0 => 'Laravel\\Sanctum\\SanctumServiceProvider',
-    ),
-  ),
-  'laravel/socialite' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Socialite\\SocialiteServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Socialite' => 'Laravel\\Socialite\\Facades\\Socialite',
     ),
   ),
   'laravel/tinker' => 
@@ -70,11 +45,11 @@
       0 => 'Laravel\\Ui\\UiServiceProvider',
     ),
   ),
-  'mybizna/lucid' => 
+  'mybizna/automigrator' => 
   array (
     'providers' => 
     array (
-      0 => 'Legodion\\Lucid\\Providers\\LucidServiceProvider',
+      0 => 'Mybizna\\Automigrator\\Providers\\AutomigratorServiceProvider',
     ),
   ),
   'nesbot/carbon' => 
@@ -89,25 +64,6 @@
     'providers' => 
     array (
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    ),
-  ),
-  'nuwave/lighthouse' => 
-  array (
-    'aliases' => 
-    array (
-      'graphql' => 'Nuwave\\Lighthouse\\GraphQL',
-    ),
-    'providers' => 
-    array (
-      0 => 'Nuwave\\Lighthouse\\LighthouseServiceProvider',
-      1 => 'Nuwave\\Lighthouse\\Auth\\AuthServiceProvider',
-      2 => 'Nuwave\\Lighthouse\\Cache\\CacheServiceProvider',
-      3 => 'Nuwave\\Lighthouse\\GlobalId\\GlobalIdServiceProvider',
-      4 => 'Nuwave\\Lighthouse\\OrderBy\\OrderByServiceProvider',
-      5 => 'Nuwave\\Lighthouse\\Pagination\\PaginationServiceProvider',
-      6 => 'Nuwave\\Lighthouse\\Scout\\ScoutServiceProvider',
-      7 => 'Nuwave\\Lighthouse\\SoftDeletes\\SoftDeletesServiceProvider',
-      8 => 'Nuwave\\Lighthouse\\Validation\\ValidationServiceProvider',
     ),
   ),
   'nwidart/laravel-modules' => 
