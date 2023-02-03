@@ -27,7 +27,7 @@ var paths = [
         },
         name: "manage.dashboard",
       
-        component: () => import(`@/views/dashboard/Dashboard.vue`),
+        component: () => import(`@/components/pages/Dashboard.vue`),
     },
     {
         path: "/404",

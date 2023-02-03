@@ -3,7 +3,6 @@ import {
     createApp
 } from 'vue';
 import router from '@/components/router';
-import vuetify from './plugins/vuetify';
 import {
     loadFonts
 } from './plugins/webfontloader';
@@ -51,7 +50,6 @@ import "../css/app.css";
 import config from "@/formkit/config";
 
 const app = createApp(App)
-    .use(vuetify)
     .use(VueSweetalert2)
     .use(plugin, defaultConfig(config));
 

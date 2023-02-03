@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout align-center justify-center row>
+  <div class="container fluid fill-height">
+    <div class="align-center justify-center row">
       <div class="mr-3 hidden-sm-and-down">
         <img src="/images/apps/elearning_icon.png" alt>
       </div>
@@ -8,8 +8,8 @@
         <h1>Redirecting</h1>
         <h2 class="my-3 headline">Redirecting... Please Wait.</h2>
       </div>
-    </v-layout>
-  </v-container>
+    </div>
+  </div>
 </template>
 
 <script>

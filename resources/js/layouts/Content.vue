@@ -12,70 +12,35 @@
 
     </template>
 
-    <v-app class="mybizna-app">
-        <v-app-bar app flat absolute color="indigo darken-4" height="36px" class="p-0"
-            v-if="$store.getters['auth/loggedIn']">
-            <div class="boxed-container w-100 p-0">
-                <div class="d-flex align-center mx-6">
-                    <!-- Left Content -->
-
-                    <app-bar-applist-menu></app-bar-applist-menu>
-
-                    <v-spacer></v-spacer>
-
-                    <v-app-bar-title
-                        v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]"
-                        class="text-center">
-                        {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }} -
-                        <small>{{ $store.state.system.subtitle }}</small>
-
-                    </v-app-bar-title>
-
-                    <v-spacer></v-spacer>
-
-                    <app-bar-user-menu></app-bar-user-menu>
-                </div>
-            </div>
-        </v-app-bar>
+    <div class="mybizna-app">
+ 
 
         <app-bar-nav-menu v-if="$store.getters['auth/loggedIn']"></app-bar-nav-menu>
 
-        <v-main class="p-0">
+        <main class="p-0">
             <div class="app-content-container boxed-container">
                 <slot></slot>
             </div>
-        </v-main>
+        </main>
 
         <footer app inset color="transparent" absolute height="56" class="footer mt-auto py-3 bg-light">
             <div class="container">
                 <div class="text-muted text-center">
                     <span>
-                        &copy; 2022
+                        &copy; 2022 - 2023
                         <a href="https://mybizna.com" class="text-decoration-none" target="_blank">Mybizna</a></span>
                 </div>
             </div>
         </footer>
-    </v-app>
+    </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import AppBarUserMenu from "@/layouts/components/AppBarUserMenu.vue";
-import AppBarApplistMenu from "@/layouts/components/AppBarApplistMenu.vue";
-import AppBarNavMenu from "@/layouts/components/AppBarNavMenu.vue";
+import AppBarNavMenu from "@/components/widgets/AppBarNavMenu.vue";
 
 export default {
     components: {
-        AppBarUserMenu,
-        AppBarApplistMenu,
         AppBarNavMenu,
-    },
-    setup() {
-        const isDrawerOpen = ref(null);
-
-        return {
-            isDrawerOpen,
-        };
     },
 };
 </script>
