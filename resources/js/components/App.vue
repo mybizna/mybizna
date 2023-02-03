@@ -1,23 +1,11 @@
 <template>
 
-    <template v-if="$store.state.system.loading">
-        <div wire:loading
-            class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gradient-to-r from-indigo-500/25 via-purple-500/25 to-indigo-500/25 flex flex-col items-center justify-center">
-            <div class="fa-3x text-blue-700 ">
-                <i class="fas fa-spinner fa-spin"></i>
-            </div>
-            <h2 class="text-center text-blue-800 text-xl font-semibold">Loading...</h2>
-            <p class="w-1/3 text-center text-blue-800">This may take a few seconds, please don't close this page.</p>
-        </div>
-
-    </template>
 
     <div class="mybizna-app">
-
-
+        <app-topbar></app-topbar>
+        <app-bar-nav-menu></app-bar-nav-menu>
+        
         <main v-if="$store.getters['auth/loggedIn']" class="p-0">
-            <app-topbar></app-topbar>
-            <app-bar-nav-menu></app-bar-nav-menu>
             <div class="app-content-container boxed-container">
                 <router-view></router-view>
             </div>
@@ -50,7 +38,7 @@ import AppTopbar from "@/components/widgets/AppTopbar.vue";
 export default {
     components: {
         AppBarNavMenu,
-        AppTopbar,
+         AppTopbar,
     },
     setup() {
         const { route } = useRouter();
