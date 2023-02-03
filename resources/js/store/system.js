@@ -4,6 +4,7 @@ export default {
         sidebar_show: false,
         layout: false,
         has_menu: false,
+        title: 'Mybizna',
         subtitle: '',
         menu: [],
         active_menu: 'account',
@@ -29,6 +30,9 @@ export default {
         },
         has_menu(state, payload) {
             state.has_menu = payload;
+        },
+        title(state, payload) {
+            state.title = payload;
         },
         subtitle(state, payload) {
             state.subtitle = payload;
