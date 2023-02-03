@@ -11,11 +11,7 @@
     <title>{{ config('app.name', 'Mybizna Erp') }}</title>
 
     <script>
-        @if(config('mybizna.is_local'))
-            var base_url = '{{  url("/"); }}';
-        @else
-            var base_url = '{{  secure_url("/"); }}';
-        @endif
+        var base_url = '{{  $mybizna_base_url }}';
 
         function __(title, select){
             return title;

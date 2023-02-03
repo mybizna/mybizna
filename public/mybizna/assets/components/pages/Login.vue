@@ -13,7 +13,7 @@
                 <div>
                   <div class="form-group">
                     <label class="mb-1"><strong>Email</strong></label>
-                    <input type="email" class="form-control" v-model="model.username" />
+                    <input type="text" class="form-control" v-model="model.username" />
                   </div>
                   <div class="form-group">
                     <label class="mb-1"><strong>Password</strong></label>

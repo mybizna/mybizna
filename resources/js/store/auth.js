@@ -32,7 +32,7 @@ export default {
 
             await window.axios
                 .post("/login", {
-                    email: username,
+                    username: username,
                     password: password,
                 })
                 .then((response) => {
