@@ -17,18 +17,10 @@
 
         <main v-if="$store.getters['auth/loggedIn']" class="p-0">
             <app-topbar></app-topbar>
-            <div class="flex">
-                <div class="flex-none w-12 bg-blue-500">
-                    <app-bar-applist-menu></app-bar-applist-menu>
-                </div>
-                <div class="flex-auto">
-                    <app-bar-nav-menu></app-bar-nav-menu>
-                    <div class="app-content-container boxed-container">
-                        <router-view></router-view>
-                    </div>
-                </div>
+            <app-bar-nav-menu></app-bar-nav-menu>
+            <div class="app-content-container boxed-container">
+                <router-view></router-view>
             </div>
-
         </main>
         <main v-else class="p-0">
             <router-view></router-view>
@@ -52,7 +44,6 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "@/utils";
-import AppBarApplistMenu from "@/components/widgets/AppBarApplistMenu.vue";
 import AppBarNavMenu from "@/components/widgets/AppBarNavMenu.vue";
 import AppTopbar from "@/components/widgets/AppTopbar.vue";
 
@@ -60,7 +51,6 @@ export default {
     components: {
         AppBarNavMenu,
         AppTopbar,
-        AppBarApplistMenu
     },
     setup() {
         const { route } = useRouter();
