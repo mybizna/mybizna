@@ -1,6 +1,6 @@
 <template>
 
-    <div class="flex bg-violet-400">
+    <div class="flex bg-blue-700">
         <div class="flex-auto">
             <div class="flex justify-start pt-1 pl-1 mr-2 space-x-3 cursor-pointer text-blue-600">
 

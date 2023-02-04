@@ -1,6 +1,6 @@
 <template>
     <div class="top-app-list">
-        <a class="w-6 h-6 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="w-6 h-6 dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <svg fill="#FFFFFF" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.36 122.88"
                 style="enable-background:new 0 0 122.36 122.88" xml:space="preserve">

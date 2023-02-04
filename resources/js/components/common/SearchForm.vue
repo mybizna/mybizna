@@ -1,15 +1,11 @@
 <template>
     <template v-if="$store.state.system.has_search && !$store.state.system.is_recordpicker">
-        <div class="d-none d-md-block mt-1 mx-1">
-            <div class="input-group input-group-sm">
-                <input type="text" class="form-control" aria-label="Text input with dropdown button" />
-                <button class="btn btn-outline-primary" type="button" aria-expanded="false">
-                    <i class="fas fa-search"></i>
-                    Search
-                </button>
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">Advanced</button>
 
+        <div class="pt-1 pr-1">
+
+            <div class="input-group input-group-sm border rounded">
+                <input type="text" class="form-control dropdown-toggle border-none focus:shadow-none" placeholder="Search Any Term."
+                    aria-label="Text input with dropdown button" data-bs-toggle="dropdown" aria-expanded="false" />
                 <div class="dropdown-menu dropdown-menu-end search-dropdown p-2 shadow-lg">
                     <b>Search</b>
                     <div class="row">
@@ -31,14 +27,30 @@
                         </div>
                     </div>
                 </div>
+                <div class="input-group-append pl-1 pr-1">
+                    <i class="fas fa-search leading-7"></i>
+                </div>
             </div>
+
+            <!--
+                <button class="btn btn-outline-primary" type="button" aria-expanded="false">
+                  
+                </button>
+                
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">All</button>
+                -->
+
+
+
             <a>
                 <small style="font-size: 12px">
-                    Advanced:Empty
+                    Filter: Empty
                 </small>
             </a>
         </div>
 
+        <!--
         <div class="d-block d-md-none  m-2 text-right">
             <button class="btn btn-outline-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-search"></i>
@@ -72,6 +84,7 @@
                 </a>
             </div>
         </div>
+        -->
     </template>
 
 </template>
