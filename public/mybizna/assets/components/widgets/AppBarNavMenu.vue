@@ -3,10 +3,11 @@
         <div class="flex">
             <div class="flex-auto">
                 <div class="d-block d-md-none mt-1 mx-1">
-                    <button class="btn btn-outline-primary" type="button" data-bs-toggle="dropdown"
+                    <button class="btn bg-blue-600 text-white whitespace-nowrap" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <i class="fas fa-list"></i>
-                        Menu List
+                        {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
+                         Menus
                     </button>
                     <div class="dropdown-menu dropdown-menu-start mobile-dropdown search-dropdown p-2 shadow-lg">
 
