@@ -8,27 +8,47 @@
                         <i class="fas fa-list"></i>
                         Menu List
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end mobile-dropdown search-dropdown p-2 shadow-lg">
-                        <ul v-if="$store.state.system.active_menu && $store.state.system.menu[$store.state.system.active_menu]"
-                            class="list-group list-group-flush">
-                            <li v-for="(item, index) in $store.state.system
-                                .menu[$store.state.system.active_menu][
-                                'menus'
-                            ]" :key="index" class="list-group-item text-black">
-                                <a :href="'#' + item.path">
-                                    {{ item.title }}
-                                </a>
-                                <ul v-if="item.list.length" class="list-group bg-light">
-                                    <li v-for="(
-                                                subitem, index
-                                            ) in item.list" :key="index" class="list-group-item">
-                                        <a class="dropdown-item text-black" :href="'#' + subitem.path">{{
-                                            subitem.title
-                                        }}</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <div class="dropdown-menu dropdown-menu-start mobile-dropdown search-dropdown p-2 shadow-lg">
+
+                        <div>
+                            <div class="text-sm pb-1 border-b border-b-indigo-100">Main</div>
+
+                            <template
+                                v-for="(item, index) in $store.state.system.menu[$store.state.system.active_menu]['menus']"
+                                :key="index">
+
+                                <div v-if="!item.list.length"
+                                    class="inline-block m-2 px-2 py-2.5 text-sm font-medium text-center text-white bg-blue-500 rounded hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                    <a :href="'#' + item.path">
+                                        {{ item.title }}
+                                    </a>
+                                </div>
+                            </template>
+
+                        </div>
+
+                        <template
+                            v-for="(item, index) in $store.state.system.menu[$store.state.system.active_menu]['menus']"
+                            :key="index">
+
+                            <div v-if="item.list.length" class="list-group-item">
+                                <div class="text-sm pb-1 border-b border-b-indigo-100">{{ item.title }}</div>
+
+                                <template v-for="(subitem, index) in item.list" :key="index">
+                                    <div v-if="subitem.title !== ''"
+                                        class="inline-block m-2 px-2 py-2.5 text-sm font-medium text-center text-white bg-blue-500 rounded hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                        <a :href="'#' + subitem.path">
+                                            {{ subitem.title }}
+                                        </a>
+                                    </div>
+                                </template>
+
+                            </div>
+
+                        </template>
+
+                        <div class="clear-both" style="margin-bottom:50px;"></div>
+
                     </div>
                 </div>
                 <div id="navbarSupportedContent" class="d-none d-md-block">
@@ -61,8 +81,8 @@
                 </div>
             </div>
             <div class="flex-auto">
-                    <search-form></search-form>
-                </div>
+                <search-form></search-form>
+            </div>
         </div>
     </nav>
 </template>
