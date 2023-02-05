@@ -3,10 +3,10 @@ import {
     createApp
 } from 'vue';
 import router from '@/components/router';
-import {
+/** import {
     loadFonts
-} from './plugins/webfontloader';
-
+ } from './plugins/webfontloader';
+*/
 import {
     createStore
 } from 'vuex';
@@ -53,7 +53,7 @@ const app = createApp(App)
     .use(VueSweetalert2)
     .use(plugin, defaultConfig(config));
 
-loadFonts();
+//loadFonts();
 
 let base_url = window.base_url + '/api';
 let assets_url = window.assets_url;

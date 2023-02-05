@@ -14,6 +14,7 @@ export default {
         is_edit: false,
         loading: true,
         search: [],
+        search_fields:[],
     },
     mutations: {
         sidebar_show(state, payload) {
@@ -39,6 +40,9 @@ export default {
         },
         search(state, payload) {
             state.search = payload;
+        },
+        search_fields(state, payload) {
+            state.search_fields = payload;
         },
         has_search(state, payload) {
             state.has_search = payload;
