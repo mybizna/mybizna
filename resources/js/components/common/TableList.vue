@@ -202,6 +202,7 @@ export default {
 
         window.$store.commit("system/subtitle", this.title);
         window.$store.commit("system/has_search", true);
+        window.$store.commit("system/search_fields", search_fields);
         window.$store.commit("system/is_list", true);
         window.$store.commit("system/is_edit", false);
 
