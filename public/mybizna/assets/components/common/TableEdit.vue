@@ -43,6 +43,8 @@ export default {
     props: {
         model: Object,
         title: { type: String, default: "Editing", },
+        module: { type: String, default: "", },
+        table: { type: String, default: "", },
         passed_form_url: { type: String, default: "", },
         passed_return_url: { type: String, default: "", },
         main_column_css: { type: String, default: "", },
@@ -92,7 +94,15 @@ export default {
     },
     methods: {
         preparePathParam () {
-            this.processed_path_param = window.$func.pathParamHelper(this.path_param);
+            var path_param = [];
+
+            if (Object.prototype.hasOwnProperty.call(this, 'path_param')) {
+                path_param = this.path_param;
+            }else{
+                path_param = [this.module,this.table];
+            }
+
+            this.processed_path_param = window.$func.pathParamHelper(path_param);
             if (this.passed_form_url != '') {
                 this.processed_path_param.path = this.passed_form_url;
             }

@@ -423,6 +423,7 @@ export default {
                 var tmpitem = response.data.record;
 
                 if (!tmp_return_to) {
+                   
                     Object.keys(t.model).forEach(function(key, index) {
                         if (Object.prototype.hasOwnProperty.call(tmpitem, key)) {
                             t.model[key] = tmpitem[key];

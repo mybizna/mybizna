@@ -175,6 +175,8 @@ export default {
         table_snippet: Object,
         title: { type: String, default: "Listing", },
         classes: { type: String, default: "", },
+        module: { type: String, default: "", },
+        table: { type: String, default: "", },
         passed_return_url: { type: String, default: "", },
         dropdown_menu: { type: Array, default: () => [] },
         path_param: { type: Array, default: () => [] },
@@ -254,7 +256,7 @@ export default {
                 validateAfterChanged: true,
                 fieldIdPrefix: "user-",
             },
-            table: {
+            table_list: {
                 selected: [],
                 headers: [],
             },
@@ -317,9 +319,15 @@ export default {
             this.$set(this.expanded, id, !expanded[id]);
         },
         preparePathParam() {
-            this.processed_path_param = window.$func.pathParamHelper(
-                this.path_param
-            );
+            var path_param = [];
+
+            if (Object.prototype.hasOwnProperty.call(this, 'path_param')) {
+                path_param = this.path_param;
+            }else{
+                path_param = [this.module,this.table];
+            }
+
+            this.processed_path_param = window.$func.pathParamHelper( path_param );
         },
         processDropdownMenu() {
             const t = this;
@@ -354,7 +362,7 @@ export default {
             var t = this;
 
             if (window.is_backend) {
-                t.table.headers.push({
+                t.table_list.headers.push({
                     label: "",
                     key: "id",
                     sortable: false,
@@ -374,6 +382,11 @@ export default {
                 t.table_fields[index]["path"] = table_field.prop.split(".");
 
                 var table_field_name = '';
+                if (
+                    Object.prototype.hasOwnProperty.call(table_field, "label")
+                ) {
+                    table_field_name = table_field.label;
+                }
                 if (
                     Object.prototype.hasOwnProperty.call(table_field, "text")
                 ) {
@@ -395,9 +408,9 @@ export default {
                         );
                     });
 
-                t.table.headers.push({
+                t.table_list.headers.push({
                     label: tmp_label,
-                    key: table_field.text.toLowerCase(),
+                    key: table_field.name.toLowerCase(),
                     sortable: false,
                 });
             });
