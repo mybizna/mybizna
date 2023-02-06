@@ -26,6 +26,9 @@ import {
 } from '@formkit/vue';
 
 import '@popperjs/core';
+
+import mitt from 'mitt';                  
+                 
 //import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
@@ -63,6 +66,7 @@ let assets_url = window.assets_url;
 
 app.config.globalProperties.$base_url = base_url;
 app.config.globalProperties.$assets_url = assets_url;
+app.config.globalProperties.$emitter = mitt(); 
 app.config.globalProperties.$male_default_avatar = 'images/avatar.png';
 app.config.globalProperties.$female_default_avatar = 'images/avatar2.png';
 

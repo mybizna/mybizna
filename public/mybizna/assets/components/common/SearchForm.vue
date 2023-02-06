@@ -59,8 +59,10 @@ export default {
         model: {
             handler: function (newVal) {
                 this.changed_here = true;
+
                 var path_params = this.$store.state.system.search_path_params;
-                this.$store.commit('system/search', { module: path_params[0], table: path_params[1], search: this.model });
+                this.$emitter.emit("system-search", { module: path_params[0], table: path_params[1], search: this.model });
+
                 this.changed_here = false;
             },
             deep: true
@@ -68,31 +70,12 @@ export default {
     },
     created() {
         var path_params = this.$store.state.system.search_path_params;
-        console.log(path_params);
-        this.unwatch = this.$store.watch(
-            (state, getters) => this.$store.getters['system/search'],
-            (newValue, oldValue) => {
-                console.log(`Updating from ${oldValue} to ${newValue}`);
 
-                // Do whatever makes sense now
-                if (newValue === 'success') {
-                    this.complex = {
-                        deep: 'some deep object',
-                    };
-                }
-            },
-        );
-
-        // Set Model variable
-        var search_fields = this.$store.state.system.search_fields;
-
-        search_fields.forEach(field => {
-            this.model[field.name] = '';
-        });
+        //Preset System Search
+        this.$store.commit('system/search', { module: path_params[0], table: path_params[1], search: this.model });
 
         //Check if Search Path is set.
         var meta = window.$router.currentRoute.value.meta;
-
         if (Object.prototype.hasOwnProperty.call(meta, 'search_path')) {
             var search_path = meta.search_path;
 
@@ -103,7 +86,44 @@ export default {
             }
         }
     },
+    mounted() {
 
+        this.$emitter.on('system-set-store', (data) => {
+            this.$store.commit('system/search_path_params', [data.module, data.table]);
+           
+            data['search_fields'].forEach(field => {
+                this.model[field.name] = '';
+            });
+            console.log(this.$store.state.system.search_path_params);
+            console.log(this.model);
+
+        });
+
+        this.$emitter.on('system-search', (newmodal) => {
+
+            var search = this.$store.state.system.search;
+            var model =  newmodal;
+            
+            if(Object.prototype.hasOwnProperty.call(search, newmodal.module) && 
+            Object.prototype.hasOwnProperty.call(search, newmodal.table)){
+                var oldmodel_str = JSON.stringify(oldmodel)
+                var oldmodel_obj = JSON.parse(oldmodel_str);
+
+                model = { ...oldmodel_obj.search, ...newmodal.search };
+            }
+            
+            console.log('this.$store.state.system.search');
+            console.log(model);
+
+            this.$store.commit('system/search', { module: newmodal.module, table: newmodal.table, search: model });
+
+            if (!this.changed_here) {
+                this.model = model;
+                console.log(model);
+            }
+        });
+
+    },
     data() {
         return {
             model: {},

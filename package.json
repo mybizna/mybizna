@@ -27,6 +27,7 @@
     "core-js": "^3.8.3",
     "js-cookie": "^3.0.1",
     "laravel-mix": "^6.0.43",
+    "mitt": "^3.0.0",
     "moment-timezone": "^0.5.34",
     "npm": "^8.7.0",
     "nprogress": "^0.2.0",

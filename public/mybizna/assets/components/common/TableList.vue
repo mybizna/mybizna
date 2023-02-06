@@ -194,6 +194,7 @@ export default {
         hide_select_checkbox: { type: Boolean, default: false },
     },
     created() {
+      
         this.preparePathParam();
         this.processDropdownMenu();
         this.processFieldList();
@@ -327,9 +328,9 @@ export default {
             } else {
                 path_param = [this.module, this.table];
             }
-
-            this.$store.commit('system/search_path_params', path_param);
-
+            
+            this.$emitter.emit("system-set-store", { module: path_param[0], table: path_param[1], search_fields: this.search_fields });
+         
             this.processed_path_param = window.$func.pathParamHelper(path_param);
         },
         processDropdownMenu() {
