@@ -7,11 +7,11 @@
                 <app-bar-applist-menu></app-bar-applist-menu>
 
                 <h2 class="text-md leading-7 h-8 text-white"
-                    :alt="$store.state.system.title + ': ' + $store.state.system.menu[$store.state.system.active_menu]['title'] + ' - ' + $store.state.system.subtitle">
+                    :alt="$store.state.system.title + ': ' + ($store.state.system.menu[$store.state.system.active_menu] ? $store.state.system.menu[$store.state.system.active_menu]['title'] : '') + ' - ' + $store.state.system.subtitle">
                     <span class="uppercase">
                         {{ $store.state.system.title }} :
                     </span>
-                    <small>
+                    <small v-if="$store.state.system.menu[$store.state.system.active_menu]">
                         {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
                     </small>
                     <small class="text-sm" v-if="$store.state.system.subtitle != ''">
@@ -59,5 +59,4 @@ export default {
         min-height: 2.5rem !important;
     }
 }
-
 </style>

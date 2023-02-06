@@ -12,7 +12,8 @@
                     <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-1 match-height">
                         <template v-for="(item, index) in $store.state
                         .system.search_fields" :key="index">
-                            <FormKit :label="item.label" :id="item.name" :type="item.type" validation="required" />
+                            <FormKit v-model="model[item.name]" :label="item.label" :id="item.name" :type="item.type"
+                                validation="required" />
                         </template>
 
                         <template v-if="show_search">
@@ -54,7 +55,42 @@
 <script>
 
 export default {
+    watch: {
+        model: {
+            handler: function (newVal) {
+                this.changed_here = true;
+                var path_params = this.$store.state.system.search_path_params;
+                this.$store.commit('system/search', { module: path_params[0], table: path_params[1], search: this.model });
+                this.changed_here = false;
+            },
+            deep: true
+        },
+    },
     created() {
+        var path_params = this.$store.state.system.search_path_params;
+        console.log(path_params);
+        this.unwatch = this.$store.watch(
+            (state, getters) => this.$store.getters['system/search'],
+            (newValue, oldValue) => {
+                console.log(`Updating from ${oldValue} to ${newValue}`);
+
+                // Do whatever makes sense now
+                if (newValue === 'success') {
+                    this.complex = {
+                        deep: 'some deep object',
+                    };
+                }
+            },
+        );
+
+        // Set Model variable
+        var search_fields = this.$store.state.system.search_fields;
+
+        search_fields.forEach(field => {
+            this.model[field.name] = '';
+        });
+
+        //Check if Search Path is set.
         var meta = window.$router.currentRoute.value.meta;
 
         if (Object.prototype.hasOwnProperty.call(meta, 'search_path')) {
@@ -70,10 +106,15 @@ export default {
 
     data() {
         return {
+            model: {},
             compSearch: '',
+            changed_here: false,
             show_search: false
         }
-    }
+    },
+    beforeDestroy() {
+        this.unwatch();
+    },
 };
 </script>
 

@@ -202,7 +202,7 @@ export default {
 
         window.$store.commit("system/subtitle", this.title);
         window.$store.commit("system/has_search", true);
-        window.$store.commit("system/search_fields", search_fields);
+        window.$store.commit("system/search_fields", this.search_fields);
         window.$store.commit("system/is_list", true);
         window.$store.commit("system/is_edit", false);
 
@@ -322,13 +322,15 @@ export default {
         preparePathParam() {
             var path_param = [];
 
-            if (Object.prototype.hasOwnProperty.call(this, 'path_param')) {
+            if (this.path_param.length !== 0) {
                 path_param = this.path_param;
-            }else{
-                path_param = [this.module,this.table];
+            } else {
+                path_param = [this.module, this.table];
             }
 
-            this.processed_path_param = window.$func.pathParamHelper( path_param );
+            this.$store.commit('system/search_path_params', path_param);
+
+            this.processed_path_param = window.$func.pathParamHelper(path_param);
         },
         processDropdownMenu() {
             const t = this;
