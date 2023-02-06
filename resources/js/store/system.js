@@ -49,11 +49,10 @@ export default {
 
             if (payload.module in tmp_search) {
                 if (payload.table in tmp_search[payload.module]) {
-                    tmp_search[payload.module] = {
-                        ...tmp_search[payload.module],
+                    tmp_search[payload.module][payload.table] = {
+                        ...tmp_search[payload.module][payload.table],
                         ...payload.search
                     };
-
                 } else {
                     tmp_search[payload.module][payload.table] = payload.search;
                 }
