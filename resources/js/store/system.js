@@ -14,7 +14,13 @@ export default {
         is_edit: false,
         loading: true,
         search: [],
-        search_fields:[],
+        search_fields: [],
+        search_path_params: [],
+        search_changes: '',
+    },
+    getters: {
+        search: state => state.search,
+        search_changes: state => state.search_changes,
     },
     mutations: {
         sidebar_show(state, payload) {
@@ -39,10 +45,33 @@ export default {
             state.subtitle = payload;
         },
         search(state, payload) {
-            state.search = payload;
+            var tmp_search = state.search;
+
+            if (payload.module in tmp_search) {
+                if (payload.table in tmp_search[payload.module]) {
+                    tmp_search[payload.module] = {
+                        ...tmp_search[payload.module],
+                        ...payload.search
+                    };
+
+                } else {
+                    tmp_search[payload.module][payload.table] = payload.search;
+                }
+            } else {
+                tmp_search[payload.module] = {};
+                tmp_search[payload.module][payload.table] = payload.search;
+            }
+
+            state.search = tmp_search;
         },
         search_fields(state, payload) {
             state.search_fields = payload;
+        },
+        search_path_params(state, payload) {
+            state.search_path_params = payload;
+        },
+        search_changes(state, payload) {
+            state.search_changes = payload;
         },
         has_search(state, payload) {
             state.has_search = payload;
@@ -73,7 +102,7 @@ export default {
 
                         if (Array.isArray(response.data)) {
                             counter = response.data.length;
-                        }else{
+                        } else {
                             counter = Object.keys(response.data).length;
                         }
                         Object.keys(response.data).length;
@@ -91,5 +120,4 @@ export default {
                     });
         },
     },
-    getters: {}
 }
