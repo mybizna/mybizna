@@ -112,6 +112,8 @@ export default {
                 model = { ...oldmodel_obj.search, ...newmodal.search };
             }
             
+            console.log(oldmodel_obj.search);
+            console.log(newmodal.search);
             console.log('this.$store.state.system.search');
             console.log(model);
 

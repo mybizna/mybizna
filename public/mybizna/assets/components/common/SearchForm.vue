@@ -102,7 +102,7 @@ export default {
         this.$emitter.on('system-search', (newmodal) => {
 
             var search = this.$store.state.system.search;
-            var model =  newmodal;
+            var model =  newmodal.search;
             
             if(Object.prototype.hasOwnProperty.call(search, newmodal.module) && 
             Object.prototype.hasOwnProperty.call(search, newmodal.table)){
@@ -110,6 +110,11 @@ export default {
                 var oldmodel_obj = JSON.parse(oldmodel_str);
 
                 model = { ...oldmodel_obj.search, ...newmodal.search };
+
+                console.log('oldmodel_obj.search');
+                console.log(oldmodel_obj.search);
+                console.log('newmodal.search');
+                console.log(newmodal.search);
             }
             
             console.log('this.$store.state.system.search');
