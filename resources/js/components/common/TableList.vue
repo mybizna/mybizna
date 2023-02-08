@@ -213,6 +213,33 @@ export default {
         }
     },
 
+    mounted() {
+        this.$emitter.on('delete-record', (setting) => {
+
+            console.log('sdfsfdfsdf item');
+            console.log(setting);
+            console.log(this.processed_path_param);
+
+            var results = this.deleteRecords(setting.ids);
+            console.log(results);
+            var message = `${window.$func.toUnicodeVariant('Result:', 'bold sans', 'bold')} \n\n`;
+            results.forEach(result => {
+                message += `${result.message}`;
+            });
+            alert(message);
+            
+            this.fetchRecords();
+
+            if (Object.prototype.hasOwnProperty.call(setting, "path")) {
+                if (setting.path.type == 'link') {
+                    this.$router.push(setting.path.link);
+                } else {
+                    this.$router.push({ name: setting.path.link });
+                }
+            }
+        });
+    },
+
     emits: {
         // Validate submit event
         "bv::dropdown::show": (bvEvent) => {
@@ -335,16 +362,31 @@ export default {
         processDropdownMenu() {
             const t = this;
 
+            t.dropdown_menu_list.push({
+                title: "Edit",
+                icon: "fa fa-pencil",
+                type: "router",
+                name: this.processed_path_param.dotted + ".edit",
+                param: ["id"],
+            });
+
             t.dropdown_menu.forEach(function (dropdown_menu_single) {
+                if (Object.prototype.hasOwnProperty.call(dropdown_menu_single, "type")) {
+                    dropdown_menu_single['type'] = "event";
+                }
                 t.dropdown_menu_list.push(dropdown_menu_single);
             });
 
             t.dropdown_menu_list.push({
-                title: "Edit",
-                icon: "fa fa-pencil",
-                name: this.processed_path_param.dotted + ".edit",
-                param: ["id"],
+                title: "Delete",
+                icon: "fa fa-trash",
+                type: "event",
+                name: this.processed_path_param.dotted + ".delete",
+                event: "delete-record",
+                return: this.processed_path_param.dotted + ".list",
             });
+
+
         },
         processFieldList() {
             var t = this;
@@ -428,22 +470,15 @@ export default {
                 }
             }
 
-            window.$func.fetchRecordsHelper(
-                this,
-                this.processed_path_param,
-                this.search_fields,
-                this.table_fields
-            );
+            window.$func.fetchRecordsHelper(this, this.processed_path_param, this.search_fields, this.table_fields);
         },
 
-        deleteRecord() {
-            window.$func.deleteRecordHelper(
-                this,
-                this.processed_path_param,
-                this.returnUrl
-            );
+        deleteRecords(ids) {
+            var results = window.$func.deleteRecordHelper(this, this.processed_path_param, ids);
 
             this.fetchRecords();
+
+            return results;
         },
 
         updatePagination(pagination) {
