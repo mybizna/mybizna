@@ -4,7 +4,7 @@
 
             <div class="form-head mb-1 d-flex flex-wrap align-items-center pb-3">
 
-                <h3 class="font-medium text-lg text-gray mr-5 mb-0">{{  title  }}</h3>
+                <h3 class="font-medium text-lg text-gray mr-5 mb-0">{{ title }}</h3>
 
                 <a class="cursor-pointer text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
                     @click="saveRecord()">
@@ -57,7 +57,7 @@ export default {
         form_groups: { type: Array, default: () => [] },
         schema_fields: { type: Array, default: () => [] },
     },
-    created () {
+    created() {
         this.preparePathParam();
         this.addGeneralFields();
         this.processFormFields();
@@ -75,7 +75,7 @@ export default {
         window.$store.commit("system/is_recordpicker", false);
         window.$store.commit("system/is_edit", true);
     },
-    data () {
+    data() {
         return {
             id: null,
             group_list: [],
@@ -93,13 +93,13 @@ export default {
         };
     },
     methods: {
-        preparePathParam () {
+        preparePathParam() {
             var path_param = [];
 
-            if (Object.prototype.hasOwnProperty.call(this, 'path_param')) {
+            if (this.path_param.length !== 0) {
                 path_param = this.path_param;
-            }else{
-                path_param = [this.module,this.table];
+            } else {
+                path_param = [this.module, this.table];
             }
 
             this.processed_path_param = window.$func.pathParamHelper(path_param);
@@ -107,7 +107,7 @@ export default {
                 this.processed_path_param.path = this.passed_form_url;
             }
         },
-        addGeneralFields () {
+        addGeneralFields() {
             var t = this;
 
             if (t.has_modified && t.id) {
@@ -167,7 +167,7 @@ export default {
                 );
             }
         },
-        processFormFields () {
+        processFormFields() {
             var t = this;
             var groups = [];
 
@@ -207,7 +207,7 @@ export default {
                 t.schema.groups.push(tmp_group);
             });
         },
-        getSelectList (t, select_name, field_source) {
+        getSelectList(t, select_name, field_source) {
             var path_param_obj = window.$func.pathParamHelper(field_source.path_param);
 
             window.$func.fetchOptionsHelper(
@@ -217,12 +217,12 @@ export default {
                 field_source.fields
             );
         },
-        beforeFormFields (groups) {
+        beforeFormFields(groups) {
             var t = this;
             //To be developed if needed
             return groups;
         },
-        mainFormFields (groups) {
+        mainFormFields(groups) {
             var t = this;
 
             groups["main"] = {
@@ -235,7 +235,7 @@ export default {
 
             return groups;
         },
-        afterFormFields (groups) {
+        afterFormFields(groups) {
             var t = this;
 
             if (t.has_modified && t.id) {
@@ -249,7 +249,7 @@ export default {
             }
             return groups;
         },
-        fetchRecord (id) {
+        fetchRecord(id) {
 
             console.log(id);
             console.log(this.processed_path_param.path);
@@ -262,7 +262,7 @@ export default {
             );
         },
 
-        saveRecord () {
+        saveRecord() {
             var t = this;
 
             window.$func.saveRecordHelper(

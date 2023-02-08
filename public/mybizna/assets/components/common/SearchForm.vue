@@ -79,7 +79,6 @@ export default {
         if (Object.prototype.hasOwnProperty.call(meta, 'search_path')) {
             var search_path = meta.search_path;
 
-            console.log(search_path);
             if (search_path != '') {
                 this.compSearch = window.$func.fetchComponent(search_path);
                 this.show_search = true;
@@ -94,15 +93,12 @@ export default {
             data['search_fields'].forEach(field => {
                 this.model[field.name] = '';
             });
-            console.log(this.$store.state.system.search_path_params);
-            console.log(this.model);
-
         });
 
         this.$emitter.on('system-search', (newmodal) => {
 
             var search = this.$store.state.system.search;
-            var model =  newmodal.search;
+            var model =  newmodal;
             
             if(Object.prototype.hasOwnProperty.call(search, newmodal.module) && 
             Object.prototype.hasOwnProperty.call(search, newmodal.table)){
@@ -110,21 +106,13 @@ export default {
                 var oldmodel_obj = JSON.parse(oldmodel_str);
 
                 model = { ...oldmodel_obj.search, ...newmodal.search };
-
-                console.log('oldmodel_obj.search');
-                console.log(oldmodel_obj.search);
-                console.log('newmodal.search');
-                console.log(newmodal.search);
             }
             
-            console.log('this.$store.state.system.search');
-            console.log(model);
 
             this.$store.commit('system/search', { module: newmodal.module, table: newmodal.table, search: model });
 
             if (!this.changed_here) {
                 this.model = model;
-                console.log(model);
             }
         });
 
