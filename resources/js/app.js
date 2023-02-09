@@ -19,7 +19,9 @@ import NProgress from 'nprogress';
 import Axios from 'axios';
 //import axiosRetry from 'axios-retry';
 const rax = require('retry-axios');
-import VueSweetalert2 from 'vue-sweetalert2';
+import Notifications from '@kyvg/vue3-notification';
+import Vue3ConfirmDialog from 'vue3-confirm-dialog';
+import 'vue3-confirm-dialog/style';
 import {
     plugin,
     defaultConfig,
@@ -35,7 +37,6 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import "nprogress/nprogress.css";
-import 'sweetalert2/dist/sweetalert2.min.css';
 
 import filters from "@/utils/filters";
 
@@ -46,6 +47,7 @@ window.$filters = window.$func = window.$helper = filters;
 import autorouter from "@/components/router/autorouter";
 import Calendar from "@/components/common/Calendar";
 
+
 import App from '@/components/App';
 import "../css/app.css";
 
@@ -53,7 +55,8 @@ import "../css/app.css";
 import config from "@/formkit/config";
 
 const app = createApp(App)
-    .use(VueSweetalert2)
+    .use(Notifications)
+    .use(Vue3ConfirmDialog)
     .use(plugin, defaultConfig(config));
 
 //loadFonts();

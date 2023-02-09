@@ -355,7 +355,16 @@ export default {
 
             if (Object.prototype.hasOwnProperty.call(tmpitem, "record")) {
                 t.record = tmpitem.record;
+
+                t.$notify({
+                    title: 'Saving Action',
+                    text: 'Record Saved Successfully',
+                    type: 'error',
+                    speed: 1000,
+                    duration: 6000
+                });                
             }
+
         });
     },
 
@@ -504,17 +513,30 @@ export default {
             });
     },
 
-    deleteRecordHelper(this_var, path_param, ids) {
+    async deleteRecordHelper(this_var, path_param, ids) {
         const t = this_var;
         var results = [];
 
-        ids.forEach(id => {
-            window.axios.delete(path_param.path + "/" + id).then((response) => {
+        for (let i = 0; i < ids.length; i++) {
+            const id = ids[i];
+
+            await window.axios.delete(path_param.path + "/" + id).then((response) => {
+                t.$notify({
+                    title: 'Deleting Action',
+                    text: response.data.message,
+                    type: 'error',
+                    speed: 1000,
+                    duration: 6000
+                });
                 results.push({ id: id, result: response.data });
             });
-        });
 
-       return results;
+            console.log('deleteRecordHelper');
+            console.log(results);
+
+        }
+
+        return results;
     },
 
 

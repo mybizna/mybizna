@@ -12,6 +12,9 @@
 
     </template>
 
+    <notifications position="top right"/>
+    <vue3-confirm-dialog></vue3-confirm-dialog>
+
     <div class="mybizna-app">
         <app-topbar></app-topbar>
         <app-bar-nav-menu></app-bar-nav-menu>

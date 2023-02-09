@@ -10,7 +10,7 @@
                     </div>
                     <div class="flex-auto">
                         <div class="text-right  pt-2">
-                            <a class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
+                            <a class="whitespace-nowrap text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
                                 @click="addLink()">
                                 <i class="fa fa-plus"></i>
                                 Add New
@@ -25,9 +25,17 @@
                     <table class="table m-0 p-0">
                         <thead>
                             <tr class="bg-slate-100 px-7">
+
+                                <td class="text-center uppercase w-2.5">
+                                    <input @click="checkedItemsAll" type="checkbox" />
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                </td>
+
                                 <th class="uppercase" scope="col" v-for="(
                                         table_field, index
-                                    ) in table.headers" :key="index" :style="table_field.style"
+                                    ) in table_list.headers" :key="index" :style="table_field.style"
                                     :class="table_field.class">
                                     {{ table_field.label }}
                                 </th>
@@ -37,23 +45,21 @@
                             <template v-if="items.length">
                                 <tr v-for="(item, index) in items" :key="index"
                                     class="border-b-sky-200 hover:bg-slate-50">
+
+                                    <td class="text-center">
+                                        <input :value="item.id" v-model="checkedItems" class="form-check-input"
+                                            type="checkbox" name="item[]" />
+                                        <span class="form-check-sign">
+                                            <span class="check"></span>
+                                        </span>
+                                    </td>
+
                                     <td v-if="!hide_action_button">
                                         <menu-dropdown v-if="!is_recordpicker" :field_list="field_list" :pitem="item"
                                             :dropdown_menu_list="dropdown_menu_list"></menu-dropdown>
                                         <a v-else class="btn btn-primary btn-sm text-white"
                                             @click="recordPicker(item.id)">Select</a>
                                     </td>
-                                    <th v-if="hide_action_button" scope="row" class="col--check check-column">
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input :value="item.id" v-model="checkedItems" class="form-check-input"
-                                                    type="checkbox" name="item[]" />
-                                                <span class="form-check-sign">
-                                                    <span class="check"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                    </th>
 
                                     <template v-for="(table_field, index) in table_fields">
                                         <slot :name="key" :row="row">
@@ -214,20 +220,10 @@ export default {
     },
 
     mounted() {
-        this.$emitter.on('delete-record', (setting) => {
+        this.$emitter.on('delete-record', async (setting) => {
 
-            console.log('sdfsfdfsdf item');
-            console.log(setting);
-            console.log(this.processed_path_param);
+            await this.deleteRecords(setting.ids);
 
-            var results = this.deleteRecords(setting.ids);
-            console.log(results);
-            var message = `${window.$func.toUnicodeVariant('Result:', 'bold sans', 'bold')} \n\n`;
-            results.forEach(result => {
-                message += `${result.message}`;
-            });
-            alert(message);
-            
             this.fetchRecords();
 
             if (Object.prototype.hasOwnProperty.call(setting, "path")) {
@@ -346,6 +342,12 @@ export default {
         changeExpandStatus(id, expanded) {
             this.$set(this.expanded, id, !expanded[id]);
         },
+
+        checkedItemsAll() {
+            this.items.forEach(item => {
+                this.checkedItems.push(item.id);
+            });
+        },
         preparePathParam() {
             var path_param = [];
 
@@ -411,8 +413,10 @@ export default {
                     label: "",
                     key: "id",
                     sortable: false,
-                    width: "10px",
+                    class: " w-2.5 "
                 });
+
+
             }
 
             t.table_fields.forEach(function (table_field, index) {
@@ -473,8 +477,8 @@ export default {
             window.$func.fetchRecordsHelper(this, this.processed_path_param, this.search_fields, this.table_fields);
         },
 
-        deleteRecords(ids) {
-            var results = window.$func.deleteRecordHelper(this, this.processed_path_param, ids);
+        async deleteRecords(ids) {
+            var results = await window.$func.deleteRecordHelper(this, this.processed_path_param, ids);
 
             this.fetchRecords();
 
