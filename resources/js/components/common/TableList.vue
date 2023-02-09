@@ -8,7 +8,23 @@
                             <h3 class="inline-block font-medium text-lg text-gray ml-2 mr-5 mb-0">{{ title }}</h3>
                         </div>
                     </div>
-                    <div class="flex-auto">
+
+                    <div v-if="!is_recordpicker && !hide_action_button" class="flex-auto text-center invisible md:visible">
+
+                        <button class="mt-2 bg-blue-50 border-blue-200 btn btn-sm dropdown-toggle" type="button"
+                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" dot>
+                            Mass Actions
+                        </button>
+
+                        <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuLink">
+                            <li>
+                                <a class="dropdown-item cursor-point" @click="deleteCheckedItems()">Delete</a>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                    <div v-if="!is_recordpicker && !hide_action_button" class="flex-auto">
                         <div class="text-right  pt-2">
                             <a class="whitespace-nowrap text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
                                 @click="addLink()">
@@ -18,6 +34,9 @@
                         </div>
 
                     </div>
+                    <div v-if="is_recordpicker" class="flex-auto">
+                        <search-form></search-form>
+                    </div>
                 </div>
             </div>
             <div class="card-body p-0">
@@ -26,7 +45,7 @@
                         <thead>
                             <tr class="bg-slate-100 px-7">
 
-                                <td class="text-center uppercase w-2.5">
+                                <td v-if="!is_recordpicker && !hide_action_button" class="text-center uppercase w-2.5">
                                     <input @click="checkedItemsAll" type="checkbox" />
                                     <span class="form-check-sign">
                                         <span class="check"></span>
@@ -46,7 +65,7 @@
                                 <tr v-for="(item, index) in items" :key="index"
                                     class="border-b-sky-200 hover:bg-slate-50">
 
-                                    <td class="text-center">
+                                    <td v-if="!is_recordpicker && !hide_action_button" class="text-center">
                                         <input :value="item.id" v-model="checkedItems" class="form-check-input"
                                             type="checkbox" name="item[]" />
                                         <span class="form-check-sign">
@@ -124,16 +143,16 @@
                             <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
 
                             <template v-if="pagination.pages <= 5">
-                                <a v-for="index in getNumbers(1, pagination.pages)" :key="index" href="#"
+                                <a v-for="index in getNumbers(1, pagination.pages)" :key="index"
                                     :aria-current="index == pagination.page ? 'page' : ''"
                                     :class="[(index == pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
-                                    class="inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
+                                    class="inline-block cursor-pointer bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
                                     @click="loadPage(index)">
                                     {{ index }} </a>
                             </template>
 
                             <template v-else>
-                                <a class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
+                                <a class="inline-block cursor-pointer bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
                                     @click="loadPage(1)">
                                     <i class="fa-solid fa-caret-left"></i>
                                 </a>
@@ -144,7 +163,7 @@
                                     @click="loadPage(index)">
                                     {{ index }} </a>
                                 <span
-                                    class="inline-block  text-gray-600  leading-9 text-sm font-medium m-1 text-center">
+                                    class="inline-block cursor-pointer text-gray-600  leading-9 text-sm font-medium m-1 text-center">
                                     ... </span>
                                 <a v-for="index in getNumbers(pagination.pages - 2, pagination.pages)" :key="index"
                                     :aria-current="index == pagination.page ? 'page' : ''"
@@ -174,6 +193,9 @@ export default {
         ),
         MenuDropdown: window.$func.fetchComponent(
             "components/widgets/MenuDropdown.vue"
+        ),
+        SearchForm: window.$func.fetchComponent(
+            "components/common/SearchForm.vue"
         ),
     },
     props: {
@@ -254,6 +276,7 @@ export default {
             loading_message: "Fetching Data.",
             show_delete_btn: false,
             show_advance_form: false,
+            has_checked_items: false,
             select_list: {},
             checkedItems: [],
             opeList: [],
@@ -295,6 +318,8 @@ export default {
         /*pagination () {
             this.fetchRecords();
         },*/
+
+        
         model: {
             handler() {
                 this.fetchRecords();
@@ -342,11 +367,48 @@ export default {
         changeExpandStatus(id, expanded) {
             this.$set(this.expanded, id, !expanded[id]);
         },
+        deleteCheckedItems() {
 
+            var that = this;
+
+            if (!that.checkedItems.length) {
+                this.$confirm({ message: ' There are no Selected Items.', button: { yes: 'OK' }, });
+            } else {
+                var message = `Are you sure you want to <b class="whitespace-nowrap text-red-500">Delete All ${that.checkedItems.length} </b> selected Records?`;
+                this.$confirm(
+                    {
+                        message: message, button: { no: 'No', yes: 'Yes' },
+                        callback: confirm => {
+                            if (confirm) {
+                                that.deleteRecords(that.checkedItems);
+                                that.checkedItems = [];
+                                that.has_checked_items = false;
+
+                            }
+                        }
+                    }
+                )
+            }
+
+
+
+
+        },
         checkedItemsAll() {
-            this.items.forEach(item => {
-                this.checkedItems.push(item.id);
-            });
+
+            if (!this.has_checked_items) {
+
+                this.items.forEach(item => {
+                    this.checkedItems.push(item.id);
+                });
+
+                this.has_checked_items = true;
+            } else {
+                this.checkedItems = [];
+                this.has_checked_items = false;
+
+            }
+
         },
         preparePathParam() {
             var path_param = [];
