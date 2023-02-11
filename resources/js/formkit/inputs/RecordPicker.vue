@@ -22,7 +22,8 @@
                     </div>
 
                     <div class="modal-body p-0">
-                        <component :is="currentComp" :recordPicker="recordPicker" :is_recordpicker="is_recordpicker">
+                        <component :is="currentComp" :recordPicker="recordPicker"
+                            :setting="{ is_recordpicker:is_recordpicker }">
                         </component>
                     </div>
                 </div>
@@ -44,7 +45,7 @@ export default {
         context: Object,
     },
 
-    data () {
+    data() {
         return {
             currentComp: Loading,
             record: {},
@@ -53,7 +54,7 @@ export default {
             is_recordpicker: true
         }
     },
-    mounted () {
+    mounted() {
         if (parseInt(this.context.value)) {
             this.loadRecord(this.context.value);
         }
@@ -70,18 +71,18 @@ export default {
     },
 
     methods: {
-        async loadcomponent () {
+        async loadcomponent() {
             this.currentComp = await fetchComponent(
                 this.context.attrs.comp_url
             )
         },
-        modalToggle () {
+        modalToggle() {
             window.$store.commit("system/has_search", false);
             window.$store.commit("system/is_list", false);
             window.$store.commit("system/is_edit", true);
             window.$store.commit("system/is_recordpicker", false);
         },
-        recordPicker (id) {
+        recordPicker(id) {
             this.modalToggle();
 
             //Modal(document.getElementById(this.context.id + 'Modal')).hide();
@@ -89,7 +90,7 @@ export default {
 
             this.loadRecord(id);
         },
-        loadRecord (id) {
+        loadRecord(id) {
             const getdata = async (t, id) => {
                 t.message = t.context.attrs.setting.template;
 

@@ -4,12 +4,13 @@
             <div class="card-head">
                 <div class="flex">
                     <div class="flex-auto">
-                        <div v-if="!is_recordpicker" class="py-2">
+                        <div v-if="!settings.is_recordpicker" class="py-2">
                             <h3 class="inline-block font-medium text-lg text-gray ml-2 mr-5 mb-0">{{ title }}</h3>
                         </div>
                     </div>
 
-                    <div v-if="!is_recordpicker && !hide_action_button" class="flex-auto text-center invisible md:visible">
+                    <div v-if="!settings.is_recordpicker && !settings.hide_action_button && !(settings.hide_delete_button && !mass_actions.length)"
+                        class="flex-auto text-center invisible md:visible">
 
                         <button class="mt-2 bg-blue-50 border-blue-200 btn btn-sm dropdown-toggle" type="button"
                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" dot>
@@ -17,14 +18,14 @@
                         </button>
 
                         <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuLink">
-                            <li>
+                            <li v-if="!settings.hide_delete_button">
                                 <a class="dropdown-item cursor-point" @click="deleteCheckedItems()">Delete</a>
                             </li>
                         </ul>
 
 
                     </div>
-                    <div v-if="!is_recordpicker && !hide_action_button" class="flex-auto">
+                    <div v-if="!settings.is_recordpicker && !settings.hide_action_button" class="flex-auto">
                         <div class="text-right  pt-2">
                             <a class="whitespace-nowrap text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
                                 @click="addLink()">
@@ -34,7 +35,7 @@
                         </div>
 
                     </div>
-                    <div v-if="is_recordpicker" class="flex-auto">
+                    <div v-if="settings.is_recordpicker" class="flex-auto">
                         <search-form></search-form>
                     </div>
                 </div>
@@ -45,7 +46,8 @@
                         <thead>
                             <tr class="bg-slate-100 px-7">
 
-                                <td v-if="!is_recordpicker && !hide_action_button" class="text-center uppercase w-2.5">
+                                <td v-if="!settings.is_recordpicker && !settings.hide_action_button"
+                                    class="text-center uppercase w-2.5">
                                     <input @click="checkedItemsAll" type="checkbox" />
                                     <span class="form-check-sign">
                                         <span class="check"></span>
@@ -65,7 +67,8 @@
                                 <tr v-for="(item, index) in items" :key="index"
                                     class="border-b-sky-200 hover:bg-slate-50">
 
-                                    <td v-if="!is_recordpicker && !hide_action_button" class="text-center">
+                                    <td v-if="!settings.is_recordpicker && !settings.hide_action_button"
+                                        class="text-center">
                                         <input :value="item.id" v-model="checkedItems" class="form-check-input"
                                             type="checkbox" name="item[]" />
                                         <span class="form-check-sign">
@@ -73,9 +76,9 @@
                                         </span>
                                     </td>
 
-                                    <td v-if="!hide_action_button">
-                                        <menu-dropdown v-if="!is_recordpicker" :field_list="field_list" :pitem="item"
-                                            :dropdown_menu_list="dropdown_menu_list"></menu-dropdown>
+                                    <td v-if="!settings.hide_action_button">
+                                        <menu-dropdown v-if="!settings.is_recordpicker" :field_list="field_list"
+                                            :pitem="item" :dropdown_menu_list="dropdown_menu_list"></menu-dropdown>
                                         <a v-else class="btn btn-primary btn-sm text-white"
                                             @click="recordPicker(item.id)">Select</a>
                                     </td>
@@ -203,71 +206,16 @@ export default {
         table_snippet: Object,
         title: { type: String, default: "Listing", },
         classes: { type: String, default: "", },
-        module: { type: String, default: "", },
-        table: { type: String, default: "", },
         passed_return_url: { type: String, default: "", },
-        dropdown_menu: { type: Array, default: () => [] },
-        path_param: { type: Array, default: () => [] },
-        search: { type: Array, default: () => [] },
-        search_fields: { type: Array, default: () => [] },
-        table_fields: { type: Array, default: () => [] },
-        schema_fields: { type: Array, default: () => [] },
+        dropdown_menu: { type: Array, default: [] },
+        path_param: { type: Array, default: [] },
+        search: { type: Array, default: [] },
+        search_fields: { type: Array, default: [] },
+        table_fields: { type: Array, default: [] },
+        schema_fields: { type: Array, default: [] },
+        mass_actions: { type: Array, default: [] },
         recordPicker: { type: Object, default: () => { } },
-        is_recordpicker: { type: Boolean, default: false },
-        has_add_button: { type: Boolean, default: true },
-        hide_toolbar: { type: Boolean, default: false },
-        hide_delete_button: { type: Boolean, default: false },
-        hide_action_button: { type: Boolean, default: false },
-        hide_search_form: { type: Boolean, default: false },
-        hide_select_checkbox: { type: Boolean, default: false },
-    },
-    created() {
-        this.preparePathParam();
-        this.processDropdownMenu();
-        this.processFieldList();
-        this.presetTableStructure();
-        this.fetchRecords();
-
-        window.$store.commit("system/subtitle", this.title);
-        window.$store.commit("system/has_search", true);
-        window.$store.commit("system/search_fields", this.search_fields);
-        window.$store.commit("system/is_list", true);
-        window.$store.commit("system/is_edit", false);
-
-        if (this.is_recordpicker) {
-            window.$store.commit("system/is_recordpicker", true);
-        } else {
-            window.$store.commit("system/is_recordpicker", false);
-        }
-    },
-
-    mounted() {
-        this.$emitter.on('delete-record', async (setting) => {
-
-            await this.deleteRecords(setting.ids);
-
-            this.fetchRecords();
-
-            if (Object.prototype.hasOwnProperty.call(setting, "path")) {
-                if (setting.path.type == 'link') {
-                    this.$router.push(setting.path.link);
-                } else {
-                    this.$router.push({ name: setting.path.link });
-                }
-            }
-        });
-    },
-
-    emits: {
-        // Validate submit event
-        "bv::dropdown::show": (bvEvent) => {
-            this.table_style = { "padding-bottom": "700px" };
-            return true;
-        },
-        "bv::dropdown::hide": (bvEvent) => {
-            this.table_style = { "padding-bottom": "0px" };
-            return true;
-        },
+        setting: { type: Object, default: {} },
     },
     data() {
         return {
@@ -307,6 +255,15 @@ export default {
                 selected: [],
                 headers: [],
             },
+            settings: {
+                is_recordpicker: false,
+                has_add_button: true,
+                hide_toolbar: false,
+                hide_delete_button: false,
+                hide_action_button: false,
+                hide_search_form: false,
+                hide_select_checkbox: false,
+            }
         };
     },
     watch: {
@@ -319,7 +276,7 @@ export default {
             this.fetchRecords();
         },*/
 
-        
+
         model: {
             handler() {
                 this.fetchRecords();
@@ -332,6 +289,63 @@ export default {
             if (t.show_advance_form) {
                 t.search = "";
             }
+        },
+    },
+    created() {
+        this.settings = { ...this.settings, ...this.setting };
+        console.log(this.settings);
+
+        this.preparePathParam();
+        this.processDropdownMenu();
+        this.processFieldList();
+        this.presetTableStructure();
+        this.fetchRecords();
+
+        window.$store.commit("system/subtitle", this.title);
+        window.$store.commit("system/has_search", true);
+        window.$store.commit("system/search_fields", this.search_fields);
+        window.$store.commit("system/is_list", true);
+        window.$store.commit("system/is_edit", false);
+
+        if (this.is_recordpicker) {
+            window.$store.commit("system/is_recordpicker", true);
+        } else {
+            window.$store.commit("system/is_recordpicker", false);
+        }
+    },
+
+    mounted() {
+        this.$emitter.on('search-records', async (status) => {
+            if (status) {
+                this.fetchRecords();
+            }
+        });
+
+        this.$emitter.on('delete-record', async (setting) => {
+
+            await this.deleteRecords(setting.ids);
+
+            this.fetchRecords();
+
+            if (Object.prototype.hasOwnProperty.call(setting, "path")) {
+                if (setting.path.type == 'link') {
+                    this.$router.push(setting.path.link);
+                } else {
+                    this.$router.push({ name: setting.path.link });
+                }
+            }
+        });
+    },
+
+    emits: {
+        // Validate submit event
+        "bv::dropdown::show": (bvEvent) => {
+            this.table_style = { "padding-bottom": "700px" };
+            return true;
+        },
+        "bv::dropdown::hide": (bvEvent) => {
+            this.table_style = { "padding-bottom": "0px" };
+            return true;
         },
     },
 
@@ -411,17 +425,10 @@ export default {
 
         },
         preparePathParam() {
-            var path_param = [];
 
-            if (this.path_param.length !== 0) {
-                path_param = this.path_param;
-            } else {
-                path_param = [this.module, this.table];
-            }
+            this.$store.commit('system/search_path_params', this.path_param);
 
-            this.$store.commit('system/search_path_params', path_param);
-
-            this.processed_path_param = window.$func.pathParamHelper(path_param);
+            this.processed_path_param = window.$func.pathParamHelper(this.path_param);
         },
         processDropdownMenu() {
             const t = this;
@@ -441,14 +448,17 @@ export default {
                 t.dropdown_menu_list.push(dropdown_menu_single);
             });
 
-            t.dropdown_menu_list.push({
-                title: "Delete",
-                icon: "fa fa-trash",
-                type: "event",
-                name: this.processed_path_param.dotted + ".delete",
-                event: "delete-record",
-                return: this.processed_path_param.dotted + ".list",
-            });
+            if (!this.settings.hide_delete_button) {
+                t.dropdown_menu_list.push({
+                    title: "Delete",
+                    icon: "fa fa-trash",
+                    type: "event",
+                    name: this.processed_path_param.dotted + ".delete",
+                    event: "delete-record",
+                    return: this.processed_path_param.dotted + ".list",
+                });
+
+            }
 
 
         },
@@ -470,7 +480,7 @@ export default {
         presetTableStructure() {
             var t = this;
 
-            if (window.is_backend) {
+            if (!this.settings.is_recordpicker && !this.settings.hide_action_button) {
                 t.table_list.headers.push({
                     label: "",
                     key: "id",

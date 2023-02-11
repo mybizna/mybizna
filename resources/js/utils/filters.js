@@ -169,8 +169,12 @@ export default {
                 //"assets/" +
                 comp_path[0] + "/admin/" + comp_path[1] + "/" + comp_path[2];
         }
-
-        return fetchComponent(comp_path);
+        console.log(comp_path);
+        try {
+            return fetchComponent(comp_path);
+        } catch (error) {
+            throw new Error(`Error raised on file ${comp_path}`);
+        }
     },
 
     formatNumber(n) {
@@ -362,7 +366,7 @@ export default {
                     type: 'error',
                     speed: 1000,
                     duration: 6000
-                });                
+                });
             }
 
         });
@@ -459,6 +463,7 @@ export default {
                     : t.pagination.page * t.pagination.limit,
         };
 
+
         table_fields.forEach(function (table_field) {
             data["f"].push(table_field.name);
             if (Object.prototype.hasOwnProperty.call(table_field, "foreign")) {
@@ -468,10 +473,23 @@ export default {
             }
         });
 
+        //Get Filtered Data from Store.
+        var search_data = {};
+        try {
+            var path_params = t.$store.state.system.search_path_params;
+            console.log(t.$store.state.system.search);
+            search_data = t.$store.state.system.search[path_params[0]][path_params[1]];
+        } catch (error) {
+            // Pass
+        }
+
+        // Add Search Fields to Query
+        console.log(search_fields);
+
         search_fields.forEach(function (query_field) {
-            if (t.model[query_field.name] && t.model[query_field.name] !== "") {
+            if (search_data[query_field.name] && search_data[query_field.name] !== "") {
                 data["s"][query_field.name] = {
-                    str: t.model[query_field.name],
+                    str: search_data[query_field.name],
                 };
 
                 if (query_field.ope !== "") {
