@@ -14,10 +14,16 @@ module.exports = defineConfig({
     configureWebpack: {
 
         resolve: {
+            extensions: ['.js', '.vue', '.json', '.ts', '.tsx', '.jsx'],
+            //extensions: ['.js', '.vue', '.json'],
             alias: {
                 vue$: 'vue/dist/vue.esm-bundler.js',
                 '@': __dirname + '/resources/js'
-            }
+            },
+            fallback: {
+                "fs": false,
+                "path": require.resolve("path-browserify")
+            },
         },
         entry: {
             app: './resources/js/app.js'
@@ -27,9 +33,4 @@ module.exports = defineConfig({
         },
     },
 
-    pluginOptions: {
-        vuetify: {
-            // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
-        }
-    }
 })
