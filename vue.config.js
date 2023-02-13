@@ -20,10 +20,6 @@ module.exports = defineConfig({
                 vue$: 'vue/dist/vue.esm-bundler.js',
                 '@': __dirname + '/resources/js'
             },
-            fallback: {
-                "fs": false,
-                "path": require.resolve("path-browserify")
-            },
         },
         entry: {
             app: './resources/js/app.js'

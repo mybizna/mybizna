@@ -8,6 +8,7 @@ export default {
         subtitle: '',
         menu: [],
         active_menu: 'account',
+        menu_type: 'sidebar',
         menu_length: 0,
         has_search: false,
         is_list: false,
@@ -86,6 +87,9 @@ export default {
         },
         menu_length(state, payload) {
             state.menu_length = payload;
+        },
+        menu_type(state, payload) {
+            state.menu_type = payload;
         },
     },
     actions: {
