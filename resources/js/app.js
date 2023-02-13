@@ -17,7 +17,7 @@ import createPersistedState from "vuex-persistedstate";
 import NProgress from 'nprogress';
 
 import Axios from 'axios';
-//import axiosRetry from 'axios-retry';
+
 const rax = require('retry-axios');
 import Notifications from '@kyvg/vue3-notification';
 import Vue3ConfirmDialog from 'vue3-confirm-dialog';
@@ -146,6 +146,7 @@ Axios.defaults.raxConfig = {
         console.log(`Retry attempt #${cfg.currentRetryAttempt}`); // track current trial
     }
 };
+
 app.config.globalProperties.$http = app.config.globalProperties.$axios = window.axios = Axios;
 
 

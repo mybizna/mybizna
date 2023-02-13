@@ -1,7 +1,7 @@
 <template>
     <div :class="classes">
         <div :class="'card ' + getCardClassName()">
-            <div class="card-head">
+            <div v-if="$store.state.system.menu_type != 'sidebar'" class="card-head">
                 <div class="flex">
                     <div class="flex-auto">
                         <div v-if="!settings.is_recordpicker" class="py-2">
@@ -9,22 +9,6 @@
                         </div>
                     </div>
 
-                    <div v-if="!settings.is_recordpicker && !settings.hide_action_button && !(settings.hide_delete_button && !mass_actions.length)"
-                        class="flex-auto text-center invisible md:visible">
-
-                        <button class="mt-2 bg-blue-50 border-blue-200 btn btn-sm dropdown-toggle" type="button"
-                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" dot>
-                            Mass Actions
-                        </button>
-
-                        <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuLink">
-                            <li v-if="!settings.hide_delete_button">
-                                <a class="dropdown-item cursor-point" @click="deleteCheckedItems()">Delete</a>
-                            </li>
-                        </ul>
-
-
-                    </div>
                     <div v-if="!settings.is_recordpicker && !settings.hide_action_button" class="flex-auto">
                         <div class="text-right  pt-2">
                             <a class="whitespace-nowrap text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
@@ -33,7 +17,6 @@
                                 Add New
                             </a>
                         </div>
-
                     </div>
                     <div v-if="settings.is_recordpicker" class="flex-auto">
                         <search-form></search-form>
@@ -106,8 +89,8 @@
                 </div>
             </div>
             <div class="card-foot">
-                <div class="w-full row">
-                    <div class="col-4 col-sm-4">
+                <div class="flex">
+                    <div class="flex-auto">
                         <FormKit id="page_limit" type="select" v-model="pagination.limit" :options="pagination.limits"
                             validation="required" input-class="$reset form-select form-select-sm
                                     mt-2
@@ -130,17 +113,7 @@
 
 
                     </div>
-                    <div class="col-8 col-sm-4 text-center pt-3">
-
-                        <p class="text-center text-sm text-gray-700">
-                            Showing Page
-                            <span class="font-medium">{{ pagination.page }}</span>
-                            of
-                            <span class="font-medium">{{ pagination.pages }}</span>
-                            results.
-                        </p>
-                    </div>
-                    <div class="col-sm-4">
+                    <div class="flex-auto">
                         <nav class="text-right" aria-label="Pagination">
 
                             <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
@@ -181,6 +154,34 @@
                                 </a>
                             </template>
                         </nav>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="flex-auto">
+                        <div v-if="!settings.is_recordpicker && !settings.hide_action_button && !(settings.hide_delete_button && !mass_actions.length)"
+                            class="">
+
+                            <button class="mt-2 bg-blue-50 border-blue-200 btn btn-sm dropdown-toggle" type="button"
+                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" dot>
+                                Mass Actions
+                            </button>
+
+                            <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuLink">
+                                <li v-if="!settings.hide_delete_button">
+                                    <a class="dropdown-item cursor-point" @click="deleteCheckedItems()">Delete</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flex-auto  pt-3">
+                        <p class="text-right text-sm text-gray-700">
+                            Page:
+                            <span class="font-medium">{{ pagination.page }}</span>
+                            /
+                            <span class="font-medium">{{ pagination.pages }}</span>
+
+                        </p>
                     </div>
                 </div>
             </div>

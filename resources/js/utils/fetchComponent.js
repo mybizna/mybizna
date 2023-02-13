@@ -1,11 +1,12 @@
-import {
-    loadModule
-} from '@/vue3-sfc-loader';
+// import {
+//     loadModule
+// } from 'vue3-sfc-loader';
 
 import * as Vue from 'vue';
 
 import filters from "@/utils/filters";
 
+const { loadModule } = window['vue3-sfc-loader'];
 
 window.$filters = filters;
 window.$func = filters;
