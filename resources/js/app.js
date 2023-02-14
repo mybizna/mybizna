@@ -232,6 +232,10 @@ router.beforeEach((to, from, next) => {
     store.commit('system/search_fields', []);
     store.commit('system/search_path_params', []);
 
+    if (window.innerWidth < 640) {
+        window.$store.commit("system/sidebar_show", false);
+    }
+
 
     NProgress.start();
 

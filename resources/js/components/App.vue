@@ -23,12 +23,14 @@
             <template v-if="$store.state.system.menu_type == 'sidebar'">
                 <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
-                <div class="flex">
-                    <div v-if="$store.state.system.sidebar_show && windowWidth > 640"
-                        class="flex-none invisible md:visible w-56 bg-gradient-to-r from-indigo-50 to-indigo-100">
+                <div v-if="windowWidth > 640" class="flex">
+
+                    <div v-if="$store.state.system.sidebar_show"
+                        class="flex-none invisible md:visible w-56 bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
                         <app-sidebar></app-sidebar>
                     </div>
                     <div class="flex-auto">
+                        <!--  v-if="$store.state.system.is_list || $store.state.system.is_edit" -->
                         <app-topbar-actions></app-topbar-actions>
                         <main class="p-0">
                             <div class="app-content-container boxed-container">
@@ -36,8 +38,17 @@
                             </div>
                         </main>
                     </div>
-
                 </div>
+                <div v-else>
+                    <app-topbar-actions></app-topbar-actions>
+                    <main class="p-0">
+                        <div class="app-content-container boxed-container">
+                            <router-view></router-view>
+                        </div>
+                    </main>
+                </div>
+
+
             </template>
             <template v-else>
                 <app-topbar></app-topbar>
@@ -99,7 +110,9 @@ export default {
 
         window.$store = store;
 
-        window.$store.commit("system/sidebar_show", true);
+        if (window.innerWidth > 640) {
+            window.$store.commit("system/sidebar_show", true);
+        }
 
         const resolveLayout = computed(() => {
             // Handles initial route
