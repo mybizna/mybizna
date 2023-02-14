@@ -6,7 +6,8 @@
             <div class="flex justify-start pt-1 pl-1 mr-2 space-x-3 cursor-pointer text-blue-600">
 
                 <a @click="drawer">
-                    <i v-if="!$store.state.system.sidebar_show" class="fa-regular fa-circle-xmark  text-2xl text-red-500"></i>
+                    <i v-if="!$store.state.system.sidebar_show && windowWidth < 640"
+                        class="fa-regular fa-circle-xmark  text-2xl text-red-500"></i>
                     <i v-else class="fas fa-bars text-2xl text-white"></i>
                 </a>
 
@@ -60,11 +61,13 @@ export default {
     setup() {
         return {};
     },
+    props: {
+        windowWidth: { type: String, default: window.innerWidth },
+    },
     data() {
         return {
         }
     },
-
     methods: {
         logout() {
             this.$store.commit("auth/logout");

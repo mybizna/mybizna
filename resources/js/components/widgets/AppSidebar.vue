@@ -15,11 +15,11 @@
         <ul>
 
             <template v-for="(item, m_index) in $store.state.system.menu" :key="m_index">
-                <li class="text-gray-500 hover:text-gray-800 cursor-pointer">
-                    <a class="flex justify-between py-1 px-2 cursor-pointer text-base font-normal  rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
+                <li class="text-gray-600 hover:text-gray-800 cursor-pointer">
+                    <a class="flex justify-between p-1 cursor-pointer text-base font-normal  rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
                         @click="showMenu(m_index, 'main')">
-                        <div class="inline-block w-8 h-6 rounded-full align-middle">
-                            <i :class="item.icon + ' text-md'"></i>
+                        <div class="inline-block w-6 h-6 rounded-full align-middle">
+                            <i :class="item.icon + ' text-lg'"></i>
                         </div>
                         <span class="ml-1 grow leading-7 text-gray-800 hover:text-blue-800">
                             {{ item.title }}
@@ -93,7 +93,6 @@ export default {
             isOpen: true,
         }
     },
-
     methods: {
         showMenu(module, table) {
             if (!Object.prototype.hasOwnProperty.call(this.menu, module)) {

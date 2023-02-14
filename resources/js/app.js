@@ -29,8 +29,8 @@ import {
 
 import '@popperjs/core';
 
-import mitt from 'mitt';                  
-                 
+import mitt from 'mitt';
+
 //import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
@@ -69,7 +69,7 @@ let assets_url = window.assets_url;
 
 app.config.globalProperties.$base_url = base_url;
 app.config.globalProperties.$assets_url = assets_url;
-app.config.globalProperties.$emitter = mitt(); 
+app.config.globalProperties.$emitter = mitt();
 app.config.globalProperties.$male_default_avatar = 'images/avatar.png';
 app.config.globalProperties.$female_default_avatar = 'images/avatar2.png';
 
@@ -110,17 +110,17 @@ Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 // Add a request interceptor
 Axios.interceptors.request.use(function (config) {
-    store.commit('system/loading',true);
+    store.commit('system/loading', true);
     NProgress.start();
     return config;
 }, function (error) {
-    store.commit('system/loading',false);
+    store.commit('system/loading', false);
     return Promise.reject(error);
 });
 
 // Add a response interceptor
 Axios.interceptors.response.use(function (response) {
-    store.commit('system/loading',false);
+    store.commit('system/loading', false);
 
     if (Object.prototype.hasOwnProperty.call(response.data, 'message') && response.data.message == "Unauthenticated") {
         store.commit('auth/logout');
@@ -130,7 +130,7 @@ Axios.interceptors.response.use(function (response) {
     NProgress.done();
     return response;
 }, function (error) {
-    store.commit('system/loading',false);
+    store.commit('system/loading', false);
     return Promise.reject(error);
 });
 
@@ -225,7 +225,14 @@ app.use(store);
 
 router.beforeEach((to, from, next) => {
 
-    store.commit('system/loading',true);
+    store.commit('system/loading', true);
+    store.commit('system/is_list', false);
+    store.commit('system/is_edit', false);
+    store.commit('system/has_search', false);
+    store.commit('system/search_fields', []);
+    store.commit('system/search_path_params', []);
+
+
     NProgress.start();
 
     if (to.meta.middlewareAuth) {
@@ -260,7 +267,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
     // ...
-    store.commit('system/loading',false);
+    store.commit('system/loading', false);
     NProgress.done();
 });
 
