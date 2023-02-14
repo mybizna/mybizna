@@ -21,10 +21,10 @@
         <template v-if="$store.getters['auth/loggedIn']">
 
             <template v-if="$store.state.system.menu_type == 'sidebar'">
-                <app-topbar-sidebar></app-topbar-sidebar>
+                <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
                 <div class="flex">
-                    <div v-if="$store.state.system.sidebar_show"
+                    <div v-if="$store.state.system.sidebar_show && windowWidth > 640"
                         class="flex-none invisible md:visible w-56 bg-gradient-to-r from-indigo-50 to-indigo-100">
                         <app-sidebar></app-sidebar>
                     </div>
@@ -114,6 +114,22 @@ export default {
             resolveLayout,
         };
     },
+    create() {
+        alert(window.innerWidth);
+    },
+    data() {
+        return {
+            windowWidth: window.innerWidth,
+        }
+    },
+    mounted() {
+        window.onresize = () => {
+            this.windowWidth = window.innerWidth;
+            console.log(this.windowWidth);
+        }
+    }
+
+
 };
 </script>
 
