@@ -169,7 +169,7 @@ export default {
                 //"assets/" +
                 comp_path[0] + "/admin/" + comp_path[1] + "/" + comp_path[2];
         }
-        console.log(comp_path);
+
         try {
             return fetchComponent(comp_path);
         } catch (error) {
@@ -484,10 +484,12 @@ export default {
         }
 
         // Add Search Fields to Query
-        console.log(search_fields);
 
         search_fields.forEach(function (query_field) {
-            if (search_data[query_field.name] && search_data[query_field.name] !== "") {
+            if (
+                typeof search_data === 'object' && search_data !== null &&
+                Object.prototype.hasOwnProperty.call(search_data, query_field.name) && 
+            search_data[query_field.name] !== "") {
                 data["s"][query_field.name] = {
                     str: search_data[query_field.name],
                 };

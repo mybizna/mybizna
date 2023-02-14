@@ -96,7 +96,6 @@ export default {
     setup() {
         return {};
     },
-
     data() {
         return {
             menu: {},

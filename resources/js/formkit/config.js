@@ -17,13 +17,13 @@ import {
 
 //input: 'form-input rounded border py-2 px-3 focus:border-sky-500 hover:border-sky-500 text-grey-800 h-8 w-full',
 const full_width = {
-    label: ' text-gray-700 text-sm font-bold col-sm-12',
+    label: ' text-gray-700 text-sm font-bold col-sm-12 whitespace-nowrap',
     input: 'form-input rounded border py-2 px-3 focus:border-sky-500 hover:border-sky-500 text-grey-800 h-20 w-full',
     inner: 'col-md-12'
 };
 
 const textClassification = {
-    label: 'block mb-1 font-bold text-sm formkit-invalid:text-red-500',
+    label: 'block mb-1 font-bold text-sm formkit-invalid:text-red-500 whitespace-nowrap',
     //input: 'w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400',
     input: 'form-input rounded border py-2 px-3 focus:border-sky-500 hover:border-sky-500 text-grey-800 h-8 w-full',
 
@@ -34,7 +34,7 @@ const boxClassification = {
     wrapper: '$reset flex items-center mb-1 cursor-pointer',
     help: 'mb-2',
     input: 'form-check-input appearance-none h-5 w-5 mr-2 border border-gray-500 rounded-sm bg-white checked:bg-blue-500 focus:outline-none focus:ring-0 transition duration-200',
-    label: 'text-sm text-gray-700 mt-1'
+    label: 'text-sm text-gray-700 mt-1 whitespace-nowrap'
 }
 const buttonClassification = {
     wrapper: 'mb-1',
@@ -74,7 +74,7 @@ export default {
                 outer: 'form-group  mb-1 formkit-disabled:opacity-50',
                 help: 'text-xs text-gray-500 italic',
                 messages: 'list-none p-0 offset-md-4  mt-1 mb-2',
-                label: ' text-gray-700 text-sm font-bold col-md-4',
+                label: ' text-gray-700 text-sm font-bold col-md-4  whitespace-nowrap',
                 message: 'text-red-500 text-xs italic fs-10 w-lighter',
                 wrapper: 'row',
                 inner: 'col-md-8'
@@ -91,7 +91,7 @@ export default {
             checkbox: {
                 ...boxClassification,
                 inner: '$reset ',
-                label: '$reset text-gray-700 text-sm font-bold mt-1'
+                label: '$reset text-gray-700 text-sm font-bold mt-1 whitespace-nowrap'
             },
             email: textClassification,
             file: {
@@ -113,7 +113,7 @@ export default {
                 ...boxClassification,
                 input: boxClassification.input.replace('rounded-sm', 'rounded-full'),
                 inner: '$reset ',
-                label: '$reset text-gray-700 text-sm font-bold mt-1'
+                label: '$reset text-gray-700 text-sm font-bold mt-1 whitespace-nowrap'
             },
             range: {
                 inner: 'max-w-md',
@@ -142,7 +142,7 @@ export default {
             media: full_width,
             switch: {
                 wrapper: 'row',
-                label: 'text-gray-700 text-sm font-bold col-6 col-md-4',
+                label: 'text-gray-700 text-sm font-bold col-6 col-md-4 whitespace-nowrap',
                 inner: 'col-6'
             }
         }),
