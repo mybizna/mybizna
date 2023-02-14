@@ -1,7 +1,7 @@
 export default {
     namespaced: true,
     state: {
-        sidebar_show: false,
+        sidebar_show: true,
         layout: false,
         has_menu: false,
         title: 'Mybizna',

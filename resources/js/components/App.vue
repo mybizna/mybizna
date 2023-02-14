@@ -22,18 +22,34 @@
 
             <template v-if="$store.state.system.menu_type == 'sidebar'">
                 <app-topbar-sidebar></app-topbar-sidebar>
-                <app-topbar-actions></app-topbar-actions>
+
+                <div class="flex">
+                    <div v-if="$store.state.system.sidebar_show"
+                        class="flex-none invisible md:visible w-56 bg-gradient-to-r from-indigo-50 to-indigo-100">
+                        <app-sidebar></app-sidebar>
+                    </div>
+                    <div class="flex-auto">
+                        <app-topbar-actions></app-topbar-actions>
+                        <main class="p-0">
+                            <div class="app-content-container boxed-container">
+                                <router-view></router-view>
+                            </div>
+                        </main>
+                    </div>
+
+                </div>
             </template>
             <template v-else>
                 <app-topbar></app-topbar>
                 <app-bar-nav-menu></app-bar-nav-menu>
+                <main class="p-0">
+                    <div class="app-content-container boxed-container">
+                        <router-view></router-view>
+                    </div>
+                </main>
+
             </template>
 
-            <main class="p-0">
-                <div class="app-content-container boxed-container">
-                    <router-view></router-view>
-                </div>
-            </main>
 
         </template>
         <template v-else>
@@ -64,6 +80,7 @@ import { useStore } from "vuex";
 import { useRouter } from "@/utils";
 import AppBarNavMenu from "@/components/widgets/AppBarNavMenu.vue";
 import AppTopbar from "@/components/widgets/AppTopbar.vue";
+import AppSidebar from "@/components/widgets/AppSidebar.vue";
 import AppTopbarSidebar from "@/components/widgets/AppTopbarSidebar.vue";
 import AppTopbarActions from "@/components/widgets/AppTopbarActions.vue";
 
@@ -72,6 +89,7 @@ export default {
         AppBarNavMenu,
         AppTopbar,
         AppTopbarSidebar,
+        AppSidebar,
         AppTopbarActions,
     },
     setup() {
@@ -80,6 +98,8 @@ export default {
         const store = useStore();
 
         window.$store = store;
+
+        window.$store.commit("system/sidebar_show", true);
 
         const resolveLayout = computed(() => {
             // Handles initial route

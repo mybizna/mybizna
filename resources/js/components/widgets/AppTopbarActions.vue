@@ -1,9 +1,12 @@
 <template>
-    <div class=" bg-white shadow-sm z-10">
+    <div v-if="$store.state.system.is_list" class="bg-white shadow-sm z-10">
         <div class="flex">
             <div class="flex-auto">
-                <div class="ml-1 pt-2">
-                    <a class="uppercase whitespace-nowrap text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium text-sm  py-2 px-3  text-center"
+                <div class="ml-1">
+                    <span class="uppercase text-md" v-if="$store.state.system.subtitle != ''">
+                        {{ $store.state.system.subtitle }}
+                    </span><br>
+                    <a class="uppercase cursor-point whitespace-nowrap text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium text-sm  py-2 px-3  text-center"
                         @click="addLink()">
                         <i class="fa fa-plus"></i>
                         Create
