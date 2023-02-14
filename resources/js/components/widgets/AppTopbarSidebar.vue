@@ -5,7 +5,10 @@
         <div class="flex-auto">
             <div class="flex justify-start pt-1 pl-1 mr-2 space-x-3 cursor-pointer text-blue-600">
 
-                <i class="fas fa-bars text-2xl text-white"></i>
+                <a @click="drawer">
+                    <i v-if="!$store.state.system.sidebar_show" class="fa-regular fa-circle-xmark  text-2xl text-red-500"></i>
+                    <i v-else class="fas fa-bars text-2xl text-white"></i>
+                </a>
 
                 <h2 class="text-md leading-7 h-8 text-white"
                     :alt="($store.state.system.menu[$store.state.system.active_menu] ? $store.state.system.menu[$store.state.system.active_menu]['title'] : '') + ' - ' + $store.state.system.subtitle">
@@ -27,9 +30,24 @@
             </div>
         </div>
     </div>
+
+
+    <aside v-if="$store.state.system.sidebar_show"
+        class="transform top-10 left-0 w-56 bg-gradient-to-r from-indigo-50 to-indigo-100 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 translate-x-0 visible md:invisible ">
+        <h5 class="p-2 font-semibold text-indigo-700 uppercase dark:text-indigo-400">
+            <span class="uppercase">
+                {{ $store.state.system.title }}
+            </span>
+        </h5>
+
+        <app-sidebar></app-sidebar>
+    </aside>
+
+
 </template>
 
 <script>
+import AppSidebar from "@/components/widgets/AppSidebar.vue";
 import AppTopbarIconAvatar from "@/components/widgets/AppTopbarIconAvatar.vue";
 import AppTopbarIconOthers from "@/components/widgets/AppTopbarIconOthers.vue";
 
@@ -37,16 +55,26 @@ export default {
     components: {
         AppTopbarIconAvatar,
         AppTopbarIconOthers,
+        AppSidebar
     },
     setup() {
         return {};
+    },
+    data() {
+        return {
+        }
     },
 
     methods: {
         logout() {
             this.$store.commit("auth/logout");
         },
+        drawer() {
+            this.$store.commit("system/sidebar_show", !this.$store.state.system.sidebar_show);
+        }
     },
+    mounted() {
+    }
 };
 </script>
 

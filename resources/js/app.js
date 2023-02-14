@@ -2,7 +2,7 @@ import './public-path.js'
 import {
     createApp
 } from 'vue';
-import router from '@/components/router';
+import router from '@/router';
 /** import {
     loadFonts
  } from './plugins/webfontloader';
@@ -44,7 +44,7 @@ window.$Modal = Modal;
 
 window.$filters = window.$func = window.$helper = filters;
 
-import autorouter from "@/components/router/autorouter";
+import autorouter from "@/router/autorouter";
 import Calendar from "@/components/common/Calendar";
 
 
