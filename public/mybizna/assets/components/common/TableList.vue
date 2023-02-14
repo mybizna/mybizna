@@ -24,13 +24,13 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <div class="table-responsive table-responsive-sm" v-bind:style="table_style">
+                <div class="table-responsive" v-bind:style="table_style">
                     <table class="table m-0 p-0">
                         <thead>
                             <tr class="bg-slate-100 px-7">
 
                                 <td v-if="!settings.is_recordpicker && !settings.hide_action_button"
-                                    class="text-center uppercase w-2.5">
+                                    class="text-center uppercase w-2.5 whitespace-nowrap">
                                     <input @click="checkedItemsAll" type="checkbox" />
                                     <span class="form-check-sign">
                                         <span class="check"></span>
@@ -40,7 +40,7 @@
                                 <th class="uppercase" scope="col" v-for="(
                                         table_field, index
                                     ) in table_list.headers" :key="index" :style="table_field.style"
-                                    :class="table_field.class">
+                                    :class="table_field.class+' text-center uppercase whitespace-nowrap p-1.5'">
                                     {{ table_field.label }}
                                 </th>
                             </tr>
@@ -48,8 +48,7 @@
                         <tbody class="border-none">
                             <template v-if="items.length">
                                 <tr v-for="(item, index) in items" :key="index"
-                                    class="border-b-sky-200 hover:bg-slate-50">
-
+                                    class="border-b-sky-200 hover:bg-slate-50 border-b">
                                     <td v-if="!settings.is_recordpicker && !settings.hide_action_button"
                                         class="text-center">
                                         <input :value="item.id" v-model="checkedItems" class="form-check-input"
@@ -428,8 +427,10 @@ export default {
         preparePathParam() {
 
             this.$store.commit('system/search_path_params', this.path_param);
-
+            
             this.processed_path_param = window.$func.pathParamHelper(this.path_param);
+
+            this.$store.commit('system/path_params', this.processed_path_param);
         },
         processDropdownMenu() {
             const t = this;

@@ -6,7 +6,7 @@
             <div class="flex justify-start pt-1 pl-1 mr-2 space-x-3 cursor-pointer text-blue-600">
 
                 <a @click="drawer">
-                    <i v-if="!$store.state.system.sidebar_show && windowWidth < 640"
+                    <i v-if="$store.state.system.sidebar_show && windowWidth < 640"
                         class="fa-regular fa-circle-xmark  text-2xl text-red-500"></i>
                     <i v-else class="fas fa-bars text-2xl text-white"></i>
                 </a>
@@ -34,7 +34,7 @@
 
 
     <aside v-if="$store.state.system.sidebar_show"
-        class="transform top-10 left-0 w-56 bg-gradient-to-r from-indigo-50 to-indigo-100 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 translate-x-0 visible md:invisible ">
+        class="transform top-10 left-0 w-56 bg-gradient-to-r from-indigo-50 to-indigo-100  border-r-2 border-r border-indigo-200 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 translate-x-0 visible md:invisible ">
         <h5 class="p-2 font-semibold text-indigo-700 uppercase dark:text-indigo-400">
             <span class="uppercase">
                 {{ $store.state.system.title }}

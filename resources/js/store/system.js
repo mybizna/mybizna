@@ -17,6 +17,7 @@ export default {
         search: [],
         search_fields: [],
         search_path_params: [],
+        path_params: {},
         search_changes: '',
     },
     getters: {
@@ -69,6 +70,9 @@ export default {
         },
         search_path_params(state, payload) {
             state.search_path_params = payload;
+        },
+        path_params(state, payload) {
+            state.path_params = payload;
         },
         search_changes(state, payload) {
             state.search_changes = payload;

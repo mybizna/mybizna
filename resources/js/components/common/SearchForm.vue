@@ -23,7 +23,7 @@
                         <div>
                             <b> &nbsp; </b>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <button type="submit" class="pr-1 btn btn-outline-danger btn-sm">
                                     Cancel
                                 </button>
                                 &nbsp;&nbsp;
