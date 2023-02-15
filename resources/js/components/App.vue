@@ -23,13 +23,13 @@
             <template v-if="$store.state.system.menu_type == 'sidebar'">
                 <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
-                <div v-if="$store.state.system.sidebar_show" class="row">
+                <div v-if="windowWidth >= $responsive_point" class="row">
 
-                    <div v-if="windowWidth >= $responsive_point"
+                    <div v-if="$store.state.system.sidebar_show"
                         class="mr-0 col-sm-2 invisible md:visible bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
                         <app-sidebar></app-sidebar>
                     </div>
-                    <div :class="windowWidth >= $responsive_point ? 'col-sm-10' : 'col-sm-12'" class="ml-0 pl-0">
+                    <div :class="$store.state.system.sidebar_show ? 'col-sm-10' : 'col-sm-12'" class="ml-0 pl-0">
                         <!--  v-if="$store.state.system.is_list || $store.state.system.is_edit" -->
                         <app-topbar-actions></app-topbar-actions>
                         <main class="p-0">
@@ -110,7 +110,7 @@ export default {
 
         window.$store = store;
 
-        if (window.innerWidth >= this.$responsive_point) {
+        if (window.innerWidth >=  window.responsive_point) {
             window.$store.commit("system/sidebar_show", true);
         }
 

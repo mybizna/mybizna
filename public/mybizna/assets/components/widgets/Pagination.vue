@@ -1,5 +1,5 @@
 <template>
-    <nav class="text-center my-2" aria-label="Pagination">
+    <nav v-if="pagination.pages" class="text-center my-2" aria-label="Pagination">
 
         <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
 
@@ -57,9 +57,8 @@ export default {
     },
     created() {
         var t = this;
-
+        console.log(t.pagination);
     },
-   
     methods: {
         loadPage: function (page) {
 

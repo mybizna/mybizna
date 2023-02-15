@@ -231,6 +231,10 @@ router.beforeEach((to, from, next) => {
     store.commit('system/search_fields', []);
     store.commit('system/search_path_params', []);
 
+    console.log('-----------------------');
+    console.log(window.innerWidth);
+    console.log(window.responsive_point);
+
     if (window.innerWidth < window.responsive_point) {
         window.$store.commit("system/sidebar_show", false);
     }

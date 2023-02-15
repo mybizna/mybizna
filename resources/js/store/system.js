@@ -7,7 +7,11 @@ export default {
         title: 'Mybizna',
         subtitle: '',
         menu: [],
-        active_menu: 'account',
+        active_menu: 'dashboard',
+        active_link: '',
+        active_subs_1: '-1',
+        active_subs_2: '',
+        active_subs_3: '',
         menu_type: 'sidebar',
         menu_length: 0,
         has_search: false,
@@ -20,7 +24,6 @@ export default {
         path_params: {},
         search_changes: '',
         window_width: 1000,
-        select_menu: [],
     },
     getters: {
         search: state => state.search,
@@ -94,8 +97,17 @@ export default {
         active_menu(state, payload) {
             state.active_menu = payload;
         },
-        select_menu(state, payload) {
-            state.select_menu = payload;
+        active_link(state, payload) {
+            state.active_link = payload;
+        },
+        active_subs_1(state, payload) {
+            state.active_subs_1 = payload;
+        },
+        active_subs_2(state, payload) {
+            state.active_subs_2 = payload;
+        },
+        active_subs_3(state, payload) {
+            state.active_subs_3 = payload;
         },
         menu_length(state, payload) {
             state.menu_length = payload;
