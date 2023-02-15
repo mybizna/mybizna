@@ -16,20 +16,20 @@
     <notifications position="top right" />
     <vue3-confirm-dialog></vue3-confirm-dialog>
 
-    <div class="mybizna-app">
+    <div class="mybizna-app overflow-x-hidden">
 
         <template v-if="$store.getters['auth/loggedIn']">
 
             <template v-if="$store.state.system.menu_type == 'sidebar'">
                 <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
-                <div v-if="windowWidth > 640" class="flex">
+                <div v-if="$store.state.system.sidebar_show" class="row">
 
-                    <div v-if="$store.state.system.sidebar_show"
-                        class="flex-none invisible md:visible w-56 bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
+                    <div v-if="windowWidth >= $responsive_point"
+                        class="mr-0 col-sm-2 invisible md:visible bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
                         <app-sidebar></app-sidebar>
                     </div>
-                    <div class="flex-auto">
+                    <div :class="windowWidth >= $responsive_point ? 'col-sm-10' : 'col-sm-12'" class="ml-0 pl-0">
                         <!--  v-if="$store.state.system.is_list || $store.state.system.is_edit" -->
                         <app-topbar-actions></app-topbar-actions>
                         <main class="p-0">
@@ -110,7 +110,7 @@ export default {
 
         window.$store = store;
 
-        if (window.innerWidth > 640) {
+        if (window.innerWidth >= this.$responsive_point) {
             window.$store.commit("system/sidebar_show", true);
         }
 
@@ -138,7 +138,12 @@ export default {
     mounted() {
         window.onresize = () => {
             this.windowWidth = window.innerWidth;
-            console.log(this.windowWidth);
+            window.$store.commit("system/window_width", this.windowWidth);
+        }
+
+        window.onload = () => {
+            this.windowWidth = window.innerWidth;
+            window.$store.commit("system/window_width", this.windowWidth);
         }
     }
 
