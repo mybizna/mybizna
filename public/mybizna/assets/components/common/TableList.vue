@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <div class="table-responsive" v-bind:style="table_style">
+                <div class="table-responsive overflow-x-scroll" v-bind:style="table_style">
                     <table class="table m-0 p-0">
                         <thead>
                             <tr class="bg-slate-100 px-7">
@@ -40,7 +40,7 @@
                                 <th class="uppercase" scope="col" v-for="(
                                         table_field, index
                                     ) in table_list.headers" :key="index" :style="table_field.style"
-                                    :class="table_field.class+' text-center uppercase whitespace-nowrap p-1.5'">
+                                    :class="table_field.class + ' text-center uppercase whitespace-nowrap p-1.5'">
                                     {{ table_field.label }}
                                 </th>
                             </tr>
@@ -48,7 +48,7 @@
                         <tbody class="border-none">
                             <template v-if="items.length">
                                 <tr v-for="(item, index) in items" :key="index"
-                                    class="border-b-sky-200 hover:bg-slate-50 border-b">
+                                    class="border-b-sky-200 hover:bg-slate-50 border-b border-b-sky-100">
                                     <td v-if="!settings.is_recordpicker && !settings.hide_action_button"
                                         class="text-center">
                                         <input :value="item.id" v-model="checkedItems" class="form-check-input"
@@ -80,7 +80,7 @@
                             <tr class="border-b-sky-200" v-else>
                                 <td colspan="20" class="text-center hover:bg-slate-50">
                                     <img class="inline-block w-36 m-6"
-                                        :src='this.$assets_url + "/images/no_data_found.svg"'>
+                                        :src="this.$assets_url + '/images/no_data_found.svg'">
                                 </td>
                             </tr>
                         </tbody>
@@ -88,6 +88,9 @@
                 </div>
             </div>
             <div class="card-foot">
+
+                <pagination :pagination="pagination"></pagination>
+
                 <div class="flex">
                     <div class="flex-auto">
                         <FormKit id="page_limit" type="select" v-model="pagination.limit" :options="pagination.limits"
@@ -113,52 +116,11 @@
 
                     </div>
                     <div class="flex-auto">
-                        <nav class="text-right" aria-label="Pagination">
-
-                            <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-
-                            <template v-if="pagination.pages <= 5">
-                                <a v-for="index in getNumbers(1, pagination.pages)" :key="index"
-                                    :aria-current="index == pagination.page ? 'page' : ''"
-                                    :class="[(index == pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
-                                    class="inline-block cursor-pointer bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
-                                    @click="loadPage(index)">
-                                    {{ index }} </a>
-                            </template>
-
-                            <template v-else>
-                                <a class="inline-block cursor-pointer bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
-                                    @click="loadPage(1)">
-                                    <i class="fa-solid fa-caret-left"></i>
-                                </a>
-                                <a v-for="index in getNumbers(1, 3)" :key="index"
-                                    :aria-current="index == pagination.page ? 'page' : ''"
-                                    :class="[(index == pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
-                                    class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
-                                    @click="loadPage(index)">
-                                    {{ index }} </a>
-                                <span
-                                    class="inline-block cursor-pointer text-gray-600  leading-9 text-sm font-medium m-1 text-center">
-                                    ... </span>
-                                <a v-for="index in getNumbers(pagination.pages - 2, pagination.pages)" :key="index"
-                                    :aria-current="index == pagination.page ? 'page' : ''"
-                                    :class="[(index == pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
-                                    class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
-                                    @click="loadPage(index)">
-                                    {{ index }} </a>
-                                <a :class="[(index == pagination.page ? 'bg-gray-500 text-gray-50' : '')]"
-                                    class="cursor-pointer inline-block bg-gray-50 border-gray-500 text-gray-600 h-9 w-9 leading-8 border text-sm font-medium rounded-full m-1 text-center"
-                                    @click="loadPage(pagination.pages)">
-                                    <i class="fa-solid fa-caret-right"></i>
-                                </a>
-                            </template>
-                        </nav>
+                        <pagination :pagination="pagination"></pagination>
                     </div>
-                </div>
-                <div class="flex">
                     <div class="flex-auto">
                         <div v-if="!settings.is_recordpicker && !settings.hide_action_button && !(settings.hide_delete_button && !mass_actions.length)"
-                            class="">
+                            class="text-right">
 
                             <button class="mt-2 bg-blue-50 border-blue-200 btn btn-sm dropdown-toggle" type="button"
                                 id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" dot>
@@ -173,16 +135,10 @@
                         </div>
                     </div>
 
-                    <div class="flex-auto  pt-3">
-                        <p class="text-right text-sm text-gray-700">
-                            Page:
-                            <span class="font-medium">{{ pagination.page }}</span>
-                            /
-                            <span class="font-medium">{{ pagination.pages }}</span>
 
-                        </p>
-                    </div>
                 </div>
+
+
             </div>
         </div>
     </div>
@@ -196,6 +152,9 @@ export default {
         ),
         MenuDropdown: window.$func.fetchComponent(
             "components/widgets/MenuDropdown.vue"
+        ),
+        Pagination: window.$func.fetchComponent(
+            "components/widgets/Pagination.vue"
         ),
         SearchForm: window.$func.fetchComponent(
             "components/common/SearchForm.vue"
@@ -350,23 +309,6 @@ export default {
     },
 
     methods: {
-        loadPage: function (page) {
-
-            if (page < 1) {
-                page = 1;
-            } else if (page > this.pagination.pages) {
-                page = this.pagination.pages;
-            }
-
-            this.pagination.page = page;
-
-            this.fetchRecords();
-        },
-        getNumbers: function (start, stop) {
-            var tmp_array = new Array(stop - start).fill(start).map((n, i) => n + i);
-            tmp_array.push(stop);
-            return tmp_array;
-        },
         getCardClassName(prefix = '') {
             return (!this.is_recordpicker) ? prefix + ' shadow-md m-1 mt-3' : ' border-0';
         },
@@ -427,7 +369,7 @@ export default {
         preparePathParam() {
 
             this.$store.commit('system/search_path_params', this.path_param);
-            
+
             this.processed_path_param = window.$func.pathParamHelper(this.path_param);
             console.log(this.processed_path_param);
 

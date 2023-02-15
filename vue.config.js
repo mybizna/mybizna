@@ -2,6 +2,9 @@ const {
     defineConfig
 } = require('@vue/cli-service');
 
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+
+
 module.exports = defineConfig({
     transpileDependencies: true,
     runtimeCompiler: true,
@@ -27,6 +30,16 @@ module.exports = defineConfig({
         optimization: {
             splitChunks: false,
         },
+        plugins: [
+            // To strip all locales except “en”
+            new MomentLocalesPlugin(),
+
+            // Or: To strip all locales except “en”, “es-us” and “ru”
+            // (“en” is built into Moment and can’t be removed)
+            new MomentLocalesPlugin({
+                localesToKeep: ['es-us'],
+            }),
+        ],
     },
 
 })

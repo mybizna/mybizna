@@ -19,6 +19,8 @@ export default {
         search_path_params: [],
         path_params: {},
         search_changes: '',
+        window_width: 1000,
+        select_menu: [],
     },
     getters: {
         search: state => state.search,
@@ -77,6 +79,9 @@ export default {
         search_changes(state, payload) {
             state.search_changes = payload;
         },
+        window_width(state, payload) {
+            state.window_width = payload;
+        },
         has_search(state, payload) {
             state.has_search = payload;
         },
@@ -88,6 +93,9 @@ export default {
         },
         active_menu(state, payload) {
             state.active_menu = payload;
+        },
+        select_menu(state, payload) {
+            state.select_menu = payload;
         },
         menu_length(state, payload) {
             state.menu_length = payload;

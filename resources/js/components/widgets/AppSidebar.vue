@@ -14,7 +14,7 @@
 
         <ul>
             <li class="text-gray-600 hover:text-gray-800 cursor-pointer">
-                <a class="flex justify-between p-1 cursor-pointer text-base font-normal  rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
+                <a class="flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
                     :href="'#/'" @click="toggleSideMenu">
                     <div class="inline-block w-6 h-6 rounded-full align-middle">
                         <i class="fas fa-home text-lg"></i>
@@ -26,7 +26,7 @@
             </li>
             <template v-for="(item, m_index) in $store.state.system.menu" :key="m_index">
                 <li class="text-gray-600 hover:text-gray-800 cursor-pointer">
-                    <a class="flex justify-between p-1 cursor-pointer text-base font-normal  rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
+                    <a class="flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
                         @click="showMenu(m_index, 'main')">
                         <div class="inline-block w-6 h-6 rounded-full align-middle">
                             <i :class="item.icon + ' text-lg'"></i>
@@ -64,7 +64,7 @@
                                         <hr class="border-dotted border-blue-700" />
                                     </li>
                                     <li v-else>
-                                        <a :href="'#' + subitemmenu.path"  @click="toggleSideMenu"
+                                        <a :href="'#' + subitemmenu.path" @click="toggleSideMenu"
                                             class="flex items-center w-full p-1 pl-7 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700">
                                             <i class="fas fa-caret-right fs-8 mr-1 leading-8"></i>
                                             {{ subitemmenu.title }}
@@ -76,7 +76,7 @@
 
                         </template>
                         <li v-else>
-                            <a :href="'#' + subitem.path"  @click="toggleSideMenu"
+                            <a :href="'#' + subitem.path" @click="toggleSideMenu"
                                 class="flex items-center w-full p-1 pl-4 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700">
                                 <i class="fas fa-circle fs-6 mr-1 leading-8"></i>
                                 {{ subitem.title }}
@@ -112,7 +112,10 @@ export default {
             if (!Object.prototype.hasOwnProperty.call(this.menu, module)) {
                 this.menu[module] = {};
             }
+
             this.menu[module][table] = !this.menu[module][table];
+
+            window.$store.commit("system/select_menu", [module, table]);
         }
     }
 };
