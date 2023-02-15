@@ -14,19 +14,23 @@
 
         <ul>
             <li class="text-gray-600 hover:text-gray-800 cursor-pointer">
-                <a class="flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
-                    :href="'#/'" @click="toggleSideMenu">
+                <a :class="($store.state.system.active_subs_1 == '-1') ? 'bg-white' : ''"
+                    class="flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
+                    :href="'#/'" @click="toggleSideMenu('-1')">
                     <div class="inline-block w-6 h-6 rounded-full align-middle">
                         <i class="fas fa-home text-lg"></i>
                     </div>
                     <span class="ml-1 grow leading-7 text-gray-800 hover:text-blue-800">
-                        Dashboard
+                        Dashboard {{ $store.state.system.active_subs_1 }} - 
+                        {{ $store.state.system.active_subs_2 }} - 
+                        {{ $store.state.system.active_subs_3 }}
                     </span>
                 </a>
             </li>
             <template v-for="(item, m_index) in $store.state.system.menu" :key="m_index">
                 <li class="text-gray-600 hover:text-gray-800 cursor-pointer">
-                    <a class="flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
+                    <a :class="($store.state.system.active_subs_1 == m_index) ? 'bg-white' : ''"
+                        class="flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
                         @click="showMenu(m_index, 'main')">
                         <div class="inline-block w-6 h-6 rounded-full align-middle">
                             <i :class="item.icon + ' text-lg'"></i>
@@ -45,7 +49,8 @@
 
                         <template v-if="subitem.list.length">
                             <li>
-                                <a class="flex justify-between py-1 pl-4 pr-2 cursor-point text-base font-normal  rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
+                                <a :class="($store.state.system.active_subs_1 == m_index && $store.state.system.active_subs_2 == t_index) ? 'bg-white' : ''"
+                                    class="flex justify-between py-1 pl-4 pr-2 cursor-point text-base font-normal  rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
                                     @click="showMenu(m_index, t_index)">
                                     <i class="fas fa-circle fs-6 mr-1 leading-8"></i>
                                     <span class="ml-1 grow leading-8 text-gray-900">
@@ -59,13 +64,15 @@
                                 :aria-labelledby="'menu-' + m_index + '-' + t_index"
                                 :class="(menu[m_index] && menu[m_index][t_index]) ? '' : 'hidden'" class="py-1 ">
 
-                                <template v-for="(subitemmenu, t_index) in subitem.list" :key="t_index">
+                                <template v-for="(subitemmenu, s_index) in subitem.list" :key="s_index">
                                     <li v-if="subitemmenu.title == ''" class="pl-7 pr-2">
                                         <hr class="border-dotted border-blue-700" />
                                     </li>
                                     <li v-else>
-                                        <a :href="'#' + subitemmenu.path" @click="toggleSideMenu"
-                                            class="flex items-center w-full p-1 pl-7 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700">
+                                        <a :href="'#' + subitemmenu.path"
+                                            :class="($store.state.system.active_subs_1 == m_index && $store.state.system.active_subs_2 == t_index && $store.state.system.active_subs_3 == s_index) ? 'bg-white' : ''"
+                                            class="flex items-center w-full p-1 pl-7 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700"
+                                            @click="toggleSideMenu(m_index, t_index, s_index)">
                                             <i class="fas fa-caret-right fs-8 mr-1 leading-8"></i>
                                             {{ subitemmenu.title }}
                                         </a>
@@ -76,7 +83,8 @@
 
                         </template>
                         <li v-else>
-                            <a :href="'#' + subitem.path" @click="toggleSideMenu"
+                            <a :href="'#' + subitem.path" @click="toggleSideMenu(m_index, t_index)"
+                                :class="($store.state.system.active_subs_1 == m_index && $store.state.system.active_subs_2 == t_index) ? 'bg-white' : ''"
                                 class="flex items-center w-full p-1 pl-4 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700">
                                 <i class="fas fa-circle fs-6 mr-1 leading-8"></i>
                                 {{ subitem.title }}
@@ -103,19 +111,44 @@ export default {
         }
     },
     methods: {
-        toggleSideMenu() {
-            if (window.innerWidth < 640) {
-                window.$store.commit("system/sidebar_show", false);
+        toggleSideMenu(m_index = '', t_index = '', s_index = '') {
+
+            this.$store.commit("system/active_subs_1", '');
+            this.$store.commit("system/active_subs_2", '');
+            this.$store.commit("system/active_subs_3", '');
+
+            if (m_index != '') {
+                this.$store.commit("system/active_subs_1", m_index);
+            }
+
+            if (t_index != '') {
+                this.$store.commit("system/active_subs_2", t_index);
+            }
+
+            if (s_index != '') {
+                this.$store.commit("system/active_subs_3", s_index);
+            }
+
+            if (window.innerWidth < this.$responsive_point) {
+                this.$store.commit("system/sidebar_show", false);
             }
         },
         showMenu(module, table) {
+
+            this.menu={};
+
             if (!Object.prototype.hasOwnProperty.call(this.menu, module)) {
                 this.menu[module] = {};
             }
 
+            if (window.innerWidth < this.$responsive_point) {
+                window.$store.commit("system/sidebar_show", false);
+            }
+
             this.menu[module][table] = !this.menu[module][table];
 
-            window.$store.commit("system/select_menu", [module, table]);
+            this.$store.commit("system/active_menu", module);
+            this.$store.commit("system/active_submenu", table);
         }
     }
 };
