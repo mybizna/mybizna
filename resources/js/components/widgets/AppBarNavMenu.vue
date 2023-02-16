@@ -101,7 +101,7 @@ export default {
     setup() {
         const store = useStore();
 
-        if (!store.state.system.has_menu) {
+        if ( !store.state.system.menu.length) {
             store.dispatch("system/getMenu");
         }
     },

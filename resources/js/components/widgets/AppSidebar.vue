@@ -6,9 +6,9 @@
                 <img class="w-8 h-8 rounded-full" src="images/avatars/1.png" alt="">
             </div>
             <div class="flex-auto">
-                <h5 class="mb-0 fs-16 text-black "><span class="font-w400">John Doe,</span>
-                    (newgif)</h5>
-                <p class="mb-0 fs-14 font-w400">newgif@newgif.com</p>
+                <h5 class="mb-0 fs-16 text-black "><span class="font-w400">{{ $store.state.auth.user.name }},</span>
+                    ({{ $store.state.auth.user.username }})</h5>
+                <p class="mb-0 fs-14 font-w400">{{ $store.state.auth.user.email }}</p>
             </div>
         </div>
 
@@ -21,9 +21,7 @@
                         <i class="fas fa-home text-lg"></i>
                     </div>
                     <span class="ml-1 grow leading-7 text-gray-800 hover:text-blue-800">
-                        Dashboard {{ $store.state.system.active_subs_1 }} - 
-                        {{ $store.state.system.active_subs_2 }} - 
-                        {{ $store.state.system.active_subs_3 }}
+                        Dashboard
                     </span>
                 </a>
             </li>
@@ -43,7 +41,7 @@
                 </li>
 
                 <ul :id="'menu-' + m_index + '-main-list'" :aria-labelledby="'menu-' + m_index + '-main'"
-                    :class="(menu[m_index] && menu[m_index]['main']) ? '' : 'hidden'" class="py-1 ">
+                    :class="(menu[m_index]) ? '' : 'hidden'" class="py-1 ">
 
                     <template v-for="(subitem, t_index) in item.menus" :key="t_index">
 
@@ -104,6 +102,23 @@ export default {
     setup() {
         return {};
     },
+    created() {
+
+        this.menu = {};
+
+        var active_subs_1 = this.$store.state.system.active_subs_1;
+        var active_subs_2 = this.$store.state.system.active_subs_2;
+
+        if (active_subs_1 != '') {
+            this.menu[active_subs_1] = {};
+        }
+
+        if (active_subs_2 != '') {
+            this.menu[active_subs_1][active_subs_2] = true;
+        }
+
+        console.log(this.menu);
+    },
     data() {
         return {
             menu: {},
@@ -135,7 +150,7 @@ export default {
         },
         showMenu(module, table) {
 
-            this.menu={};
+            this.menu = {};
 
             if (!Object.prototype.hasOwnProperty.call(this.menu, module)) {
                 this.menu[module] = {};

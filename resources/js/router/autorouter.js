@@ -53,7 +53,6 @@ export default async function (router) {
             // handle error
         });
 
-
     let routes_keys = Object.keys(routes);
 
     routes_keys.forEach(key => {

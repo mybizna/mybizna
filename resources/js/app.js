@@ -196,13 +196,80 @@ const store = createStore({
     modules: modules,
     plugins: [createPersistedState({
         storage: {
-            getItem: (key) => Cookies.get(key),
+            getItem: (key) => {
+
+                var data = {};
+
+                try {
+                    var vuex_data = Cookies.get(key + '_data');
+                    var vuex_obj = JSON.parse(vuex_data);
+
+                    for (const mkey in vuex_obj) {
+
+                        data[mkey] = {};
+
+                        var keys = vuex_obj[mkey];
+                        keys.forEach(skey => {
+                            var sub_data = '';
+                            var key_name = `vuex_${mkey}_${skey}`;
+                            var vuex_data_str = Cookies.get(key_name);
+
+                            try {
+                                sub_data = JSON.parse(vuex_data_str);
+                            } catch (e) {
+                                //Sub data
+                            }
+
+                            data[mkey][skey] = sub_data;
+                        });
+                    }
+
+                    var vuex = {};
+
+                    try {
+                        vuex = JSON.parse(Cookies.get(key));
+                    } catch (e) {
+                        //Sub data
+                    }
+
+                    return { ...vuex, ...data };
+                } catch (e) {
+                    // is not a valid JSON string
+                    return Cookies.get(key);
+                }
+            },
             // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
-            setItem: (key, value) =>
-                Cookies.set(key, value, {
+            setItem: (key, value) => {
+                var keys = {};
+
+                var modules = JSON.parse(value);
+                for (const mkey in modules) {
+
+                    var module = modules[mkey];
+                    keys[mkey] = [];
+
+                    for (const skey in module) {
+
+                        var key_name = `vuex_${mkey}_${skey}`;
+                        var sub_module = module[skey];
+
+                        keys[mkey].push(skey)
+
+                        Cookies.set(key_name, JSON.stringify(sub_module), {
+                            expires: 3,
+                            secure: true
+                        })
+
+                    }
+
+                }
+
+                Cookies.set(key + '_data', JSON.stringify(keys), {
                     expires: 3,
                     secure: true
-                }),
+                })
+
+            },
             removeItem: (key) => Cookies.remove(key),
         },
     })],
@@ -231,14 +298,9 @@ router.beforeEach((to, from, next) => {
     store.commit('system/search_fields', []);
     store.commit('system/search_path_params', []);
 
-    console.log('-----------------------');
-    console.log(window.innerWidth);
-    console.log(window.responsive_point);
-
     if (window.innerWidth < window.responsive_point) {
         window.$store.commit("system/sidebar_show", false);
     }
-
 
     NProgress.start();
 
