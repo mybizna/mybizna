@@ -99,6 +99,35 @@
     font-weight: 1000px
 }
 
+.m-w-100 {width: 100px}
+.m-w-150 {width: 150px}
+
+.m-w-200 {  width: 200px}
+.m-w-250 {  width: 250px}
+
+.m-w-300 {width: 300px}
+.m-w-350 {width: 350px}
+
+.m-w-400 {width: 400px}
+.m-w-450 {width: 450px}
+
+.m-w-500 {width: 500px}
+.m-w-550 {width: 550px}
+
+.m-w-600 { width: 600px}
+.m-w-650 { width: 650px}
+
+.m-w-700 {width: 700px}
+.m-w-750 {width: 750px}
+
+.m-w-800 {width: 800px}
+.m-w-850 {width: 850px}
+
+.m-w-900 {width: 900px}
+.m-w-950 {width: 950px}
+
+.m-w-1000 {width: 1000px}
+
 .v-main {
     padding: 0 !important;
 }

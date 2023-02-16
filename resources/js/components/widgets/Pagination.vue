@@ -3,8 +3,6 @@
 
         <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
         <template v-if="pagination.pages <= 5">
-            {{ pagination.page }}
-            {{ pagination.pages }}
             <a v-for="index in getNumbers(1, pagination.pages)" :key="index"
                 :aria-current="index == pagination.page ? 'page' : ''"
                 :class="[(index == pagination.page ? 'bg-blue-400 border-blue-600 text-gray-50' : ' border-gray-500 text-gray-600 bg-gray-50')]"
