@@ -1,5 +1,5 @@
 <template>
-    <div v-if="$store.state.system.is_list" class="bg-white shadow-sm z-10">
+    <div v-if="$store.state.system.is_list" class="bg-white shadow-sm z-8">
         <div class="flex h-14">
             <div class="flex-auto">
                 <div class="mx-1">

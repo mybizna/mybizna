@@ -518,7 +518,7 @@ export default {
                             t.pagination.pages =
                                 t.pagination.limit >= response.data.total
                                     ? 1
-                                    : Math.ceil(
+                                    : Math.floor(
                                         response.data.total /
                                         t.pagination.limit
                                     );

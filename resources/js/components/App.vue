@@ -23,7 +23,7 @@
             <template v-if="$store.state.system.menu_type == 'sidebar'">
                 <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
-                <div v-if="windowWidth >= $responsive_point" class="row">
+                <div v-if="windowWidth >= $responsive_point" class="row mt-10">
 
                     <div v-if="$store.state.system.sidebar_show"
                         class="mr-0 col-sm-2 invisible md:visible bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
@@ -39,7 +39,7 @@
                         </main>
                     </div>
                 </div>
-                <div v-else>
+                <div v-else class="mt-10">
                     <app-topbar-actions></app-topbar-actions>
                     <main class="p-0">
                         <div class="app-content-container boxed-container">

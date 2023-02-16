@@ -29,7 +29,7 @@
                 <li class="text-gray-600 hover:text-gray-800 cursor-pointer">
                     <a :class="($store.state.system.active_subs_1 == m_index) ? 'bg-white' : ''"
                         class="flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
-                        @click="showMenu(m_index, 'main')">
+                        @click="toggleSideMenu(m_index, 'main')">
                         <div class="inline-block w-6 h-6 rounded-full align-middle">
                             <i :class="item.icon + ' text-lg'"></i>
                         </div>
@@ -49,7 +49,7 @@
                             <li>
                                 <a :class="($store.state.system.active_subs_1 == m_index && $store.state.system.active_subs_2 == t_index) ? 'bg-white' : ''"
                                     class="flex justify-between py-1 pl-4 pr-2 cursor-point text-base font-normal  rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
-                                    @click="showMenu(m_index, t_index)">
+                                    @click="toggleSideMenu(m_index, t_index)">
                                     <i class="fas fa-circle fs-6 mr-1 leading-8"></i>
                                     <span class="ml-1 grow leading-8 text-gray-900">
                                         {{ subitem.title }}
@@ -70,7 +70,7 @@
                                         <a :href="'#' + subitemmenu.path"
                                             :class="($store.state.system.active_subs_1 == m_index && $store.state.system.active_subs_2 == t_index && $store.state.system.active_subs_3 == s_index) ? 'bg-white' : ''"
                                             class="flex items-center w-full p-1 pl-7 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700"
-                                            @click="toggleSideMenu(m_index, t_index, s_index)">
+                                            @click="updateSidebarShow()">
                                             <i class="fas fa-caret-right fs-8 mr-1 leading-8"></i>
                                             {{ subitemmenu.title }}
                                         </a>
@@ -81,7 +81,7 @@
 
                         </template>
                         <li v-else>
-                            <a :href="'#' + subitem.path" @click="toggleSideMenu(m_index, t_index)"
+                            <a :href="'#' + subitem.path" @click="updateSidebarShow()"
                                 :class="($store.state.system.active_subs_1 == m_index && $store.state.system.active_subs_2 == t_index) ? 'bg-white' : ''"
                                 class="flex items-center w-full p-1 pl-4 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700">
                                 <i class="fas fa-circle fs-6 mr-1 leading-8"></i>
@@ -126,11 +126,19 @@ export default {
         }
     },
     methods: {
+        updateSidebarShow() {
+            if (window.innerWidth < this.$responsive_point) {
+                this.$store.commit("system/sidebar_show", false);
+            }
+        },
         toggleSideMenu(m_index = '', t_index = '', s_index = '') {
 
             this.$store.commit("system/active_subs_1", '');
             this.$store.commit("system/active_subs_2", '');
             this.$store.commit("system/active_subs_3", '');
+
+            console.log(m_index);
+            console.log(t_index);
 
             if (m_index != '') {
                 this.$store.commit("system/active_subs_1", m_index);
@@ -144,23 +152,21 @@ export default {
                 this.$store.commit("system/active_subs_3", s_index);
             }
 
-            if (window.innerWidth < this.$responsive_point) {
-                this.$store.commit("system/sidebar_show", false);
-            }
-        },
-        showMenu(module, table) {
 
             this.menu = {};
 
-            if (!Object.prototype.hasOwnProperty.call(this.menu, module)) {
-                this.menu[module] = {};
+            if (!Object.prototype.hasOwnProperty.call(this.menu, m_index)) {
+                this.menu[m_index] = {};
             }
+
+            this.menu[m_index][t_index] = !this.menu[m_index][t_index];
+
+        },
+        showMenu(module, table) {
 
             if (window.innerWidth < this.$responsive_point) {
                 window.$store.commit("system/sidebar_show", false);
             }
-
-            this.menu[module][table] = !this.menu[module][table];
 
             this.$store.commit("system/active_menu", module);
             this.$store.commit("system/active_submenu", table);

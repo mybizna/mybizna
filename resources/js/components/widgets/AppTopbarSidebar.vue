@@ -1,35 +1,37 @@
 <template>
 
-    <div class="flex bg-indigo-900">
+    <div class="fixed w-full z-10">
 
-        <div class="flex-auto">
-            <div class="flex justify-start pt-1 pl-1 mr-2 space-x-3 cursor-pointer text-blue-600">
+        <div class="flex bg-indigo-900">
+            <div class="flex-auto">
+                <div class="flex justify-start pt-1 pl-1 mr-2 space-x-3 cursor-pointer text-blue-600">
 
-                <a @click="drawer">
-                    <i v-if="$store.state.system.sidebar_show && windowWidth < $responsive_point"
-                        class="fa-regular fa-circle-xmark  text-2xl text-red-500"></i>
-                    <i v-else class="fas fa-bars text-2xl text-white"></i>
-                </a>
+                    <a @click="drawer">
+                        <i v-if="$store.state.system.sidebar_show && windowWidth < $responsive_point"
+                            class="fa-regular fa-circle-xmark  text-2xl text-red-500"></i>
+                        <i v-else class="fas fa-bars text-2xl text-white"></i>
+                    </a>
 
-                <h2 class="text-md leading-7 h-8 text-white"
-                    :alt="($store.state.system.menu[$store.state.system.active_menu] ? $store.state.system.menu[$store.state.system.active_menu]['title'] : '') + ' - ' + $store.state.system.subtitle">
-                    <small v-if="$store.state.system.menu[$store.state.system.active_menu]">
-                        {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
-                    </small>
-                    <small class="text-sm" v-if="$store.state.system.subtitle != ''">
-                        - {{ $store.state.system.subtitle }}
-                    </small>
-                </h2>
+                    <h2 class="text-md leading-7 h-8 text-white"
+                        :alt="($store.state.system.menu[$store.state.system.active_menu] ? $store.state.system.menu[$store.state.system.active_menu]['title'] : '') + ' - ' + $store.state.system.subtitle">
+                        <small v-if="$store.state.system.menu[$store.state.system.active_menu]">
+                            {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
+                        </small>
+                        <small class="text-sm" v-if="$store.state.system.subtitle != ''">
+                            - {{ $store.state.system.subtitle }}
+                        </small>
+                    </h2>
+                </div>
             </div>
 
-        </div>
-
-        <div class="flex-auto text-right">
-            <div class="flex justify-end pt-1 pr-1 pb-1 mr-2 space-x-2 cursor-pointer">
-                <app-topbar-icon-others></app-topbar-icon-others>
-                <app-topbar-icon-avatar></app-topbar-icon-avatar>
+            <div class="flex-auto text-right">
+                <div class="flex justify-end pt-1 pr-1 pb-1 mr-2 space-x-2 cursor-pointer">
+                    <app-topbar-icon-others></app-topbar-icon-others>
+                    <app-topbar-icon-avatar></app-topbar-icon-avatar>
+                </div>
             </div>
         </div>
+
     </div>
 
 

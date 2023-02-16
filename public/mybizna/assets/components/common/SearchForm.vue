@@ -7,7 +7,8 @@
                 <input type="text" class="form-control dropdown-toggle border-none focus:shadow-none"
                     placeholder="Search Any Term." aria-label="Text input with dropdown button"
                     data-bs-toggle="dropdown" aria-expanded="false" />
-                <div class="dropdown-menu dropdown-menu-end search-dropdown p-2 shadow-lg" :style="searchStyle">
+                <div class="dropdown-menu dropdown-menu-end search-dropdown p-2 shadow-lg"
+                    :style="'width:' + $store.state.system.window_width + ';'">
                     <b>Search</b>
                     <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-1 match-height">
                         <template v-for="(item, index) in $store.state
@@ -125,24 +126,6 @@ export default {
             changed_here: false,
             show_search: false,
             search_filter: '',
-        }
-    },
-    computed: {
-        // a computed getter
-        searchStyle: function () {
-
-            var window_width_str = '';
-
-            var window_width = this.$store.state.system.window_width;
-
-            if (window_width > 640) {
-                window_width_str = window_width_str + 'width:' + (window_width - 200) + ';';
-            } else {
-                window_width_str = window_width_str + 'width:' + window_width + ';';
-            }
-
-            return window_width_str;
-
         }
     },
     methods: {
