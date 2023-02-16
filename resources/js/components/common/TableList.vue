@@ -89,7 +89,9 @@
             </div>
             <div class="card-foot">
 
-                <pagination :pagination="pagination"></pagination>
+                <pagination v-if="$store.state.system.window_width < ($responsive_point - 268)" :pagination="pagination"
+                    :loadPage="loadPage">
+                </pagination>
 
                 <div class="flex">
                     <div class="flex-auto">
@@ -116,11 +118,12 @@
 
                     </div>
                     <div class="flex-auto">
-                        <pagination :pagination="pagination"></pagination>
+                        <pagination v-if="$store.state.system.window_width >= ($responsive_point - 268)"
+                            :pagination="pagination" :loadPage="loadPage"></pagination>
                     </div>
                     <div class="flex-auto">
                         <div v-if="!settings.is_recordpicker && !settings.hide_action_button && !(settings.hide_delete_button && !mass_actions.length)"
-                            class="text-right">
+                            class="text-right pr-2">
 
                             <button class="mt-2 bg-blue-50 border-blue-200 btn btn-sm dropdown-toggle" type="button"
                                 id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" dot>
@@ -345,10 +348,6 @@ export default {
                     }
                 )
             }
-
-
-
-
         },
         checkedItemsAll() {
 
@@ -480,6 +479,22 @@ export default {
                     sortable: false,
                 });
             });
+        },
+        loadPage: function (page = '') {
+
+            if (page == '') {
+                page = this.pagination.page;
+            }
+
+            if (page < 1) {
+                page = 1;
+            } else if (page > this.pagination.pages) {
+                page = this.pagination.pages;
+            }
+
+            this.pagination.page = page;
+
+            this.fetchRecords();
         },
         fetchRecords() {
             var t = this;
