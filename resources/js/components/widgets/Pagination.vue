@@ -57,7 +57,7 @@
                 <input id="pagination_page" v-model="pagination.page" type="text" name="pagination_page"
                     :max="pagination.pages"
                     class="text-gray-700 inline-block w-6 bg-white border border-solid border-blue-400 rounded">
-
+                /{{ pagination.pages }}
                 <a @click="loadPage(pagination.page)"
                     class="uppercase cursor-point text-white  bg-blue-700 font-medium text-center px-2 py-1 rounded ml-2">GO</a>
 
