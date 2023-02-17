@@ -1,7 +1,7 @@
 <template>
     <div class="overflow-y-auto">
 
-        <div class="flex pt-1">
+        <div class="flex pt-1 overflow-x-hidden">
             <div class="flex-none p-3">
                 <img class="w-8 h-8 rounded-full" src="images/avatars/1.png" alt="">
             </div>

@@ -1,69 +1,55 @@
 <template>
   <div>
-    <div class="offset-sm-2 offset-lg-3 col-sm-8 col-lg-6">
+    <div class="offset-sm-2 offset-lg-3 col-sm-8 col-lg-6 h-screen">
       <div class="card mt-5">
         <div class="card-body">
+
+          <div class="text-center mb-3">
+            <img class="m-2" :src="this.$assets_url + 'images/logos/logo.png'" alt="" style="max-width:120px;" />
+          </div>
+
           <div class="row">
-            <div
-              v-if="is_search_inviter"
-              class="col-sm-12 fetch_inviter_wrapper"
-            >
+            <div v-if="is_search_inviter" class="col-sm-12 fetch_inviter_wrapper">
+
+
               <div class="completed">
                 <h3 class="mt-3 mb-3 border-bottom">
-                  <div
-                    class="
+                  <div class="
                       rounded-circle
                       bg-success
                       text-center text-white
                       d-inline-block
-                    "
-                    style="width: 35px; height: 35px; padding-top: 3px"
-                  >
+                    " style="width: 35px; height: 35px; padding-top: 3px">
                     1
                   </div>
                   <span class="label">Search Inviter</span>
                 </h3>
               </div>
+
               <div id="fetch_inviter_container">
                 <div class="background-highlight">
                   <div class="row">
                     <div class="col-sm-12">
                       <form class="form-horizontal" _lpchecked="1">
                         <div class="form-group row d-flex">
-                          <label
-                            class="text-bold col-sm-3 col-form-label"
-                            for="exampleInputEmail1"
-                            >Enter Your Inviter Details</label
-                          >
+                          <label class="text-bold col-sm-3 col-form-label" for="exampleInputEmail1">Enter Your Inviter
+                            Details</label>
                           <div class="col-sm-9">
-                            <small id="emailHelp" class="form-text text-muted"
-                              >Enter Your Inviter's Username or Email.</small
-                            ><input
-                              type="text"
-                              class="inviter-field form-control form-control-sm"
-                              id="inputUsername"
-                              placeholder="Username"
-                              autocomplete="off"
-                              v-model="inviter_username"
-                            />
+                            <small id="emailHelp" class="form-text text-muted">Enter Your Inviter's Username or
+                              Email.</small><input type="text" class="w-96 max-w-full inviter-field form-control form-control-sm"
+                              id="inputUsername" placeholder="Username" autocomplete="off" v-model="inviter_username" />
                           </div>
                         </div>
-                        <a
-                          class="
+                        <a class="
                             btn btn-secondary btn-sm
                             text-white
                             search-button
-                          "
-                          @click="searchInviter"
-                        >
+                          " @click="searchInviter">
                           CLICK HERE TO CONTINUE
                         </a>
                       </form>
                     </div>
-                    <div
-                      v-if="inviter_result && inviter_search"
-                      class="alert alert-success col-sm-12 p-2 m-3"
-                    >
+                    <div v-if="inviter_result && inviter_search" class="alert alert-success col-sm-12 p-2 m-3">
                       <h5>Selected Inviter</h5>
                       <div>
                         <b> Name: </b> {{ user.firstName }}
@@ -73,20 +59,14 @@
                       <div><b> Phone: </b> {{ user.phone }}</div>
                       <div><b> Email: </b> {{ user.email }}</div>
                     </div>
-                    <div
-                      v-if="!inviter_result && inviter_search"
-                      class="alert alert-danger col-sm-12 p-2 m-3"
-                    >
+                    <div v-if="!inviter_result && inviter_search" class="alert alert-danger col-sm-12 p-2 m-3">
                       <h3 class="text-danger">
                         Member [ {{ inviter_username_searched }} ] not Found.
                       </h3>
                     </div>
 
-                    <a
-                      v-if="inviter_result && inviter_search"
-                      class="btn btn-secondary btn-sm text-white search-button"
-                      @click="continueToRegistration"
-                    >
+                    <a v-if="inviter_result && inviter_search" class="btn btn-secondary btn-sm text-white search-button"
+                      @click="continueToRegistration">
                       CONTINUE TO REGISTRATION
                     </a>
                   </div>
@@ -98,15 +78,12 @@
               <div class="row">
                 <div class="col-sm-12 completed">
                   <h3 class="mt-3 mb-3 border-bottom">
-                    <div
-                      class="
+                    <div class="
                         rounded-circle
                         bg-success
                         text-center text-white
                         d-inline-block
-                      "
-                      style="width: 35px; height: 35px; padding-top: 3px"
-                    >
+                      " style="width: 35px; height: 35px; padding-top: 3px">
                       2
                     </div>
                     <span class="label">Registration</span>
@@ -121,28 +98,13 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_first_name"
-                      class="col-sm-3 col-form-label"
-                      ><b>First Name</b></label
-                    >
+                    <label for="registration_first_name" class="col-sm-3 col-form-label"><b>First Name</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                        <label class="sr-only" for="id_first_name"
-                          >First name</label
-                        >
+                        <label class="sr-only" for="id_first_name">First name</label>
                         <div class="registration_first_name">
-                          <input
-                            type="text"
-                            name="first_name"
-                            required="true"
-                            maxlength="30"
-                            class="form-control"
-                            placeholder="First name"
-                            title=""
-                            v-model="first_name"
-                            id="id_first_name"
-                          />
+                          <input type="text" name="first_name" required="true" maxlength="30" class="w-96 max-w-full form-control"
+                            placeholder="First name" title="" v-model="first_name" id="id_first_name" />
                         </div>
                       </div>
                     </div>
@@ -151,28 +113,13 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_last_name"
-                      class="col-sm-3 col-form-label"
-                      ><b>Last Name</b></label
-                    >
+                    <label for="registration_last_name" class="col-sm-3 col-form-label"><b>Last Name</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                        <label class="sr-only" for="id_last_name"
-                          >Last name</label
-                        >
+                        <label class="sr-only" for="id_last_name">Last name</label>
                         <div class="registration_last_name">
-                          <input
-                            type="text"
-                            name="last_name"
-                            required="true"
-                            maxlength="150"
-                            class="form-control"
-                            placeholder="Last name"
-                            title=""
-                            v-model="last_name"
-                            id="id_last_name"
-                          />
+                          <input type="text" name="last_name" required="true" maxlength="150" class="w-96 max-w-full form-control"
+                            placeholder="Last name" title="" v-model="last_name" id="id_last_name" />
                         </div>
                       </div>
                     </div>
@@ -181,29 +128,13 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_username"
-                      class="col-sm-3 col-form-label"
-                      ><b>Username</b></label
-                    >
+                    <label for="registration_username" class="col-sm-3 col-form-label"><b>Username</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                        <label class="sr-only" for="id_username"
-                          >Username</label
-                        >
+                        <label class="sr-only" for="id_username">Username</label>
                         <div class="registration_username">
-                          <input
-                            type="text"
-                            name="username"
-                            required=""
-                            maxlength="150"
-                            class="form-control"
-                            placeholder="Username"
-                            title=""
-                            id="id_username"
-                            v-model="username"
-                            autocomplete="off"
-                          />
+                          <input type="text" name="username" required="" maxlength="150" class="w-96 max-w-full form-control"
+                            placeholder="Username" title="" id="id_username" v-model="username" autocomplete="off" />
                         </div>
                       </div>
                       <div style="clear: both"></div>
@@ -214,28 +145,13 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_password"
-                      class="col-sm-3 col-form-label"
-                      ><b>Password</b></label
-                    >
+                    <label for="registration_password" class="col-sm-3 col-form-label"><b>Password</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                        <label class="sr-only" for="id_password"
-                          >Password</label
-                        >
+                        <label class="sr-only" for="id_password">Password</label>
                         <div class="registration_password">
-                          <input
-                            type="password"
-                            name="password"
-                            required=""
-                            maxlength="128"
-                            class="form-control"
-                            placeholder="Password"
-                            v-model="password"
-                            title=""
-                            id="id_password"
-                          />
+                          <input type="password" name="password" required="" maxlength="128" class="w-96 max-w-full form-control"
+                            placeholder="Password" v-model="password" title="" id="id_password" />
                         </div>
                       </div>
                     </div>
@@ -244,28 +160,15 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_password_again"
-                      class="col-sm-3 col-form-label"
-                      ><b>Password Again</b></label
-                    >
+                    <label for="registration_password_again" class="col-sm-3 col-form-label"><b>Password
+                        Again</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                        <label class="sr-only" for="id_password_again"
-                          >Password again</label
-                        >
+                        <label class="sr-only" for="id_password_again">Password again</label>
                         <div class="registration_password_again">
-                          <input
-                            type="password"
-                            name="password_again"
-                            required="true"
-                            maxlength="255"
-                            class="form-control"
-                            placeholder="Password again"
-                            v-model="password_again"
-                            title=""
-                            id="id_password_again"
-                          />
+                          <input type="password" name="password_again" required="true" maxlength="255"
+                            class="w-96 max-w-full form-control" placeholder="Password again" v-model="password_again" title=""
+                            id="id_password_again" />
                         </div>
                       </div>
                     </div>
@@ -274,28 +177,13 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_email"
-                      class="col-sm-3 col-form-label"
-                      ><b>Email</b></label
-                    >
+                    <label for="registration_email" class="col-sm-3 col-form-label"><b>Email</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                        <label class="sr-only" for="id_email"
-                          >Email address</label
-                        >
+                        <label class="sr-only" for="id_email">Email address</label>
                         <div class="registration_email">
-                          <input
-                            type="email"
-                            name="email"
-                            required="true"
-                            maxlength="254"
-                            class="form-control"
-                            placeholder="Email address"
-                            v-model="email"
-                            title=""
-                            id="id_email"
-                          />
+                          <input type="email" name="email" required="true" maxlength="254" class="w-96 max-w-full form-control"
+                            placeholder="Email address" v-model="email" title="" id="id_email" />
                         </div>
                       </div>
                       <div style="clear: both"></div>
@@ -306,28 +194,13 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_email_again"
-                      class="col-sm-3 col-form-label"
-                      ><b>Email Again</b></label
-                    >
+                    <label for="registration_email_again" class="col-sm-3 col-form-label"><b>Email Again</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                        <label class="sr-only" for="id_email_again"
-                          >Email again</label
-                        >
+                        <label class="sr-only" for="id_email_again">Email again</label>
                         <div class="registration_email_again">
-                          <input
-                            type="email"
-                            name="email_again"
-                            required="true"
-                            maxlength="255"
-                            class="form-control"
-                            placeholder="Email again"
-                            v-model="email_again"
-                            title=""
-                            id="id_email_again"
-                          />
+                          <input type="email" name="email_again" required="true" maxlength="255" class="w-96 max-w-full form-control"
+                            placeholder="Email again" v-model="email_again" title="" id="id_email_again" />
                         </div>
                       </div>
                       <div style="clear: both"></div>
@@ -338,46 +211,21 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_gender"
-                      class="col-sm-3 col-form-label"
-                      ><b>Gender</b></label
-                    >
+                    <label for="registration_gender" class="col-sm-3 col-form-label"><b>Gender</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
                         <label class="sr-only" for="id_gender_0">Gender</label>
                         <div class="registration_gender">
                           <div class="gender" id="id_gender">
                             <div class="form-check">
-                              <label for="id_gender_0"
-                                ><input
-                                  checked=""
-                                  class="gender"
-                                  id="id_gender_0"
-                                  name="gender"
-                                  required=""
-                                  title=""
-                                  v-model="gender"
-                                  type="radio"
-                                  value="0"
-                                />
-                                male</label
-                              >
+                              <label for="id_gender_0"><input checked="" class="gender" id="id_gender_0" name="gender"
+                                  required="" title="" v-model="gender" type="radio" value="0" />
+                                male</label>
                             </div>
                             <div class="form-check">
-                              <label for="id_gender_1"
-                                ><input
-                                  class="gender"
-                                  id="id_gender_1"
-                                  name="gender"
-                                  required=""
-                                  title=""
-                                  v-model="gender"
-                                  type="radio"
-                                  value="1"
-                                />
-                                female</label
-                              >
+                              <label for="id_gender_1"><input class="gender" id="id_gender_1" name="gender" required=""
+                                  title="" v-model="gender" type="radio" value="1" />
+                                female</label>
                             </div>
                           </div>
                         </div>
@@ -394,25 +242,15 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_gender"
-                      class="col-sm-3 col-form-label"
-                      ><b>Date Of Birth</b></label
-                    >
+                    <label for="registration_gender" class="col-sm-3 col-form-label"><b>Date Of Birth</b></label>
                     <div class="col-sm-7">
                       <div class="row">
                         <div class="col-2 registration_date_wrapper">
                           <div class="form-group">
                             <label class="sr-only" for="id_date">Date</label>
                             <div class="registration_date">
-                              <select
-                                name="date"
-                                required="true"
-                                class="form-control"
-                                title=""
-                                v-model="date"
-                                id="id_date"
-                              >
+                              <select name="date" required="true" class="form-control" title="" v-model="date"
+                                id="id_date">
                                 <option value="1" selected="">1</option>
 
                                 <option value="2">2</option>
@@ -482,14 +320,8 @@
                           <div class="form-group">
                             <label class="sr-only" for="id_month">Month</label>
                             <div class="registration_month">
-                              <select
-                                name="month"
-                                required="true"
-                                class="form-control"
-                                title=""
-                                v-model="month"
-                                id="id_month"
-                              >
+                              <select name="month" required="true" class="form-control" title="" v-model="month"
+                                id="id_month">
                                 <option value="1" selected="">January</option>
 
                                 <option value="2">February</option>
@@ -521,14 +353,8 @@
                           <div class="form-group">
                             <label class="sr-only" for="id_year">Year</label>
                             <div class="registration_year">
-                              <select
-                                name="year"
-                                required="true"
-                                class="form-control"
-                                title=""
-                                v-model="year"
-                                id="id_year"
-                              >
+                              <select name="year" required="true" class="form-control" title="" v-model="year"
+                                id="id_year">
                                 <option value="1930">1930</option>
 
                                 <option value="1931">1931</option>
@@ -693,23 +519,13 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_gender"
-                      class="col-sm-3 col-form-label"
-                      ><b>Your Country</b></label
-                    >
+                    <label for="registration_gender" class="col-sm-3 col-form-label"><b>Your Country</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
                         <label class="sr-only" for="id_country">Country</label>
                         <div class="registration_country">
-                          <select
-                            name="country"
-                            required="true"
-                            class="form-control"
-                            title=""
-                            v-model="country"
-                            id="id_country"
-                          >
+                          <select name="country" required="true" class="w-96 max-w-full form-control" title="" v-model="country"
+                            id="id_country">
                             <option value="" selected="">---------</option>
 
                             <option value="3">Afghanistan</option>
@@ -1242,20 +1058,10 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_gender"
-                      class="col-sm-3 col-form-label"
-                      ><b>Your Location</b></label
-                    >
+                    <label for="registration_gender" class="col-sm-3 col-form-label"><b>Your Location</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                        <select
-                          class="form-control"
-                          id="id_location"
-                          name="location"
-                          title=""
-                          v-model="location"
-                        >
+                        <select class="form-control" id="id_location" name="location" title="" v-model="location">
                           <option selected="" value="">---------</option>
                         </select>
                       </div>
@@ -1265,25 +1071,13 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_town"
-                      class="col-sm-3 col-form-label"
-                      ><b>Your City/Town</b></label
-                    >
+                    <label for="registration_town" class="col-sm-3 col-form-label"><b>Your City/Town</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
                         <label class="sr-only" for="id_town">Town</label>
                         <div class="registration_town">
-                          <input
-                            type="text"
-                            name="town"
-                            maxlength="255"
-                            class="form-control"
-                            placeholder="Town"
-                            title=""
-                            v-model="town"
-                            id="id_town"
-                          />
+                          <input type="text" name="town" maxlength="255" class="w-96 max-w-full form-control" placeholder="Town"
+                            title="" v-model="town" id="id_town" />
                         </div>
                       </div>
                     </div>
@@ -1292,26 +1086,13 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_phone"
-                      class="col-sm-3 col-form-label"
-                      ><b>Your Mobile Phone</b></label
-                    >
+                    <label for="registration_phone" class="col-sm-3 col-form-label"><b>Your Mobile Phone</b></label>
                     <div class="col-sm-7">
                       <div class="form-group">
                         <label class="sr-only" for="id_phone">Phone</label>
                         <div class="registration_phone">
-                          <input
-                            type="text"
-                            name="phone"
-                            required="true"
-                            maxlength="255"
-                            class="form-control"
-                            placeholder="Phone"
-                            title=""
-                            v-model="phone"
-                            id="id_phone"
-                          />
+                          <input type="text" name="phone" required="true" maxlength="255" class="w-96 max-w-full form-control"
+                            placeholder="Phone" title="" v-model="phone" id="id_phone" />
                         </div>
                       </div>
                     </div>
@@ -1320,76 +1101,37 @@
 
                 <div class="col-sm-12">
                   <div class="form-group row mb-0 d-flex">
-                    <label
-                      for="registration_agreement"
-                      class="col-sm-3 col-form-label"
-                      ><b></b
-                    ></label>
+                    <label for="registration_agreement" class="col-sm-3 col-form-label"><b></b></label>
                     <div class="col-sm-7">
                       <ul>
                         <li style="list-style: none">
-                          <input
-                            id="agreements.4"
-                            class="agreements_4"
-                            name="agreements[4]"
-                            type="checkbox"
-                            value="4"
-                            v-model="agreement1"
-                            required=""
-                          />
-                          <small class="ml-2"
-                            >I understand that Just Like any other Business GIF
+                          <input id="agreements.4" class="agreements_4" name="agreements[4]" type="checkbox" value="4"
+                            v-model="agreement1" required="" />
+                          <small class="ml-2">I understand that Just Like any other Business GIF
                             Affiliate Business takes about 1-5 Years of FOCUSED
-                            Serious Hard Work to get Reasonable Results.</small
-                          >
+                            Serious Hard Work to get Reasonable Results.</small>
                         </li>
 
                         <li style="list-style: none">
-                          <input
-                            id="agreements.3"
-                            class="agreements_3"
-                            name="agreements[3]"
-                            type="checkbox"
-                            value="3"
-                            v-model="agreement2"
-                            required=""
-                          />
-                          <small class="ml-2"
-                            >I UNDERSTAND I HAVE TO VERIFY MY EMAIL BEFORE USING
-                            GIF WEBSITE</small
-                          >
+                          <input id="agreements.3" class="agreements_3" name="agreements[3]" type="checkbox" value="3"
+                            v-model="agreement2" required="" />
+                          <small class="ml-2">I UNDERSTAND I HAVE TO VERIFY MY EMAIL BEFORE USING
+                            GIF WEBSITE</small>
                         </li>
 
                         <li style="list-style: none">
-                          <input
-                            id="agreements.2"
-                            class="agreements_2"
-                            name="agreements[2]"
-                            type="checkbox"
-                            value="2"
-                            v-model="agreement3"
-                            required=""
-                          />
-                          <small class="ml-2"
-                            >I Agree to Terms of Use and Privacy Policy</small
-                          >
+                          <input id="agreements.2" class="agreements_2" name="agreements[2]" type="checkbox" value="2"
+                            v-model="agreement3" required="" />
+                          <small class="ml-2">I Agree to Terms of Use and Privacy Policy</small>
                         </li>
 
                         <li style="list-style: none">
-                          <input
-                            id="agreements.1"
-                            class="agreements_1"
-                            name="agreements[1]"
-                            type="checkbox"
-                            value="1"
-                            v-model="agreement4"
-                            required=""
-                          />
+                          <input id="agreements.1" class="agreements_1" name="agreements[1]" type="checkbox" value="1"
+                            v-model="agreement4" required="" />
                           <small class="ml-2">
                             I confirm that I am registering under the correct
                             Inviter and I understand Inviter details cannot be
-                            changed.</small
-                          >
+                            changed.</small>
                         </li>
                       </ul>
                     </div>
@@ -1400,27 +1142,18 @@
           </div>
 
           <div class="text-center reg-step-button">
-            <button
-              v-if="!is_search_inviter"
-              class="btn btn-primary register-button mb-3"
-              @click="register"
-            >
+            <button v-if="!is_search_inviter" class="btn btn-primary register-button mb-3" @click="register">
               Register
             </button>
             <div>Or</div>
-            <router-link
-              class="btn btn-secondary btn-sm register-button mb-3"
-              :to="'/login'"
-            >
+            <router-link class="btn btn-secondary btn-sm register-button mb-3" :to="'/login'">
               Login
             </router-link>
           </div>
 
           <div class="cont-step-button d-none">
             <a href="/" class="btn btn-danger btn-sm m-4">CANCEL</a>
-            <a href="#" class="btn btn-secondary cont_to_reg btn-sm m-4"
-              >CONTINUE TO REGISTRATION</a
-            >
+            <a href="#" class="btn btn-secondary cont_to_reg btn-sm m-4">CONTINUE TO REGISTRATION</a>
           </div>
 
           <div class="col-sm-12 register-warning">
@@ -1591,7 +1324,7 @@ export default {
         error = true;
       }
 
-      if(error){
+      if (error) {
         return false;
       }
 
@@ -1688,10 +1421,10 @@ export default {
     checkuser(field) {
 
       var tmp_query_str =
-          "?username=" +
-          this.username.toLowerCase();
+        "?username=" +
+        this.username.toLowerCase();
 
-      if(field == 'email'){
+      if (field == 'email') {
         tmp_query_str =
           "?email=" +
           this.email.toLowerCase();
@@ -1718,6 +1451,7 @@ export default {
   overflow: scroll;
   overflow-x: hidden;
 }
+
 #login {
   height: 50%;
   width: 100%;
