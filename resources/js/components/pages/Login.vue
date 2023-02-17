@@ -1,50 +1,46 @@
 <template>
-  <div class="authincation h-100">
-    <div class="container h-100">
-      <div class="row justify-content-center h-100 align-items-center">
-        <div class="col-md-6">
-          <div class="authincation-content border rounded shadow bg-white">
-            <div class="m-3">
-              <div class="auth-form">
-                <div class="text-center mb-3">
-                  <img class="m-2" src="images/logo.png" alt="" style="max-width:120px;" />
-                </div>
-                <h4 class="text-center mb-4">Login to your account</h4>
-                <div>
-                  <div class="form-group">
-                    <label class="mb-1"><strong>Email</strong></label>
-                    <input type="text" class="form-control" v-model="model.username" />
-                  </div>
-                  <div class="form-group">
-                    <label class="mb-1"><strong>Password</strong></label>
-                    <input type="password" class="form-control" v-model="model.password" />
-                  </div>
-                  <div class="form-row d-flex justify-content-between mt-4 mb-2">
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox ml-1">
-                        <input type="checkbox" class="custom-control-input" id="basic_checkbox_1" />
-                        <label class="custom-control-label" for="basic_checkbox_1">Remember my preference</label>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <router-link to="/forgotpassword">Forgot Password?</router-link>
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-block" @click="login" :loading="loading">
-                      LOGIN
-                    </button>
+  <div class="row justify-content-center h-100 align-items-center h-screen">
+    <div class="col-md-6">
+      <div class="authincation-content border rounded shadow bg-white">
+        <div class="m-3">
+          <div class="auth-form">
+            <div class="text-center mb-3">
+              <img :src="this.$assets_url + 'images/logos/logo.png'" alt="" style="margin: 0 auto; max-width:120px;" />
+            </div>
+            <h4 class="text-center my-4">Login to your account</h4>
+            <div>
+              <div class="form-group mt-2 w-96 max-w-full" style="margin: 0 auto;">
+                <label class="mb-1"><strong>Email</strong></label>
+                <input type="text" class="form-control" v-model="model.username" />
+              </div>
+              <div class="form-group mt-2 w-96 max-w-full" style="margin: 0 auto;">
+                <label class="mb-1"><strong>Password</strong></label>
+                <input type="password" class="form-control" v-model="model.password" />
+              </div>
+              <div class="form-row d-flex justify-content-between mt-4 mb-2 w-96 max-w-full" style="margin: 0 auto;">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox ml-1">
+                    <input type="checkbox" class="custom-control-input" id="basic_checkbox_1" />
+                    <label class="custom-control-label" for="basic_checkbox_1">Remember my preference</label>
                   </div>
                 </div>
-                <div class="new-account mt-5" v-if="has_register">
-                  <p>
-                    Don't have an account? <br />
-                    <b-button variant="success">
-                      <router-link to="/register" class="text-white">CREATE ACCOUNT</router-link>
-                    </b-button>
-                  </p>
+                <div class="form-group">
+                  <router-link to="/forgotpassword">Forgot Password?</router-link>
                 </div>
               </div>
+              <div class="text-center mt-2">
+                <button type="submit" class="btn  text-white bg-blue-600" @click="login" :loading="loading">
+                  LOGIN
+                </button>
+              </div>
+            </div>
+            <div class="new-account mt-5" v-if="has_register">
+              <p>
+                Don't have an account? <br />
+                <b-button variant="success">
+                  <router-link to="/register" class="text-white">CREATE ACCOUNT</router-link>
+                </b-button>
+              </p>
             </div>
           </div>
         </div>
@@ -62,8 +58,8 @@ export default {
         // update locally relevant data
         if (this.$store.getters["auth/loggedIn"]) {
           this.$store.dispatch("auth/getUser", { that: this });
-        
-                  if (window.is_frontend) {
+
+          if (window.is_frontend) {
             this.$router.push("/dashboard");
           } else {
             this.$router.push("/manage/dashboard");
@@ -73,7 +69,7 @@ export default {
     },
   },
   created() {
-    if(window.autologin){
+    if (window.autologin) {
       this.$store.dispatch("auth/autologin", { that: this });
     }
   },
