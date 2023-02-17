@@ -137,8 +137,8 @@ export default {
                 window_width_new = window_width_flr + 50;
             }
 
-            if (window_width_new > 1000) {
-                window_width_new = 1000;
+            if (window_width_new > 1600) {
+                window_width_new = 1600;
             }
 
             return `m-w-${window_width_new}`;
