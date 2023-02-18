@@ -31,6 +31,7 @@ git clone --depth 1 https://github.com/mybizna/mybizna
 cd mybizna
 
 git submodule init
+git submodule update
 git submodule foreach 'git fetch origin; git checkout $(git rev-parse --abbrev-ref HEAD); git reset --hard origin/$(git rev-parse --abbrev-ref HEAD); git submodule update --recursive; git clean -dfx'
 
 cp .env.example .env
@@ -45,11 +46,17 @@ $user = new App\Models\User();
 $user->password = Hash::make('johndoe');
 $user->email = 'johndoe@johndoe.com';
 $user->name = 'John Doe';
+$user->username = 'johndoe';
+$user->phone = '0723232323';
 $user->save();
 
 php artisan mybizna:dataprocessor
 
 php artisan vendor:publish --provider="Mybizna\Assets\Providers\MybiznaAssetsProvider"
+
+php artisan key:generate
+
+php artisan serve
 
 ```
 
