@@ -30,7 +30,7 @@ git clone --depth 1 https://github.com/mybizna/mybizna
 
 cd mybizna
 
-git submodule update --init --recursive
+git submodule update --init --recursive --depth 1
 
 composer install
 composer dump-autoload -o
