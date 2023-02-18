@@ -30,7 +30,10 @@ git clone --depth 1 https://github.com/mybizna/mybizna
 
 cd mybizna
 
-git submodule update --init --recursive --depth 1
+git submodule update
+git submodule foreach 'git fetch origin; git checkout $(git rev-parse --abbrev-ref HEAD); git reset --hard origin/$(git rev-parse --abbrev-ref HEAD); git submodule update --recursive; git clean -dfx'
+
+cp .env.example .env
 
 composer install
 composer dump-autoload -o
