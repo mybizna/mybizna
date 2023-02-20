@@ -1,7 +1,7 @@
 #!/bin/sh
 # chmod +x pushtags.sh && ./pushtags.sh
 
-VERSION=1.2.82
+VERSION=1.2.83
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
@@ -84,7 +84,10 @@ commit_erp_versioned () {
 
     git submodule foreach git add .
     git submodule foreach git commit --allow-empty -m "$MESSAGE"
-    git submodule foreach git push origin main
+    git submodule foreach "
+            git push origin main 
+            wait 0.3
+    "
 
     git submodule foreach git tag $VERSION
     git submodule foreach git push --tags
