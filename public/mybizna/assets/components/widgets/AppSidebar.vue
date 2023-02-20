@@ -3,7 +3,7 @@
 
         <div class="flex pt-1 overflow-x-hidden">
             <div class="flex-none p-3">
-                <img class="w-8 h-8 rounded-full" src="images/avatars/1.png" alt="">
+                <img class="w-8 h-8 rounded-full" :src="$assets_url + 'images/avatars/1.png'" alt="">
             </div>
             <div class="flex-auto">
                 <h5 class="mb-0 fs-16 text-black "><span class="font-w400">{{ $store.state.auth.user.name }},</span>
@@ -12,10 +12,10 @@
             </div>
         </div>
 
-        <ul>
+        <ul class="pl-0">
             <li class="text-gray-600 hover:text-gray-800 cursor-pointer">
                 <a :class="($store.state.system.active_subs_1 == '-1') ? 'bg-white' : ''"
-                    class="flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
+                    class="no-underline flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
                     :href="'#/'" @click="toggleSideMenu('-1')">
                     <div class="inline-block w-6 h-6 rounded-full align-middle">
                         <i class="fas fa-home text-lg"></i>
@@ -28,7 +28,7 @@
             <template v-for="(item, m_index) in $store.state.system.menu" :key="m_index">
                 <li class="text-gray-600 hover:text-gray-800 cursor-pointer">
                     <a :class="($store.state.system.active_subs_1 == m_index) ? 'bg-white' : ''"
-                        class="flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
+                        class="no-underline flex justify-between p-1 cursor-pointer text-base font-normal rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
                         @click="toggleSideMenu(m_index, 'main')">
                         <div class="inline-block w-6 h-6 rounded-full align-middle">
                             <i :class="item.icon + ' text-lg'"></i>
@@ -48,7 +48,7 @@
                         <template v-if="subitem.list.length">
                             <li>
                                 <a :class="($store.state.system.active_subs_1 == m_index && $store.state.system.active_subs_2 == t_index) ? 'bg-white' : ''"
-                                    class="flex justify-between py-1 pl-4 pr-2 cursor-point text-base font-normal  rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
+                                    class="no-underline flex justify-between py-1 pl-4 pr-2 cursor-point text-base font-normal  rounded-lg dark:text-white hover:bg-white dark:hover:bg-gray-700"
                                     @click="toggleSideMenu(m_index, t_index)">
                                     <i class="fas fa-circle fs-6 mr-1 leading-8"></i>
                                     <span class="ml-1 grow leading-8 text-gray-900">
@@ -69,7 +69,7 @@
                                     <li v-else>
                                         <a :href="'#' + subitemmenu.path"
                                             :class="($store.state.system.active_subs_1 == m_index && $store.state.system.active_subs_2 == t_index && $store.state.system.active_subs_3 == s_index) ? 'bg-white' : ''"
-                                            class="flex items-center w-full p-1 pl-7 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700"
+                                            class="no-underline flex items-center w-full p-1 pl-7 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700"
                                             @click="updateSidebarShow()">
                                             <i class="fas fa-caret-right fs-8 mr-1 leading-8"></i>
                                             {{ subitemmenu.title }}
@@ -83,7 +83,7 @@
                         <li v-else>
                             <a :href="'#' + subitem.path" @click="updateSidebarShow()"
                                 :class="($store.state.system.active_subs_1 == m_index && $store.state.system.active_subs_2 == t_index) ? 'bg-white' : ''"
-                                class="flex items-center w-full p-1 pl-4 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700">
+                                class="no-underline flex items-center w-full p-1 pl-4 text-base font-normal transition duration-75 rounded-lg group hover:bg-white dark:text-white dark:hover:bg-gray-700">
                                 <i class="fas fa-circle fs-6 mr-1 leading-8"></i>
                                 {{ subitem.title }}
                             </a>
