@@ -26,7 +26,7 @@
                 <div v-if="windowWidth >= $responsive_point" :class="($floating_top ? 'mt-10' : '') + ' row'">
 
                     <div v-if="$store.state.system.sidebar_show"
-                        class="mr-0 col-sm-2 invisible md:visible bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
+                        class="mr-0 col-sm-2 bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
                         <app-sidebar></app-sidebar>
                     </div>
                     <div :class="$store.state.system.sidebar_show ? 'col-sm-10' : 'col-sm-12'" class="ml-0 pl-0">
@@ -127,15 +127,14 @@ export default {
             resolveLayout,
         };
     },
-    create() {
-        alert(window.innerWidth);
-    },
     data() {
         return {
             windowWidth: window.innerWidth,
         }
     },
     mounted() {
+        window.$store.commit("system/window_width", this.windowWidth);
+        
         window.onresize = () => {
             this.windowWidth = window.innerWidth;
             window.$store.commit("system/window_width", this.windowWidth);
