@@ -3,7 +3,7 @@
 
         <div class="flex pt-1 overflow-x-hidden">
             <div class="flex-none p-3">
-                <img class="w-8 h-8 rounded-full" src="images/avatars/1.png" alt="">
+                <img class="w-8 h-8 rounded-full" :src="$assets_url + 'images/avatars/1.png'" alt="">
             </div>
             <div class="flex-auto">
                 <h5 class="mb-0 fs-16 text-black "><span class="font-w400">{{ $store.state.auth.user.name }},</span>
