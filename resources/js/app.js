@@ -65,7 +65,7 @@ let responsive_point = (window.responsive_point) ? window.responsive_point : 768
 //xxxxxxxxxxxxxxxxxxxxx  App Initializer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-app.config.globalProperties.$floating_top = (window.floating_top) ? window.floating_top : true;
+app.config.globalProperties.$floating_top = (window.floating_top) ? window.floating_top : false;
 app.config.globalProperties.$responsive_point = responsive_point;
 app.config.globalProperties.$base_url = base_url;
 app.config.globalProperties.$assets_url = assets_url;
