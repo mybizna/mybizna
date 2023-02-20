@@ -34,7 +34,7 @@
     </div>
 
 
-    <aside v-if="$store.state.system.sidebar_show"
+    <aside v-if="$store.state.system.sidebar_show && $store.state.system.window_width < $responsive_point"
         class="transform top-10 left-0 w-56 bg-gradient-to-r from-indigo-50 to-indigo-100  border-r-2 border-r border-indigo-200 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 translate-x-0 visible md:invisible ">
         <h5 class="p-2 font-semibold text-indigo-700 uppercase dark:text-indigo-400">
             <span class="uppercase">
