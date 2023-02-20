@@ -1,5 +1,5 @@
 <template>
-    <div :class="(($floating_top) ? 'fixed' : '') + 'w-full z-10'">
+    <div :class="($floating_top ? 'fixed' : '') + ' w-full z-10'">
 
         <div class="flex bg-indigo-900">
             <div class="flex-auto">
