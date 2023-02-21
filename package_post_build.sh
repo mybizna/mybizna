@@ -1,13 +1,12 @@
 #!/bin/sh
 # chmod +x package_post_build.sh && ./package_post_build.sh
 
-rm -r public/mybizna/assets 
+rm -r public/mybizna/components 
 
-mkdir public/mybizna/assets
-mkdir public/mybizna/assets/components
+mkdir public/mybizna/components
 
-cp -r resources/js/components/  public/mybizna/assets
+cp -r resources/js/components/  public/mybizna
 
-rm -r public/mybizna/assets/components/App.vue
-rm -r public/mybizna/assets/components/router
+rm -r public/mybizna/components/App.vue
+rm -r public/mybizna/components/router
 

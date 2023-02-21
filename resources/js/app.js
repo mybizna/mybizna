@@ -295,12 +295,14 @@ app.use(store);
 
 router.beforeEach((to, from, next) => {
 
-    store.commit('system/loading', true);
-    store.commit('system/is_list', false);
-    store.commit('system/is_edit', false);
-    store.commit('system/has_search', false);
-    store.commit('system/search_fields', []);
-    store.commit('system/search_path_params', []);
+    if (from.path != to.path) {
+        store.commit('system/loading', true);
+        store.commit('system/is_list', false);
+        store.commit('system/is_edit', false);
+        store.commit('system/has_search', false);
+        store.commit('system/search_fields', []);
+        store.commit('system/search_path_params', []);
+    }
 
     if (window.innerWidth < window.responsive_point) {
         window.$store.commit("system/sidebar_show", false);
