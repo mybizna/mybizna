@@ -9,9 +9,17 @@
                         <i v-if="$store.state.system.sidebar_show && windowWidth < $responsive_point"
                             class="fa-regular fa-circle-xmark  text-2xl text-red-500"></i>
                         <i v-else class="fas fa-bars text-2xl text-white"></i>
+                        <div v-if="windowWidth < $responsive_point" class="inline-block leading-1  text-white">
+                            APP
+                        </div>
+                        <span
+                            class="absolute inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-green-500 border-2 border-white rounded-full top dark:border-gray-900 left-12"
+                            style="font-size: 9px !important;">
+                            {{ $store.state.system.menu_length }}
+                        </span>
                     </a>
 
-                    <h2 class="text-md leading-7 h-8 text-white"
+                    <h2 class="text-md leading-7 h-8 ml-3 text-white"
                         :alt="($store.state.system.menu[$store.state.system.active_menu] ? $store.state.system.menu[$store.state.system.active_menu]['title'] : '') + ' - ' + $store.state.system.subtitle">
                         <small v-if="$store.state.system.menu[$store.state.system.active_menu]">
                             {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
