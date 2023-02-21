@@ -3,25 +3,6 @@
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
-$path = '../storage/logs/alltraffic.txt';
-touch($path);
-chmod($path, 0775);
-$fp = fopen($path, 'a');
-$server = $_SERVER;
-$post = $_POST;
-$get = $_GET;
-$request = $_REQUEST;
-
-fwrite($fp, "\n" );
-fwrite($fp, "\n" );
-fwrite($fp, "\n" );
-fwrite($fp, json_encode($server)."\n" );
-fwrite($fp, json_encode($post)."\n" );
-fwrite($fp, json_encode($get)."\n" );
-fwrite($fp, json_encode($request)."\n" );
-
-fclose($fp);
-
 
 define('LARAVEL_START', microtime(true));
 
