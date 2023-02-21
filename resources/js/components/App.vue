@@ -23,7 +23,7 @@
                 <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
                 <div v-if="windowWidth >= $responsive_point"
-                    :class="($floating_top && $responsive_point != 768 ? 'mt-10' : '') + ' row'">
+                    :class="($floating_top && $responsive_point == $default_responsive_point ? 'mt-10' : '') + ' row'">
 
                     <div v-if="$store.state.system.sidebar_show"
                         class="mr-0 col-sm-2 bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">

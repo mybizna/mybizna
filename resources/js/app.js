@@ -60,13 +60,16 @@ const app = createApp(App)
 
 let base_url = window.base_url + '/api';
 let assets_url = window.assets_url;
-let responsive_point = (window.responsive_point) ? window.responsive_point : 768;
+
+let default_responsive_point = (window.default_responsive_point) ? window.default_responsive_point : 768;
+let responsive_point = (window.responsive_point) ? window.responsive_point : default_responsive_point;
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxx  App Initializer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 app.config.globalProperties.$floating_top = (window.floating_top) ? window.floating_top : false;
 app.config.globalProperties.$responsive_point = responsive_point;
+app.config.globalProperties.$default_responsive_point = default_responsive_point;
 app.config.globalProperties.$base_url = base_url;
 app.config.globalProperties.$assets_url = assets_url;
 app.config.globalProperties.$emitter = mitt();
