@@ -1,5 +1,4 @@
 <template>
-
     <template v-if="$store.state.system.loading">
         <!-- backdrop-blur-sm-->
         <div wire:loading
@@ -23,7 +22,8 @@
             <template v-if="$store.state.system.menu_type == 'sidebar'">
                 <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
-                <div v-if="windowWidth >= $responsive_point" :class="($floating_top ? 'mt-10' : '') + ' row'">
+                <div v-if="windowWidth >= $responsive_point"
+                    :class="($floating_top && $responsive_point != 768 ? 'mt-10' : '') + ' row'">
 
                     <div v-if="$store.state.system.sidebar_show"
                         class="mr-0 col-sm-2 bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
@@ -110,7 +110,7 @@ export default {
 
         window.$store = store;
 
-        if (window.innerWidth >=  window.responsive_point) {
+        if (window.innerWidth >= window.responsive_point) {
             window.$store.commit("system/sidebar_show", true);
         }
 
@@ -134,7 +134,7 @@ export default {
     },
     mounted() {
         window.$store.commit("system/window_width", this.windowWidth);
-        
+
         window.onresize = () => {
             this.windowWidth = window.innerWidth;
             window.$store.commit("system/window_width", this.windowWidth);
