@@ -35,7 +35,7 @@
 
 
     <aside v-if="$store.state.system.sidebar_show && $store.state.system.window_width < $responsive_point"
-        :class="$store.state.system.window_width > 768 && $responsive_point > 768 ? 'top-18' : 'top-10  left-0'"
+        :class="$store.state.system.window_width > $default_responsive_point && $responsive_point > $default_responsive_point ? 'top-18' : 'top-10  left-0'"
         class="transform  w-56 bg-gradient-to-r from-indigo-50 to-indigo-100  border-r-2 border-r border-indigo-200 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 translate-x-0">
         <h5 class="p-2 font-semibold text-indigo-700 uppercase dark:text-indigo-400">
             <span class="uppercase">
