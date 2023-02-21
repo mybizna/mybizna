@@ -41,7 +41,7 @@ export default async function (router) {
     var routes = [];
 
     // Make a request for a auto discovering modules.
-    await window.axios.get(window.base_url + '/api/discover_modules');
+    //await window.axios.get(window.base_url + '/api/discover_modules');
 
     // Make a request for available Fetch Routes.
     await window.axios.get(window.base_url + '/api/fetch_routes')

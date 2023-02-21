@@ -23,13 +23,14 @@
                 <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
                 <div v-if="windowWidth >= $responsive_point"
-                    :class="($floating_top && $responsive_point == $default_responsive_point ? 'mt-10' : '') + ' row'">
+                    :class="($floating_top && $responsive_point == $default_responsive_point ? 'mt-10 ' : '') + ($store.state.system.sidebar_show ? ' row' : '')">
 
                     <div v-if="$store.state.system.sidebar_show"
                         class="mr-0 col-sm-2 bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
                         <app-sidebar></app-sidebar>
                     </div>
-                    <div :class="$store.state.system.sidebar_show ? 'col-sm-10' : 'col-sm-12'" class="ml-0 pl-0">
+
+                    <div :class="$store.state.system.sidebar_show ? 'col-sm-10 ' : ''" class="ml-0 pl-0">
                         <!--  v-if="$store.state.system.is_list || $store.state.system.is_edit" -->
                         <app-topbar-actions></app-topbar-actions>
                         <main class="p-0">
