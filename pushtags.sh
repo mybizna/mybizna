@@ -1,7 +1,7 @@
 #!/bin/sh
 # chmod +x pushtags.sh && ./pushtags.sh
 
-VERSION=1.2.88
+VERSION=1.2.90
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
@@ -17,6 +17,7 @@ update_assets () {
     rm -r ../assets/src/mybizna/fonts
     rm -r ../assets/src/mybizna/images
     rm -r ../assets/src/mybizna/js
+    rm -r ../assets/src/mybizna/tailwind
     rm -r ../assets/src/mybizna/tinymce
     rm -r ../assets/src/mybizna/vue3-sfc-loader
 
@@ -28,6 +29,7 @@ update_assets () {
     cp -r public/mybizna/images ../assets/src/mybizna/images
     cp -r public/mybizna/js ../assets/src/mybizna/js
     cp -r public/mybizna/tinymce ../assets/src/mybizna/tinymce
+    cp -r public/mybizna/tailwind ../assets/src/mybizna/tailwind
     cp -r public/mybizna/fontawesome ../assets/src/mybizna/fontawesome
     cp -r public/mybizna/vue3-sfc-loader ../assets/src/mybizna/vue3-sfc-loader
 }
