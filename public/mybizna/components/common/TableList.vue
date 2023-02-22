@@ -29,20 +29,26 @@
                         <thead>
                             <tr class="bg-slate-100 px-7">
 
-                                <td v-if="!settings.is_recordpicker && !settings.hide_action_button"
+                                <th v-if="!settings.is_recordpicker && !settings.hide_action_button"
                                     class="text-center uppercase w-2.5 whitespace-nowrap">
                                     <input @click="checkedItemsAll" type="checkbox" />
                                     <span class="form-check-sign">
                                         <span class="check"></span>
                                     </span>
-                                </td>
-
-                                <th class="uppercase" scope="col" v-for="(
-                                        table_field, index
-                                    ) in table_list.headers" :key="index" :style="table_field.style"
-                                    :class="table_field.class + ' text-center uppercase whitespace-nowrap p-1.5'">
-                                    {{ table_field.label }}
                                 </th>
+
+                                <th v-if="!this.settings.is_recordpicker && !this.settings.hide_action_button"
+                                    class="uppercase w-2.5"></th>
+
+                                <slot name="header">
+                                    <th class="uppercase" scope="col" v-for="(
+                                                        table_field, index
+                                                    ) in table_list.headers" :key="index" :style="table_field.style"
+                                        :class="table_field.class + ' text-center uppercase whitespace-nowrap p-1.5'">
+                                        {{ table_field.label }}
+                                    </th>
+                                </slot>
+
                             </tr>
                         </thead>
                         <tbody class="border-none">
@@ -65,16 +71,18 @@
                                             @click="recordPicker(item.id)">Select</a>
                                     </td>
 
-                                    <template v-for="(table_field, index) in table_fields">
-                                        <slot :name="key" :row="row">
-                                            <template v-if="'actions' !== key">
-                                                <td-render :key="index" :field_list="field_list" :pitem="item"
-                                                    :data_field="table_field" :class_name="
-                                                        getClassName(table_field)
-                                                    "></td-render>
-                                            </template>
-                                        </slot>
-                                    </template>
+                                    <slot name="body" :item="item">
+                                        <template v-for="(table_field, index) in table_fields">
+                                            <slot :name="table_field.name" :item="item">
+                                                <template v-if="'actions' !== table_field.name">
+                                                    <td-render :key="index" :field_list="field_list" :pitem="item"
+                                                        :data_field="table_field" :class_name="
+                                                            getClassName(table_field)
+                                                        "></td-render>
+                                                </template>
+                                            </slot>
+                                        </template>
+                                    </slot>
                                 </tr>
                             </template>
                             <tr class="border-b-sky-200" v-else>
@@ -96,24 +104,25 @@
                 <div class="flex">
                     <div class="flex-auto">
                         <FormKit id="page_limit" type="select" v-model="pagination.limit" :options="pagination.limits"
-                            validation="required" input-class="$reset form-select form-select-sm
-                                    mt-2
-                                    ml-2
-                                    appearance-none
-                                    inline-block
-                                    w-16
-                                    px-2
-                                    py-1
-                                    text-sm
-                                    font-normal
-                                    text-gray-700
-                                    bg-white bg-clip-padding bg-no-repeat
-                                    border border-solid border-gray-300
-                                    rounded
-                                    transition
-                                    ease-in-out
-                                    m-0
-                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
+                            validation="required"
+                            input-class="$reset form-select form-select-sm
+                                                    mt-2
+                                                    ml-2
+                                                    appearance-none
+                                                    inline-block
+                                                    w-16
+                                                    px-2
+                                                    py-1
+                                                    text-sm
+                                                    font-normal
+                                                    text-gray-700
+                                                    bg-white bg-clip-padding bg-no-repeat
+                                                    border border-solid border-gray-300
+                                                    rounded
+                                                    transition
+                                                    ease-in-out
+                                                    m-0
+                                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
 
 
                     </div>

@@ -42,12 +42,22 @@ window.$Modal = Modal;
 window.$filters = window.$func = window.$helper = filters;
 
 import autorouter from "@/router/autorouter";
-import Calendar from "@/components/common/Calendar";
 
 
 import App from '@/components/App';
 import "../css/app.css";
 
+// widgets
+import ThRender from '@/components/widgets/ThRender';
+import TdRender from '@/components/widgets/TdRender';
+import ImageLink from '@/components/widgets/ImageLink';
+import Pagination from '@/components/widgets/Pagination';
+import MenuDropdown from '@/components/widgets/MenuDropdown';
+
+import Calendar from "@/components/common/Calendar";
+import SearchForm from '@/components/common/SearchForm';
+import TableEdit from '@/components/common/TableEdit';
+import TableList from '@/components/common/TableList';
 
 import config from "@/formkit/config";
 
@@ -346,8 +356,15 @@ router.afterEach((to, from) => {
     NProgress.done();
 });
 
-
 app.component('calendar', Calendar);
+app.component('th-render', ThRender);
+app.component('td-render', TdRender);
+app.component('image-link', ImageLink);
+app.component('pagination', Pagination);
+app.component('menu-dropdown', MenuDropdown);
+app.component('search-form', SearchForm);
+app.component('table-edit', TableEdit);
+app.component('table-list', TableList);
 
 
 (async () => {
