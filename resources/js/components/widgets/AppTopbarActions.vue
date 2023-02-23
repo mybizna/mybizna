@@ -23,12 +23,11 @@
 <script>
 
 import { useStore } from "vuex";
+import SearchForm from "@/components/common/SearchForm";
 
 export default {
     components: {
-        SearchForm: window.$func.fetchComponent(
-            "components/common/SearchForm.vue"
-        ),
+        SearchForm
     },
     setup() {
         const store = useStore();

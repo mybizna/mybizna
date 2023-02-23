@@ -57,8 +57,8 @@ import BtnStatus from '@/components/widgets/BtnStatus';
 
 import Calendar from "@/components/common/Calendar";
 import SearchForm from '@/components/common/SearchForm';
-import TableEdit from '@/components/common/TableEdit';
-import TableList from '@/components/common/TableList';
+import EditRender from '@/components/common/EditRender';
+import TableRender from '@/components/common/TableRender';
 
 import config from "@/formkit/config";
 
@@ -364,8 +364,8 @@ app.component('image-link', ImageLink);
 app.component('pagination', Pagination);
 app.component('menu-dropdown', MenuDropdown);
 app.component('search-form', SearchForm);
-app.component('table-edit', TableEdit);
-app.component('table-list', TableList);
+app.component('edit-render', EditRender);
+app.component('table-render', TableRender);
 app.component('btn-status', BtnStatus);
 
 
