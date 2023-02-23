@@ -54,18 +54,21 @@ export default {
         search(state, payload) {
             var tmp_search = state.search;
 
-            if (payload.module in tmp_search) {
-                if (payload.table in tmp_search[payload.module]) {
-                    tmp_search[payload.module][payload.table] = {
-                        ...tmp_search[payload.module][payload.table],
+            var path_module = payload.path[0];
+            var path_table = payload.path[1];
+
+            if (path_module in tmp_search) {
+                if (path_table in tmp_search[path_module]) {
+                    tmp_search[path_module][path_table] = {
+                        ...tmp_search[path_module][path_table],
                         ...payload.search
                     };
                 } else {
-                    tmp_search[payload.module][payload.table] = payload.search;
+                    tmp_search[path_module][path_table] = payload.search;
                 }
             } else {
-                tmp_search[payload.module] = {};
-                tmp_search[payload.module][payload.table] = payload.search;
+                tmp_search[path_module] = {};
+                tmp_search[path_module][path_table] = payload.search;
             }
 
             state.search = tmp_search;

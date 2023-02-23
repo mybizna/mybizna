@@ -58,7 +58,7 @@ export default {
                 this.changed_here = true;
 
                 var path_params = this.$store.state.system.search_path_params;
-                this.$emitter.emit("system-search", { module: path_params[0], table: path_params[1], search: this.model });
+                this.$emitter.emit("system-search", { path: [path_params[0], path_params[1]], search: this.model });
 
                 this.changed_here = false;
             },
@@ -70,7 +70,7 @@ export default {
         var path_params = this.$store.state.system.search_path_params;
 
         //Preset System Search
-        this.$store.commit('system/search', { module: path_params[0], table: path_params[1], search: this.model });
+        this.$store.commit('system/search', { path: [path_params[0], path_params[1]], search: this.model });
 
         //Check if Search Path is set.
         var meta = window.$router.currentRoute.value.meta;
@@ -109,7 +109,7 @@ export default {
             }
 
 
-            this.$store.commit('system/search', { module: newmodal.module, table: newmodal.table, search: model });
+            this.$store.commit('system/search', { path: [newmodal.module, newmodal.table], search: model });
 
             if (!this.changed_here) {
                 this.model = model;

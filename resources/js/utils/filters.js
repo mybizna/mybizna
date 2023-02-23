@@ -351,7 +351,7 @@ export default {
         return input_field;
     },
 
-    saveRecordHelper(this_var, path_param, schema_fields, return_url) {
+    saveRecordHelper(this_var, path_param, return_url) {
         const t = this_var;
 
         window.axios.post(path_param.path, t.model).then((response) => {
@@ -415,9 +415,8 @@ export default {
     fetchRecordHelper(
         this_var,
         path_param,
-        schema_fields,
+        fields,
         query_str,
-        prefix,
         return_to
     ) {
         const t = this_var;
@@ -448,14 +447,14 @@ export default {
         });
     },
 
-    fetchRecordsHelper(this_var, path_param, search_fields, table_fields) {
+    fetchRecordsHelper(this_var, path_param, table_fields) {
         const t = this_var;
         t.show_delete_btn = false;
         t.loading_message = "Fetching Data. Please Wait...";
 
         var data = {
             s: {},
-            f: [],
+            f: table_fields,
             limit: t.pagination.limit,
             offset:
                 t.pagination.page == 1
@@ -463,44 +462,30 @@ export default {
                     : t.pagination.page * t.pagination.limit,
         };
 
-
-        table_fields.forEach(function (table_field) {
-            data["f"].push(table_field.name);
-            if (Object.prototype.hasOwnProperty.call(table_field, "foreign")) {
-                table_field.foreign.forEach(function (table_field_name) {
-                    data["f"].push(table_field_name);
-                });
-            }
-        });
-
         //Get Filtered Data from Store.
         var search_data = {};
+        var search_ope = {};
+
         try {
             var path_params = t.$store.state.system.search_path_params;
-            console.log(t.$store.state.system.search);
             search_data = t.$store.state.system.search[path_params[0]][path_params[1]];
+            console.log('search_data');
+            console.log(search_data);
+
+            if (typeof search_data === 'object' && search_data !== null) {
+                for (const [key, value] of Object.entries(search_data)) {
+                    data["s"][key] = { str: value };
+
+                    if (Object.prototype.hasOwnProperty.call(search_ope, key)) {
+                        data["s"][key]['ope'] = search_ope[key];
+                    }
+                }
+            }
+
         } catch (error) {
             // Pass
         }
 
-        // Add Search Fields to Query
-
-        search_fields.forEach(function (query_field) {
-            if (
-                typeof search_data === 'object' && search_data !== null &&
-                Object.prototype.hasOwnProperty.call(search_data, query_field.name) && 
-            search_data[query_field.name] !== "") {
-                data["s"][query_field.name] = {
-                    str: search_data[query_field.name],
-                };
-
-                if (query_field.ope !== "") {
-                    data["s"][query_field.name] = {
-                        ope: t.opeList[query_field.name],
-                    };
-                }
-            }
-        });
 
         window.axios
             .get(path_param.path, {
