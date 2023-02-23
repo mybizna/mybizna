@@ -53,6 +53,7 @@ import TdRender from '@/components/widgets/TdRender';
 import ImageLink from '@/components/widgets/ImageLink';
 import Pagination from '@/components/widgets/Pagination';
 import MenuDropdown from '@/components/widgets/MenuDropdown';
+import BtnStatus from '@/components/widgets/BtnStatus';
 
 import Calendar from "@/components/common/Calendar";
 import SearchForm from '@/components/common/SearchForm';
@@ -365,6 +366,7 @@ app.component('menu-dropdown', MenuDropdown);
 app.component('search-form', SearchForm);
 app.component('table-edit', TableEdit);
 app.component('table-list', TableList);
+app.component('btn-status', BtnStatus);
 
 
 (async () => {

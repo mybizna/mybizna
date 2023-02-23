@@ -54,8 +54,7 @@
 
             <div class="inline-block mx-3 text-sm text-gray-700 mt-2 sm:mt-0">
                 <span class="text-xs">Page:</span>
-                <input id="pagination_page" v-model="pagination.page" type="text" name="pagination_page"
-                    :max="pagination.pages"
+                <input id="pagination_page" v-model="page" type="text" name="pagination_page" :max="pagination.pages"
                     class="text-gray-700 inline-block w-6 bg-white border border-solid border-blue-400 rounded">
                 /{{ pagination.pages }}
                 <a @click="loadPage(pagination.page)"
@@ -67,21 +66,28 @@
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
+/* eslint-disable */
+
 export default {
-    components: {
-    },
     props: {
         loadPage: Object,
         pagination: Object,
     },
     data() {
         return {
+            page: 0
         };
+    },
+    watch: {
+        page(newer, older) {
+            if (older != 0 && newer != this.pagination.page) {
+                this.$emit('update_page', this.variable)
+            }
+        }
     },
     created() {
         var t = this;
-        console.log(t.pagination);
+        t.page = t.pagination.page;
     },
     methods: {
 

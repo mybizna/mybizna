@@ -42,8 +42,9 @@
 
                                 <slot name="header">
                                     <th class="uppercase" scope="col" v-for="(
-                                                        table_field, index
-                                                    ) in table_list.headers" :key="index" :style="table_field.style"
+                                                                table_field, index
+                                                            ) in table_list.headers" :key="index"
+                                        :style="table_field.style"
                                         :class="table_field.class + ' text-center uppercase whitespace-nowrap p-1.5'">
                                         {{ table_field.label }}
                                     </th>
@@ -99,7 +100,7 @@
             <div class="card-foot">
 
                 <pagination v-if="$store.state.system.window_width < ($responsive_point - 268)" :pagination="pagination"
-                    :loadPage="loadPage">
+                    :loadPage="loadPage" @update_page="updatePage">
                 </pagination>
 
                 <div class="flex">
@@ -107,29 +108,29 @@
                         <FormKit id="page_limit" type="select" v-model="pagination.limit" :options="pagination.limits"
                             validation="required"
                             input-class="$reset form-select form-select-sm
-                                                    mt-2
-                                                    ml-2
-                                                    appearance-none
-                                                    inline-block
-                                                    w-16
-                                                    px-2
-                                                    py-1
-                                                    text-sm
-                                                    font-normal
-                                                    text-gray-700
-                                                    bg-white bg-clip-padding bg-no-repeat
-                                                    border border-solid border-gray-300
-                                                    rounded
-                                                    transition
-                                                    ease-in-out
-                                                    m-0
-                                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
+                                                            mt-2
+                                                            ml-2
+                                                            appearance-none
+                                                            inline-block
+                                                            w-16
+                                                            px-2
+                                                            py-1
+                                                            text-sm
+                                                            font-normal
+                                                            text-gray-700
+                                                            bg-white bg-clip-padding bg-no-repeat
+                                                            border border-solid border-gray-300
+                                                            rounded
+                                                            transition
+                                                            ease-in-out
+                                                            m-0
+                                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
 
 
                     </div>
                     <div class="flex-auto">
                         <pagination v-if="$store.state.system.window_width >= ($responsive_point - 268)"
-                            :pagination="pagination" :loadPage="loadPage"></pagination>
+                            :pagination="pagination" :loadPage="loadPage" @eventname="updatePage"></pagination>
                     </div>
                     <div class="flex-auto">
                         <div v-if="!settings.is_recordpicker && !settings.hide_action_button && !(settings.hide_delete_button && !mass_actions.length)"
@@ -158,20 +159,18 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-mutating-props */
+import TdRender from "@/components/widgets/TdRender";
+import MenuDropdown from "@/components/widgets/MenuDropdown";
+import Pagination from "@/components/widgets/Pagination";
+import SearchForm from "@/components/common/SearchForm";
+
 export default {
     components: {
-        TdRender: window.$func.fetchComponent(
-            "components/widgets/TdRender.vue"
-        ),
-        MenuDropdown: window.$func.fetchComponent(
-            "components/widgets/MenuDropdown.vue"
-        ),
-        Pagination: window.$func.fetchComponent(
-            "components/widgets/Pagination.vue"
-        ),
-        SearchForm: window.$func.fetchComponent(
-            "components/common/SearchForm.vue"
-        ),
+        TdRender,
+        MenuDropdown,
+        Pagination,
+        SearchForm
     },
     props: {
         model: Object,
@@ -179,15 +178,15 @@ export default {
         title: { type: String, default: "Listing", },
         classes: { type: String, default: "", },
         passed_return_url: { type: String, default: "", },
-        dropdown_menu: { type: Array, default: [] },
-        path_param: { type: Array, default: [] },
-        search: { type: Array, default: [] },
-        search_fields: { type: Array, default: [] },
-        table_fields: { type: Array, default: [] },
-        schema_fields: { type: Array, default: [] },
-        mass_actions: { type: Array, default: [] },
+        dropdown_menu: { type: Array, default: () => [] },
+        path_param: { type: Array, default: () => [] },
+        search: { type: Array, default: () => [] },
+        search_fields: { type: Array, default: () => [] },
+        table_fields: { type: Array, default: () => [] },
+        schema_fields: { type: Array, default: () => [] },
+        mass_actions: { type: Array, default: () => [] },
         recordPicker: { type: Object, default: () => { } },
-        setting: { type: Object, default: {} },
+        setting: { type: Object, default: () => { } },
     },
     data() {
         return {
@@ -322,6 +321,9 @@ export default {
     },
 
     methods: {
+        updatePage(page = 0) {
+            this.pagination.page = page;
+        },
         getCardClassName(prefix = '') {
             return (!this.is_recordpicker) ? prefix + ' shadow-md m-1 mt-3' : ' border-0';
         },
