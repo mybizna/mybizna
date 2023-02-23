@@ -152,9 +152,7 @@ export default {
 
         }
     },
-    beforeUnmount() {
-        this.unwatch();
-    },
+
 };
 </script>
 
