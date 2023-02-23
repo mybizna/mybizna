@@ -1,18 +1,13 @@
 <template>
-    <th :class="class">
+    <th :class="classes">
         <slot></slot>
     </th>
 </template>
 
 <script>
-
 export default {
     props: {
-        class: String,
-    },
-    data() {
-        return {
-        };
+        classes: String,
     },
 
 };

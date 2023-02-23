@@ -5,13 +5,13 @@
 
             <div class="input-group input-group-sm border rounded">
                 <input type="text" class="form-control dropdown-toggle border-none focus:shadow-none"
-                    placeholder="Search Any Term." aria-label="Text input with dropdown button"
-                    data-bs-toggle="dropdown" aria-expanded="false" />
+                    placeholder="Search Any Term." aria-label="Text input with dropdown button" data-bs-toggle="dropdown"
+                    aria-expanded="false" />
                 <div class="dropdown-menu dropdown-menu-end search-dropdown p-2 shadow-lg" :class="widthClass">
                     <b>Search</b>
                     <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-1 match-height">
                         <template v-for="(item, index) in $store.state
-                        .system.search_fields" :key="index">
+                            .system.search_fields" :key="index">
                             <FormKit v-model="model[item.name]" :label="item.label" :id="item.name" :type="item.type"
                                 validation="required" />
                         </template>
@@ -38,17 +38,15 @@
                 </div>
             </div>
 
-
-
             <a>
                 <small style="font-size: 12px">
                     Filter: {{ JSON.stringify(model) }}
                 </small>
             </a>
+
         </div>
 
     </template>
-
 </template>
 
 <script>
@@ -102,6 +100,8 @@ export default {
 
             if (Object.prototype.hasOwnProperty.call(search, newmodal.module) &&
                 Object.prototype.hasOwnProperty.call(search, newmodal.table)) {
+                var oldmodel = search[newmodal.module][newmodal.table];
+
                 var oldmodel_str = JSON.stringify(oldmodel)
                 var oldmodel_obj = JSON.parse(oldmodel_str);
 
@@ -152,7 +152,7 @@ export default {
 
         }
     },
-    beforeDestroy() {
+    beforeUnmount() {
         this.unwatch();
     },
 };
