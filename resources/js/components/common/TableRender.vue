@@ -181,9 +181,7 @@ export default {
         dropdown_menu: { type: Array, default: () => [] },
         path_param: { type: Array, default: () => [] },
         search: { type: Array, default: () => [] },
-        search_fields: { type: Array, default: () => [] },
         table_fields: { type: Array, default: () => [] },
-        schema_fields: { type: Array, default: () => [] },
         mass_actions: { type: Array, default: () => [] },
         recordPicker: { type: Object, default: () => { } },
         setting: { type: Object, default: () => { } },
@@ -194,7 +192,6 @@ export default {
             table_style: { "padding-bottom": "0px" },
             loading_message: "Fetching Data.",
             show_delete_btn: false,
-            show_advance_form: false,
             has_checked_items: false,
             select_list: {},
             checkedItems: [],
@@ -254,13 +251,6 @@ export default {
             },
             deep: true,
         },
-        show_advance_form() {
-            const t = this;
-
-            if (t.show_advance_form) {
-                t.search = "";
-            }
-        },
     },
     created() {
         this.settings = { ...this.settings, ...this.setting };
@@ -274,7 +264,6 @@ export default {
 
         window.$store.commit("system/subtitle", this.title);
         window.$store.commit("system/has_search", true);
-        window.$store.commit("system/search_fields", this.search_fields);
         window.$store.commit("system/is_list", true);
         window.$store.commit("system/is_edit", false);
 
@@ -436,7 +425,6 @@ export default {
         presetTableStructure() {
             var t = this;
 
-
             t.table_fields.forEach(function (table_field, index) {
                 var align = "left";
 
@@ -508,7 +496,7 @@ export default {
                 }
             }
 
-            window.$func.fetchRecordsHelper(this, this.processed_path_param, this.search_fields, this.table_fields);
+            window.$func.fetchRecordsHelper(this, this.processed_path_param, this.table_fields);
         },
 
         async deleteRecords(ids) {

@@ -27,24 +27,15 @@
 
         </div>
 
-
-
-
     </div>
 </template>
 
 <script>
-/*eslint no-undef: 2*/
-/* eslint-disable vue/no-unused-components */
-
-
 
 export default {
     props: {
         model: Object,
         title: { type: String, default: "Editing", },
-        module: { type: String, default: "", },
-        table: { type: String, default: "", },
         passed_form_url: { type: String, default: "", },
         passed_return_url: { type: String, default: "", },
         main_column_css: { type: String, default: "", },
@@ -54,15 +45,9 @@ export default {
         has_cancel: { type: Boolean, default: true },
         path_param: { type: Array, default: () => [] },
         form_fields: { type: Array, default: () => [] },
-        form_groups: { type: Array, default: () => [] },
-        schema_fields: { type: Array, default: () => [] },
     },
     created() {
         this.preparePathParam();
-        this.addGeneralFields();
-        this.processFormFields();
-
-        var path_part = this.path_param[0] + "/" + this.path_param[1];
 
         this.id = this.$route.params.id;
 
@@ -78,7 +63,6 @@ export default {
     data() {
         return {
             id: null,
-            group_list: [],
             processed_path_param: {},
             record: {},
             select_list: {},
@@ -94,171 +78,18 @@ export default {
     },
     methods: {
         preparePathParam() {
-            var path_param = [];
+            this.processed_path_param = window.$func.pathParamHelper(this.path_param);
 
-            if (this.path_param.length !== 0) {
-                path_param = this.path_param;
-            } else {
-                path_param = [this.module, this.table];
-            }
-
-            this.processed_path_param = window.$func.pathParamHelper(path_param);
             if (this.passed_form_url != '') {
                 this.processed_path_param.path = this.passed_form_url;
             }
         },
-        addGeneralFields() {
-            var t = this;
 
-            if (t.has_modified && t.id) {
-                t.form_fields.push(
-                    {
-                        type: "label",
-                        group: "modification",
-                        label: "No Modification Details for New Records.",
-                        visible: "model.id == ''",
-                        styleClasses: "text-xs-left",
-                    },
-                    {
-                        type: "text",
-                        name: "id",
-                        group: "modification",
-                        visible: "model.id != ''",
-                        prefix: '"',
-                        suffix: '"',
-                        readonly: true,
-                        disabled: true,
-                    },
-                    {
-                        type: "user",
-                        name: "created_by",
-                        group: "modification",
-                        visible: "model.id != ''",
-                        prefix: '"',
-                        suffix: '"',
-                    },
-
-                    {
-                        type: "user",
-                        name: "updated_by",
-                        group: "modification",
-                        visible: "model.id != ''",
-                        prefix: '"',
-                        suffix: '"',
-                    },
-                    {
-                        type: "text",
-                        name: "created_at",
-                        group: "modification",
-                        visible: "model.id != ''",
-                        prefix: '"',
-                        suffix: '"',
-                        styleClasses: "col-md-6  main-group",
-                    },
-                    {
-                        type: "text",
-                        name: "updated_at",
-                        group: "modification",
-                        visible: "model.id != ''",
-                        prefix: '"',
-                        suffix: '"',
-                        styleClasses: "col-md-6  main-group",
-                    }
-                );
-            }
-        },
-        processFormFields() {
-            var t = this;
-            var groups = [];
-
-            groups = this.beforeFormFields(groups);
-            groups = this.mainFormFields(groups);
-
-            t.form_groups.forEach(function (form_group) {
-                t.group_list.push(form_group.name);
-                groups[form_group.name] = {
-                    legend: form_group.legend,
-                    styleClasses: form_group.styleClasses,
-                    fields: [],
-                };
-            });
-            groups = this.afterFormFields(groups);
-
-            t.form_fields.forEach(function (form_field) {
-                var group_name = groups[form_field.group]
-                    ? form_field.group
-                    : "main";
-
-                groups[group_name].fields.push(
-                    window.$func.formInputProcessorHelper(form_field, t)
-                );
-
-                if (form_field.type === "selectrecord") {
-                    var select_name = form_field.name + "_list";
-
-                    t.$set(t.select_list, select_name, []);
-
-                    t.getSelectList(t, select_name, form_field.source);
-                }
-            });
-
-            t.group_list.forEach(function (group_name) {
-                var tmp_group = groups[group_name];
-                t.schema.groups.push(tmp_group);
-            });
-        },
-        getSelectList(t, select_name, field_source) {
-            var path_param_obj = window.$func.pathParamHelper(field_source.path_param);
-
-            window.$func.fetchOptionsHelper(
-                t,
-                select_name,
-                path_param_obj,
-                field_source.fields
-            );
-        },
-        beforeFormFields(groups) {
-            var t = this;
-            //To be developed if needed
-            return groups;
-        },
-        mainFormFields(groups) {
-            var t = this;
-
-            groups["main"] = {
-                legend: "Main Details",
-                styleClasses: t.main_column_css,
-                fields: [],
-            };
-
-            t.group_list.push("main");
-
-            return groups;
-        },
-        afterFormFields(groups) {
-            var t = this;
-
-            if (t.has_modified && t.id) {
-                groups["modification"] = {
-                    legend: "Modification Records",
-                    styleClasses: "col-sm-6  modification-group",
-                    fields: [],
-                };
-
-                t.group_list.push("modification");
-            }
-            return groups;
-        },
         fetchRecord(id) {
-
-            console.log(id);
-            console.log(this.processed_path_param.path);
-            console.log(this.schema_fields);
 
             window.$func.fetchRecordHelper(
                 this,
                 this.processed_path_param,
-                this.schema_fields
             );
         },
 
@@ -268,7 +99,6 @@ export default {
             window.$func.saveRecordHelper(
                 this,
                 this.processed_path_param,
-                this.form_fields,
                 this.returnUrl
             );
 
