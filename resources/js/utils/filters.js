@@ -186,8 +186,7 @@ export default {
             return n;
         } else {
             //return n_str[0] + ending[Math.floor((n_str.length - 1) / 3) - 1];
-            return `${n_str[0]}${n_str[1] != "0" ? `.${n_str[1]}` : ""}${ending[Math.floor((n_str.length - 1) / 3) - 1]
-                }`;
+            return `${n_str[0]}${n_str[1] != "0" ? `.${n_str[1]}` : ""}${ending[Math.floor((n_str.length - 1) / 3) - 1]}`;
         }
     },
 
@@ -493,24 +492,35 @@ export default {
             })
             .then((response) => {
                 if (response.data) {
-                    t.items = response.data.records;
 
-                    if (t.items.length < 1) {
-                        t.show_delete_btn = false;
-                        t.loading_message = "No Data Available.";
-                    } else {
-                        if (t.pagination) {
-                            t.pagination.pages =
-                                t.pagination.limit >= response.data.total
-                                    ? 1
-                                    : Math.floor(
-                                        response.data.total /
-                                        t.pagination.limit
-                                    );
-                            t.pagination.total = response.data.total;
+                    if (!response.data.error) {
+                        t.items = response.data.records;
+
+                        if (t.items.length < 1) {
+                            t.show_delete_btn = false;
+                            t.loading_message = "No Data Available.";
+                        } else {
+                            if (t.pagination) {
+                                t.pagination.pages =
+                                    t.pagination.limit >= response.data.total
+                                        ? 1
+                                        : Math.floor(
+                                            response.data.total /
+                                            t.pagination.limit
+                                        );
+                                t.pagination.total = response.data.total;
+                            }
+
+                            t.show_delete_btn = true;
                         }
-
-                        t.show_delete_btn = true;
+                    } else {
+                        t.$notify({
+                            title: 'Fetching Records',
+                            text: response.data.message,
+                            type: 'error',
+                            speed: 1000,
+                            duration: 12000
+                        });
                     }
 
                     //t.postProcessing(t, search_fields);
