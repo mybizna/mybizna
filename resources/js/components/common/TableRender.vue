@@ -236,7 +236,7 @@ export default {
     },
     watch: {
         // whenever question changes, this function will run
-        'pagination.limit'(newQuestion, oldQuestion) {
+        'pagination.limit'(newer, older) {
             this.pagination.page = 1;
             this.fetchRecords();
         },
@@ -258,8 +258,6 @@ export default {
 
         this.preparePathParam();
         this.processDropdownMenu();
-        this.processFieldList();
-        this.presetTableStructure();
         this.fetchRecords();
 
         window.$store.commit("system/subtitle", this.title);
@@ -406,69 +404,6 @@ export default {
             }
 
 
-        },
-        processFieldList() {
-            var t = this;
-
-            t.table_fields.forEach(function (table_field) {
-                t.field_list.push(table_field.name);
-
-                if (Object.prototype.hasOwnProperty.call(table_field, "foreign")) {
-                    table_field.foreign.forEach(function (table_field_foreign) {
-                        t.field_list.push(table_field.name + '.' + table_field_foreign);
-                    });
-                }
-            });
-
-        },
-
-        presetTableStructure() {
-            var t = this;
-
-            t.table_fields.forEach(function (table_field, index) {
-                var align = "left";
-
-                if (
-                    Object.prototype.hasOwnProperty.call(table_field, "align")
-                ) {
-                    align = table_field.align;
-                }
-
-                t.table_fields[index]["path"] = table_field.prop.split(".");
-
-                var table_field_name = '';
-                if (
-                    Object.prototype.hasOwnProperty.call(table_field, "label")
-                ) {
-                    table_field_name = table_field.label;
-                }
-                if (
-                    Object.prototype.hasOwnProperty.call(table_field, "text")
-                ) {
-                    table_field_name = table_field.text;
-                }
-                if (
-                    Object.prototype.hasOwnProperty.call(table_field, "name")
-                ) {
-                    table_field_name = table_field.name;
-                }
-
-                var tmp_label = table_field_name
-                    .replace("_id", "")
-                    .replaceAll("_", " ")
-                    .replace(/\w\S*/g, function (word) {
-                        return (
-                            word.charAt(0).toUpperCase() +
-                            word.substr(1).toLowerCase()
-                        );
-                    });
-
-                t.table_list.headers.push({
-                    label: tmp_label,
-                    key: table_field.name.toLowerCase(),
-                    sortable: false,
-                });
-            });
         },
         loadPage: function (page = '') {
 
