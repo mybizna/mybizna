@@ -36,7 +36,7 @@
                         <span class="ml-1 grow leading-7 text-gray-800 hover:text-blue-800">
                             {{ item.title }}
                         </span>
-                        <i class="fas fa-angle-down leading-7"></i>
+                        <i class="fas fa-caret-down leading-7"></i>
                     </a>
                 </li>
 
@@ -54,13 +54,13 @@
                                     <span class="ml-1 grow leading-8 text-gray-900">
                                         {{ subitem.title }}
                                     </span>
-                                    <i class="fas fa-angle-down leading-8"></i>
+                                    <i class="fas fa-angle-down text-sm leading-8"></i>
                                 </a>
                             </li>
 
                             <ul :id="'menu-' + m_index + '-' + t_index + '-list'"
                                 :aria-labelledby="'menu-' + m_index + '-' + t_index"
-                                :class="(menu[m_index] && menu[m_index][t_index]) ? '' : 'hidden'" class="py-1 ">
+                                :class="(menu[m_index] && menu[m_index][t_index]) ? '' : 'hidden'" class="py-1 bg-blue-200 border-b border-b-blue-300">
 
                                 <template v-for="(subitemmenu, s_index) in subitem.list" :key="s_index">
                                     <li v-if="subitemmenu.title == ''" class="pl-7 pr-2">

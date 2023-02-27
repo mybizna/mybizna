@@ -26,7 +26,7 @@
                     :class="($floating_top && $responsive_point == $default_responsive_point ? 'mt-10 ' : '') + ($store.state.system.sidebar_show ? ' row' : '')">
 
                     <div v-if="$store.state.system.sidebar_show"
-                        class="mr-0 col-sm-2 bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
+                        class="mr-0 ml-0 pr-0 col-sm-2 bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
                         <app-sidebar></app-sidebar>
                     </div>
 
