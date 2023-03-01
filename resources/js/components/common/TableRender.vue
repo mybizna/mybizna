@@ -254,7 +254,6 @@ export default {
     },
     created() {
         this.settings = { ...this.settings, ...this.setting };
-        console.log(this.settings);
 
         this.preparePathParam();
         this.processDropdownMenu();
@@ -369,7 +368,6 @@ export default {
             this.$store.commit('system/search_path_params', this.path_param);
 
             this.processed_path_param = window.$func.pathParamHelper(this.path_param);
-            console.log(this.processed_path_param);
 
             this.$store.commit('system/path_params', this.processed_path_param);
         },
