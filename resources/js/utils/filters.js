@@ -353,7 +353,9 @@ export default {
     saveRecordHelper(this_var, path_param, return_url) {
         const t = this_var;
 
-        window.axios.post(path_param.path, t.model).then((response) => {
+        var path = (t.model.id) ? path_param.path + '/' + t.model.id : path_param.path;
+        
+        window.axios.post(path, t.model).then((response) => {
             var tmpitem = response.data;
 
             if (Object.prototype.hasOwnProperty.call(tmpitem, "record")) {
