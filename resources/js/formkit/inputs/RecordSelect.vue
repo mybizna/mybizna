@@ -17,8 +17,16 @@ export default {
         'context.attrs.filter': function (newVal, oldVal) {
             this.loadResource();
         },
+
+        'context.value': function (newVal, oldVal) {
+            if (newVal != oldVal) {
+                this.selected = newVal;
+            }
+        },
         selected: function (newVal, oldVal) {
-            this.context.node.input(newVal);
+            if (newVal !== oldVal) {
+                this.context.node.input(newVal);
+            }
         },
 
     },

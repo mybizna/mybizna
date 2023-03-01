@@ -362,7 +362,7 @@ export default {
                 t.$notify({
                     title: 'Saving Action',
                     text: 'Record Saved Successfully',
-                    type: 'error',
+                    type: 'success',
                     speed: 1000,
                     duration: 6000
                 });
@@ -468,8 +468,6 @@ export default {
         try {
             var path_params = t.$store.state.system.search_path_params;
             search_data = t.$store.state.system.search[path_params[0]][path_params[1]];
-            console.log('search_data');
-            console.log(search_data);
 
             if (typeof search_data === 'object' && search_data !== null) {
                 for (const [key, value] of Object.entries(search_data)) {
@@ -546,8 +544,6 @@ export default {
                 results.push({ id: id, result: response.data });
             });
 
-            console.log('deleteRecordHelper');
-            console.log(results);
 
         }
 

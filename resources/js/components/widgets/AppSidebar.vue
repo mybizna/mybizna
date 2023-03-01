@@ -116,8 +116,6 @@ export default {
         if (active_subs_2 != '') {
             this.menu[active_subs_1][active_subs_2] = true;
         }
-
-        console.log(this.menu);
     },
     data() {
         return {
@@ -136,9 +134,6 @@ export default {
             this.$store.commit("system/active_subs_1", '');
             this.$store.commit("system/active_subs_2", '');
             this.$store.commit("system/active_subs_3", '');
-
-            console.log(m_index);
-            console.log(t_index);
 
             if (m_index != '') {
                 this.$store.commit("system/active_subs_1", m_index);

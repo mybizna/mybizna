@@ -67,7 +67,6 @@ export default {
                     message: message, button: { no: 'No', yes: 'Yes' },
                     callback:  confirm => {
                         if (confirm) {
-                            console.log(dropdown_menu);
                             var path = { type: 'router', link: dropdown_menu.return };
                             that.$emitter.emit(dropdown_menu.event, { ids: [item.id], path: path });
                         }
