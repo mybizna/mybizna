@@ -19,5 +19,8 @@
     "Partner": true,
     "Product": true,
     "Realestate": true,
-    "Sale": true
+    "Sale": true,
+    "Sms": true,
+    "Smsmass": true,
+    "Smsreader": true
 }
