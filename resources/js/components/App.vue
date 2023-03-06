@@ -23,7 +23,7 @@
                 <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
                 <div v-if="windowWidth >= $responsive_point"
-                    :class="($floating_top && $responsive_point == $default_responsive_point ? 'mt-10 ' : '') + ($store.state.system.sidebar_show ? ' row' : '')">
+                    :class="($margin_top && $floating_top && $responsive_point == $default_responsive_point ? 'mt-10 ' : '') + ($store.state.system.sidebar_show ? ' row' : '')">
 
                     <div v-if="$store.state.system.sidebar_show"
                         class="mr-0 ml-0 pr-0 col-sm-2 bg-gradient-to-r from-indigo-50 to-indigo-100 border-r-2 border-r border-indigo-200">
@@ -40,49 +40,50 @@
                         </main>
                     </div>
                 </div>
-                <div v-else class="mt-10">
-                    <app-topbar-actions></app-topbar-actions>
+                <div v-else :class="$margin_top ? 'mt-10':''">
+                        <app-topbar-actions></app-topbar-actions>
+                        <main class="p-0">
+                            <div class="app-content-container boxed-container">
+                                <router-view></router-view>
+                            </div>
+                        </main>
+                    </div>
+
+
+                </template>
+                <template v-else>
+                    <app-topbar></app-topbar>
+                    <app-bar-nav-menu></app-bar-nav-menu>
                     <main class="p-0">
                         <div class="app-content-container boxed-container">
                             <router-view></router-view>
                         </div>
                     </main>
-                </div>
+
+                </template>
 
 
             </template>
             <template v-else>
-                <app-topbar></app-topbar>
-                <app-bar-nav-menu></app-bar-nav-menu>
                 <main class="p-0">
-                    <div class="app-content-container boxed-container">
-                        <router-view></router-view>
-                    </div>
+                    <router-view></router-view>
                 </main>
-
             </template>
 
 
-        </template>
-        <template v-else>
-            <main class="p-0">
-                <router-view></router-view>
-            </main>
-        </template>
 
-
-
-        <footer v-if="$store.getters['auth/loggedIn']" app inset color="transparent" absolute height="56"
-            class="footer mt-auto py-3 bg-light">
-            <div class="container">
-                <div class="text-muted text-center">
-                    <span>
-                        &copy; 2022 - 2023
-                        <a href="https://mybizna.com" class="text-decoration-none" target="_blank">Mybizna</a></span>
+            <footer v-if="$store.getters[' auth/loggedIn']" app inset color="transparent" absolute height="56"
+                    class="footer mt-auto py-3 bg-light">
+                    <div class="container">
+                        <div class="text-muted text-center">
+                            <span>
+                                &copy; 2022 - 2023
+                                <a href="https://mybizna.com" class="text-decoration-none"
+                                    target="_blank">Mybizna</a></span>
+                        </div>
+                    </div>
+                    </footer>
                 </div>
-            </div>
-        </footer>
-    </div>
 </template>
 
 
