@@ -5,7 +5,7 @@
             <div class="flex-auto">
                 <div class="flex justify-start pt-1 pl-1 mr-2 space-x-4 cursor-pointer text-blue-600">
 
-                    <a @click="drawer" class="w-14">
+                    <a @click="drawer" class="w-15">
                         <i v-if="$store.state.system.sidebar_show && windowWidth < $responsive_point"
                             class="fa-regular fa-circle-xmark  text-2xl text-red-200"></i>
                         <i v-else class="fas fa-bars text-2xl text-white"></i>
