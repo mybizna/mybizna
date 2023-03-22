@@ -26,6 +26,25 @@ Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Larave
 ## Installation
 
 ```
+composer create-project laravel/laravel:^9.0 mybizna
+
+cd mybizna/
+
+composer require mybizna/account
+
+// Configure Database in .env
+
+php artisan module:enable
+
+php artisan key:generate
+
+php artisan serve
+
+```
+
+## How to Participate
+
+```
 git clone --depth 1 https://github.com/mybizna/mybizna
 
 cd mybizna
