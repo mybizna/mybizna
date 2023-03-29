@@ -34,6 +34,13 @@ composer require mybizna/account
 
 // Configure Database in .env
 
+// Edit app/Models/Users.php
+protected $fillable = [
+        ....
+        'username',
+        'phone',
+];
+
 php artisan module:enable
 
 php artisan key:generate
