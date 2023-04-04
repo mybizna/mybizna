@@ -1,14 +1,21 @@
 import {
     createInput
 } from '@formkit/vue';
+import DatePicker from "@/formkit/inputs/DatePicker";
+import DateRangePicker from "@/formkit/inputs/DateRangePicker";
+import DateTimePicker from "@/formkit/inputs/DateTimePicker";
 import Dropzone from "@/formkit/inputs/Dropzone";
 import Editor from "@/formkit/inputs/Editor";
 import Face from "@/formkit/inputs/Face";
 import Media from "@/formkit/inputs/Media";
+import MonthPicker from "@/formkit/inputs/MonthPicker";
 import OneTimePassword from "@/formkit/inputs/OneTimePassword";
+import YearPicker from "@/formkit/inputs/YearPicker";
 import RecordPicker from "@/formkit/inputs/RecordPicker";
 import RecordSelect from "@/formkit/inputs/RecordSelect";
 import Switch from "@/formkit/inputs/Switch";
+import TimePicker from "@/formkit/inputs/TimePicker";
+import WeekPicker from "@/formkit/inputs/WeekPicker";
 
 import {
     generateClasses
@@ -65,6 +72,27 @@ export default {
             props: ['status'],
         }),
         recordselect: createInput(RecordSelect, {
+            props: ['status'],
+        }),
+        datepicker: createInput(DatePicker, {
+            props: ['status'],
+        }),
+        datetimepicker: createInput(DateTimePicker, {
+            props: ['status'],
+        }),
+        daterangepicker: createInput(DateRangePicker, {
+            props: ['status'],
+        }),
+        monthpicker: createInput(MonthPicker, {
+            props: ['status'],
+        }),
+        timepicker: createInput(TimePicker, {
+            props: ['status'],
+        }),
+        weekpicker: createInput(WeekPicker, {
+            props: ['status'],
+        }),
+        yearpicker: createInput(YearPicker, {
             props: ['status'],
         }),
     },
