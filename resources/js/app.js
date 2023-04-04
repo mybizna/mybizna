@@ -28,6 +28,9 @@ import '@popperjs/core';
 
 import mitt from 'mitt';
 
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+
 //import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
@@ -358,6 +361,8 @@ router.afterEach((to, from) => {
     NProgress.done();
 });
 
+
+app.component('Datepicker', Datepicker);
 app.component('calendar', Calendar);
 app.component('th-render', ThRender);
 app.component('td-render', TdRender);
