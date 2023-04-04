@@ -2,7 +2,7 @@
 <template>
     <Datepicker :name="context.id" :disabled="context.disabled" :validation="context.validation"
         :placeholder="context.placeholder" :classes="classes" :auto-position="false" auto-apply
-        v-model="selected" time-picker  />
+        v-model="selected" enable-seconds time-picker  />
     {{ context.errors }}
 </template>
 
