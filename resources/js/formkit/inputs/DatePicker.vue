@@ -1,7 +1,7 @@
 
 <template>
     <Datepicker :name="context.id" :disabled="context.disabled" :validation="context.validation"
-        :placeholder="context.placeholder" :classes="classes"
+        :placeholder="context.placeholder" :classes="classes" :auto-position="false" auto-apply
         v-model="selected"/>
         {{ context.errors }}
 </template>
