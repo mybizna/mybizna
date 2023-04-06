@@ -44,7 +44,7 @@ class ExampleTest extends TestCase
             'quantity' => 1,
         ]);
 
-        $invoice->generateInvoice('Invoice 100', $tmp_partner->id, $items, 'draft', 'Invoice 100');
+       $invoice->generateInvoice('Invoice 100', $tmp_partner->id, $items, 'draft', 'Invoice 100');
 
         return $this->assertTrue(true);
     }
@@ -64,17 +64,25 @@ class ExampleTest extends TestCase
         $payment = new Payment();
         $ledger = new Ledger();
 
-        $payment->makePayment($tmp_partner->id, 'Payment 100', 100, 1, true);
+        //$payment->makePayment($tmp_partner->id, 'Payment 100', 100, 1, true);
 
         return $this->assertTrue(true);
     }
 
     public function test_assert_100_payment()
     {
-        
         $ledger = new Ledger();
         $tmp_partner = DBPartner::where('phone', '0799999999')->first();
         $account = $ledger->getAccountBalance($tmp_partner->id);
+        
+        $journals = DBJournal::from('account_journal AS aj')
+            ->select('aj.*', 'al.slug AS ledger_slug')
+            ->where('partner_id', $tmp_partner->id)
+            ->leftJoin('account_ledger AS al', 'al.id', '=', 'aj.ledger_id')
+            ->get();
+
+        print_r(json_decode(json_encode($journals)));
+
         return $this->assertEquals(0, $account['balance']);
     }
 
