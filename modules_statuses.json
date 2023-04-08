@@ -18,6 +18,7 @@
     "Mrp": true,
     "Partner": true,
     "Product": true,
+    "Queuing": true,
     "Realestate": true,
     "Sale": true,
     "Sms": true,
