@@ -35,6 +35,10 @@ export default {
         if (!store.state.system.menu.length) {
             store.dispatch("system/getMenu");
         }
+
+        if (!store.state.system.positions.length) {
+            store.dispatch("system/getPositions");
+        }
     },
     mounted() {
     },

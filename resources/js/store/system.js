@@ -23,7 +23,9 @@ export default {
         search_path_params: [],
         path_params: {},
         search_changes: '',
-        window_width: 1000,
+        positions: [],
+        has_positions: false,
+        positions_length: 0,
     },
     getters: {
         search: state => state.search,
@@ -118,8 +120,46 @@ export default {
         menu_type(state, payload) {
             state.menu_type = payload;
         },
+        positions(state, payload) {
+            state.positions = payload;
+        },
+        has_positions(state, payload) {
+            state.has_positions = payload;
+        },
+        positions_length(state, payload) {
+            state.positions_length = payload;
+        },
     },
     actions: {
+        async getPositions({
+            commit
+        }) {
+
+            await window.axios.get("/fetch_positions")
+                .then(
+                    response => {
+
+                        var counter = 0;
+
+                        if (Array.isArray(response.data)) {
+                            counter = response.data.length;
+                        } else {
+                            counter = Object.keys(response.data).length;
+                        }
+                        Object.keys(response.data).length;
+
+                        commit('positions_length', counter);
+                        commit('positions', response.data);
+                        commit('has_positions', true);
+
+                    })
+                .catch(
+                    response => {
+                        if (response.status === 401) {
+                            console.log('Issues Getting Menu');
+                        }
+                    });
+        },
         async getMenu({
             commit
         }) {

@@ -8,6 +8,7 @@ import {
     createStore
 } from 'vuex';
 import moment from 'moment';
+import VueApexCharts from "vue3-apexcharts";
 
 import Cookies from "js-cookie";
 import createPersistedState from "vuex-persistedstate";
@@ -51,6 +52,7 @@ import App from '@/components/App';
 import "../css/app.css";
 
 // widgets
+import Positions from '@/components/widgets/Positions';
 import ThRender from '@/components/widgets/ThRender';
 import TdRender from '@/components/widgets/TdRender';
 import ImageLink from '@/components/widgets/ImageLink';
@@ -68,6 +70,7 @@ import config from "@/formkit/config";
 const app = createApp(App)
     .use(Notifications)
     .use(Vue3ConfirmDialog)
+    .use(VueApexCharts)
     .use(plugin, defaultConfig(config));
 
 //loadFonts();
@@ -365,6 +368,7 @@ router.afterEach((to, from) => {
 app.component('Datepicker', Datepicker);
 app.component('calendar', Calendar);
 app.component('th-render', ThRender);
+app.component('positions', Positions);
 app.component('td-render', TdRender);
 app.component('image-link', ImageLink);
 app.component('pagination', Pagination);
@@ -373,7 +377,7 @@ app.component('search-form', SearchForm);
 app.component('edit-render', EditRender);
 app.component('table-render', TableRender);
 app.component('btn-status', BtnStatus);
-
+app.component('apexchart', VueApexCharts);
 
 (async () => {
 
