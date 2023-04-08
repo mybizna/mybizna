@@ -76,3 +76,6 @@
 [submodule "commands"]
 	path = commands
 	url = https://github.com/mybizna/commands.git
+[submodule "queuing"]
+	path = Modules/Queuing
+	url = https://github.com/mybizna/queuing.git
