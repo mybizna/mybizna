@@ -130,7 +130,7 @@
                     </div>
                     <div class="flex-auto">
                         <pagination v-if="$store.state.system.window_width >= ($responsive_point - 268)"
-                            :pagination="pagination" :loadPage="loadPage" @eventname="updatePage"></pagination>
+                            :pagination="pagination" :loadPage="loadPage" @update_page="updatePage"></pagination>
                     </div>
                     <div class="flex-auto">
                         <div v-if="!settings.is_recordpicker && !settings.hide_action_button && !(settings.hide_delete_button && !mass_actions.length)"
@@ -308,6 +308,7 @@ export default {
 
     methods: {
         updatePage(page = 0) {
+            console.log(page);
             this.pagination.page = page;
         },
         getCardClassName(prefix = '') {

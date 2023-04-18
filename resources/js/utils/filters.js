@@ -354,7 +354,7 @@ export default {
         const t = this_var;
 
         var path = (t.model.id) ? path_param.path + '/' + t.model.id : path_param.path;
-        
+
         window.axios.post(path, t.model).then((response) => {
             var tmpitem = response.data;
 
@@ -460,7 +460,7 @@ export default {
             offset:
                 t.pagination.page == 1
                     ? 0
-                    : t.pagination.page * t.pagination.limit,
+                    : t.pagination.page * t.pagination.limit - t.pagination.limit,
         };
 
         //Get Filtered Data from Store.
