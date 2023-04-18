@@ -57,7 +57,7 @@
                 <input id="pagination_page" v-model="page" type="text" name="pagination_page" :max="pagination.pages"
                     class="text-gray-700 inline-block w-6 bg-white border border-solid border-blue-400 rounded">
                 /{{ pagination.pages }}
-                <a @click="loadPage(pagination.page)"
+                <a @click="loadPage(page)"
                     class="uppercase cursor-point text-white  bg-blue-700 font-medium text-center px-2 py-1 rounded ml-2">GO</a>
 
             </div>
@@ -79,11 +79,20 @@ export default {
         };
     },
     watch: {
+        pagination: {
+            handler: function (newVal, oldVal) {
+                console.log(newVal);
+                this.page = newVal.page;
+            },
+            immediate: true,
+            deep: true,
+        },
         page(newer, older) {
-            if (older != 0 && newer != this.pagination.page) {
-                this.$emit('update_page', this.variable)
+            if (newer != older) {
+                // this.$emit('update_page', newer)
             }
         }
+
     },
     created() {
         var t = this;
