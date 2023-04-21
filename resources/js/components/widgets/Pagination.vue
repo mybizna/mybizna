@@ -81,7 +81,6 @@ export default {
     watch: {
         pagination: {
             handler: function (newVal, oldVal) {
-                console.log(newVal);
                 this.page = newVal.page;
             },
             immediate: true,
