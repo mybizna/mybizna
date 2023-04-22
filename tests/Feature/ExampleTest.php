@@ -548,11 +548,12 @@ class ExampleTest extends TestCase
             ->select('aj.*', 'al.slug AS ledger_slug')
             ->where('partner_id', $tmp_partner->id)
             ->leftJoin('account_ledger AS al', 'al.id', '=', 'aj.ledger_id')
+            ->orderBy('id', 'ASC')
             ->get();
 
         foreach ($journals as $key => $journal) {
             print_r("\n");
-            print_r("$journal->id \t $journal->debit \t $journal->credit \t $journal->ledger_slug \t $journal->title \n");
+            print_r("$journal->id \t $journal->debit \t $journal->credit \t\t $journal->ledger_slug \t\t $journal->title \n");
             print_r("\n");
         }
 

@@ -38,8 +38,16 @@ composer require mybizna/account
 protected $fillable = [
         ....
         'username',
+        'is_admin',
         'phone',
 ];
+
+// Add class
+use Spatie\Permission\Traits\HasRoles;
+// Add Trait
+use  HasRoles;
+
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 
 php artisan module:enable
 

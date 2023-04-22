@@ -91,4 +91,11 @@
       'Identity' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Identity',
     ),
   ),
+  'spatie/laravel-permission' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\Permission\\PermissionServiceProvider',
+    ),
+  ),
 );
