@@ -49,6 +49,10 @@ use  HasRoles;
 
 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 
+php artisan automigrator:migrate
+
+php artisan mybizna:dataprocessor
+
 php artisan module:enable
 
 php artisan key:generate
