@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPhoneFieldInUsersTable extends Migration
+class AddFieldsInUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,9 @@ class AddPhoneFieldInUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->string('username')->unique()->after('name');
             $table->string('phone')->after('email');
+            $table->tinyInteger('is_admin')->after('email');
         });
     }
 
@@ -26,7 +28,9 @@ class AddPhoneFieldInUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('username');
             $table->dropColumn('email');
+            $table->dropColumn('is_admin');
         });
     }
 }
