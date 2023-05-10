@@ -1,7 +1,7 @@
 #!/bin/sh
 # chmod +x pushtags.sh && ./pushtags.sh
 
-VERSION=1.3.47
+VERSION=1.3.49
 FOLDER=$(pwd)
 OLDVERSION=`cat version`
 
