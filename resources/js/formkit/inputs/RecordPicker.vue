@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <button type="button"
             class="mr-4 py-2 px-4 rounded-full border-0 text-sm font-semibold bg-blue-500 text-white hover:bg-blue-800"
@@ -23,14 +22,13 @@
 
                     <div class="modal-body p-0">
                         <component :is="currentComp" :recordPicker="recordPicker"
-                            :setting="{ is_recordpicker:is_recordpicker }">
+                            :setting="{ is_recordpicker: is_recordpicker }">
                         </component>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </template>
 
 
@@ -47,6 +45,7 @@ export default {
 
     data() {
         return {
+            selected: '',
             currentComp: Loading,
             record: {},
             message: '',
@@ -54,11 +53,21 @@ export default {
             is_recordpicker: true
         }
     },
-    mounted() {
-        if (parseInt(this.context.value)) {
-            this.loadRecord(this.context.value);
-        }
+    watch: {
+        'context.value': function (newVal, oldVal) {
+            if (newVal != oldVal) {
+                this.selected = newVal;
 
+                this.loadRecord(newVal);
+            }
+        },
+        selected: function (newVal, oldVal) {
+            if (newVal !== oldVal) {
+                this.context.node.input(newVal);
+            }
+        },
+    },
+    mounted() {
         const myModalEl = document.getElementById(this.context.id + 'Modal');
 
         myModalEl.addEventListener('hidden.bs.modal', event => {
@@ -85,10 +94,11 @@ export default {
         recordPicker(id) {
             this.modalToggle();
 
-            //Modal(document.getElementById(this.context.id + 'Modal')).hide();
-            Modal.getOrCreateInstance(document.getElementById(this.context.id + 'Modal')).hide()
+            Modal.getOrCreateInstance(document.getElementById(this.context.id + 'Modal')).hide();
 
-            this.loadRecord(id);
+            this.context.node.input(id);
+
+            //this.loadRecord(id);
         },
         loadRecord(id) {
             const getdata = async (t, id) => {
@@ -98,11 +108,15 @@ export default {
                 var part2 = t.context.attrs.setting.path_param[1];
                 var comp_url = part1 + "/admin/" + part2 + "/" + id;
 
+                console.log(comp_url);
+
                 await window.axios.get(comp_url, { params: { f: t.context.attrs.setting.fields } })
                     .then(
                         response => {
 
                             t.record = response.data.record;
+
+                            console.log( t.record);
 
                             var fields = t.context.attrs.setting.fields;
 

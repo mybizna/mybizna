@@ -125,6 +125,7 @@ export default {
     },
     methods: {
         updateSidebarShow() {
+            window.scrollTo(0, 0);
             if (window.innerWidth < this.$responsive_point) {
                 this.$store.commit("system/sidebar_show", false);
             }
