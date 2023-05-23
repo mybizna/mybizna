@@ -35,4 +35,4 @@ Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Larave
 
 ## Who's behind?
 
-An open-source project by [mybizna](https://mybizna.com/){:target="_blank" rel="noopener"}, contributed by a bunch of [people](https://github.com/mybizna/mybizna/graphs/contributors){:target="_blank" rel="noopener"}.
+An open-source project by [mybizna](https://mybizna.com/) contributed by a bunch of [people](https://github.com/mybizna/mybizna/graphs/contributors).
