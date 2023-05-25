@@ -80,3 +80,6 @@
 	path = Modules/Queuing
 	url = https://github.com/mybizna/queuing.git
 
+[submodule "Modules/Tertiary"]
+	path = Modules/Tertiary
+	url = https://github.com/mybizna/tertiary.git
