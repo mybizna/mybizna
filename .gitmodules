@@ -83,3 +83,6 @@
 [submodule "Modules/Tertiary"]
 	path = Modules/Tertiary
 	url = https://github.com/mybizna/tertiary.git
+[submodule "Modules/School"]
+	path = Modules/School
+	url = https://github.com/mybizna/school.git
