@@ -21,7 +21,9 @@
     "Queuing": true,
     "Realestate": true,
     "Sale": true,
+    "School": true,
     "Sms": true,
     "Smsmass": true,
-    "Smsreader": true
+    "Smsreader": true,
+    "Tertiary": true
 }
