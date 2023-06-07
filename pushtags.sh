@@ -1,12 +1,6 @@
 #!/bin/sh
 # chmod +x pushtags.sh && ./pushtags.sh
 
-VERSION=1.3.58
-FOLDER=$(pwd)
-OLDVERSION=`cat version`
-
-echo "Enter Your Commit Message: "  
-read MESSAGE  
 echo "
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 Starting Commit Process
@@ -30,99 +24,243 @@ update_assets () {
     cp -r public/mybizna/vue3-sfc-loader ../assets/src/mybizna/vue3-sfc-loader
 }
 
+
 commit_assets () {
     cd ../assets
 
-    #sed -i s/$OLDVERSION/$VERSION/g  composer.json 
-    jq ".version=\"$VERSION\"" composer.json > tmp_composer.json
-    echo yes | mv tmp_composer.json composer.json
+    last_release_commit=$(git describe --abbrev=0 --tags)
+    commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
 
-    git add .
-    git commit --allow-empty -m "$MESSAGE"
-    git push origin main
-    git tag $VERSION
-    git push --tags
+    if [ "$commit_count" -gt 0 ]; then
 
-    gh repo set-default
-    gh release create $VERSION --generate-notes
+        # Get the current date and extract the year and week number
+        current_year=$(date +%y)
+        current_month=$(date +%m)
 
-    cd ../erp
+        # Extract the current version from the module's composer.json
+        current_version=$(jq -r '.version' composer.json)
+        echo $current_version
+
+        major=$(echo "$current_version" | cut -d'.' -f1)
+        minor=$(echo "$current_version" | cut -d'.' -f2)
+        patch=$(echo "$current_version" | cut -d'.' -f3)
+
+        # Reset the patch to zero at the start of each month
+        if [ "$minor" != "$current_month" ]; then
+            minor=$current_month
+            patch=0
+        else
+            patch=$((patch + 1))
+        fi
+
+        major=$current_year
+        minor=$current_month            
+
+        # Construct the new version
+        new_version="$major.$minor.$patch"
+
+        MESSAGE="Release $new_version"
+
+        jq ".version=\"$new_version\"" composer.json > tmp_composer.json
+        echo yes | mv tmp_composer.json composer.json
+
+        git add .
+        git commit --allow-empty -m "$MESSAGE"
+        git push origin main
+        git tag $new_version
+        git push --tags
+
+        gh repo set-default
+        gh release create $new_version --generate-notes
+
+        cd ../erp
+
+    fi
 }
 
 
 commit_migration () {
     cd ../migration
 
-    #sed -i s/$OLDVERSION/$VERSION/g  composer.json 
-    jq ".version=\"$VERSION\"" composer.json > tmp_composer.json
-    echo yes | mv tmp_composer.json composer.json
+    last_release_commit=$(git describe --abbrev=0 --tags)
+    commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
 
-    git add .
-    git commit --allow-empty -m "$MESSAGE"
-    git push origin main
-    git tag $VERSION
-    git push --tags
+    if [ "$commit_count" -gt 0 ]; then
 
-    gh repo set-default
-    gh release create $VERSION --generate-notes
+        # Get the current date and extract the year and week number
+        current_year=$(date +%y)
+        current_month=$(date +%m)
+
+        # Extract the current version from the module's composer.json
+        current_version=$(jq -r '.version' composer.json)
+        echo $current_version
+
+        major=$(echo "$current_version" | cut -d'.' -f1)
+        minor=$(echo "$current_version" | cut -d'.' -f2)
+        patch=$(echo "$current_version" | cut -d'.' -f3)
+
+        # Reset the patch to zero at the start of each month
+        if [ "$minor" != "$current_month" ]; then
+            minor=$current_month
+            patch=0
+        else
+            patch=$((patch + 1))
+        fi
+
+        major=$current_year
+        minor=$current_month            
+
+        # Construct the new version
+        new_version="$major.$minor.$patch"
+
+        MESSAGE="Release $new_version"
+
+        jq ".version=\"$new_version\"" composer.json > tmp_composer.json
+        echo yes | mv tmp_composer.json composer.json
+
+        git add .
+        git commit --allow-empty -m "$MESSAGE"
+        git push origin main
+        git tag $new_version
+        git push --tags
+
+        gh repo set-default
+        gh release create $new_version --generate-notes
+
+    fi
 
     cd ../erp
 }
 
-commit_erp_versioned () {
-
-    #sed -i s/$OLDVERSION/$VERSION/g  composer.json
-    jq ".version=\"$VERSION\"" composer.json > tmp_composer.json
-    echo yes | mv tmp_composer.json composer.json
-
+commit_module () {
     for module in `ls -U Modules| sort`; do
-        jq ".version=\"$VERSION\"" Modules/$module/composer.json > Modules/$module/tmp_composer.json
-        echo yes | mv Modules/$module/tmp_composer.json Modules/$module/composer.json
+        cd Modules/$module
+
+        echo ""
+        echo ""
+        echo "-------------------"
+        echo "Module $module"        
+
+        last_release_commit=$(git describe --abbrev=0 --tags)
+        commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
+
+        if [ "$commit_count" -gt 0 ]; then
+            echo "There are $commit_count commit(s) from the last release."
+
+            echo "Module $module has a commit from the last release."
+            # Advance the version based on your requirements
+            # Update the module's composer.json and perform necessary actions
+
+            # Get the current date and extract the year and week number
+            current_year=$(date +%y)
+            current_month=$(date +%m)
+
+            # Extract the current version from the module's composer.json
+            current_version=$(jq -r '.version' composer.json)
+            echo $current_version
+
+            major=$(echo "$current_version" | cut -d'.' -f1)
+            minor=$(echo "$current_version" | cut -d'.' -f2)
+            patch=$(echo "$current_version" | cut -d'.' -f3)
+
+            # Reset the patch to zero at the start of each month
+            if [ "$minor" != "$current_month" ]; then
+                minor=$current_month
+                patch=0
+            else
+                patch=$((patch + 1))
+            fi
+
+            major=$current_year
+            minor=$current_month            
+
+            # Construct the new version
+            new_version="$major.$minor.$patch"
+
+            echo $new_version
+
+            jq ".version=\"$new_version\"" composer.json > tmp_composer.json
+            echo yes | mv tmp_composer.json composer.json
+
+            MESSAGE="Release $new_version"
+
+            git add .
+            git commit --allow-empty -m "$MESSAGE"
+            git push origin main
+
+            git tag $new_version
+            git push --tags
+
+            gh repo set-default
+            gh release create $new_version --generate-notes
+
+            # Perform any necessary actions with the updated version
+
+            echo "Version for module $module has been advanced to $new_version."
+        else
+            echo "There are no new commits since the last release."
+        fi
+
+        cd ../../
+
     done
-
-    git submodule foreach git add .
-    git submodule foreach git commit --allow-empty -m "$MESSAGE"
-    git submodule foreach  git push origin main 
-
-    git submodule foreach git tag $VERSION
-    git submodule foreach git push --tags
-
-    git add .
-    git commit --allow-empty -m "$MESSAGE"
-    git push origin main
-
-    git tag $VERSION
-    git push --tags
-
-    git submodule foreach gh repo set-default
-    git submodule foreach gh release create $VERSION --generate-notes
-    
-    gh repo set-default
-    gh release create $VERSION --generate-notes
 }
+
 commit_erp () {
-    git submodule foreach git add .
-    git submodule foreach  git commit --allow-empty -m "$MESSAGE"
-    git submodule foreach git push origin main
-}
+    last_release_commit=$(git describe --abbrev=0 --tags)
+    commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
 
-if [ $VERSION != $OLDVERSION ]
- then
-    update_assets
-    commit_assets
-    commit_migration
-    commit_erp_versioned
+    if [ "$commit_count" -gt 0 ]; then
 
-    if [ -d commands/ ]; then
-        cd commands
-        chmod +x process.sh && ./process.sh
+        update_assets
+        
+        commit_assets
+
+        # Get the current date and extract the year and week number
+        current_year=$(date +%y)
+        current_month=$(date +%m)
+
+        # Extract the current version from the module's composer.json
+        current_version=$(jq -r '.version' composer.json)
+
+        major=$(echo "$current_version" | cut -d'.' -f1)
+        minor=$(echo "$current_version" | cut -d'.' -f2)
+        patch=$(echo "$current_version" | cut -d'.' -f3)
+
+        # Reset the patch to zero at the start of each month
+        if [ "$minor" != "$current_month" ]; then
+            minor=$current_month
+            patch=0
+        else
+            patch=$((patch + 1))
+        fi
+
+        major=$current_year
+        minor=$current_month            
+
+        # Construct the new version
+        new_version="$major.$minor.$patch"
+
+        MESSAGE="Release $new_version"
+
+        jq ".version=\"$new_version\"" composer.json > tmp_composer.json
+        echo yes | mv tmp_composer.json composer.json
+
+        git add .
+        git commit --allow-empty -m "$MESSAGE"
+        git push origin main
+        git tag $new_version
+        git push --tags
+
+        gh repo set-default
+        gh release create $new_version --generate-notes
+
     fi
 
-else
-    commit_erp
-fi
+}
 
-
-echo "$VERSION" > 'version' 
+commit_migration
+commit_module
+commit_erp
 
 
