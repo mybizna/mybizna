@@ -39,7 +39,6 @@ commit_assets () {
 
         # Extract the current version from the module's composer.json
         current_version=$(jq -r '.version' composer.json)
-        echo $current_version
 
         major=$(echo "$current_version" | cut -d'.' -f1)
         minor=$(echo "$current_version" | cut -d'.' -f2)
@@ -93,7 +92,6 @@ commit_migration () {
 
         # Extract the current version from the module's composer.json
         current_version=$(jq -r '.version' composer.json)
-        echo $current_version
 
         major=$(echo "$current_version" | cut -d'.' -f1)
         minor=$(echo "$current_version" | cut -d'.' -f2)
@@ -137,7 +135,6 @@ commit_module () {
         cd Modules/$module
 
         echo ""
-        echo ""
         echo "-------------------"
         echo "Module $module"        
 
@@ -147,7 +144,6 @@ commit_module () {
         if [ "$commit_count" -gt 0 ]; then
             echo "There are $commit_count commit(s) from the last release."
 
-            echo "Module $module has a commit from the last release."
             # Advance the version based on your requirements
             # Update the module's composer.json and perform necessary actions
 
@@ -157,7 +153,6 @@ commit_module () {
 
             # Extract the current version from the module's composer.json
             current_version=$(jq -r '.version' composer.json)
-            echo $current_version
 
             major=$(echo "$current_version" | cut -d'.' -f1)
             minor=$(echo "$current_version" | cut -d'.' -f2)
@@ -176,8 +171,6 @@ commit_module () {
 
             # Construct the new version
             new_version="$major.$minor.$patch"
-
-            echo $new_version
 
             jq ".version=\"$new_version\"" composer.json > tmp_composer.json
             echo yes | mv tmp_composer.json composer.json
@@ -213,7 +206,7 @@ commit_erp () {
     if [ "$commit_count" -gt 0 ]; then
 
         update_assets
-        
+
         commit_assets
 
         # Get the current date and extract the year and week number
