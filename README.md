@@ -28,11 +28,17 @@ Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Larave
 ## Installation
 
 ```
-curl -o mybizna_install.sh https://raw.githubusercontent.com/mybizna/mybizna/main/mybizna_install.sh && chmod +x mybizna_install.sh && ./mybizna_install.sh . mybizna
+composer create-project mybizna/setup mybizna
 ```
+
 <a href="https://mybizna.gitbook.io/mybizna-erp/readme/how-to-install-on-laravel" target="_blank">How to Install in Laravel</a>
 
 <a href="https://mybizna.gitbook.io/mybizna-erp/readme/how-to-installation-in-wordpress" target="_blank">How to Install in Wordpress</a>
+
+Installation using curl
+```
+curl -o mybizna_install.sh https://raw.githubusercontent.com/mybizna/mybizna/main/mybizna_install.sh && chmod +x mybizna_install.sh && ./mybizna_install.sh . mybizna
+```
 
 ## How to Participate
 <a href="https://mybizna.gitbook.io/mybizna-erp/readme/readme/how-to-participate" target="_blank">How to Participate</a>
