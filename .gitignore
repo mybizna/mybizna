@@ -21,10 +21,14 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /.idea
+/.editorconfig
+/.env.example
 /.vscode
+/.eslintrc.js
 /.gitattributes
 /.styleci.yml
 /artisan
+/babel.config.js
 /modules_statuses.json
 /package-lock.json
 /phpcs.ruleset.xml
