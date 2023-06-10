@@ -9,7 +9,9 @@
 /config
 /database
 /public
+/resources
 /routes
+/tests
 /vendor
 .env
 .env.backup
