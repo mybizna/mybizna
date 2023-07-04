@@ -39,10 +39,12 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Modules\\": "Modules/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
-    }
+    },
+    "files": [
+      "custom_autoloader.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
