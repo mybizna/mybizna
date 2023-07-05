@@ -3,19 +3,9 @@
 /public/hot
 /public/storage
 /public/audio
-/storage
-/app
-/bootstrap
-/config
-/database
-/public
-/resources
-/routes
-/tests
 /vendor
 .env
 .env.backup
-.phpunit.result.cache
 composer.lock
 docker-compose.override.yml
 Homestead.json
@@ -23,23 +13,10 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /.idea
-/.editorconfig
-/.env.example
-/.vscode
-/.eslintrc.js
-/.gitattributes
-/.styleci.yml
-/artisan
-/babel.config.js
 /modules_statuses.json
 /package-lock.json
-/phpcs.ruleset.xml
-/phpunit.xml
-/server.php
 /version
 /versions.json
-/vue.config.js
-/webpack.mix.js
 
 
 /Modules/Bill

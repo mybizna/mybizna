@@ -1,0 +1,203 @@
+.fs-6 {
+    font-size: 6px !important;
+}
+
+.fs-8 {
+    font-size: 8px
+}
+
+.fs-12 {
+    font-size: 12px
+}
+
+.fs-14 {
+    font-size: 14px
+}
+
+.fs-16 {
+    font-size: 16px
+}
+
+.fs-18 {
+    font-size: 18px
+}
+
+.fs-20 {
+    font-size: 20px
+}
+
+.fs-24 {
+    font-size: 24px
+}
+
+.fs-36 {
+    font-size: 36px
+}
+
+.fs-42 {
+    font-size: 42px
+}
+
+.fs-48 {
+    font-size: 48px
+}
+
+.fs-60 {
+    font-size: 60px
+}
+
+.fs-72 {
+    font-size: 72px
+}
+
+.fs-84 {
+    font-size: 84px
+}
+
+.fs-96 {
+    font-size: 96px
+}
+
+
+.fw-100 {
+    font-weight: 100px
+}
+
+.fw-200 {
+    font-weight: 200px
+}
+
+.fw-300 {
+    font-weight: 300px
+}
+
+.fw-400 {
+    font-weight: 400px
+}
+
+.fw-500 {
+    font-weight: 500px
+}
+
+.fw-600 {
+    font-weight: 600px
+}
+
+.fw-700 {
+    font-weight: 700px
+}
+
+.fw-800 {
+    font-weight: 800px
+}
+
+.fw-900 {
+    font-weight: 900px
+}
+
+.fw-1000 {
+    font-weight: 1000px
+}
+
+.m-w-100 {width: 100px}
+.m-w-150 {width: 150px}
+
+.m-w-200 {  width: 200px}
+.m-w-250 {  width: 250px}
+
+.m-w-300 {width: 300px}
+.m-w-350 {width: 350px}
+
+.m-w-400 {width: 400px}
+.m-w-450 {width: 450px}
+
+.m-w-500 {width: 500px}
+.m-w-550 {width: 550px}
+
+.m-w-600 { width: 600px}
+.m-w-650 { width: 650px}
+
+.m-w-700 {width: 700px}
+.m-w-750 {width: 750px}
+
+.m-w-800 {width: 800px}
+.m-w-850 {width: 850px}
+
+.m-w-900 {width: 900px}
+.m-w-950 {width: 950px}
+
+.m-w-1000 {width: 1000px}
+.m-w-1000 {width: 1050px}
+
+.m-w-1100 {width: 1100px}
+.m-w-1150 {width: 1150px}
+
+.m-w-1200 {width: 1200px}
+.m-w-1250 {width: 1250px}
+
+.m-w-1300 {width: 1300px}
+.m-w-1350 {width: 1350px}
+
+.m-w-1400 {width: 1400px}
+.m-w-1450 {width: 1450px}
+
+.m-w-1500 {width: 1500px}
+.m-w-1550 {width: 1550px}
+
+.m-w-1600 {width: 1600px}
+
+.table th,
+.table td {
+    font-size: 14px !important;
+}
+
+.table>:not(caption,thead)>*>* {
+    padding: 0.1rem 0.2rem !important;
+}
+
+.modal-backdrop {
+    display: none !important;
+}
+
+#nprogress .bar {
+    background: #FFBB00 !important;
+    height: 3px;
+}
+
+#nprogress .peg {
+    box-shadow: 0 0 10px #FFBB00, 0 0 5px #FFBB00;
+}
+
+#nprogress .spinner-icon {
+    width: 28px;
+    height: 28px;
+    border: 3px solid transparent;
+    border-top-color: #FFBB00;
+    border-left-color: #FFBB00;
+}
+
+.search-dropdown .formkit-label {
+    width: 100% !important;
+}
+
+.search-dropdown .formkit-inner {
+    width: 100% !important;
+}
+
+@media (max-width: 767px) {
+    .table-responsive .dropdown-menu {
+        position: static !important;
+    }
+}
+@media (min-width: 768px) {
+    .table-responsive {
+        overflow: visible;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+
+    .modal-dialog {
+        max-width: 90%;
+    }
+}

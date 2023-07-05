@@ -11,6 +11,7 @@ update_assets () {
     rm -r ../assets/src/mybizna/js
     rm -r ../assets/src/mybizna/tailwind
     rm -r ../assets/src/mybizna/tinymce
+    rm -r ../assets/src/mybizna/fontawesome
     rm -r ../assets/src/mybizna/vue3-sfc-loader
 
     mkdir ../assets/src/mybizna/assets
@@ -22,6 +23,8 @@ update_assets () {
     cp -r public/mybizna/tailwind ../assets/src/mybizna/tailwind
     cp -r public/mybizna/fontawesome ../assets/src/mybizna/fontawesome
     cp -r public/mybizna/vue3-sfc-loader ../assets/src/mybizna/vue3-sfc-loader
+
+    find "../assets/src/mybizna/js" -type f -name "*.js.map" -exec rm -f {} +
 }
 
 
