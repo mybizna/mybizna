@@ -27,6 +27,45 @@ update_assets () {
     find "../assets/src/mybizna/js" -type f -name "*.js.map" -exec rm -f {} +
 }
 
+commit_modules () {
+
+    cd Modules
+
+    for module in `ls -Utr `; do
+
+        echo ""
+        echo "----------------------------------------"
+        echo ""
+        echo $module
+
+        cd $module
+
+        # Check if there are any changed files
+        changed_files=$(git diff --name-only)
+        if [ -z "$changed_files" ]; then
+            echo "No changed files. Skipping..."
+            cd ..
+            continue
+        fi
+
+        git add .
+
+        read -p "Enter commit message (or press Enter for default): " commit_message
+
+
+        # Check if commit_message is empty
+        if [ -z "$commit_message" ]; then
+            commit_message="Changes to files: $changed_files"
+        fi
+        
+        git commit -m "$commit_message"
+
+        cd ..
+    done
+    
+    cd ..
+}
+
 
 commit_assets () {
     cd ../assets
@@ -255,6 +294,7 @@ commit_erp () {
 
 }
 
+commit_modules
 commit_migration
 commit_module
 commit_erp
