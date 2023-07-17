@@ -1,7 +1,9 @@
 #!/bin/sh
 # chmod +x pushtags_commit.sh && ./pushtags_commit.sh
 
-for module in `ls -Utr Modules/ `; do
+cd Modules
+
+for module in `ls -Utr `; do
 
     echo ""
     echo "----------------------------------------"
