@@ -1,29 +1,29 @@
 <template>
-    <div :class="($floating_top ? 'fixed' : '') + ' w-full z-10'">
+    <div :class="' w-full z-10 border-b border-dotted border-b-indigo-100'">
 
-        <div class="flex bg-indigo-900">
+        <div class="flex">
             <div class="flex-auto">
                 <div class="flex justify-start pt-1 pl-1 mr-2 space-x-4 cursor-pointer text-blue-600">
 
                     <a @click="drawer" class="w-15">
                         <i v-if="$store.state.system.sidebar_show && windowWidth < $responsive_point"
                             class="fa-regular fa-circle-xmark  text-2xl text-red-200"></i>
-                        <i v-else class="fas fa-bars text-2xl text-white"></i>
+                        <i v-else class="fas fa-bars text-2xl text-black"></i>
 
                         <div v-if="windowWidth < $responsive_point"
-                            :class="$store.state.system.sidebar_show && windowWidth < $responsive_point ? 'text-red-200' : 'text-white'"
+                            :class="$store.state.system.sidebar_show && windowWidth < $responsive_point ? 'text-red-200' : 'text-black'"
                             class="inline-block text-sm font-bold  pl-1">
                             APP
                         </div>
 
                         <span v-if="windowWidth < $responsive_point"
-                            class="absolute inline-flex items-center justify-center w-4 h-4 leading-3 font-bold text-white bg-green-500 border border-white rounded-full top dark:border-gray-900 left-12"
+                            class="absolute inline-flex items-center justify-center w-4 h-4 leading-3 font-bold text-black bg-green-500 border border-white rounded-full top dark:border-gray-900 left-12"
                             style="font-size: 9px !important;">
                             {{ $store.state.system.menu_length }}
                         </span>
                     </a>
 
-                    <h2 class="text-md leading-7 h-8 ml-5 text-white"
+                    <h2 class="text-md leading-7 h-8 ml-5 text-black"
                         :alt="($store.state.system.menu[$store.state.system.active_menu] ? $store.state.system.menu[$store.state.system.active_menu]['title'] : '') + ' - ' + $store.state.system.subtitle">
                         <small v-if="$store.state.system.menu[$store.state.system.active_menu]">
                             {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
