@@ -2,6 +2,7 @@ import {
     RouterView
 } from 'vue-router';
 
+
 import filters from "@/utils/filters";
 import fetchComponent from "@/utils/fetchComponent";
 
@@ -21,12 +22,17 @@ function path_updater(route) {
 
     if (route.component == 'router_view') {
         route.component = RouterView;
+    } else if (route.component == 'router_list') {
+        route.component = () => import(`@/components/common/ListTable.vue`);
+    } else if (route.component == 'router_create') {
+        route.component = () => import(`@/components/common/CreateForm.vue`);
+    } else if (route.component == 'router_edit') {
+        route.component = () => import(`@/components/common/EditForm.vue`);
     } else {
         route.component = fetchComponentFunc(route.component);
     }
 
     if (Object.prototype.hasOwnProperty.call(route, 'children') && route.children.length > 0) {
-
         route.children.forEach(child => {
             return path_updater(child);
 
@@ -57,7 +63,6 @@ export default async function (router) {
 
     routes_keys.forEach(key => {
         var new_routes = path_updater(routes[key]);
-
         router.addRoute(new_routes);
 
     })

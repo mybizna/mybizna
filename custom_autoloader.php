@@ -14,7 +14,7 @@ spl_autoload_register(function ($class) {
                 unset($class_arr[0]);
                 unset($class_arr[1]);
 
-                include $paths[0] . '/' . implode('/', $class_arr) . '.php';
+                include_once $paths[0] . '/' . implode('/', $class_arr) . '.php';
             }
 
         }

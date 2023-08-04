@@ -31,6 +31,12 @@ commit_modules () {
 
     cd Modules
 
+    echo ""
+    echo "-------------------"
+    echo "Committing Modules that have changed"
+    echo ""
+    
+
     for module in `ls -Utr `; do
 
         echo ""
@@ -70,6 +76,30 @@ commit_modules () {
 commit_assets () {
     cd ../assets
 
+    echo ""
+    echo "-------------------"
+    echo "Committing Assets"
+    echo ""
+
+    # Check if there are any changed files
+    changed_files=$(git diff --name-only)
+    if [ -z "$changed_files" ]; then
+        echo "No changed files. Skipping..."
+    else
+        read -p "Enter commit message for assets (or press Enter for default): " commit_message
+
+        # Check if commit_message is empty
+        if [ -z "$commit_message" ]; then
+            commit_message="Changes to files: $changed_files"
+        fi
+        
+        git add .
+        git commit -m "$commit_message"
+        git push origin main
+    fi
+    
+    
+
     last_release_commit=$(git describe --abbrev=0 --tags)
     commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
 
@@ -89,13 +119,16 @@ commit_assets () {
         # Reset the patch to zero at the start of each month
         if [ "$minor" != "$current_month" ]; then
             minor=$current_month
-            patch=0
+            patch=1
         else
             patch=$((patch + 1))
         fi
 
         major=$current_year
-        minor=$current_month            
+        minor=$current_month
+
+        # Pad the patch number with three zeros
+        patch=$(printf "%03d" $patch)           
 
         # Construct the new version
         new_version="$major.$minor.$patch"
@@ -123,6 +156,29 @@ commit_assets () {
 commit_migration () {
     cd ../migration
 
+    echo ""
+    echo "-------------------"
+    echo "Committing Migration"
+    echo ""
+
+    # Check if there are any changed files
+    changed_files=$(git diff --name-only)
+    if [ -z "$changed_files" ]; then
+        echo "No changed files. Skipping..."
+    else
+        read -p "Enter commit message for migration (or press Enter for default): " commit_message
+
+        # Check if commit_message is empty
+        if [ -z "$commit_message" ]; then
+            commit_message="Changes to files: $changed_files"
+        fi
+        
+        git add .
+        git commit -m "$commit_message"
+        git push origin main       
+    fi
+    
+
     last_release_commit=$(git describe --abbrev=0 --tags)
     commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
 
@@ -142,13 +198,16 @@ commit_migration () {
         # Reset the patch to zero at the start of each month
         if [ "$minor" != "$current_month" ]; then
             minor=$current_month
-            patch=0
+            patch=1
         else
             patch=$((patch + 1))
         fi
 
         major=$current_year
-        minor=$current_month            
+        minor=$current_month  
+
+        # Pad the patch number with three zeros
+        patch=$(printf "%03d" $patch)              
 
         # Construct the new version
         new_version="$major.$minor.$patch"
@@ -173,12 +232,18 @@ commit_migration () {
 }
 
 commit_module () {
+    echo ""
+    echo "-------------------"
+    echo "Committing Modules"
+    echo ""
+
     for module in `ls -U Modules| sort`; do
         cd Modules/$module
 
         echo ""
         echo "-------------------"
-        echo "Module $module"        
+        echo "Module $module"   
+        echo ""    
 
         last_release_commit=$(git describe --abbrev=0 --tags)
         commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
@@ -203,13 +268,16 @@ commit_module () {
             # Reset the patch to zero at the start of each month
             if [ "$minor" != "$current_month" ]; then
                 minor=$current_month
-                patch=0
+                patch=1
             else
                 patch=$((patch + 1))
             fi
 
             major=$current_year
-            minor=$current_month            
+            minor=$current_month      
+
+            # Pad the patch number with three zeros
+            patch=$(printf "%03d" $patch)          
 
             # Construct the new version
             new_version="$major.$minor.$patch"
@@ -242,6 +310,29 @@ commit_module () {
 }
 
 commit_erp () {
+    echo ""
+    echo "-------------------"
+    echo "Committing ERP"
+    echo ""
+
+
+    # Check if there are any changed files
+    changed_files=$(git diff --name-only)
+    if [ -z "$changed_files" ]; then
+        echo "No changed files. Skipping..."
+    else
+        read -p "Enter commit message for ERP (or press Enter for default): " commit_message
+
+        # Check if commit_message is empty
+        if [ -z "$commit_message" ]; then
+            commit_message="Changes to files: $changed_files"
+        fi
+        
+        git add .
+        git commit -m "$commit_message"
+        git push origin main
+    fi
+
     last_release_commit=$(git describe --abbrev=0 --tags)
     commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
 
@@ -265,13 +356,16 @@ commit_erp () {
         # Reset the patch to zero at the start of each month
         if [ "$minor" != "$current_month" ]; then
             minor=$current_month
-            patch=0
+            patch=1
         else
             patch=$((patch + 1))
         fi
 
         major=$current_year
-        minor=$current_month            
+        minor=$current_month  
+
+        # Pad the patch number with three zeros
+        patch=$(printf "%03d" $patch)         
 
         # Construct the new version
         new_version="$major.$minor.$patch"
