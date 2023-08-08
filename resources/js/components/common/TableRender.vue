@@ -24,77 +24,78 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <div class="table-responsive overflow-x-scroll" v-bind:style="table_style">
-                    <table class="table m-0 p-0">
-                        <thead>
-                            <tr class="bg-slate-100 px-7">
+                <div class="relative">
+                    <div class="overflow-x-auto" v-bind:style="table_style">
+                        <table class="table m-0 p-0">
+                            <thead>
+                                <tr class="bg-slate-100 px-7">
 
-                                <th v-if="!settings.is_recordpicker && !settings.hide_action_button"
-                                    class="text-center uppercase w-2.5 whitespace-nowrap">
-                                    <input @click="checkedItemsAll" type="checkbox" />
-                                    <span class="form-check-sign">
-                                        <span class="check"></span>
-                                    </span>
-                                </th>
-
-                                <th v-if="!this.settings.is_recordpicker && !this.settings.hide_action_button"
-                                    class="uppercase w-2.5"></th>
-
-                                <slot name="header">
-                                    <th class="uppercase" scope="col" v-for="(
-                                                                table_field, index
-                                                            ) in table_list.headers" :key="index"
-                                        :style="table_field.style"
-                                        :class="table_field.class + ' text-center uppercase whitespace-nowrap p-1.5'">
-                                        {{ table_field.label }}
-                                    </th>
-                                </slot>
-
-                            </tr>
-                        </thead>
-                        <tbody class="border-none">
-                            <template v-if="items.length">
-                                <tr v-for="(item, index) in items" :key="index"
-                                    class="border-b-sky-200 hover:bg-slate-50 border-b border-b-sky-100">
-
-                                    <td v-if="!settings.is_recordpicker && !settings.hide_action_button"
-                                        class="text-center">
-                                        <input :value="item.id" v-model="checkedItems" class="form-check-input"
-                                            type="checkbox" name="item[]" />
+                                    <th v-if="!settings.is_recordpicker && !settings.hide_action_button"
+                                        class="text-center uppercase w-2.5 whitespace-nowrap">
+                                        <input @click="checkedItemsAll" type="checkbox" />
                                         <span class="form-check-sign">
                                             <span class="check"></span>
                                         </span>
-                                    </td>
+                                    </th>
 
-                                    <td v-if="!settings.hide_action_button">
-                                        <menu-dropdown v-if="!settings.is_recordpicker" :field_list="field_list"
-                                            :pitem="item" :dropdown_menu_list="dropdown_menu_list"></menu-dropdown>
-                                        <a v-else class="btn btn-primary btn-sm text-white"
-                                            @click="recordPicker(item.id)">Select</a>
-                                    </td>
+                                    <th v-if="!this.settings.is_recordpicker && !this.settings.hide_action_button"
+                                        class="uppercase w-2.5"></th>
 
-                                    <slot name="body" :item="item">
-                                        <template v-for="(table_field, index) in table_fields">
-                                            <slot :name="table_field.name" :item="item">
-                                                <template v-if="'actions' !== table_field.name">
-                                                    <td-render :key="index" :field_list="field_list" :pitem="item"
-                                                        :data_field="table_field" :class_name="
-                                                            getClassName(table_field)
-                                                        "></td-render>
-                                                </template>
-                                            </slot>
-                                        </template>
+                                    <slot name="header">
+                                        <th class="uppercase" scope="col" v-for="(
+                                                                table_field, index
+                                                            ) in table_list.headers" :key="index"
+                                            :style="table_field.style"
+                                            :class="table_field.class + ' text-center uppercase whitespace-nowrap p-1.5'">
+                                            {{ table_field.label }}
+                                        </th>
                                     </slot>
+
                                 </tr>
-                            </template>
-                            <tr class="border-b-sky-200" v-else>
-                                <td colspan="20" class="text-center hover:bg-slate-50">
-                                    <img class="inline-block w-36 m-6"
-                                        :src="this.$assets_url + '/images/no_data_found.svg'">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="border-none">
+                                <template v-if="items.length">
+                                    <tr v-for="(item, index) in items" :key="index"
+                                        class="border-b-sky-200 hover:bg-slate-50 border-b border-b-sky-100">
+
+                                        <td v-if="!settings.is_recordpicker && !settings.hide_action_button"
+                                            class="text-center">
+                                            <input :value="item.id" v-model="checkedItems" class="form-check-input"
+                                                type="checkbox" name="item[]" />
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </td>
+
+                                        <td v-if="!settings.hide_action_button">
+                                            <menu-dropdown v-if="!settings.is_recordpicker" :field_list="field_list"
+                                                :pitem="item" :dropdown_menu_list="dropdown_menu_list"></menu-dropdown>
+                                            <a v-else class="btn btn-primary btn-sm text-white"
+                                                @click="recordPicker(item.id)">Select</a>
+                                        </td>
+
+                                        <slot name="body" :item="item">
+                                            <template v-for="(table_field, index) in table_fields">
+                                                <slot :name="table_field.name" :item="item">
+                                                    <template v-if="'actions' !== table_field.name">
+                                                        <td-render :key="index" :field_list="field_list" :pitem="item"
+                                                            :data_field="table_field" :class_name="getClassName(table_field)
+                                                                "></td-render>
+                                                    </template>
+                                                </slot>
+                                            </template>
+                                        </slot>
+                                    </tr>
+                                </template>
+                                <tr class="border-b-sky-200" v-else>
+                                    <td colspan="20" class="text-center hover:bg-slate-50">
+                                        <img class="inline-block w-36 m-6"
+                                            :src="this.$assets_url + '/images/no_data_found.svg'">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="card-foot">

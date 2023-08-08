@@ -20,66 +20,40 @@
 
         <template v-if="$store.getters['auth/loggedIn']">
 
-            <template v-if="$store.state.system.menu_type == 'sidebar'">
+            <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
-                <div v-if="windowWidth >= $responsive_point"  class="flex">
-
-                    <div v-if="$store.state.system.sidebar_show"
-                        class="bg-white w-16 mr-0 ml-0 pr-0 flex-none border-r-2 border-r border-indigo-200">
-                        <app-sidebar></app-sidebar>
-                    </div>
-
-                    <div class="flex-auto ml-0 pl-0">
-                        <!--  v-if="$store.state.system.is_list || $store.state.system.is_edit" -->
-
-                        <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
-                        <app-topbar-actions></app-topbar-actions>
-                        
-                        <main class="p-0">
-                            <div class="app-content-container boxed-container">
-                                <router-view></router-view>
-                            </div>
-                        </main>
-                    </div>
+            <div class="flex">
+                <div class="flex-none">
+                    <app-sidebar></app-sidebar>
                 </div>
+                <div class="flex-auto">
 
-                <div v-else :class="$margin_top ? 'mt-10':''">
                     <app-topbar-actions></app-topbar-actions>
-                    <main class="p-0">
+
+                    <main class="p-0"
+                        :style="'width:' + ($store.state.system.sidebar_show && windowWidth > $responsive_point ? windowWidth - 100 : windowWidth) + 'px'">
                         <div class="app-content-container boxed-container">
                             <router-view></router-view>
                         </div>
                     </main>
                 </div>
+            </div>
 
-
-            </template>
-            <template v-else>
-                <app-topbar></app-topbar>
-                <app-bar-nav-menu></app-bar-nav-menu>
-                <main class="p-0">
-                    <div class="app-content-container boxed-container">
-                        <router-view></router-view>
-                    </div>
-                </main>
-
-            </template>
         </template>
         <template v-else>
             <main class="p-0">
-                 <router-view></router-view>
+                <router-view></router-view>
             </main>
         </template>
 
 
 
         <footer v-if="$store.getters[' auth/loggedIn']" app inset color="transparent" absolute height="56"
-                    class="footer mt-auto py-3 bg-light">
+            class="footer mt-auto py-3 bg-light">
             <div class="container">
                 <div class="text-muted text-center">
                     <span> &copy; 2022 - 2023
-                        <a href="https://mybizna.com" class="text-decoration-none"
-                                    target="_blank">Mybizna</a></span>
+                        <a href="https://mybizna.com" class="text-decoration-none" target="_blank">Mybizna</a></span>
                 </div>
             </div>
         </footer>
@@ -91,16 +65,12 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "@/utils";
-import AppBarNavMenu from "@/components/widgets/AppBarNavMenu.vue";
-import AppTopbar from "@/components/widgets/AppTopbar.vue";
 import AppSidebar from "@/components/widgets/AppSidebar.vue";
 import AppTopbarSidebar from "@/components/widgets/AppTopbarSidebar.vue";
 import AppTopbarActions from "@/components/widgets/AppTopbarActions.vue";
 
 export default {
     components: {
-        AppBarNavMenu,
-        AppTopbar,
         AppTopbarSidebar,
         AppSidebar,
         AppTopbarActions,
@@ -153,10 +123,6 @@ export default {
 </script>
 
 <style lang="scss">
-body .mybizna-app {
-    background: #F0F5F8;
-}
-
 header {
     height: 36px !important;
 }
