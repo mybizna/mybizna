@@ -1,6 +1,7 @@
 export default {
     namespaced: true,
     state: {
+        applist_show: true,
         sidebar_show: true,
         layout: false,
         has_menu: false,
@@ -32,6 +33,9 @@ export default {
         search_changes: state => state.search_changes,
     },
     mutations: {
+        applist_show(state, payload) {
+            state.applist_show = payload;
+        },
         sidebar_show(state, payload) {
             state.sidebar_show = payload;
         },
