@@ -27,9 +27,11 @@ export default {
         positions: [],
         has_positions: false,
         positions_length: 0,
+        window_width:0,
     },
     getters: {
         search: state => state.search,
+        window_width: state => state.window_width,
         search_changes: state => state.search_changes,
     },
     mutations: {
