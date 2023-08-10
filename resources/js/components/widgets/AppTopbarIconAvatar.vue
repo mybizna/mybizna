@@ -7,7 +7,7 @@
             <span class="hidden sm:inline px-1 text-white text-sm capitalize font-bold">
                 {{ $store.state.auth.user.username}}
             </span>
-            <i class="hidden sm:inline fas fa-chevron-down leading-7 text-white"></i>
+            <i class="hidden sm:inline fas fa-chevron-down text-white" style="font-size:10px;"></i>
 
         </div>
 
