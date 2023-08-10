@@ -5,7 +5,19 @@
                 <div class="flex">
                     <div class="flex-auto">
                         <div v-if="!settings.is_recordpicker" class="py-2">
-                            <h3 class="inline-block font-medium text-lg text-gray ml-2 mr-5 mb-0">{{ title }}</h3>
+                            <h2
+                                :alt="($store.state.system.menu[$store.state.system.active_menu] ? $store.state.system.menu[$store.state.system.active_menu]['title'] : '') + ' - ' + $store.state.system.subtitle">
+                                <small v-if="$store.state.system.menu[$store.state.system.active_menu]">
+                                    {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
+                                </small>
+                                {{ $store.state.system.subtitle }}
+                                <small class="text-sm" v-if="$store.state.system.subtitle != ''">
+                                    - {{ $store.state.system.subtitle }}
+                                </small>
+                            </h2>
+                            <!-- <h3 class="inline-block font-medium text-lg text-gray ml-2 mr-5 mb-0">
+
+                                {{ title }}</h3> -->
                         </div>
                     </div>
 

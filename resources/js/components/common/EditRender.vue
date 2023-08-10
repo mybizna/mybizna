@@ -4,7 +4,16 @@
 
             <div class="form-head mb-1 d-flex flex-wrap align-items-center pb-3">
 
-                <h3 class="font-medium text-lg text-gray mr-5 mb-0">{{ title }}</h3>
+                <h2
+                    :alt="($store.state.system.menu[$store.state.system.active_menu] ? $store.state.system.menu[$store.state.system.active_menu]['title'] : '') + ' - ' + $store.state.system.subtitle">
+                    <small v-if="$store.state.system.menu[$store.state.system.active_menu]">
+                        {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
+                    </small>
+                    {{ $store.state.system.subtitle }}
+                    <small class="text-sm" v-if="$store.state.system.subtitle != ''">
+                        - {{ $store.state.system.subtitle }}
+                    </small>
+                </h2>
 
                 <a class="cursor-pointer text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
                     @click="saveRecord()">

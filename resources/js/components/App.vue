@@ -105,15 +105,16 @@ export default {
         }
     },
     mounted() {
+        var that = this;
         window.$store.commit("system/window_width", this.windowWidth);
 
         window.onresize = () => {
-            this.windowWidth = window.innerWidth;
+            that.windowWidth = window.innerWidth;
             window.$store.commit("system/window_width", this.windowWidth);
         }
 
         window.onload = () => {
-            this.windowWidth = window.innerWidth;
+            that.windowWidth = window.innerWidth;
             window.$store.commit("system/window_width", this.windowWidth);
         }
     }

@@ -9,7 +9,7 @@
 
         <div class="text-center sm:w-3/4 sm:mx-auto">
             <template v-for="(item, m_index) in $store.state.system.menu" :key="m_index">
-                <div class="inline-block cursor-pointer w-28 my-3 mb-3 sm:mx-5 sm:mx-7" @click="selectApp(m_index)">
+                <div class="inline-block cursor-pointer w-28 my-3 mb-3 mx-2 sm:mx-5 sm:mx-7" @click="selectApp(m_index)">
 
                     <div :class="($store.state.system.active_subs_1 == m_index) ? 'bg-white' : ''"
                         class=" shadow-lg rounded-l-lg bg-white p-3">
@@ -122,7 +122,7 @@ export default {
             this.menu[active_subs_1] = {};
         }
 
-        if (active_subs_2 != '') {
+        if (active_subs_2 != '' && active_subs_2 != 'main') {   
             this.menu[active_subs_1][active_subs_2] = true;
         }
     },
