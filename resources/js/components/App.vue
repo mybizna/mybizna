@@ -30,8 +30,7 @@
 
                     <app-topbar-actions></app-topbar-actions>
 
-                    <main class="p-0"
-                        :style="'width:' + ($store.state.system.sidebar_show && windowWidth > $responsive_point ? windowWidth - 100 : windowWidth) + 'px'">
+                    <main class="p-0" :style="'width:' + windowWidth + 'px'">
                         <div class="app-content-container boxed-container">
                             <router-view></router-view>
                         </div>

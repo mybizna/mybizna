@@ -1,40 +1,45 @@
 <template>
-    <div class="w-full z-10 border-b border-dotted border-b-indigo-100 bg-indigo-500">
+    <div class="w-full z-10  bg-indigo-800">
 
         <div class="flex">
             <div :class="visibles.length ? 'flex-none w-20' : 'flex-auto'">
                 <div class="flex justify-start pt-1 pl-1 mr-2 space-x-4 cursor-pointer text-white">
 
-                    <a v-if="!visibles.length" @click="drawer" class="w-15 mr-2">
-                        <i :class="$store.state.system.sidebar_show ? 'text-cyan-200' : ' text-white'"
-                            class="fas fa-bars text-2xl"></i>
-                    </a>
-
                     <a @click="applist" class="w-15">
                         <i :class="$store.state.system.applist ? 'text-cyan-200' : ' text-white'"
                             class="fab fa-microsoft text-2xl "></i>
 
-                        <div :class="$store.state.system.applist ? 'text-cyan-200' : 'text-white'"
+                        <div  v-if="visibles.length" :class="$store.state.system.applist ? 'text-cyan-200' : 'text-white'"
                             class="inline-block text-sm font-bold  pl-1">
                             APP
                         </div>
 
                         <span
                             class="absolute inline-flex items-center justify-center w-4 h-4 leading-3 font-bold text-white bg-green-500 border border-white rounded-full top dark:border-gray-900 "
-                            style="font-size: 9px !important;">
+                            style="margin-left:-10px; font-size: 9px !important;">
                             {{ $store.state.system.menu_length }}
                         </span>
                     </a>
 
+                    <a v-if="!visibles.length" @click="drawer" class="w-15 mr-2">
+                        <i :class="$store.state.system.sidebar_show ? 'text-cyan-200' : ' text-white'"
+                            class="fas fa-bars text-2xl"></i>
+
+                    </a>
 
                 </div>
             </div>
 
+            <div v-if="!visibles.length" :style="'width:' + windowWidth / 4 + 'px;'"
+                class="flex-none p-2 text-sm font-bold text-white truncate uppercase whitespace-nowrap">
+                {{ $store.state.system.active_menu }}
+            </div>
+
             <div v-if="visibles.length" class="flex-auto">
-                <ul id="main-menu" class="flex items-left justify-left bg-indigo-500">
+                <ul id="main-menu" class="flex items-left justify-left">
                     <li class="py-2">
                         <div class="inline uppercase text-white text-sm font-bold">
-                            {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
+                            {{ $store.state.system.active_menu }}
                             <i class="fas fa-chevron-right text-sm"></i>
                         </div>
                     </li>
@@ -144,11 +149,11 @@ export default {
                 }
             }
 
-            console.log('visibles');
-            console.log(visibles);
-            console.log('hiddens');
-            console.log(hiddens);
-
+            if (!visibles.length) {
+                this.$store.commit("system/has_menu", true);
+            } else {
+                this.$store.commit("system/has_menu", false);
+            }
 
             this.visibles = visibles;
             this.hiddens = hiddens;

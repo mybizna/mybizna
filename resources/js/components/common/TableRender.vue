@@ -1,16 +1,16 @@
 <template>
     <div :class="classes">
         <div :class="getCardClassName()">
-            <div v-if="!this.settings.is_recordpicker" class="flex">
+            <div class="flex">
                 <div class="flex-auto">
-                    <div v-if="!settings.is_recordpicker" class="py-2">
+                    <div v-if="settings.is_recordpicker" class="py-2">
                         <h2
                             :alt="($store.state.system.menu[$store.state.system.active_menu] ? $store.state.system.menu[$store.state.system.active_menu]['title'] : '') + ' - ' + $store.state.system.subtitle">
-                            <small v-if="$store.state.system.menu[$store.state.system.active_menu]">
-                                {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
+                            <small>
+                                {{ $store.state.system.active_menu }}
                             </small>
-                            {{ $store.state.system.subtitle }}
-                            <small class="text-sm" v-if="$store.state.system.subtitle != ''">
+
+                            <small class="text-sm" >
                                 - {{ $store.state.system.subtitle }}
                             </small>
                         </h2>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <div v-if="!settings.is_recordpicker && !settings.hide_action_button" class="flex-auto">
+                <div v-if="settings.is_recordpicker && !settings.hide_action_button" class="flex-auto">
                     <div class="text-right  pt-2">
                         <a class="whitespace-nowrap text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
                             @click="addLink()">

@@ -1,6 +1,6 @@
 <template>
     <div v-if="$store.state.system.is_list" class="shadow-sm z-8">
-        <div class="flex h-14">
+        <div class="flex h-14 px-1">
             <div class="flex-auto">
                 <div class="mx-1">
                     <span class="whitespace-nowrap" v-if="$store.state.system.subtitle != ''">

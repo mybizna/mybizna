@@ -1,8 +1,8 @@
 export default {
     namespaced: true,
     state: {
-        applist_show: true,
-        sidebar_show: true,
+        applist_show: false,
+        sidebar_show: false,
         layout: false,
         has_menu: false,
         title: 'Mybizna',
@@ -185,7 +185,6 @@ export default {
 
                         commit('menu_length', counter);
                         commit('menu', response.data);
-                        commit('has_menu', true);
 
                     })
                 .catch(
