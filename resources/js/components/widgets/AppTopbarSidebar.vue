@@ -35,7 +35,7 @@
                     <li class="py-2">
                         <div class="inline uppercase text-white text-sm font-bold">
                             {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
-                            <i class="fas fa-chevron-right"></i>
+                            <i class="fas fa-chevron-right text-sm"></i>
                         </div>
                     </li>
                     <li v-for="(visible, t_index) in visibles" :key="t_index" class="text-white px-1 py-2">
@@ -43,7 +43,10 @@
                         {{ visible.title }}
                     </li>
                     <li id="othersMenu" :class="hiddens.length ? '' : 'hidden'" class="group relative  py-2 px-1">
-                        <a class="text-white hover:text-gray-300 cursor-pointer">Others</a>
+                        <a class="text-white hover:text-gray-300 cursor-pointer">
+                            More
+                            <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+                        </a>
                         <ul class="absolute hidden group-hover:block bg-white border shadow-l-lg mt-2 py-2 w-32 z-10">
                             <li v-for="(hidden, index) in hiddens" :key="index"><a :href="'#' + hidden.path"
                                     class="hover:text-gray-300 px-4 py-2 block">{{ hidden.title }}</a>
@@ -54,7 +57,7 @@
                 </ul>
             </div>
 
-            <div :class="visibles.length ? 'flex-none w-56' : 'flex-auto'" class="text-right">
+            <div :class="visibles.length ? 'flex-none w-54' : 'flex-auto'" class="text-right">
                 <div class="flex justify-end pt-1 pr-1 pb-1 mr-2 space-x-2 cursor-pointer">
                     <app-topbar-icon-others></app-topbar-icon-others>
                     <app-topbar-icon-avatar></app-topbar-icon-avatar>
@@ -122,18 +125,16 @@ export default {
         handleResize() {
             // Handle resize event here
             //alert("handleResize");
-            const availableSpace = window.innerWidth - 200 - 224;
+            const availableSpace = window.innerWidth - 200 - 160;
             let totalWidth = 0;
             var visibles = [];
             var hiddens = [];
 
-
-            console.log('this.menus');
-            console.log(this.menus);
-
             for (const key in this.menus) {
                 var item = this.menus[key];
-                const itemWidth = this.measureTextWidth(item.title);
+                let itemWidth = this.measureTextWidth(item.title);
+                itemWidth = itemWidth + 10;
+
                 totalWidth += itemWidth;
 
                 if (totalWidth <= availableSpace) {
