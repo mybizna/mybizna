@@ -2,7 +2,7 @@
     <div v-if="$store.state.system.applist_show"
         class="absolute overflow-y-auto inset-y-0 top-10 z-10 bg-gray-50 shadow-lg rounded-l w-full h-full">
 
-        <div class=" text-center mt-3 mb-2">
+        <div class="text-center mt-3 mb-2">
             <img class="inline-block w-8" :src="$assets_url + 'images/logos/logo-sm.png'" alt="">
             APPs
         </div>
@@ -32,9 +32,8 @@
     </div>
 
 
-    <div v-if="$store.state.system.sidebar_show" :style="'height:' + (windowHeight - 55) + 'px;'"
-        :class="windowWidth < $responsive_point ? 'absolute' : ''"
-        class="overflow-y-auto inset-y-0 top-10 z-10 bg-white w-52 h-full">
+    <div v-if="$store.state.system.has_menu && $store.state.system.sidebar_show" :style="'height:' + (windowHeight - 55) + 'px;'"
+        class="absolute overflow-y-auto inset-y-0 top-10 z-10 bg-white w-52 h-full">
 
         <ul class="pl-0 mt-5">
             <template v-for="(item, m_index) in $store.state.system.menu" :key="m_index">
@@ -122,7 +121,7 @@ export default {
             this.menu[active_subs_1] = {};
         }
 
-        if (active_subs_2 != '' && active_subs_2 != 'main') {   
+        if (active_subs_2 != '' && active_subs_2 != 'main') {
             this.menu[active_subs_1][active_subs_2] = true;
         }
     },
@@ -158,10 +157,14 @@ export default {
             }
 
             if (app != '') {
+                this.$store.commit("system/active_menu", app);
                 this.$store.commit("system/active_subs_1", passkey);
 
-                this.$store.commit("system/sidebar_show", true);
                 this.$store.commit("system/applist_show", false);
+
+                if (this.$store.state.system.has_menu) {
+                    this.$store.commit("system/sidebar_show", true);
+                }
 
                 // split path by /
                 var path_arr = path.split('/');
