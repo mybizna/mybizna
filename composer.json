@@ -10,7 +10,7 @@
     "crm"
   ],
   "license": "GPL-3.0-or-later",
-  "version": "23.08.003",
+  "version": "23.08.004",
   "repositories": [
     {
       "type": "vcs",
