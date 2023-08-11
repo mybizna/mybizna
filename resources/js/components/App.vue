@@ -16,33 +16,37 @@
 
     <vue3-confirm-dialog></vue3-confirm-dialog>
 
-    <div class="mybizna-app overflow-x-hidden">
+    <div class="mybizna-app">
 
         <template v-if="$store.getters['auth/loggedIn']">
 
             <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
 
-            <div class="flex">
-                <div class="flex-none">
-                    <app-sidebar></app-sidebar>
-                </div>
-                <div class="flex-auto">
+            <div class="overflow-x-hidden">
+                <div class="flex">
+                    <div class="flex-none">
+                        <app-sidebar></app-sidebar>
+                    </div>
+                    <div class="flex-auto">
 
-                    <app-topbar-actions></app-topbar-actions>
+                        <app-topbar-actions></app-topbar-actions>
 
-                    <main class="p-0" :style="'width:' + windowWidth + 'px'">
-                        <div class="app-content-container boxed-container">
-                            <router-view></router-view>
-                        </div>
-                    </main>
+                        <main class="p-0" :style="'width:' + windowWidth + 'px'">
+                            <div class="app-content-container boxed-container">
+                                <router-view :key="$route.fullPath"></router-view>
+                            </div>
+                        </main>
+                    </div>
                 </div>
             </div>
 
         </template>
         <template v-else>
-            <main class="p-0">
-                <router-view></router-view>
-            </main>
+            <div class="overflow-x-hidden">
+                <main class="p-0">
+                    <router-view :key="$route.fullPath"></router-view>
+                </main>
+            </div>
         </template>
 
 
