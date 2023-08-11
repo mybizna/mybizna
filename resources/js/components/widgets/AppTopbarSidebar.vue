@@ -9,7 +9,7 @@
                         <i :class="$store.state.system.applist ? 'text-cyan-200' : ' text-white'"
                             class="fab fa-microsoft text-2xl "></i>
 
-                        <div  v-if="visibles.length" :class="$store.state.system.applist ? 'text-cyan-200' : 'text-white'"
+                        <div v-if="visibles.length" :class="$store.state.system.applist ? 'text-cyan-200' : 'text-white'"
                             class="inline-block text-sm font-bold  pl-1">
                             APP
                         </div>
@@ -43,19 +43,59 @@
                             <i class="fas fa-chevron-right text-sm"></i>
                         </div>
                     </li>
-                    <li v-for="(visible, t_index) in visibles" :key="t_index" class="text-white px-1 py-2">
-                        <a class="text-white" :href="'#' + visible.path"></a>
-                        {{ visible.title }}
-                    </li>
+                    <template v-for="(visible, t_index) in visibles" :key="t_index">
+                        <li v-if="countObjectKeys(visible.list)" class="group relative  py-2 px-1">
+                            <a class="text-white cursor-pointer">
+                                {{ visible.title }}
+                                <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+                            </a>
+                            <ul class="absolute hidden group-hover:block bg-white border shadow-l-lg mt-2 py-2 w-44 z-10">
+                                <li v-for="(submenu, index) in visible.list" :key="index">
+
+                                    <a v-if="submenu.path != ''" :href="'#' + submenu.path"
+                                        class="hover:text-blue-800 p-2 block">
+                                        {{ submenu.title }}
+                                    </a>
+                                    <hr v-else class="mx-1 border-dotted">
+                                </li>
+                            </ul>
+                        </li>
+                        <li v-else class="text-white px-1 py-2">
+                            <a class="text-white" :href="'#' + visible.path">
+                                {{ visible.title }}
+                            </a>
+                        </li>
+                    </template>
                     <li id="othersMenu" :class="hiddens.length ? '' : 'hidden'" class="group relative  py-2 px-1">
-                        <a class="text-white hover:text-gray-300 cursor-pointer">
+                        <a class="text-white cursor-pointer">
                             More
                             <i class="fas fa-chevron-down" style="font-size:10px;"></i>
                         </a>
-                        <ul class="absolute hidden group-hover:block bg-white border shadow-l-lg mt-2 py-2 w-32 z-10">
-                            <li v-for="(hidden, index) in hiddens" :key="index"><a :href="'#' + hidden.path"
-                                    class="hover:text-gray-300 px-4 py-2 block">{{ hidden.title }}</a>
-                            </li>
+                        <ul class="absolute hidden group-hover:block bg-white border shadow-l-lg mt-2 py-2 w-44 z-10">
+                            <template v-for="(hidden, index) in hiddens" :key="index">
+                                <template v-if="countObjectKeys(hidden.list)">
+                                    <li>
+                                        <hr>
+                                    </li>
+                                    <li>
+                                        <b class="text-xs bg-gray-50 block px-2 py-1">{{ hidden.title }}</b>
+                                    </li>
+                                    <li v-for="(submenu, index) in hidden.list" :key="index">
+                                        <a v-if="submenu.path != ''" :href="'#' + submenu.path"
+                                            class="hover:text-blue-800 py-1 px-2 block">
+                                            {{ submenu.title }}
+                                        </a>
+                                        <hr v-else class="mx-1 border-dotted">
+                                    </li>
+                                </template>
+
+                                <li v-else>
+                                    <a :href="'#' + hidden.path" class="hover:text-blue-800 py-1 px-2 block">
+                                        {{ hidden.title }}
+                                    </a>
+                                </li>
+                            </template>
+
                         </ul>
                     </li>
 
@@ -126,6 +166,9 @@ export default {
         applist() {
             this.$store.commit("system/sidebar_show", false);
             this.$store.commit("system/applist_show", !this.$store.state.system.applist_show);
+        },
+        countObjectKeys(obj) {
+            return Object.keys(obj).length;
         },
         handleResize() {
             // Handle resize event here
