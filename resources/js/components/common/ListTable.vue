@@ -97,7 +97,7 @@
                     {{ item[column.name] }}
                 </template>
                 <template v-else-if="column.type == 'status'">
-                    <span v-if="item[column.name] && column['color'][item[column.name]]"
+                    <span v-if="item[column.name] && column.color[item[column.name]]"
                         :class="'bg-' + column['color'][item[column.name]] + '-100 text-' + column['color'][item[column.name]] + '-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded'">
                         {{ item[column.name] }}
                     </span>
