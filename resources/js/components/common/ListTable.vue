@@ -97,10 +97,13 @@
                     {{ item[column.name] }}
                 </template>
                 <template v-else-if="column.type == 'status'">
-                    <span v-if="item[column.name] && column.color[item[column.name]]"
+                    {{ console.log(item) }}
+                    <span v-if="item[column.name] && column['color'][item[column.name]]"
                         :class="'bg-' + column['color'][item[column.name]] + '-100 text-' + column['color'][item[column.name]] + '-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded'">
                         {{ item[column.name] }}
                     </span>
+
+                    
                 </template>
                 <template v-else-if="column.type == 'switch'">
                     <div class="text-center">
@@ -143,6 +146,12 @@ export default {
             ],
 
         }
+    },
+    methods: {
+        log(log) {
+            console.log(log);
+        }
     }
+
 };
 </script>
