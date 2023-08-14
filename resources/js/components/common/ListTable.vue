@@ -1,6 +1,6 @@
 <template>
-    <table-render :path_param="$route.meta.path" :title="$route.meta.path_title" :table_fields="table_fields"
-        :setting="{ hide_delete_button: true }">
+    <table-render v-if="layout_fetched" :path_param="$route.meta.path" :title="$route.meta.path_title"
+        :table_fields="table_fields" :setting="{ hide_delete_button: true }">
 
         <template #header>
             <th-render v-for="column in columns" :key="column.name">
@@ -11,140 +11,142 @@
         <template #body="{ item }">
 
             <td v-for="column in columns" :key="column.name">
-                
-                <template v-if="column.type == 'amount'">
-                    <div v-if="item[column.name] < 0" class="text-red-700"></div>
-                    <div v-else class="text-green-700"></div>
+
+                <template v-if="column.html == 'amount'">
+                    <div v-if="renderField(item, column) < 0" class="text-red-800 text-right font-bold">
+                        {{ renderField(item, column) }}
+                    </div>
+                    <div v-else class="text-green-800 text-right font-bold">
+                        {{ renderField(item, column) }}
+                    </div>
                 </template>
 
-                <template v-else-if="column.type == 'status'">
-                    {{ console.log(column) }}
-                    {{ console.log(item) }}
-                    <span v-if="item[column.name] && column['color'] && column['color'][item[column.name]]"
-                        :class="'bg-' + column['color'][item[column.name]] + '-100 text-' + column['color'][item[column.name]] + '-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded'">
-                        {{ item[column.name] }}
+                <template v-else-if="column.color">
+                    <span v-if="renderField(item, column) && column['color'] && column['color'][renderField(item, column)]"
+                        :class="'bg-' + column['color'][renderField(item, column)] + '-100 text-' + column['color'][renderField(item, column)] + '-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded'">
+                        {{ renderField(item, column) }}
                     </span>
                     <span v-else>
-                        {{ item[column.name] }}
+                        {{ renderField(item, column) }}
                     </span>
                 </template>
 
-                <template v-else-if="column.type == 'switch'">
+                <template v-else-if="column.html == 'switch'">
                     <div class="text-center">
                         <btn-status :status="item.status"></btn-status>
                     </div>
                 </template>
 
-                <template v-else-if="column.type == 'select'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'select'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'checkbox'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'checkbox'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'radio'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'radio'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'image'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'image'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'file'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'file'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'currency'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'currency'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'number'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'number'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'email'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'email'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'phone'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'phone'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'url'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'url'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'password'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'password'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'color'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'color'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'text'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'text'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'textarea'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'textarea'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'html'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'html'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'json'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'json'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'markdown'">
-                    {{ item[column.name] }}
-                </template>
-                
-                <template v-else-if="column.type == 'wysiwyg'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'markdown'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'tags'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'wysiwyg'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'rating'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'tags'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'stars'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'rating'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'icon'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'stars'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'button'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'icon'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'link'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'button'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'progress'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'link'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'bar'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'progress'">
+                    {{ renderField(item, column) }}
                 </template>
 
-                <template v-else-if="column.type == 'badge'">
-                    {{ item[column.name] }}
+                <template v-else-if="column.html == 'bar'">
+                    {{ renderField(item, column) }}
+                </template>
+
+                <template v-else-if="column.html == 'badge'">
+                    {{ renderField(item, column) }}
                 </template>
 
                 <template v-else>
-                    {{ item[column.name] }}
+                    {{ renderField(item, column) }}
                 </template>
 
             </td>
@@ -166,6 +168,24 @@ export default {
             console.log(response.data);
 
             this.columns = response.data.layout;
+
+            // this.columns is an object loop through it keys and push to table_fields
+
+            for (const column_name in this.columns) {
+
+                var column = this.columns[column_name];
+
+                this.table_fields.push(column.name);
+
+                if (column.foreign_fields) {
+                    column.foreign_fields.forEach((foreign_field, foreign_field_index) => {
+                        this.table_fields.push(foreign_field);
+                    });
+                }
+            }
+
+            this.layout_fetched = true;
+
         }).catch((error) => {
             console.log(error);
         });
@@ -174,6 +194,8 @@ export default {
     },
     data: function () {
         return {
+            layout_fetched: false,
+            table_fields: ['id'],
             columns: [
                 { name: 'id', label: 'ID' },
             ],
@@ -181,6 +203,22 @@ export default {
         }
     },
     methods: {
+        renderField(item, column) { 
+            var rendered = '';
+
+            if (column.foreign_fields) {
+                column.foreign_fields.forEach((foreign_field, foreign_field_index) => {
+                    if(item[foreign_field]){
+                        rendered += ' ' + item[foreign_field];
+                    }
+                });
+            }else{
+                rendered = item[column.name];
+            }
+         
+
+            return rendered;
+        },
         log(log) {
             console.log(log);
         }
