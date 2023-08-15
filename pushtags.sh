@@ -121,7 +121,7 @@ commit_assets () {
             minor=$current_month
             patch=1
         else
-            patch=$((patch + 1))
+            patch=$((10#patch + 1))
         fi
 
         major=$current_year
@@ -200,7 +200,7 @@ commit_migration () {
             minor=$current_month
             patch=1
         else
-            patch=$((patch + 1))
+            patch=$((10#patch + 1))
         fi
 
         major=$current_year
@@ -270,7 +270,7 @@ commit_module () {
                 minor=$current_month
                 patch=1
             else
-                patch=$((patch + 1))
+                patch=$((10#patch + 1))
             fi
 
             major=$current_year
@@ -358,7 +358,7 @@ commit_erp () {
             minor=$current_month
             patch=1
         else
-            patch=$((patch + 1))
+            patch=$((10#patch + 1))
         fi
 
         major=$current_year
