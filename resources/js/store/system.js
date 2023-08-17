@@ -7,6 +7,7 @@ export default {
         has_menu: false,
         title: 'Mybizna',
         subtitle: '',
+        subtitle_action: '',
         menu: [],
         active_menu: 'dashboard',
         active_link: '',
@@ -58,6 +59,9 @@ export default {
         },
         subtitle(state, payload) {
             state.subtitle = payload;
+        },
+        subtitle_action(state, payload) {
+            state.subtitle_action = payload;
         },
         search(state, payload) {
             var tmp_search = state.search;

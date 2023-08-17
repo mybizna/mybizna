@@ -313,6 +313,13 @@ app.use(store);
 
 router.beforeEach((to, from, next) => {
 
+    if (to.path.includes('/admin/')) {
+        var path_parts = to.path.split('/admin/');
+        var subpath_parts = path_parts[1].split('/');
+        
+        window.$store.commit("system/subtitle", subpath_parts[0]);
+    }
+
     if (from.path != to.path) {
         store.commit('system/loading', true);
         store.commit('system/is_list', false);
