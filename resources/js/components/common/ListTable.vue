@@ -37,6 +37,12 @@
                     </div>
                 </template>
 
+                <template v-else-if="column.foreign_fields">
+                    <a class="text-blue-900" :href="'#' + getLink(item, column)">
+                        {{ renderField(item, column) }}
+                    </a>
+                </template>
+
                 <template v-else-if="column.html == 'select'">
                     {{ renderField(item, column) }}
                 </template>
@@ -159,13 +165,10 @@
 // generate sample code
 export default {
     created() {
-        console.log('created');
-        console.log(this.$route.meta.path);
 
         var path = this.$route.meta.path;
 
         window.axios.get("fetch_layout/" + path[0] + "/" + path[1] + "/list").then((response) => {
-            console.log(response.data);
 
             this.columns = response.data.layout;
 
@@ -203,19 +206,30 @@ export default {
         }
     },
     methods: {
-        renderField(item, column) { 
+        getLink(item, column) {
+
+            if (column.relation.length == 1) {
+                return column.relation[0] + '/admin/' + column.relation[0];
+            } else if (column.relation.length == 2) {
+                return column.relation[0] + '/admin/' + column.relation[1] + '/' + item['id'] + '/edit';
+            }
+
+
+
+        },
+        renderField(item, column) {
             var rendered = '';
 
             if (column.foreign_fields) {
                 column.foreign_fields.forEach((foreign_field, foreign_field_index) => {
-                    if(item[foreign_field]){
+                    if (item[foreign_field]) {
                         rendered += ' ' + item[foreign_field];
                     }
                 });
-            }else{
+            } else {
                 rendered = item[column.name];
             }
-         
+
 
             return rendered;
         },

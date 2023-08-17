@@ -267,7 +267,7 @@ export default {
         this.processDropdownMenu();
         this.fetchRecords();
 
-        window.$store.commit("system/subtitle", this.title);
+        window.$store.commit("system/subtitle_action", this.title);
         window.$store.commit("system/has_search", true);
         window.$store.commit("system/is_list", true);
         window.$store.commit("system/is_edit", false);
