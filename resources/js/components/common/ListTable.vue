@@ -38,7 +38,7 @@
                 </template>
 
                 <template v-else-if="column.foreign_fields">
-                    <a class="text-blue-900" :href="'#' + getLink(item, column)">
+                    <a class="text-blue-900 font-medium" :href="'#' + getLink(item, column)">
                         {{ renderField(item, column) }}
                     </a>
                 </template>
@@ -211,7 +211,7 @@ export default {
             if (column.relation.length == 1) {
                 return column.relation[0] + '/admin/' + column.relation[0];
             } else if (column.relation.length == 2) {
-                return column.relation[0] + '/admin/' + column.relation[1] + '/' + item['id'] + '/edit';
+                return column.relation[0] + '/admin/' + column.relation[1] + '/edit/' + item[column.name];
             }
 
 
@@ -226,7 +226,16 @@ export default {
                         rendered += ' ' + item[foreign_field];
                     }
                 });
+            } else if (column.html == 'amount') {
+                var formatter = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "KES",
+                    minimumFractionDigits: 2,
+                });
+                rendered = formatter.format(item[column.name]);
+
             } else {
+
                 rendered = item[column.name];
             }
 

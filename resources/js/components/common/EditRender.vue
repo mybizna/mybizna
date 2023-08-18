@@ -4,12 +4,8 @@
 
             <div class="form-head mb-1 d-flex flex-wrap align-items-center pb-3">
 
-                <h2
-                    :alt="($store.state.system.menu[$store.state.system.active_menu] ? $store.state.system.menu[$store.state.system.active_menu]['title'] : '') + ' - ' + $store.state.system.subtitle">
-                    <small v-if="$store.state.system.menu[$store.state.system.active_menu]">
-                        {{ $store.state.system.menu[$store.state.system.active_menu]['title'] }}
-                    </small>
-                    {{ $store.state.system.subtitle }}
+                <h2 class="capitalize mr-2" :alt="$store.state.system.active_menu + ' - ' + $store.state.system.subtitle">
+                    {{ $store.state.system.active_menu }}
                     <small class="text-sm" v-if="$store.state.system.subtitle != ''">
                         - {{ $store.state.system.subtitle }}
                     </small>
