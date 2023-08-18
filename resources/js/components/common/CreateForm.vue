@@ -1,39 +1,52 @@
 <template>
-    <!-- Generate sample form for submitting user details -->
-    <h1>User Details Form with Vue.js</h1>
-    <form @submit.prevent="submitForm">
-        <label for="name">Name:</label>
-        <input type="text" v-model="user.name" required>
-        <br>
+    <edit-render :path_param="$route.meta.path" title="Chart of Account" :model="model">
 
-        <label for="email">Email:</label>
-        <input type="email" v-model="user.email" required>
-        <br>
+        <div class="grid grid-cols-12 gap-1">
+            <template v-for="(row, rindex)  in layout" :key="rindex">
+                <div :class="row.class">
+                    <h4 class="text-xs italic font-semibold border-b border-dotted border-gray-100 text-blue-900 my-2">{{
+                        row.label }}</h4>
+                    <template v-for="(field, findex)  in row.fields" :key="findex">
+                        <FormKit v-model="model[field.name]" :label="field.label" :id="field.name" :type="field.html" />
+                    </template>
+                </div>
+            </template>
+        </div>
 
-        <label for="age">Age:</label>
-        <input type="number" v-model.number="user.age" required>
-        <br>
-
-        <button type="submit">Submit</button>
-    </form>
+    </edit-render>
 </template>
 
 <script>
 //generate sample form
 export default {
+
+    created() {
+        var path = this.$route.meta.path;
+
+        window.axios.get("fetch_layout/" + path[0] + "/" + path[1] + "/create").then((response) => {
+
+            this.layout = response.data.layout;
+
+            response.data.fields.forEach(field => {
+                this.model[field] = '';
+            });
+
+            this.layout_fetched = true;
+
+        }).catch((error) => {
+            console.log(error);
+        });
+
+
+    },
     data: function () {
         return {
-            user: {
-                name: '',
-                email: '',
-                age: ''
-            }
+            id: '',
+            layout_fetched: false,
+            model: {},
+            layout: {},
+
         }
     },
-    methods: {
-        submitForm: function () {
-            console.log(this.user);
-        }
-    }
 };
 </script>

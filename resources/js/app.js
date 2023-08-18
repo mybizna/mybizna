@@ -316,8 +316,8 @@ router.beforeEach((to, from, next) => {
     if (to.path.includes('/admin/')) {
         var path_parts = to.path.split('/admin/');
         var subpath_parts = path_parts[1].split('/');
-        
-        window.$store.commit("system/subtitle", subpath_parts[0]);
+
+        window.$store.commit("system/subtitle", subpath_parts[0].replace('_', ' '));
     }
 
     if (from.path != to.path) {
