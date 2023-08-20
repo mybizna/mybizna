@@ -1,6 +1,6 @@
 <template>
-    <table-render v-if="layout_fetched" :path_param="$route.meta.path" :title="$route.meta.path_title"
-        :table_fields="table_fields" :setting="{ hide_delete_button: true }">
+    <table-render v-if="layout_fetched" :path_param="tmp_path_param" :table_fields="table_fields"
+        :setting="{ hide_delete_button: true }">
 
         <template #header>
             <th-render v-for="column in columns" :key="column.name">
@@ -162,9 +162,17 @@
 </template>
 
 <script>
+
+
 // generate sample code
 export default {
+    props: {
+        path_param: { type: Array, default: () => [], },
+
+    },  
     created() {
+        this.tmp_path_param = (this.path_param.length) ? this.path_param : this.$route.meta.path;
+
 
         var path = this.$route.meta.path;
 
@@ -197,6 +205,7 @@ export default {
     },
     data: function () {
         return {
+            tmp_path_param: [],
             layout_fetched: false,
             table_fields: ['id'],
             columns: [

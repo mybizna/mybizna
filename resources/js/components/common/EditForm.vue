@@ -1,5 +1,5 @@
 <template>
-    <edit-render v-if="layout_fetched" :path_param="$route.meta.path" title="Chart of Account" :model="model">
+    <edit-render v-if="layout_fetched" :path_param="tmp_path_param" :model="model">
 
         <div class="grid grid-cols-12 gap-2">
             <template v-for="(row, rindex)  in layout" :key="rindex">
@@ -7,7 +7,14 @@
                     <h4 class="text-xs italic font-semibold border-b border-dotted border-gray-100 text-blue-900 my-2">{{
                         row.label }}</h4>
                     <template v-for="(field, findex)  in row.fields" :key="findex">
-                        <FormKit v-model="model[field.name]" :label="field.label" :id="field.name" :type="field.html" />
+                        <FormKit v-if="field.html == 'recordpicker'" :label="field.label" :button_label="field.button_label"
+                            :id="field.name" type="recordpicker" :setting="field.picker" v-model="model[field.name]"
+                            inner-class="$reset formkit-inner" wrapper-class="$reset formkit-wrapper" />
+                        <FormKit v-else-if="field.html == 'select' || field.html == 'radio' || field.html == 'checkbox'"
+                            v-model="model[field.name]" :options="field.options" :label="field.label" :id="field.name"
+                            :type="field.html" />
+                        <FormKit v-else v-model="model[field.name]" :label="field.label" :id="field.name"
+                            :type="field.html" />
                     </template>
                 </div>
             </template>
@@ -19,8 +26,12 @@
 <script>
 //generate sample form
 export default {
-
+    props: {
+        path_param: { type: Array, default: () => [], },
+    },
     created() {
+        this.tmp_path_param = (this.path_param.length) ? this.path_param : this.$route.meta.path;
+
         var path = this.$route.meta.path;
 
         window.axios.get("fetch_layout/" + path[0] + "/" + path[1] + "/edit").then((response) => {
@@ -41,6 +52,7 @@ export default {
     },
     data: function () {
         return {
+            tmp_path_param: [],
             layout_fetched: false,
             id: null,
             model: {},

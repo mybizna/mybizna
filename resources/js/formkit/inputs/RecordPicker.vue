@@ -22,7 +22,8 @@
 
                     <div class="modal-body p-0">
                         <component :is="currentComp" :recordPicker="recordPicker"
-                            :setting="{ is_recordpicker: is_recordpicker }">
+                            :setting="{ is_recordpicker: is_recordpicker }" :path_param="setting.path_param"
+                            :title="setting.title">
                         </component>
                     </div>
                 </div>
@@ -45,6 +46,7 @@ export default {
 
     data() {
         return {
+            setting: {},
             selected: '',
             currentComp: Loading,
             record: {},
@@ -81,9 +83,24 @@ export default {
 
     methods: {
         async loadcomponent() {
-            this.currentComp = await fetchComponent(
-                this.context.attrs.comp_url
-            )
+            this.setting = this.context.attrs.setting;
+
+            if (Object.keys(this.context.attrs).includes('comp_url')) {
+                this.currentComp = await fetchComponent(
+                    this.context.attrs.comp_url
+                )
+                return;
+            }
+
+            if (Object.keys(this.context.attrs).includes('setting') && Object.keys(this.context.attrs.setting).includes('comp_url')) {
+                this.currentComp = await fetchComponent(
+                    this.context.attrs.setting.comp_url
+                )
+                return;
+            }
+
+            this.currentComp = () => import(`@/components/common/ListTable.vue`);
+
         },
         modalToggle() {
             window.$store.commit("system/has_search", false);
@@ -116,12 +133,9 @@ export default {
 
                             t.record = response.data.record;
 
-                            console.log( t.record);
-
-                            var fields = t.context.attrs.setting.fields;
-
                             Object.keys(t.record).forEach(key => {
-                                t.message = t.message.replaceAll('[' + key + ']', t.record[key]);
+                                var field = (t.record[key]) ? t.record[key] : '';
+                                t.message = t.message.replaceAll('[' + key + ']', field);
                             });
                         })
                     .catch(

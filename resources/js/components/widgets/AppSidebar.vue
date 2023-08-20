@@ -8,6 +8,7 @@
         </div>
 
         <div class="text-center sm:w-3/4 sm:mx-auto">
+
             <template v-for="(item, m_index) in $store.state.system.menu" :key="m_index">
                 <div class="inline-block cursor-pointer w-28 my-3 mb-3 mx-2 sm:mx-5 sm:mx-7" @click="selectApp(m_index)">
 
@@ -32,7 +33,8 @@
     </div>
 
 
-    <div v-if="$store.state.system.has_menu && $store.state.system.sidebar_show" :style="'height:' + (windowHeight - 55) + 'px;'"
+    <div v-if="$store.state.system.has_menu && $store.state.system.sidebar_show"
+        :style="'height:' + (windowHeight - 55) + 'px;'"
         class="absolute overflow-y-auto inset-y-0 top-10 z-10 bg-white w-52 h-full">
 
         <ul class="pl-0 mt-5">
