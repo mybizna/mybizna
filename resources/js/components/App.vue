@@ -20,7 +20,7 @@
 
         <template v-if="$store.getters['auth/loggedIn']">
 
-            <app-topbar-sidebar :windowWidth="windowWidth"></app-topbar-sidebar>
+            <app-topbar :windowWidth="windowWidth"></app-topbar>
 
             <div class="overflow-x-hidden">
                 <div class="flex">
@@ -69,12 +69,12 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "@/utils";
 import AppSidebar from "@/components/widgets/AppSidebar.vue";
-import AppTopbarSidebar from "@/components/widgets/AppTopbarSidebar.vue";
+import AppTopbar from "@/components/widgets/AppTopbar.vue";
 import AppTopbarActions from "@/components/widgets/AppTopbarActions.vue";
 
 export default {
     components: {
-        AppTopbarSidebar,
+        AppTopbar,
         AppSidebar,
         AppTopbarActions,
     },
