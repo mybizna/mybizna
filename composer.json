@@ -11,12 +11,6 @@
   ],
   "license": "GPL-3.0-or-later",
   "version": "23.08.011",
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/dedanirungu/mpesa"
-    }
-  ],
   "require": {
     "php": "^8.0",
     "composer/installers": "~1.0",

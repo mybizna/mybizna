@@ -317,7 +317,7 @@ router.beforeEach((to, from, next) => {
         var path_parts = to.path.split('/admin/');
         var subpath_parts = path_parts[1].split('/');
 
-        window.$store.commit("system/subtitle", subpath_parts[0].replace('_', ' '));
+        store.commit("system/subtitle", subpath_parts[0].replace('_', ' '));
     }
 
     if (from.path != to.path) {
@@ -330,7 +330,7 @@ router.beforeEach((to, from, next) => {
     }
 
     if (window.innerWidth < window.responsive_point) {
-        window.$store.commit("system/sidebar_show", false);
+        store.commit("system/sidebar_show", false);
     }
 
     NProgress.start();
