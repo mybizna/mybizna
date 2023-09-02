@@ -20,7 +20,7 @@
 
         <template v-if="$store.getters['auth/loggedIn']">
 
-            <app-topbar :windowWidth="windowWidth"></app-topbar>
+            <app-topbar :windowWidth="windowWidth-10"></app-topbar>
 
             <div class="overflow-x-hidden">
                 <div class="flex">
