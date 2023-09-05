@@ -1,7 +1,7 @@
 <template>
   <template v-for="(component, index) in components" :key="index">
-    <div v-if="component.has_wrapper" class="card my-2">
-      <div class="card-body p-0">
+    <div v-if="component.has_wrapper" class=" my-2">
+      <div class="">
         <component :is="component.render"></component>
       </div>
     </div>

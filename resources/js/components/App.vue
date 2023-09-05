@@ -20,7 +20,7 @@
 
         <template v-if="$store.getters['auth/loggedIn']">
 
-            <app-topbar :windowWidth="windowWidth-10"></app-topbar>
+            <app-topbar :windowWidth="windowWidth"></app-topbar>
 
             <div class="overflow-x-hidden">
                 <div class="flex">
@@ -31,7 +31,7 @@
 
                         <app-topbar-actions></app-topbar-actions>
 
-                        <main class="p-0" :style="'width:' + windowWidth + 'px'">
+                        <main class="p-0" :style="'width:' + (windowWidth -10)+ 'px'">
                             <div class="app-content-container boxed-container">
                                 <router-view :key="$route.fullPath"></router-view>
                             </div>
