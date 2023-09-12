@@ -2,7 +2,7 @@
     <template v-if="$store.state.system.loading">
         <!-- backdrop-blur-sm-->
         <div wire:loading
-            class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-800/[.05] flex flex-col items-center justify-center">
+            class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-800/[.08] flex flex-col items-center justify-center">
             <div class="fa-3x text-blue-600">
                 <i class="fas fa-spinner fa-spin"></i>
             </div>
