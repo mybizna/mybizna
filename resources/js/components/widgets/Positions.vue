@@ -1,6 +1,6 @@
 <template>
   <template v-for="(component, index) in components" :key="index">
-    <div v-if="component.has_wrapper" class=" my-2">
+    <div v-if="component.has_wrapper" class=" my-4">
       <div class="">
         <component :is="component.render"></component>
       </div>
