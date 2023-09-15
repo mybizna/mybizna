@@ -18,35 +18,37 @@
 
     <div class="mybizna-app">
 
-        <template v-if="$store.getters['auth/loggedIn']">
+        <template v-if="window.viewside=='frontend'">
+            <template v-if="$store.getters['auth/loggedIn']">
 
-            <app-topbar :windowWidth="windowWidth"></app-topbar>
+                <app-topbar :windowWidth="windowWidth"></app-topbar>
 
-            <div class="overflow-x-hidden">
-                <div class="flex">
-                    <div class="flex-none">
-                        <app-sidebar></app-sidebar>
-                    </div>
-                    <div class="flex-auto">
+                <div class="overflow-x-hidden">
+                    <div class="flex">
+                        <div class="flex-none">
+                            <app-sidebar></app-sidebar>
+                        </div>
+                        <div class="flex-auto">
 
-                        <app-topbar-actions></app-topbar-actions>
+                            <app-topbar-actions></app-topbar-actions>
 
-                        <main class="p-0" :style="'width:' + (windowWidth - 10) + 'px'">
-                            <div class="app-content-container boxed-container">
-                                <router-view :key="$route.fullPath"></router-view>
-                            </div>
-                        </main>
+                            <main class="p-0" :style="'width:' + (windowWidth - 10) + 'px'">
+                                <div class="app-content-container boxed-container">
+                                    <router-view :key="$route.fullPath"></router-view>
+                                </div>
+                            </main>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </template>
-        <template v-else>
-            <div class="overflow-x-hidden">
-                <main class="p-0">
-                    <router-view :key="$route.fullPath"></router-view>
-                </main>
-            </div>
+            </template>
+            <template v-else>
+                <div class="overflow-x-hidden">
+                    <main class="p-0">
+                        <router-view :key="$route.fullPath"></router-view>
+                    </main>
+                </div>
+            </template>
         </template>
 
 

@@ -4,7 +4,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use Modules\Base\Http\Controllers\BaseController;
+use Modules\Base\Http\Controllers\GeneralController;
 
 
 /*
@@ -18,6 +18,6 @@ use Modules\Base\Http\Controllers\BaseController;
 |
 */
 
-Route::get('/', [BaseController::class, 'manage']);
+Route::get('/', [GeneralController::class, 'front']);
 
 
