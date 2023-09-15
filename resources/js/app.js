@@ -233,7 +233,7 @@ const store = createStore({
                         var keys = vuex_obj[mkey];
                         keys.forEach(skey => {
                             var sub_data = '';
-                            var key_name = `vuex_${mkey}_${skey}`;
+                            var key_name = `vuex_${window.viewside}_${mkey}_${skey}`;
                             var vuex_data_str = Cookies.get(key_name);
 
                             try {
@@ -265,6 +265,7 @@ const store = createStore({
                 var keys = {};
 
                 var modules = JSON.parse(value);
+
                 for (const mkey in modules) {
 
                     var module = modules[mkey];
@@ -272,7 +273,7 @@ const store = createStore({
 
                     for (const skey in module) {
 
-                        var key_name = `vuex_${mkey}_${skey}`;
+                        var key_name = `vuex_${window.viewside}_${mkey}_${skey}`;
                         var sub_module = module[skey];
 
                         keys[mkey].push(skey)
@@ -289,7 +290,7 @@ const store = createStore({
                 Cookies.set(key + '_data', JSON.stringify(keys), {
                     expires: 3,
                     secure: true
-                })
+                });
 
             },
             removeItem: (key) => Cookies.remove(key),

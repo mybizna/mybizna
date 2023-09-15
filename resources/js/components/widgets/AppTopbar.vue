@@ -171,8 +171,7 @@ export default {
             return Object.keys(obj).length;
         },
         handleResize() {
-            // Handle resize event here
-            //alert("handleResize");
+            
             const availableSpace = window.innerWidth - 200 - 160;
             let totalWidth = 0;
             var visibles = [];
