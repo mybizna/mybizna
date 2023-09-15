@@ -31,7 +31,7 @@
 
                         <app-topbar-actions></app-topbar-actions>
 
-                        <main class="p-0" :style="'width:' + (windowWidth -10)+ 'px'">
+                        <main class="p-0" :style="'width:' + (windowWidth - 10) + 'px'">
                             <div class="app-content-container boxed-container">
                                 <router-view :key="$route.fullPath"></router-view>
                             </div>
@@ -86,8 +86,12 @@ export default {
         window.$store = store;
 
         if (window.innerWidth >= window.responsive_point) {
-            window.$store.commit("system/sidebar_show", true);
+            store.commit("system/sidebar_show", true);
         }
+
+        store.commit("system/active_menu", 'dashboard');
+        store.commit("system/active_subs_1", 0);
+
 
         const resolveLayout = computed(() => {
             // Handles initial route
