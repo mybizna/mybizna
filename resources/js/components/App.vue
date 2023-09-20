@@ -18,67 +18,25 @@
 
     <div class="mybizna-app">
 
-        <template v-if="window.viewside=='frontend'">
-            <template v-if="$store.getters['auth/loggedIn']">
+        <app-backend v-if="viewSide == 'backend'" :windowWidth="windowWidth"></app-backend>
+        <app-frontend v-else :windowWidth="windowWidth"></app-frontend>
 
-                <app-topbar :windowWidth="windowWidth"></app-topbar>
-
-                <div class="overflow-x-hidden">
-                    <div class="flex">
-                        <div class="flex-none">
-                            <app-sidebar></app-sidebar>
-                        </div>
-                        <div class="flex-auto">
-
-                            <app-topbar-actions></app-topbar-actions>
-
-                            <main class="p-0" :style="'width:' + (windowWidth - 10) + 'px'">
-                                <div class="app-content-container boxed-container">
-                                    <router-view :key="$route.fullPath"></router-view>
-                                </div>
-                            </main>
-                        </div>
-                    </div>
-                </div>
-
-            </template>
-            <template v-else>
-                <div class="overflow-x-hidden">
-                    <main class="p-0">
-                        <router-view :key="$route.fullPath"></router-view>
-                    </main>
-                </div>
-            </template>
-        </template>
-
-
-
-        <footer v-if="$store.getters[' auth/loggedIn']" app inset color="transparent" absolute height="56"
-            class="footer mt-auto py-3 bg-light">
-            <div class="container">
-                <div class="text-muted text-center">
-                    <span> &copy; 2022 - 2023
-                        <a href="https://mybizna.com" class="text-decoration-none" target="_blank">Mybizna</a></span>
-                </div>
-            </div>
-        </footer>
     </div>
 </template>
 
 
 <script>
+
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "@/utils";
-import AppSidebar from "@/components/widgets/AppSidebar.vue";
-import AppTopbar from "@/components/widgets/AppTopbar.vue";
-import AppTopbarActions from "@/components/widgets/AppTopbarActions.vue";
+import AppBackend from "@/components/widgets/AppBackend.vue";
+import AppFrontend from "@/components/widgets/AppFrontend.vue";
 
 export default {
     components: {
-        AppTopbar,
-        AppSidebar,
-        AppTopbarActions,
+        AppBackend,
+        AppFrontend,
     },
     setup() {
         const { route } = useRouter();
@@ -111,6 +69,7 @@ export default {
     data() {
         return {
             windowWidth: window.innerWidth,
+            viewSide: window.viewside ?? 'frontend',
         }
     },
     mounted() {
