@@ -1,70 +1,95 @@
 <template>
-    <!-- Start Navbar -->
-    <nav id="topnav" class="defaultscroll is-sticky">
-        <div class="container relative">
+    <nav class="p-4 nav-section w-full">
+        <div class="container mx-auto">
+            <div class="flex justify-between flex- content-center items-center py-2 lg:py-0 px-0 lg:px-0">
+                <!-- Start Logo -->
+                <a href="index.html">
+                    <img src="img/logo.png" class="w-32 self-start" alt="Logo">
+                </a>
+                <!-- End Logo -->
 
-            <div id="navigation">
-                <!-- Navigation Menu-->
-                <ul class="navigation-menu">
-                    <li class="active"><a href="index.html" class="sub-menu-item active">Home</a></li>
+                <!-- Start Main Nav Bar -->
+                <div class="hidden md:block">
+                    <ul class="flex flex-row">
+                        <li class="active">
+                            <a class="px-4 py-2 text-gray-900 font-semibold" href="#">Home</a>
+                        </li>
+                        <li>
+                            <a class="px-4 py-2 text-gray-700 hover:text-gray-900 transition duration-500 ease-in-out hover:rounded hover:bg-gray-200 rounded"
+                                href="features.html">Features</a>
+                        </li>
+                        <li>
+                            <a class="px-4 py-2 text-gray-700 hover:text-gray-900 transition duration-500 ease-in-out hover:rounded hover:bg-gray-200 rounded"
+                                href="pricing.html">Pricing</a>
+                        </li>
+                        <li>
+                            <a class="px-4 py-2 text-gray-700 hover:text-gray-900 transition duration-500 ease-in-out hover:rounded hover:bg-gray-200 rounded"
+                                href="contact.html">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End Main Navbar -->
 
-                    <li class="has-submenu parent-menu-item">
-                        <a href="#">Docs</a><span class="menu-arrow"></span>
-                        <ul class="submenu">
-                            <li><a href="ui-components.html" class="sub-menu-item">Components <span
-                                        class="bg-yellow-500 inline-block text-white text-[10px] font-bold px-2.5 py-0.5 rounded h-5 ms-1">New</span></a>
-                            </li>
-                            <li><a href="documentation.html" class="sub-menu-item">Documentation</a></li>
-                            <li><a href="changelog.html" class="sub-menu-item">Changelog</a></li>
-                            <li><a href="widget.html" class="sub-menu-item">Widget</a></li>
-                        </ul>
-                    </li>
+                <!-- End Secondary Navbar -->
+                <div class="hidden md:block">
+                    <ul class="flex flex-">
+                        <li>
+                            <a class="px-4 py-2 text-gray-700 hover:text-gray-900 transition duration-500 ease-in-out hover:rounded hover:bg-gray-200 rounded text-gray-900"
+                                href="login.html">Login</a>
+                        </li>
+                        <li class="nav-item px-2 signup">
+                            <a class="text-gray-900 px-3 py-2 bg-yellow-500 hover:bg-yellow-600 rounded border border-yellow-600 shadow font-semibold transition duration-500 ease-in-out cursor-pointer"
+                                href="signup.html">Signup for free</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End Secondary Navbar -->
 
-                    <li><a href="contact-one.html" class="sub-menu-item">Contact</a></li>
-                </ul><!--end navigation menu-->
-            </div><!--end navigation-->
-        </div><!--end container-->
-    </nav><!--end header-->
-    <!-- End Navbar -->
-
-    <!-- Start Hero -->
-    <section class="relative table w-full py-36 lg:py-44">
-        <div class="container relative">
-            <div class="grid md:grid-cols-12 grid-cols-1 items-center mt-10 gap-[30px]">
-                <div class="md:col-span-7">
-                    <div class="me-6">
-                        <h4
-                            class="font-semibold lg:leading-normal leading-normal text-4xl lg:text-5xl mb-5 text-black dark:text-white">
-                            Our Creativity Is Your <span class="text-indigo-600">Success</span></h4>
-                        <p class="text-slate-400 text-lg max-w-xl">Launch your campaign and benefit from our expertise on
-                            designing and managing conversion centered Tailwind CSS v3.x html page.</p>
-
-                        <div class="mt-6">
-                            <a href="contact-one.html"
-                                class="py-2 px-5 inline-block font-semibold tracking-wide border align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-md me-2 mt-2"><i
-                                    class="uil uil-envelope"></i> Get Started</a>
-                            <a href="documentation.html"
-                                class="py-2 px-5 inline-block font-semibold tracking-wide border align-middle duration-500 text-base text-center bg-transparent hover:bg-indigo-600 border-indigo-600 text-indigo-600 hover:text-white rounded-md mt-2"><i
-                                    class="uil uil-book-alt"></i> Documentation</a>
+                <!-- Start Mobile Navbar-->
+                <div class="hamburger-menu px-2 py-1 block md:hidden rounded border border-gray-500 uppercase">
+                    Menu
+                </div>
+                <div
+                    class="navbar mobile-nav px-0 mx-0 hidden md:hidden fixed top-0 left-0 w-full bg-white h-screen fixed z-50 p-3">
+                    <div class="flex flex- justify-between px-3 py-2">
+                        <img src="img/logo.png" class="w-32 self-start ml-1">
+                        <div
+                            class="close-menu flex items-center content-center justify-center px-2 py-1 bg-black rounded px-x py-1 text-white uppercase">
+                            Close
                         </div>
                     </div>
-                </div><!--end col-->
+                    <ul class="flex flex-col text-center mt-2 pt-2 w-full">
+                        <li class="active w-full">
+                            <a class="w-full font-bold text-lg border-t border-gray-200 block py-3" href="/">Home</a>
+                        </li>
+                        <li class="w-full">
+                            <a class="w-full text-lg border-t border-gray-200 block py-3" href="features.html">Features</a>
+                        </li>
+                        <li class="w-full">
+                            <a class="w-full text-lg border-t border-gray-200 block py-3" href="pricing.html">Pricing</a>
+                        </li>
+                        <li class="w-full">
+                            <a class="w-full text-lg border-t border-gray-200 block py-3" href="contact.html">Contact</a>
+                        </li>
+                        <li class="w-full">
+                            <a class="w-full text-lg border-t border-gray-200 block py-3" href="login.html">Login</a>
+                        </li>
+                        <li class="signup py-4 border-t border-gray-200 p-4">
+                            <a class=" px-3 py-2 bg-yellow-500 rounded border border-yellow-600 shadow font-semibold block"
+                                href="signup.html">Signup for free</a>
+                        </li>
 
-                <div class="md:col-span-5">
-                    <img src="assets/images/illustrator/Startup_SVG.svg" alt="">
-                </div><!--end col-->
-            </div><!--end grid-->
-        </div><!--end container-->
-    </section><!--end section-->
-    <!-- End Hero -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <div class="overflow-x-hidden">
         <main class="p-0">
             <router-view :key="$route.fullPath"></router-view>
         </main>
     </div>
-
-
 
     <!-- Footer Start -->
     <footer class="footer bg-dark-footer relative text-gray-200 dark:text-gray-200">
@@ -200,8 +225,8 @@
             <div class="container relative text-center">
                 <div class="grid md:grid-cols-2 items-center">
                     <div class="md:text-start text-center">
-                        <p class="mb-0">© 
-                            
+                        <p class="mb-0">©
+
                             2023 Techwind. Design with <i class="mdi mdi-heart text-red-600"></i> by <a
                                 href="https://shreethemes.in/" target="_blank" class="text-reset">Shreethemes</a>.</p>
                     </div>
@@ -223,7 +248,6 @@
         </div>
     </footer>
     <!-- Footer End -->
-
 </template>
 
 <script>
