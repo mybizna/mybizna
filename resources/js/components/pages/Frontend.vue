@@ -1,533 +1,333 @@
 <template>
-  <!-- Business Partner -->
-  <section class="py-6 border-t border-b border-gray-100 dark:border-gray-700">
-    <div class="container relative">
-      <div class="grid md:grid-cols-6 grid-cols-2 justify-center gap-[30px]">
-        <div class="mx-auto py-4">
-          <img src="assets/images/client/amazon.svg" class="h-6" alt="">
-        </div>
-
-        <div class="mx-auto py-4">
-          <img src="assets/images/client/google.svg" class="h-6" alt="">
-        </div>
-
-        <div class="mx-auto py-4">
-          <img src="assets/images/client/lenovo.svg" class="h-6" alt="">
-        </div>
-
-        <div class="mx-auto py-4">
-          <img src="assets/images/client/paypal.svg" class="h-6" alt="">
-        </div>
-
-        <div class="mx-auto py-4">
-          <img src="assets/images/client/shopify.svg" class="h-6" alt="">
-        </div>
-
-        <div class="mx-auto py-4">
-          <img src="assets/images/client/spotify.svg" class="h-6" alt="">
-        </div>
-      </div><!--end grid-->
-    </div><!--end container-->
-  </section><!--end section-->
-  <!-- Business Partner -->
-
-  <!-- Start -->
-  <section class="relative md:py-24 py-16 bg-gray-50 dark:bg-slate-800">
-    <div class="container relative">
-      <div class="grid grid-cols-1 pb-8 text-center">
-        <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">How It Work ?</h3>
-
-        <p class="text-slate-400 max-w-xl mx-auto">Start working with Tailwind CSS that can provide everything you
-          need to generate awareness, drive traffic, connect.</p>
-      </div><!--end grid-->
-
-      <div class="grid lg:grid-cols-12 md:grid-cols-2 grid-cols-1 items-center mt-10 gap-[30px]">
-        <div class="lg:col-span-5">
-          <img src="assets/images/illustrator/SEO_SVG.svg" alt="">
-        </div>
-        <div class="lg:col-span-7">
-          <div class="lg:ms-10">
-            <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Change the way
-              you build websites</h3>
-            <p class="text-slate-400 max-w-xl">You can combine all the Techwind templates into a single one, you
-              can take a component from the Application theme and use it in the Website.</p>
-
-            <ul class="list-none text-slate-400 mt-4">
-              <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Digital
-                Marketing Solutions for Tomorrow</li>
-              <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Our
-                Talented &amp; Experienced Marketing Agency</li>
-              <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Create
-                your own skin to match your brand</li>
-            </ul>
-
-            <div class="mt-4">
-              <a href="page-aboutus.html"
-                class="relative inline-block font-semibold tracking-wide align-middle text-base text-center border-none after:content-[''] after:absolute after:h-px after:w-0 hover:after:w-full after:end-0 hover:after:end-auto after:bottom-0 after:start-0 after:duration-500 text-indigo-600 hover:text-indigo-600 after:bg-indigo-600 duration-500 ease-in-out">Find
-                Out More <i class="uil uil-angle-right-b align-middle"></i></a>
+  <section class="hero-3">
+    <div class="container">
+      <div class="flex flex-wrap items-center -mx-3">
+        <div class="w-full lg:w-2/5 px-3">
+          <div class="max-w-lg lg:max-w-md mx-auto lg:mx-0 mb-8 text-center lg:text-left">
+            <h2 class="text-3xl lg:text-5xl mb-4 font-bold font-heading wow animate__animated animate__fadeIn">Exclusive
+              Agency For <span class="text-blue-500">Technology </span>Provide Solution</h2>
+            <div class="text-blueGray-400 leading-relaxed wow animate__animated animate__fadeIn">We are <strong
+                class="text-blue-500">Monst</strong>, a Creative Design <div class="typewrite d-inline text-brand"><span>
+                  <div style="display: inline-block;">Social Marketing</div><span
+                    style="display: inline-block; transition: opacity 0.5s ease 0s; opacity: 1;">|</span>
+                </span></div>
             </div>
+            <p class="text-blueGray-400 leading-relaxed wow animate__animated animate__fadeIn mt-3 text-sm">Helping you
+              maximize operations management with digitization</p>
           </div>
+          <div class="text-center lg:text-left"><a
+              class="tracking-wide hover-up-2 block sm:inline-block py-4 px-8 mb-4 sm:mb-0 sm:mr-3 text-xs text-white text-center font-semibold leading-none bg-blue-500 hover:bg-blue-700 rounded wow animate__animated animate__fadeIn"
+              href="#key-features">Key Features</a><a
+              class="block sm:inline-block hover-up-2 py-4 px-8 text-xs text-blueGray-500 hover:text-blueGray-600 text-center font-semibold leading-none bg-white border border-blueGray-200 hover:border-blueGray-300 rounded wow animate__animated animate__fadeIn"
+              data-wow-delay=".3s" href="#how-we-work">How We Work?</a></div>
         </div>
-      </div><!--end grid-->
-    </div><!--end container-->
-
-    <div class="container relative md:mt-24 mt-16">
-      <div class="grid lg:grid-cols-12 md:grid-cols-2 grid-cols-1 items-center mt-10 gap-[30px]">
-        <div class="lg:col-span-5 md:order-2 order-1">
-          <div class="lg:ms-10">
-            <div class="bg-white dark:bg-slate-900 p-6 rounded-md shadow dark:shadow-gray-800">
-              <img src="assets/images/illustrator/Mobile_notification_SVG.svg" alt="">
-
-              <div class="mt-8">
-                <form>
-                  <div class="grid grid-cols-1">
-                    <div class="mb-5">
-                      <label class="form-label font-medium">Your Name : <span class="text-red-600">*</span></label>
-                      <div class="form-icon relative mt-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          class="feather feather-user w-4 h-4 absolute top-3 start-4">
-                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                          <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        <input type="text"
-                          class="form-input ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-200 focus:border-indigo-600 dark:border-gray-800 dark:focus:border-indigo-600 focus:ring-0"
-                          placeholder="Name" name="name">
-                      </div>
-                    </div>
-
-                    <div class="mb-5">
-                      <label class="form-label font-medium">Your Email : <span class="text-red-600">*</span></label>
-                      <div class="form-icon relative mt-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          class="feather feather-mail w-4 h-4 absolute top-3 start-4">
-                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                          </path>
-                          <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        <input type="email"
-                          class="form-input ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-200 focus:border-indigo-600 dark:border-gray-800 dark:focus:border-indigo-600 focus:ring-0"
-                          placeholder="Email" name="email">
-                        <div data-lastpass-icon-root="true"
-                          style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;">
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="mb-5">
-                      <label class="form-label font-medium">Enter Password : <span class="text-red-600">*</span></label>
-                      <div class="form-icon relative mt-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          class="feather feather-key w-4 h-4 absolute top-3 start-4">
-                          <path
-                            d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4">
-                          </path>
-                        </svg>
-                        <input type="password"
-                          class="form-input ps-12 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-200 focus:border-indigo-600 dark:border-gray-800 dark:focus:border-indigo-600 focus:ring-0"
-                          placeholder="Password">
-                        <div data-lastpass-icon-root="true"
-                          style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;">
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="">
-                      <button
-                        class="py-2 px-5 inline-block tracking-wide border align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-md w-full">Download</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
+        <div class="w-full lg:w-3/5 px-3 mb-12 lg:mb-0">
+          <div class="lg:h-128 flex items-center justify-center"><img class="lg:max-w-lg"
+              src="/assets/imgs/illustrations/work-tv.png" alt="Monst"></div>
         </div>
-        <div class="lg:col-span-7 md:order-1 order-2">
-          <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Speed up your
-            development <br> with <span class="text-indigo-600">Techwind.</span></h3>
-          <p class="text-slate-400 max-w-xl">You can combine all the Techwind templates into a single one, you can
-            take a component from the Application theme and use it in the Website.</p>
+      </div>
+    </div>
+  </section>
 
-          <ul class="list-none text-slate-400 mt-4">
-            <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Digital
-              Marketing Solutions for Tomorrow</li>
-            <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Our Talented
-              &amp; Experienced Marketing Agency</li>
-            <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Create your
-              own skin to match your brand</li>
-          </ul>
-
-          <div class="mt-4">
-            <a href="page-aboutus.html"
-              class="relative inline-block font-semibold tracking-wide align-middle text-base text-center border-none after:content-[''] after:absolute after:h-px after:w-0 hover:after:w-full after:end-0 hover:after:end-auto after:bottom-0 after:start-0 after:duration-500 text-indigo-600 hover:text-indigo-600 after:bg-indigo-600 duration-500 ease-in-out">Find
-              Out More <i class="uil uil-angle-right-b align-middle"></i></a>
-          </div>
-        </div>
-      </div><!--end grid-->
-    </div><!--end container-->
-  </section><!--end section-->
-  <!-- End -->
-
-  <!-- Start -->
-  <section class="relative md:py-24 py-16">
-    <div class="container relative">
-      <div class="grid grid-cols-1 pb-8 text-center">
-        <h6 class="mb-4 text-base font-medium text-indigo-600">We believe in building each other and hence</h6>
-        <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Work with some amazing
-          partners</h3>
-
-        <p class="text-slate-400 max-w-xl mx-auto">Start working with Tailwind CSS that can provide everything you
-          need to generate awareness, drive traffic, connect.</p>
-      </div><!--end grid-->
-
-      <div class="grid relative grid-cols-1 mt-8">
-        <div class="tns-outer" id="tns1-ow">
-          <div class="tns-controls" aria-label="Carousel Navigation" tabindex="0"><button type="button"
-              data-controls="prev" tabindex="-1" aria-controls="tns1"><i
-                class="mdi mdi-chevron-left "></i></button><button type="button" data-controls="next" tabindex="-1"
-              aria-controls="tns1"><i class="mdi mdi-chevron-right"></i></button></div>
-          <div class="tns-liveregion tns-visually-hidden" aria-live="polite" aria-atomic="true">slide <span
-              class="current">2 to 3</span> of 6</div>
-          <div id="tns1-mw" class="tns-ovh">
-            <div class="tns-inner" id="tns1-iw">
-              <div class="tiny-two-item  tns-slider tns-carousel tns-subpixel tns-calc tns-horizontal" id="tns1"
-                style="transform: translate3d(-16.6667%, 0px, 0px);">
-                <div class="tiny-slide tns-item" id="tns1-item0" aria-hidden="true" tabindex="-1">
-                  <div class="lg:flex p-6 lg:p-0 relative rounded-md shadow dark:shadow-gray-800 overflow-hidden m-2">
-                    <img class="w-24 h-24 lg:w-48 lg:h-auto lg:rounded-none rounded-full mx-auto"
-                      src="assets/images/client/01.jpg" alt="" width="384" height="512">
-                    <div class="pt-6 lg:p-6 text-center lg:text-start space-y-4">
-                      <p class="text-base text-slate-400"> " It seems that only fragments of the
-                        original text remain in the Lorem Ipsum texts used today. " </p>
-
-                      <div>
-                        <span class="text-indigo-600 block mb-1">Thomas Israel</span>
-                        <span class="text-slate-400 text-sm dark:text-white/60 block">Staff
-                          Engineer, Algolia</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="tiny-slide tns-item tns-slide-active" id="tns1-item1">
-                  <div class="lg:flex p-6 lg:p-0 relative rounded-md shadow dark:shadow-gray-800 overflow-hidden m-2">
-                    <img class="w-24 h-24 lg:w-48 lg:h-auto lg:rounded-none rounded-full mx-auto"
-                      src="assets/images/client/02.jpg" alt="" width="384" height="512">
-                    <div class="pt-6 lg:p-6 text-center lg:text-start space-y-4">
-                      <p class="text-base text-slate-400"> " The most well-known dummy text is the
-                        'Lorem Ipsum', which is said to have originated in the 16th century. " </p>
-
-                      <div>
-                        <span class="text-indigo-600 block mb-1">Carl Oliver</span>
-                        <span class="text-slate-400 text-sm dark:text-white/60 block">Staff
-                          Engineer, Algolia</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="tiny-slide tns-item tns-slide-active" id="tns1-item2">
-                  <div class="lg:flex p-6 lg:p-0 relative rounded-md shadow dark:shadow-gray-800 overflow-hidden m-2">
-                    <img class="w-24 h-24 lg:w-48 lg:h-auto lg:rounded-none rounded-full mx-auto"
-                      src="assets/images/client/03.jpg" alt="" width="384" height="512">
-                    <div class="pt-6 lg:p-6 text-center lg:text-start space-y-4">
-                      <p class="text-base text-slate-400"> " One disadvantage of Lorum Ipsum is that
-                        in Latin certain letters appear more frequently than others. " </p>
-
-                      <div>
-                        <span class="text-indigo-600 block mb-1">Barbara McIntosh</span>
-                        <span class="text-slate-400 text-sm dark:text-white/60 block">Staff
-                          Engineer, Algolia</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="tiny-slide tns-item" id="tns1-item3" aria-hidden="true" tabindex="-1">
-                  <div class="lg:flex p-6 lg:p-0 relative rounded-md shadow dark:shadow-gray-800 overflow-hidden m-2">
-                    <img class="w-24 h-24 lg:w-48 lg:h-auto lg:rounded-none rounded-full mx-auto"
-                      src="assets/images/client/04.jpg" alt="" width="384" height="512">
-                    <div class="pt-6 lg:p-6 text-center lg:text-start space-y-4">
-                      <p class="text-base text-slate-400"> " Thus, Lorem Ipsum has only limited
-                        suitability as a visual filler for German texts. " </p>
-
-                      <div>
-                        <span class="text-indigo-600 block mb-1">Jill Webb</span>
-                        <span class="text-slate-400 text-sm dark:text-white/60 block">Staff
-                          Engineer, Algolia</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="tiny-slide tns-item" id="tns1-item4" aria-hidden="true" tabindex="-1">
-                  <div class="lg:flex p-6 lg:p-0 relative rounded-md shadow dark:shadow-gray-800 overflow-hidden m-2">
-                    <img class="w-24 h-24 lg:w-48 lg:h-auto lg:rounded-none rounded-full mx-auto"
-                      src="assets/images/client/05.jpg" alt="" width="384" height="512">
-                    <div class="pt-6 lg:p-6 text-center lg:text-start space-y-4">
-                      <p class="text-base text-slate-400"> " One disadvantage of Lorum Ipsum is that
-                        in Latin certain letters appear more frequently than others. " </p>
-
-                      <div>
-                        <span class="text-indigo-600 block mb-1">Barbara McIntosh</span>
-                        <span class="text-slate-400 text-sm dark:text-white/60 block">Staff
-                          Engineer, Algolia</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="tiny-slide tns-item" id="tns1-item5" aria-hidden="true" tabindex="-1">
-                  <div class="lg:flex p-6 lg:p-0 relative rounded-md shadow dark:shadow-gray-800 overflow-hidden m-2">
-                    <img class="w-24 h-24 lg:w-48 lg:h-auto lg:rounded-none rounded-full mx-auto"
-                      src="assets/images/client/06.jpg" alt="" width="384" height="512">
-                    <div class="pt-6 lg:p-6 text-center lg:text-start space-y-4">
-                      <p class="text-base text-slate-400"> " Thus, Lorem Ipsum has only limited
-                        suitability as a visual filler for German texts. " </p>
-
-                      <div>
-                        <span class="text-indigo-600 block mb-1">Jill Webb</span>
-                        <span class="text-slate-400 text-sm dark:text-white/60 block">Staff
-                          Engineer, Algolia</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!--end grid-->
-    </div><!--end container-->
-
-    <div class="container relative md:mt-24 mt-16">
-      <div class="grid lg:grid-cols-12 grid-cols-1 items-center gap-[30px]">
-        <div class="lg:col-span-5">
-          <div class="lg:text-start text-center">
-            <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Our Comfortable
-              Rates</h3>
-
-            <p class="text-slate-400 max-w-xl mx-auto">Start working with Tailwind CSS that can provide
-              everything you need to generate awareness, drive traffic, connect.</p>
-
-            <div class="mt-6">
-              <a href="page-pricing.html"
-                class="py-2 px-5 inline-block font-semibold tracking-wide border align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-md me-2 mt-2"><i
-                  class="uil uil-master-card"></i> Subscribe Now</a>
-            </div>
-          </div>
-        </div><!--end col-->
-
-        <div class="lg:col-span-7 mt-8 lg:mt-0">
-          <div class="lg:ms-8">
-            <div class="grid md:grid-cols-2 grid-cols-1 md:gap-0 gap-[30px]">
+  <section class="py-12 md:pt-20 md:pb-12" id="how-we-work">
+    <div class="container">
+      <div class="max-w-lg mx-auto mb-20 text-center"><span
+          class="inline-block text-xs py-1 px-3 text-blue-700 font-semibold bg-blue-100 rounded-xl wow animate__animated animate__fadeIn"
+          data-wow-delay=".5s">How we work</span>
+        <h2
+          class="my-3 text-3xl md:text-4xl text-blueGray-900 font-bold font-heading wow animate__animated animate__fadeIn"
+          data-wow-delay="0">Partner Company Business And Me Success Fully</h2>
+        <p class="text-blueGray-400 wow animate__animated animate__fadeIn" data-wow-delay=".3s">IT Solution For Your
+          Business Is Best Theme</p>
+      </div>
+      <div class="relative max-w-6xl mx-auto wow animate__animated animate__fadeIn" data-wow-delay=".3s"><img
+          src="/assets/imgs/elements/macbook.png" alt="Monst">
+        <div class="absolute" style="top: 5.8%; left: 14.6%; width: 72.8%; height: 76.7%;">
+          <div class="relative w-full">
+            <div class="carausel-fade-2 slick-carausel dot-style-1" id="carausel-fade-2-1">
               <div
-                class="group border-b-[3px] dark:border-gray-700 relative shadow dark:shadow-gray-800 rounded-md md:scale-110 z-3 bg-white dark:bg-slate-900">
-                <div class="p-6 py-8">
-                  <h6 class="font-bold uppercase mb-5 text-indigo-600">Starter</h6>
-
-                  <div class="flex mb-5">
-                    <span class="text-xl font-semibold">$</span>
-                    <span class="price text-4xl font-semibold mb-0">39</span>
-                    <span class="text-xl font-semibold self-end mb-1">/mo</span>
-                  </div>
-
-                  <ul class="list-none text-slate-400">
-                    <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Full Access
-                    </li>
-                    <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Source Files
-                    </li>
-                    <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Free
-                      Appointments</li>
-                    <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Enhanced
-                      Security</li>
-                  </ul>
-                  <a href=""
-                    class="py-2 px-5 inline-block font-semibold tracking-wide border align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-md mt-5">Get
-                    Started</a>
-                </div>
-              </div>
-
-              <div
-                class="group border-b-[3px] dark:border-gray-700 relative shadow dark:shadow-gray-800 rounded-md z-2 bg-gray-50 dark:bg-slate-800">
-                <div class="p-6 py-8 md:ps-10">
-                  <h6 class="font-bold uppercase mb-5 text-indigo-600">Professional</h6>
-
-                  <div class="flex mb-5">
-                    <span class="text-xl font-semibold">$</span>
-                    <span class="price text-4xl font-semibold mb-0">59</span>
-                    <span class="text-xl font-semibold self-end mb-1">/mo</span>
-                  </div>
-
-                  <ul class="list-none text-slate-400">
-                    <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Full Access
-                    </li>
-                    <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Source Files
-                    </li>
-                    <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Free
-                      Appointments</li>
-                    <li class="mb-1 flex"><i class="uil uil-check-circle text-indigo-600 text-xl me-2"></i> Enhanced
-                      Security</li>
-                  </ul>
-                  <a href=""
-                    class="py-2 px-5 inline-block font-semibold tracking-wide border align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-md mt-5">Try
-                    it Now</a>
+                class="swiper swiper-initialized swiper-horizontal swiper-pointer-events custom-class swiper-backface-hidden">
+                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
+                  <div class="swiper-slide swiper-slide-active" style="width: 839px; margin-right: 30px;"><img
+                      class="rounded" src="/assets/imgs/placeholders/mockup-1.png" alt="Monst"></div>
+                  <div class="swiper-slide swiper-slide-next" style="width: 839px; margin-right: 30px;"><img
+                      class="rounded" src="/assets/imgs/placeholders/mockup-2.png" alt="Monst"></div>
+                  <div class="swiper-slide" style="width: 839px; margin-right: 30px;"><img class="rounded"
+                      src="/assets/imgs/placeholders/mockup-3.png" alt="Monst"></div>
                 </div>
               </div>
             </div>
           </div>
-        </div><!--end col-->
-      </div><!--end grid-->
-    </div><!--end container-->
-  </section><!--end section-->
-  <div class="relative">
-    <div
-      class="shape absolute sm:-bottom-px -bottom-[2px] start-0 end-0 overflow-hidden z-1 text-gray-50 dark:text-slate-800">
-      <svg class="w-full h-auto scale-[2.0] origin-top" viewBox="0 0 2880 250" fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <path d="M720 125L2160 0H2880V250H0V125H720Z" fill="currentColor"></path>
-      </svg>
+        </div>
+      </div>
     </div>
-  </div>
-  <!-- End -->
+  </section>
 
-  <!-- Start -->
-  <section class="relative md:py-24 py-16 bg-gray-50 dark:bg-slate-800">
-    <div class="container relative">
-      <div class="grid md:grid-cols-2 grid-cols-1 gap-[30px]">
-        <div class="flex">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="feather feather-help-circle fea icon-ex-md text-indigo-600 me-3">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-          </svg>
-          <div class="flex-1">
-            <h5 class="mb-2 text-xl font-semibold">How our <span class="text-indigo-600">Techwind</span> work ?
-            </h5>
-            <p class="text-slate-400">Due to its widespread use as filler text for layouts, non-readability is
-              of great importance: human perception is tuned to recognize certain patterns and repetitions in
-              texts.</p>
+
+  <section class="py-20 xl:bg-contain bg-top bg-no-repeat" id="key-features"
+    style="background-image: url(&quot;assets/imgs/backgrounds/intersect.svg&quot;);">
+    <div class="container">
+      <div class="max-w-lg mx-auto mb-12 text-center">
+        <h2 class="my-2 text-3xl md:text-4xl font-bold font-heading wow animate__animated animate__fadeIn"
+          data-wow-delay=".1s">We Consultant to Get <br><span class="text-blue-500">Our Business</span> Plan</h2>
+        <p class="text-blueGray-400 leading-loose wow animate__animated animate__fadeIn" data-wow-delay=".3s">Business
+          solution company sit our any how site used the our company any site us it-solve theme is very professional</p>
+      </div>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+          <div
+            class="border border-gray-100 pt-8 px-6 pb-6 bg-white text-center rounded shadow hover:shadow-lg hover-up-2 transition duration-500 wow animate__animated animate__fadeIn"
+            data-wow-delay=".3s">
+            <div class="text-blue-500 mx-auto mb-4"><svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                </path>
+              </svg></div>
+            <h3 class="mb-2 font-bold font-heading">IT Consultancy</h3>
+            <p class="text-sm text-blueGray-400">We believe brand interaction is key to communication. Real innovations
+              and positive customer experience are the heart of success.</p>
           </div>
         </div>
-
-        <div class="flex">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="feather feather-help-circle fea icon-ex-md text-indigo-600 me-3">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-          </svg>
-          <div class="flex-1">
-            <h5 class="mb-2 text-xl font-semibold"> What is the main process open account ?</h5>
-            <p class="text-slate-400">If the distribution of letters and 'words' is random, the reader will not
-              be distracted from making a neutral judgement on the visual impact</p>
+        <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+          <div
+            class="border border-gray-100 pt-8 px-6 pb-6 bg-white text-center rounded shadow hover:shadow-lg hover-up-2 transition duration-500 wow animate__animated animate__fadeIn"
+            data-wow-delay=".5s">
+            <div class="text-blue-500 mx-auto mb-4"><svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                </path>
+              </svg></div>
+            <h3 class="mb-2 font-bold font-heading">Web Development</h3>
+            <p class="text-sm text-blueGray-400">We believe brand interaction is key to communication. Real innovations
+              and positive customer experience are the heart of success.</p>
           </div>
         </div>
-
-        <div class="flex">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="feather feather-help-circle fea icon-ex-md text-indigo-600 me-3">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-          </svg>
-          <div class="flex-1">
-            <h5 class="mb-2 text-xl font-semibold"> How to make unlimited data entry ?</h5>
-            <p class="text-slate-400">Furthermore, it is advantageous when the dummy text is relatively
-              realistic so that the layout impression of the final publication is not compromised.</p>
+        <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+          <div
+            class="border border-gray-100 pt-8 px-6 pb-6 bg-white text-center rounded shadow hover:shadow-lg hover-up-2 transition duration-500 wow animate__animated animate__fadeIn"
+            data-wow-delay=".7s">
+            <div class="text-blue-500 mx-auto mb-4"><svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                </path>
+              </svg></div>
+            <h3 class="mb-2 font-bold font-heading">App Development</h3>
+            <p class="text-sm text-blueGray-400">We believe brand interaction is key to communication. Real innovations
+              and positive customer experience are the heart of success.</p>
           </div>
         </div>
-
-        <div class="flex">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="feather feather-help-circle fea icon-ex-md text-indigo-600 me-3">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-          </svg>
-          <div class="flex-1">
-            <h5 class="mb-2 text-xl font-semibold"> Is <span class="text-indigo-600">Techwind</span> safer to
-              use with my account ?</h5>
-            <p class="text-slate-400">The most well-known dummy text is the 'Lorem Ipsum', which is said to have
-              originated in the 16th century. Lorem Ipsum is composed in a pseudo-Latin language which more or
-              less corresponds to 'proper' Latin.</p>
+        <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+          <div
+            class="border border-gray-100 pt-8 px-6 pb-6 bg-white text-center rounded shadow hover:shadow-lg hover-up-2 transition duration-500 wow animate__animated animate__fadeIn"
+            data-wow-delay=".9s">
+            <div class="text-blue-500 mx-auto mb-4"><svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+              </svg></div>
+            <h3 class="mb-2 font-bold font-heading">Digital Marketing</h3>
+            <p class="text-sm text-blueGray-400">We believe brand interaction is key to communication. Real innovations
+              and positive customer experience are the heart of success.</p>
           </div>
         </div>
-      </div><!--end grid-->
-    </div><!--end container-->
-
-    <div class="container relative md:mt-24 mt-16 md:mb-12">
-      <div class="grid grid-cols-1 text-center">
-        <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Have Question ? Get in
-          touch!</h3>
-
-        <p class="text-slate-400 max-w-xl mx-auto">Start working with Tailwind CSS that can provide everything you
-          need to generate awareness, drive traffic, connect.</p>
-
-        <div class="mt-6">
-          <a href="contact-one.html"
-            class="py-2 px-5 inline-block font-semibold tracking-wide border align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-md mt-4"><i
-              class="uil uil-phone"></i> Contact us</a>
+        <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+          <div
+            class="border border-gray-100 pt-8 px-6 pb-6 bg-white text-center rounded shadow hover:shadow-lg hover-up-2 transition duration-500 wow animate__animated animate__fadeIn"
+            data-wow-delay=".3s">
+            <div class="text-blue-500 mx-auto mb-4"><svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207">
+                </path>
+              </svg></div>
+            <h3 class="mb-2 font-bold font-heading">Right Solutions</h3>
+            <p class="text-sm text-blueGray-400">We believe brand interaction is key to communication. Real innovations
+              and positive customer experience are the heart of success.</p>
+          </div>
         </div>
-      </div><!--end grid-->
-    </div><!--end container-->
-  </section><!--end section-->
-  <div class="relative">
-    <div class="shape absolute sm:-bottom-px -bottom-[2px] start-0 end-0 overflow-hidden z-1 text-dark-footer">
-      <svg class="w-full h-auto scale-[2.0] origin-top" viewBox="0 0 2880 250" fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <path d="M720 125L2160 0H2880V250H0V125H720Z" fill="currentColor"></path>
-      </svg>
+        <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+          <div
+            class="border border-gray-100 pt-8 px-6 pb-6 bg-white text-center rounded shadow hover:shadow-lg hover-up-2 transition duration-500 wow animate__animated animate__fadeIn"
+            data-wow-delay=".5s">
+            <div class="text-blue-500 mx-auto mb-4"><svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                </path>
+              </svg></div>
+            <h3 class="mb-2 font-bold font-heading">Responsive Site</h3>
+            <p class="text-sm text-blueGray-400">We believe brand interaction is key to communication. Real innovations
+              and positive customer experience are the heart of success.</p>
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+          <div
+            class="border border-gray-100 pt-8 px-6 pb-6 bg-white text-center rounded shadow hover:shadow-lg hover-up-2 transition duration-500 wow animate__animated animate__fadeIn"
+            data-wow-delay=".7s">
+            <div class="text-blue-500 mx-auto mb-4"><svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z">
+                </path>
+              </svg></div>
+            <h3 class="mb-2 font-bold font-heading">Clean Design</h3>
+            <p class="text-sm text-blueGray-400">We believe brand interaction is key to communication. Real innovations
+              and positive customer experience are the heart of success.</p>
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+          <div
+            class="border border-gray-100 pt-8 px-6 pb-6 bg-white text-center rounded shadow hover:shadow-lg hover-up-2 transition duration-500 wow animate__animated animate__fadeIn"
+            data-wow-delay=".9s">
+            <div class="text-blue-500 mx-auto mb-4"><svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01">
+                </path>
+              </svg></div>
+            <h3 class="mb-2 font-bold font-heading">Process Research</h3>
+            <p class="text-sm text-blueGray-400">We believe brand interaction is key to communication. Real innovations
+              and positive customer experience are the heart of success.</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center"><a href="/testimonials"
+          class="inline-block py-4 px-8 text-xs text-white font-semibold leading-none bg-blue-500 hover:bg-blue-700 rounded wow animate__animated animate__fadeIn"
+          data-wow-delay=".3s">Show more Testimonials</a></div>
     </div>
-  </div>
-  <!-- End -->
+  </section>
 
-
-
-  <!-- Start Cookie Popup -->
-  <div
-    class="cookie-popup fixed max-w-lg bottom-3 end-3 start-3 sm:start-0 mx-auto bg-white dark:bg-slate-900 shadow dark:shadow-gray-800 rounded-md py-5 px-6 z-50 cookie-popup-not-accepted cookie-popup-accepted">
-    <p class="text-slate-400">This website uses cookies to provide you with a great user experience. By using it, you
-      accept our <a href="https://shreethemes.in" target="_blank"
-        class="text-emerald-600 dark:text-emerald-500 font-semibold">use of cookies</a></p>
-    <div class="cookie-popup-actions text-end">
-      <button class="absolute border-none bg-none p-0 cursor-pointer font-semibold top-2 end-2"><i
-          class="uil uil-times text-dark dark:text-slate-200 text-2xl"></i></button>
+  <section class="py-20 xl:bg-contain bg-top bg-no-repeat"
+    style="background-image: url(&quot;assets/imgs/backgrounds/intersect.svg&quot;);">
+    <div class="container">
+      <div class="text-center mb-16">
+        <h2 class="max-w-lg mx-auto mb-4 text-4xl font-bold font-heading wow animate__animated animate__fadeIn"
+          data-wow-delay=".2s"><span>Start saving time today and </span><span class="text-blue-500">choose
+          </span><span>your best plan</span></h2>
+        <p class="max-w-sm mx-auto text-lg text-blueGray-400 wow animate__animated animate__fadeInDown"
+          data-wow-delay=".5s">Best for freelance developers who need to save their time</p>
+      </div>
+      <div class="flex flex-wrap -mx-3">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-3 mb-6">
+          <div
+            class="hover-up-5 pt-16 pb-8 px-4 text-center bg-white rounded shadow wow animate__animated animate__fadeIn"
+            data-wow-delay=".2s"><img class="h-20 mb-6 mx-auto" src="/assets/imgs/icons/startup.svg" alt="Monst">
+            <h3 class="mb-2 text-4xl font-bold font-heading">Startup</h3><span
+              class="text-4xl text-blue-500 font-bold font-heading">$45.99</span>
+            <p class="mt-2 mb-8 text-blueGray-400">user per month</p>
+            <div class="flex flex-col items-center mb-8">
+              <ul class="text-blueGray-400">
+                <li class="flex mb-3"><svg class="w-6 h-6 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>3 Emails</span></li>
+                <li class="flex mb-3"><svg class="w-6 h-6 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>1 Datebases</span></li>
+                <li class="flex mb-3"><svg class="w-6 h-6 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>Unlimited Domains</span></li>
+                <li class="flex"><svg class="w-6 h-6 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>10 GB Storage</span></li>
+              </ul>
+            </div>
+            <div><a
+                class="block sm:inline-block py-4 px-6 mb-4 sm:mb-0 sm:mr-3 text-xs text-white text-center font-semibold leading-none bg-blue-500 hover:bg-blue-700 rounded"
+                href="#">Start Free Trial</a><a
+                class="block sm:inline-block py-4 px-6 text-xs text-blueGray-500 hover:text-blueGray-600 text-center font-semibold leading-none bg-white border border-blueGray-200 hover:border-blueGray-300 rounded"
+                href="#">Purchase</a></div>
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-3 mb-6">
+          <div
+            class="hover-up-5 pt-16 pb-8 px-4 text-center text-white bg-blue-500 rounded shadow wow animate__animated animate__fadeIn"
+            data-wow-delay=".4s"><img class="h-20 mb-6 mx-auto" src="/assets/imgs/icons/agency.svg" alt="Monst">
+            <h3 class="mb-2 text-4xl font-bold font-heading">Agency</h3><span
+              class="text-4xl font-bold font-heading">$65.99</span>
+            <p class="mt-2 mb-8">user per month</p>
+            <div class="flex flex-col items-center mb-8">
+              <ul>
+                <li class="flex items-center mb-3"><svg class="w-6 h-6 mr-2 text-green-500"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>6 Emails</span></li>
+                <li class="flex items-center mb-3"><svg class="w-6 h-6 mr-2 text-green-500"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>4 Datebases</span></li>
+                <li class="flex items-center mb-3"><svg class="w-6 h-6 mr-2 text-green-500"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>Unlimited Domains</span></li>
+                <li class="flex items-center"><svg class="w-6 h-6 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>35 GB Storage</span></li>
+              </ul>
+            </div>
+            <div><a
+                class="block sm:inline-block py-4 px-6 mb-4 sm:mb-0 sm:mr-3 text-xs text-blue-500 font-semibold leading-none bg-white hover:bg-blueGray-50 rounded"
+                href="#">Start Free Trial</a><a
+                class="block sm:inline-block py-4 px-6 text-xs font-semibold leading-none border border border-blue-400 hover:border-blue-400 rounded"
+                href="#">Purchase</a></div>
+          </div>
+        </div>
+        <div class="w-full lg:w-1/3 px-3 mb-6">
+          <div
+            class="hover-up-5 pt-16 pb-8 px-4 text-center bg-white rounded shadow wow animate__animated animate__fadeIn"
+            data-wow-delay=".6s"><img class="h-20 mb-6 mx-auto" src="/assets/imgs/icons/enterprise.svg" alt="Monst">
+            <h3 class="mb-2 text-4xl font-bold font-heading">Enterprise</h3><span
+              class="text-4xl text-blue-500 font-bold font-heading">$85.99</span>
+            <p class="mt-2 mb-8 text-blueGray-400">user per month</p>
+            <div class="flex flex-col items-center mb-8">
+              <ul class="text-blueGray-400">
+                <li class="flex mb-3"><svg class="w-6 h-6 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>12 Emails</span></li>
+                <li class="flex mb-3"><svg class="w-6 h-6 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>8 Datebases</span></li>
+                <li class="flex mb-3"><svg class="w-6 h-6 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>Unlimited Domains</span></li>
+                <li class="flex"><svg class="w-6 h-6 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg><span>50 GB Storage</span></li>
+              </ul>
+            </div>
+            <div><a
+                class="block sm:inline-block py-4 px-6 mb-4 sm:mb-0 sm:mr-3 text-xs text-white text-center font-semibold leading-none bg-blue-500 hover:bg-blue-700 rounded"
+                href="#">Start Free Trial</a><a
+                class="block sm:inline-block py-4 px-6 text-xs text-blueGray-500 hover:text-blueGray-600 text-center font-semibold leading-none bg-white border border-blueGray-200 hover:border-blueGray-300 rounded"
+                href="#">Purchase</a></div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <!--Note: Cookies Js including in plugins.init.js (path like; assets/js/plugins.init.js) and Cookies css including in _helper.scss (path like; scss/_helper.scss)-->
-  <!-- End Cookie Popup -->
-
-  <!-- Back to top -->
-  <a href="#" onclick="topFunction()" id="back-to-top"
-    class="back-to-top fixed text-lg rounded-full z-10 bottom-5 end-5 h-9 w-9 text-center bg-indigo-600 text-white leading-9 hidden"><i
-      class="uil uil-arrow-up"></i></a>
-  <!-- Back to top -->
-
-  <!-- Switcher -->
-  <div class="fixed top-[30%] -right-2 z-50">
-    <span class="relative inline-block rotate-90">
-      <input type="checkbox" class="checkbox opacity-0 absolute" id="chk">
-      <label
-        class="label bg-slate-900 dark:bg-white shadow dark:shadow-gray-800 cursor-pointer rounded-full flex justify-between items-center p-1 w-14 h-8"
-        for="chk">
-        <i class="uil uil-moon text-[20px] text-yellow-500"></i>
-        <i class="uil uil-sun text-[20px] text-yellow-500"></i>
-        <span class="ball bg-white dark:bg-slate-900 rounded-full absolute top-[2px] left-[2px] w-7 h-7"></span>
-      </label>
-    </span>
-  </div>
-  <!-- Switcher -->
-
-  <!-- LTR & RTL Mode Code -->
-  <div class="fixed top-[40%] -right-3 z-50">
-    <a href="" id="switchRtl">
-      <span
-        class="py-1 px-3 relative inline-block rounded-t-md -rotate-90 bg-white dark:bg-slate-900 shadow-md dark:shadow dark:shadow-gray-800 font-bold rtl:block ltr:hidden">LTR</span>
-      <span
-        class="py-1 px-3 relative inline-block rounded-t-md -rotate-90 bg-white dark:bg-slate-900 shadow-md dark:shadow dark:shadow-gray-800 font-bold ltr:block rtl:hidden">RTL</span>
-    </a>
-  </div>
+  </section>
 </template>
