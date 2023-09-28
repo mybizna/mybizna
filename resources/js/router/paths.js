@@ -12,12 +12,10 @@ var paths = [
         path: "/",
         meta: {
             breadcrumb: true,
-            middlewareAuth: true,
+            public: true,
         },
-        name: "Root",
-        redirect: {
-            name: "manage.dashboard",
-        },
+        name: "Home",
+        component: () => import(`@/components/pages/Frontend.vue`),
     },
     {
         path: "/manage/dashboard",
@@ -26,7 +24,7 @@ var paths = [
             middlewareAuth: true,
         },
         name: "manage.dashboard",
-      
+
         component: () => import(`@/components/pages/Dashboard.vue`),
     },
     {

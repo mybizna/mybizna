@@ -95,10 +95,21 @@ app.config.globalProperties.$male_default_avatar = 'images/avatar.png';
 app.config.globalProperties.$female_default_avatar = 'images/avatar2.png';
 
 app.config.globalProperties.$appName = window.appName = 'My App';
+app.config.globalProperties.$viewside = window.viewside ?? 'backend';
+
 
 app.config.globalProperties.$is_frontend = window.is_frontend = false;
-app.config.globalProperties.$is_stockist = window.is_stockist = false;
-app.config.globalProperties.$is_backend = window.is_backend = true;
+app.config.globalProperties.$is_backend = window.is_backend = false;
+
+switch (window.viewside ) {
+    case 'backend':
+        app.config.globalProperties.$is_backend = window.is_backend = true;
+        break;
+    case 'frontend':
+    default:
+        app.config.globalProperties.$is_frontend = window.is_frontend = true;
+        break;
+}
 
 app.config.globalProperties.$in_progress = window.in_progress = true;
 app.config.globalProperties.$loading = window.loading = true;

@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-content-center h-100 align-items-center h-screen">
+  <div :class="$is_backend ? 'h-screen h-100' : ''" class="mb-2 row justify-content-center align-items-center">
     <div class="col-md-6">
       <div class="authincation-content border rounded shadow bg-white">
         <div class="m-3">

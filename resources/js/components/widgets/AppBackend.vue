@@ -58,9 +58,9 @@ export default {
         windowHeight: { type: Number, default: window.innerHeight },
     },
     data() {
-    return {
-      currentYear: new Date().getFullYear(),
-    };
-  },
+        return {
+            currentYear: new Date().getFullYear(),
+        };
+    },
 };
 </script>
