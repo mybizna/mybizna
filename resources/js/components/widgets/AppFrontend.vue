@@ -1,5 +1,5 @@
 <template>
-    <nav class="p-4 nav-section w-full">
+    <nav class="p-4 bg-white mx-auto w-11/12 nav-section w-full">
         <div class="container mx-auto">
             <div class="flex justify-between flex- content-center items-center py-2 lg:py-0 px-0 lg:px-0">
                 <!-- Start Logo -->
@@ -85,6 +85,9 @@
             <router-view :key="$route.fullPath"></router-view>
         </main>
     </div>
+
+
+
 
     <!-- Footer Start -->
     <footer class="footer relative text-white bg-gray-600">
