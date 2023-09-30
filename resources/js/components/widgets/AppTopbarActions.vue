@@ -43,8 +43,6 @@ export default {
             store.dispatch("system/getPositions");
         }
     },
-    mounted() {
-    },
 
     methods: {
         addLink: function () {
