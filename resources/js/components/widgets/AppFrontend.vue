@@ -12,21 +12,32 @@
                 <div class="hidden md:block">
                     <ul class="flex flex-row">
                         <li class="active">
-                            <a class="px-4 py-2 text-gray-900 font-semibold" href="#">Home</a>
+                            <a class="px-2 py-2 text-gray-900 font-semibold cursor-pointer" href="#">Home</a>
                         </li>
 
-                        <li>
-                            <a class="px-4 py-2 text-gray-700 hover:text-gray-900 transition duration-500 ease-in-out hover:rounded hover:bg-gray-200 rounded"
-                                href="features.html">Features</a>
-                        </li>
-                        <li>
-                            <a class="px-4 py-2 text-gray-700 hover:text-gray-900 transition duration-500 ease-in-out hover:rounded hover:bg-gray-200 rounded"
-                                href="pricing.html">Pricing</a>
-                        </li>
-                        <li>
-                            <a class="px-4 py-2 text-gray-700 hover:text-gray-900 transition duration-500 ease-in-out hover:rounded hover:bg-gray-200 rounded"
-                                href="contact.html">Contact</a>
-                        </li>
+                        <template v-for="(menu, t_index) in $store.state.system.menu" :key="t_index">
+
+                            <li class="nav-item dropdown">
+
+                                <a @click="activeSubMenu(t_index)" @mouseover="activeSubMenu(t_index)"  class="nav-link dropdown-toggle px-2 cursor-pointer"
+                                    id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    {{ menu.title }}
+                                </a>
+
+                                <div :class="(showSubMenu[t_index]) ? 'show' : ''" class="dropdown-menu"
+                                    aria-labelledby="navbarDropdown">
+                                    <template v-for="(submenu, m_index) in menu.menus" :key="m_index">
+                                        <a v-if="submenu.path != ''" class="dropdown-item" :href="'#' + submenu.path">{{ submenu.title }}</a>
+                                    </template>
+                                </div>
+                            </li>
+
+                        </template>
+
+
+
+
                     </ul>
                 </div>
                 <!-- End Main Navbar -->
@@ -136,15 +147,40 @@ export default {
             store.dispatch("system/getPositions");
         }
     },
+    watch: {
+        // whenever question changes, this function will run
+        '$store.state.system.menu'(newer, older) {
+
+            for (var key in newer) {
+                this.showSubMenu[key] = false;
+                console.log(key);
+            }
+
+        },
+    },
     props: {
         windowWidth: { type: String, default: window.innerWidth },
         windowHeight: { type: String, default: window.innerHeight },
     },
     data() {
         return {
+
             showMenu: false,
+            showSubMenu: [],
             currentYear: new Date().getFullYear(),
         };
     },
+
+    methods: {
+        activeSubMenu(index) {
+            for (var key in this.showSubMenu) {
+                if (index != key) {
+                    this.showSubMenu[key] = false;
+                }
+            }
+
+            this.showSubMenu[index] = !this.showSubMenu[index];
+        }
+    }
 };
 </script>
