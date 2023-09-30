@@ -50,11 +50,14 @@ export default async function (router) {
     //await window.axios.get(window.base_url + '/api/discover_modules');
 
     // Make a request for available Fetch Routes.
-    await window.axios.get(window.base_url + '/api/fetch_routes')
-        .then(function (response) {
-            // handle success
-            routes = response.data.routes;
-        })
+    await window.axios.get(window.base_url + '/api/fetch_routes', {
+        params: {
+            u: window.mybizna_uniqid,
+        }
+    }).then(function (response) {
+        // handle success
+        routes = response.data.routes;
+    })
         .catch(function (error) {
             // handle error
         });

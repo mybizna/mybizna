@@ -14,6 +14,7 @@
                         <li class="active">
                             <a class="px-4 py-2 text-gray-900 font-semibold" href="#">Home</a>
                         </li>
+
                         <li>
                             <a class="px-4 py-2 text-gray-700 hover:text-gray-900 transition duration-500 ease-in-out hover:rounded hover:bg-gray-200 rounded"
                                 href="features.html">Features</a>
@@ -121,7 +122,20 @@
 
 <script>
 
+import { useStore } from "vuex";
+
 export default {
+    setup() {
+        const store = useStore();
+
+        if (!store.state.system.menu.length) {
+            store.dispatch("system/getMenu");
+        }
+
+        if (!store.state.system.positions.length) {
+            store.dispatch("system/getPositions");
+        }
+    },
     props: {
         windowWidth: { type: String, default: window.innerWidth },
         windowHeight: { type: String, default: window.innerHeight },

@@ -28,7 +28,7 @@ export default {
         positions: [],
         has_positions: false,
         positions_length: 0,
-        window_width:0,
+        window_width: 0,
     },
     getters: {
         search: state => state.search,
@@ -145,7 +145,11 @@ export default {
             commit
         }) {
 
-            await window.axios.get("/fetch_positions")
+            await window.axios.get("/fetch_positions", {
+                params: {
+                    u: window.mybizna_uniqid,
+                }
+            })
                 .then(
                     response => {
 
@@ -174,7 +178,11 @@ export default {
             commit
         }) {
 
-            await window.axios.get("/fetch_menus")
+            await window.axios.get("/fetch_menus", {
+                params: {
+                    u: window.mybizna_uniqid,
+                }
+            })
                 .then(
                     response => {
 

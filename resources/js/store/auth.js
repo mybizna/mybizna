@@ -34,6 +34,7 @@ export default {
                 .post("/login", {
                     username: username,
                     password: password,
+                    u: window.mybizna_uniqid,
                 })
                 .then((response) => {
                     if (response.data.status) {
@@ -58,7 +59,11 @@ export default {
                 }); */
 
             await window.axios
-                .get("/autologin")
+                .get("/autologin", {
+                    params: {
+                        u: window.mybizna_uniqid,
+                    }
+                })
                 .then((response) => {
                     commit("login", response.data.token);
                     commit("user", response.data.user);
@@ -73,7 +78,11 @@ export default {
         },
         async getUser({ commit }, { that }) {
             window.axios
-                .get("/profile")
+                .get("/profile", {
+                    params: {
+                        u: window.mybizna_uniqid,
+                    }
+                })
                 .then((response) => {
                     var user = response.data;
 
