@@ -1,5 +1,4 @@
 <template>
-
   <section class="hero-3 bg-white">
     <div class="container mx-auto w-11/12 py-5">
       <div class="flex flex-wrap items-center -mx-3">
@@ -191,14 +190,26 @@
             </ul>
           </div>
         </div>
-       
+
       </div>
     </div>
   </section>
-
 </template>
+
+<script>
+
+export default {
+  created() {
+    if (window.is_backend) {
+      this.$router.push("/manage/dashboard");
+    }
+  }
+}
+
+</script>
 
 <style>
 .header-solution {
   line-height: 4rem !important;
-}</style>
+}
+</style>

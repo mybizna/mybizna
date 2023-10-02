@@ -19,16 +19,17 @@
 
                             <li class="nav-item dropdown">
 
-                                <a @click="activeSubMenu(t_index)" @mouseover="activeSubMenu(t_index)"  class="nav-link dropdown-toggle px-2 cursor-pointer"
-                                    id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <a @click="activeSubMenu(t_index)" @mouseover="activeSubMenu(t_index)"
+                                    class="nav-link dropdown-toggle px-2 cursor-pointer" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ menu.title }}
                                 </a>
 
                                 <div :class="(showSubMenu[t_index]) ? 'show' : ''" class="dropdown-menu"
                                     aria-labelledby="navbarDropdown">
                                     <template v-for="(submenu, m_index) in menu.menus" :key="m_index">
-                                        <a v-if="submenu.path != ''" class="dropdown-item" :href="'#' + submenu.path">{{ submenu.title }}</a>
+                                        <a v-if="submenu.path != ''" class="dropdown-item" :href="'#' + submenu.path">{{
+                                            submenu.title }}</a>
                                     </template>
                                 </div>
                             </li>
@@ -93,13 +94,10 @@
     </nav>
 
     <div class="">
-        <main class="p-0">
+        <main :class="($router.path == '/') ? 'container m-auto w-11/12 p-0' : ''">
             <router-view :key="$route.fullPath"></router-view>
         </main>
     </div>
-
-
-
 
     <!-- Footer Start -->
     <footer class="footer relative text-white bg-gray-600">
