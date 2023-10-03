@@ -11,7 +11,7 @@ export default {
         menu: [],
         active_menu: 'dashboard',
         active_link: '',
-        active_subs_1: '-1',
+        active_subs_1: 'dashboard',
         active_subs_2: '',
         active_subs_3: '',
         menu_type: 'sidebar',

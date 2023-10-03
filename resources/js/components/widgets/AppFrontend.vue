@@ -94,7 +94,7 @@
     </nav>
 
     <div class="">
-        <main :class="($router.path == '/') ? 'container m-auto w-11/12 p-0' : ''">
+        <main :class="($router.currentRoute.value.name != 'Home') ? 'container m-auto w-11/12 p-0' : ''">
             <router-view :key="$route.fullPath"></router-view>
         </main>
     </div>
@@ -107,7 +107,7 @@
 
                     <div class="text-center">
                         <a class="inline-block px-4 py-2 transition duration-500 ease-in-out hover:rounded hover:bg-gray-200 rounded text-gray-300 hover:text-gray-600 "
-                            :href="$base_url + '/manage'">
+                            :href="$root_url + '/manage'">
                             Admin Area
                         </a>
                     </div>

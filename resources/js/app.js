@@ -88,6 +88,7 @@ app.config.globalProperties.$floating_top = (window.floating_top) ? window.float
 app.config.globalProperties.$margin_top = (window.margin_top) ? window.margin_top : false;
 app.config.globalProperties.$responsive_point = responsive_point;
 app.config.globalProperties.$default_responsive_point = default_responsive_point;
+app.config.globalProperties.$root_url = window.base_url ;
 app.config.globalProperties.$base_url = base_url;
 app.config.globalProperties.$assets_url = assets_url;
 app.config.globalProperties.$emitter = mitt();

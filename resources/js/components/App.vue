@@ -50,7 +50,7 @@ export default {
         }
 
         store.commit("system/active_menu", 'dashboard');
-        store.commit("system/active_subs_1", 0);
+        store.commit("system/active_subs_1", 'dashboard');
 
 
         const resolveLayout = computed(() => {

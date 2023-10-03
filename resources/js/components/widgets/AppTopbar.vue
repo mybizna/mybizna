@@ -137,7 +137,7 @@ export default {
             var active_subs_1 = this.$store.state.system.active_subs_1;
 
             if (active_subs_1 == null) {
-                active_subs_1 = 0;
+                active_subs_1 = 'dashboard';
             }
 
             this.menus = newer[active_subs_1]['menus'];

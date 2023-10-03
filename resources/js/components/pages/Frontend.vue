@@ -199,7 +199,7 @@
 <script>
 
 export default {
-  created() {
+  beforeMount() {
     if (window.is_backend) {
       this.$router.push("/manage/dashboard");
     }
