@@ -25,6 +25,9 @@ import {
     defaultConfig,
 } from '@formkit/vue';
 
+import Vueform from '@vueform/vueform'
+import vueformConfig from '../../vueform.config'
+
 import '@popperjs/core';
 
 import mitt from 'mitt';
@@ -71,7 +74,8 @@ const app = createApp(App)
     .use(Notifications)
     .use(Vue3ConfirmDialog)
     .use(VueApexCharts)
-    .use(plugin, defaultConfig(config));
+    .use(plugin, defaultConfig(config))
+    .use(Vueform, vueformConfig)
 
 //loadFonts();
 
@@ -88,7 +92,7 @@ app.config.globalProperties.$floating_top = (window.floating_top) ? window.float
 app.config.globalProperties.$margin_top = (window.margin_top) ? window.margin_top : false;
 app.config.globalProperties.$responsive_point = responsive_point;
 app.config.globalProperties.$default_responsive_point = default_responsive_point;
-app.config.globalProperties.$root_url = window.base_url ;
+app.config.globalProperties.$root_url = window.base_url;
 app.config.globalProperties.$base_url = base_url;
 app.config.globalProperties.$assets_url = assets_url;
 app.config.globalProperties.$emitter = mitt();
@@ -102,7 +106,7 @@ app.config.globalProperties.$viewside = window.viewside ?? 'backend';
 app.config.globalProperties.$is_frontend = window.is_frontend = false;
 app.config.globalProperties.$is_backend = window.is_backend = false;
 
-switch (window.viewside ) {
+switch (window.viewside) {
     case 'backend':
         app.config.globalProperties.$is_backend = window.is_backend = true;
         break;
@@ -383,6 +387,7 @@ router.afterEach((to, from) => {
     store.commit('system/loading', false);
     NProgress.done();
 });
+
 
 
 app.component('Datepicker', Datepicker);

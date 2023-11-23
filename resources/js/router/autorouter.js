@@ -13,7 +13,8 @@ window.$methods = filters;
 
 
 const fetchComponentFunc = (comp_path) => {
-    return fetchComponent(comp_path);
+    let component = fetchComponent(comp_path);
+    return component;
 }
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -69,4 +70,6 @@ export default async function (router) {
         router.addRoute(new_routes);
 
     })
+
+
 }
