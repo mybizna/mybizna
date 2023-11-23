@@ -104,6 +104,7 @@
 
             <div :class="visibles.length ? 'flex-none w-54' : 'flex-auto'" class="text-right">
                 <div class="flex justify-end pt-1 pr-1 pb-1 mr-2 space-x-2 cursor-pointer">
+
                     <app-topbar-icon-others></app-topbar-icon-others>
                     <app-topbar-icon-avatar></app-topbar-icon-avatar>
                 </div>

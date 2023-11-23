@@ -21,6 +21,8 @@ const options = {
         const res = await fetch(url)
         if (!res.ok)
             throw Object.assign(new Error(`${res.statusText} ${url}`), { res })
+
+        
         return await res.text();
     },
     addStyle(textContent) {
@@ -38,7 +40,6 @@ const fetchComponent = (comp_path) => {
     if (comp_path.startsWith("components/")) {
         path_url = window.assets_url + '/' + comp_path;
     }
-
 
     try {
         return Vue.defineAsyncComponent(() => loadModule(path_url, options));
