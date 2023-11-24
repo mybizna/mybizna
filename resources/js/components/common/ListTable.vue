@@ -169,12 +169,11 @@ export default {
     props: {
         path_param: { type: Array, default: () => [], },
 
-    },  
+    },
     created() {
         this.tmp_path_param = (this.path_param.length) ? this.path_param : this.$route.meta.path;
 
-
-        var path = this.$route.meta.path;
+        var path = this.tmp_path_param;
 
         window.axios.get("fetch_layout/" + path[0] + "/" + path[1] + "/list").then((response) => {
 

@@ -7,6 +7,88 @@
                     <h4 class="text-xs italic font-semibold border-b border-dotted border-gray-100 text-blue-900 my-2">{{
                         row.label }}</h4>
                     <template v-for="(field, findex)  in row.fields" :key="findex">
+
+                        <TextareaElement v-if="field.params.type == 'textarea'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <EditorElement v-else-if="field.params.type == 'editor'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <CheckboxElement v-else-if="field.params.type == 'checkbox'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <CheckboxgroupElement v-else-if="field.params.type == 'checkboxgroup'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <RadioElement v-else-if="field.params.type == 'radio'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <RadiogroupElement v-else-if="field.params.type == 'radiogroup'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <ToggleElement v-else-if="field.params.type == 'toggle'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <ToggleElement v-else-if="field.params.type == 'switch'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <SelectElement v-else-if="field.params.type == 'select'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <MultiselectElement v-else-if="field.params.type == 'multiselect'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <TagsElement v-else-if="field.params.type == 'tags'" :name="field.name" :label="field.params.title"
+                            :id="field.name" :placeholder="field.params.title" :description="field.params.description"
+                            :info="field.params.info" />
+
+                        <DateElement v-else-if="field.params.type == 'date'" :name="field.name" :label="field.params.title"
+                            :id="field.name" :placeholder="field.params.title" :description="field.params.description"
+                            :info="field.params.info" />
+
+                        <DatesElement v-else-if="field.params.type == 'dates'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <SliderElement v-else-if="field.params.type == 'slider'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <FileElement v-else-if="field.params.type == 'file'" :name="field.name" :label="field.params.title"
+                            :id="field.name" :placeholder="field.params.title" :description="field.params.description"
+                            :info="field.params.info" />
+
+                        <MultifileElement v-else-if="field.params.type == 'multifile'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <LocationElement v-else-if="field.params.type == 'location'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <HiddenElement v-else-if="field.params.type == 'hidden'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <StaticElement v-else-if="field.params.type == 'static'" :name="field.name"
+                            :label="field.params.title" :id="field.name" :placeholder="field.params.title"
+                            :description="field.params.description" :info="field.params.info" />
+
+                        <TextElement v-else :name="field.name" :label="field.params.title" :id="field.name"
+                            :placeholder="field.params.title" :description="field.params.description"
+                            :info="field.params.info" />
+
+
                         <FormKit v-if="field.html == 'recordpicker'" :label="field.label" :button_label="field.button_label"
                             :id="field.name" type="recordpicker" :setting="field.picker" v-model="model[field.name]"
                             inner-class="$reset formkit-inner" wrapper-class="$reset formkit-wrapper" />
