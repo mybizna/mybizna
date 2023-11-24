@@ -1,14 +1,64 @@
 import en from '@vueform/vueform/locales/en'
+import vueform from '@vueform/vueform/themes/vueform'
 import { defineConfig } from '@vueform/vueform'
-import tailwind from '@vueform/vueform/themes/tailwind'
+
+import RecordpickerElement from '@/vueform/RecordpickerElement.vue'
+
 
 // You might place these anywhere else in your project
 import '@vueform/vueform/themes/vueform/css/index.min.css';
 
+let input = 'form-input rounded border py-2 px-3 focus:border-sky-500 hover:border-sky-500 text-grey-800 h-8 w-full';
+
+
 export default defineConfig({
-    theme: tailwind,
+    theme: vueform,
     locales: { en },
     locale: 'en',
+    elements: [
+        RecordpickerElement,
+    ],
+    overrideClasses: {
+
+        ElementDescription: {
+            container: 'text-xs italic text-gray-600',
+        },
+        ElementLabel: {
+            container: 'form-col pr-4 form-py-input-border w-3/12',
+        },
+        ElementLayout: {
+            container: 'form-col w-full mb-3',
+            outerWrapper: 'form-row flex flex-wrap form-mb-gutter',
+            innerContainer: 'flex-1 w-9/12',
+            innerWrapperBefore: 'form-col w-full',
+            innerWrapper: 'form-col w-full',
+            innerWrapperAfter: 'form-col w-full',
+        },
+        TextElement: {
+            container: '',
+            label: '',
+            inputContainer: 'w-full flex',
+            inputContainer_default: 'border-black',
+            inputContainer_focused: 'border-red-500',
+            inputContainer_md: '',
+            input: input,
+            input_enabled: 'focus:form-ring',
+            input_disabled: 'form-bg-disabled form-text-disabled',
+            input_sm: 'form-p-input-sm form-rounded-sm form-text-sm',
+            input_md: 'form-p-input form-rounded',
+            input_lg: 'form-p-input-lg form-rounded-lg form-text-lg with-floating:form-p-input-floating-lg',
+            $input: (classes, { isDisabled, Size }) => ([
+                classes.input,
+                classes[`input_${Size}`],
+                isDisabled ? classes.input_disabled : classes.input_enabled
+            ]),
+        },
+    },
+    addClass: {
+        // Add a custom class to the outermost DOM element of an input field
+        input: {
+            class: 'my-custom-input-class',
+        },
+        // Add more class customizations as needed
+    },
 })
-
-

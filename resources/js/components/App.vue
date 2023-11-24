@@ -96,6 +96,42 @@ header {
     height: 36px !important;
 }
 
+.vf-floating-wrapper .vf-floating-label {
+    background: white;
+    padding: 1px;
+    display: block;
+    margin-left: 10px;
+}
+
+.vf-element-info::before {
+    background-image: url('data:image/svg+xml,%3csvg viewBox=\'0 0 512 512\' fill=\'currentColor\' xmlns=\'http://www.w3.org/2000/svg\'%3e%3cpath d=\'M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z\'%3e%3c/path%3e%3c/svg%3e');
+    background-size: cover;
+}
+
+.vf-toggle-container {
+    width: 35px;
+    height: 15px;
+}
+
+.vf-toggle-wrapper .vf-toggle-on {
+    background: #517ffd;
+    border-color: #cad7fb;
+}
+
+.vf-toggle-wrapper .vf-toggle-on .vf-toggle-handle-on,
+.vf-toggle-wrapper .vf-toggle-off .vf-toggle-handle-off {
+    background: white;
+    width: 10px;
+    height: 10px;
+    margin-top: 1px;
+}
+
+.vf-toggle-wrapper .vf-toggle-off {
+    background: #999999;
+    border-color: #eeeeee;
+}
+
+
 /*
 header ::v-deep {
     .v-toolbar__content {
