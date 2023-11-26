@@ -8,7 +8,6 @@
 
 <script>
 
-
 export default {
     props: {
         context: Object,

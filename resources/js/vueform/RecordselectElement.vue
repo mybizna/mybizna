@@ -1,39 +1,50 @@
-
 <template>
-    <FormKit type="select" :name="context.id" :disabled="context.disabled" :validation="context.validation"
-        :help="context.help" :errors="context.errors" :placeholder="context.placeholder" :options="recordlist"
-        :classes="classes" v-model="selected" />
+    <ElementLayout>
+        <template #element>
+
+            <SelectElement :items="recordlist" v-model="selected" />
+
+        </template>
+
+        <!-- Default element slots -->
+        <template v-for="(component, slot) in elementSlots" #[slot]>
+            <slot :name="slot" :el$="el$">
+                <component :is="component" :el$="el$" />
+            </slot>
+        </template>
+    </ElementLayout>
 </template>
-
+  
 <script>
+import { defineElement } from '@vueform/vueform'
 
-import Loading from "@/formkit/inputs/Loading";
-
-export default {
+export default defineElement({
+    name: 'RecordselectElement',
     props: {
-        context: Object,
+        setting: {
+            type: Object,
+            required: true,
+            default: {}
+        },
+        comp_url: {
+            type: String,
+            required: true,
+            default: ''
+        }
+    },
+    setup(props, { element }) {
+        const { update, value } = element;
     },
     watch: {
-        'context.attrs.filter': function (newVal, oldVal) {
-            this.loadResource();
-        },
-
-        'context.value': function (newVal, oldVal) {
-            if (newVal != oldVal) {
-                this.selected = newVal;
-            }
-        },
         selected: function (newVal, oldVal) {
             if (newVal !== oldVal) {
-                this.context.node.input(newVal);
+                this.update(newVal);
             }
         },
-
     },
     data() {
         return {
             selected: '',
-            currentComp: Loading,
             is_recordpicker: true,
             recordlist: {
                 '': 'Loading List'
@@ -51,31 +62,31 @@ export default {
             var url = '';
             var filter = '';
             var params = {};
-            var setting = this.context.attrs.setting;
+            var setting = this.setting;
 
             if (Object.prototype.hasOwnProperty.call(setting, 'url')) {
-                url = this.context.attrs.setting.url;
+                url = this.setting.url;
             }
 
             if (Object.prototype.hasOwnProperty.call(setting, 'params')) {
-                params = this.context.attrs.setting.params;
+                params = this.setting.params;
             }
 
             if (Object.prototype.hasOwnProperty.call(setting, 'filter_field')) {
-                params[this.context.attrs.setting.filter_field] = this.context.attrs.filter;
+                params[this.setting.filter_field] = this.filter;
             }
 
             if (Object.prototype.hasOwnProperty.call(setting, 'fields')) {
-                params['f'] = this.context.attrs.setting.fields;
+                params['f'] = this.setting.fields;
             }
 
             if (Object.prototype.hasOwnProperty.call(setting, 'fields')) {
-                params['template'] = this.context.attrs.setting.template;
+                params['template'] = this.setting.template;
             }
 
             if (url == '' && Object.prototype.hasOwnProperty.call(setting, 'path_param')) {
-                var param1 = this.context.attrs.setting.path_param[0];
-                var param2 = this.context.attrs.setting.path_param[1];
+                var param1 = this.setting.path_param[0];
+                var param2 = this.path_param[1];
                 url = param1 + '/admin/' + param2 + '/recordselect';
             }
 
@@ -105,7 +116,6 @@ export default {
             }
         },
     }
-}
-
+})
 </script>
 

@@ -1,6 +1,6 @@
 <template>
-    <table-render v-if="layout_fetched" :path_param="tmp_path_param" :table_fields="table_fields"
-        :setting="{ hide_delete_button: true }">
+    <table-render v-if="layout_fetched" :recordPicker="recordPicker" :path_param="tmp_path_param"
+        :table_fields="table_fields" :setting="{ hide_delete_button: true }">
 
         <template #header>
             <th-render v-for="column in columns" :key="column.name">
@@ -167,8 +167,13 @@
 // generate sample code
 export default {
     props: {
+        classes: { type: String, default: "", },
+        passed_return_url: { type: String, default: "", },
+        dropdown_menu: { type: Array, default: () => [] },
+        title: { type: String, default: "Listing", },
         path_param: { type: Array, default: () => [], },
-
+        recordPicker: { type: Object, default: () => { } },
+        mass_actions: { type: Array, default: () => [] },
     },
     created() {
         this.tmp_path_param = (this.path_param.length) ? this.path_param : this.$route.meta.path;

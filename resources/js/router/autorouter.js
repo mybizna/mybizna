@@ -25,10 +25,9 @@ function path_updater(route) {
         route.component = RouterView;
     } else if (route.component == 'router_list') {
         route.component = () => import(`@/components/common/ListTable.vue`);
-    } else if (route.component == 'router_create') {
-        route.component = () => import(`@/components/common/CreateForm.vue`);
-    } else if (route.component == 'router_edit') {
-        route.component = () => import(`@/components/common/EditForm.vue`);
+    } else if (route.component == 'router_create' || route.component == 'router_edit') {
+        route.meta.form = route.component.replace('router_', '');
+        route.component = () => import(`@/components/common/Form.vue`);
     } else {
         route.component = fetchComponentFunc(route.component);
     }
