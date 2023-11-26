@@ -33,7 +33,7 @@
 
                 <template v-else-if="column.html == 'switch'">
                     <div class="text-center">
-                        <btn-status :status="item.status"></btn-status>
+                        <btn-status :status="item[column.name]"></btn-status>
                     </div>
                 </template>
 

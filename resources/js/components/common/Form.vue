@@ -9,7 +9,7 @@
                             {{ row.label }}</h4>
 
                         <template v-for="(field, findex)  in row.fields" :key="findex">
-                           
+
                             <TextareaElement v-if="field.html == 'textarea'" :name="field.name" :label="field.label"
                                 :id="field.name" :placeholder="field.label" :description="field.description"
                                 :info="field.info" />
@@ -123,6 +123,9 @@
                     </div>
                 </template>
             </div>
+
+            <HiddenElement name="id" id="id" />
+
         </Vueform>
 
     </edit-render>
@@ -139,6 +142,12 @@ export default {
         this.tmp_path_param = (this.path_param.length) ? this.path_param : this.$route.meta.path;
 
         var path = this.$route.meta.path;
+
+        var id = this.$route.params.id;
+
+        if (id) {
+            this.model['id'] = id;
+        }
 
         window.axios.get("fetch_layout/" + path[0] + "/" + path[1] + "/" + this.$route.meta.form).then((response) => {
 
