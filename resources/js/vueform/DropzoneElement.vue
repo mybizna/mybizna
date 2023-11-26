@@ -1,18 +1,7 @@
-<script setup>
-import { ref } from 'vue'
-
-const props = defineProps({
-    context: Object,
-})
-
-const digits = Number(props.context.digits)
-const tmp = ref(props.context.value || '')
-
-
-</script>
-
 <template>
-    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+    <ElementLayout>
+      <template #element>
+        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
         <div class="space-y-1 text-center">
             <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48"
                 aria-hidden="True">
@@ -33,4 +22,21 @@ const tmp = ref(props.context.value || '')
             </p>
         </div>
     </div>
-</template>
+      </template>
+  
+      <!-- Default element slots -->
+      <template v-for="(component, slot) in elementSlots" #[slot]><slot :name="slot" :el$="el$"><component :is="component" :el$="el$"/></slot></template>
+    </ElementLayout>
+  </template>
+  
+  <script>
+    import { defineElement } from '@vueform/vueform'
+  
+    export default defineElement({
+      name: 'DropzoneElement',
+      setup(props, { element }) {
+        // ...
+      }
+    })
+  </script>
+

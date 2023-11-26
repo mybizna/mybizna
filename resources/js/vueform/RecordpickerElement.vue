@@ -47,8 +47,6 @@
 <script>
 import { defineElement } from '@vueform/vueform'
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
-import Loading from "@/vueform/Loading";
-import fetchComponent from "@/utils/fetchComponent";
 import ListTable from "@/components/common/ListTable";
 
 export default defineElement({
@@ -66,11 +64,15 @@ export default defineElement({
             type: String,
             required: true,
             default: ''
+        },
+        valdata: {
+            type: String,
+            required: true,
+            default: ''
         }
     },
     setup(props, { element }) {
-
-        const { update } = element;
+        const { update, value } = element;
 
     },
 
@@ -84,24 +86,18 @@ export default defineElement({
         }
     },
     watch: {
-        'context.value': function (newVal, oldVal) {
-            if (newVal != oldVal) {
-                this.selected = newVal;
-
-                this.loadRecord(newVal);
-            }
+        valdata: function (newVal, oldVal) {
+            this.loadRecord(newVal);
+            this.selected = newVal;
         },
         selected: function (newVal, oldVal) {
             if (newVal !== oldVal) {
-                this.context.node.input(newVal);
+                this.update(newVal);
             }
         },
     },
     mounted() {
-        console.log('this.setting');
-        console.log('');
-        console.log('');
-        console.log(this.setting);
+
         const myModalEl = document.getElementById(this.id + 'Modal');
 
         myModalEl.addEventListener('hidden.bs.modal', event => {
@@ -111,12 +107,13 @@ export default defineElement({
         if (this.label == '') {
             this.button_label = this.label;
         }
+
     },
 
     methods: {
         async loadcomponent() {
-            if (this.id) {
-                this.loadRecord(this.id);
+            if (this.value.value) {
+                this.loadRecord(this.value.value);
             }
         },
         modalToggle() {
@@ -132,7 +129,7 @@ export default defineElement({
 
             this.update(id);
 
-            //this.loadRecord(id);
+            this.loadRecord(id);
         },
         loadRecord(id) {
             const getdata = async (t, id) => {
@@ -141,8 +138,7 @@ export default defineElement({
                 var part1 = t.setting.path_param[0];
                 var part2 = t.setting.path_param[1];
                 var comp_url = part1 + "/admin/" + part2 + "/" + id;
-
-                console.log(comp_url);
+                //var comp_url = part1 + "/admin/" + part2 + "/recordselect";
 
                 await window.axios.get(comp_url, { params: { f: t.setting.fields } })
                     .then(

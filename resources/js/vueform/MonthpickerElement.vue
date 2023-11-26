@@ -1,29 +1,26 @@
-
 <template>
-    <Datepicker :name="context.id" :disabled="context.disabled" :validation="context.validation"
-        :placeholder="context.placeholder" :classes="classes" :auto-position="false" auto-apply
-        v-model="selected" month-picker/>
-        {{ context.errors }}
+    <ElementLayout>
+        <template #element>
+            <Datepicker :name="id" :disabled="disabled" :validation="validation" :placeholder="placeholder"
+                :classes="classes" :auto-position="false" auto-apply v-model="selected" month-picker />
+        </template>
+
+        <!-- Default element slots -->
+        <template v-for="(component, slot) in elementSlots" #[slot]>
+            <slot :name="slot" :el$="el$">
+                <component :is="component" :el$="el$" />
+            </slot>
+        </template>
+    </ElementLayout>
 </template>
-
+  
 <script>
+import { defineElement } from '@vueform/vueform'
 
-
-export default {
-    props: {
-        context: Object,
-    },
-    watch: {
-        'context.value': function (newVal, oldVal) {
-            if (newVal != oldVal) {
-                this.selected = newVal;
-            }
-        },
-        selected: function (newVal, oldVal) {
-            if (newVal !== oldVal) {
-                this.context.node.input(newVal);
-            }
-        },
+export default defineElement({
+    name: 'MonthpickerElement',
+    setup(props, { element }) {
+        const { update, value } = element;
     },
     data() {
         return {
@@ -33,7 +30,16 @@ export default {
             }
         }
     },
-}
-
+    mounted() {
+        this.selected = this.value.value;
+    },
+    watch: {
+        selected: function (newVal, oldVal) {
+            if (newVal !== oldVal) {
+                this.update(newVal);
+            }
+        },
+    },
+})
 </script>
 

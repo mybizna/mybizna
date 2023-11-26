@@ -2,7 +2,14 @@ import en from '@vueform/vueform/locales/en'
 import vueform from '@vueform/vueform/themes/vueform'
 import { defineConfig } from '@vueform/vueform'
 
+import DropzoneElement from '@/vueform/DropzoneElement.vue'
+import FaceElement from '@/vueform/FaceElement.vue'
+import MediaElement from '@/vueform/MediaElement.vue'
+import MonthpickerElement from '@/vueform/MonthpickerElement.vue'
 import RecordpickerElement from '@/vueform/RecordpickerElement.vue'
+import RecordselectElement from '@/vueform/RecordselectElement.vue'
+import WeekpickerElement from '@/vueform/WeekpickerElement.vue'
+import YearpickerElement from '@/vueform/YearpickerElement.vue'
 
 
 // You might place these anywhere else in your project
@@ -16,7 +23,15 @@ export default defineConfig({
     locales: { en },
     locale: 'en',
     elements: [
+        DropzoneElement,
+        FaceElement,
+        MediaElement,
+        MonthpickerElement,
         RecordpickerElement,
+        RecordselectElement,
+        WeekpickerElement,
+        YearpickerElement,
+
     ],
     overrideClasses: {
 
