@@ -73,9 +73,7 @@ export default defineElement({
     },
     setup(props, { element }) {
         const { update, value } = element;
-
     },
-
     data() {
         return {
             selected: '',
@@ -97,7 +95,6 @@ export default defineElement({
         },
     },
     mounted() {
-
         const myModalEl = document.getElementById(this.id + 'Modal');
 
         myModalEl.addEventListener('hidden.bs.modal', event => {
@@ -106,6 +103,11 @@ export default defineElement({
 
         if (this.label == '') {
             this.button_label = this.label;
+        }
+
+        if (this.value.value || this.valdata) {
+            let tmp_value = this.value.value ?? this.valdata;
+            this.loadRecord(tmp_value);
         }
 
     },
