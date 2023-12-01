@@ -17,6 +17,14 @@
                     Save
                 </a>
 
+
+                <a v-if="model.id"
+                    class="cursor-pointer rounded-lg text-sm ring ring-2 ring-inset ring-gray-400 text-gray-600 py-2 px-3  text-center mr-2"
+                    @click="duplicateRecord()">
+                    <i class="fa fa-clone"></i>
+                    Duplicate
+                </a>
+
                 <a class="cursor-pointer rounded-lg text-sm ring ring-2 ring-inset ring-red-400 text-red-600 py-2 px-3  text-center mr-2"
                     @click="cancelUrl()">
                     <i class="fa fa-plus"></i>
@@ -97,7 +105,6 @@ export default {
                 this.processed_path_param,
             );
         },
-
         saveRecord() {
             var t = this;
 
@@ -113,6 +120,29 @@ export default {
                 }
 
                 window.$router.push('/' + t.path_param[0] + "/admin/" + t.path_param[1])
+            }
+
+        },
+        duplicateRecord() {
+            var confirmation = confirm("Are you sure you want to Duplicate");
+
+            if (confirmation) {
+                var t = this;
+
+                window.$func.saveRecordHelper(
+                    this,
+                    this.processed_path_param,
+                    this.returnUrl,
+                    true
+                );
+
+                if (!t.no_redirect) {
+                    if (t.passed_return_url) {
+                        window.$router.push(t.passed_return_url)
+                    }
+
+                    window.$router.push('/' + t.path_param[0] + "/admin/" + t.path_param[1])
+                }
             }
 
         },
