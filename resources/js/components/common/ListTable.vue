@@ -1,6 +1,6 @@
 <template>
     <table-render v-if="layout_fetched" :recordPicker="recordPicker" :path_param="tmp_path_param"
-        :table_fields="table_fields" :setting="{ hide_delete_button: true }">
+        :table_fields="table_fields" :setting="{ hide_delete_button: false }">
 
         <template #header>
             <th-render v-for="column in columns" :key="column.name">
