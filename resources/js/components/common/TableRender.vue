@@ -235,8 +235,8 @@ export default {
                 is_recordpicker: false,
                 has_add_button: true,
                 hide_toolbar: false,
-                hide_delete_button: false,
-                hide_action_button: false,
+                hide_delete_button: true,
+                hide_action_button: true,
                 hide_search_form: false,
                 hide_select_checkbox: false,
             }
