@@ -316,7 +316,6 @@ export default {
 
     methods: {
         updatePage(page = 0) {
-            console.log(page);
             this.pagination.page = page;
         },
         getCardClassName(prefix = '') {

@@ -350,8 +350,16 @@ export default {
         return input_field;
     },
 
-    saveRecordHelper(this_var, path_param, return_url) {
+    saveRecordHelper(this_var, path_param, return_url, duplicate = false) {
         const t = this_var;
+
+        console.log('duplicate');
+        console.log('');
+        console.log(duplicate);
+
+        if (duplicate) {
+            t.model.id = null;
+        }
 
         var path = (t.model.id) ? path_param.path + '/' + t.model.id : path_param.path;
 
@@ -500,11 +508,12 @@ export default {
                             t.show_delete_btn = false;
                             t.loading_message = "No Data Available.";
                         } else {
+
                             if (t.pagination) {
                                 t.pagination.pages =
                                     t.pagination.limit >= response.data.total
                                         ? 1
-                                        : Math.floor(
+                                        : Math.ceil(
                                             response.data.total /
                                             t.pagination.limit
                                         );
