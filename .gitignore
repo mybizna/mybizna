@@ -23,7 +23,7 @@ yarn-error.log
 /Modules/Calendar
 /Modules/Crm
 /Modules/Discussion
-/Modules/Expense
+/Modules/Expense 
 /Modules/Fleet 
 /Modules/Hrm
 /Modules/Isp
@@ -38,4 +38,6 @@ yarn-error.log
 /Modules/Sms
 /Modules/Smsmass
 /Modules/Smsreader
+/Modules/Telegram
 /Modules/Tertiary
+/Modules/Water
