@@ -129,6 +129,7 @@ install_path="$folder_path/$project_name"
 
 composer create-project laravel/laravel:^9.0 $install_path
 
+
 # Copy the script to the installation path
 cd $install_path
 
@@ -146,6 +147,15 @@ sed -i "s/^SESSION_DRIVER=.*/SESSION_DRIVER=database/" .env
 
 sed -i '/^SESSION_LIFETIME=.*/aSANCTUM_STATEFUL_DOMAINS=' .env
 sed -i '/^SESSION_LIFETIME=.*/aSESSION_DOMAIN=' .env
+
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+composer require mybizna/base
+php artisan cache:table
+php artisan session:table
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 
 
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
