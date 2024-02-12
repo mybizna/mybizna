@@ -18,6 +18,7 @@ use Modules\Base\Http\Controllers\GeneralController;
 |
 */
 
-Route::get('/', [GeneralController::class, 'front']);
 
-
+Route::get('/', function () {
+    return view('welcome');
+});
