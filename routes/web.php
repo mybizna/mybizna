@@ -18,7 +18,6 @@ use Modules\Base\Http\Controllers\GeneralController;
 |
 */
 
+//manage new user
+Route::get('/', [GeneralController::class, 'front']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
