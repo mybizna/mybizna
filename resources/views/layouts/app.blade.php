@@ -5,45 +5,57 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    @if ($force_https)
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    @endif
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Mybizna Erp') }}</title>
 
     <script>
-        var base_url = '{{  $mybizna_base_url }}';
+        PUBLIC_PATH = '{!! $assets_url !!}';
+        var base_url = '{!! $mybizna_base_url !!}';
+        var assets_url = '{!! $assets_url !!}';
+        var autologin = '{!! $autologin !!}';
+        var responsive_point = {!! $responsive_point !!};
+        var floating_top = {{ $floating_top ? 'true' : 'false' }};
+        var margin_top = {{ $margin_top ? 'true' : 'false' }};
+        var viewside = 'frontend';
+        var mybizna_uniqid = '{!! $mybizna_uniqid !!}';
 
-        function __(title, select){
+        function __(title, select) {
             return title;
         }
-
     </script>
 
-    <script defer="defer" src="/mybizna/vue3-sfc-loader/vue3-sfc-loader.js?{{ rand(10000,50000) }}"></script>
-    <script defer="defer" src="/mybizna/tinymce/tinymce.min.js?{{ rand(10000,50000) }}"></script>
-    <script defer="defer" src="/mybizna/js/app.js?{{ rand(10000,50000) }}"></script>
-    <link href="/mybizna/css/app.css?{{ rand(10000,50000) }}" rel="stylesheet">
-    <script src="/mybizna/tailwind/tailwindcss.js?{{ rand(10000,50000) }}"></script>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="{{ $assets_url }}/tinymce/tinymce.min.js?{{ $version }}"></script>
+    <script src="{{ $assets_url }}/vue3-sfc-loader/vue3-sfc-loader.js?{{ $version }}"></script>
+    <script defer="defer" src="{{ $assets_url }}/js/app.js?{{ $version }}"></script>
+    <link href="{{ $assets_url }}/css/app.css?{{ $version }}" rel="stylesheet">
+    <script src="{{ $assets_url }}/tailwind/tailwindcss.js?{{ $version }}"></script>
 
     <script>
-        tailwind.config = {
-            important: true,
-        }
+        window.addEventListener('load', function() {
+            tailwind.config = {
+                important: true,
+                theme: {
+                    extend: {
+                        backdropBlur: {
+                            xs: '2px',
+                        }
+                    }
+                }
+            }
+        });
     </script>
 
-    <!--
-        <link href="https://mybizna.github.io/bootstrapwind/dist/output.min.css" rel="stylesheet">
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/webfontloader.js') }}" defer></script>
-    <script src="{{ asset('js/backend-dashboard.js') }}" defer></script>
-    <script src="{{ asset('js/general-components.js') }}" defer></script>
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    -->
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+    <link href="{{ $assets_url }}/fontawesome/css/all.min.css" rel="stylesheet">
 
 
     <style>
@@ -118,7 +130,8 @@
     </style>
 </head>
 
-<body>
+<body class="bg-slate-50 dark:bg-navy-900">
+
     <div id="app">
         <div id="loaderDiv" class="animate-bottom my-5">
             <h2 class="my-3">Loading!....</h2>
@@ -128,6 +141,7 @@
             <div id="loader"></div>
         </div>
     </div>
+
 </body>
 
 </html>
