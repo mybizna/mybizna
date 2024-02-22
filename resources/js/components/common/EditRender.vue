@@ -17,7 +17,6 @@
                     Save
                 </a>
 
-
                 <a v-if="model.id"
                     class="cursor-pointer rounded-lg text-sm ring ring-2 ring-inset ring-gray-400 text-gray-600 py-2 px-3  text-center mr-2"
                     @click="duplicateRecord()">

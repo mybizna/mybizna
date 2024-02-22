@@ -239,6 +239,7 @@ const store = createStore({
                 var data = {};
 
                 try {
+
                     var vuex_data = Cookies.get(key + '_data');
                     var vuex_obj = JSON.parse(vuex_data);
 
@@ -284,6 +285,7 @@ const store = createStore({
 
                 for (const mkey in modules) {
 
+
                     var module = modules[mkey];
                     keys[mkey] = [];
 
@@ -307,9 +309,30 @@ const store = createStore({
                     expires: 3,
                     secure: true
                 });
-
             },
-            removeItem: (key) => Cookies.remove(key),
+            removeItem: (key) => {
+
+                var modules = JSON.parse(Cookies.get(key + '_data'));
+
+                console.log(modules);
+
+                for (const mkey in modules) {
+
+                    var module = modules[mkey];
+
+                    for (const skey in module) {
+
+                        var key_name = `vuex_${window.viewside}_${mkey}_${skey}`;
+
+                        Cookies.remove(key_name);
+                    }
+
+                }
+
+                Cookies.remove(key + '_data');
+
+            }
+            
         },
     })],
 });
