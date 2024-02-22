@@ -13,13 +13,8 @@
 
         <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
             <li> 
-                <a href="#/core/setting-manage">
-                   A Setting Manage
-                </a>
-            </li>
-            <li> 
-                <router-link :to="{ name: 'core.admin.setting.manage'}">
-                    Setting Manage
+                <router-link class="dropdown-item" :to="{ name: 'core.admin.setting.manage'}">
+                    Manage Setting
                 </router-link>
             </li>
             <li>
@@ -40,7 +35,11 @@ export default {
     setup() {
         return {};
     },
-
+    methods: {
+        logout() {
+            this.$store.commit("auth/logout");
+        },
+    }
 };
 </script>
 
