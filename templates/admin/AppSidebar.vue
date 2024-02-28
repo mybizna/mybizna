@@ -9,7 +9,7 @@
 
         <div class="text-center sm:w-3/4 sm:mx-auto">
 
-            <template v-for="(item, m_index) in $store.state.system.menu" :key="m_index">
+            <template v-for="(item, m_index) in $store.state.system.backendmenu" :key="m_index">
                 <div class="inline-block cursor-pointer w-28 my-3 mb-3 mx-2 sm:mx-5 sm:mx-7" @click="selectApp(m_index)">
 
                     <div :class="($store.state.system.active_subs_1 == m_index) ? 'bg-white' : ''"
@@ -38,7 +38,7 @@
         class="absolute overflow-y-auto inset-y-0 top-10 z-10 bg-white w-52 h-full">
 
         <ul class="pl-0 mt-5">
-            <template v-for="(item, m_index) in $store.state.system.menu" :key="m_index">
+            <template v-for="(item, m_index) in $store.state.system.backendmenu" :key="m_index">
                 <li class="text-gray-600 hover:text-gray-800 cursor-pointer"
                     :class="($store.state.system.active_subs_1 == m_index) ? '' : 'hidden'">
                     <a
@@ -146,7 +146,7 @@ export default {
 
         selectApp(passkey) {
 
-            var item = this.$store.state.system.menu[passkey];
+            var item = this.$store.state.system.backendmenu[passkey];
             console.log(item.path);
 
             var app = item.key;

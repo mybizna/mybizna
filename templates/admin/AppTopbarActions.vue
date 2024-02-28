@@ -9,7 +9,7 @@ export default {
     setup() {
 
 
-        if (!this.$store.state.system.menu.length) {
+        if (!this.$store.state.system.backendmenu.length) {
             this.$store.dispatch("system/getMenu");
         }
 
