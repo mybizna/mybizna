@@ -189,14 +189,13 @@ export default {
                         var counter = 0;
 
                         if (Array.isArray(response.data)) {
-                            counter = response.data.length;
+                            counter = response.data[window.viewside].length;
                         } else {
-                            counter = Object.keys(response.data).length;
+                            counter = Object.keys(response.data[window.viewside]).length;
                         }
-                        Object.keys(response.data).length;
 
                         commit('menu_length', counter);
-                        commit('menu', response.data);
+                        commit('menu', response.data[window.viewside]);
 
                     })
                 .catch(

@@ -17,10 +17,7 @@
     <vue3-confirm-dialog></vue3-confirm-dialog>
 
     <div class="mybizna-app">
-
-        <app-backend v-if="viewSide == 'backend'" :windowWidth="windowWidth"></app-backend>
-        <app-frontend v-else :windowWidth="windowWidth"></app-frontend>
-
+        <app-template :windowWidth="windowWidth"></app-template>
     </div>
 </template>
 
@@ -30,13 +27,12 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "@/utils";
-import AppBackend from "@/components/widgets/AppBackend.vue";
-import AppFrontend from "@/components/widgets/AppFrontend.vue";
+//import AppBackend from "@/components/widgets/AppBackend.vue";
+//import AppFrontend from "@/components/widgets/AppFrontend.vue";
 
 export default {
     components: {
-        AppBackend,
-        AppFrontend,
+        AppTemplate: window.$filters.fetchComponent('templates/admin/AppTemplate.vue'),
     },
     setup() {
         const { route } = useRouter();
