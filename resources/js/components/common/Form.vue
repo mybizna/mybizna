@@ -5,7 +5,7 @@
                 <template v-for="(row, rindex)  in layout" :key="rindex">
 
                     <div :class="row.class">
-                        <h4 class="text-xs italic font-semibold border-b border-dotted border-gray-100 text-blue-900 my-2">
+                        <h4 class="text-sm italic font-semibold border-b border-dotted border-gray-100 text-blue-900 my-2 bg-gray-50 p-1">
                             {{ row.label }}</h4>
 
                         <template v-for="(field, findex)  in row.fields" :key="findex">
