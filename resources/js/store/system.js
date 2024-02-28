@@ -8,14 +8,16 @@ export default {
         title: 'Mybizna',
         subtitle: '',
         subtitle_action: '',
-        menu: [],
+        frontmenu: [],
+        backendmenu: [],
         active_menu: 'dashboard',
         active_link: '',
         active_subs_1: 'dashboard',
         active_subs_2: '',
         active_subs_3: '',
         menu_type: 'sidebar',
-        menu_length: 0,
+        backendmenu_length: 0,
+        frontendmenu_length: 0,
         has_search: false,
         is_list: false,
         is_edit: false,
@@ -48,8 +50,17 @@ export default {
         layout(state, payload) {
             state.layout = payload;
         },
-        menu(state, payload) {
-            state.menu = payload;
+        backendmenu(state, payload) {
+            state.backendmenu = payload;
+        },
+        backendmenu_length(state, payload) {
+            state.backendmenu_length = payload;
+        },
+        frontendmenu(state, payload) {
+            state.frontmenu = payload;
+        },
+        frontendmenu_length(state, payload) {
+            state.frontendmenu_length = payload;
         },
         has_menu(state, payload) {
             state.has_menu = payload;
@@ -124,9 +135,6 @@ export default {
         active_subs_3(state, payload) {
             state.active_subs_3 = payload;
         },
-        menu_length(state, payload) {
-            state.menu_length = payload;
-        },
         menu_type(state, payload) {
             state.menu_type = payload;
         },
@@ -186,16 +194,21 @@ export default {
                 .then(
                     response => {
 
-                        var counter = 0;
+                        var frontend_counter = 0;
+                        var backend_counter = 0;
 
                         if (Array.isArray(response.data)) {
-                            counter = response.data[window.viewside].length;
+                            frontend_counter = response.data['frontend'].length;
+                            backend_counter = response.data['backend'].length;
                         } else {
-                            counter = Object.keys(response.data[window.viewside]).length;
+                            frontend_counter = Object.keys(response.data['frontend']).length;
+                            backend_counter = Object.keys(response.data['backend']).length;
                         }
 
-                        commit('menu_length', counter);
-                        commit('menu', response.data[window.viewside]);
+                        commit('backendmenu_length', backend_counter);
+                        commit('frontendmenu_length', frontend_counter);
+                        commit('backendmenu', response.data['backend']);
+                        commit('frontendmenu', response.data['frontend']);
 
                     })
                 .catch(

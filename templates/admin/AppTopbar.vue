@@ -17,7 +17,7 @@
                         <span
                             class="absolute inline-flex items-center justify-center w-4 h-4 leading-3 font-bold text-white bg-green-500 border border-white rounded-full top dark:border-gray-900 "
                             style="margin-left:-10px; font-size: 9px !important;">
-                            {{ $store.state.system.menu_length - 1 }}
+                            {{ $store.state.system.backendmenu.length - 1 }}
                         </span>
                     </a>
 
@@ -130,7 +130,7 @@ export default {
     },
     watch: {
         // whenever question changes, this function will run
-        '$store.state.system.menu'(newer, older) {
+        '$store.state.system.backendmenu'(newer, older) {
 
             var active_subs_1 = this.$store.state.system.active_subs_1;
 
@@ -143,7 +143,7 @@ export default {
             this.handleResize()
         },
         '$store.state.system.active_subs_1'(newer, older) {
-            this.menus = this.$store.state.system.menu[newer]['menus'];
+            this.menus = this.$store.state.system.backendmenu[newer]['menus'];
             this.handleResize()
         },
     },

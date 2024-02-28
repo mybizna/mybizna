@@ -36,7 +36,7 @@ export default {
     setup() {
         const store = useStore();
 
-        if (!store.state.system.menu.length) {
+        if (!store.state.system.backendmenu.length) {
             store.dispatch("system/getMenu");
         }
 
