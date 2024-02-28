@@ -17,15 +17,17 @@
                         <span
                             class="absolute inline-flex items-center justify-center w-4 h-4 leading-3 font-bold text-white bg-green-500 border border-white rounded-full top dark:border-gray-900 "
                             style="margin-left:-10px; font-size: 9px !important;">
-                            {{ $store.state.system.backendmenu.length - 1 }}
+                            {{ $store.state.system.backendmenu_length - 1 }}
                         </span>
                     </a>
 
+                    <!--
                     <a v-if="!visibles.length" @click="drawer" class="w-15 mr-2">
                         <i :class="$store.state.system.sidebar_show ? 'text-cyan-200' : ' text-white'"
                             class="fas fa-bars text-2xl"></i>
 
                     </a>
+                    -->
 
                 </div>
             </div>
