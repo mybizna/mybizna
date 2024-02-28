@@ -15,6 +15,9 @@ export default {
     __(value, type) {
         return value;
     },
+    viewside() {
+        return window.viewside;
+    },
     currencyUSD(value) {
         return "$" + value;
     },
@@ -165,9 +168,18 @@ export default {
 
     fetchComponent(comp_path) {
         if (Array.isArray(comp_path)) {
-            comp_path =
-                //"assets/" +
-                comp_path[0] + "/admin/" + comp_path[1] + "/" + comp_path[2];
+
+            var endstr = '';
+            if (comp_path.length < 3) {
+                throw new Error("Invalid Component Path");
+            } else if (comp_path.length == 3) {
+                endstr = (comp_path[2].indexOf(".vue") > 0) ? "" : ".vue";
+                comp_path = comp_path[0] + "/admin/" + comp_path[1] + "/" + comp_path[2] + endstr;
+            } else if (comp_path.length == 4) {
+                endstr = (comp_path[3].indexOf(".vue") > 0) ? "" : ".vue";
+                comp_path = comp_path[0] + comp_path[1] + "/" + comp_path[2] + "/" + comp_path[3];
+            }
+
         }
 
         try {
