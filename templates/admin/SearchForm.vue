@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <a>
+            <a v-if="show_filter">
                 <small style="font-size: 12px">
                     Filter: {{ JSON.stringify(model) }}
                 </small>
@@ -52,6 +52,9 @@
 <script>
 
 export default {
+    props: {
+        show_filter: { type: Boolean, default: true },
+    },
     watch: {
         model: {
             handler: function (newVal) {

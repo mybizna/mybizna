@@ -543,8 +543,7 @@ export default {
                             duration: 12000
                         });
                     }
-
-                    //t.postProcessing(t, search_fields);
+                    
                 }
             });
     },
