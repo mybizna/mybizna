@@ -199,6 +199,8 @@ export default {
                 }
             }
 
+            this.$store.commit('system/search_fields', response.data.filter);
+
             this.layout_fetched = true;
 
         }).catch((error) => {

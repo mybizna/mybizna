@@ -319,7 +319,7 @@ export default {
             this.pagination.page = page;
         },
         getCardClassName(prefix = '') {
-            return (!this.is_recordpicker) ? prefix + ' shadow-md m-1 mt-3' : ' border-0';
+            return (!this.is_recordpicker) ? prefix + ' shadow-md m-1 mt-1' : ' border-0';
         },
         getClassName(table_field) {
             var full_class_name = "text-left";

@@ -1,9 +1,17 @@
 <template>
+    <div v-if="$store.state.system.is_list" class="shadow-sm z-8">
+        <div class="flex px-1 py-3">
 
-<div v-if="$store.state.system.is_list" class="shadow-sm z-8">
-        <div class="flex h-14 px-1">
             <div class="flex-auto">
-                <div class="mx-1">
+                <a class="uppercase cursor-point whitespace-nowrap text-white rounded bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium text-sm  py-2 px-3  text-center"
+                    @click="addLink()">
+                    <i class="fa fa-plus"></i>
+                    Create
+                </a>
+            </div>
+
+            <div class="flex-auto">
+                <div class="mx-1 text-right">
                     <span class="whitespace-nowrap truncate capitalize font-semibold"
                         v-if="$store.state.system.subtitle != ''">
                         {{ $store.state.system.subtitle }}
@@ -11,16 +19,10 @@
                             [{{ $store.state.system.subtitle_action }}]
                         </small>
                     </span><br>
-                    <a class="uppercase cursor-point whitespace-nowrap text-white rounded bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium text-sm  py-2 px-3  text-center"
-                        @click="addLink()">
-                        <i class="fa fa-plus"></i>
-                        Create
-                    </a>
+
                 </div>
             </div>
-            <div class="flex-auto">
-                <search-form></search-form>
-            </div>
+           
         </div>
     </div>
 </template>

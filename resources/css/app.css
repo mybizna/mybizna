@@ -1,3 +1,126 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-BlackItalic.otf') format('opentype');
+    font-weight: 900;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-ExtraLight.otf') format('opentype');
+    font-weight: 200;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-SemiBoldItalic.otf') format('opentype');
+    font-weight: 600;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-Italic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-BoldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-LightItalic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-ThinItalic.otf') format('opentype');
+    font-weight: 100;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-Thin.otf') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-ExtraBoldItalic.otf') format('opentype');
+    font-weight: 800;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-MediumItalic.otf') format('opentype');
+    font-weight: 500;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+/* Optionally, you can define a generic fallback font */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
 .fs-6 {
     font-size: 6px !important;
 }
@@ -99,59 +222,136 @@
     font-weight: 1000px
 }
 
-.m-w-100 {width: 100px}
-.m-w-150 {width: 150px}
+.m-w-100 {
+    width: 100px
+}
 
-.m-w-200 {  width: 200px}
-.m-w-250 {  width: 250px}
+.m-w-150 {
+    width: 150px
+}
 
-.m-w-300 {width: 300px}
-.m-w-350 {width: 350px}
+.m-w-200 {
+    width: 200px
+}
 
-.m-w-400 {width: 400px}
-.m-w-450 {width: 450px}
+.m-w-250 {
+    width: 250px
+}
 
-.m-w-500 {width: 500px}
-.m-w-550 {width: 550px}
+.m-w-300 {
+    width: 300px
+}
 
-.m-w-600 { width: 600px}
-.m-w-650 { width: 650px}
+.m-w-350 {
+    width: 350px
+}
 
-.m-w-700 {width: 700px}
-.m-w-750 {width: 750px}
+.m-w-400 {
+    width: 400px
+}
 
-.m-w-800 {width: 800px}
-.m-w-850 {width: 850px}
+.m-w-450 {
+    width: 450px
+}
 
-.m-w-900 {width: 900px}
-.m-w-950 {width: 950px}
+.m-w-500 {
+    width: 500px
+}
 
-.m-w-1000 {width: 1000px}
-.m-w-1000 {width: 1050px}
+.m-w-550 {
+    width: 550px
+}
 
-.m-w-1100 {width: 1100px}
-.m-w-1150 {width: 1150px}
+.m-w-600 {
+    width: 600px
+}
 
-.m-w-1200 {width: 1200px}
-.m-w-1250 {width: 1250px}
+.m-w-650 {
+    width: 650px
+}
 
-.m-w-1300 {width: 1300px}
-.m-w-1350 {width: 1350px}
+.m-w-700 {
+    width: 700px
+}
 
-.m-w-1400 {width: 1400px}
-.m-w-1450 {width: 1450px}
+.m-w-750 {
+    width: 750px
+}
 
-.m-w-1500 {width: 1500px}
-.m-w-1550 {width: 1550px}
+.m-w-800 {
+    width: 800px
+}
 
-.m-w-1600 {width: 1600px}
+.m-w-850 {
+    width: 850px
+}
+
+.m-w-900 {
+    width: 900px
+}
+
+.m-w-950 {
+    width: 950px
+}
+
+.m-w-1000 {
+    width: 1000px
+}
+
+.m-w-1000 {
+    width: 1050px
+}
+
+.m-w-1100 {
+    width: 1100px
+}
+
+.m-w-1150 {
+    width: 1150px
+}
+
+.m-w-1200 {
+    width: 1200px
+}
+
+.m-w-1250 {
+    width: 1250px
+}
+
+.m-w-1300 {
+    width: 1300px
+}
+
+.m-w-1350 {
+    width: 1350px
+}
+
+.m-w-1400 {
+    width: 1400px
+}
+
+.m-w-1450 {
+    width: 1450px
+}
+
+.m-w-1500 {
+    width: 1500px
+}
+
+.m-w-1550 {
+    width: 1550px
+}
+
+.m-w-1600 {
+    width: 1600px
+}
 
 .table th,
 .table td {
     font-size: 14px !important;
 }
 
-.table>:not(caption,thead)>*>* {
+.table>:not(caption, thead)>*>* {
     padding: 0.1rem 0.2rem !important;
 }
 
@@ -189,6 +389,7 @@
         position: static !important;
     }
 }
+
 @media (min-width: 768px) {
     .table-responsive {
         overflow: visible;
