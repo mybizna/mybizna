@@ -10,7 +10,7 @@
     "crm"
   ],
   "license": "GPL-3.0-or-later",
-  "version": "24.02.005",
+  "version": "24.03.001",
   "require": {
     "php": "^8.0",
     "composer/installers": "~1.0",
