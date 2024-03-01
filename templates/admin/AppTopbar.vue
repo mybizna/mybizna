@@ -47,7 +47,7 @@
                     </li>
                     <template v-for="(visible, t_index) in visibles" :key="t_index">
                         <li v-if="countObjectKeys(visible.list)" class="group relative  p-2">
-                            <a class="text-sm  text-gray-500 font-semibold cursor-pointer hover:text-blue-800">
+                            <a class="text-sm text-gray-500 text-nowrap font-semibold cursor-pointer hover:text-blue-800">
                                 {{ visible.title }}
                                 <i class="fas fa-chevron-down" style="font-size:10px;"></i>
                             </a>
@@ -63,14 +63,14 @@
                             </ul>
                         </li>
                         <li v-else class="text-gray-500 px-2 py-2">
-                            <a class="text-sm text-gray-500 font-semibold hover:text-blue-800 cursor-pointer"
+                            <a class="text-sm text-gray-500 text-nowrap font-semibold hover:text-blue-800 cursor-pointer"
                                 :href="'#' + visible.path">
                                 {{ visible.title }}
                             </a>
                         </li>
                     </template>
                     <li id="othersMenu" :class="hiddens.length ? '' : 'hidden'" class="group relative  p-2">
-                        <a class="text-sm text-gray-500 font-semibold hover:text-blue-800 cursor-pointer">
+                        <a class="text-sm text-gray-500 text-nowrap font-semibold hover:text-blue-800 cursor-pointer">
                             More
                             <i class="fas fa-chevron-down" style="font-size:10px;"></i>
                         </a>
@@ -105,7 +105,7 @@
                 </ul>
             </div>
 
-            <div class="flex-none w-64 mr-5">
+            <div v-if="$store.state.system.has_search && !$store.state.system.is_recordpicker" class="flex-none w-64 mr-5">
                 <search-form :show_filter="false"></search-form>
             </div>
 
