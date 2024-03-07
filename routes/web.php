@@ -21,3 +21,7 @@ use Modules\Base\Http\Controllers\GeneralController;
 //manage new user
 Route::get('/', [GeneralController::class, 'front']);
 
+// change '/' to load view directly
+//Route::view('/', 'affiliate');
+
+
