@@ -1,13 +1,14 @@
 <template>
-  <section class="hero-3 bg-white">
-    <div class="container mx-auto w-11/12 py-5">
-      <div class="flex flex-wrap items-center -mx-3">
+  <template v-if="!has_dashboard">
+    <section class="hero-3 bg-white">
+      <div class="flex flex-wrap items-center">
         <div class="w-full lg:w-2/5 px-3">
           <div class="max-w-lg lg:max-w-md mx-auto lg:mx-0 mb-8 text-center lg:text-left">
             <h2 class="text-3xl lg:text-5xl mb-4 font-bold font-heading wow  header-solution">Exclusive
               Agency For <span class="text-blue-500">Technology </span>Provide Solution</h2>
             <div class="text-blueGray-400 leading-relaxed wow animate__animated animate__fadeIn">We are <strong
-                class="text-blue-500">Monst</strong>, a Creative Design <div class="typewrite d-inline text-brand"><span>
+                class="text-blue-500">Monst</strong>, a Creative Design <div class="typewrite d-inline text-brand">
+                <span>
                   <div style="display: inline-block;">Social Marketing</div><span
                     style="display: inline-block; transition: opacity 0.5s ease 0s; opacity: 1;">|</span>
                 </span></div>
@@ -26,19 +27,17 @@
               :src="$assets_url + '/images/work-tv.png'" alt="Monst"></div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
 
-  <section class="bg-slate-50 py-5" id="key-features">
-    <div class="container mx-auto w-11/12">
+    <section class="bg-slate-50 py-5" id="key-features">
       <div class="max-w-lg mx-auto mb-12 text-center">
         <h2 class="my-2 text-3xl md:text-4xl font-bold font-heading wow animate__animated animate__fadeIn"
           data-wow-delay=".1s">We Consultant to Get <span class="text-blue-500">Our Business</span> Plan</h2>
         <p class="text-blueGray-400 leading-loose wow animate__animated animate__fadeIn" data-wow-delay=".3s">Business
           solution company sit our any how site used the our company any site us it-solve theme is very professional</p>
       </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="flex flex-wrap  mb-6">
         <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
           <div
             class="border border-gray-100 pt-8 px-6 pb-6 bg-white text-center rounded shadow hover:shadow-lg hover-up-2 transition duration-500 wow animate__animated animate__fadeIn"
@@ -162,11 +161,9 @@
         </div>
       </div>
 
-    </div>
-  </section>
+    </section>
 
-  <section class="py-12 bg-white">
-    <div class="container  mx-auto w-11/12">
+    <section class="py-12 bg-white">
       <div class="flex flex-wrap">
         <div class="w-full md:w-1/2 px-3 order-0 md:order-1 mb-12 md:mb-0 wow animate__animated animate__fadeIn"
           data-wow-delay=".5s"><img class="sm:max-w-sm lg:max-w-full mx-auto" :src="$assets_url + 'images/podcast.svg'"
@@ -190,19 +187,47 @@
             </ul>
           </div>
         </div>
-
       </div>
-    </div>
-  </section>
+    </section>
+  </template>
+
+  <template v-else>
+    <component :is="dashboard"></component>
+  </template>
+
 </template>
 
 <script>
 
 export default {
+  data() {
+    return {
+      has_dashboard: false,
+      dashboard: null,
+    };
+  },
+
   beforeMount() {
     if (window.is_backend) {
       this.$router.push("/manage/dashboard");
     }
+
+    var path_url = window.base_url + '/fetch_vue/templates/user/pages/Dashboard.vue';
+
+    fetch(path_url)
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          this.has_dashboard = true;
+          this.dashboard = window.$filters.fetchComponent('templates/user/pages/Dashboard.vue');
+        }
+      })
+      .catch(error => {
+
+        this.has_dashboard = false;
+
+        console.error('There was an error!', error);
+      });
   }
 }
 
