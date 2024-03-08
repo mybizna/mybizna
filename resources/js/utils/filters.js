@@ -21,14 +21,14 @@ export default {
     currencyUSD(value) {
         return "$" + value;
     },
-    toCurrency(value) {
+    toCurrency(value, decimal = 2, currency = "USD") {
         if (typeof value !== "number") {
             return value;
         }
         var formatter = new Intl.NumberFormat("en-US", {
             style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 4,
+            currency: currency,
+            minimumFractionDigits: decimal,
         });
         return formatter.format(value);
     },
@@ -41,6 +41,11 @@ export default {
     money(val) {
         if (typeof val === "number") {
             return `${val.toFixed(2)}`;
+        }
+    },
+    formatNumber(val) {
+        if (typeof val === "number") {
+            return val.toLocaleString();
         }
     },
     formatAmount(val, prefix = false) {
@@ -189,7 +194,7 @@ export default {
         }
     },
 
-    formatNumber(n) {
+    shortenNumber(n) {
         var ending = ["k", "m", "b", "t"];
 
         var n_str = n.toString();
@@ -543,7 +548,7 @@ export default {
                             duration: 12000
                         });
                     }
-                    
+
                 }
             });
     },

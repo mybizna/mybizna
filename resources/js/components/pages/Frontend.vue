@@ -202,7 +202,7 @@
 export default {
   data() {
     return {
-      has_dashboard: false,
+      has_dashboard: true,
       dashboard: null,
     };
   },
