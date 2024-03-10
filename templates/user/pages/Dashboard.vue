@@ -18,14 +18,14 @@
                 </p>
             </div>
             <div class="btn-list md:mt-0 mt-2">
-                <button type="button"
-                    class="ti-btn bg-primary text-white btn-wave !font-medium !me-[0.375rem] !ms-0 !text-[0.85rem] !rounded-[0.35rem] !py-[0.51rem] !px-[0.86rem] shadow-none">
-                    <i class="ri-filter-3-fill  inline-block"></i>
-                    Filters
-                </button>
-                <button type="button"
-                    class="ti-btn ti-btn-outline-secondary btn-wave !font-medium  !me-[0.375rem]  !ms-0 !text-[0.85rem] !rounded-[0.35rem] !py-[0.51rem] !px-[0.86rem] shadow-none">
-                    <i class="ri-upload-cloud-line  inline-block"></i>Export </button>
+                <div class=" text-danger mb-2">
+                        <span class="fa-stack" style="vertical-align: top; font-size:20px;">
+                            <i class="far fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-youtube fa-stack-1x"></i>
+                        </span>
+                        <span class="inline-block mt-2 text-gray-700 font-semibold">4 Must Watch</span>
+                    </div>
+
             </div>
         </div>
 
@@ -189,9 +189,9 @@
                 <a aria-label="anchor" href="javascript:void(0);">
                     <span
                         class="text-yellow-400 font-semibold rounded-full border border-yellow-400 w-14 h-14 inline-block p-2">
-                        <i class="fas fa-server fa-2x"></i>
+                        <i class="fas fa-file-invoice-dollar fa-2x"></i>
                     </span>
-                    <div class="text-gray-600 font-semibold text-sm mt-2">Web Hosting</div>
+                    <div class="text-gray-600 font-semibold text-sm mt-2">Invoices</div>
                 </a>
             </div>
 
@@ -208,17 +208,21 @@
         </div>
 
 
+        
+
+
         <!-- Invitation link -->
 
         <div class="bg-indigo-100 rounded p-3">
             <div class="flex">
-                <div class="flex-none w-36 hidden md:block"><img src="images/misc/custom-14.svg" alt=""></div>
+                <div class="flex-none w-36 hidden ">
+                    <img src="images/misc/custom-14.svg" alt=""></div>
                 <div class="flex-auto">
-                    <h2 class="text-2xl font-semibold text-indigo-500 mb-2">Invitation Link!</h2>
-                    <p class="text-gray-800 mb-2 fs-16">
+                    <h2 class="hidden text-2xl font-semibold text-indigo-500 mb-2">Invitation Link!</h2>
+                    <p class="hidden text-gray-800 mb-2 fs-16">
                         You can invite your friends and earn. Your invitation link is: <br>
                     </p>
-                    <p class="font-semibold text-indigo-500 mb-2 fs-16">
+                    <p class="font-semibold text-indigo-500 mb-2 fs-16 text-center">
                         {{ $root_url }}/register/{{ $store.state.auth.user.username }}
                     </p>
                 </div>
@@ -227,7 +231,7 @@
 
         <div class="flex">
             <div class="flex-none w-1/4">
-                <div class="flex bg-green-50 rounded py-2 m-2 border border-green-200">
+                <div class="flex bg-green-50 rounded py-2 my-2 border border-green-200">
                     <div class="flex-none w-14 font-semibold text-md mt-2 text-center text-green-600">
                         <i class="fas fa-circle-check fa-2x"></i>
                     </div>
@@ -240,10 +244,158 @@
                         </a>
                     </div>
                 </div>
+
+                <div class="bg-white rounded my-2">
+                    <h6 class="text-center p-1">
+                        <b>
+                            <i class="fas fa-quote-left"></i>
+                            Commission is paid on friday<br>
+                            NOTE: Withdrawals must be made by previous Sunday
+                            <i class="fas fa-quote-right"></i>
+                        </b>
+                    </h6>
+                </div>
+
+                <div class="hidden bg-white rounded border border-gray-100">
+                    <div class="bg-red-700 text-white p-2">
+                        Next Commission pay day is on 15 Mar 2024
+                    </div>
+                    <div class="flex">
+                        <div class="flex-none w-1/2 font-semibold text-md mt-2 text-center">
+                            <p class="font-semibold text-6xl text-gray-600 p-2">6</p>
+                            <div class="flex text-green-600">
+                                <div class="flex-auto">10 Hr</div>
+                                <div class="flex-auto">:</div>
+                                <div class="flex-auto">20 Min</div>
+                                <div class="flex-auto">:</div>
+                                <div class="flex-auto">56 Sec</div>
+
+                            </div>
+                        </div>
+                        <div
+                            class="flex-none w-1/2 font-semibold text-2xl bg-gray-900 text-white text-center py-7 px-2">
+                            <p>DAYS TO GO</p>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
             <div class="flex-none w-3/4">
 
                 <div class="bg-white rounded py-2 m-2">
+
+                    <div class="grid grid-cols-4 d:gap-y-0 gap-y-4 my-1">
+
+                        <div class="bg-gray-100 rounded px-1 py-2 mx-1">
+                            <div class="flex">
+                                <div class="flex-none w-16 pl-1">
+                                    <div class="text-center text-orange-600">
+                                        <p class="mb-0 text-2xl font-semibold">
+                                            <i class="fa-solid fa-trophy fa-2x"></i>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex-auto pl-1 text-gray-900">
+                                    <div class="font-semibold">
+                                        RANK:
+                                    </div>
+                                    <p class="mb-0 text-sm font-semibold">
+                                        BRONZE
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-100 rounded px-1 py-2 mx-1">
+                            <div class="flex">
+                                <div class="flex-none w-16 pl-1">
+                                    <div class="text-center text-green-600">
+                                        <p class="mb-0 text-2xl font-semibold">
+                                            <i class="fa-solid fa-clipboard-check fa-2x"></i>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex-auto pl-1 text-gray-900">
+                                    <div class="font-semibold">
+                                        PACKAGE:
+                                    </div>
+                                    <p class="mb-0 text-sm font-semibold">
+                                        AGENT
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-100 rounded px-1 py-2 mx-1">
+                            <div class="flex">
+                                <div class="flex-none w-16 pl-1">
+                                    <div class="text-center text-blue-600">
+                                        <p class="mb-0 text-2xl font-semibold">
+                                            <i class="fa-solid fa-circle-check fa-2x"></i>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex-auto pl-1 text-gray-900">
+                                    <div class="font-semibold">
+                                        STATUS:
+                                    </div>
+                                    <p class="mb-0 text-sm font-semibold">
+                                        ACTIVE
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-100 rounded px-1 py-2 mx-1">
+                            <div class="flex">
+                                <div class="flex-none w-16 pl-1">
+                                    <div class="text-center text-yellow-600">
+                                        <p class="mb-0 text-2xl font-semibold">
+                                            <i class="fa-solid fa-award fa-2x"></i>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex-auto pl-1 text-gray-900">
+                                    <div class="font-semibold">
+                                        QUALIFY:
+                                    </div>
+                                    <p class="mb-0 text-sm font-semibold">
+                                        BASIC
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-100 rounded px-1 py-2 mx-1 text-gray-900">
+                            <div class="font-semibold">EXPIRY:</div>
+                            <div class="font-semibold text-sm">Nov 12, 2033 01:10</div>
+                        </div>
+
+                        <div class="bg-gray-100 rounded px-1 py-2 mx-1 text-gray-900">
+                            <div class="font-semibold">LAST UPGRADE:</div>
+                            <div class="font-semibold text-sm">Oct 10, 2023 04:10</div>
+                        </div>
+
+                        <div class="bg-gray-100 rounded px-1 py-2 mx-1 text-gray-900">
+                            <div class="font-semibold">UPGRADE:</div>
+                            <div class="font-semibold text-sm">Sep 04, 2020 12:54</div>
+                        </div>
+
+                        <div class="bg-gray-100 rounded px-1 py-2 mx-1 text-gray-900">
+                            <div class="font-semibold">JOINED:</div>
+                            <div class="font-semibold text-sm">Jun 18, 2013 12:04</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="hidden bg-white rounded py-2 m-2">
 
                     <div class="grid grid-cols-4 d:gap-y-0 gap-y-4 my-1">
 
@@ -431,7 +583,7 @@
                             <div>
                                 <p class="pl-1 mb-0 text-sm text-gray-700 text-center">
                                     <b>Total:</b>
-                                    {{ $func.formatNumber( level.l7.total ) }}
+                                    {{ $func.formatNumber(level.l7.total) }}
                                 </p>
                             </div>
                         </div>

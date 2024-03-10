@@ -145,6 +145,12 @@
                                         <span>Airtime History</span>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="text-xs fas fa-circle"></i>
+                                        <span>Order History</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
