@@ -236,23 +236,19 @@ const store = createStore({
     plugins: [createPersistedState({
         storage: {
             getItem: (key) => {
-
                 var data = {};
 
                 try {
-
-                    var vuex_data = Cookies.get(key + '_data');
+                    var vuex_data = localStorage.getItem(key + '_data');
                     var vuex_obj = JSON.parse(vuex_data);
 
                     for (const mkey in vuex_obj) {
-
                         data[mkey] = {};
-
                         var keys = vuex_obj[mkey];
                         keys.forEach(skey => {
                             var sub_data = '';
                             var key_name = `vuex_${window.mybizna_uniqid}_${mkey}_${skey}`;
-                            var vuex_data_str = Cookies.get(key_name);
+                            var vuex_data_str = localStorage.getItem(key_name);
 
                             try {
                                 sub_data = JSON.parse(vuex_data_str);
@@ -267,7 +263,7 @@ const store = createStore({
                     var vuex = {};
 
                     try {
-                        vuex = JSON.parse(Cookies.get(key));
+                        vuex = JSON.parse(localStorage.getItem(key));
                     } catch (e) {
                         //Sub data
                     }
@@ -275,67 +271,46 @@ const store = createStore({
                     return { ...vuex, ...data };
                 } catch (e) {
                     // is not a valid JSON string
-                    return Cookies.get(key);
+                    return localStorage.getItem(key);
                 }
             },
-            // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
             setItem: (key, value) => {
                 var keys = {};
 
                 var modules = JSON.parse(value);
 
                 for (const mkey in modules) {
-
-
                     var module = modules[mkey];
                     keys[mkey] = [];
 
                     for (const skey in module) {
-
                         var key_name = `vuex_${window.mybizna_uniqid}_${mkey}_${skey}`;
                         var sub_module = module[skey];
 
                         keys[mkey].push(skey)
 
-                        Cookies.set(key_name, JSON.stringify(sub_module), {
-                            expires: 3,
-                            secure: true
-                        })
-
+                        localStorage.setItem(key_name, JSON.stringify(sub_module));
                     }
-
                 }
 
-                Cookies.set(key + '_data', JSON.stringify(keys), {
-                    expires: 3,
-                    secure: true
-                });
+                localStorage.setItem(key + '_data', JSON.stringify(keys));
             },
             removeItem: (key) => {
-
-                var modules = JSON.parse(Cookies.get(key + '_data'));
-
+                var modules = JSON.parse(localStorage.getItem(key + '_data'));
 
                 for (const mkey in modules) {
-
                     var module = modules[mkey];
 
                     for (const skey in module) {
-
                         var key_name = `vuex_${window.mybizna_uniqid}_${mkey}_${skey}`;
-
-                        Cookies.remove(key_name);
+                        localStorage.removeItem(key_name);
                     }
-
                 }
-
-
+                localStorage.removeItem(key + '_data');
             }
-            
         },
     })],
 });
-
 
 if (store.state.auth.token) {
     window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.auth.token;
