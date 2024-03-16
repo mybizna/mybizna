@@ -6,9 +6,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 Starting Commit Process
 "
 update_assets () {
-    rm -r ../assets/src/templates/admin
-    rm -r ../assets/src/templates/guest
-    rm -r ../assets/src/templates/user
+    rm -r ../assets/src/templates/default
     rm -r ../assets/src/mybizna/css
     rm -r ../assets/src/mybizna/images
     rm -r ../assets/src/mybizna/js
@@ -19,9 +17,7 @@ update_assets () {
 
     mkdir ../assets/src/mybizna/assets
 
-    cp -r templates/admin ../assets/src/templates/admin
-    cp -r templates/guest ../assets/src/templates/guest
-    cp -r templates/user ../assets/src/templates/user
+    cp -r templates/default ../assets/src/templates/default
     cp -r public/mybizna/css ../assets/src/mybizna/css
     cp -r public/mybizna/images ../assets/src/mybizna/images
     cp -r public/mybizna/js ../assets/src/mybizna/js
