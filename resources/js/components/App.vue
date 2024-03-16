@@ -32,7 +32,7 @@ import { useRouter } from "@/utils";
 
 export default {
     components: {
-        AppTemplate: window.$filters.fetchComponent('templates/' + window.template + '/AppTemplate.vue'),
+        AppTemplate: window.$filters.fetchComponent('templates/default/' + window.template + '/AppTemplate.vue'),
     },
     setup() {
         const { route } = useRouter();
