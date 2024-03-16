@@ -18,6 +18,7 @@ yarn-error.log
 /version
 /versions.json
 
+/templates/gif
 
 /Modules/Bill
 /Modules/Calendar
