@@ -125,9 +125,9 @@
 <script>
 export default {
     components: {
-        SearchForm: window.$filters.fetchComponent('templates/admin/SearchForm.vue'),
-        AppTopbarIconAvatar: window.$filters.fetchComponent('templates/admin/AppTopbarIconAvatar.vue'),
-        AppTopbarIconOthers: window.$filters.fetchComponent('templates/admin/AppTopbarIconOthers.vue'),
+        SearchForm: window.$filters.fetchComponent('templates/default/admin/SearchForm.vue'),
+        AppTopbarIconAvatar: window.$filters.fetchComponent('templates/default/admin/AppTopbarIconAvatar.vue'),
+        AppTopbarIconOthers: window.$filters.fetchComponent('templates/default/admin/AppTopbarIconOthers.vue'),
     },
     setup() {
         return {};
