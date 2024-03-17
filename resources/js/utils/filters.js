@@ -1,6 +1,9 @@
+/* global idb */
+
 import accounting from "accounting";
 
 import fetchComponent from "@/utils/fetchComponent";
+import { set } from "nprogress";
 
 const currencyOptions = {
     symbol: "$",

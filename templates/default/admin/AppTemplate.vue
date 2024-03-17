@@ -46,9 +46,9 @@
 
 export default {
     components: {
-        AppSidebar: window.$filters.fetchComponent('templates/admin/AppSidebar.vue'),
-        AppTopbar: window.$filters.fetchComponent('templates/admin/AppTopbar.vue'),
-        AppTopbarActions: window.$filters.fetchComponent('templates/admin/AppTopbarActions.vue'),
+        AppSidebar: window.$filters.fetchComponent('templates/default/admin/AppSidebar.vue'),
+        AppTopbar: window.$filters.fetchComponent('templates/default/admin/AppTopbar.vue'),
+        AppTopbarActions: window.$filters.fetchComponent('templates/default/admin/AppTopbarActions.vue'),
     },
     props: {
         windowWidth: { type: Number, default: window.innerWidth },

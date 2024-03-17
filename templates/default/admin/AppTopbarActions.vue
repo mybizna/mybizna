@@ -31,7 +31,7 @@
 
 export default {
     components: {
-        SearchForm: window.$filters.fetchComponent('templates/admin/SearchForm.vue')
+        SearchForm: window.$filters.fetchComponent('templates/default/admin/SearchForm.vue')
     },
 
     created() {
