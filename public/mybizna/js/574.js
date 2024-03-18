@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunk"]=self["webpackChunk"]||[]).push([[574],{8574:function(n,e,o){o.r(e),o.d(e,{default:function(){return u}});var r=o(7001);function t(n,e,o,t,a,c){const s=(0,r.resolveComponent)("dashboard",!0);return(0,r.openBlock)(),(0,r.createBlock)(s)}var a={components:{Dashboard:window.$func.fetchComponent("base/admin/dashboard/list.vue")}},c=o(1241);const s=(0,c.A)(a,[["render",t]]);var u=s}}]);
-//# sourceMappingURL=574.js.map
