@@ -12,7 +12,7 @@
 
                     <app-topbar-actions></app-topbar-actions>
 
-                    <main class="p-0" :style="'width:' + (windowWidth - 10) + 'px'">
+                    <main class="p-0">
                         <div class="app-content-container boxed-container">
                             <router-view :key="$route.fullPath"></router-view>
                         </div>
