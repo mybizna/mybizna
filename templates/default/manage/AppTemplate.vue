@@ -44,12 +44,14 @@
             <div class="flex">
                 <div v-if="sidebar_show" class="flex-none w-48 ">
                     <template v-for="(item, m_index) in $store.state.system.backendmenu" :key="m_index">
-                        <div class="inline-block cursor-pointer w-28 my-3 mb-3 mx-2 sm:mx-5 sm:mx-7"
+                        <div class="flex cursor-pointer p-2"
                             @click="selectApp(m_index)">
 
-                            <div class="mt-1">
+                            <div class="flex-auto">
                                 {{ item.title }}
-                                <span v-if="countObjectKeys(item.menus)" class="text-xs"> &#10148; </span>
+                            </div>
+                            <div class="flex-auto text-right">
+                                <i class="fas fa-caret-down"></i>
                             </div>
 
                         </div>
