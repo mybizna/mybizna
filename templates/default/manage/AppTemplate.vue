@@ -42,7 +42,7 @@
 
         <div class="overflow-x-hidden">
             <div class="flex">
-                <div v-if="sidebar_show" class="flex-none w-48 ">
+                <div v-if="sidebar_show" class="flex-none w-48 bg-white">
                     <template v-for="(item, m_index) in $store.state.system.backendmenu" :key="m_index">
                         <div class="flex cursor-pointer p-2"
                             @click="selectApp(m_index)">
