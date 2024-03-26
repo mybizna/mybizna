@@ -174,6 +174,15 @@ export default {
         }
     },
 
+    isValidJSON(str) {
+        try {
+            JSON.parse(str);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    },
+
     fetchComponent(comp_path) {
         if (Array.isArray(comp_path)) {
 

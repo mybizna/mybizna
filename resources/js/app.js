@@ -242,7 +242,11 @@ const store = createStore({
                 try {
                     const data = {};
                     const vuexData = await localforage.getItem(`${key}_${window.mybizna_uniqid}_data`);
-                    const vuexObj = JSON.parse(vuexData);
+                    
+                    // check if vuexData is a valid JSON string
+                    let is_json = filters.isJson(vuexData);
+
+                    const vuexObj = (is_json) ? JSON.parse(vuexData) : vuexData;
 
                     for (const mkey in vuexObj) {
                         data[mkey] = {};
