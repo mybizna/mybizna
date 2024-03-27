@@ -247,7 +247,9 @@ const store = createStore({
                 console.log('');
                 console.log('getItem');
                 console.log('');
+                console.log('key');
                 console.log(key);
+                console.log('------------------------');
 
                 try {
                     const data = {};
