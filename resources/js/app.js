@@ -12,6 +12,7 @@ import VueApexCharts from "vue3-apexcharts";
 
 import Cookies from "js-cookie";
 import createPersistedState from "vuex-persistedstate";
+import VuexPersist from 'vuex-persist';
 import localforage from 'localforage';
 import NProgress from 'nprogress';
 
@@ -232,107 +233,26 @@ window.axios.interceptors.request.use(function (config) {
 
 import modules from '@/store/modules';
 
-let db = null;
+const serializer = state => JSON.stringify(state);
+const deserializer = stateString => JSON.parse(stateString);
+
+const vuexLocalStorage = new VuexPersist({
+    key: `vuex_${window.mybizna_uniqid}`, // The key to store the state on in the storage provider.
+    //asyncStorage: true,
+    storage: window.localStorage, // or window.sessionStorage or localForage
+    // Function that passes the state and returns the state with only the objects you want to store.
+    // reducer: state => state,
+    // Function that passes a mutation and lets you decide if it should update the state in localStorage.
+    // filter: mutation => (true)
+    // Serialize the state before storing
+    serialize: serializer,
+    // Deserialize the state when retrieving
+    deserialize: deserializer
+})
 
 const store = createStore({
     modules: modules,
-    plugins: [createPersistedState({
-        key: `vuex_${window.mybizna_uniqid}`, // Optional key to store state under
-        //storage: localforage, // Use localForage for storage
-        storage: {
-            getItem: async (key) => {
-
-                console.log('xxxxxxxxxxxxxxxxxxxxxxxx');
-                console.log('');
-                console.log('');
-                console.log('getItem');
-                console.log('');
-                console.log('key');
-                console.log(key);
-                console.log('------------------------');
-
-                try {
-                    const data = {};
-                    const vuexData = await localforage.getItem(`${key}_${window.mybizna_uniqid}_data`);
-
-                    // check if vuexData is a valid JSON string
-                    let is_json = filters.isJson(vuexData);
-
-                    let vuexObj = (is_json) ? JSON.parse(vuexData) : vuexData;
-
-                    for (const mkey in vuexObj) {
-                        data[mkey] = {};
-                        const keys = vuexObj[mkey];
-                        keys.forEach(async skey => {
-                            const subData = await localforage.getItem(`vuex_${window.mybizna_uniqid}_${mkey}_${skey}`);
-                            data[mkey][skey] = subData;
-                        });
-                    }
-
-                    const vuex = await localforage.getItem(key);
-                    vuexObj = (filters.isJson(vuex)) ? JSON.parse(vuex) : vuexData;
-
-                    console.log('vuexObj');
-                    console.log(vuexObj);
-                    console.log('data');
-                    console.log(data);
-                    console.log('data.auth.token');
-                    console.log(data.auth.token);
-                    console.log('vuexObj');
-                    console.log(vuexObj);
-                    console.log('{ ...vuexObj, ...data }');
-                    console.log({ ...vuexObj, ...data });
-                    
-                    let result = (data.auth.token == null) ? vuexObj : { ...vuexObj, ...data };
-                   
-                    console.log('result');
-                    console.log(result);
-
-                    return result;
-
-                } catch (error) {
-                    // is not a valid JSON string
-                    console.error("Error retrieving data:", error);
-                }
-            },
-            setItem: async (key, value) => {
-
-                try {
-                    const keys = {};
-                    const modules = JSON.parse(value);
-
-                    for (const mkey in modules) {
-                        const module = modules[mkey];
-
-                        keys[mkey] = [];
-
-                        for (const skey in module) {
-                            await localforage.setItem(`vuex_${window.mybizna_uniqid}_${mkey}_${skey}`, module[skey]);
-                            keys[mkey].push(skey);
-                        }
-                    }
-
-                    await localforage.setItem(`${key}_${window.mybizna_uniqid}_data`, keys);
-                } catch (error) {
-                    console.error("Error setting data:", error);
-                }
-            },
-            removeItem: async (key) => {
-                try {
-                    const modules = await localforage.getItem(`${key}_${window.mybizna_uniqid}_data`);
-
-                    for (const mkey in modules) {
-                        const module = modules[mkey];
-                        for (const skey in module) {
-                            await localforage.removeItem(`vuex_${window.mybizna_uniqid}_${mkey}_${skey}`);
-                        }
-                    }
-                } catch (error) {
-                    console.error("Error removing data:", error);
-                }
-            }
-        },
-    })],
+    plugins: [vuexLocalStorage.plugin],
 });
 
 if (store.state.auth.token) {
@@ -373,8 +293,9 @@ router.beforeEach((to, from, next) => {
     NProgress.start();
 
     if (to.meta.middlewareAuth) {
-        
+
         if (!store.getters["auth/loggedIn"]) {
+            console.log('redict auth/loggedIn');
             next({
                 path: "/login",
                 query: {
@@ -389,6 +310,7 @@ router.beforeEach((to, from, next) => {
 
     if (to.matched.some((record) => record.meta.middlewareAuth)) {
         if (!store.getters["auth/loggedIn"]) {
+            console.log('redict auth/loggedIn');
             next({
                 path: "/login",
                 query: {
