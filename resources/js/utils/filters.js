@@ -173,7 +173,9 @@ export default {
                 return date.toDateString().replace(/^\S+\s/, "");
         }
     },
-
+    isJson(str){
+        return this.isValidJSON(str);
+    },
     isValidJSON(str) {
         try {
             JSON.parse(str);
