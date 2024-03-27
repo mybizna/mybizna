@@ -238,8 +238,8 @@ const store = createStore({
     modules: modules,
     plugins: [createPersistedState({
         key: `vuex_${window.mybizna_uniqid}`, // Optional key to store state under
-        //storage: localforage, // Use localForage for storage
-        storage: {
+        storage: localforage, // Use localForage for storage
+        /*storage: {
             getItem: async (key) => {
 
                 console.log('xxxxxxxxxxxxxxxxxxxxxxxx');
@@ -331,7 +331,7 @@ const store = createStore({
                     console.error("Error removing data:", error);
                 }
             }
-        },
+        },*/
     })],
 });
 
