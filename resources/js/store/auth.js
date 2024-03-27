@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-
 export default {
     namespaced: true,
     state: {
@@ -15,20 +13,15 @@ export default {
 
         login(state, payload) {
             state.token = payload;
-            Cookies.set(`auth_token_${window.mybizna_uniqid}`, payload, { expires: 7 });
         },
         user(state, payload) {
             state.user = payload;
-            Cookies.set(`auth_user_${window.mybizna_uniqid}`, payload, { expires: 7 });
         },
         logout(state) {
             state.token = null;
             state.affiliate = {};
             state.userprofile = {};
             state.user = {};
-
-            Cookies.remove(`auth_token_${window.mybizna_uniqid}`);
-            Cookies.remove(`auth_user_${window.mybizna_uniqid}`);
         },
     },
     actions: {
