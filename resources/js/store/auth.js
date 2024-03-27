@@ -119,16 +119,7 @@ export default {
     },
     getters: {
         loggedIn(state) {
-
-            let token = Cookies.get(`auth_token_${window.mybizna_uniqid}`);
-
-            if (token) {
-                state.token = token;
-            }else {
-                token = state.token;
-            }
-
-            return token !== null;
+            return state.token !== null;
         },
     },
 };
