@@ -237,16 +237,26 @@ let db = null;
 const store = createStore({
     modules: modules,
     plugins: [createPersistedState({
+        key: `vuex_${window.mybizna_uniqid}`, // Optional key to store state under
+        //storage: localforage, // Use localForage for storage
         storage: {
             getItem: async (key) => {
+
+                console.log('xxxxxxxxxxxxxxxxxxxxxxxx');
+                console.log('');
+                console.log('');
+                console.log('getItem');
+                console.log('');
+                console.log(key);
+
                 try {
                     const data = {};
                     const vuexData = await localforage.getItem(`${key}_${window.mybizna_uniqid}_data`);
-                    
+
                     // check if vuexData is a valid JSON string
                     let is_json = filters.isJson(vuexData);
 
-                    const vuexObj = (is_json) ? JSON.parse(vuexData) : vuexData;
+                    let vuexObj = (is_json) ? JSON.parse(vuexData) : vuexData;
 
                     for (const mkey in vuexObj) {
                         data[mkey] = {};
@@ -258,7 +268,25 @@ const store = createStore({
                     }
 
                     const vuex = await localforage.getItem(key);
-                    return { ...vuex, ...data };
+                    vuexObj = (filters.isJson(vuex)) ? JSON.parse(vuex) : vuexData;
+
+                    console.log('vuexObj');
+                    console.log(vuexObj);
+                    console.log('data');
+                    console.log(data);
+                    console.log('data.auth.token');
+                    console.log(data.auth.token);
+                    console.log('vuexObj');
+                    console.log(vuexObj);
+                    console.log('{ ...vuexObj, ...data }');
+                    console.log({ ...vuexObj, ...data });
+                    
+                    let result = (data.auth.token == null) ? vuexObj : { ...vuexObj, ...data };
+                   
+                    console.log('result');
+                    console.log(result);
+
+                    return result;
 
                 } catch (error) {
                     // is not a valid JSON string
@@ -266,12 +294,14 @@ const store = createStore({
                 }
             },
             setItem: async (key, value) => {
+
                 try {
                     const keys = {};
                     const modules = JSON.parse(value);
 
                     for (const mkey in modules) {
                         const module = modules[mkey];
+
                         keys[mkey] = [];
 
                         for (const skey in module) {
@@ -341,6 +371,7 @@ router.beforeEach((to, from, next) => {
     NProgress.start();
 
     if (to.meta.middlewareAuth) {
+        
         if (!store.getters["auth/loggedIn"]) {
             next({
                 path: "/login",
