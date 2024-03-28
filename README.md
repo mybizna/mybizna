@@ -27,3 +27,10 @@ composer create-project mybizna/setup mybizna
 <a href="https://mybizna.gitbook.io/mybizna-erp/readme/how-to-install-on-laravel" target="_blank">How to Install in Laravel</a>
 
 <a href="https://mybizna.gitbook.io/mybizna-erp/readme/how-to-installation-in-wordpress" target="_blank">How to Install in Wordpress</a>
+
+## How to Participate
+<a href="https://mybizna.gitbook.io/mybizna-erp/readme/readme/how-to-participate" target="_blank">How to Participate</a>
+
+## Who's behind?
+
+An open-source project by [mybizna](https://mybizna.com/) contributed by a bunch of [people](https://github.com/mybizna/mybizna/graphs/contributors).
