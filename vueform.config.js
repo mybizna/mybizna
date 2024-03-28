@@ -24,6 +24,29 @@ export default defineConfig({
     theme: vueform,
     locales: { en },
     locale: 'en',
+    endpoints: {
+        unique: async (value, name, params, el$, form$) => {
+            console.log(name);
+            console.log(params);
+
+            const res = await window.axios.post(params[0], {
+                value,
+                name,
+                params,
+            })
+
+            return res.data.error // should be `true` or `false`
+        },
+        exists: async (value, name, params, el$, form$) => {
+            const res = await window.axios.post(params[0], {
+                value,
+                name,
+                params,
+            })
+
+            return res.data.error // should be `true` or `false`
+        }
+    },
     elements: [
         DropzoneElement,
         FaceElement,
@@ -52,7 +75,7 @@ export default defineConfig({
         SelectElement: {
             container: '',
             label: '',
-            wrapper:'w-full ',
+            wrapper: 'w-full ',
             inputContainer: 'w-full flex ',
             inputContainer_default: 'border-black ',
             inputContainer_focused: 'border-red-500 ',
@@ -68,11 +91,11 @@ export default defineConfig({
                 classes[`input_${Size}`],
                 isDisabled ? classes.input_disabled : classes.input_enabled
             ]),
-        },       
+        },
         TextElement: {
             container: '',
             label: '',
-            wrapper:'w-full ',
+            wrapper: 'w-full ',
             inputContainer: 'w-full flex ',
             inputContainer_default: 'border-black ',
             inputContainer_focused: 'border-red-500 ',
