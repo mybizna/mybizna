@@ -11,9 +11,7 @@ import moment from 'moment';
 import VueApexCharts from "vue3-apexcharts";
 
 import Cookies from "js-cookie";
-import createPersistedState from "vuex-persistedstate";
 import VuexPersist from 'vuex-persist';
-import localforage from 'localforage';
 import NProgress from 'nprogress';
 
 import Axios from 'axios';
@@ -22,10 +20,7 @@ const rax = require('retry-axios');
 import Notifications from '@kyvg/vue3-notification';
 import Vue3ConfirmDialog from 'vue3-confirm-dialog';
 import 'vue3-confirm-dialog/style';
-import {
-    plugin,
-    defaultConfig,
-} from '@formkit/vue';
+
 
 import Vueform from '@vueform/vueform'
 import vueformConfig from '../../vueform.config'
@@ -76,7 +71,6 @@ const app = createApp(App)
     .use(Notifications)
     .use(Vue3ConfirmDialog)
     .use(VueApexCharts)
-    .use(plugin, defaultConfig(config))
     .use(Vueform, vueformConfig)
 
 //loadFonts();
