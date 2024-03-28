@@ -13,13 +13,6 @@ Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Larave
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F0dkrQE1EPlRKzUjTpBUW%2Fuploads%2FmpawOQoIdwsBw6kqcKmi%2FMybizna-Dashboard.png?alt=media&token=46a1efb4-3b78-4de1-aa30-6fb7189add10" alt=""><figcaption></figcaption></figure>
 
 
-## Core Components
-
--   HRM - Human Resource Management
--   CRM - Customer Relationship Management
--   Accounting - Double Entry Accounting
-
-
 ## Minimum Requirement
 
 -   PHP 8.1^
