@@ -15,7 +15,7 @@ import YearpickerElement from '@/vueform/YearpickerElement.vue'
 // You might place these anywhere else in your project
 import '@vueform/vueform/themes/vueform/css/index.min.css';
 
-let input = 'form-input rounded border py-2 px-3 focus:border-sky-500 hover:border-sky-500 text-sm text-grey-800 w-full ';
+let input = 'form-input rounded border py-2 px-3 focus:border-sky-500 hover:border-sky-500 text-sm text-grey-800 w-full max-w-96 ';
 let text = input + 'h-8 ';
 let textarea = input + 'h-50 ';
 
@@ -62,12 +62,12 @@ export default defineConfig({
             container: 'text-xs italic text-gray-600 ',
         },
         ElementLabel: {
-            container: 'form-col pr-4 form-py-input-border w-3/12 font-medium text-sm text-gray-700 pt-1 ',
+            container: 'form-col pr-4 form-py-input-border w-full md:w-3/12 lg:w-4/12 font-medium text-sm text-gray-700 pt-1 ',
         },
         ElementLayout: {
             container: 'form-col w-full mb-3 ',
             outerWrapper: 'form-row flex flex-wrap form-mb-gutter ',
-            innerContainer: 'flex-1 w-9/12 ',
+            innerContainer: 'flex-1 w-full w-9/12 lg:w-8/12 ',
             innerWrapperBefore: 'form-col w-full ',
             innerWrapper: 'form-col w-full ',
             innerWrapperAfter: 'form-col w-full ',
