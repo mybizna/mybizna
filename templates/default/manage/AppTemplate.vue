@@ -74,14 +74,16 @@
                                     </div>
                                 </div>
                                 <div v-else class="flex flex-col">
-                                    <div class="flex cursor-pointer p-2 pl-3" :href="'#' + subitem.path">
-                                        <div class="flex-none w-4 text-xs">
-                                            <i class="fas fa-hand-point-right"></i>
+                                    <a :href="'#' + subitem.path">
+                                        <div class="flex cursor-pointer p-2 pl-3">
+                                            <div class="flex-none w-4 text-xs">
+                                                <i class="fas fa-circle" style="font-size:7px;"></i>
+                                            </div>
+                                            <div class="flex-auto text-sm font-semibold">
+                                                {{ subitem.title }} 
+                                            </div>
                                         </div>
-                                        <div class="flex-auto text-sm font-semibold">
-                                            {{ subitem.title }}
-                                        </div>
-                                    </div>
+                                    </a>
                                 </div>
                             </template>
 
@@ -91,7 +93,7 @@
                                         <div class="flex flex-col">
                                             <div class="flex cursor-pointer p-2 pl-4">
                                                 <div class="flex-none w-4 text-xs" style="font-size: 8px;">
-                                                    <i class="fas fa-caret-right"></i>
+                                                    <i class="fas fa-circle" style="font-size:7px;"></i>
                                                 </div>
                                                 <div class="flex-auto text-sm font-semibold">
                                                     {{ lastitem.title }}
