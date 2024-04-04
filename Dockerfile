@@ -42,28 +42,21 @@ RUN ls -la
 # Remove content of Modules directory
 RUN rm -rf Modules/* && rm -rf composer.lock
 
-# Install PHP dependencies
-RUN composer install --no-interaction
-
-# Include optional composer requirements from Dockerfile_ext
-COPY Dockerfile_ext.sh /tmp/Dockerfile_ext.sh
-RUN chmod +x /tmp/Dockerfile_ext.sh
-RUN /tmp/Dockerfile_ext.sh && rm /tmp/Dockerfile_ext.sh
-
 # Copy .env file
 COPY .env.example .env
-
-# Generate application key
-RUN php artisan key:generate
 
 # Modify .env file to use localhost as MySQL host without password
 RUN sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/g' .env && \
     sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/g' .env && \
     sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=/g' .env
 
+# Set permissions for entrypoint script
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod +x /var/www/html/entrypoint.sh
 
 # Expose port 8000 and start php-fpm server
 EXPOSE 8000
 
-CMD ["/var/www/html/entrypoint.sh"]
+#CMD ["/var/www/html/entrypoint.sh"]
+CMD ["entrypoint.sh"]

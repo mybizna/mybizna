@@ -99,17 +99,11 @@ commit_assets () {
         git commit -m "$commit_message"
         git push origin main
     fi
-    
-    
 
     last_release_commit=$(git describe --abbrev=0 --tags)
     commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
 
     if [ "$commit_count" -gt 0 ]; then
-
-        # Get the current date and extract the year and week number
-        current_year=$(date +%y)
-        current_month=$(date +%m)
 
         # Extract the current version from the module's composer.json
         current_version=$(jq -r '.version' composer.json)
@@ -118,19 +112,23 @@ commit_assets () {
         minor=$(echo "$current_version" | cut -d'.' -f2)
         patch=$(echo "$current_version" | cut -d'.' -f3)
 
-        # Reset the patch to zero at the start of each month
-        if [ "$minor" != "$current_month" ]; then
-            minor=$current_month
-            patch=1
+        # Increment the minor number with a maximum value of 20
+        if [ "$minor" -lt 20 ]; then
+            minor=$(expr $minor + 1)  
         else
-            patch=$(expr $patch + 1)
-        fi
-
-        major=$current_year
-        minor=$current_month
+            minor=1
+        fi   
+ 
+        # Increment the patch number with a maximum value of 20
+        if [ "$patch" -lt 100 ]; then
+            patch=$(expr $patch + 1)  
+        else
+            patch=1
+        fi                
 
         # Pad the patch number with three zeros
-        patch=$(printf "%03d" $patch)           
+        minor=$(printf "%03d" $minor)  
+        patch=$(printf "%03d" $patch)  
 
         # Construct the new version
         new_version="$major.$minor.$patch"
@@ -186,10 +184,6 @@ commit_migration () {
 
     if [ "$commit_count" -gt 0 ]; then
 
-        # Get the current date and extract the year and week number
-        current_year=$(date +%y)
-        current_month=$(date +%m)
-
         # Extract the current version from the module's composer.json
         current_version=$(jq -r '.version' composer.json)
 
@@ -197,20 +191,23 @@ commit_migration () {
         minor=$(echo "$current_version" | cut -d'.' -f2)
         patch=$(echo "$current_version" | cut -d'.' -f3)
 
-        # Reset the patch to zero at the start of each month
-        if [ "$minor" != "$current_month" ]; then
-            minor=$current_month
-            patch=1
+        # Increment the minor number with a maximum value of 20
+        if [ "$minor" -lt 20 ]; then
+            minor=$(expr $minor + 1)  
         else
-            patch=$(expr $patch + 1)
-        fi
-
-        major=$current_year
-        minor=$current_month  
+            minor=1
+        fi   
+ 
+        # Increment the patch number with a maximum value of 20
+        if [ "$patch" -lt 100 ]; then
+            patch=$(expr $patch + 1)  
+        else
+            patch=1
+        fi                
 
         # Pad the patch number with three zeros
-        patch=$(printf "%03d" $patch)              
-
+        minor=$(printf "%02d" $minor)  
+        patch=$(printf "%03d" $patch)  
         # Construct the new version
         new_version="$major.$minor.$patch"
 
@@ -256,10 +253,6 @@ commit_module () {
             # Advance the version based on your requirements
             # Update the module's composer.json and perform necessary actions
 
-            # Get the current date and extract the year and week number
-            current_year=$(date +%y)
-            current_month=$(date +%m)
-
             # Extract the current version from the module's composer.json
             current_version=$(jq -r '.version' composer.json)
 
@@ -267,19 +260,23 @@ commit_module () {
             minor=$(echo "$current_version" | cut -d'.' -f2)
             patch=$(echo "$current_version" | cut -d'.' -f3)
 
-            # Reset the patch to zero at the start of each month
-            if [ "$minor" != "$current_month" ]; then
-                minor=$current_month
-                patch=1
+            # Increment the minor number with a maximum value of 20
+            if [ "$minor" -lt 20 ]; then
+                minor=$(expr $minor + 1)  
             else
-                patch=$(expr $patch + 1)
-            fi
-
-            major=$current_year
-            minor=$current_month      
+                minor=1
+            fi   
+    
+            # Increment the patch number with a maximum value of 20
+            if [ "$patch" -lt 100 ]; then
+                patch=$(expr $patch + 1)  
+            else
+                patch=1
+            fi                
 
             # Pad the patch number with three zeros
-            patch=$(printf "%03d" $patch)          
+            minor=$(printf "%02d" $minor)  
+            patch=$(printf "%03d" $patch)            
 
             # Construct the new version
             new_version="$major.$minor.$patch"
@@ -344,10 +341,6 @@ commit_erp () {
 
         commit_assets
 
-        # Get the current date and extract the year and week number
-        current_year=$(date +%y)
-        current_month=$(date +%m)
-
         # Extract the current version from the module's composer.json
         current_version=$(jq -r '.version' composer.json)
 
@@ -355,19 +348,23 @@ commit_erp () {
         minor=$(echo "$current_version" | cut -d'.' -f2)
         patch=$(echo "$current_version" | cut -d'.' -f3)
 
-        # Reset the patch to zero at the start of each month
-        if [ "$minor" != "$current_month" ]; then
-            minor=$current_month
-            patch=1
+        # Increment the minor number with a maximum value of 20
+        if [ "$minor" -lt 20 ]; then
+            minor=$(expr $minor + 1)  
         else
-            patch=$(expr $patch + 1)
-        fi
-
-        major=$current_year
-        minor=$current_month  
+            minor=1
+        fi   
+ 
+        # Increment the patch number with a maximum value of 20
+        if [ "$patch" -lt 100 ]; then
+            patch=$(expr $patch + 1)  
+        else
+            patch=1
+        fi                
 
         # Pad the patch number with three zeros
-        patch=$(printf "%03d" $patch)         
+        minor=$(printf "%02d" $minor)  
+        patch=$(printf "%03d" $patch)        
 
         # Construct the new version
         new_version="$major.$minor.$patch"
