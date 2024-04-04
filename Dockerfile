@@ -37,9 +37,6 @@ RUN cd /var/www
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN cd /var/www/html
 
-RUN ls -la
-
-# Remove content of Modules directory
 RUN rm -rf Modules/* && rm -rf composer.lock
 
 # Copy .env file
