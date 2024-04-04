@@ -1,3 +1,4 @@
-# Contents of Dockerfile_ext
+#!/bin/sh
+
 composer require mybizna/account
 composer require mybizna/isp
