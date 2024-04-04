@@ -1,0 +1,23 @@
+services:
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_DATABASE: mybizna
+      MYSQL_USER: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  php:
+    build: .
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mariadb
+
+
+volumes:
+  mariadb_data:
