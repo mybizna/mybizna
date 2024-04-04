@@ -6,24 +6,6 @@
       0 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
     ),
   ),
-  'facade/ignition' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Facade\\Ignition\\IgnitionServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Flare' => 'Facade\\Ignition\\Facades\\Flare',
-    ),
-  ),
-  'fruitcake/laravel-cors' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Fruitcake\\Cors\\CorsServiceProvider',
-    ),
-  ),
   'laravel/sail' => 
   array (
     'providers' => 
@@ -45,13 +27,6 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
-  'laravel/ui' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Ui\\UiServiceProvider',
-    ),
-  ),
   'mybizna/automigrator' => 
   array (
     'providers' => 
@@ -71,6 +46,13 @@
     'providers' => 
     array (
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    ),
+  ),
+  'nunomaduro/termwind' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
   'nwidart/laravel-modules' => 
@@ -96,6 +78,17 @@
       'Simulate' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Simulate',
       'Registrar' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Registrar',
       'Identity' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Identity',
+    ),
+  ),
+  'spatie/laravel-ignition' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
     ),
   ),
   'spatie/laravel-permission' => 
