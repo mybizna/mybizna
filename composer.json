@@ -10,13 +10,13 @@
     "crm"
   ],
   "license": "GPL-3.0-or-later",
-  "version": "24.04.001",
+  "version": "24.04.002",
   "require": {
     "php": "^8.1",
     "guzzlehttp/guzzle": "^7.2",
     "laravel/framework": "^10.10",
     "laravel/sanctum": "^3.3",
-    "laravel/tinker": "^2.8" ,
+    "laravel/tinker": "^2.8",
     "composer/installers": "~1.0",
     "mike42/escpos-php": "^2.2",
     "mybizna/automigrator": "^24.02.001",
@@ -33,7 +33,7 @@
     "mockery/mockery": "^1.4.4",
     "nunomaduro/collision": "^7.0",
     "phpunit/phpunit": "^10.1",
-    "spatie/laravel-ignition": "^2.0" ,
+    "spatie/laravel-ignition": "^2.0",
     "barryvdh/laravel-ide-helper": "^2.13"
   },
   "autoload": {
