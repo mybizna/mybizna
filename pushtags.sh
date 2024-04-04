@@ -112,22 +112,15 @@ commit_assets () {
         minor=$(echo "$current_version" | cut -d'.' -f2)
         patch=$(echo "$current_version" | cut -d'.' -f3)
 
-        # Increment the minor number with a maximum value of 20
-        if [ "$minor" -lt 20 ]; then
-            minor=$(expr $minor + 1)  
-        else
-            minor=1
-        fi   
- 
         # Increment the patch number with a maximum value of 20
         if [ "$patch" -lt 100 ]; then
             patch=$(expr $patch + 1)  
         else
+            minor=$(expr $minor + 1)  
             patch=1
         fi                
 
         # Pad the patch number with three zeros
-        minor=$(printf "%03d" $minor)  
         patch=$(printf "%03d" $patch)  
 
         # Construct the new version
@@ -191,23 +184,18 @@ commit_migration () {
         minor=$(echo "$current_version" | cut -d'.' -f2)
         patch=$(echo "$current_version" | cut -d'.' -f3)
 
-        # Increment the minor number with a maximum value of 20
-        if [ "$minor" -lt 20 ]; then
-            minor=$(expr $minor + 1)  
-        else
-            minor=1
-        fi   
- 
         # Increment the patch number with a maximum value of 20
         if [ "$patch" -lt 100 ]; then
             patch=$(expr $patch + 1)  
         else
+            minor=$(expr $minor + 1)  
             patch=1
         fi                
 
         # Pad the patch number with three zeros
-        minor=$(printf "%02d" $minor)  
         patch=$(printf "%03d" $patch)  
+
+
         # Construct the new version
         new_version="$major.$minor.$patch"
 
@@ -260,23 +248,16 @@ commit_module () {
             minor=$(echo "$current_version" | cut -d'.' -f2)
             patch=$(echo "$current_version" | cut -d'.' -f3)
 
-            # Increment the minor number with a maximum value of 20
-            if [ "$minor" -lt 20 ]; then
-                minor=$(expr $minor + 1)  
-            else
-                minor=1
-            fi   
-    
             # Increment the patch number with a maximum value of 20
             if [ "$patch" -lt 100 ]; then
                 patch=$(expr $patch + 1)  
             else
+                minor=$(expr $minor + 1)  
                 patch=1
             fi                
 
             # Pad the patch number with three zeros
-            minor=$(printf "%02d" $minor)  
-            patch=$(printf "%03d" $patch)            
+            patch=$(printf "%03d" $patch)  
 
             # Construct the new version
             new_version="$major.$minor.$patch"
@@ -348,23 +329,17 @@ commit_erp () {
         minor=$(echo "$current_version" | cut -d'.' -f2)
         patch=$(echo "$current_version" | cut -d'.' -f3)
 
-        # Increment the minor number with a maximum value of 20
-        if [ "$minor" -lt 20 ]; then
-            minor=$(expr $minor + 1)  
-        else
-            minor=1
-        fi   
- 
         # Increment the patch number with a maximum value of 20
         if [ "$patch" -lt 100 ]; then
             patch=$(expr $patch + 1)  
         else
+            minor=$(expr $minor + 1)  
             patch=1
         fi                
 
         # Pad the patch number with three zeros
-        minor=$(printf "%02d" $minor)  
-        patch=$(printf "%03d" $patch)        
+        patch=$(printf "%03d" $patch)  
+      
 
         # Construct the new version
         new_version="$major.$minor.$patch"
