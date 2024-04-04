@@ -1,4 +1,4 @@
-# Contents of Dockerfile_ext
+#!/bin/sh
 
 cd /var/www/html 
 
