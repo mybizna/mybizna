@@ -6,8 +6,7 @@ cp .env.example .env
 
 sed -i 's/DB_HOST=.*/DB_HOST=mariadb/g' .env 
 sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/g' .env
-sed -i 's/DB_PORT=.*/DB_PORT=3307/g' .env 
-sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=your_root_password/g' .env
+sed -i 's/DB_PORT=.*/DB_PORT=3306/g' .env 
 
 cat /var/www/html/.env
 
