@@ -42,7 +42,7 @@ RUN cd /var/www/html
 COPY .env.example .env
 
 # Modify .env file to use localhost as MySQL host without password
-RUN sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/g' .env && \
+RUN sed -i 's/DB_HOST=.*/DB_HOST=mariadb/g' .env && \
     sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/g' .env && \
     sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=/g' .env
 
