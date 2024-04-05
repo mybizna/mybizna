@@ -19,9 +19,4 @@
 [submodule "Modules/Sale"]
 	path = Modules/Sale
 	url = https://github.com/mybizna/sale.git
-[submodule "Modules/Core"]
-	path = Modules/Core
-	url = https://github.com/mybizna/core.git
-[submodule "commands"]
-	path = commands
-	url = https://github.com/mybizna/commands.git
+
