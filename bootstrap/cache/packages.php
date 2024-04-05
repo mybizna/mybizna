@@ -36,11 +36,27 @@
     array (
     ),
   ),
+  'mybizna/assets' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Mybizna\\Assets\\Providers\\MybiznaAssetsProvider',
+    ),
+  ),
   'mybizna/automigrator' => 
   array (
     'providers' => 
     array (
       0 => 'Mybizna\\Automigrator\\Providers\\AutomigratorServiceProvider',
+    ),
+  ),
+  'mybizna/base' => 
+  array (
+    'providers' => 
+    array (
+    ),
+    'aliases' => 
+    array (
     ),
   ),
   'mybizna/core' => 
@@ -100,20 +116,6 @@
     'aliases' => 
     array (
       'Module' => 'Nwidart\\Modules\\Facades\\Module',
-    ),
-  ),
-  'smodav/mpesa' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'SmoDav\\Mpesa\\Laravel\\ServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'STK' => 'SmoDav\\Mpesa\\Laravel\\Facades\\STK',
-      'Simulate' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Simulate',
-      'Registrar' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Registrar',
-      'Identity' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Identity',
     ),
   ),
   'spatie/laravel-ignition' => 
