@@ -16,5 +16,5 @@ echo '-----mariadb-----'
 
 php artisan key:generate
 
-#php artisan migrate --force
+php artisan migrate --force
 
