@@ -1,13 +1,10 @@
 #!/bin/sh
 
+mysql -h mariadb -u root -p
+
 cd /var/www/html 
 
 cp .env.example .env
-
-echo '----------'
-
-cat /var/www/html/.env
-ls /var/www/html
 
 sed -i 's/DB_HOST=.*/DB_HOST=mariadb/g' .env 
 sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/g' .env
