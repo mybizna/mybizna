@@ -47,8 +47,6 @@ RUN sed -i 's/DB_HOST=.*/DB_HOST=mariadb/g' .env && \
     sed -i 's/DB_PORT=.*/DB_PORT=3307/g' .env && \
     sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=/g' .env
 
-RUN cat .env
-
 # Set permissions for entrypoint script
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
