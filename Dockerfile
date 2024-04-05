@@ -39,12 +39,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN cd /var/www/html
 
 
+COPY . /var/www/html
+
 # Set permissions for entrypoint script
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod +x /var/www/html/entrypoint.sh
 
-COPY . /var/www/html
 # Expose port 8000 and start php-fpm server
 EXPOSE 8000
 
