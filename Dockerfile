@@ -15,6 +15,7 @@ WORKDIR /var/www/html
 
 # Install dependencies
 RUN apt install -y \
+    zip \
     git \
     apache2 \
     curl \
