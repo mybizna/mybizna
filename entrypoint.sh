@@ -3,14 +3,16 @@
 cd /var/www/html 
 
 rm -rf Modules/*
-rm -rf composer.lock
+rm composer.lock
 
-composer install --no-interactions
+composer install --no-interaction
 
-composer require mybizna/account --no-interactions
-composer require mybizna/isp --no-interactions
+composer require mybizna/account --no-interaction
+composer require mybizna/isp --no-interaction
 
-php artisan key:generate
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS mybizna"
 
-php artisan migrate --force
+#php artisan key:generate
+
+#php artisan migrate --force
 

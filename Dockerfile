@@ -37,8 +37,6 @@ RUN cd /var/www
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN cd /var/www/html
 
-RUN rm -rf Modules/* && rm -rf composer.lock
-
 # Copy .env file
 COPY .env.example .env
 
@@ -51,6 +49,8 @@ RUN sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/g' .env && \
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod +x /var/www/html/entrypoint.sh
+
+RUN apt-get update && apt-get install -y default-mysql-client
 
 # Expose port 8000 and start php-fpm server
 EXPOSE 8000

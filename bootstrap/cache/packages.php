@@ -27,11 +27,47 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
+  'mybizna/account' => 
+  array (
+    'providers' => 
+    array (
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
   'mybizna/automigrator' => 
   array (
     'providers' => 
     array (
       0 => 'Mybizna\\Automigrator\\Providers\\AutomigratorServiceProvider',
+    ),
+  ),
+  'mybizna/core' => 
+  array (
+    'providers' => 
+    array (
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
+  'mybizna/isp' => 
+  array (
+    'providers' => 
+    array (
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
+  'mybizna/partner' => 
+  array (
+    'providers' => 
+    array (
+    ),
+    'aliases' => 
+    array (
     ),
   ),
   'nesbot/carbon' => 
