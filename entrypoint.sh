@@ -18,5 +18,7 @@ composer require mybizna/isp:24.3.004 --no-interaction
 
 php artisan key:generate
 
+php artisan migrate:status
+
 php artisan migrate --force
 
