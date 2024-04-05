@@ -7,8 +7,7 @@ rm composer.lock
 
 composer install --no-interaction
 
-composer require mybizna/account --no-interaction
-composer require mybizna/isp --no-interaction
+composer require mybizna/isp:24.3.004 --no-interaction
 
 mysql -u root -h "mariadb" -e "CREATE DATABASE IF NOT EXISTS mybizna"
 
