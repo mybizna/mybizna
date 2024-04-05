@@ -25,5 +25,5 @@ mysql -u root -h mariadb -e "SHOW DATABASES;"
 
 php artisan key:generate
 
-php artisan migrate --force
+php artisan migrate 
 
