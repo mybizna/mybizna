@@ -10,7 +10,7 @@ composer install --no-interaction
 composer require mybizna/account --no-interaction
 composer require mybizna/isp --no-interaction
 
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS mybizna"
+mysql -u root -h "mariadb" -e "CREATE DATABASE IF NOT EXISTS mybizna"
 
 #php artisan key:generate
 
