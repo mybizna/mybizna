@@ -1,6 +1,7 @@
 /node_modules
 /packages
 /public/hot
+/bootstrap/cache
 /public/storage
 /public/audio
 /vendor

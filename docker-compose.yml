@@ -11,7 +11,8 @@ services:
       - laravel_network      
     volumes:
       - mariadb_data:/var/lib/mysql
-
+    ports:
+      - "3307:3306"
 
   php:
     build:
