@@ -1,7 +1,5 @@
 #!/bin/sh
 
-mysql -h mariadb -u root -p
-
 cd /var/www/html 
 
 cp .env.example .env
