@@ -5,6 +5,7 @@ cd /var/www/html
 echo '----------'
 
 cat /var/www/html/.env
+ls /var/www/html
 
 rm -rf Modules/*
 rm composer.lock
