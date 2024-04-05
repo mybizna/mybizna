@@ -2,7 +2,9 @@
 
 cd /var/www/html 
 
-cat .env
+echo '----------'
+
+cat /var/www/html/.env
 
 rm -rf Modules/*
 rm composer.lock
