@@ -2,6 +2,8 @@
 
 cd /var/www/html 
 
+cat .env
+
 rm -rf Modules/*
 rm composer.lock
 
