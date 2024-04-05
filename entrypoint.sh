@@ -21,8 +21,8 @@ composer require mybizna/isp:24.3.004 --no-interaction
 echo '----------'
 echo '-----mariadb-----'
 
-mysql -u root -h mariadb -p
-mysql -u root -h mariadb -e "CREATE DATABASE IF NOT EXISTS mybizna"
+mysql -u root -h mariadb -e "CREATE DATABASE IF NOT EXISTS mybizna;"
+mysql -u root -h mariadb -e "SHOW DATABASES;"
 
 php artisan key:generate
 
