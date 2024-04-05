@@ -14,6 +14,8 @@ sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/g' .env
 sed -i 's/DB_PORT=.*/DB_PORT=3307/g' .env 
 sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=/g' .env
 
+cat /var/www/html/.env
+
 rm -rf Modules/*
 rm composer.lock
 
