@@ -2,10 +2,17 @@
 
 cd /var/www/html 
 
+cp .env.example .env
+
 echo '----------'
 
 cat /var/www/html/.env
 ls /var/www/html
+
+sed -i 's/DB_HOST=.*/DB_HOST=mariadb/g' .env 
+sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/g' .env
+sed -i 's/DB_PORT=.*/DB_PORT=3307/g' .env 
+sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=/g' .env
 
 rm -rf Modules/*
 rm composer.lock
