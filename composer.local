@@ -11,6 +11,15 @@
   ],
   "license": "GPL-3.0-or-later",
   "version": "24.04.002",
+  "repositories": [
+    {
+      "type": "path",
+      "url": "./Modules/*",
+      "options": {
+        "symlink": true
+      }
+    }
+  ],
   "require": {
     "php": "^8.1",
     "guzzlehttp/guzzle": "^7.2",
