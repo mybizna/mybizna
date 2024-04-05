@@ -31,15 +31,12 @@ RUN apt install -y \
     openssl \
     libapache2-mod-php 
 
-COPY . /var/www/html
+RUN apt-get update && apt-get install -y default-mysql-client
 
 # Install Composer
 RUN cd /var/www
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN cd /var/www/html
-
-# Copy .env file
-COPY .env.example .env
 
 
 # Set permissions for entrypoint script
@@ -47,8 +44,7 @@ COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod +x /var/www/html/entrypoint.sh
 
-RUN apt-get update && apt-get install -y default-mysql-client
-
+COPY . /var/www/html
 # Expose port 8000 and start php-fpm server
 EXPOSE 8000
 
