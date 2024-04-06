@@ -60,9 +60,7 @@ export default {
             this.fetchRecord(this.id);
         }
 
-        alert(this.title);
-
-        window.$store.commit("system.subtitle_action", this.title);
+        window.$store.commit("system/subtitle_action", (this.id) ? 'Editing' : 'Creating');
         window.$store.commit("system/has_search", false);
         window.$store.commit("system/is_list", false);
         window.$store.commit("system/is_recordpicker", false);
