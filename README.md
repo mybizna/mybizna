@@ -20,12 +20,24 @@ Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Larave
 
 ## Installation
 
+### How to setup using Docker
+```
+git clone https://github.com/mybizna/mybizna.git
+
+cd mybizna
+
+docker compose up --build
+```
+
+### How to setup on the system
 ```
 composer create-project mybizna/setup mybizna
 ```
 
+### How to Install in Laravel
 <a href="https://mybizna.gitbook.io/mybizna-erp/readme/how-to-install-on-laravel" target="_blank">How to Install in Laravel</a>
 
+### How to Install in Wordpress
 <a href="https://mybizna.gitbook.io/mybizna-erp/readme/how-to-installation-in-wordpress" target="_blank">How to Install in Wordpress</a>
 
 ## How to Participate
