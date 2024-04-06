@@ -9,11 +9,9 @@ RUN apt-get update && \
         default-mysql-client && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && \
-    apt-get install -y \    
-        docker-php-ext-configure zip && \
-        docker-php-ext-install mysqli && \
-#        docker-php-ext-install zip pdo_mysql && \
+
+# Enable PHP extensions
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
