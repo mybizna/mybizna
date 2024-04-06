@@ -1,53 +1,29 @@
-# Use the official PHP image as base
-FROM ubuntu:22.04
+# Use the official PHP 8.1 Apache image as base
+FROM php:8.1-apache
 
-ENV DEBIAN_FRONTEND noninteractive
+# Install additional dependencies
+RUN apt-get update && \
+    apt-get install -y \
+        zip \
+        git \
+        default-mysql-client && \
+    rm -rf /var/lib/apt/lists/*
 
-# ubuntu setup
-RUN apt update -y
-RUN apt upgrade -y 
-
-RUN apt install -y software-properties-common
-RUN apt update -y
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Install dependencies
-RUN apt install -y \
-    zip \
-    git \
-    apache2 \
-    curl \
-    php \
-    php-mysql \
-    php-imap \
-    php-ldap \
-    php-xml \
-    php-curl \
-    php-mbstring \
-    php-zip \
-    php-tokenizer \
-    openssl \
-    libapache2-mod-php 
+# Copy application files
+COPY . .
 
-RUN apt-get update && apt-get install -y default-mysql-client
-
-# Install Composer
-RUN cd /var/www
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN cd /var/www/html
-
-
-COPY . /var/www/html
+# Expose port 80 (default for Apache)
+EXPOSE 80
 
 # Set permissions for entrypoint script
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
-RUN chmod +x /var/www/html/entrypoint.sh
 
-# Expose port 8000 and start php-fpm server
-EXPOSE 8000
-
-#CMD ["/var/www/html/entrypoint.sh"]
-CMD ["entrypoint.sh"]
+# Set entrypoint
+ENTRYPOINT ["entrypoint.sh"]
