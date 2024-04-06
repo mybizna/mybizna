@@ -10,19 +10,11 @@
                 </a>
             </div>
 
-            <div class="flex-auto">
-                <div class="mx-1 text-right">
-                    <span class="whitespace-nowrap truncate capitalize font-semibold"
-                        v-if="$store.state.system.subtitle != ''">
-                        {{ $store.state.system.subtitle }}
-                        <small class="text-sm" v-if="$store.state.system.subtitle_action != ''">
-                            [{{ $store.state.system.subtitle_action }}]
-                        </small>
-                    </span><br>
-
-                </div>
+            <div v-if="$store.state.system.has_search && !$store.state.system.is_recordpicker"
+                class="flex-none w-64 mr-5">
+                <search-form :show_filter="false"></search-form>
             </div>
-           
+
         </div>
     </div>
 </template>

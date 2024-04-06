@@ -4,13 +4,6 @@
 
             <div class="form-head mb-1 d-flex flex-wrap align-items-center pb-3">
 
-                <h2 class="capitalize mr-2" :alt="$store.state.system.active_menu + ' - ' + $store.state.system.subtitle">
-                    {{ $store.state.system.active_menu }}
-                    <small class="text-sm" v-if="$store.state.system.subtitle != ''">
-                        - {{ $store.state.system.subtitle }}
-                    </small>
-                </h2>
-
                 <a class="cursor-pointer text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm  py-2 px-3  text-center mr-2"
                     @click="saveRecord()">
                     <i class="fa fa-save"></i>
@@ -67,6 +60,9 @@ export default {
             this.fetchRecord(this.id);
         }
 
+        alert(this.title);
+
+        window.$store.commit("system.subtitle_action", this.title);
         window.$store.commit("system/has_search", false);
         window.$store.commit("system/is_list", false);
         window.$store.commit("system/is_recordpicker", false);
