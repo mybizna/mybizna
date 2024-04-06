@@ -13,8 +13,12 @@ rm composer.lock
 
 composer install --no-interaction
 
-composer require mybizna/isp:24.3.004 --no-interaction
+composer require mybizna/account --no-interaction
 
+if [ -f /var/www/html/entrypoint-composers.sh ]; then
+    chmod +x /usr/local/bin/entrypoint.sh
+    /bin/sh /var/www/html/entrypoint-composers.sh
+fi
 
 php artisan key:generate
 
