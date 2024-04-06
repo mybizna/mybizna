@@ -1,50 +1,54 @@
 <template>
     <template v-if="$store.state.system.has_search && !$store.state.system.is_recordpicker">
 
-        <div class="pt-1 pr-1">
+        <Vueform :model-value="model" :sync="true">
 
-            <div class="input-group input-group-sm border rounded">
-                <input type="text" class="form-control dropdown-toggle border-none focus:shadow-none"
-                    placeholder="Search Any Term." aria-label="Text input with dropdown button" data-bs-toggle="dropdown"
-                    aria-expanded="false" />
-                <div class="dropdown-menu dropdown-menu-end search-dropdown p-2 shadow-lg" :class="widthClass">
-                    <b>Search</b>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-1 match-height">
-                        <template v-for="(item, index) in $store.state
-                            .system.search_fields" :key="index">
-                            <FormKit v-model="model[item.name]" :label="item.label" :id="item.name" :type="item.type"
-                                validation="required" />
-                        </template>
+            <div class="pt-1 pr-1">
 
-                        <template v-if="show_search">
-                            <component :is="compSearch"></component>
-                        </template>
+                <div class="input-group input-group-sm border rounded">
+                    <input type="text" class="form-control dropdown-toggle border-none focus:shadow-none"
+                        placeholder="Search Any Term." aria-label="Text input with dropdown button"
+                        data-bs-toggle="dropdown" aria-expanded="false" />
+                    <div class="dropdown-menu dropdown-menu-end search-dropdown p-2 shadow-lg" :class="widthClass">
+                        <b>Search</b>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-1 match-height">
+                            <template v-for="(item, index) in $store.state
+        .system.search_fields" :key="index">
+                                <FormKit v-model="model[item.name]" :label="item.label" :id="item.name"
+                                    :type="item.type" validation="required" />
+                            </template>
 
-                        <div>
-                            <b> {{ "\xA0" }} </b>
-                            <div class="text-center">
-                                <button type="submit" class="pr-1 btn btn-outline-danger btn-sm mr-1">
-                                    Cancel
-                                </button>
-                                <button type="submit" @click="search()" class="btn bg-primary text-white btn-sm ml-1">
-                                    Search
-                                </button>
+                            <template v-if="show_search">
+                                <component :is="compSearch"></component>
+                            </template>
+
+                            <div>
+                                <b> {{ "\xA0" }} </b>
+                                <div class="text-center">
+                                    <button type="submit" class="pr-1 btn btn-outline-danger btn-sm mr-1">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" @click="search()"
+                                        class="btn bg-primary text-white btn-sm ml-1">
+                                        Search
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="input-group-append pl-1 pr-1">
+                        <i class="fas fa-search leading-7"></i>
+                    </div>
                 </div>
-                <div class="input-group-append pl-1 pr-1">
-                    <i class="fas fa-search leading-7"></i>
-                </div>
+
+                <a v-if="show_filter">
+                    <small style="font-size: 12px">
+                        Filter: {{ JSON.stringify(model) }}
+                    </small>
+                </a>
+
             </div>
-
-            <a v-if="show_filter">
-                <small style="font-size: 12px">
-                    Filter: {{ JSON.stringify(model) }}
-                </small>
-            </a>
-
-        </div>
+        </Vueform>
 
     </template>
 </template>
@@ -158,4 +162,3 @@ export default {
 
 };
 </script>
-

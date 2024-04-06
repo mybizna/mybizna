@@ -1,5 +1,5 @@
 <template>
-    <div v-if="$store.state.system.is_list" class="shadow-sm z-8">
+    <div v-if="$store.state.system.is_list && $store.state.system.is_edit" class="shadow-sm z-8">
         <div class="flex px-1 py-3">
 
             <div class="flex-auto">
