@@ -10,7 +10,7 @@ sed -i 's/DB_PORT=.*/DB_PORT=3306/g' .env
 
 rm -rf Modules/*
 rm composer.lock
-
+ 
 composer install --no-interaction
 
 composer require mybizna/account --no-interaction
