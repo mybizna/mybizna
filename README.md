@@ -29,6 +29,18 @@ cd mybizna
 docker compose up --build
 ```
 
+To add more modules, add them in file ``` entrypoint-composers.sh ``` with content
+
+```
+#!/bin/sh
+
+cd /var/www/html 
+
+# Require additional composer packages
+composer require mybizna/isp --no-interaction
+
+```
+
 ### How to setup on the system
 ```
 composer create-project mybizna/setup mybizna
