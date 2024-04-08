@@ -248,6 +248,12 @@ export default {
             this.pagination.page = 1;
             this.fetchRecords();
         },
+        'setting.is_recordpicker'(newer, older) {
+            this.settings.is_recordpicker = newer;
+        },
+        'setting.hide_delete_button'(newer, older) {
+            this.settings.hide_delete_button = newer;
+        },
         /*pagination () {
             this.fetchRecords();
         },*/
@@ -267,14 +273,15 @@ export default {
         this.processDropdownMenu();
         this.fetchRecords();
 
-        window.$store.commit("system/subtitle_action", this.title);
-        window.$store.commit("system/has_search", true);
-        window.$store.commit("system/is_list", true);
-        window.$store.commit("system/is_edit", false);
-
-        if (this.is_recordpicker) {
+        if (this.is_recordpicker || this.settings.is_recordpicker) {
             window.$store.commit("system/is_recordpicker", true);
         } else {
+
+            window.$store.commit("system/subtitle_action", this.title);
+            window.$store.commit("system/has_search", true);
+            window.$store.commit("system/is_list", true);
+            window.$store.commit("system/is_edit", false);
+
             window.$store.commit("system/is_recordpicker", false);
         }
     },

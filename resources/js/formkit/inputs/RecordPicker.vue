@@ -125,8 +125,6 @@ export default {
                 var part2 = t.context.attrs.setting.path_param[1];
                 var comp_url = part1 + "/admin/" + part2 + "/" + id;
 
-                console.log(comp_url);
-
                 await window.axios.get(comp_url, { params: { f: t.context.attrs.setting.fields } })
                     .then(
                         response => {

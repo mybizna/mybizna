@@ -1,6 +1,7 @@
 <template>
     <table-render v-if="layout_fetched" :recordPicker="recordPicker" :path_param="tmp_path_param"
-        :table_fields="table_fields" :setting="{ hide_delete_button: false }">
+        :table_fields="table_fields"
+        :setting="{ is_recordpicker: ( setting !== undefined && Object.hasOwn(setting, 'is_recordpicker')) ? setting.is_recordpicker : false, hide_delete_button: false }">
 
         <template #header>
             <th-render v-for="column in columns" :key="column.name">
@@ -22,7 +23,8 @@
                 </template>
 
                 <template v-else-if="column.color">
-                    <span v-if="renderField(item, column) && column['color'] && column['color'][renderField(item, column)]"
+                    <span
+                        v-if="renderField(item, column) && column['color'] && column['color'][renderField(item, column)]"
                         :class="'bg-' + column['color'][renderField(item, column)] + '-100 text-' + column['color'][renderField(item, column)] + '-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded'">
                         {{ renderField(item, column) }}
                     </span>
@@ -173,6 +175,7 @@ export default {
         title: { type: String, default: "Listing", },
         path_param: { type: Array, default: () => [], },
         recordPicker: { type: Object, default: () => { } },
+        setting: { type: Object, default: () => { } },
         mass_actions: { type: Array, default: () => [] },
     },
     created() {

@@ -384,10 +384,6 @@ export default {
     saveRecordHelper(this_var, path_param, return_url, duplicate = false) {
         const t = this_var;
 
-        console.log('duplicate');
-        console.log('');
-        console.log(duplicate);
-
         if (duplicate) {
             t.model.id = null;
         }

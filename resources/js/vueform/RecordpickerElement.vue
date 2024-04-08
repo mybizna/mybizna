@@ -122,7 +122,7 @@ export default defineElement({
             window.$store.commit("system/has_search", false);
             window.$store.commit("system/is_list", false);
             window.$store.commit("system/is_edit", true);
-            window.$store.commit("system/is_recordpicker", false);
+            window.$store.commit("system/is_recordpicker", true);
         },
         recordPicker(id) {
             this.modalToggle();
