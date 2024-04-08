@@ -216,7 +216,6 @@ export default {
 
     fetch(path_url)
       .then(response => {
-        console.log(response);
         if (response.ok) {
           this.has_dashboard = true;
           this.dashboard = window.$filters.fetchComponent('templates/default/user/pages/Dashboard.vue');

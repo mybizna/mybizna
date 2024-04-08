@@ -289,7 +289,6 @@ router.beforeEach((to, from, next) => {
     if (to.meta.middlewareAuth) {
 
         if (!store.getters["auth/loggedIn"]) {
-            console.log('redict auth/loggedIn');
             next({
                 path: "/login",
                 query: {
@@ -304,7 +303,6 @@ router.beforeEach((to, from, next) => {
 
     if (to.matched.some((record) => record.meta.middlewareAuth)) {
         if (!store.getters["auth/loggedIn"]) {
-            console.log('redict auth/loggedIn');
             next({
                 path: "/login",
                 query: {
