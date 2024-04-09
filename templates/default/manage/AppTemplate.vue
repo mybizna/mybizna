@@ -29,17 +29,7 @@
                     </div>
                 </div>
 
-                <div class="flex-auto text-center pt-2">
-                    <span class="whitespace-nowrap truncate capitalize font-semibold"
-                        v-if="$store.state.system.subtitle != ''">
-                        {{ $store.state.system.subtitle }}
-                        <small class="text-sm" v-if="$store.state.system.subtitle_action != ''">
-                            [{{ $store.state.system.subtitle_action }}]
-                        </small>
-                    </span>
-                </div>
-
-                <div class="flex-none w-48 text-right">
+                <div class="flex-auto text-right">
                     <div class="flex justify-end pt-1 pr-1 pb-1 mr-2 space-x-2 cursor-pointer">
                         <app-topbar-icon-others></app-topbar-icon-others>
                         <app-topbar-icon-avatar></app-topbar-icon-avatar>

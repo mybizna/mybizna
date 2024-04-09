@@ -16,6 +16,7 @@
     "guzzlehttp/guzzle": "^7.2",
     "laravel/framework": "^10.10",
     "laravel/tinker": "^2.8",
+    "laravel/ui": "^4.5",
     "mybizna/isp": "24.3.004"
   },
   "require-dev": {
