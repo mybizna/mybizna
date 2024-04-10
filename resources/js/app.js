@@ -65,7 +65,6 @@ import SearchForm from '@/components/common/SearchForm';
 import EditRender from '@/components/common/EditRender';
 import TableRender from '@/components/common/TableRender';
 
-import config from "@/formkit/config";
 
 const app = createApp(App)
     .use(Notifications)

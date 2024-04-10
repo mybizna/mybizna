@@ -81,13 +81,5 @@ export default {
   overflow: scroll;
   overflow-x: hidden;
 }
-#login {
-  height: 50%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  content: "";
-  z-index: 0;
-}
+
 </style>
