@@ -1,54 +1,168 @@
 <template>
-    <template v-if="$store.state.system.has_search && !$store.state.system.is_recordpicker">
 
-        <Vueform :model-value="model" :sync="true">
-            <div class="pt-1 pr-1">
+    <Vueform v-if="$store.state.system.has_search && !$store.state.system.is_recordpicker" :model-value="model"
+        :sync="true">
+        <div class="pt-1 pr-1">
 
-                <div class="input-group input-group-sm border rounded">
-                    <input type="text" class="form-control dropdown-toggle border-none focus:shadow-none"
-                        placeholder="Search Any Term." aria-label="Text input with dropdown button"
-                        data-bs-toggle="dropdown" aria-expanded="false" />
-                    <div class="dropdown-menu dropdown-menu-end search-dropdown p-2 shadow-lg" :class="widthClass">
-                        <b>Search</b>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-1 match-height">
-                            <template v-for="(item, index) in $store.state.system.search_fields" :key="index">
-                                <FormKit v-model="model[item.name]" :label="item.label" :id="item.name"
-                                    :type="item.type" validation="required" />
-                            </template>
+            <div class="input-group input-group-sm border rounded">
+                <input type="text" class="form-control dropdown-toggle border-none focus:shadow-none"
+                    placeholder="Search Any Term." aria-label="Text input with dropdown button"
+                    data-bs-toggle="dropdown" aria-expanded="false" />
+                <div class="dropdown-menu dropdown-menu-end search-dropdown p-2 shadow-lg" :class="widthClass">
+                    <b>Search</b>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-1 match-height">
+                        <template v-for="(item, index) in $store.state.system.search_fields" :key="index">
 
-                            <template v-if="show_search">
-                                <component :is="compSearch"></component>
-                            </template>
+                            <TextareaElement v-if="field.html == 'textarea'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" />
 
-                            <div>
-                                <b> {{ "\xA0" }} </b>
-                                <div class="text-center">
-                                    <button type="submit" class="pr-1 btn btn-outline-danger btn-sm mr-1">
-                                        Cancel
-                                    </button>
-                                    <button type="submit" @click="search()"
-                                        class="btn bg-primary text-white btn-sm ml-1">
-                                        Search
-                                    </button>
-                                </div>
+                            <EditorElement v-else-if="field.html == 'editor'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" />
+
+                            <CheckboxElement v-else-if="field.html == 'checkbox'" :name="field.name"
+                                :items="field.options" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info" />
+
+                            <CheckboxgroupElement v-else-if="field.html == 'checkboxgroup'" :name="field.name"
+                                :items="field.options" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info" />
+
+                            <RadioElement v-else-if="field.html == 'radio'" :name="field.name" :options="field.options"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
+
+                            <RadiogroupElement v-else-if="field.html == 'radiogroup'" :name="field.name"
+                                :items="field.options" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info" />
+
+                            <ToggleElement v-else-if="field.html == 'toggle' || field.html == 'switch'"
+                                :name="field.name" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info"
+                                :default="field.default" :true-value="1" :false-value="0" />
+
+                            <SelectElement v-else-if="field.html == 'select'" :name="field.name" :items="field.options"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
+
+                            <MultiselectElement v-else-if="field.html == 'multiselect'" :name="field.name"
+                                :items="field.options" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info" />
+
+                            <TagsElement v-else-if="field.html == 'tags'" :name="field.name" :label="field.label"
+                                :items="field.options" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
+
+                            <DateElement v-else-if="field.html == 'datetime'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" :date="true" :time="true" />
+
+                            <DateElement v-else-if="field.html == 'date'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" :date="true" :time="false" />
+
+                            <DateElement v-else-if="field.html == 'time'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" :date="false" :time="true" />
+
+                            <DatesElement v-else-if="field.html == 'dates'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" />
+
+                            <SliderElement v-else-if="field.html == 'slider'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" />
+
+                            <FileElement v-else-if="field.html == 'file'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" />
+
+                            <MultifileElement v-else-if="field.html == 'multifile'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
+
+                            <LocationElement v-else-if="field.html == 'location'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
+
+                            <HiddenElement v-else-if="field.html == 'hidden'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" />
+
+                            <RecordpickerElement v-else-if="field.html == 'recordpicker'" :name="field.name"
+                                :valdata="model[field.name]" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info"
+                                :setting="field.picker" />
+
+                            <StaticElement v-else-if="field.html == 'static'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" />
+
+                            <DropzoneElement v-else-if="field.html == 'dropzone'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
+
+                            <FaceElement v-else-if="field.html == 'face'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" />
+
+                            <MediaElement v-else-if="field.html == 'media'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" />
+
+                            <MonthpickerElement v-else-if="field.html == 'monthpicker'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
+
+                            <RecordselectElement v-else-if="field.html == 'recordselect'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" :setting="field.picker" />
+
+                            <WeekpickerElement v-else-if="field.html == 'weekpicker'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
+
+                            <YearpickerElement v-else-if="field.html == 'yearpicker'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
+
+                            <TextElement v-else :name="field.name" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info" />
+
+                        </template>
+
+                        <template v-if="show_search">
+                            <component :is="compSearch"></component>
+                        </template>
+
+                        <div>
+                            <b> {{ "\xA0" }} </b>
+                            <div class="text-center">
+                                <button type="submit" class="pr-1 btn btn-outline-danger btn-sm mr-1">
+                                    Cancel
+                                </button>
+                                <button type="submit" @click="search()" class="btn bg-primary text-white btn-sm ml-1">
+                                    Search
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div class="input-group-append pl-1 pr-1">
-                        <i class="fas fa-search leading-7"></i>
-                    </div>
                 </div>
-
-                <a>
-                    <small style="font-size: 12px">
-                        Filter: {{ JSON.stringify(model) }}
-                    </small>
-                </a>
-
+                <div class="input-group-append pl-1 pr-1">
+                    <i class="fas fa-search leading-7"></i>
+                </div>
             </div>
-        </Vueform>
 
-    </template>
+            <a>
+                <small style="font-size: 12px">
+                    Filter: {{ JSON.stringify(model) }}
+                </small>
+            </a>
+
+        </div>
+    </Vueform>
+
 </template>
 
 <script>

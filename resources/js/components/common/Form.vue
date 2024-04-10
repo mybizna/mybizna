@@ -5,7 +5,8 @@
                 <template v-for="(row, rindex)  in layout" :key="rindex">
 
                     <div :class="row.class">
-                        <h4 class="text-center text-sm italic font-semibold border-b border-dotted border-gray-100 text-blue-900 my-2 bg-gray-50 p-1">
+                        <h4
+                            class="text-center text-sm italic font-semibold border-b border-dotted border-gray-100 text-blue-900 my-2 bg-gray-50 p-1">
                             {{ row.label }}</h4>
 
                         <template v-for="(field, findex)  in row.fields" :key="findex">
@@ -18,42 +19,50 @@
                                 :id="field.name" :placeholder="field.placeholder" :description="field.description"
                                 :info="field.info" />
 
-                            <CheckboxElement v-else-if="field.html == 'checkbox'" :name="field.name" :items="field.options"
-                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
-                                :description="field.description" :info="field.info" />
+                            <CheckboxElement v-else-if="field.html == 'checkbox'" :name="field.name"
+                                :items="field.options" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info" />
 
                             <CheckboxgroupElement v-else-if="field.html == 'checkboxgroup'" :name="field.name"
-                                :items="field.options" :label="field.label" :id="field.name" :placeholder="field.placeholder"
-                                :description="field.description" :info="field.info" />
+                                :items="field.options" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info" />
 
                             <RadioElement v-else-if="field.html == 'radio'" :name="field.name" :options="field.options"
                                 :label="field.label" :id="field.name" :placeholder="field.placeholder"
                                 :description="field.description" :info="field.info" />
 
                             <RadiogroupElement v-else-if="field.html == 'radiogroup'" :name="field.name"
-                                :items="field.options" :label="field.label" :id="field.name" :placeholder="field.placeholder"
-                                :description="field.description" :info="field.info" />
+                                :items="field.options" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info" />
 
-                            <ToggleElement v-else-if="field.html == 'toggle' || field.html == 'switch'" :name="field.name"
-                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
-                                :description="field.description" :info="field.info" :default="field.default" :true-value="1"
-                                :false-value="0" />
+                            <ToggleElement v-else-if="field.html == 'toggle' || field.html == 'switch'"
+                                :name="field.name" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info"
+                                :default="field.default" :true-value="1" :false-value="0" />
 
                             <SelectElement v-else-if="field.html == 'select'" :name="field.name" :items="field.options"
                                 :label="field.label" :id="field.name" :placeholder="field.placeholder"
                                 :description="field.description" :info="field.info" />
 
                             <MultiselectElement v-else-if="field.html == 'multiselect'" :name="field.name"
-                                :items="field.options" :label="field.label" :id="field.name" :placeholder="field.placeholder"
-                                :description="field.description" :info="field.info" />
+                                :items="field.options" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info" />
 
                             <TagsElement v-else-if="field.html == 'tags'" :name="field.name" :label="field.label"
                                 :items="field.options" :id="field.name" :placeholder="field.placeholder"
                                 :description="field.description" :info="field.info" />
 
+                            <DateElement v-else-if="field.html == 'datetime'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" :date="true" :time="true" />
+
                             <DateElement v-else-if="field.html == 'date'" :name="field.name" :label="field.label"
                                 :id="field.name" :placeholder="field.placeholder" :description="field.description"
-                                :info="field.info" />
+                                :info="field.info" :date="true" :time="false" />
+
+                            <DateElement v-else-if="field.html == 'time'" :name="field.name" :label="field.label"
+                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
+                                :info="field.info" :date="false" :time="true" />
 
                             <DatesElement v-else-if="field.html == 'dates'" :name="field.name" :label="field.label"
                                 :id="field.name" :placeholder="field.placeholder" :description="field.description"
@@ -67,13 +76,13 @@
                                 :id="field.name" :placeholder="field.placeholder" :description="field.description"
                                 :info="field.info" />
 
-                            <MultifileElement v-else-if="field.html == 'multifile'" :name="field.name" :label="field.label"
-                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
-                                :info="field.info" />
+                            <MultifileElement v-else-if="field.html == 'multifile'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
 
-                            <LocationElement v-else-if="field.html == 'location'" :name="field.name" :label="field.label"
-                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
-                                :info="field.info" />
+                            <LocationElement v-else-if="field.html == 'location'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
 
                             <HiddenElement v-else-if="field.html == 'hidden'" :name="field.name" :label="field.label"
                                 :id="field.name" :placeholder="field.placeholder" :description="field.description"
@@ -88,9 +97,9 @@
                                 :id="field.name" :placeholder="field.placeholder" :description="field.description"
                                 :info="field.info" />
 
-                            <DropzoneElement v-else-if="field.html == 'dropzone'" :name="field.name" :label="field.label"
-                                :id="field.name" :placeholder="field.placeholder" :description="field.description"
-                                :info="field.info" />
+                            <DropzoneElement v-else-if="field.html == 'dropzone'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
 
                             <FaceElement v-else-if="field.html == 'face'" :name="field.name" :label="field.label"
                                 :id="field.name" :placeholder="field.placeholder" :description="field.description"

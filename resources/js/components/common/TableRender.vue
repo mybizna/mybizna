@@ -116,28 +116,12 @@
                 </pagination>
 
                 <div class="flex">
-                    <div class="flex-auto">
-                        <FormKit id="page_limit" type="select" v-model="pagination.limit" :options="pagination.limits"
-                            validation="required"
-                            input-class="$reset form-select form-select-sm
-                                                            mt-2
-                                                            ml-2
-                                                            appearance-none
-                                                            inline-block
-                                                            w-16
-                                                            px-2
-                                                            py-1
-                                                            text-sm
-                                                            font-normal
-                                                            text-gray-700
-                                                            bg-white bg-clip-padding bg-no-repeat
-                                                            border border-solid border-gray-300
-                                                            rounded
-                                                            transition
-                                                            ease-in-out
-                                                            m-0
-                                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
 
+                    <div class="flex-auto">
+
+                        <SelectElement name="page_limit" label="page_limit" id="page_limit"
+                        v-model="pagination.limit" :debounce=" 500 " :items=" pagination.limits " rules="required"
+                                        @keyup=" calculateTotal " />
 
                     </div>
                     <div class="flex-auto">
