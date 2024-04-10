@@ -19,6 +19,68 @@ let input = 'form-input rounded border py-2 px-3 focus:border-sky-500 hover:bord
 let text = input + 'h-8 ';
 let textarea = input + 'h-50 ';
 
+let text_setting = {
+    container: '',
+    label: '',
+    wrapper: 'w-full ',
+    inputContainer: 'w-full flex ',
+    inputContainer_default: 'border-black ',
+    inputContainer_focused: 'border-red-500 ',
+    inputContainer_md: '',
+    input: text,
+    input_enabled: 'focus:form-ring ',
+    input_disabled: 'form-bg-disabled form-text-disabled ',
+    input_sm: 'form-p-input-sm form-rounded-sm form-text-sm ',
+    input_md: 'form-p-input form-rounded ',
+    input_lg: 'form-p-input-lg form-rounded-lg form-text-lg with-floating:form-p-input-floating-lg ',
+    $input: (classes, { isDisabled, Size }) => ([
+        classes.input,
+        classes[`input_${Size}`],
+        isDisabled ? classes.input_disabled : classes.input_enabled
+    ]),
+}
+
+let select_setting = {
+    container: '',
+    label: '',
+    wrapper: 'w-full ',
+    inputContainer: 'w-full flex ',
+    inputContainer_default: 'border-black ',
+    inputContainer_focused: 'border-red-500 ',
+    inputContainer_md: '',
+    input: text,
+    input_enabled: 'focus:form-ring ',
+    input_disabled: 'form-bg-disabled form-text-disabled ',
+    input_sm: 'form-p-input-sm form-rounded-sm form-text-sm ',
+    input_md: 'form-p-input form-rounded ',
+    input_lg: 'form-p-input-lg form-rounded-lg form-text-lg with-floating:form-p-input-floating-lg ',
+    $input: (classes, { isDisabled, Size }) => ([
+        classes.input,
+        classes[`input_${Size}`],
+        isDisabled ? classes.input_disabled : classes.input_enabled
+    ]),
+}
+
+let textarea_setting = {
+    container: '',
+    label: '',
+    inputContainer: 'w-full flex ',
+    inputContainer_default: 'border-black ',
+    inputContainer_focused: 'border-red-500 ',
+    inputContainer_md: '',
+    input: textarea,
+    input_enabled: 'focus:form-ring ',
+    input_disabled: 'form-bg-disabled form-text-disabled ',
+    input_sm: 'form-p-input-sm form-rounded-sm form-text-sm ',
+    input_md: 'form-p-input form-rounded ',
+    input_lg: 'form-p-input-lg form-rounded-lg form-text-lg with-floating:form-p-input-floating-lg ',
+    $input: (classes, { isDisabled, Size }) => ([
+        classes.input,
+        classes[`input_${Size}`],
+        isDisabled ? classes.input_disabled : classes.input_enabled
+    ]),
+}
+
 
 export default defineConfig({
     theme: vueform,
@@ -72,65 +134,12 @@ export default defineConfig({
             innerWrapper: 'form-col w-full ',
             innerWrapperAfter: 'form-col w-full ',
         },
-        SelectElement: {
-            container: '',
-            label: '',
-            wrapper: 'w-full ',
-            inputContainer: 'w-full flex ',
-            inputContainer_default: 'border-black ',
-            inputContainer_focused: 'border-red-500 ',
-            inputContainer_md: '',
-            input: text,
-            input_enabled: 'focus:form-ring ',
-            input_disabled: 'form-bg-disabled form-text-disabled ',
-            input_sm: 'form-p-input-sm form-rounded-sm form-text-sm ',
-            input_md: 'form-p-input form-rounded ',
-            input_lg: 'form-p-input-lg form-rounded-lg form-text-lg with-floating:form-p-input-floating-lg ',
-            $input: (classes, { isDisabled, Size }) => ([
-                classes.input,
-                classes[`input_${Size}`],
-                isDisabled ? classes.input_disabled : classes.input_enabled
-            ]),
-        },
-        TextElement: {
-            container: '',
-            label: '',
-            wrapper: 'w-full ',
-            inputContainer: 'w-full flex ',
-            inputContainer_default: 'border-black ',
-            inputContainer_focused: 'border-red-500 ',
-            inputContainer_md: '',
-            input: text,
-            input_enabled: 'focus:form-ring ',
-            input_disabled: 'form-bg-disabled form-text-disabled ',
-            input_sm: 'form-p-input-sm form-rounded-sm form-text-sm ',
-            input_md: 'form-p-input form-rounded ',
-            input_lg: 'form-p-input-lg form-rounded-lg form-text-lg with-floating:form-p-input-floating-lg ',
-            $input: (classes, { isDisabled, Size }) => ([
-                classes.input,
-                classes[`input_${Size}`],
-                isDisabled ? classes.input_disabled : classes.input_enabled
-            ]),
-        },
-        TextareaElement: {
-            container: '',
-            label: '',
-            inputContainer: 'w-full flex ',
-            inputContainer_default: 'border-black ',
-            inputContainer_focused: 'border-red-500 ',
-            inputContainer_md: '',
-            input: textarea,
-            input_enabled: 'focus:form-ring ',
-            input_disabled: 'form-bg-disabled form-text-disabled ',
-            input_sm: 'form-p-input-sm form-rounded-sm form-text-sm ',
-            input_md: 'form-p-input form-rounded ',
-            input_lg: 'form-p-input-lg form-rounded-lg form-text-lg with-floating:form-p-input-floating-lg ',
-            $input: (classes, { isDisabled, Size }) => ([
-                classes.input,
-                classes[`input_${Size}`],
-                isDisabled ? classes.input_disabled : classes.input_enabled
-            ]),
-        },
+        SelectElement: select_setting,
+        MultiselectElement: select_setting,
+        TagsElement: text_setting,
+        TextElement: text_setting,
+        EditorElement:textarea_setting,
+        TextareaElement:textarea_setting,
     },
     addClass: {
         // Add a custom class to the outermost DOM element of an input field
