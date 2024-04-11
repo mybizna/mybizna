@@ -145,10 +145,10 @@
 
 export default {
     components: {
-        AppSidebar: window.$filters.fetchComponent('templates/default/manage/AppSidebar.vue'),
-        AppTopbarActions: window.$filters.fetchComponent('templates/default/manage/AppTopbarActions.vue'),
-        AppTopbarIconAvatar: window.$filters.fetchComponent('templates/default/manage/AppTopbarIconAvatar.vue'),
-        AppTopbarIconOthers: window.$filters.fetchComponent('templates/default/manage/AppTopbarIconOthers.vue'),
+        AppSidebar: window.$filters.fetchComponent('templates/manage/AppSidebar.vue'),
+        AppTopbarActions: window.$filters.fetchComponent('templates/manage/AppTopbarActions.vue'),
+        AppTopbarIconAvatar: window.$filters.fetchComponent('templates/manage/AppTopbarIconAvatar.vue'),
+        AppTopbarIconOthers: window.$filters.fetchComponent('templates/manage/AppTopbarIconOthers.vue'),
     },
     props: {
         windowWidth: { type: Number, default: window.innerWidth },
