@@ -251,6 +251,7 @@ const store = createStore({
 if (store.state.auth.token) {
     window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.auth.token;
 }
+
 window.axios.defaults.headers.common['mybizna_uniqid'] = window.mybizna_uniqid;
 
 app.use(store);
@@ -263,6 +264,13 @@ app.use(store);
 
 
 router.beforeEach((to, from, next) => {
+
+
+    console.log('to', to);
+
+    let user = store.getters["auth/user"];
+
+    console.log('user', user);
 
     if (to.path.includes('/admin/')) {
         var path_parts = to.path.split('/admin/');
