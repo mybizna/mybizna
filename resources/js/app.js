@@ -272,6 +272,11 @@ router.beforeEach((to, from, next) => {
 
     console.log('user', user);
 
+    if(window.template === 'manage' && !user.is_admin){
+        next('/login');
+        
+    }
+
     if (to.path.includes('/admin/')) {
         var path_parts = to.path.split('/admin/');
         var subpath_parts = path_parts[1].split('/');
