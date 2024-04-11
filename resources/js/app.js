@@ -272,14 +272,15 @@ router.beforeEach((to, from, next) => {
 
     console.log('user', user);
 
-    if(window.template === 'manage' && !user.is_admin){
-        next('/userview');
-    }
-
-    if((window.template === 'manage' || window.template === 'user') && (!user.username || user.username === undefined || user.username === null)){
-        next('/guestview');
-    }
+    let cur_url = window.location.href;
     
+    console.log(cur_url); 
+    console.log(window.root_url + '/user'); 
+
+    if(cur_url.includes('/manage') && !user.is_admin){
+        window.location.href = window.root_url + '/user'
+        //next('/userview');
+    }
 
     if (to.path.includes('/admin/')) {
         var path_parts = to.path.split('/admin/');
