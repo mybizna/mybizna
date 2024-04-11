@@ -265,17 +265,9 @@ app.use(store);
 
 router.beforeEach((to, from, next) => {
 
-
-    console.log('to', to);
-
     let user = store.state.auth.user;
 
-    console.log('user', user);
-
     let cur_url = window.location.href;
-    
-    console.log(cur_url); 
-    console.log(window.root_url + '/user'); 
 
     if(cur_url.includes('/manage') && !user.is_admin){
         window.location.href = window.root_url + '/user'
