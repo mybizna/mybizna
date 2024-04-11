@@ -59,7 +59,27 @@ var paths = [
         name: "Login",
         component: () => import(`@/components/pages/Login.vue`),
     },
-
+    {
+        path: "/userview",
+        name: "userview",
+        beforeEnter() {
+            window.location.href = window.root_url + '/user';
+        }
+    },
+    {
+        path: "/manageview",
+        name: "manageview",
+        beforeEnter() {
+            window.location.href = window.root_url + '/manage';
+        }
+    },
+    {
+        path: "/guestview",
+        name: "guestview",
+        beforeEnter() {
+            window.location.href = window.root_url;
+        }
+    },
     {
         path: "/autologin",
         meta: {
