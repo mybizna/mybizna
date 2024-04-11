@@ -268,7 +268,7 @@ router.beforeEach((to, from, next) => {
 
     console.log('to', to);
 
-    let user = store.getters["auth/user"];
+    let user = store.state.auth.user;
 
     console.log('user', user);
 
