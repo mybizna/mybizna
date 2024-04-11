@@ -212,13 +212,13 @@ export default {
       this.$router.push("/manage/dashboard");
     }
 
-    var path_url = window.base_url + '/fetch_vue/templates/default/user/pages/Dashboard.vue';
+    var path_url = window.base_url + '/fetch_vue/templates/user/pages/Dashboard.vue';
 
     fetch(path_url)
       .then(response => {
         if (response.ok) {
           this.has_dashboard = true;
-          this.dashboard = window.$filters.fetchComponent('templates/default/user/pages/Dashboard.vue');
+          this.dashboard = window.$filters.fetchComponent('templates/user/pages/Dashboard.vue');
         }
       })
       .catch(error => {
