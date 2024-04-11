@@ -251,6 +251,7 @@ const store = createStore({
 if (store.state.auth.token) {
     window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.auth.token;
 }
+window.axios.defaults.headers.common['mybizna_uniqid'] = window.mybizna_uniqid;
 
 app.use(store);
 
