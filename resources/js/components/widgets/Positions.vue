@@ -14,6 +14,15 @@ export default {
   props: {
     name: String,
   },
+  watch: {
+    '$store.state.system.positions'(newValue, oldValue) {
+      // Do something when myState changes
+      console.log('oldValue');
+      console.log(oldValue);
+      console.log('newValue');
+      console.log(newValue);
+    }
+  },
   data() {
     return {
       components: []

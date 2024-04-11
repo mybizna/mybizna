@@ -27,7 +27,6 @@
         <div class="w-full z-10">
             <div class="flex">
                 <div v-if="sidebar_show" class="flex-none w-56 border-r border-gray-100 shadow-lg bg-white z-2">
-
                     <positions name="user-sidebar"></positions>
                 </div>
                 <div class="flex-auto z-1">
@@ -63,6 +62,9 @@
 
 
 export default {
+    created(){
+        this.$store.dispatch("system/getPositions");
+    },
     components: {
         AppTopbarIconAvatar: window.$filters.fetchComponent('templates/user/AppTopbarIconAvatar.vue'),
         AppTopbarIconOthers: window.$filters.fetchComponent('templates/user/AppTopbarIconOthers.vue'),

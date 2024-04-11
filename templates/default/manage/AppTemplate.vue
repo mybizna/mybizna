@@ -144,6 +144,9 @@
 
 
 export default {
+    created(){
+        this.$store.dispatch("system/getPositions");
+    },
     components: {
         AppSidebar: window.$filters.fetchComponent('templates/manage/AppSidebar.vue'),
         AppTopbarActions: window.$filters.fetchComponent('templates/manage/AppTopbarActions.vue'),
