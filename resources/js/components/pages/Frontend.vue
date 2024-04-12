@@ -206,6 +206,10 @@
       };
     },
     beforeMount() {
+
+      this.$store.dispatch("system/getPositions");
+      this.$store.dispatch("system/getMenu");
+
       if (window.is_backend) {
         this.$router.push("/manage/dashboard");
       }
