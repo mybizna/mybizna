@@ -113,7 +113,7 @@ commit_assets () {
         patch=$(echo "$current_version" | cut -d'.' -f3)
 
         # Increment the patch number with a maximum value of 20
-        if [ "$patch" -lt 100 ]; then
+        if [ "$patch" -lt 20 ]; then
             patch=$(expr $patch + 1)  
         else
             minor=$(expr $minor + 1)  
@@ -185,7 +185,7 @@ commit_migration () {
         patch=$(echo "$current_version" | cut -d'.' -f3)
 
         # Increment the patch number with a maximum value of 20
-        if [ "$patch" -lt 100 ]; then
+        if [ "$patch" -lt 20 ]; then
             patch=$(expr $patch + 1)  
         else
             minor=$(expr $minor + 1)  
@@ -249,7 +249,7 @@ commit_module () {
             patch=$(echo "$current_version" | cut -d'.' -f3)
 
             # Increment the patch number with a maximum value of 20
-            if [ "$patch" -lt 100 ]; then
+            if [ "$patch" -lt 20 ]; then
                 patch=$(expr $patch + 1)  
             else
                 minor=$(expr $minor + 1)  
@@ -330,7 +330,7 @@ commit_erp () {
         patch=$(echo "$current_version" | cut -d'.' -f3)
 
         # Increment the patch number with a maximum value of 20
-        if [ "$patch" -lt 100 ]; then
+        if [ "$patch" -lt 20 ]; then
             patch=$(expr $patch + 1)  
         else
             minor=$(expr $minor + 1)  
