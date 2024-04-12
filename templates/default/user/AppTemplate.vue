@@ -64,6 +64,7 @@
 export default {
     created(){
         this.$store.dispatch("system/getPositions");
+        this.$store.dispatch("system/getMenu");
     },
     components: {
         AppTopbarIconAvatar: window.$filters.fetchComponent('templates/user/AppTopbarIconAvatar.vue'),
