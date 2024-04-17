@@ -9,7 +9,7 @@
 export default {
     components: {
         Dashboard: window.$func.fetchComponent(
-            "base/admin/dashboard/list.vue"
+            "base/manage/dashboard/list.vue"
         )
     },
 };
