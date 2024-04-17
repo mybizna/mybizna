@@ -269,7 +269,7 @@ router.beforeEach((to, from, next) => {
 
     let cur_url = window.location.href;
 
-    if(cur_url.includes('/manage') && !user.is_admin){
+    if(cur_url.includes('/manage') && !user.is_admin && !is_wordpress){
         window.location.href = window.root_url + '/user'
         //next('/userview');
     }
