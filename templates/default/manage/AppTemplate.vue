@@ -146,6 +146,7 @@
 
 export default {
     created(){
+        this.is_wordpress= window.$is_wordpress;
 
         this.$store.dispatch("system/getPositions");
     },
@@ -164,7 +165,7 @@ export default {
             sidebar_show: true,
             main_opened: null,
             sub_opened: null,
-            is_wordpress: window.$is_wordpress,
+            is_wordpress: false,
             currentYear: new Date().getFullYear(),
         };
     },
