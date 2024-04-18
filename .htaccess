@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
 
-    RewriteEngine On
+    RewriteEngine On 
     RewriteBase /
 
     RewriteRule ^$ public/index.php [L]
