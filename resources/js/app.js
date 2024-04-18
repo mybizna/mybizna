@@ -101,6 +101,7 @@ app.config.globalProperties.$viewside = window.viewside ?? 'backend';
 app.config.globalProperties.$template = (window.template) ? window.template : 'front';
 app.config.globalProperties.$is_frontend = window.is_frontend = false;
 app.config.globalProperties.$is_backend = window.is_backend = false;
+app.config.globalProperties.$is_wordpress = window.is_wordpress = false;
 
 switch (window.viewside) {
     case 'backend':
