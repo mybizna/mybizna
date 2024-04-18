@@ -1,7 +1,7 @@
 <template>
     <template v-if="$store.getters['auth/loggedIn']">
 
-        <div v-if="!$is_wordpress" class="w-full z-10 shadow-lg bg-white">
+        <div v-if="!is_wordpress" class="w-full z-10 shadow-lg bg-white">
 
             <div class="flex border-b border-gray-100 py-1">
                 <div v-if="sidebar_show" class="flex-none w-48 "> </div>
@@ -40,7 +40,7 @@
 
         <div class="overflow-x-hidden">
             <div class="flex">
-                <div v-if="sidebar_show && !$is_wordpress" class="flex-none w-48 bg-white shadow-lg text-indigo-900">
+                <div v-if="sidebar_show && !is_wordpress" class="flex-none w-48 bg-white shadow-lg text-indigo-900">
                     <template v-for="(item, m_index) in $store.state.system.backendmenu" :key="m_index">
 
                         <div class="flex cursor-pointer p-2 pb-0" @click="showMenu(item, 'main')">
@@ -146,6 +146,7 @@
 
 export default {
     created(){
+
         this.$store.dispatch("system/getPositions");
     },
     components: {
@@ -163,6 +164,7 @@ export default {
             sidebar_show: true,
             main_opened: null,
             sub_opened: null,
+            is_wordpress: window.$is_wordpress,
             currentYear: new Date().getFullYear(),
         };
     },
