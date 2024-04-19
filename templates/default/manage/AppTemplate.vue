@@ -146,7 +146,7 @@
 
 export default {
     created(){
-        this.is_wordpress= window.$is_wordpress;
+        this.is_wordpress= window.is_wordpress;
 
         this.$store.dispatch("system/getPositions");
     },
