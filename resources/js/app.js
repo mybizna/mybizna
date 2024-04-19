@@ -92,7 +92,7 @@ app.config.globalProperties.$base_url = base_url;
 app.config.globalProperties.$assets_url = assets_url;
 app.config.globalProperties.$emitter = mitt();
 app.config.globalProperties.$male_default_avatar = 'images/avatar.png';
-app.config.globalProperties.$female_default_avatar = 'images/avatar2.png'; 
+app.config.globalProperties.$female_default_avatar = 'images/avatar2.png';
 
 app.config.globalProperties.$appName = window.appName = 'My App';
 app.config.globalProperties.$viewside = window.viewside ?? 'backend';
