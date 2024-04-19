@@ -92,16 +92,16 @@ app.config.globalProperties.$base_url = base_url;
 app.config.globalProperties.$assets_url = assets_url;
 app.config.globalProperties.$emitter = mitt();
 app.config.globalProperties.$male_default_avatar = 'images/avatar.png';
-app.config.globalProperties.$female_default_avatar = 'images/avatar2.png'; 
+app.config.globalProperties.$female_default_avatar = 'images/avatar2.png';
 
 app.config.globalProperties.$appName = window.appName = 'My App';
-app.config.globalProperties.$viewside = window.viewside ?? 'backend'; 
+app.config.globalProperties.$viewside = window.viewside ?? 'backend';
 
 
 app.config.globalProperties.$template = (window.template) ? window.template : 'front';
 app.config.globalProperties.$is_frontend = window.is_frontend = false;
 app.config.globalProperties.$is_backend = window.is_backend = false;
-app.config.globalProperties.$is_wordpress = window.is_wordpress = false;
+app.config.globalProperties.$is_wordpress = (window.is_wordpress) ? window.is_wordpress : false;
 
 switch (window.viewside) {
     case 'backend':
@@ -270,7 +270,7 @@ router.beforeEach((to, from, next) => {
 
     let cur_url = window.location.href;
 
-    if(cur_url.includes('/manage') && !user.is_admin && !window.is_wordpress){
+    if (cur_url.includes('/manage') && !user.is_admin && !window.is_wordpress) {
         window.location.href = window.root_url + '/user'
         //next('/userview');
     }
