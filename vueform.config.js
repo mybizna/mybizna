@@ -108,9 +108,7 @@ export default defineConfig({
         }
     },
     elements: [
-        DropzoneElement,
         FaceElement,
-        MediaElement,
         MonthpickerElement,
         RecordpickerElement,
         RecordselectElement,
