@@ -88,16 +88,17 @@
                                 :id="field.name" :placeholder="field.placeholder" :description="field.description"
                                 :info="field.info" />
 
-                            <RecordpickerElement v-else-if="field.html == 'recordpicker'" :name="field.name"
-                                :valdata="model[field.name]" :label="field.label" :id="field.name"
-                                :placeholder="field.placeholder" :description="field.description" :info="field.info"
-                                :setting="field.picker" />
+
 
                             <StaticElement v-else-if="field.html == 'static'" :name="field.name" :label="field.label"
                                 :id="field.name" :placeholder="field.placeholder" :description="field.description"
                                 :info="field.info" />
 
-                            <DropzoneElement v-else-if="field.html == 'dropzone'" :name="field.name"
+                            <MultifileElement v-else-if="field.html == 'gallery'" :name="field.name" :sort="true"
+                                view="gallery" :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" />
+
+                            <MultifileElement v-else-if="field.html == 'dropzone'" :drop="true" :name="field.name"
                                 :label="field.label" :id="field.name" :placeholder="field.placeholder"
                                 :description="field.description" :info="field.info" />
 
@@ -113,10 +114,6 @@
                                 :label="field.label" :id="field.name" :placeholder="field.placeholder"
                                 :description="field.description" :info="field.info" />
 
-                            <RecordselectElement v-else-if="field.html == 'recordselect'" :name="field.name"
-                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
-                                :description="field.description" :info="field.info" :setting="field.picker" />
-
                             <WeekpickerElement v-else-if="field.html == 'weekpicker'" :name="field.name"
                                 :label="field.label" :id="field.name" :placeholder="field.placeholder"
                                 :description="field.description" :info="field.info" />
@@ -124,6 +121,15 @@
                             <YearpickerElement v-else-if="field.html == 'yearpicker'" :name="field.name"
                                 :label="field.label" :id="field.name" :placeholder="field.placeholder"
                                 :description="field.description" :info="field.info" />
+
+                            <RecordselectElement v-else-if="field.html == 'recordselect'" :name="field.name"
+                                :label="field.label" :id="field.name" :placeholder="field.placeholder"
+                                :description="field.description" :info="field.info" :setting="field.picker" />
+
+                            <RecordpickerElement v-else-if="field.html == 'recordpicker'" :name="field.name"
+                                :valdata="model[field.name]" :label="field.label" :id="field.name"
+                                :placeholder="field.placeholder" :description="field.description" :info="field.info"
+                                :setting="field.picker" />
 
                             <TextElement v-else :name="field.name" :label="field.label" :id="field.name"
                                 :placeholder="field.placeholder" :description="field.description" :info="field.info" />
