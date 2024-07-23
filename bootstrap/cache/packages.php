@@ -1,9 +1,111 @@
 <?php return array (
-  'barryvdh/laravel-ide-helper' => 
+  'anourvalar/eloquent-serialize' => 
+  array (
+    'aliases' => 
+    array (
+      'EloquentSerialize' => 'AnourValar\\EloquentSerialize\\Facades\\EloquentSerializeFacade',
+    ),
+  ),
+  'bavix/laravel-wallet' => 
   array (
     'providers' => 
     array (
-      0 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
+      0 => 'Bavix\\Wallet\\WalletServiceProvider',
+    ),
+  ),
+  'blade-ui-kit/blade-heroicons' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'BladeUI\\Heroicons\\BladeHeroiconsServiceProvider',
+    ),
+  ),
+  'blade-ui-kit/blade-icons' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'BladeUI\\Icons\\BladeIconsServiceProvider',
+    ),
+  ),
+  'coolsam/modules' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Coolsam\\Modules\\ModulesServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'FilamentModules' => 'FilamentModules',
+    ),
+  ),
+  'filament/actions' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Actions\\ActionsServiceProvider',
+    ),
+  ),
+  'filament/filament' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\FilamentServiceProvider',
+    ),
+  ),
+  'filament/forms' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Forms\\FormsServiceProvider',
+    ),
+  ),
+  'filament/infolists' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Infolists\\InfolistsServiceProvider',
+    ),
+  ),
+  'filament/notifications' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Notifications\\NotificationsServiceProvider',
+    ),
+  ),
+  'filament/support' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Support\\SupportServiceProvider',
+    ),
+  ),
+  'filament/tables' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Tables\\TablesServiceProvider',
+    ),
+  ),
+  'filament/widgets' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Widgets\\WidgetsServiceProvider',
+    ),
+  ),
+  'guava/calendar' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Guava\\Calendar\\CalendarServiceProvider',
+    ),
+  ),
+  'kirschbaum-development/eloquent-power-joins' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Kirschbaum\\PowerJoins\\PowerJoinsServiceProvider',
     ),
   ),
   'laravel/sail' => 
@@ -13,13 +115,6 @@
       0 => 'Laravel\\Sail\\SailServiceProvider',
     ),
   ),
-  'laravel/sanctum' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Sanctum\\SanctumServiceProvider',
-    ),
-  ),
   'laravel/tinker' => 
   array (
     'providers' => 
@@ -27,70 +122,15 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
-  'laravel/ui' => 
+  'livewire/livewire' => 
   array (
     'providers' => 
     array (
-      0 => 'Laravel\\Ui\\UiServiceProvider',
-    ),
-  ),
-  'mybizna/account' => 
-  array (
-    'providers' => 
-    array (
+      0 => 'Livewire\\LivewireServiceProvider',
     ),
     'aliases' => 
     array (
-    ),
-  ),
-  'mybizna/assets' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Mybizna\\Assets\\Providers\\MybiznaAssetsProvider',
-    ),
-  ),
-  'mybizna/automigrator' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Mybizna\\Automigrator\\Providers\\AutomigratorServiceProvider',
-    ),
-  ),
-  'mybizna/base' => 
-  array (
-    'providers' => 
-    array (
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
-  'mybizna/core' => 
-  array (
-    'providers' => 
-    array (
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
-  'mybizna/isp' => 
-  array (
-    'providers' => 
-    array (
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
-  'mybizna/partner' => 
-  array (
-    'providers' => 
-    array (
-    ),
-    'aliases' => 
-    array (
+      'Livewire' => 'Livewire\\Livewire',
     ),
   ),
   'nesbot/carbon' => 
@@ -125,22 +165,29 @@
       'Module' => 'Nwidart\\Modules\\Facades\\Module',
     ),
   ),
-  'spatie/laravel-ignition' => 
+  'ryangjchandler/blade-capture-directive' => 
   array (
     'providers' => 
     array (
-      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+      0 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
     ),
     'aliases' => 
     array (
-      'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
+      'BladeCaptureDirective' => 'RyanChandler\\BladeCaptureDirective\\Facades\\BladeCaptureDirective',
     ),
   ),
-  'spatie/laravel-permission' => 
+  'tomatophp/console-helpers' => 
   array (
     'providers' => 
     array (
-      0 => 'Spatie\\Permission\\PermissionServiceProvider',
+      0 => 'TomatoPHP\\ConsoleHelpers\\ConsoleHelpersServiceProvider',
+    ),
+  ),
+  'tomatophp/filament-wallet' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'TomatoPHP\\FilamentWallet\\FilamentWalletServiceProvider',
     ),
   ),
 );

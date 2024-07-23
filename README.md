@@ -1,60 +1,66 @@
-<p align="center"><a href="https://mybizna.com" target="_blank"><img src="http://mybizna.com/wp-content/uploads/2021/11/logo.png" width="400"></a></p>
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-<a href="https://packagist.org/packages/mybizna/mybizna"><img src="https://img.shields.io/packagist/dt/mybizna/mybizna" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/mybizna/mybizna"><img src="https://img.shields.io/packagist/v/mybizna/mybizna" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/mybizna/mybizna"><img src="https://img.shields.io/packagist/l/mybizna/mybizna" alt="License"></a>
-</p> 
+## About Laravel
 
-## About Mybizna
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Laravel. It is developed using laravel which is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. 
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-<figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F0dkrQE1EPlRKzUjTpBUW%2Fuploads%2FmpawOQoIdwsBw6kqcKmi%2FMybizna-Dashboard.png?alt=media&token=46a1efb4-3b78-4de1-aa30-6fb7189add10" alt=""><figcaption></figcaption></figure>
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Learning Laravel
 
-## Minimum Requirement
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
--   PHP 8.1^
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Installation
+## Laravel Sponsors
 
-### How to setup using Docker
-```
-git clone https://github.com/mybizna/mybizna.git
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-cd mybizna
+### Premium Partners
 
-docker compose up --build
-```
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[WebReinvent](https://webreinvent.com/)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Jump24](https://jump24.co.uk)**
+- **[Redberry](https://redberry.international/laravel/)**
+- **[Active Logic](https://activelogic.com)**
+- **[byte5](https://byte5.de)**
+- **[OP.GG](https://op.gg)**
 
-To add more modules, add them in file ``` entrypoint-composers.sh ``` with content
+## Contributing
 
-```
-#!/bin/sh
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-cd /var/www/html 
+## Code of Conduct
 
-# Require additional composer packages
-composer require mybizna/isp --no-interaction
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-```
+## Security Vulnerabilities
 
-### How to setup on the system
-```
-composer create-project mybizna/setup mybizna
-```
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-### How to Install in Laravel
-<a href="https://mybizna.gitbook.io/mybizna-erp/readme/how-to-install-on-laravel" target="_blank">How to Install in Laravel</a>
+## License
 
-### How to Install in Wordpress
-<a href="https://mybizna.gitbook.io/mybizna-erp/readme/how-to-installation-in-wordpress" target="_blank">How to Install in Wordpress</a>
-
-## How to Participate
-<a href="https://mybizna.gitbook.io/mybizna-erp/readme/readme/how-to-participate" target="_blank">How to Participate</a>
-
-## Who's behind?
-
-An open-source project by [mybizna](https://mybizna.com/) contributed by a bunch of [people](https://github.com/mybizna/mybizna/graphs/contributors).
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
