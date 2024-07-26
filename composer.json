@@ -14,6 +14,7 @@
         "tomatophp/filament-wallet": "^1.0"
     },
     "require-dev": {
+        "doctrine/dbal": "*",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
@@ -54,6 +55,11 @@
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "merge-plugin": {
+            "include": [
+                "Modules/*/composer.json"
+            ]
         }
     },
     "config": {
