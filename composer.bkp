@@ -18,8 +18,7 @@
     "guava/calendar": "^1.2",
     "laravel/framework": "^11.9",
     "laravel/tinker": "^2.9",
-    "tomatophp/filament-wallet": "^1.0",
-    "wildside/userstamps": "^2.4"
+    "tomatophp/filament-wallet": "^1.0"
   },
   "require-dev": {
     "doctrine/dbal": "*",
@@ -33,7 +32,6 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Modules\\": "Modules/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
     }
@@ -64,6 +62,11 @@
   "extra": {
     "laravel": {
       "dont-discover": []
+    },
+    "merge-plugin": {
+      "include": [
+        "Modules/*/composer.json"
+      ]
     }
   },
   "config": {
