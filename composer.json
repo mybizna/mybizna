@@ -10,7 +10,7 @@
     "crm"
   ],
   "license": "GPL-3.0-or-later",
-  "version": "24.5.004",
+  "version": "24.5.005",
   "require": {
     "php": "^8.2",
     "coolsam/modules": "^4",
