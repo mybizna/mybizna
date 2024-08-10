@@ -75,6 +75,9 @@ upload_modules () {
             # Extract the current version from the module's composer.json
             current_version=$(jq -r '.version' composer.json)
 
+            echo $current_version
+            exit
+
             major=$(echo "$current_version" | cut -d'.' -f1)
             patch=$(echo "$current_version" | cut -d'.' -f3)
 

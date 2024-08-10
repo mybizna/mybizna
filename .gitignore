@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/Modules/Blog
 .env
 .env.backup
 .env.production
