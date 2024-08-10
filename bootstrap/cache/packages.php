@@ -6,13 +6,6 @@
       'EloquentSerialize' => 'AnourValar\\EloquentSerialize\\Facades\\EloquentSerializeFacade',
     ),
   ),
-  'bavix/laravel-wallet' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Bavix\\Wallet\\WalletServiceProvider',
-    ),
-  ),
   'blade-ui-kit/blade-heroicons' => 
   array (
     'providers' => 
@@ -174,20 +167,6 @@
     'aliases' => 
     array (
       'BladeCaptureDirective' => 'RyanChandler\\BladeCaptureDirective\\Facades\\BladeCaptureDirective',
-    ),
-  ),
-  'tomatophp/console-helpers' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'TomatoPHP\\ConsoleHelpers\\ConsoleHelpersServiceProvider',
-    ),
-  ),
-  'tomatophp/filament-wallet' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'TomatoPHP\\FilamentWallet\\FilamentWalletServiceProvider',
     ),
   ),
 );

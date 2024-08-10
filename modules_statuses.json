@@ -32,5 +32,9 @@
     "Telegram": true,
     "Tertiary": true,
     "Transfer": true,
-    "Withdraw": true
+    "Withdraw": true,
+    "Base": true,
+    "Mailmass": true,
+    "Paypal": true,
+    "Blog": true
 }
