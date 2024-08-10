@@ -76,11 +76,10 @@ upload_modules () {
             current_version=$(jq -r '.version' composer.json)
 
             echo $current_version
-            exit
 
             major=$(echo "$current_version" | cut -d'.' -f1)
-            patch=$(echo "$current_version" | cut -d'.' -f3)
-
+            patch=$(echo "$current_version" | cut -d'.' -f2)
+            
             patch=$(expr $patch + 1)  
 
             # Construct the new version
@@ -146,7 +145,7 @@ commit_erp () {
         current_version=$(jq -r '.version' composer.json)
 
         major=$(echo "$current_version" | cut -d'.' -f1)
-        patch=$(echo "$current_version" | cut -d'.' -f3)
+        patch=$(echo "$current_version" | cut -d'.' -f2)
 
         patch=$(expr $patch + 1)  
 
