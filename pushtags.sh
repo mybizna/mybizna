@@ -76,22 +76,12 @@ upload_modules () {
             current_version=$(jq -r '.version' composer.json)
 
             major=$(echo "$current_version" | cut -d'.' -f1)
-            minor=$(echo "$current_version" | cut -d'.' -f2)
             patch=$(echo "$current_version" | cut -d'.' -f3)
 
-            # Increment the patch number with a maximum value of 50
-            if [ "$patch" -lt 50 ]; then
-                patch=$(expr $patch + 1)  
-            else
-                minor=$(expr $minor + 1)  
-                patch=1
-            fi                
-
-            # Pad the patch number with three zeros
-            patch=$(printf "%03d" $patch)  
+            patch=$(expr $patch + 1)  
 
             # Construct the new version
-            new_version="$major.$minor.$patch"
+            new_version="$major.$patch"
 
             jq ".version=\"$new_version\"" composer.json > tmp_composer.json
             echo yes | mv tmp_composer.json composer.json
@@ -153,23 +143,12 @@ commit_erp () {
         current_version=$(jq -r '.version' composer.json)
 
         major=$(echo "$current_version" | cut -d'.' -f1)
-        minor=$(echo "$current_version" | cut -d'.' -f2)
         patch=$(echo "$current_version" | cut -d'.' -f3)
 
-        # Increment the patch number with a maximum value of 50
-        if [ "$patch" -lt 50 ]; then
-            patch=$(expr $patch + 1)  
-        else
-            minor=$(expr $minor + 1)  
-            patch=1
-        fi                
-
-        # Pad the patch number with three zeros
-        patch=$(printf "%03d" $patch)  
-      
+        patch=$(expr $patch + 1)  
 
         # Construct the new version
-        new_version="$major.$minor.$patch"
+        new_version="$major.$patch"
 
         MESSAGE="Release $new_version"
 
