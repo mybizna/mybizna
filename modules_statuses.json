@@ -36,5 +36,6 @@
     "Base": true,
     "Mailmass": true,
     "Paypal": true,
-    "Blog": true
+    "Blog": true,
+    "Posts": true
 }
