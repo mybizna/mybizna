@@ -115,6 +115,13 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
+  'laravel/ui' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Ui\\UiServiceProvider',
+    ),
+  ),
   'livewire/livewire' => 
   array (
     'providers' => 
@@ -167,6 +174,20 @@
     'aliases' => 
     array (
       'BladeCaptureDirective' => 'RyanChandler\\BladeCaptureDirective\\Facades\\BladeCaptureDirective',
+    ),
+  ),
+  'smodav/mpesa' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'SmoDav\\Mpesa\\Laravel\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'STK' => 'SmoDav\\Mpesa\\Laravel\\Facades\\STK',
+      'Simulate' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Simulate',
+      'Registrar' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Registrar',
+      'Identity' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Identity',
     ),
   ),
 );

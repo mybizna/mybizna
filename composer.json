@@ -16,8 +16,9 @@
     "coolsam/modules": "^4",
     "filament/filament": "^3.2",
     "guava/calendar": "^1.2",
-    "laravel/framework": "^11.9",
+    "laravel/framework": "^11.21",
     "laravel/tinker": "^2.9",
+    "laravel/ui": "^4.5",
     "wildside/userstamps": "^2.4"
   },
   "require-dev": {
@@ -32,7 +33,6 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Modules\\": "Modules/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
     }
@@ -66,6 +66,7 @@
     },
     "merge-plugin": {
       "include": [
+        "composer.local.json",
         "Modules/*/composer.json"
       ]
     }

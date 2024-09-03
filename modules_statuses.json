@@ -37,5 +37,6 @@
     "Mailmass": true,
     "Paypal": true,
     "Blog": true,
-    "Posts": true
+    "Posts": true,
+    "Water": true
 }
