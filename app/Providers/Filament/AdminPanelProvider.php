@@ -19,6 +19,10 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Coolsam\Modules\ModulesPlugin;
 
+use UnexpectedJourney\FilamentResourcePicker\FilamentResourcePickerPlugin;
+
+
+
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -33,9 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
+            ->pages([ Pages\Dashboard::class, ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
@@ -55,7 +57,8 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->plugin(ModulesPlugin::make())
+            ->plugins([ModulesPlugin::make(), FilamentResourcePickerPlugin::make(),])
             ;
     }
 }
+

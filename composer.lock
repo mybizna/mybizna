@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f6cdfa5fe49a43fa8ca93d986bc8eb4",
+    "content-hash": "4b2d34f1c511c2fc9dbd2655dfc18085",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -350,6 +350,69 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "codedor/filament-resource-picker",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codedor/filament-resource-picker.git",
+                "reference": "5ef749bfa3e5423febb4a5632ecf23f3007acdcc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codedor/filament-resource-picker/zipball/5ef749bfa3e5423febb4a5632ecf23f3007acdcc",
+                "reference": "5ef749bfa3e5423febb4a5632ecf23f3007acdcc",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^10.0|^11.0",
+                "livewire/livewire": "^3.0",
+                "php": "^8.2|^8.3",
+                "spatie/laravel-package-tools": "^1.12"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.0",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.0|^8.0",
+                "orchestra/testbench": "^8.0|^9.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Codedor\\FilamentResourcePicker\\Providers\\FilamentResourcePickerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Codedor\\FilamentResourcePicker\\": "src",
+                    "Codedor\\FilamentResourcePicker\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "This is my package filament-resource-picker",
+            "homepage": "https://github.com/codedor/filament-resource-picker",
+            "keywords": [
+                "codedor",
+                "filament-resource-picker",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/codedor/filament-resource-picker/issues",
+                "source": "https://github.com/codedor/filament-resource-picker/tree/v1.0.5"
+            },
+            "time": "2024-08-02T11:04:38+00:00"
         },
         {
             "name": "coolsam/modules",
@@ -7854,6 +7917,86 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.2.7"
             },
             "time": "2023-12-08T13:03:43+00:00"
+        },
+        {
+            "name": "unexpectedjourney/filament-modal-resource-picker",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rhiannonjourney/filament-resource-picker.git",
+                "reference": "8aa4cfa73101c28b73d5efcd6e6f04025dfb05f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rhiannonjourney/filament-resource-picker/zipball/8aa4cfa73101c28b73d5efcd6e6f04025dfb05f1",
+                "reference": "8aa4cfa73101c28b73d5efcd6e6f04025dfb05f1",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^10.0|^11.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9|^8.1",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^8.0|^9.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "UnexpectedJourney\\FilamentResourcePicker\\FilamentResourcePickerServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "UnexpectedJourney\\FilamentResourcePicker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rhiannon Journey",
+                    "email": "rhiannonjourney@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A powerful resource picker for Filament.",
+            "homepage": "https://github.com/unexpectedjourney/filament-resource-picker",
+            "keywords": [
+                "filament-modal-resource-picker",
+                "laravel",
+                "unexpectedjourney"
+            ],
+            "support": {
+                "issues": "https://github.com/unexpectedjourney/filament-resource-picker/issues",
+                "source": "https://github.com/unexpectedjourney/filament-resource-picker"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/unexpectedjourney",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-02T02:07:04+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

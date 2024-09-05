@@ -20,6 +20,13 @@
       0 => 'BladeUI\\Icons\\BladeIconsServiceProvider',
     ),
   ),
+  'codedor/filament-resource-picker' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Codedor\\FilamentResourcePicker\\Providers\\FilamentResourcePickerServiceProvider',
+    ),
+  ),
   'coolsam/modules' => 
   array (
     'providers' => 
@@ -188,6 +195,16 @@
       'Simulate' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Simulate',
       'Registrar' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Registrar',
       'Identity' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Identity',
+    ),
+  ),
+  'unexpectedjourney/filament-modal-resource-picker' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'UnexpectedJourney\\FilamentResourcePicker\\FilamentResourcePickerServiceProvider',
+    ),
+    'aliases' => 
+    array (
     ),
   ),
 );

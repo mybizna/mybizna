@@ -13,12 +13,14 @@
   "version": "2024.7",
   "require": {
     "php": "^8.2",
+    "codedor/filament-resource-picker": "^1.0",
     "coolsam/modules": "^4",
     "filament/filament": "^3.2",
     "guava/calendar": "^1.2",
     "laravel/framework": "^11.21",
     "laravel/tinker": "^2.9",
     "laravel/ui": "^4.5",
+    "unexpectedjourney/filament-modal-resource-picker": "^1.0",
     "wildside/userstamps": "^2.4"
   },
   "require-dev": {
