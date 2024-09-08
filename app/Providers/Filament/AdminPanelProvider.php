@@ -35,6 +35,8 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->sidebarWidth('16rem')
+            ->sidebarFullyCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([ Pages\Dashboard::class, ])
@@ -58,6 +60,7 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([ModulesPlugin::make(), FilamentResourcePickerPlugin::make(),])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ;
     }
 }

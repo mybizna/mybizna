@@ -1,0 +1,17 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+.fi-sidebar-nav-groups {
+    @apply !gap-y-1;
+}
+
+.fi-sidebar-nav-groups .fi-sidebar-group-button {
+    @apply !py-1;
+}
+
+.fi-sidebar-nav {
+    @apply !py-1;
+    @apply !px-1;
+
+}
