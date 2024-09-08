@@ -10,7 +10,7 @@
     "crm"
   ],
   "license": "GPL-3.0-or-later",
-  "version": "2024.8",
+  "version": "2024.9",
   "require": {
     "php": "^8.2",
     "codedor/filament-resource-picker": "^1.0",
