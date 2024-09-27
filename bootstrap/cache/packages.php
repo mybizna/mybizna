@@ -6,6 +6,13 @@
       'EloquentSerialize' => 'AnourValar\\EloquentSerialize\\Facades\\EloquentSerializeFacade',
     ),
   ),
+  'awcodes/filament-table-repeater' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Awcodes\\TableRepeater\\TableRepeaterServiceProvider',
+    ),
+  ),
   'barryvdh/laravel-ide-helper' => 
   array (
     'providers' => 

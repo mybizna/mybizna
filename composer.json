@@ -13,6 +13,7 @@
   "version": "2024.10",
   "require": {
     "php": "^8.2",
+    "awcodes/filament-table-repeater": "^3.0",
     "codedor/filament-resource-picker": "^1.0",
     "coolsam/modules": "^4",
     "filament/filament": "^3.2",

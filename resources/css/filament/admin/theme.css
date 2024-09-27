@@ -1,4 +1,6 @@
 @import '/vendor/filament/filament/resources/css/theme.css';
+@import '/vendor/awcodes/filament-table-repeater/resources/css/plugin.css';
+
 
 @config 'tailwind.config.js';
 

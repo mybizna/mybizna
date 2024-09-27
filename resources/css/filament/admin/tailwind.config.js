@@ -6,5 +6,6 @@ export default {
         './app/Filament/Clusters/Account/**/*.php',
         './resources/views/filament/clusters/account/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
+            './vendor/awcodes/filament-table-repeater/resources/**/*.blade.php',
     ],
 }
