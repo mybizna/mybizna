@@ -25,6 +25,7 @@
     "wildside/userstamps": "^2.4"
   },
   "require-dev": {
+    "barryvdh/laravel-debugbar": "^3.14",
     "barryvdh/laravel-ide-helper": "^3.1",
     "doctrine/dbal": "*",
     "fakerphp/faker": "^1.23",
