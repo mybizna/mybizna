@@ -10,7 +10,7 @@
     "crm"
   ],
   "license": "GPL-3.0-or-later",
-  "version": "2024.17",
+  "version": "2024.18",
   "require": {
     "php": "^8.2",
     "awcodes/filament-table-repeater": "^3.0",
