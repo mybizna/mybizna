@@ -21,6 +21,7 @@
     "laravel/framework": "^11.21",
     "laravel/tinker": "^2.9",
     "laravel/ui": "^4.5",
+    "mybizna/automigrator": "^2025.1",
     "unexpectedjourney/filament-modal-resource-picker": "^1.0",
     "wildside/userstamps": "^2.4"
   },

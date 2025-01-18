@@ -15,13 +15,13 @@
   ),
   'barryvdh/laravel-debugbar' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    ),
     'aliases' => 
     array (
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
+    ),
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
     ),
   ),
   'barryvdh/laravel-ide-helper' => 
@@ -156,13 +156,20 @@
   ),
   'livewire/livewire' => 
   array (
+    'aliases' => 
+    array (
+      'Livewire' => 'Livewire\\Livewire',
+    ),
     'providers' => 
     array (
       0 => 'Livewire\\LivewireServiceProvider',
     ),
-    'aliases' => 
+  ),
+  'mybizna/automigrator' => 
+  array (
+    'providers' => 
     array (
-      'Livewire' => 'Livewire\\Livewire',
+      0 => 'Mybizna\\Automigrator\\Providers\\AutomigratorServiceProvider',
     ),
   ),
   'nesbot/carbon' => 
@@ -188,13 +195,13 @@
   ),
   'nwidart/laravel-modules' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Nwidart\\Modules\\LaravelModulesServiceProvider',
-    ),
     'aliases' => 
     array (
       'Module' => 'Nwidart\\Modules\\Facades\\Module',
+    ),
+    'providers' => 
+    array (
+      0 => 'Nwidart\\Modules\\LaravelModulesServiceProvider',
     ),
   ),
   'ryangjchandler/blade-capture-directive' => 

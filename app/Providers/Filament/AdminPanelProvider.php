@@ -19,9 +19,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Coolsam\Modules\ModulesPlugin;
 
-use UnexpectedJourney\FilamentResourcePicker\FilamentResourcePickerPlugin;
-
-
+// use UnexpectedJourney\FilamentResourcePicker\FilamentResourcePickerPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -60,9 +58,11 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->plugins([ModulesPlugin::make(), FilamentResourcePickerPlugin::make(),])
+            ->plugins([ModulesPlugin::make(),])
+            // ->plugins([ModulesPlugin::make(), FilamentResourcePickerPlugin::make(),])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ;
+            print('panel Hello World'); exit;
     }
 }
 
