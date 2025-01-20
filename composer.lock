@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ea2244f0ea13e2960521d4525309699",
+    "content-hash": "3153c60bd785718da65d5fc7df34911a",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3610,6 +3610,48 @@
             "time": "2024-03-31T07:05:07+00:00"
         },
         {
+            "name": "miguilim/filament-auto-panel",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/miguilimzero/filament-auto-panel.git",
+                "reference": "60cd033e67d3490071d7ab9c8e6fd182ef9de158"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/miguilimzero/filament-auto-panel/zipball/60cd033e67d3490071d7ab9c8e6fd182ef9de158",
+                "reference": "60cd033e67d3490071d7ab9c8e6fd182ef9de158",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.2",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Miguilim\\FilamentAutoPanel\\FilamentAutoPanelProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Miguilim\\FilamentAutoPanel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Construct your Filament panel Resources and Relation Managers at execution time like magic.",
+            "support": {
+                "issues": "https://github.com/miguilimzero/filament-auto-panel/issues",
+                "source": "https://github.com/miguilimzero/filament-auto-panel/tree/2.0.1"
+            },
+            "time": "2024-06-11T08:42:00+00:00"
+        },
+        {
             "name": "mike42/escpos-php",
             "version": "v2.2",
             "source": {
@@ -3773,16 +3815,16 @@
         },
         {
             "name": "mybizna/automigrator",
-            "version": "2025.1",
+            "version": "2025.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mybizna/automigrator.git",
-                "reference": "83cbf4d14eb72955a11d9cbf23f8cc09c11ecbcf"
+                "reference": "eef4b9b0aadc454187e991d58a1ee7bb9a244459"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mybizna/automigrator/zipball/83cbf4d14eb72955a11d9cbf23f8cc09c11ecbcf",
-                "reference": "83cbf4d14eb72955a11d9cbf23f8cc09c11ecbcf",
+                "url": "https://api.github.com/repos/mybizna/automigrator/zipball/eef4b9b0aadc454187e991d58a1ee7bb9a244459",
+                "reference": "eef4b9b0aadc454187e991d58a1ee7bb9a244459",
                 "shasum": ""
             },
             "require": {
@@ -3824,9 +3866,9 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/mybizna/automigrator/tree/2025.1"
+                "source": "https://github.com/mybizna/automigrator/tree/2025.4"
             },
-            "time": "2025-01-14T22:25:44+00:00"
+            "time": "2025-01-19T01:34:51+00:00"
         },
         {
             "name": "nesbot/carbon",

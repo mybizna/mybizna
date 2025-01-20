@@ -165,6 +165,13 @@
       0 => 'Livewire\\LivewireServiceProvider',
     ),
   ),
+  'miguilim/filament-auto-panel' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Miguilim\\FilamentAutoPanel\\FilamentAutoPanelProvider',
+    ),
+  ),
   'mybizna/automigrator' => 
   array (
     'providers' => 
