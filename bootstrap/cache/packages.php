@@ -1,4 +1,29 @@
 <?php return array (
+  'anourvalar/eloquent-serialize' => 
+  array (
+    'aliases' => 
+    array (
+      'EloquentSerialize' => 'AnourValar\\EloquentSerialize\\Facades\\EloquentSerializeFacade',
+    ),
+  ),
+  'awcodes/filament-table-repeater' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Awcodes\\TableRepeater\\TableRepeaterServiceProvider',
+    ),
+  ),
+  'barryvdh/laravel-debugbar' => 
+  array (
+    'aliases' => 
+    array (
+      'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
+    ),
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    ),
+  ),
   'barryvdh/laravel-ide-helper' => 
   array (
     'providers' => 
@@ -6,18 +31,113 @@
       0 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
     ),
   ),
+  'blade-ui-kit/blade-heroicons' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'BladeUI\\Heroicons\\BladeHeroiconsServiceProvider',
+    ),
+  ),
+  'blade-ui-kit/blade-icons' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'BladeUI\\Icons\\BladeIconsServiceProvider',
+    ),
+  ),
+  'codedor/filament-resource-picker' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Codedor\\FilamentResourcePicker\\Providers\\FilamentResourcePickerServiceProvider',
+    ),
+  ),
+  'coolsam/modules' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Coolsam\\Modules\\ModulesServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'FilamentModules' => 'FilamentModules',
+    ),
+  ),
+  'filament/actions' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Actions\\ActionsServiceProvider',
+    ),
+  ),
+  'filament/filament' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\FilamentServiceProvider',
+    ),
+  ),
+  'filament/forms' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Forms\\FormsServiceProvider',
+    ),
+  ),
+  'filament/infolists' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Infolists\\InfolistsServiceProvider',
+    ),
+  ),
+  'filament/notifications' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Notifications\\NotificationsServiceProvider',
+    ),
+  ),
+  'filament/support' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Support\\SupportServiceProvider',
+    ),
+  ),
+  'filament/tables' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Tables\\TablesServiceProvider',
+    ),
+  ),
+  'filament/widgets' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Widgets\\WidgetsServiceProvider',
+    ),
+  ),
+  'guava/calendar' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Guava\\Calendar\\CalendarServiceProvider',
+    ),
+  ),
+  'kirschbaum-development/eloquent-power-joins' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Kirschbaum\\PowerJoins\\PowerJoinsServiceProvider',
+    ),
+  ),
   'laravel/sail' => 
   array (
     'providers' => 
     array (
       0 => 'Laravel\\Sail\\SailServiceProvider',
-    ),
-  ),
-  'laravel/sanctum' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Sanctum\\SanctumServiceProvider',
     ),
   ),
   'laravel/tinker' => 
@@ -34,20 +154,15 @@
       0 => 'Laravel\\Ui\\UiServiceProvider',
     ),
   ),
-  'mybizna/account' => 
+  'livewire/livewire' => 
   array (
-    'providers' => 
-    array (
-    ),
     'aliases' => 
     array (
+      'Livewire' => 'Livewire\\Livewire',
     ),
-  ),
-  'mybizna/assets' => 
-  array (
     'providers' => 
     array (
-      0 => 'Mybizna\\Assets\\Providers\\MybiznaAssetsProvider',
+      0 => 'Livewire\\LivewireServiceProvider',
     ),
   ),
   'mybizna/automigrator' => 
@@ -55,42 +170,6 @@
     'providers' => 
     array (
       0 => 'Mybizna\\Automigrator\\Providers\\AutomigratorServiceProvider',
-    ),
-  ),
-  'mybizna/base' => 
-  array (
-    'providers' => 
-    array (
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
-  'mybizna/core' => 
-  array (
-    'providers' => 
-    array (
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
-  'mybizna/isp' => 
-  array (
-    'providers' => 
-    array (
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
-  'mybizna/partner' => 
-  array (
-    'providers' => 
-    array (
-    ),
-    'aliases' => 
-    array (
     ),
   ),
   'nesbot/carbon' => 
@@ -116,31 +195,48 @@
   ),
   'nwidart/laravel-modules' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Nwidart\\Modules\\LaravelModulesServiceProvider',
-    ),
     'aliases' => 
     array (
       'Module' => 'Nwidart\\Modules\\Facades\\Module',
     ),
+    'providers' => 
+    array (
+      0 => 'Nwidart\\Modules\\LaravelModulesServiceProvider',
+    ),
   ),
-  'spatie/laravel-ignition' => 
+  'ryangjchandler/blade-capture-directive' => 
   array (
     'providers' => 
     array (
-      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+      0 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
     ),
     'aliases' => 
     array (
-      'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
+      'BladeCaptureDirective' => 'RyanChandler\\BladeCaptureDirective\\Facades\\BladeCaptureDirective',
     ),
   ),
-  'spatie/laravel-permission' => 
+  'smodav/mpesa' => 
   array (
     'providers' => 
     array (
-      0 => 'Spatie\\Permission\\PermissionServiceProvider',
+      0 => 'SmoDav\\Mpesa\\Laravel\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'STK' => 'SmoDav\\Mpesa\\Laravel\\Facades\\STK',
+      'Simulate' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Simulate',
+      'Registrar' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Registrar',
+      'Identity' => 'SmoDav\\Mpesa\\Laravel\\Facades\\Identity',
+    ),
+  ),
+  'unexpectedjourney/filament-modal-resource-picker' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'UnexpectedJourney\\FilamentResourcePicker\\FilamentResourcePickerServiceProvider',
+    ),
+    'aliases' => 
+    array (
     ),
   ),
 );

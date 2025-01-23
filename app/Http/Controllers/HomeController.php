@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 class HomeController extends Controller
 {
     /**
@@ -21,16 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return redirect('/manage');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function manage()
-    {
-        return view('base::manage', ['autologin' => FALSE]);
+        return view('home');
     }
 }

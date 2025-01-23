@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunk"]=self["webpackChunk"]||[]).push([[402],{6402:function(e,n,t){t.r(n),t.d(n,{default:function(){return a}});var r=t(7001);function o(e,n,t,o,c,s){const u=(0,r.resolveComponent)("register",!0);return(0,r.openBlock)(),(0,r.createBlock)(u)}var c={components:{Register:window.$func.fetchComponent("base/guest/Register.vue")}},s=t(1241);const u=(0,s.A)(c,[["render",o]]);var a=u}}]);
-//# sourceMappingURL=402.js.map
