@@ -15,6 +15,7 @@
     "php": "^8.1",
     "guzzlehttp/guzzle": "^7.2",
     "laravel/framework": "^10.10",
+    "laravel/sanctum": "*",
     "laravel/tinker": "^2.8",
     "laravel/ui": "^4.5",
     "mybizna/isp": "24.3.004"
@@ -70,7 +71,8 @@
     "preferred-install": "dist",
     "sort-packages": true,
     "allow-plugins": {
-      "composer/installers": true
+      "composer/installers": true,
+      "wikimedia/composer-merge-plugin": true
     }
   },
   "minimum-stability": "dev",

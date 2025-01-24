@@ -1,0 +1,11 @@
+{
+  "replace": {
+    "mybizna/account": "*",
+    "mybizna/partner": "*",
+    "mybizna/smsmass": "*",
+    "mybizna/base": "*",
+    "mybizna/core": "*",
+    "mybizna/mail": "*",
+    "mybizna/sms": "*"
+  }
+}

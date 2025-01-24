@@ -1,0 +1,18 @@
+{
+  "resources/css/filament/admin/theme.css": {
+    "file": "assets/theme-Mjb-SmWw.css",
+    "src": "resources/css/filament/admin/theme.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DnDqza7G.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-DrKqg2nF.css",
+    "src": "resources/sass/app.scss",
+    "isEntry": true
+  }
+}
