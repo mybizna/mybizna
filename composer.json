@@ -10,7 +10,7 @@
     "crm"
   ],
   "license": "GPL-3.0-or-later",
-  "version": "24.5.004",
+  "version": "2025.0",
   "require": {
     "php": "^8.1",
     "guzzlehttp/guzzle": "^7.2",
