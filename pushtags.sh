@@ -45,6 +45,11 @@ release_modules () {
         git push origin main
 
 
+        echo "action"
+        echo "$action"
+        exit
+
+
         if [[ "$action" != "y" ]]; then
             continue
         fi
