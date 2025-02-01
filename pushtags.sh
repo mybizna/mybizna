@@ -182,7 +182,6 @@ release_erp () {
         gh release create $new_version --generate-notes
 
     fi
-
 }
 
 read -p "Enter commit message (or press Enter for default): " commit_message
