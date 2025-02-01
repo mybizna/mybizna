@@ -50,6 +50,7 @@ release_modules () {
         if [ -z "$action" ] || [ "$action" != "y" ]; then
             continue
         fi
+        echo "ssssss action"
         exit
 
 
