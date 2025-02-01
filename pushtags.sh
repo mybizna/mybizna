@@ -44,15 +44,13 @@ release_modules () {
         git commit -m "$commit_message"
         git push origin main
 
-
         echo "action"
         echo "$action"
-        exit
 
-
-        if [[ "$action" != "y" ]]; then
+        if [ -z "$action" ] || [ "$action" != "y" ]; then
             continue
         fi
+        exit
 
 
         last_release_commit=$(git describe --abbrev=0 --tags)
@@ -140,7 +138,7 @@ release_erp () {
     git commit -m "$commit_message"
     git push origin main
 
-    if [[ "$action" != "y" ]]; then
+    if [ -z "$action" ] || [ "$action" != "y" ]; then
         exit 0
     fi
 
