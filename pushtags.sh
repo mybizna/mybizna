@@ -185,7 +185,7 @@ release_erp () {
 
 read -p "Enter commit message (or press Enter for default): " commit_message
 
-read -p "Do want to run release?: y/n" action
+read -p "Do want to run release? y/n :" action
 
 release_modules "$commit_message" "$action"
 release_erp  "$commit_message" "$action"
