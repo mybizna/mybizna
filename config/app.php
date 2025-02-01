@@ -97,7 +97,6 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-<<<<<<< HEAD
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -150,9 +149,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
-=======
-    'key' => env('APP_KEY'),
->>>>>>> 8946dc6df92e05df38f1730fd54eb6665ede2343
+    ],
 
     'previous_keys' => [
         ...array_filter(
