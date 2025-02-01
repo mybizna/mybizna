@@ -136,7 +136,7 @@ release_erp () {
     git push origin main
 
     if [[ "$action" != "y" ]]; then
-       continue
+        exit 0
     fi
 
     last_release_commit=$(git describe --abbrev=0 --tags)
