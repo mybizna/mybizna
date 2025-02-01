@@ -44,15 +44,10 @@ release_modules () {
         git commit -m "$commit_message"
         git push origin main
 
-        echo "action"
-        echo "$action"
-
         if [ -z "$action" ] || [ "$action" != "y" ]; then
+            cd ../../
             continue
         fi
-        echo "ssssss action"
-        exit
-
 
         last_release_commit=$(git describe --abbrev=0 --tags)
         commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
