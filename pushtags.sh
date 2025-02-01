@@ -6,126 +6,16 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 Starting Commit Process
 "
 
+release_modules () {
 
-commit_modules () {
+    local commit_message="$1"
+    local action="$2"
 
-    cd Modules
-
-    echo ""
-    echo "-------------------"
-    echo "Committing Modules that have changed"
-    echo ""
-
-
-    for module in `ls -Utr `; do
-
-        echo ""
-        echo "----------------------------------------"
-        echo ""
-        echo $module
-
-        cd $module
-
-        # Check if there are any changed files
-        changed_files=$(git diff --name-only)
-        if [ -z "$changed_files" ]; then
-            echo "No changed files. Skipping..."
-            cd ..
-            continue
-        fi
-
-        git add .
-
-        read -p "Enter commit message (or press Enter for default): " commit_message
-
-
-        # Check if commit_message is empty
-        if [ -z "$commit_message" ]; then
-            commit_message="Changes to files: $changed_files"
-        fi
-
-        git commit -m "$commit_message"
-
-        cd ..
-    done
-
-    cd ..
-}
-
-commit_migration () {
-    cd ../migration
-
-    echo ""
-    echo "-------------------"
-    echo "Committing Migration"
-    echo ""
-
-    # Check if there are any changed files
-    changed_files=$(git diff --name-only)
-    if [ -z "$changed_files" ]; then
-        echo "No changed files. Skipping..."
-    else
-        read -p "Enter commit message for migration (or press Enter for default): " commit_message
-
-        # Check if commit_message is empty
-        if [ -z "$commit_message" ]; then
-            commit_message="Changes to files: $changed_files"
-        fi
-
-        git add .
-        git commit -m "$commit_message"
-        git push origin main
-    fi
-
-
-    last_release_commit=$(git describe --abbrev=0 --tags)
-    commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
-
-    if [ "$commit_count" -gt 0 ]; then
-
-        # Extract the current version from the module's composer.json
-        current_version=$(jq -r '.version' composer.json)
-
-        major=$(echo "$current_version" | cut -d'.' -f1)
-        patch=$(echo "$current_version" | cut -d'.' -f3)
-
-        # Increment the patch number with a maximum value of 50
-        if [ "$patch" -lt 50 ]; then
-            patch=$(expr $patch + 1)
-        else
-            patch=1
-        fi
-
-        # Pad the patch number with three zeros
-        patch=$(printf "%03d" $patch)
-
-
-        # Construct the new version
-        new_version="$major.$patch"
-
-        MESSAGE="Release $new_version"
-
-        jq ".version=\"$new_version\"" composer.json > tmp_composer.json
-        echo yes | mv tmp_composer.json composer.json
-
-        git add .
-        git commit --allow-empty -m "$MESSAGE"
-        git push origin main
-        git tag $new_version
-        git push --tags
-
-        gh repo set-default
-        gh release create $new_version --generate-notes
-
-    fi
-
-    cd ../erp
-}
-
-commit_module () {
     echo ""
     echo "-------------------"
     echo "Committing Modules"
+    echo ""
+    echo "$commit_message"
     echo ""
 
     for module in `ls -U Modules| sort`; do
@@ -135,6 +25,30 @@ commit_module () {
         echo "-------------------"
         echo "Module $module"
         echo ""
+
+        # Check if there are any changed files
+        changed_files=$(git diff --name-only)
+        if [ -z "$changed_files" ]; then
+            echo "No changed files. Skipping..."
+            cd ../../
+            continue
+        fi
+
+
+        # Check if commit_message is empty
+        if [ -z "$commit_message" ]; then
+            commit_message="Changes to files: $changed_files"
+        fi
+
+        git add .
+        git commit -m "$commit_message"
+        git push origin main
+
+
+        if [[ "$action" != "y" ]]; then
+            continue
+        fi
+
 
         last_release_commit=$(git describe --abbrev=0 --tags)
         commit_count=$(git rev-list --count "$last_release_commit"..HEAD)
@@ -148,14 +62,18 @@ commit_module () {
             # Extract the current version from the module's composer.json
             current_version=$(jq -r '.version' composer.json)
 
-            major=$(echo "$current_version" | cut -d'.' -f1)
-            patch=$(echo "$current_version" | cut -d'.' -f3)
+            # Extract the major and patch versions
+            current_major=$(echo "$current_version" | cut -d'.' -f1)
+            current_patch=$(echo "$current_version" | cut -d'.' -f2)
 
-            # Increment the patch number with a maximum value of 50
-            if [ "$patch" -lt 50 ]; then
-                patch=$(expr $patch + 1)
-            else
+            # Get the current year
+            major=$(date +%Y)
+
+            # If the year has changed, reset patch to 1; otherwise, increment it
+            if [ "$major" -ne "$current_major" ]; then
                 patch=1
+            else
+                patch=$(expr $current_patch + 1)
             fi
 
             # Pad the patch number with three zeros
@@ -191,7 +109,10 @@ commit_module () {
     done
 }
 
-commit_erp () {
+release_erp () {
+    local commit_message="$1"
+    local action="$2"
+
     echo ""
     echo "-------------------"
     echo "Committing ERP"
@@ -202,17 +123,20 @@ commit_erp () {
     changed_files=$(git diff --name-only)
     if [ -z "$changed_files" ]; then
         echo "No changed files. Skipping..."
-    else
-        read -p "Enter commit message for ERP (or press Enter for default): " commit_message
+        exit 0
+    fi
 
-        # Check if commit_message is empty
-        if [ -z "$commit_message" ]; then
-            commit_message="Changes to files: $changed_files"
-        fi
+    # Check if commit_message is empty
+    if [ -z "$commit_message" ]; then
+        commit_message="Changes to files: $changed_files"
+    fi
 
-        git add .
-        git commit -m "$commit_message"
-        git push origin main
+    git add .
+    git commit -m "$commit_message"
+    git push origin main
+
+    if [[ "$action" != "y" ]]; then
+       continue
     fi
 
     last_release_commit=$(git describe --abbrev=0 --tags)
@@ -223,19 +147,22 @@ commit_erp () {
         # Extract the current version from the module's composer.json
         current_version=$(jq -r '.version' composer.json)
 
-        major=$(echo "$current_version" | cut -d'.' -f1)
-        patch=$(echo "$current_version" | cut -d'.' -f3)
+        # Extract the major and patch versions
+        current_major=$(echo "$current_version" | cut -d'.' -f1)
+        current_patch=$(echo "$current_version" | cut -d'.' -f2)
 
-        # Increment the patch number with a maximum value of 50
-        if [ "$patch" -lt 50 ]; then
-            patch=$(expr $patch + 1)
-        else
+        # Get the current year
+        major=$(date +%Y)
+
+        # If the year has changed, reset patch to 1; otherwise, increment it
+        if [ "$major" -ne "$current_major" ]; then
             patch=1
+        else
+            patch=$(expr $current_patch + 1)
         fi
 
         # Pad the patch number with three zeros
         patch=$(printf "%03d" $patch)
-
 
         # Construct the new version
         new_version="$major.$patch"
@@ -258,9 +185,11 @@ commit_erp () {
 
 }
 
-commit_modules
-commit_migration
-commit_module
-commit_erp
+read -p "Enter commit message (or press Enter for default): " commit_message
+
+read -p "Do want to run release?: y/n" action
+
+release_modules "$commit_message" "$action"
+release_erp  "$commit_message" "$action"
 
 
